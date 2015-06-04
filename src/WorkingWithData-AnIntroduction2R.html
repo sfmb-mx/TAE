@@ -1,0 +1,1032 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Working with data: An introduction to R</title>
+<!-- 2015-06-04 Thu 12:34 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="Sergio-Feliciano Mendoza-Barrera" />
+<meta  name="description" content="R introduction, remembering the syntax and some useful examples"
+ />
+<meta  name="keywords" content="R, data science, emacs, ESS, org-mode" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/readtheorg/js/readtheorg.js"></script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js"></script>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+    MathJax.Hub.Config({
+        // Only one of the two following lines, depending on user settings
+        // First allows browser-native MathML display, second forces HTML/CSS
+        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
+                     "TeX/noUndefined.js"],
+        tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
+            skipTags: ["script","noscript","style","textarea","pre","code"],
+            ignoreClass: "tex2jax_ignore",
+            processEscapes: false,
+            processEnvironments: true,
+            preview: "TeX"
+        },
+        showProcessingMessages: true,
+        displayAlign: "center",
+        displayIndent: "2em",
+
+        "HTML-CSS": {
+             scale: 100,
+             availableFonts: ["STIX","TeX"],
+             preferredFont: "TeX",
+             webFont: "TeX",
+             imageFont: "TeX",
+             showMathMenu: true,
+        },
+        MMLorHTML: {
+             prefer: {
+                 MSIE:    "MML",
+                 Firefox: "MML",
+                 Opera:   "HTML",
+                 other:   "HTML"
+             }
+        }
+    });
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Working with data: An introduction to R</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. Working with data: An introduction to R</a>
+<ul>
+<li><a href="#sec-1-1">1.1. Loading the data</a></li>
+<li><a href="#sec-1-2">1.2. Exploratory data analysis</a></li>
+<li><a href="#sec-1-3">1.3. Some subsetting</a></li>
+<li><a href="#sec-1-4">1.4. Write a data frame in a CSV file</a></li>
+<li><a href="#sec-1-5">1.5. Data Analysis - Summary Statistics And Scatter plots</a></li>
+<li><a href="#sec-1-6">1.6. Data Analysis - Plots and Summary Tables</a></li>
+</ul>
+</li>
+<li><a href="#sec-2">2. Recitation 1 - Understanding food: Nutritional Education with data</a>
+<ul>
+<li><a href="#sec-2-1">2.1. The Importance of Food and Nutrition</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="abstract">
+<p>
+This is a kindly introduction to R and their syntax. For the course
+"MITx: 15.071x The Analytics Edge".
+</p>
+
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Working with data: An introduction to R</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+The main idea of literacy programming is the capability of
+reproducibility.
+</p>
+</div>
+
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Loading the data</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+In this part we can download the data
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">rm(list = ls())                         <span style="color: #9932cc;"># </span><span style="color: #ba55d3;">Remove all workspace data</span>
+<span style="color: #db7093;">library</span>(parallel)
+
+<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #fffacd;">"../data"</span>)) {
+        dir.create(<span style="color: #fffacd;">"../data"</span>)
+}
+
+fileUrl <span style="color: #db7093;">&lt;-</span>
+        <span style="color: #fffacd;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/WHO.csv"</span>
+fileName <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"WHO.csv"</span>
+
+dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"../data"</span>
+filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #fffacd;">"/"</span>)
+
+<span style="color: #4682b4;">if</span>(!file.exists(filePath)) {
+        download.file(fileUrl, destfile = filePath, method = <span style="color: #fffacd;">"curl"</span>)
+        list.files(<span style="color: #fffacd;">"../data"</span>)
+        dateDownloaded <span style="color: #db7093;">&lt;-</span> date()
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Exploratory data analysis</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+Then we can work with the data file loading the data
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"    Loading data into WHO dataframe"</span>)
+WHO <span style="color: #db7093;">&lt;-</span> read.table(filePath, sep = <span style="color: #fffacd;">","</span>, header = <span style="color: #3cb371;">TRUE</span>)
+
+writeLines(<span style="color: #fffacd;">"    Initial analysis of data WHO"</span>)
+str(WHO)
+
+writeLines(<span style="color: #fffacd;">"    Summary data of the WHO dataframe"</span>)
+summary(WHO)
+
+writeLines(<span style="color: #fffacd;">"    Names of the dataframe"</span>)
+names(WHO)
+
+writeLines(<span style="color: #fffacd;">"    Class of the data set in memory"</span>)
+class(WHO)
+
+writeLines(<span style="color: #fffacd;">"    Dimension of the dataframe"</span>)
+dim(WHO)
+
+writeLines(<span style="color: #fffacd;">"    Head of the DF"</span>)
+head(WHO)
+
+writeLines(<span style="color: #fffacd;">"    Any NA in the dataframe"</span>)
+anyNA(WHO)
+</pre>
+</div>
+
+<pre class="example">
+    Loading data into WHO dataframe
+    Initial analysis of data WHO
+'data.frame':	148 obs. of  13 variables:
+ $ Country                      : Factor w/ 148 levels "Afghanistan",..: 1 2 3 4 5 6 7 8 9 10 ...
+ $ Region                       : Factor w/ 6 levels "Africa","Americas",..: 3 4 1 4 1 2 2 4 6 4 ...
+ $ Population                   : int  29825 3162 38482 78 20821 89 41087 2969 23050 8464 ...
+ $ Under15                      : num  47.4 21.3 27.4 15.2 47.6 ...
+ $ Over60                       : num  3.82 14.93 7.17 22.86 3.84 ...
+ $ FertilityRate                : num  5.4 1.75 2.83 NA 6.1 2.12 2.2 1.74 1.89 1.44 ...
+ $ LifeExpectancy               : int  60 74 73 82 51 75 76 71 82 81 ...
+ $ ChildMortality               : num  98.5 16.7 20 3.2 163.5 ...
+ $ CellularSubscribers          : num  54.3 96.4 99 75.5 48.4 ...
+ $ LiteracyRate                 : num  NA NA NA NA 70.1 99 97.8 99.6 NA NA ...
+ $ GNI                          : num  1140 8820 8310 NA 5230 ...
+ $ PrimarySchoolEnrollmentMale  : num  NA NA 98.2 78.4 93.1 91.1 NA NA 96.9 NA ...
+ $ PrimarySchoolEnrollmentFemale: num  NA NA 96.4 79.4 78.2 84.5 NA NA 97.5 NA ...
+    Summary data of the WHO dataframe
+                Country                      Region     Population
+ Afghanistan        :  1   Africa               :36   Min.   :      1
+ Albania            :  1   Americas             :25   1st Qu.:   1332
+ Algeria            :  1   Eastern Mediterranean:16   Median :   7638
+ Andorra            :  1   Europe               :39   Mean   :  31182
+ Angola             :  1   South-East Asia      : 8   3rd Qu.:  22483
+ Antigua and Barbuda:  1   Western Pacific      :24   Max.   :1390000
+ (Other)            :142
+    Under15          Over60       FertilityRate   LifeExpectancy
+ Min.   :13.28   Min.   : 0.810   Min.   :1.260   Min.   :47.00
+ 1st Qu.:18.42   1st Qu.: 5.152   1st Qu.:1.768   1st Qu.:64.00
+ Median :27.94   Median : 8.640   Median :2.335   Median :73.00
+ Mean   :28.55   Mean   :11.025   Mean   :2.927   Mean   :69.97
+ 3rd Qu.:37.50   3rd Qu.:16.770   3rd Qu.:3.890   3rd Qu.:76.25
+ Max.   :49.99   Max.   :26.970   Max.   :7.580   Max.   :83.00
+                                  NA's   :10
+ ChildMortality    CellularSubscribers  LiteracyRate        GNI
+ Min.   :  2.200   Min.   :  2.57      Min.   :31.10   Min.   :  540
+ 1st Qu.:  8.475   1st Qu.: 62.39      1st Qu.:72.20   1st Qu.: 2335
+ Median : 17.850   Median : 96.39      Median :92.30   Median : 8335
+ Mean   : 36.267   Mean   : 93.68      Mean   :84.25   Mean   :13269
+ 3rd Qu.: 54.250   3rd Qu.:121.75      3rd Qu.:97.90   3rd Qu.:16435
+ Max.   :181.600   Max.   :196.41      Max.   :99.80   Max.   :86440
+                   NA's   :9           NA's   :69      NA's   :26
+ PrimarySchoolEnrollmentMale PrimarySchoolEnrollmentFemale
+ Min.   : 60.10              Min.   :52.00
+ 1st Qu.: 88.30              1st Qu.:87.40
+ Median : 94.60              Median :94.40
+ Mean   : 91.56              Mean   :90.28
+ 3rd Qu.: 98.10              3rd Qu.:97.50
+ Max.   :100.00              Max.   :99.90
+ NA's   :71                  NA's   :71
+    Names of the dataframe
+ [1] "Country"                       "Region"
+ [3] "Population"                    "Under15"
+ [5] "Over60"                        "FertilityRate"
+ [7] "LifeExpectancy"                "ChildMortality"
+ [9] "CellularSubscribers"           "LiteracyRate"
+[11] "GNI"                           "PrimarySchoolEnrollmentMale"
+[13] "PrimarySchoolEnrollmentFemale"
+    Class of the data set in memory
+[1] "data.frame"
+    Dimension of the dataframe
+[1] 148  13
+    Head of the DF
+              Country                Region Population Under15 Over60
+1         Afghanistan Eastern Mediterranean      29825   47.42   3.82
+2             Albania                Europe       3162   21.33  14.93
+3             Algeria                Africa      38482   27.42   7.17
+4             Andorra                Europe         78   15.20  22.86
+5              Angola                Africa      20821   47.58   3.84
+6 Antigua and Barbuda              Americas         89   25.96  12.35
+  FertilityRate LifeExpectancy ChildMortality CellularSubscribers LiteracyRate
+1          5.40             60           98.5               54.26           NA
+2          1.75             74           16.7               96.39           NA
+3          2.83             73           20.0               98.99           NA
+4            NA             82            3.2               75.49           NA
+5          6.10             51          163.5               48.38         70.1
+6          2.12             75            9.9              196.41         99.0
+    GNI PrimarySchoolEnrollmentMale PrimarySchoolEnrollmentFemale
+1  1140                          NA                            NA
+2  8820                          NA                            NA
+3  8310                        98.2                          96.4
+4    NA                        78.4                          79.4
+5  5230                        93.1                          78.2
+6 17900                        91.1                          84.5
+    Any NA in the dataframe
+[1] TRUE
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Some subsetting</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+We can find the numbers for Mexico
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">WHO_Mexico <span style="color: #db7093;">&lt;-</span> subset(WHO, Country == <span style="color: #fffacd;">"Mexico"</span>)
+str(WHO_Mexico)
+</pre>
+</div>
+
+<pre class="example">
+'data.frame':	1 obs. of  13 variables:
+ $ Country                      : Factor w/ 148 levels "Afghanistan",..: 64
+ $ Region                       : Factor w/ 6 levels "Africa","Americas",..: 2
+ $ Population                   : int 121000
+ $ Under15                      : num 29
+ $ Over60                       : num 9.18
+ $ FertilityRate                : num 2.25
+ $ LifeExpectancy               : int 75
+ $ ChildMortality               : num 16.2
+ $ CellularSubscribers          : num 82.4
+ $ LiteracyRate                 : num 93.1
+ $ GNI                          : num 15390
+ $ PrimarySchoolEnrollmentMale  : num 99.2
+ $ PrimarySchoolEnrollmentFemale: num 99.9
+</pre>
+
+
+<p>
+Other example is select all the countries in Europe
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">WHO_Europe <span style="color: #db7093;">&lt;-</span> subset(WHO, Region = <span style="color: #fffacd;">"Europe"</span>)
+str(WHO_Europe)
+summary(WHO_Europe)
+</pre>
+</div>
+
+<pre class="example">
+'data.frame':	148 obs. of  13 variables:
+ $ Country                      : Factor w/ 148 levels "Afghanistan",..: 1 2 3 4 5 6 7 8 9 10 ...
+ $ Region                       : Factor w/ 6 levels "Africa","Americas",..: 3 4 1 4 1 2 2 4 6 4 ...
+ $ Population                   : int  29825 3162 38482 78 20821 89 41087 2969 23050 8464 ...
+ $ Under15                      : num  47.4 21.3 27.4 15.2 47.6 ...
+ $ Over60                       : num  3.82 14.93 7.17 22.86 3.84 ...
+ $ FertilityRate                : num  5.4 1.75 2.83 NA 6.1 2.12 2.2 1.74 1.89 1.44 ...
+ $ LifeExpectancy               : int  60 74 73 82 51 75 76 71 82 81 ...
+ $ ChildMortality               : num  98.5 16.7 20 3.2 163.5 ...
+ $ CellularSubscribers          : num  54.3 96.4 99 75.5 48.4 ...
+ $ LiteracyRate                 : num  NA NA NA NA 70.1 99 97.8 99.6 NA NA ...
+ $ GNI                          : num  1140 8820 8310 NA 5230 ...
+ $ PrimarySchoolEnrollmentMale  : num  NA NA 98.2 78.4 93.1 91.1 NA NA 96.9 NA ...
+ $ PrimarySchoolEnrollmentFemale: num  NA NA 96.4 79.4 78.2 84.5 NA NA 97.5 NA ...
+                Country                      Region     Population
+ Afghanistan        :  1   Africa               :36   Min.   :      1
+ Albania            :  1   Americas             :25   1st Qu.:   1332
+ Algeria            :  1   Eastern Mediterranean:16   Median :   7638
+ Andorra            :  1   Europe               :39   Mean   :  31182
+ Angola             :  1   South-East Asia      : 8   3rd Qu.:  22483
+ Antigua and Barbuda:  1   Western Pacific      :24   Max.   :1390000
+ (Other)            :142
+    Under15          Over60       FertilityRate   LifeExpectancy
+ Min.   :13.28   Min.   : 0.810   Min.   :1.260   Min.   :47.00
+ 1st Qu.:18.42   1st Qu.: 5.152   1st Qu.:1.768   1st Qu.:64.00
+ Median :27.94   Median : 8.640   Median :2.335   Median :73.00
+ Mean   :28.55   Mean   :11.025   Mean   :2.927   Mean   :69.97
+ 3rd Qu.:37.50   3rd Qu.:16.770   3rd Qu.:3.890   3rd Qu.:76.25
+ Max.   :49.99   Max.   :26.970   Max.   :7.580   Max.   :83.00
+                                  NA's   :10
+ ChildMortality    CellularSubscribers  LiteracyRate        GNI
+ Min.   :  2.200   Min.   :  2.57      Min.   :31.10   Min.   :  540
+ 1st Qu.:  8.475   1st Qu.: 62.39      1st Qu.:72.20   1st Qu.: 2335
+ Median : 17.850   Median : 96.39      Median :92.30   Median : 8335
+ Mean   : 36.267   Mean   : 93.68      Mean   :84.25   Mean   :13269
+ 3rd Qu.: 54.250   3rd Qu.:121.75      3rd Qu.:97.90   3rd Qu.:16435
+ Max.   :181.600   Max.   :196.41      Max.   :99.80   Max.   :86440
+                   NA's   :9           NA's   :69      NA's   :26
+ PrimarySchoolEnrollmentMale PrimarySchoolEnrollmentFemale
+ Min.   : 60.10              Min.   :52.00
+ 1st Qu.: 88.30              1st Qu.:87.40
+ Median : 94.60              Median :94.40
+ Mean   : 91.56              Mean   :90.28
+ 3rd Qu.: 98.10              3rd Qu.:97.50
+ Max.   :100.00              Max.   :99.90
+ NA's   :71                  NA's   :71
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> Write a data frame in a CSV file</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+We can export to a csv file our subset
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">write.csv(WHO_Europe, <span style="color: #fffacd;">"../data/WHO_Europe.csv"</span>)
+rm(WHO_Europe)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5"><span class="section-number-3">1.5</span> Data Analysis - Summary Statistics And Scatter plots</h3>
+<div class="outline-text-3" id="text-1-5">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"         Selecting a variable"</span>)
+WHO$Under15
+
+writeLines(<span style="color: #fffacd;">"\n         Calculating the Mean of the variable Under15"</span>)
+mean(WHO$Under15)
+
+writeLines(<span style="color: #fffacd;">"\n         Calculating the Standard Deviation of Under15"</span>)
+sd(WHO$Under15)
+
+writeLines(<span style="color: #fffacd;">"\n         Summary of the Under15 variable"</span>)
+summary(WHO$Under15)
+</pre>
+</div>
+
+<pre class="example">
+         Selecting a variable
+  [1] 47.42 21.33 27.42 15.20 47.58 25.96 24.42 20.34 18.95 14.51 22.25 21.62
+ [13] 20.16 30.57 18.99 15.10 16.88 34.40 42.95 28.53 35.23 16.35 33.75 24.56
+ [25] 25.75 13.53 45.66 44.20 31.23 43.08 16.37 30.17 40.07 48.52 21.38 17.95
+ [37] 28.03 42.17 42.37 30.61 23.94 41.48 14.98 16.58 17.16 14.56 35.61 14.57
+ [49] 21.64 36.75 43.06 29.45 15.13 17.46 42.72 45.44 26.65 29.03 47.14 14.98
+ [61] 30.10 40.22 20.17 29.02 35.81 18.26 27.05 19.01 27.85 45.38 25.28 36.59
+ [73] 30.10 35.58 17.21 20.26 33.37 49.99 44.23 30.61 18.64 24.19 34.31 30.10
+ [85] 28.65 38.37 32.78 29.18 34.53 14.91 14.92 13.28 15.25 16.52 15.05 15.45
+ [97] 43.56 25.96 24.31 25.70 37.88 14.04 41.60 29.69 43.54 16.45 21.95 41.74
+[109] 16.48 15.00 14.16 40.37 47.35 29.53 42.28 15.20 25.15 41.48 27.83 38.05
+[121] 16.71 14.79 35.35 35.75 18.47 16.89 46.33 41.89 37.33 20.73 23.22 26.00
+[133] 28.65 30.61 48.54 14.18 14.41 17.54 44.85 19.63 22.05 28.90 37.37 28.84
+[145] 22.87 40.72 46.73 40.24
+
+         Calculating the Mean of the variable Under15
+[1] 28.5473
+
+         Calculating the Standard Deviation of Under15
+[1] 10.77816
+
+         Summary of the Under15 variable
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  13.28   18.42   27.94   28.55   37.50   49.99
+</pre>
+
+<p>
+Now we can see that a country which have only \(13.28\%\) of population
+under \(15\) years, then very low young people set is living in such
+country.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">minUnder15Country <span style="color: #db7093;">&lt;-</span> WHO[which.min(WHO$Under15), ]
+minUnder15Country$Country
+</pre>
+</div>
+
+<pre class="example">
+[1] Qatar
+148 Levels: Afghanistan Albania Algeria Andorra Angola ... Zimbabwe
+</pre>
+
+<p>
+Now, who is the country with maximum population under 15 years
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">maxUnder15Country <span style="color: #db7093;">&lt;-</span> WHO[which.max(WHO$Under15), ]
+maxUnder15Country$Country
+</pre>
+</div>
+
+<pre class="example">
+[1] Niger
+148 Levels: Afghanistan Albania Algeria Andorra Angola ... Zimbabwe
+</pre>
+</div>
+
+<div id="outline-container-sec-1-5-1" class="outline-4">
+<h4 id="sec-1-5-1"><span class="section-number-4">1.5.1</span> Plotting some variables</h4>
+<div class="outline-text-4" id="text-1-5-1">
+
+<div id="fig:exploratoryDAWHO" class="figure">
+<p><img src="../graphs/exploratoryDAWHO.png" alt="exploratoryDAWHO.png" />
+</p>
+<p><span class="figure-number">Figure 1:</span> Exploratory Data Analysis of WHO.</p>
+</div>
+
+<p>
+We can see that in general for greater GNI countries the fertility
+rate is low but some big GNI countries have significant fertility
+rate. Lets investigate this phenomena.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">Outliers <span style="color: #db7093;">&lt;-</span> subset(WHO, GNI &gt; 10000 &amp; FertilityRate &gt; 2.5)
+
+writeLines(<span style="color: #fffacd;">"     Number of countries with GNI &gt;10000 and Fertilityrate &gt; 2.5"</span>)
+nrow(Outliers)
+
+writeLines(<span style="color: #fffacd;">"     Interested data for the Outliers DF"</span>)
+Outliers[c(<span style="color: #fffacd;">"Country"</span>, <span style="color: #fffacd;">"GNI"</span>, <span style="color: #fffacd;">"FertilityRate"</span>)]
+</pre>
+</div>
+
+<pre class="example">
+     Number of countries with GNI &gt;10000 and Fertilityrate &gt; 2.5
+[1] 3
+     Interested data for the Outliers DF
+         Country   GNI FertilityRate
+23      Botswana 14550          2.71
+85        Panama 14510          2.52
+104 Saudi Arabia 24700          2.76
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-1-5-2" class="outline-4">
+<h4 id="sec-1-5-2"><span class="section-number-4">1.5.2</span> Questions</h4>
+<div class="outline-text-4" id="text-1-5-2">
+<p>
+Please answer the following questions using the entire data frame WHO
+(and not one of the subsets we have created in R).
+</p>
+</div>
+
+<div id="outline-container-sec-1-5-2-1" class="outline-5">
+<h5 id="sec-1-5-2-1"><span class="section-number-5">1.5.2.1</span> Question 1</h5>
+<div class="outline-text-5" id="text-1-5-2-1">
+<p>
+What is the mean value of the "Over60" variable?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">mean(WHO$Over60, na.rm = <span style="color: #3cb371;">TRUE</span>)
+</pre>
+</div>
+
+<pre class="example">
+[1] 11.025
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-1-5-2-2" class="outline-5">
+<h5 id="sec-1-5-2-2"><span class="section-number-5">1.5.2.2</span> Question 2</h5>
+<div class="outline-text-5" id="text-1-5-2-2">
+<p>
+Which country has the smallest percentage of the population over 60?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"        Summary for WHO DF"</span>)
+summary(WHO)
+
+writeLines(<span style="color: #fffacd;">"\n        Answer"</span>)
+minOver60Country <span style="color: #db7093;">&lt;-</span> WHO[which.min(WHO$Over60), ]
+minOver60Country$Country
+</pre>
+</div>
+
+<pre class="example">
+        Summary for WHO DF
+                Country                      Region     Population
+ Afghanistan        :  1   Africa               :36   Min.   :      1
+ Albania            :  1   Americas             :25   1st Qu.:   1332
+ Algeria            :  1   Eastern Mediterranean:16   Median :   7638
+ Andorra            :  1   Europe               :39   Mean   :  31182
+ Angola             :  1   South-East Asia      : 8   3rd Qu.:  22483
+ Antigua and Barbuda:  1   Western Pacific      :24   Max.   :1390000
+ (Other)            :142
+    Under15          Over60       FertilityRate   LifeExpectancy
+ Min.   :13.28   Min.   : 0.810   Min.   :1.260   Min.   :47.00
+ 1st Qu.:18.42   1st Qu.: 5.152   1st Qu.:1.768   1st Qu.:64.00
+ Median :27.94   Median : 8.640   Median :2.335   Median :73.00
+ Mean   :28.55   Mean   :11.025   Mean   :2.927   Mean   :69.97
+ 3rd Qu.:37.50   3rd Qu.:16.770   3rd Qu.:3.890   3rd Qu.:76.25
+ Max.   :49.99   Max.   :26.970   Max.   :7.580   Max.   :83.00
+                                  NA's   :10
+ ChildMortality    CellularSubscribers  LiteracyRate        GNI
+ Min.   :  2.200   Min.   :  2.57      Min.   :31.10   Min.   :  540
+ 1st Qu.:  8.475   1st Qu.: 62.39      1st Qu.:72.20   1st Qu.: 2335
+ Median : 17.850   Median : 96.39      Median :92.30   Median : 8335
+ Mean   : 36.267   Mean   : 93.68      Mean   :84.25   Mean   :13269
+ 3rd Qu.: 54.250   3rd Qu.:121.75      3rd Qu.:97.90   3rd Qu.:16435
+ Max.   :181.600   Max.   :196.41      Max.   :99.80   Max.   :86440
+                   NA's   :9           NA's   :69      NA's   :26
+ PrimarySchoolEnrollmentMale PrimarySchoolEnrollmentFemale
+ Min.   : 60.10              Min.   :52.00
+ 1st Qu.: 88.30              1st Qu.:87.40
+ Median : 94.60              Median :94.40
+ Mean   : 91.56              Mean   :90.28
+ 3rd Qu.: 98.10              3rd Qu.:97.50
+ Max.   :100.00              Max.   :99.90
+ NA's   :71                  NA's   :71
+
+        Answer
+[1] United Arab Emirates
+148 Levels: Afghanistan Albania Algeria Andorra Angola ... Zimbabwe
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-1-5-2-3" class="outline-5">
+<h5 id="sec-1-5-2-3"><span class="section-number-5">1.5.2.3</span> Question 3</h5>
+<div class="outline-text-5" id="text-1-5-2-3">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n        Answer"</span>)
+maxLR <span style="color: #db7093;">&lt;-</span> WHO[which.max(WHO$LiteracyRate), ]
+maxLR$Country
+</pre>
+</div>
+
+<pre class="example">
+        Answer
+[1] Cuba
+148 Levels: Afghanistan Albania Algeria Andorra Angola ... Zimbabwe
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6"><span class="section-number-3">1.6</span> Data Analysis - Plots and Summary Tables</h3>
+<div class="outline-text-3" id="text-1-6">
+<p>
+In this part we can see that we can use the plots and summaries to
+build a deep understanding of the data sets.
+</p>
+</div>
+
+<div id="outline-container-sec-1-6-1" class="outline-4">
+<h4 id="sec-1-6-1"><span class="section-number-4">1.6.1</span> Histograms</h4>
+<div class="outline-text-4" id="text-1-6-1">
+<p>
+Les proceed to plot an histogram of the data set <b>WHO</b>.
+</p>
+
+
+<div id="fig:histogramWHO" class="figure">
+<p><img src="../graphs/histogramWHO.png" alt="histogramWHO.png" />
+</p>
+<p><span class="figure-number">Figure 2:</span> Exploratory Data Analysis of WHO.</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-6-2" class="outline-4">
+<h4 id="sec-1-6-2"><span class="section-number-4">1.6.2</span> Box Plot</h4>
+<div class="outline-text-4" id="text-1-6-2">
+<p>
+We can plot the <b>LifeExpectancy</b> variable by region with a box plot.
+</p>
+
+
+<div id="fig:LifeExpectancyWHO" class="figure">
+<p><img src="../graphs/LifeExpectancyWHO.png" alt="LifeExpectancyWHO.png" />
+</p>
+<p><span class="figure-number">Figure 3:</span> Exploratory Data Analysis of WHO.</p>
+</div>
+
+<p>
+This box plot shows how life expectancy in countries varies according
+to the region the country is in. The box for each region shows the
+range between the first and third quartiles with the middle line
+marking the median value.
+</p>
+
+<p>
+The dashed lines at the top and bottom of the box, often called
+whiskers, show the range from the minimum to maximum values, excluding
+any outliers, which are plotted as circles.
+</p>
+
+<p>
+Outliers are defined by first computing the difference between the
+first and third quartiles, or the height of the box.
+</p>
+
+<p>
+This number is called the inter-quartile range. Any point that is
+greater than the third quartile plus the inter-quartile range, or any
+point that is less than the first quartile minus the inter-quartile
+range is considered an outlier.
+</p>
+
+<p>
+This box plot shows us that Europe has the highest median life
+expectancy, the Americas has the smallest inter-quartile range, and
+the eastern Mediterranean region has the highest overall range of life
+expectancy values.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-6-3" class="outline-4">
+<h4 id="sec-1-6-3"><span class="section-number-4">1.6.3</span> Summary tables</h4>
+<div class="outline-text-4" id="text-1-6-3">
+<div class="org-src-container">
+
+<pre class="src src-R">table(WHO$Region)
+</pre>
+</div>
+
+<pre class="example">
+Africa              Americas Eastern Mediterranean
+    36                    25                    16
+Europe       South-East Asia       Western Pacific
+    39                     8                    24
+</pre>
+
+<p>
+You can see some nice information about numerical variables by using
+the <b>tapply</b> function. Let's start by looking at an example.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">tapply(WHO$Over60, WHO$Region, mean)
+</pre>
+</div>
+
+<pre class="example">
+   Africa              Americas Eastern Mediterranean
+ 5.315833             11.892400              5.449375
+   Europe       South-East Asia       Western Pacific
+19.559231              8.470000              9.385833
+</pre>
+
+<p>
+This splits the observations by <b>Region</b> and then computes the mean of
+the variable <b>Over60</b>. So <b>tapply</b> splits the data by the second
+argument you give, and then applies the third argument function to the
+variable given as the first argument.
+</p>
+
+<p>
+This result tells us that the average percentage of the population
+over 60 in African countries is about \(5\%\), while the average percentage
+of the population over 60 in European countries is about \(20\%\).
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">tapply(WHO$LiteracyRate, WHO$Region, min)
+</pre>
+</div>
+
+<pre class="example">
+Africa              Americas Eastern Mediterranean
+    NA                    NA                    NA
+Europe       South-East Asia       Western Pacific
+    NA                    NA                    NA
+</pre>
+
+
+<p>
+We have the value <b>NA</b> for all of the regions. This is because we have
+some missing values in our data for literacy rate.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">tapply(WHO$LiteracyRate, WHO$Region, min, na.rm = <span style="color: #3cb371;">TRUE</span>)
+</pre>
+</div>
+
+<pre class="example">
+Africa              Americas Eastern Mediterranean
+  31.1                  93.1                  63.9
+Europe       South-East Asia       Western Pacific
+  95.2                  56.8                  60.6
+</pre>
+
+<p>
+This removes all of the countries that are missing a value for
+<b>LiteracyRate</b> before doing the computation.
+</p>
+
+<p>
+This time we see numerical values, as we expect. So we've split the
+data by <b>Region</b> again and computed the minimum value of <b>LiteracyRate</b>
+for all countries with a value in the <b>LiteracyRate</b> variable.
+</p>
+
+<p>
+By using some basic functions in R, plots, and summary tables we were
+able to get a better understanding of our data.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-6-4" class="outline-4">
+<h4 id="sec-1-6-4"><span class="section-number-4">1.6.4</span> Questions</h4>
+<div class="outline-text-4" id="text-1-6-4">
+<p>
+Use the <b>tapply</b> function to find the average child mortality rate of
+countries in each region.
+</p>
+</div>
+
+<div id="outline-container-sec-1-6-4-1" class="outline-5">
+<h5 id="sec-1-6-4-1"><span class="section-number-5">1.6.4.1</span> Question 1</h5>
+<div class="outline-text-5" id="text-1-6-4-1">
+<p>
+Which region has the lowest average child mortality rate across all
+countries in that region?
+</p>
+</div>
+
+<div id="outline-container-sec-1-6-4-1-1" class="outline-6">
+<h6 id="sec-1-6-4-1-1"><span class="section-number-6">1.6.4.1.1</span> Answer</h6>
+<div class="outline-text-6" id="text-1-6-4-1-1">
+
+<div id="fig:ChildMortalityWHO" class="figure">
+<p><img src="../graphs/ChildMortalityWHO.png" alt="ChildMortalityWHO.png" />
+</p>
+<p><span class="figure-number">Figure 4:</span> Exploratory Data Analysis of WHO in Child Mortality</p>
+</div>
+
+<p>
+Calculating the lowest average child mortality by region.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">tapply(WHO$ChildMortality, WHO$Region, mean, na.rm = <span style="color: #3cb371;">TRUE</span>)
+</pre>
+</div>
+
+<pre class="example">
+  Africa              Americas Eastern Mediterranean
+83.04167              16.05600              43.84375
+  Europe       South-East Asia       Western Pacific
+10.86667              33.67500              24.24583
+</pre>
+
+<p>
+Then <b>Europe</b> have the <b>lowest average child mortality by region</b>.
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Recitation 1 - Understanding food: Nutritional Education with data</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> The Importance of Food and Nutrition</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+Good nutrition is an important part of leading a healthy lifestyle.
+</p>
+
+<p>
+Malnutrition can result in obesity, which has been rising at an
+alarming rate. In the US for instance, while all states in 1990 had
+less than \(14\%\) obesity, figures started increasing.
+</p>
+
+<p>
+And by 2000, half of the country has more than \(20\%\) of its population
+obese. The trend continues. And in 2010, all states have at least more
+than \(20\%\) of their population obese.
+</p>
+
+<p>
+Many states across the country reached an alarming situation. More
+than \(35\%\) of American adults are obese. The trends Worldwide are no
+different.
+</p>
+
+<p>
+Obesity has nearly doubled across the globe. Obesity is one of today's
+blatantly visible public health problems, and increases people's risk
+to heart disease, stroke, and diabetes.
+</p>
+
+<p>
+In fact \(65\%\) of the world's population lives in countries where obesity
+kills more people than underweight. So good nutrition is essential for
+an overall healthy lifestyle and promoting it now is more important
+than ever.
+</p>
+
+<p>
+We have access to hundreds of nutrition and weight loss applications,
+and around \(15\%\) of adults with cell phones use health applications
+on their devices.
+</p>
+
+<p>
+These apps are mostly powered by the United States Department of
+Agricultural, or USDA, food database.
+</p>
+
+<p>
+The United States Department of Agricultural distributes nutritional
+information of over \(7,000\) food items including amount of calories,
+carbs, protein, fat, and sodium, among other nutrients.
+</p>
+
+<p>
+L** Loading data set
+</p>
+
+<p>
+<a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/USDA.csv">https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/USDA.csv</a>
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 03/06/2015</p>
+<p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
+<p class="date">Created: 2015-06-04 Thu 12:34</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
