@@ -725,6 +725,81 @@ The United States Department of Agricultural distributes nutritional
 information of over $7,000$ food items including amount of calories,
 carbs, protein, fat, and sodium, among other nutrients.
 
-L** Loading data set
+** Downloading the data set
 
-https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/USDA.csv
+In this part we can download the data
+
+#+BEGIN_SRC R :session :results output :exports all
+  rm(list = ls())                         # Remove all workspace data
+  library(parallel)
+
+  if(!file.exists("../data")) {
+          dir.create("../data")
+  }
+
+  fileUrl <-
+          "https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/USDA.csv"
+  fileName <- "USDA.csv"
+
+  dataPath <- "../data"
+  filePath <- paste(dataPath, fileName, sep = "/")
+
+  if(!file.exists(filePath)) {
+          download.file(fileUrl, destfile = filePath, method = "curl")
+          list.files("../data")
+          dateDownloaded <- date()
+  }
+#+END_SRC
+
+#+RESULTS:
+
+** Loading the data
+
+Then we can work with the data file loading the data
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("    Loading data into USDA dataframe")
+  USDA <- read.table(filePath, sep = ",", header = TRUE)
+
+  writeLines("    Initial analysis of data USDA")
+  str(USDA)
+
+  writeLines("    Summary data of the USDA dataframe")
+  summary(USDA)
+
+  writeLines("    Names of the dataframe")
+  names(USDA)
+
+  writeLines("    Class of the data set in memory")
+  class(USDA)
+
+  writeLines("    Dimension of the dataframe")
+  dim(USDA)
+
+  writeLines("    Head of the DF")
+  head(USDA)
+
+  writeLines("    Any NA in the dataframe")
+  anyNA(USDA)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+    Loading data into USDA dataframe
+Error in scan(file, what, nmax, sep, dec, quote, skip, nlines, na.strings,  :
+  line 171 did not have 16 elements
+    Initial analysis of data USDA
+Error in str(USDA) : object 'USDA' not found
+    Summary data of the USDA dataframe
+Error in summary(USDA) : object 'USDA' not found
+    Names of the dataframe
+Error: object 'USDA' not found
+    Class of the data set in memory
+Error: object 'USDA' not found
+    Dimension of the dataframe
+Error: object 'USDA' not found
+    Head of the DF
+Error in head(USDA) : object 'USDA' not found
+    Any NA in the dataframe
+Error: object 'USDA' not found
+#+end_example
