@@ -170,7 +170,11 @@ In this part we can download the data
  $ Longitude          : num  -87.6 -87.7 -87.8 -87.7 -87.6 ...
 #+end_example
 
-**  Problem 1.2 - Loading the Data (1 point possible)
+*** Answer
+
+*191641 observations*.
+
+** Problem 1.2 - Loading the Data (1 point possible)
 
 How many variables are in this dataset?
 
@@ -196,6 +200,10 @@ How many variables are in this dataset?
 :     Any NA in the dataframe
 : [1] TRUE
 
+*** Answer
+
+*11 variables*.
+
 ** Problem 1.3 - Loading the Data (1 point possible)
 
 Using the "max" function, what is the maximum value of the variable
@@ -209,6 +217,10 @@ Using the "max" function, what is the maximum value of the variable
 #+RESULTS:
 : [1] 9181151
 
+*** Answer
+
+*9181151*
+
 ** Problem 1.4 - Loading the Data (1 point possible)
 
 What is the minimum value of the variable "Beat"?
@@ -220,6 +232,10 @@ What is the minimum value of the variable "Beat"?
 
 #+RESULTS:
 : [1] 111
+
+*** Answer
+
+*111*
 
 ** Problem 1.5 - Loading the Data (1 point possible)
 
@@ -234,6 +250,10 @@ the number of crimes for which an arrest was made)?
 #+RESULTS:
 : [1] 15536
 
+*** Answer
+
+*15536*
+
 ** Problem 1.6 - Loading the Data (1 point possible)
 
 How many observations have a LocationDescription value of ALLEY?
@@ -244,6 +264,10 @@ How many observations have a LocationDescription value of ALLEY?
 
 #+RESULTS:
 : [1] 2308
+
+*** Answer
+
+*2308*
 
 ** Problem 2.1 - Understanding Dates in R (1 point possible)
 
@@ -262,6 +286,12 @@ In what format are the entries in the variable Date?
 #+RESULTS:
 : [1] 12/31/12 23:15
 : 131680 Levels: 1/1/01 0:01 1/1/01 0:05 1/1/01 0:30 1/1/01 10:00 ... 9/9/12 9:50
+
+*** Answer
+
+If you type mvt$Date[1] in your R console, you can see that the first
+entry is 12/31/12 23:15. This must be in the format Month/Day/Year
+Hour:Minute.
 
 ** Problem 2.2 - Understanding Dates in R (1 point possible)
 
@@ -289,6 +319,10 @@ quotes.)
 : [1] "Date"
 :         Min.      1st Qu.       Median         Mean      3rd Qu.         Max.
 : "2001-01-01" "2003-07-10" "2006-05-21" "2006-08-23" "2009-10-24" "2012-12-31"
+
+*** Answer
+
+The median date is *May 2006*
 
 ** Problem 2.3 - Understanding Dates in R (1 point possible)
 
@@ -401,6 +435,12 @@ for which an arrest was made?
   September 14812  1248
 #+end_example
 
+*** Answer
+
+If you type table(mvt$Arrest,mvt$Month), you can see that the largest
+number of observations with Arrest=TRUE occurs in the month of
+*January*.
+
 ** Problem 3.1 - Visualizing Crime Trends (3 points possible)
 
 Now, let's make some plots to help us better understand how crime has
@@ -429,17 +469,21 @@ your R console, type
 
 Looking at the histogram, answer the following questions.
 
-In general, does it look like crime increases or decreases from 2002 -
-2012?
+*** In general, does it look like crime increases or decreases from 2002 - 2012?
+
+**** Answer
 
 *Decreases Decreases - correct*
 
-In general, does it look like crime increases or decreases from 2005 - 2008?
+*** In general, does it look like crime increases or decreases from 2005 - 2008?
+
+**** Answer
 
 *Decreases Decreases - correct*
 
-In general, does it look like crime increases or decreases from 2009 -
-2011?
+*** In general, does it look like crime increases or decreases from 2009 - 2011?
+
+*** Answer
 
 *Increases Increases - correct*
 
@@ -480,6 +524,16 @@ in the first half of the time period or the second half of the time
 period? (Note that the time period is from 2001 to 2012, so the middle
 of the time period is the beginning of 2007.)
 
+*** Answer
+
+*First half*.
+
+You can create the boxplot with the command boxplot(mvt$Date ~
+mvt$Arrest). If you look at the boxplot, the one for Arrest=TRUE is
+definitely skewed towards the bottom of the plot, meaning that there
+were more crimes for which arrests were made in the first half of the
+time period.
+
 ** Problem 3.3 - Visualizing Crime Trends (2 points possible)
 
 Let's investigate this further. Use the table function for the next
@@ -491,3 +545,408 @@ made?
 Note: in this question and many others in the course, we are asking
 for an answer as a proportion. Therefore, your answer should take a
 value between 0 and 1.
+
+#+BEGIN_SRC R :session :results output :exports all
+  library(lubridate)
+  mvt$Year <- year(mvt$Date)
+  table(mvt$Year, mvt$Arrest)
+
+  writeLines("\n        Proportion of vehicle thefts in 2001:")
+  print(2152 / (2152 + 18517))
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+
+       FALSE  TRUE
+  2001 18517  2152
+  2002 16638  2115
+  2003 14859  1798
+  2004 15169  1693
+  2005 14956  1528
+  2006 14796  1302
+  2007 13068  1212
+  2008 13425  1020
+  2009 11327   840
+  2010 14796   701
+  2011 15012   625
+  2012 13542   550
+
+        Proportion of vehicle thefts in 2001:
+[1] 0.1041173
+#+end_example
+
+*** Answer
+
+If you create a table using the command table(mvt$Arrest, mvt$Year),
+the column for 2001 has 2152 observations with Arrest=TRUE and 18517
+observations with Arrest=FALSE. The fraction of motor vehicle thefts
+in 2001 for which an arrest was made is thus
+
+*2152/(2152+18517) = 0.1041173*.
+
+** Problem 3.4 - Visualizing Crime Trends (1 point possible)
+
+For what proportion of motor vehicle thefts in 2007 was an arrest
+made?
+
+#+BEGIN_SRC R :session :results output :exports all
+  library(lubridate)
+  mvt$Year <- year(mvt$Date)
+  table(mvt$Year, mvt$Arrest)
+
+  writeLines("\n        Proportion of vehicle thefts in 2007:")
+  print(1212 / (13068 + 1212))
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+
+       FALSE  TRUE
+  2001 18517  2152
+  2002 16638  2115
+  2003 14859  1798
+  2004 15169  1693
+  2005 14956  1528
+  2006 14796  1302
+  2007 13068  1212
+  2008 13425  1020
+  2009 11327   840
+  2010 14796   701
+  2011 15012   625
+  2012 13542   550
+
+        Proportion of vehicle thefts in 2007:
+[1] 0.08487395
+#+end_example
+
+*** Answer
+
+If you create a table using the command table(mvt$Arrest, mvt$Year),
+the column for 2007 has 1212 observations with Arrest=TRUE and 13068
+observations with Arrest=FALSE. The fraction of motor vehicle thefts
+in 2007 for which an arrest was made is thus
+
+ *1212/(1212+13068) = 0.08487395*.
+
+** Problem 3.5 - Visualizing Crime Trends (1 point possible)
+
+For what proportion of motor vehicle thefts in 2012 was an arrest
+made?
+
+#+BEGIN_SRC R :session :results output :exports all
+  library(lubridate)
+  mvt$Year <- year(mvt$Date)
+  table(mvt$Year, mvt$Arrest)
+
+  writeLines("\n        Proportion of vehicle thefts in 2012:")
+  print(550 / (13542 + 550))
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+
+       FALSE  TRUE
+  2001 18517  2152
+  2002 16638  2115
+  2003 14859  1798
+  2004 15169  1693
+  2005 14956  1528
+  2006 14796  1302
+  2007 13068  1212
+  2008 13425  1020
+  2009 11327   840
+  2010 14796   701
+  2011 15012   625
+  2012 13542   550
+
+        Proportion of vehicle thefts in 2012:
+[1] 0.03902924
+#+end_example
+
+Since there may still be open investigations for recent crimes, this
+could explain the trend we are seeing in the data. There could also be
+other factors at play, and this trend should be investigated
+further. However, since we don't know when the arrests were actually
+made, our detective work in this area has reached a dead end.
+
+*** Answer
+
+If you create a table using the command table(mvt$Arrest, mvt$Year),
+the column for 2012 has 550 observations with Arrest=TRUE and 13542
+observations with Arrest=FALSE. The fraction of motor vehicle thefts
+in 2012 for which an arrest was made is thus
+
+*550/(550+13542) = 0.03902924*.
+
+** Problem 4.1 - Popular Locations (1 point possible)
+
+Analyzing this data could be useful to the Chicago Police Department
+when deciding where to allocate resources. If they want to increase
+the number of arrests that are made for motor vehicle thefts, where
+should they focus their efforts?
+
+We want to find the top five locations where motor vehicle thefts
+occur. If you create a table of the LocationDescription variable, it
+is unfortunately very hard to read since there are 78 different
+locations in the data set. By using the sort function, we can view
+this same table, but sorted by the number of observations in each
+category. In your R console, type:
+
+#+BEGIN_SRC R :session :results output :exports all
+  head(sort(table(mvt$LocationDescription), decreasing = TRUE), 6)
+#+END_SRC
+
+#+RESULTS:
+:
+:                         STREET PARKING LOT/GARAGE(NON.RESID.)
+:                         156564                          14852
+:                          OTHER                          ALLEY
+:                           4573                           2308
+:                    GAS STATION         DRIVEWAY - RESIDENTIAL
+:                           2111                           1675
+
+Which locations are the top five locations for motor vehicle thefts,
+excluding the "Other" category? You should select 5 of the following
+options.
+
+*** Answer
+
+If you type sort(table(mvt$LocationDescription)), the locations with
+the largest number of motor vehicle thefts are listed last. These are
+Street, Parking Lot/Garage (Non. Resid.), Alley, Gas Station, and
+Driveway - Residential.
+
+** Problem 4.2 - Popular Locations (1 point possible)
+
+Create a subset of your data, only taking observations for which the
+theft happened in one of these five locations, and call this new data
+set "Top5". To do this, you can use the | symbol. In lecture, we used
+the & symbol to use two criteria to make a subset of the data. To only
+take observations that have a certain value in one variable or the
+other, the | character can be used in place of the & symbol. This is
+also called a logical "or" operation.
+
+Alternately, you could create five different subsets, and then merge
+them together into one data frame using rbind.
+
+How many observations are in Top5?
+
+#+BEGIN_SRC R :session :results output :exports all
+  Top5 <- subset(mvt, LocationDescription == "STREET" |
+                      LocationDescription == "PARKING LOT/GARAGE(NON.RESID.)" |
+                      LocationDescription == "ALLEY" |
+                      LocationDescription == "GAS STATION" |
+                      LocationDescription == "DRIVEWAY - RESIDENTIAL")
+  head(Top5, 5)
+  writeLines("        The number of observations in Top5 are:")
+  print(nrow(Top5))
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+       ID       Date LocationDescription Arrest Domestic Beat District
+1 8951354 2012-12-31              STREET  FALSE    FALSE  623        6
+2 8951141 2012-12-31              STREET  FALSE    FALSE 1213       12
+4 8952223 2012-12-31              STREET  FALSE    FALSE  724        7
+5 8951608 2012-12-31              STREET  FALSE    FALSE  211        2
+6 8950793 2012-12-31              STREET   TRUE    FALSE 2521       25
+  CommunityArea Year Latitude Longitude    Month Weekday
+1            69 2012 41.75628 -87.62164 December  Monday
+2            24 2012 41.89879 -87.66130 December  Monday
+4            67 2012 41.76933 -87.65773 December  Monday
+5            35 2012 41.83757 -87.62176 December  Monday
+6            19 2012 41.92856 -87.75400 December  Monday
+        The number of observations in Top5 are:
+[1] 177510
+#+end_example
+
+*** Answer
+
+The procedure above is OK. We can do this in other way?
+
+Another way of doing this would be to use the %in% operator in R. This
+operator checks for inclusion in a set. You can create the same subset
+by typing the following two lines in your R console:
+
+#+BEGIN_SRC R :session :results output :exports all
+  TopLocations <- c("STREET", "PARKING LOT/GARAGE(NON.RESID.)", "ALLEY",
+                   "GAS STATION", "DRIVEWAY - RESIDENTIAL")
+  Top5 <- subset(mvt, LocationDescription %in% TopLocations)
+  head(Top5, 5)
+  writeLines("        The number of observations in Top5 are:")
+  print(nrow(Top5))
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+       ID       Date LocationDescription Arrest Domestic Beat District
+1 8951354 2012-12-31              STREET  FALSE    FALSE  623        6
+2 8951141 2012-12-31              STREET  FALSE    FALSE 1213       12
+4 8952223 2012-12-31              STREET  FALSE    FALSE  724        7
+5 8951608 2012-12-31              STREET  FALSE    FALSE  211        2
+6 8950793 2012-12-31              STREET   TRUE    FALSE 2521       25
+  CommunityArea Year Latitude Longitude    Month Weekday
+1            69 2012 41.75628 -87.62164 December  Monday
+2            24 2012 41.89879 -87.66130 December  Monday
+4            67 2012 41.76933 -87.65773 December  Monday
+5            35 2012 41.83757 -87.62176 December  Monday
+6            19 2012 41.92856 -87.75400 December  Monday
+        The number of observations in Top5 are:
+[1] 177510
+#+end_example
+
+** Problem 4.3 - Popular Locations (2 points possible)
+
+R will remember the other categories of the *LocationDescription*
+variable from the original dataset, so running
+*table(Top5$LocationDescription)* will have a lot of unnecessary
+output. To make our tables a bit nicer to read, we can refresh this
+factor variable. In your R console, type:
+
+#+BEGIN_SRC R :session :results output :exports all
+  Top5$LocationDescription <- factor(Top5$LocationDescription)
+#+END_SRC
+
+#+RESULTS:
+
+If you run the str or table function on Top5 now, you should see that
+LocationDescription now only has 5 values, as we expect.
+
+#+BEGIN_SRC R :session :results output :exports all
+  str(Top5)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+'data.frame':	177510 obs. of  13 variables:
+ $ ID                 : int  8951354 8951141 8952223 8951608 8950793 8950760 8951611 8951802 8950706 8951585 ...
+ $ Date               : Date, format: "2012-12-31" "2012-12-31" ...
+ $ LocationDescription: Factor w/ 5 levels "ALLEY","DRIVEWAY - RESIDENTIAL",..: 5 5 5 5 5 5 5 5 5 5 ...
+ $ Arrest             : logi  FALSE FALSE FALSE FALSE TRUE FALSE ...
+ $ Domestic           : logi  FALSE FALSE FALSE FALSE FALSE FALSE ...
+ $ Beat               : int  623 1213 724 211 2521 423 231 1021 1215 1011 ...
+ $ District           : int  6 12 7 2 25 4 2 10 12 10 ...
+ $ CommunityArea      : int  69 24 67 35 19 48 40 29 24 29 ...
+ $ Year               : num  2012 2012 2012 2012 2012 ...
+ $ Latitude           : num  41.8 41.9 41.8 41.8 41.9 ...
+ $ Longitude          : num  -87.6 -87.7 -87.7 -87.6 -87.8 ...
+ $ Month              : chr  "December" "December" "December" "December" ...
+ $ Weekday            : chr  "Monday" "Monday" "Monday" "Monday" ...
+#+end_example
+
+Use the Top5 data frame to answer the remaining questions.
+
+One of the locations has a much higher arrest rate than the other
+locations. Which is it? Please enter the text in exactly the same way
+as how it looks in the answer options for Problem 4.1.
+
+#+BEGIN_SRC R :session :results output :exports all
+  table(Top5$LocationDescription, Top5$Arrest)
+
+  print(249 / (2059 + 249))                  # ALLEY
+  print(132 / (1543 + 132))                  # DRIVEWAY - RESIDENTIAL
+  print(439 / (1672 + 439))                  # GAS STATION
+  print(1603  / (13249 + 1603))              # PARKING LOT/GARAGE(NON.RESID.)
+  print(11595 / (144969 + 11595))            # STREET
+
+  writeLines("The highest arrest rate is located at: GAS STATION")
+  answer <- paste("with a", 439 / (1672 + 439), "rate.", sep = " ")
+  print(answer)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+
+                                  FALSE   TRUE
+  ALLEY                            2059    249
+  DRIVEWAY - RESIDENTIAL           1543    132
+  GAS STATION                      1672    439
+  PARKING LOT/GARAGE(NON.RESID.)  13249   1603
+  STREET                         144969  11595
+[1] 0.1078856
+[1] 0.07880597
+[1] 0.2079583
+[1] 0.1079316
+[1] 0.07405917
+The highest arrest rate is located at: GAS STATION
+[1] "with a 0.207958313595452 rate."
+#+end_example
+
+*** Answer
+
+If you create a table of LocationDescription compared to Arrest,
+table(Top5$LocationDescription, Top5$Arrest), you can then compute the
+fraction of motor vehicle thefts that resulted in arrests at each
+location. *Gas Station* has by far the highest percentage of arrests,
+with over 20% of motor vehicle thefts resulting in an arrest.
+
+** Problem 4.4 - Popular Locations (1 point possible)
+
+On which day of the week do the most motor vehicle thefts at gas
+stations happen?
+
+#+BEGIN_SRC R :session :results output :exports all
+  table(Top5$Weekday, Top5$LocationDescription)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+
+            ALLEY DRIVEWAY - RESIDENTIAL GAS STATION
+  Friday      385                    257         332
+  Monday      320                    255         280
+  Saturday    341                    202         338
+  Sunday      307                    221         336
+  Thursday    315                    263         282
+  Tuesday     323                    243         270
+  Wednesday   317                    234         273
+
+            PARKING LOT/GARAGE(NON.RESID.) STREET
+  Friday                              2331  23773
+  Monday                              2128  22305
+  Saturday                            2199  22175
+  Sunday                              1936  21756
+  Thursday                            2082  22296
+  Tuesday                             2073  21888
+  Wednesday                           2103  22371
+#+end_example
+
+*** Answer
+
+*Saturday*.
+
+** Problem 4.5 - Popular Locations (1 point possible)
+
+On which day of the week do the fewest motor vehicle thefts in
+residential driveways happen?
+
+#+BEGIN_SRC R :session :results output :exports all
+  table(Top5$Weekday, Top5$LocationDescription)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+
+            ALLEY DRIVEWAY - RESIDENTIAL GAS STATION
+  Friday      385                    257         332
+  Monday      320                    255         280
+  Saturday    341                    202         338
+  Sunday      307                    221         336
+  Thursday    315                    263         282
+  Tuesday     323                    243         270
+  Wednesday   317                    234         273
+
+            PARKING LOT/GARAGE(NON.RESID.) STREET
+  Friday                              2331  23773
+  Monday                              2128  22305
+  Saturday                            2199  22175
+  Sunday                              1936  21756
+  Thursday                            2082  22296
+  Tuesday                             2073  21888
+  Wednesday                           2103  22371
+#+end_example
+
+*** Answer
+
+*Saturday*.

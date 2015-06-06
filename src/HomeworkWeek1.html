@@ -1,0 +1,790 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Homework Week 1</title>
+<!-- 2015-06-06 Sat 06:40 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="Sergio-Feliciano Mendoza-Barrera" />
+<meta  name="description" content="R introduction, remembering the syntax and some useful examples"
+ />
+<meta  name="keywords" content="R, data science, emacs, ESS, org-mode" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/readtheorg/js/readtheorg.js"></script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Homework Week 1</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. An analytical detective</a>
+<ul>
+<li><a href="#sec-1-1">1.1. Problem 1.1 - Loading the Data (1 point possible)</a></li>
+<li><a href="#sec-1-2">1.2. Problem 1.2 - Loading the Data (1 point possible)</a></li>
+<li><a href="#sec-1-3">1.3. Problem 1.3 - Loading the Data (1 point possible)</a></li>
+<li><a href="#sec-1-4">1.4. Problem 1.4 - Loading the Data (1 point possible)</a></li>
+<li><a href="#sec-1-5">1.5. Problem 1.5 - Loading the Data (1 point possible)</a></li>
+<li><a href="#sec-1-6">1.6. Problem 1.6 - Loading the Data (1 point possible)</a></li>
+<li><a href="#sec-1-7">1.7. Problem 2.1 - Understanding Dates in R (1 point possible)</a></li>
+<li><a href="#sec-1-8">1.8. Problem 2.2 - Understanding Dates in R (1 point possible)</a></li>
+<li><a href="#sec-1-9">1.9. Problem 2.3 - Understanding Dates in R (1 point possible)</a></li>
+<li><a href="#sec-1-10">1.10. Problem 2.4 - Understanding Dates in R (1 point possible)</a></li>
+<li><a href="#sec-1-11">1.11. Problem 2.5 - Understanding Dates in R (1 point possible)</a></li>
+<li><a href="#sec-1-12">1.12. Problem 3.1 - Visualizing Crime Trends (3 points possible)</a></li>
+<li><a href="#sec-1-13">1.13. Problem 3.2 - Visualizing Crime Trends (1 point possible)</a></li>
+<li><a href="#sec-1-14">1.14. Problem 3.3 - Visualizing Crime Trends (2 points possible)</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="abstract">
+<p>
+Homework week 1 part 1. An analytical detective.
+</p>
+
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> An analytical detective</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Crime is an international concern, but it is documented and handled in
+very different ways in different countries. In the United States,
+violent crimes and property crimes are recorded by the Federal Bureau
+of Investigation (FBI).  Additionally, each city documents crime, and
+some cities release data regarding crime rates. The city of Chicago,
+Illinois releases crime data from 2001 onward <a href="https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-present/ijzp-q8t2">online</a>.
+</p>
+
+<p>
+Chicago is the third most populous city in the United States, with a
+population of over 2.7 million people. The city of Chicago is shown in
+the map below, with the state of Illinois highlighted in red.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/ChicagoMap.png" alt="ChicagoMap.png" />
+</p>
+</div>
+
+<p>
+There are two main types of crimes: violent crimes, and property
+crimes. In this problem, we'll focus on one specific type of property
+crime, called "motor vehicle theft" (sometimes referred to as grand
+theft auto). This is the act of stealing, or attempting to steal, a
+car. In this problem, we'll use some basic data analysis in R to
+understand the motor vehicle thefts in Chicago.
+</p>
+
+<p>
+Please download the file <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/mvtWeek1.csv">mvtWeek1.csv</a> for this problem (do not open
+this file in any spreadsheet software before completing this problem
+because it might change the format of the Date field). Here is a list
+of descriptions of the variables:
+</p>
+
+<ul class="org-ul">
+<li><b>ID</b>: a unique identifier for each observation
+</li>
+<li><b>Date</b>: the date the crime occurred
+</li>
+<li><b>LocationDescription</b>: the location where the crime occurred
+</li>
+<li><b>Arrest</b>: whether or not an arrest was made for the crime (TRUE if an
+arrest was made, and FALSE if an arrest was not made)
+</li>
+<li><b>Domestic</b>: whether or not the crime was a domestic crime, meaning
+that it was committed against a family member (TRUE if it was
+domestic, and FALSE if it was not domestic)
+</li>
+<li><b>Beat</b>: the area, or "beat" in which the crime occurred. This is the
+smallest regional division defined by the Chicago police
+department.
+</li>
+<li><b>District</b>: the police district in which the crime occured. Each
+district is composed of many beats, and are defined by the Chicago
+Police Department.
+</li>
+<li><b>CommunityArea</b>: the community area in which the crime occurred. Since
+the 1920s, Chicago has been divided into what are called "community
+areas", of which there are now 77. The community areas were devised
+in an attempt to create socially homogeneous regions.
+</li>
+<li><b>Year</b>: the year in which the crime occurred.
+</li>
+<li><b>Latitude</b>: the latitude of the location at which the crime occurred.
+</li>
+<li><b>Longitude</b>: the longitude of the location at which the crime
+occurred.
+</li>
+</ul>
+</div>
+
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Problem 1.1 - Loading the Data (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+Read the dataset mvtWeek1.csv into R, using the read.csv function, and
+call the data frame "mvt". Remember to navigate to the directory on
+your computer containing the file mvtWeek1.csv first. It may take a
+few minutes to read in the data, since it is pretty large. Then, use
+the str and summary functions to answer the following questions.
+</p>
+
+<p>
+How many rows of data (observations) are in this dataset?
+</p>
+</div>
+
+<div id="outline-container-sec-1-1-1" class="outline-4">
+<h4 id="sec-1-1-1"><span class="section-number-4">1.1.1</span> Download the data sets</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<p>
+In this part we can download the data
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">rm(list = ls())                         <span style="color: #9932cc;"># </span><span style="color: #ba55d3;">Remove all workspace data</span>
+<span style="color: #db7093;">library</span>(parallel)
+
+<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #fffacd;">"../data"</span>)) {
+        dir.create(<span style="color: #fffacd;">"../data"</span>)
+}
+
+fileUrl <span style="color: #db7093;">&lt;-</span>
+        <span style="color: #fffacd;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/mvtWeek1.csv"</span>
+fileName <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"mvtWeek1.csv"</span>
+
+dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"../data"</span>
+filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #fffacd;">"/"</span>)
+
+<span style="color: #4682b4;">if</span>(!file.exists(filePath)) {
+        download.file(fileUrl, destfile = filePath, method = <span style="color: #fffacd;">"curl"</span>)
+        list.files(<span style="color: #fffacd;">"../data"</span>)
+        dateDownloaded <span style="color: #db7093;">&lt;-</span> date()
+}
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"    Loading data into mvt dataframe"</span>)
+mvt <span style="color: #db7093;">&lt;-</span> read.table(filePath, sep = <span style="color: #fffacd;">","</span>, header = <span style="color: #3cb371;">TRUE</span>)
+
+writeLines(<span style="color: #fffacd;">"    Initial analysis of data mvt"</span>)
+nrow(mvt)
+str(mvt)
+</pre>
+</div>
+
+<pre class="example">
+    Loading data into mvt dataframe
+    Initial analysis of data mvt
+[1] 191641
+'data.frame':	191641 obs. of  11 variables:
+ $ ID                 : int  8951354 8951141 8952745 8952223 8951608 8950793 8950760 8951611 8951802 8950706 ...
+ $ Date               : Factor w/ 131680 levels "1/1/01 0:01",..: 42823 42822 42822 42822 42821 42820 42819 42818 42816 42815 ...
+ $ LocationDescription: Factor w/ 78 levels "ABANDONED BUILDING",..: 72 72 62 72 72 72 72 72 72 72 ...
+ $ Arrest             : logi  FALSE FALSE FALSE FALSE FALSE TRUE ...
+ $ Domestic           : logi  FALSE FALSE FALSE FALSE FALSE FALSE ...
+ $ Beat               : int  623 1213 1622 724 211 2521 423 231 1021 1215 ...
+ $ District           : int  6 12 16 7 2 25 4 2 10 12 ...
+ $ CommunityArea      : int  69 24 11 67 35 19 48 40 29 24 ...
+ $ Year               : int  2012 2012 2012 2012 2012 2012 2012 2012 2012 2012 ...
+ $ Latitude           : num  41.8 41.9 42 41.8 41.8 ...
+ $ Longitude          : num  -87.6 -87.7 -87.8 -87.7 -87.6 ...
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Problem 1.2 - Loading the Data (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+How many variables are in this dataset?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"    Dimension of the dataframe"</span>)
+dim(mvt)
+
+writeLines(<span style="color: #fffacd;">"    Names of the dataframe"</span>)
+names(mvt)
+
+writeLines(<span style="color: #fffacd;">"    Any NA in the dataframe"</span>)
+anyNA(mvt)
+</pre>
+</div>
+
+<pre class="example">
+    Dimension of the dataframe
+[1] 191641     11
+    Names of the dataframe
+ [1] "ID"                  "Date"                "LocationDescription"
+ [4] "Arrest"              "Domestic"            "Beat"
+ [7] "District"            "CommunityArea"       "Year"
+[10] "Latitude"            "Longitude"
+    Any NA in the dataframe
+[1] TRUE
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Problem 1.3 - Loading the Data (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+Using the "max" function, what is the maximum value of the variable
+"ID"?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">maxID <span style="color: #db7093;">&lt;-</span> mvt[which.max(mvt$ID), ]
+maxID$ID
+</pre>
+</div>
+
+<pre class="example">
+[1] 9181151
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> Problem 1.4 - Loading the Data (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+What is the minimum value of the variable "Beat"?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">minBeat <span style="color: #db7093;">&lt;-</span> mvt[which.min(mvt$Beat), ]
+minBeat$Beat
+</pre>
+</div>
+
+<pre class="example">
+[1] 111
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5"><span class="section-number-3">1.5</span> Problem 1.5 - Loading the Data (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-5">
+<p>
+How many observations have value TRUE in the Arrest variable (this is
+the number of crimes for which an arrest was made)?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">TArrest <span style="color: #db7093;">&lt;-</span> subset(mvt, Arrest == <span style="color: #3cb371;">TRUE</span>)
+nrow(TArrest)
+</pre>
+</div>
+
+<pre class="example">
+[1] 15536
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6"><span class="section-number-3">1.6</span> Problem 1.6 - Loading the Data (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-6">
+<p>
+How many observations have a LocationDescription value of ALLEY?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">nrow(subset(mvt, LocationDescription == <span style="color: #fffacd;">"ALLEY"</span>))
+</pre>
+</div>
+
+<pre class="example">
+[1] 2308
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7"><span class="section-number-3">1.7</span> Problem 2.1 - Understanding Dates in R (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-7">
+<p>
+In many datasets, like this one, you have a date field. Unfortunately,
+R does not automatically recognize entries that look like dates. We
+need to use a function in R to extract the date and time. Take a look
+at the first entry of Date (remember to use square brackets when
+looking at a certain entry of a variable).
+</p>
+
+<p>
+In what format are the entries in the variable Date?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">head(mvt$Date, 1)
+</pre>
+</div>
+
+<pre class="example">
+[1] 12/31/12 23:15
+131680 Levels: 1/1/01 0:01 1/1/01 0:05 1/1/01 0:30 1/1/01 10:00 ... 9/9/12 9:50
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-1-8" class="outline-3">
+<h3 id="sec-1-8"><span class="section-number-3">1.8</span> Problem 2.2 - Understanding Dates in R (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-8">
+<p>
+Now, let's convert these characters into a Date object in R. In your R
+console, type
+</p>
+
+<p>
+DateConvert = as.Date(strptime(mvt$Date, "%m/%d/%y %H:%M"))
+</p>
+
+<p>
+This converts the variable "Date" into a Date object in R. Take a look
+at the variable DateConvert using the summary function.
+</p>
+
+<p>
+What is the month and year of the median date in our dataset? Enter
+your answer as "Month Year", without the quotes. (Ex: if the answer
+was 2008-03-28, you would give the answer "March 2008", without the
+quotes.)
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">DateConvert <span style="color: #db7093;">&lt;-</span> as.Date(strptime(mvt$Date, <span style="color: #fffacd;">"%m/%d/%y %H:%M"</span>))
+class(DateConvert)
+
+summary(DateConvert)
+</pre>
+</div>
+
+<pre class="example">
+[1] "Date"
+        Min.      1st Qu.       Median         Mean      3rd Qu.         Max.
+"2001-01-01" "2003-07-10" "2006-05-21" "2006-08-23" "2009-10-24" "2012-12-31"
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-1-9" class="outline-3">
+<h3 id="sec-1-9"><span class="section-number-3">1.9</span> Problem 2.3 - Understanding Dates in R (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-9">
+<p>
+Now, let's extract the month and the day of the week, and add these
+variables to our data frame mvt. We can do this with two simple
+functions. Type the following commands in R:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">mvt$Month = months(DateConvert)
+mvt$Weekday = weekdays(DateConvert)
+</pre>
+</div>
+
+<p>
+This creates two new variables in our data frame, Month and Weekday,
+and sets them equal to the month and weekday values that we can
+extract from the Date object. Lastly, replace the old Date variable
+with DateConvert by typing:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">mvt$Date = DateConvert
+</pre>
+</div>
+
+<p>
+Using the table command, answer the following questions.
+</p>
+
+<p>
+In which month did the fewest motor vehicle thefts occur?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">head(mvt, 3)
+table(mvt$Month)
+</pre>
+</div>
+
+<pre class="example">
+       ID       Date           LocationDescription Arrest Domestic Beat
+1 8951354 2012-12-31                        STREET  FALSE    FALSE  623
+2 8951141 2012-12-31                        STREET  FALSE    FALSE 1213
+3 8952745 2012-12-31 RESIDENTIAL YARD (FRONT/BACK)  FALSE    FALSE 1622
+  District CommunityArea Year Latitude Longitude    Month Weekday
+1        6            69 2012 41.75628 -87.62164 December  Monday
+2       12            24 2012 41.89879 -87.66130 December  Monday
+3       16            11 2012 41.96919 -87.76767 December  Monday
+
+    April    August  December  February   January      July      June     March
+    15280     16572     16426     13511     16047     16801     16002     15758
+      May  November   October September
+    16035     16063     17086     16060
+</pre>
+</div>
+
+<div id="outline-container-sec-1-9-1" class="outline-4">
+<h4 id="sec-1-9-1"><span class="section-number-4">1.9.1</span> Answer</h4>
+<div class="outline-text-4" id="text-1-9-1">
+<p>
+<b>February</b>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-10" class="outline-3">
+<h3 id="sec-1-10"><span class="section-number-3">1.10</span> Problem 2.4 - Understanding Dates in R (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-10">
+<p>
+On which weekday did the most motor vehicle thefts occur?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">head(mvt, 3)
+table(mvt$Weekday)
+</pre>
+</div>
+
+<pre class="example">
+       ID       Date           LocationDescription Arrest Domestic Beat
+1 8951354 2012-12-31                        STREET  FALSE    FALSE  623
+2 8951141 2012-12-31                        STREET  FALSE    FALSE 1213
+3 8952745 2012-12-31 RESIDENTIAL YARD (FRONT/BACK)  FALSE    FALSE 1622
+  District CommunityArea Year Latitude Longitude    Month Weekday
+1        6            69 2012 41.75628 -87.62164 December  Monday
+2       12            24 2012 41.89879 -87.66130 December  Monday
+3       16            11 2012 41.96919 -87.76767 December  Monday
+
+   Friday    Monday  Saturday    Sunday  Thursday   Tuesday Wednesday
+    29284     27397     27118     26316     27319     26791     27416
+</pre>
+</div>
+
+<div id="outline-container-sec-1-10-1" class="outline-4">
+<h4 id="sec-1-10-1"><span class="section-number-4">1.10.1</span> Answer</h4>
+<div class="outline-text-4" id="text-1-10-1">
+<p>
+<b>Friday</b>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-11" class="outline-3">
+<h3 id="sec-1-11"><span class="section-number-3">1.11</span> Problem 2.5 - Understanding Dates in R (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-11">
+<p>
+Each observation in the dataset represents a motor vehicle theft, and
+the Arrest variable indicates whether an arrest was later made for
+this theft. Which month has the largest number of motor vehicle thefts
+for which an arrest was made?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">table(mvt$Month, mvt$Arrest)
+</pre>
+</div>
+
+<pre class="example">
+          FALSE  TRUE
+April     14028  1252
+August    15243  1329
+December  15029  1397
+February  12273  1238
+January   14612  1435
+July      15477  1324
+June      14772  1230
+March     14460  1298
+May       14848  1187
+November  14807  1256
+October   15744  1342
+September 14812  1248
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-1-12" class="outline-3">
+<h3 id="sec-1-12"><span class="section-number-3">1.12</span> Problem 3.1 - Visualizing Crime Trends (3 points possible)</h3>
+<div class="outline-text-3" id="text-1-12">
+<p>
+Now, let's make some plots to help us better understand how crime has
+changed over time in Chicago. Throughout this problem, and in general,
+you can save your plot to a file. For more information, <a href="http://www.stat.berkeley.edu/~s133/saving.html">this website</a>
+very clearly explains the process.
+</p>
+
+<p>
+First, let's make a histogram of the variable <b>Date</b>. We'll add an extra
+argument, to specify the number of bars we want in our histogram. In
+your R console, type
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/MVTDate.png" alt="MVTDate.png" />
+</p>
+</div>
+
+<p>
+Looking at the histogram, answer the following questions.
+</p>
+
+<p>
+In general, does it look like crime increases or decreases from 2002 -
+2012?
+</p>
+
+<p>
+<b>Decreases Decreases - correct</b>
+</p>
+
+<p>
+In general, does it look like crime increases or decreases from 2005 - 2008?
+</p>
+
+<p>
+<b>Decreases Decreases - correct</b>
+</p>
+
+<p>
+In general, does it look like crime increases or decreases from 2009 -
+2011?
+</p>
+
+<p>
+<b>Increases Increases - correct</b>
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-13" class="outline-3">
+<h3 id="sec-1-13"><span class="section-number-3">1.13</span> Problem 3.2 - Visualizing Crime Trends (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-13">
+<p>
+Now, let's see how arrests have changed over time. Create a boxplot of
+the variable "Date", sorted by the variable "Arrest" (if you are not
+familiar with boxplots and would like to learn more, check out this
+tutorial). In a boxplot, the bold horizontal line is the median value
+of the data, the box shows the range of values between the first
+quartile and third quartile, and the whiskers (the dotted lines
+extending outside the box) show the minimum and maximum values,
+excluding any outliers (which are plotted as circles). Outliers are
+defined by first computing the difference between the first and third
+quartile values, or the height of the box. This number is called the
+Inter-Quartile Range (IQR). Any point that is greater than the third
+quartile plus the IQR or less than the first quartile minus the IQR is
+considered an outlier.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/BPDate.png" alt="BPDate.png" />
+</p>
+</div>
+
+<p>
+Does it look like there were more crimes for which arrests were made
+in the first half of the time period or the second half of the time
+period? (Note that the time period is from 2001 to 2012, so the middle
+of the time period is the beginning of 2007.)
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-14" class="outline-3">
+<h3 id="sec-1-14"><span class="section-number-3">1.14</span> Problem 3.3 - Visualizing Crime Trends (2 points possible)</h3>
+<div class="outline-text-3" id="text-1-14">
+<p>
+Let's investigate this further. Use the table function for the next
+few questions.
+</p>
+
+<p>
+For what proportion of motor vehicle thefts in 2001 was an arrest
+made?
+</p>
+
+<p>
+Note: in this question and many others in the course, we are asking
+for an answer as a proportion. Therefore, your answer should take a
+value between 0 and 1.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R"><span style="color: #db7093;">library</span>(lubridate)
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 07/06/2015</p>
+<p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
+<p class="date">Created: 2015-06-06 Sat 06:40</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
