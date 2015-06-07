@@ -40,15 +40,20 @@
 #+ATTR_HTML: width="500px"
 
 # -*- mode: org; -*-
-#+OPTIONS:   toc:2
 
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/htmlize.css"/>
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/readtheorg.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/htmlize.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/bigblow.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/hideshow.css"/>
 
-#+HTML_HEAD: <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-#+HTML_HEAD: <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.js"></script>
-#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/readtheorg/js/readtheorg.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery-1.11.0.min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery-ui-1.10.2.min.js"></script>
+
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.localscroll-min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.scrollTo-1.4.3.1-min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.zclip.min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/bigblow.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/hideshow.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.min.js"></script>
 
 #+BEGIN_ABSTRACT
 Homework week 1 part 1. An analytical detective.
@@ -147,7 +152,7 @@ In this part we can download the data
   mvt <- read.table(filePath, sep = ",", header = TRUE)
 
   writeLines("    Initial analysis of data mvt")
-  nrow(mvt)
+  dim(mvt)
   str(mvt)
 #+END_SRC
 
@@ -244,7 +249,7 @@ the number of crimes for which an arrest was made)?
 
 #+BEGIN_SRC R :session :results output :exports all
   TArrest <- subset(mvt, Arrest == TRUE)
-  nrow(TArrest)
+  dim(TArrest)
 #+END_SRC
 
 #+RESULTS:
@@ -259,7 +264,7 @@ the number of crimes for which an arrest was made)?
 How many observations have a LocationDescription value of ALLEY?
 
 #+BEGIN_SRC R :session :results output :exports all
-  nrow(subset(mvt, LocationDescription == "ALLEY"))
+  dim(subset(mvt, LocationDescription == "ALLEY"))
 #+END_SRC
 
 #+RESULTS:
@@ -740,7 +745,7 @@ How many observations are in Top5?
                       LocationDescription == "DRIVEWAY - RESIDENTIAL")
   head(Top5, 5)
   writeLines("        The number of observations in Top5 are:")
-  print(nrow(Top5))
+  print(dim(Top5))
 #+END_SRC
 
 #+RESULTS:
@@ -775,7 +780,7 @@ by typing the following two lines in your R console:
   Top5 <- subset(mvt, LocationDescription %in% TopLocations)
   head(Top5, 5)
   writeLines("        The number of observations in Top5 are:")
-  print(nrow(Top5))
+  print(dim(Top5))
 #+END_SRC
 
 #+RESULTS:
@@ -950,3 +955,830 @@ residential driveways happen?
 *** Answer
 
 *Saturday*.
+
+* Stock dynamics
+
+A stock market is where buyers and sellers trade shares of a company,
+and is one of the most popular ways for individuals and companies to
+invest money. The size of the world stock market  is now estimated to
+be in the trillions. The largest stock market in the world is the New
+York Stock Exchange (NYSE), located in New York City. About 2,800
+companies are listed on the NSYE. In this problem, we'll look at the
+monthly stock prices of five of these companies: IBM, General Electric
+(GE), Procter and Gamble, Coca Cola, and Boeing. The data used in this
+problem comes from Infochimps.
+
+Download and read the following files into R, using the read.csv
+function: [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/IBMStock.csv][IBMStock.csv]], [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/GEStock.csv][GEStock.csv]], [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/ProcterGambleStock.csv][ProcterGambleStock.csv]],
+[[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/CocaColaStock.csv][CocaColaStock.csv]], and [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/BoeingStock.csv][BoeingStock.csv]]. (Do not open these files in
+any spreadsheet software before completing this problem because it
+might change the format of the Date field.)
+
+Call the data frames "IBM", "GE", "ProcterGamble", "CocaCola", and
+"Boeing", respectively. Each data frame has two variables, described
+as follows:
+
+    - *Date*: the date of the stock price, always given as the first
+      of the month.
+    - *StockPrice*: the average stock price of the company in the
+      given month.
+
+In this problem, we'll take a look at how the stock dynamics of these
+companies have changed over time.
+
+** Downloading and load the data
+
+In this first part we will download and load each dataset in a
+dataframe.
+
+*** Download the data sets
+
+In this part we can download the data
+
+#+BEGIN_SRC R :session :results output :exports all
+  rm(list = ls())                         # Remove all workspace data
+  library(parallel)
+
+  if(!file.exists("../data")) {
+          dir.create("../data")
+  }
+
+  fileUrl <-
+          c("https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/IBMStock.csv", "https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/GEStock.csv", "https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/ProcterGambleStock.csv", "https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/CocaColaStock.csv", "https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/BoeingStock.csv")
+
+  fileName <- c("IBMStock.csv", "GEStock.csv", "ProcterGambleStock.csv", "CocaColaStock.csv", "BoeingStock.csv")
+
+  dataPath <- "../data"
+
+  for(i in 1:5) {
+          filePath <- paste(dataPath, fileName[i], sep = "/")
+
+          if(!file.exists(filePath)) {
+                  download.file(fileUrl[i], destfile = filePath, method = "curl")
+                  list.files("../data")
+          }
+  }
+#+END_SRC
+
+#+RESULTS:
+
+*** Load the data sets in their respective dataframe
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("    Loading data into their data frames.")
+  IBM <- read.table("../data/IBMStock.csv", sep = ",", header = TRUE)
+  GE <- read.table("../data/GEStock.csv", sep = ",", header = TRUE)
+  ProcterGamble <- read.table("../data/ProcterGambleStock.csv", sep = ",", header = TRUE)
+  CocaCola <- read.table("../data/CocaColaStock.csv", sep = ",", header = TRUE)
+  Boeing <- read.table("../data/BoeingStock.csv", sep = ",", header = TRUE)
+#+END_SRC
+
+#+RESULTS:
+:     Loading data into their data frames.
+
+** Problem 1.1 - Summary Statistics (1 point possible)
+
+Before working with these data sets, we need to convert the dates into
+a format that R can understand. Take a look at the structure of one of
+the datasets using the str function. Right now, the date variable is
+stored as a factor. We can convert this to a "Date" object in R by
+using the following five commands (one for each data set):
+
+#+BEGIN_SRC R :session :results output :exports all
+  IBM$Date = as.Date(IBM$Date, "%m/%d/%y")
+  GE$Date = as.Date(GE$Date, "%m/%d/%y")
+  CocaCola$Date = as.Date(CocaCola$Date, "%m/%d/%y")
+  ProcterGamble$Date = as.Date(ProcterGamble$Date, "%m/%d/%y")
+  Boeing$Date = as.Date(Boeing$Date, "%m/%d/%y")
+#+END_SRC
+
+#+RESULTS:
+
+The first argument to the *as.Date* function is the variable we want to
+convert, and the second argument is the format of the Date
+variable. We can just overwrite the original Date variable values with
+the output of this function. Now, answer the following questions using
+the str and summary functions.
+
+Our five datasets all have the same number of observations. How many
+observations are there in each data set?
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("    Initial analysis of data frames")
+  dim(IBM)
+  str(IBM)
+
+  dim(GE)
+  str(GE)
+
+  dim(ProcterGamble)
+  str(ProcterGamble)
+
+  dim(CocaCola)
+  str(CocaCola)
+
+  dim(Boeing)
+  str(Boeing)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+    Initial analysis of data frames
+[1] 480   2
+'data.frame':	480 obs. of  2 variables:
+ $ Date      : Date, format: "1970-01-01" "1970-02-01" ...
+ $ StockPrice: num  360 347 327 320 270 ...
+[1] 480   2
+'data.frame':	480 obs. of  2 variables:
+ $ Date      : Date, format: "1970-01-01" "1970-02-01" ...
+ $ StockPrice: num  74.3 70 72.2 74.3 66.7 ...
+[1] 480   2
+'data.frame':	480 obs. of  2 variables:
+ $ Date      : Date, format: "1970-01-01" "1970-02-01" ...
+ $ StockPrice: num  111.9 111.5 108.5 106.3 73.3 ...
+[1] 480   2
+'data.frame':	480 obs. of  2 variables:
+ $ Date      : Date, format: "1970-01-01" "1970-02-01" ...
+ $ StockPrice: num  83.4 81.6 81.3 76.8 69.3 ...
+[1] 480   2
+'data.frame':	480 obs. of  2 variables:
+ $ Date      : Date, format: "1970-01-01" "1970-02-01" ...
+ $ StockPrice: num  27.9 22.4 23.1 21.6 18.9 ...
+#+end_example
+
+*** Answer
+
+Using the str function, we can see that each data set has 480
+observations. We have monthly data for 40 years, so there are 12*40 =
+480 observations.
+
+*480* observations.
+
+** Problem 1.2 - Summary Statistics (1 point possible)
+
+What is the earliest year in our datasets?
+
+#+BEGIN_SRC R :session :results output :exports all
+  library(lubridate)
+  head(sort(year(IBM$Date)))
+  head(sort(year(GE$Date)))
+  head(sort(year(ProcterGamble$Date)))
+  head(sort(year(CocaCola$Date)))
+  head(sort(year(Boeing$Date)))
+
+  summary(IBM$Date)
+  summary(GE$Date)
+  summary(ProcterGamble$Date)
+  summary(CocaCola$Date)
+  summary(Boeing$Date)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+[1] 1970 1970 1970 1970 1970 1970
+[1] 1970 1970 1970 1970 1970 1970
+[1] 1970 1970 1970 1970 1970 1970
+[1] 1970 1970 1970 1970 1970 1970
+[1] 1970 1970 1970 1970 1970 1970
+        Min.      1st Qu.       Median         Mean      3rd Qu.         Max.
+"1970-01-01" "1979-12-24" "1989-12-16" "1989-12-15" "1999-12-08" "2009-12-01"
+        Min.      1st Qu.       Median         Mean      3rd Qu.         Max.
+"1970-01-01" "1979-12-24" "1989-12-16" "1989-12-15" "1999-12-08" "2009-12-01"
+        Min.      1st Qu.       Median         Mean      3rd Qu.         Max.
+"1970-01-01" "1979-12-24" "1989-12-16" "1989-12-15" "1999-12-08" "2009-12-01"
+        Min.      1st Qu.       Median         Mean      3rd Qu.         Max.
+"1970-01-01" "1979-12-24" "1989-12-16" "1989-12-15" "1999-12-08" "2009-12-01"
+        Min.      1st Qu.       Median         Mean      3rd Qu.         Max.
+"1970-01-01" "1979-12-24" "1989-12-16" "1989-12-15" "1999-12-08" "2009-12-01"
+#+end_example
+
+*** Answer
+
+Using the summary function, the minimum value of the Date variable is
+January 1, 1970 for any dataset.
+
+** Problem 1.3 - Summary Statistics (1 point possible)
+
+What is the latest year in our datasets?
+
+#+BEGIN_SRC R :session :results output :exports all
+  summary(IBM$Date)
+  summary(GE$Date)
+  summary(ProcterGamble$Date)
+  summary(CocaCola$Date)
+  summary(Boeing$Date)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+        Min.      1st Qu.       Median         Mean      3rd Qu.         Max.
+"1970-01-01" "1979-12-24" "1989-12-16" "1989-12-15" "1999-12-08" "2009-12-01"
+        Min.      1st Qu.       Median         Mean      3rd Qu.         Max.
+"1970-01-01" "1979-12-24" "1989-12-16" "1989-12-15" "1999-12-08" "2009-12-01"
+        Min.      1st Qu.       Median         Mean      3rd Qu.         Max.
+"1970-01-01" "1979-12-24" "1989-12-16" "1989-12-15" "1999-12-08" "2009-12-01"
+        Min.      1st Qu.       Median         Mean      3rd Qu.         Max.
+"1970-01-01" "1979-12-24" "1989-12-16" "1989-12-15" "1999-12-08" "2009-12-01"
+        Min.      1st Qu.       Median         Mean      3rd Qu.         Max.
+"1970-01-01" "1979-12-24" "1989-12-16" "1989-12-15" "1999-12-08" "2009-12-01"
+#+end_example
+
+*** Answer
+
+Using the summary function, the maximum value of the Date variable is
+December 1, 2009 for any dataset.
+
+** Problem 1.4 - Summary Statistics (1 point possible)
+
+What is the mean stock price of IBM over this time period?
+
+#+BEGIN_SRC R :session :results output :exports all
+  names(IBM)
+
+  writeLines("The mean is:")
+  mean(IBM$StockPrice)
+#+END_SRC
+
+#+RESULTS:
+: [1] "Date"       "StockPrice" "Year"
+: The mean is:
+: [1] 144.375
+
+*** Answer
+
+By typing summary(IBM), we can see that the mean value of the IBM
+StockPrice is *144.38*.
+
+** Problem 1.5 - Summary Statistics (1 point possible)
+
+What is the minimum stock price of General Electric (GE) over this
+time period?
+
+#+BEGIN_SRC R :session :results output :exports all
+  summary(GE$StockPrice)
+#+END_SRC
+
+#+RESULTS:
+:    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+:   9.294  44.210  55.810  59.300  72.230 156.800
+
+** Problem 1.6 - Summary Statistics (1 point possible)
+
+What is the maximum stock price of Coca-Cola over this time period?
+
+#+BEGIN_SRC R :session :results output :exports all
+  summary(CocaCola$StockPrice)
+#+END_SRC
+
+#+RESULTS:
+:    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+:   30.06   42.76   51.44   60.03   69.62  146.60
+
+*** Answer
+
+By typing summary(CocaCola), we can see that the maximum value of the
+Coca-Cola StockPrice is *146.58*.
+
+** Problem 1.7 - Summary Statistics (1 point possible)
+
+What is the median stock price of Boeing over this time period?
+
+#+BEGIN_SRC R :session :results output :exports all
+  summary(Boeing$StockPrice)
+#+END_SRC
+
+#+RESULTS:
+:    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+:   12.74   34.64   44.88   46.59   57.21  107.30
+
+*** Answer
+
+By typing summary(Boeing), we can see that the median value of the
+Boeing StockPrice is *44.88*.
+
+** Problem 1.8 - Summary Statistics (1 point possible)
+
+What is the standard deviation of the stock price of Procter&Gamble
+over this time period?
+
+#+BEGIN_SRC R :session :results output :exports all
+  sd(ProcterGamble$StockPrice)
+#+END_SRC
+
+#+RESULTS:
+: [1] 18.19414
+
+*** Answer
+
+By typing sd(ProcterGamble$StockPrice), we can see that the standard
+deviation of the Procter&Gamble *StockPrice* is *18.19414*.
+
+** Problem 2.1 - Visualizing Stock Dynamics (2 points possible)
+
+Let's plot the stock prices to see if we can visualize trends in stock
+prices during this time period. Using the plot function, plot the Date
+on the x-axis and the StockPrice on the y-axis, for Coca-Cola.
+
+This plots our observations as points, but we would really like to see
+a line instead, since this is a continuous time period. To do this,
+add the argument type="l" to your plot command, and re-generate the
+plot (the character is quotes is the letter l, for line). You should
+now see a line plot of the Coca-Cola stock price.
+
+#+BEGIN_SRC R :var basename="CocacolaTrends" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  plot(CocaCola$Date, CocaCola$StockPrice, type="l")
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+[[../graphs/CocacolaTrends.png]]
+
+Around what year did Coca-Cola has its highest stock price in this
+time period?
+
+*** Answer
+
+You can generate the plot using the command plot(CocaCola$Date,
+CocaCola$StockPrice, type="l"). Looking at the plot, the maximum value
+of the StockPrice is around 1973, and the minimum value of the
+StockPrice is around 1980.
+
+** Problem 2.2 - Visualizing Stock Dynamics (1 point possible)
+
+Now, let's add the line for Procter & Gamble too. You can add a line
+to a plot in R by using the lines function instead of the plot
+function. Keeping the plot for Coca-Cola open, type in your R console:
+
+Unfortunately, it's hard to tell which line is which. Let's fix this
+by giving each line a color. First, re-run the plot command for
+Coca-Cola, but add the argument col="red". You should see the plot for
+Coca-Cola show up again, but this time in red. Now, let's add the
+Procter & Gamble line (using the lines function like we did before),
+adding the argument col="blue". You should now see in your plot the
+Coca-Cola stock price in red, and the Procter & Gamble stock price in
+blue.
+
+As an alternative choice to changing the colors, you could instead
+change the line type of the Procter & Gamble line by adding the
+argument lty=2. This will make the Procter & Gamble line dashed.
+
+#+BEGIN_SRC R :var basename="Cocacola-PGTrends" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  plot(CocaCola$Date, CocaCola$StockPrice, type="l", col = "red")
+  lines(ProcterGamble$Date, ProcterGamble$StockPrice, col = "blue", lty = 2)
+  abline(v=as.Date(c("2000-03-01")), lwd=1, , col = "gray")
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+[[../graphs/Cocacola-PGTrends.png]]
+
+Using this plot, answer the following questions.
+
+In March of 2000, the technology bubble burst, and a stock market
+crash occurred. According to this plot, which company's stock dropped
+more?
+
+To answer this question and the ones that follow, you may find it
+useful to draw a vertical line at a certain date. To do this, type the
+command
+
+abline(v=as.Date(c("2000-03-01")), lwd=2)
+
+in your R console, with the plot still open. This generates a vertical
+line at the date March 1, 2000. The argument lwd=2 makes the line a
+little thicker. You can change the date in this command to generate
+the vertical line in different locations.
+
+*** Answer
+
+You can generate the combined plot for Coca-Cola and Procter & Gamble
+by using the following commands in R:
+
+Looking at the plot, around 2000 both stocks drop, but Procter and
+Gamble's stock drops more.
+
+** Problem 2.3 - Visualizing Stock Dynamics (2 points possible)
+
+Answer these questions using the plot you generated in the previous
+problem.
+
+#+BEGIN_SRC R :var basename="Cocacola-PGTrends02" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  plot(CocaCola$Date, CocaCola$StockPrice, type="l", col = "red")
+  lines(ProcterGamble$Date, ProcterGamble$StockPrice, col = "blue", lty = 2)
+  abline(v=as.Date(c("1983-01-01")), lwd=1, , col = "gray")
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+[[../graphs/Cocacola-PGTrends02.png]]
+
+
+*** Question a
+
+Around 1983, the stock for one of these companies (Coca-Cola or
+Procter and Gamble) was going up, while the other was going
+down. Which one was going up?
+
+**** Answer
+
+*Cocacola*. We can see that around 1983 the stock for Coca-Cola has an
+upward trend.
+
+*** Question b
+
+In the time period shown in the plot, which stock generally has lower
+values?
+
+**** Answer
+
+*Cocacola*. Looking at the plot, the red line (for Coca-Cola) is
+ generally lower than the blue line.
+
+** Problem 3.1 - Visualizing Stock Dynamics 1995-2005 (1 point possible)
+
+Let's take a look at how the stock prices changed from 1995-2005 for
+all five companies. In your R console, start by typing the following
+plot command:
+
+plot(CocaCola$Date[301:432], CocaCola$StockPrice[301:432], type="l",
+col="red", ylim=c(0,210))
+
+This will plot the CocaCola stock prices from 1995 through 2005, which
+are the observations numbered from 301 to 432. The additional
+argument, *ylim=c(0,210)*, makes the y-axis range from 0 to 210. This
+will allow us to see all of the stock values when we add in the other
+companies.
+
+Now, use the lines function to add in the other four companies,
+remembering to only plot the observations from 1995 to 2005, or
+[301:432]. You don't need the "type" or "ylim" arguments for the lines
+function, but remember to make each company a different color so that
+you can tell them apart. Some color options are "red", "blue",
+"green", "purple", "orange", and "black". To see all of the color
+options in R, type colors() in your R console.
+
+(If you prefer to change the type of the line instead of the color,
+here are some options for changing the line type: lty=2 will make the
+line dashed, lty=3 will make the line dotted, lty=4 will make the line
+alternate between dashes and dots, and lty=5 will make the line
+long-dashed.)
+
+#+BEGIN_SRC R :var basename="CoTrends" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  plot(CocaCola$Date[301:432], CocaCola$StockPrice[301:432], type = "l",
+       col = "red", ylim = c(0,210), lty = 1)
+
+  lines(IBM$Date[301:432], IBM$StockPrice[301:432], col = "green", lty =
+          1)
+
+  lines(GE$Date[301:432], GE$StockPrice[301:432], col = "purple", lty =
+          1)
+
+  lines(ProcterGamble$Date[301:432], ProcterGamble$StockPrice[301:432],
+        col = "blue", lty = 1)
+
+  lines(Boeing$Date[301:432], Boeing$StockPrice[301:432], col = "orange", lty =
+          1)
+
+  abline(v=as.Date(c("2000-03-30")), lwd=1, , col = "gray")
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+[[../graphs/CoTrends.png]]
+
+Use this plot to answer the following four questions.
+
+*** Question 1
+
+Which stock fell the most right after the technology bubble burst in
+March 2000?
+
+**** Answer
+
+*GE*. By looking at this plot, you can see that the stock for General
+ Electric falls significantly more than the other stocks after the
+ technology bubble burst.
+
+** Problem 3.2 - Visualizing Stock Dynamics 1995-2005 (1 point possible)
+
+Which stock reaches the highest value in the time period 1995-2005?
+
+*** Answer
+
+*IBM*. Looking at the plot (see the previous explanation for how to
+ create the plot), you can see that IBM has the highest value,
+ around 1999.
+
+** Problem 3.3 - Visualizing Stock Dynamics 1995-2005 (1 point possible)
+
+#+BEGIN_SRC R :var basename="CoTrends1997" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  plot(CocaCola$Date[301:432], CocaCola$StockPrice[301:432], type = "l",
+       col = "red", ylim = c(0,210), lty = 1)
+
+  lines(IBM$Date[301:432], IBM$StockPrice[301:432], col = "green", lty =
+          1)
+
+  lines(GE$Date[301:432], GE$StockPrice[301:432], col = "purple", lty =
+          1)
+
+  lines(ProcterGamble$Date[301:432], ProcterGamble$StockPrice[301:432],
+        col = "blue", lty = 1)
+
+  lines(Boeing$Date[301:432], Boeing$StockPrice[301:432], col = "orange", lty =
+          1)
+
+  abline(v = as.Date(c("1997-09-01")), lwd = 1, , col = "gray")
+    abline(v = as.Date(c("1997-11-30")), lwd = 1, , col = "gray")
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+[[../graphs/CoTrends1997.png]]
+
+In October of 1997, there was a global stock market crash that was
+caused by an economic crisis in Asia. Comparing September 1997 to
+November 1997, which companies saw a decreasing trend in their stock
+price? (Select all that apply.)
+
+*** Answer
+
+Looking at the plot, two companies had a decreasing trend in stock
+prices from September 1997 to November 1997: Boeing and Procter &
+Gamble.
+
+** Problem 3.4 - Visualizing Stock Dynamics 1995-2005 (1 point possible)
+
+#+BEGIN_SRC R :var basename="CoTrends2004-2005" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  plot(CocaCola$Date[301:432], CocaCola$StockPrice[301:432], type = "l",
+       col = "red", ylim = c(0,210), lty = 1)
+
+  lines(IBM$Date[301:432], IBM$StockPrice[301:432], col = "green", lty =
+          1)
+
+  lines(GE$Date[301:432], GE$StockPrice[301:432], col = "purple", lty =
+          1)
+
+  lines(ProcterGamble$Date[301:432], ProcterGamble$StockPrice[301:432],
+        col = "blue", lty = 1)
+
+  lines(Boeing$Date[301:432], Boeing$StockPrice[301:432], col = "orange", lty =
+          1)
+
+  abline(v = as.Date(c("2004-01-01")), lwd = 1, , col = "gray")
+    abline(v = as.Date(c("2005-12-31")), lwd = 1, , col = "gray")
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+[[../graphs/CoTrends2004-2005.png]]
+
+In the last two years of this time period (2004 and 2005) which stock
+seems to be performing the best, in terms of increasing stock price?
+
+*** Answer
+
+Looking at the plot, you can see that Boeing is steadily increasing
+from 2004 to the beginning of 2006.
+
+** Problem 4.1 - Monthly Trends (1 point possible)
+
+Lastly, let's see if stocks tend to be higher or lower during certain
+months. Use the tapply command to calculate the mean stock price of
+IBM, sorted by months. To sort by months, use
+
+months(IBM$Date)
+
+as the second argument of the tapply function.
+
+For IBM, compare the monthly averages to the overall average stock
+price. In which months has IBM historically had a higher stock price
+(on average)? Select all that apply.
+
+#+BEGIN_SRC R :session :results output :exports all
+  names(IBM)
+
+  print("The over mean of the IBM stock price is:")
+  mean(IBM$StockPrice)
+  print("Mean stock price of IBM by month:")
+  tapply(IBM$StockPrice, months(IBM$Date), mean)
+#+END_SRC
+
+#+RESULTS:
+: [1] "Date"       "StockPrice"
+: [1] "The over mean of the IBI stock price is:"
+: [1] 144.375
+: [1] "Mean stock price of IBM by month:"
+:     April    August  December  February   January      July      June     March
+:  152.1168  140.1455  140.7593  152.6940  150.2384  139.0670  139.0907  152.4327
+:       May  November   October September
+:  151.5022  138.0187  137.3466  139.0885
+
+*** Answer
+
+The overall average stock price for IBM is 144.375, which can be
+computed using the command mean(IBM$StockPrice). Comparing the monthly
+averages to this, using the command tapply(IBM$StockPrice,
+months(IBM$Date), mean), we can see that the price has historically
+been higher than average January - May, and lower than average during
+the remaining months.
+
+** Problem 4.2 - Monthly Trends (1 point possible)
+
+Repeat the tapply function from the previous problem for each of the
+other four companies, and use the output to answer the remaining
+questions.
+
+General Electric and Coca-Cola both have their highest average stock
+price in the same month. Which month is this?
+
+#+BEGIN_SRC R :session :results output :exports all
+  names(GE); names(CocaCola)
+
+  writeLines("\nThe over mean of the GE stock price is:")
+  mean(GE$StockPrice)
+
+  writeLines("\nThe over mean of the Coca-Cola stock price is:")
+  mean(CocaCola$StockPrice)
+
+  writeLines("\nMean stock price of GE by month:")
+  tapply(GE$StockPrice, months(GE$Date), mean)
+
+  writeLines("\nMean stock price of Coca-Cola  by month:")
+  tapply(CocaCola$StockPrice, months(CocaCola$Date), mean)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+[1] "Date"       "StockPrice"
+[1] "Date"       "StockPrice"
+
+The over mean of the GE stock price is:
+[1] 59.3035
+
+The over mean of the Coca-Cola stock price is:
+[1] 60.02973
+
+Mean stock price of GE by month:
+    April    August  December  February   January      July      June     March
+ 64.48009  56.50315  59.10217  62.52080  62.04511  56.73349  56.46844  63.15055
+      May  November   October September
+ 60.87135  57.28879  56.23897  56.23913
+
+Mean stock price of Coca-Cola  by month:
+    April    August  December  February   January      July      June     March
+ 62.68888  58.88014  59.73223  60.73475  60.36849  58.98346  60.81208  62.07135
+      May  November   October September
+ 61.44358  59.10268  57.93887  57.60024
+#+end_example
+
+*** Answer
+
+General Electric has an average stock price of 64.48 in *April*, which
+is higher than any other month. Coca-Cola has an average stock price
+of 62.69 in April, which is higher than any other month.
+
+** Problem 4.3 - Monthly Trends (1 point possible)
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\nThe over mean of the Boeing stock price is:")
+  mean(Boeing$StockPrice)
+
+  writeLines("\nThe over mean of the Coca-Cola stock price is:")
+  mean(CocaCola$StockPrice)
+
+  writeLines("\nThe over mean of the GE stock price is:")
+  mean(GE$StockPrice)
+
+  writeLines("\nThe over mean of the IBM stock price is:")
+  mean(IBM$StockPrice)
+
+  writeLines("\nThe over mean of the Procter&Gamble stock price is:")
+  mean(ProcterGamble$StockPrice)
+
+  writeLines("\n---------\n")
+
+  writeLines("\nMean stock price of Boeing  by month:")
+  tapply(Boeing$StockPrice, months(Boeing$Date), mean)
+
+  writeLines("\nMean stock price of Coca-Cola  by month:")
+  tapply(CocaCola$StockPrice, months(CocaCola$Date), mean)
+
+  writeLines("\nMean stock price of GE by month:")
+  tapply(GE$StockPrice, months(GE$Date), mean)
+
+  writeLines("\nMean stock price of IBM  by month:")
+  tapply(IBM$StockPrice, months(IBM$Date), mean)
+
+  writeLines("\nMean stock price of ProcterGamble  by month:")
+  tapply(ProcterGamble$StockPrice, months(ProcterGamble$Date), mean)
+
+
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+
+The over mean of the Boeing stock price is:
+[1] 46.59293
+
+The over mean of the Coca-Cola stock price is:
+[1] 60.02973
+
+The over mean of the GE stock price is:
+[1] 59.3035
+
+The over mean of the IBM stock price is:
+[1] 144.375
+
+The over mean of the Procter&Gamble stock price is:
+[1] 77.70452
+
+---------
+
+Mean stock price of Boeing  by month:
+    April    August  December  February   January      July      June     March
+ 47.04686  46.86311  46.17315  46.89223  46.51097  46.55360  47.38525  46.88208
+      May  November   October September
+ 48.13716  45.14990  45.21603  46.30485
+
+Mean stock price of Coca-Cola  by month:
+    April    August  December  February   January      July      June     March
+ 62.68888  58.88014  59.73223  60.73475  60.36849  58.98346  60.81208  62.07135
+      May  November   October September
+ 61.44358  59.10268  57.93887  57.60024
+
+Mean stock price of GE by month:
+    April    August  December  February   January      July      June     March
+ 64.48009  56.50315  59.10217  62.52080  62.04511  56.73349  56.46844  63.15055
+      May  November   October September
+ 60.87135  57.28879  56.23897  56.23913
+
+Mean stock price of IBM  by month:
+    April    August  December  February   January      July      June     March
+ 152.1168  140.1455  140.7593  152.6940  150.2384  139.0670  139.0907  152.4327
+      May  November   October September
+ 151.5022  138.0187  137.3466  139.0885
+
+Mean stock price of ProcterGamble  by month:
+    April    August  December  February   January      July      June     March
+ 77.68671  76.82266  78.29661  79.02575  79.61798  76.64556  77.39275  77.34761
+      May  November   October September
+ 77.85958  78.45610  76.67903  76.62385
+#+end_example
+
+For the months of December and January, every company's average stock
+is higher in one month and lower in the other. In which month are the
+stock prices lower?
+
+*** Answer
+
+*Having lower stock prices in December is a trend that holds for all
+five companies*.
+
+** Ready tu buy!
+After seeing these trends, we are ready to buy stock in certain months
+and sell it in others! But, we should be careful, because one really
+good or really bad year could skew the average to show a trend that is
+not really there in general.
