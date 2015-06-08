@@ -1226,7 +1226,7 @@ What is the mean stock price of IBM over this time period?
 #+END_SRC
 
 #+RESULTS:
-: [1] "Date"       "StockPrice" "Year"
+: [1] "Date"       "StockPrice"
 : The mean is:
 : [1] 144.375
 
@@ -1918,6 +1918,11 @@ In this part we can download the data
 #+END_SRC
 
 #+RESULTS:
+:  [1] "BoeingStock.csv"        "CocaColaStock.csv"      "CountryCodes.csv"
+:  [4] "CPSData.csv"            "GEStock.csv"            "IBMStock.csv"
+:  [7] "MetroAreaCodes.csv"     "mvtWeek1.csv"           "ProcterGambleStock.csv"
+: [10] "README.md"              "USDA.csv"               "WHO.csv"
+: [13] "WHO_Europe.csv"
 
 *** Load the data sets in their respective dataframe
 
@@ -2487,7 +2492,8 @@ interviewees in each region that live in a non-metropolitan area:
 34.8% in the Midwest, 21.6% in the Northeast, 23.8% in the South, and
 24.4% in the West.
 
-** TODO Problem 2.5 - Evaluating Missing Values (4 points possible)
+** DONE Problem 2.5 - Evaluating Missing Values (4 points possible)
+CLOSED: [2015-06-08 Mon 10:39]
 
 While we were able to use the table() command to compute the
 proportion of interviewees from each region not living in a
@@ -2573,3 +2579,246 @@ being non-metropolitan, at 83.608%.
 
 Answering each of these questions would have been tedious using the
 table() output.
+
+** DONE Problem 3.1 - Integrating Metropolitan Area Data (2 points possible)
+CLOSED: [2015-06-08 Mon 12:09]
+
+Codes like MetroAreaCode and CountryOfBirthCode are a compact way to
+encode factor variables with text as their possible values, and they
+are therefore quite common in survey datasets. In fact, all but one of
+the variables in this dataset were actually stored by a numeric code
+in the original CPS data file.
+
+When analyzing a variable stored by a numeric code, we will often want
+to convert it into the values the codes represent. To do this, we will
+use a dictionary, which maps the the code to the actual value of the
+variable. We have provided dictionaries [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/MetroAreaCodes.csv][MetroAreaCodes.csv]] and
+[[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/CountryCodes.csv][CountryCodes.csv]], which respectively map *MetroAreaCode* and
+*CountryOfBirthCode* into their true values. Read these two dictionaries
+into data frames MetroAreaMap and CountryMap.
+
+*** Download and load the new data sets
+
+#+BEGIN_SRC R :session :results output :exports all
+  rm(list = ls())                         # Remove all workspace data
+  library(parallel)
+
+  if(!file.exists("../data")) {
+          dir.create("../data")
+  }
+
+  fileUrl <-
+          c("https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/MetroAreaCodes.csv", "https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/CountryCodes.csv")
+
+  fileName <- c("MetroAreaCodes.csv", "CountryCodes.csv")
+
+  dataPath <- "../data"
+
+  for(i in 1:2) {
+          filePath <- paste(dataPath, fileName[i], sep = "/")
+
+          if(!file.exists(filePath)) {
+                  download.file(fileUrl[i], destfile = filePath, method = "curl")
+                  list.files("../data")
+          }
+  }
+#+END_SRC
+
+#+RESULTS:
+
+Loading the data
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("    Loading data into their data frames.")
+
+  MetroAreaMap <- read.table("../data/MetroAreaCodes.csv", sep = ",", header = TRUE)
+  CountryMap <- read.table("../data/CountryCodes.csv", sep = ",", header = TRUE)
+#+END_SRC
+
+#+RESULTS:
+:     Loading data into their data frames.
+
+*** Question a
+
+How many observations (codes for metropolitan areas) are there in
+MetroAreaMap?
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("The number of area codes in Metroareacode dataframe are:")
+  nrow(MetroAreaMap)
+#+END_SRC
+
+#+RESULTS:
+: The number of area codes in Metroareacode dataframe are:
+: [1] 271
+
+*** Question b
+
+How many observations (codes for countries) are there in CountryMap?
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("The number of observations in the Countrymap dataframe are:")
+  nrow(CountryMap)
+#+END_SRC
+
+#+RESULTS:
+: The number of observations in the Countrymap dataframe are:
+: [1] 149
+
+** DONE Problem 3.2 - Integrating Metropolitan Area Data (2 points possible)
+CLOSED: [2015-06-08 Mon 12:09]
+
+To merge in the metropolitan areas, we want to connect the field
+MetroAreaCode from the CPS data frame with the field Code in
+MetroAreaMap. The following command merges the two data frames on
+these columns, overwriting the CPS data frame with the result:
+
+#+BEGIN_SRC R :session :results output :exports all
+  CPS <- merge(CPS, MetroAreaMap, by.x="MetroAreaCode", by.y="Code", all.x=TRUE)
+#+END_SRC
+
+#+RESULTS:
+
+The first two arguments determine the data frames to be merged (they
+are called "x" and "y", respectively, in the subsequent parameters to
+the merge function). by.x="MetroAreaCode" means we're matching on the
+MetroAreaCode variable from the "x" data frame (CPS), while
+by.y="Code" means we're matching on the Code variable from the "y"
+data frame (MetroAreaMap). Finally, all.x=TRUE means we want to keep
+all rows from the "x" data frame (CPS), even if some of the rows'
+MetroAreaCode doesn't match any codes in MetroAreaMap (for those
+familiar with database terminology, this parameter makes the operation
+a left outer join instead of an inner join).
+
+*** Question a
+
+Review the new version of the CPS data frame with the summary() and
+str() functions. What is the name of the variable that was added to
+the data frame by the merge() operation?
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n The names of the merged CPS dataframe is:")
+  names(CPS)
+#+END_SRC
+
+#+RESULTS:
+:
+:  The names of the merged CPS dataframe is:
+:  [1] "MetroAreaCode"      "PeopleInHousehold"  "Region"
+:  [4] "State"              "Age"                "Married"
+:  [7] "Sex"                "Education"          "Race"
+: [10] "Hispanic"           "CountryOfBirthCode" "Citizenship"
+: [13] "EmploymentStatus"   "Industry"           "MetroArea"
+
+**** Answer
+
+*MetroArea*.
+
+*** Question b
+
+How many interviewees have a missing value for the new metropolitan
+area variable? Note that all of these interviewees would have been
+removed from the merged data frame if we did not include the
+all.x=TRUE parameter.
+
+#+BEGIN_SRC R :session :results output :exports all
+  nrow(CPS)
+  tmp <- is.na(CPS$MetroArea)
+  length(tmp[tmp == TRUE])
+#+END_SRC
+
+#+RESULTS:
+: [1] 131302
+: [1] 34238
+
+**** Answer
+
+From summary(CPS), we see that the variable MetroArea was added to the
+CPS data frame, and that it is missing 34238 values.
+
+** DONE Problem 3.3 - Integrating Metropolitan Area Data (1 point possible)
+CLOSED: [2015-06-08 Mon 12:10]
+
+Which of the following metropolitan areas has the largest number of
+interviewees?
+
+#+BEGIN_SRC R :session :results output :exports all
+  head(sort(table(CPS$MetroArea), decreasing = TRUE), 10)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+
+New York-Northern New Jersey-Long Island, NY-NJ-PA
+                                              5409
+      Washington-Arlington-Alexandria, DC-VA-MD-WV
+                                              4177
+              Los Angeles-Long Beach-Santa Ana, CA
+                                              4102
+          Philadelphia-Camden-Wilmington, PA-NJ-DE
+                                              2855
+               Chicago-Naperville-Joliet, IN-IN-WI
+                                              2772
+              Providence-Fall River-Warwick, MA-RI
+                                              2284
+                    Boston-Cambridge-Quincy, MA-NH
+                                              2229
+            Minneapolis-St Paul-Bloomington, MN-WI
+                                              1942
+                   Dallas-Fort Worth-Arlington, TX
+                                              1863
+                    Houston-Baytown-Sugar Land, TX
+                                              1649
+#+end_example
+
+*** Answer
+
+From table(CPS$MetroArea), we can read that Boston-Cambridge-Quincy,
+MA-NH has the largest number of interviewees of these options,
+with *2229*.
+
+** DONE Problem 3.4 - Integrating Metropolitan Area Data (2 points possible)
+CLOSED: [2015-06-08 Mon 12:10]
+
+Which metropolitan area has the highest proportion of interviewees of
+Hispanic ethnicity? Hint: Use tapply() with mean, as in the previous
+subproblem. Calling sort() on the output of tapply() could also be
+helpful here.
+
+#+BEGIN_SRC R :session :results output :exports all
+  head(sort(tapply(CPS$Hispanic, CPS$MetroArea, mean), decreasing = TRUE))
+#+END_SRC
+
+#+RESULTS:
+:                 Laredo, TX McAllen-Edinburg-Pharr, TX
+:                  0.9662921                  0.9487179
+:  Brownsville-Harlingen, TX                El Paso, TX
+:                  0.7974684                  0.7909836
+:              El Centro, CA            San Antonio, TX
+:                  0.6868687                  0.6441516
+
+*** Answer
+
+As we can see, 96.6% of the interviewees from *Laredo, TX*, are of
+Hispanic ethnicity, the highest proportion among metropolitan areas in
+the United States.
+
+** TODO Problem 3.5 - Integrating Metropolitan Area Data (2 points possible)
+
+Remembering that CPS$Race == "Asian" returns a TRUE/FALSE vector of
+whether an interviewee is Asian, determine the number of metropolitan
+areas in the United States from which at least 20% of interviewees are
+Asian.
+
+#+BEGIN_SRC R :session :results output :exports all
+  tmp <- tapply(CPS$Race == "Asian", CPS$MetroArea, mean)
+  head(tmp)
+#+END_SRC
+
+#+RESULTS:
+:                         Akron, OH                        Albany, GA
+:                        0.03030303                        0.00000000
+:       Albany-Schenectady-Troy, NY                   Albuquerque, NM
+:                        0.02238806                        0.04105090
+: Allentown-Bethlehem-Easton, PA-NJ                       Altoona, PA
+:                        0.01497006                        0.00000000
