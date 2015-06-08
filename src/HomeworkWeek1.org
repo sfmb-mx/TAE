@@ -2803,7 +2803,8 @@ As we can see, 96.6% of the interviewees from *Laredo, TX*, are of
 Hispanic ethnicity, the highest proportion among metropolitan areas in
 the United States.
 
-** TODO Problem 3.5 - Integrating Metropolitan Area Data (2 points possible)
+** DONE Problem 3.5 - Integrating Metropolitan Area Data (2 points possible)
+CLOSED: [2015-06-08 Mon 15:56]
 
 Remembering that CPS$Race == "Asian" returns a TRUE/FALSE vector of
 whether an interviewee is Asian, determine the number of metropolitan
@@ -2811,14 +2812,306 @@ areas in the United States from which at least 20% of interviewees are
 Asian.
 
 #+BEGIN_SRC R :session :results output :exports all
-  tmp <- tapply(CPS$Race == "Asian", CPS$MetroArea, mean)
-  head(tmp)
+  head(sort(tapply(CPS$Race == "Asian", CPS$MetroArea, mean), decreasing = TRUE))
+
+  ## tmp <- tapply(CPS$Race == "Asian", CPS$MetroArea, mean)
+  ## tmp <- sort(as.vector(tmp), decreasing = TRUE)
+  ## head(tmp)
+  #+END_SRC
+
+#+RESULTS:
+:                       Honolulu, HI  San Francisco-Oakland-Fremont, CA
+:                          0.5019036                          0.2467532
+: San Jose-Sunnyvale-Santa Clara, CA              Vallejo-Fairfield, CA
+:                          0.2417910                          0.2030075
+:                         Fresno, CA                  Warner Robins, GA
+:                          0.1848185                          0.1666667
+
+*** Answer
+
+We can read from the sorted output that Honolulu, HI; San
+Francisco-Oakland-Fremont, CA; San Jose-Sunnyvale-Santa Clara, CA; and
+Vallejo-Fairfield, CA had at least 20% of their interviewees of the
+Asian race.
+
+** DONE Problem 3.6 - Integrating Metropolitan Area Data (1 point possible)
+CLOSED: [2015-06-08 Mon 16:09]
+
+Normally, we would look at the sorted proportion of interviewees from
+each metropolitan area who have not received a high school diploma
+with the command:
+
+  sort(tapply(CPS$Education == "No high school diploma",
+  CPS$MetroArea, mean, na.rm = TRUE))
+
+However, none of the interviewees aged 14 and younger have an
+education value reported, so the mean value is reported as NA for each
+metropolitan area. To get mean (and related functions, like sum) to
+ignore missing values, you can pass the parameter na.rm=TRUE. Passing
+na.rm=TRUE to the tapply function, determine which metropolitan area
+has the smallest proportion of interviewees who have received no high
+school diploma.
+
+#+BEGIN_SRC R :session :results output :exports all
+  head(sort(tapply(CPS$Education == "No high school diploma", CPS$MetroArea, mean, na.rm = TRUE)))
 #+END_SRC
 
 #+RESULTS:
-:                         Akron, OH                        Albany, GA
-:                        0.03030303                        0.00000000
-:       Albany-Schenectady-Troy, NY                   Albuquerque, NM
-:                        0.02238806                        0.04105090
-: Allentown-Bethlehem-Easton, PA-NJ                       Altoona, PA
-:                        0.01497006                        0.00000000
+:            Iowa City, IA        Bowling Green, KY    Kalamazoo-Portage, MI
+:               0.02912621               0.03703704               0.05050505
+:     Champaign-Urbana, IL Bremerton-Silverdale, WA             Lawrence, KS
+:               0.05154639               0.05405405               0.05952381
+
+*** Answer
+
+We can see that Iowa City, IA had 2.9% of interviewees not finish high
+school, the smallest value of any metropolitan area.
+
+** DONE Problem 4.1 - Integrating Country of Birth Data (2 points possible)
+CLOSED: [2015-06-08 Mon 17:06]
+
+Just as we did with the metropolitan area information, merge in the
+country of birth information from the CountryMap data frame, replacing
+the CPS data frame with the result. If you accidentally overwrite CPS
+with the wrong values, remember that you can restore it by re-loading
+the data frame from CPSData.csv and then merging in the metropolitan
+area information using the command provided in the previous
+sub-problem.
+
+#+BEGIN_SRC R :session :results output :exports all
+  CPS <- merge(CPS, CountryMap, by.x="CountryOfBirthCode", by.y="Code",
+               all.x=TRUE)
+#+END_SRC
+
+*** Question a
+
+What is the name of the variable added to the CPS data frame by this
+merge operation?
+
+#+BEGIN_SRC R :session :results output :exports all
+  names(CPS)
+#+END_SRC
+
+
+#+RESULTS:
+:  [1] "CountryOfBirthCode" "MetroAreaCode"      "PeopleInHousehold"
+:  [4] "Region"             "State"              "Age"
+:  [7] "Married"            "Sex"                "Education"
+: [10] "Race"               "Hispanic"           "Citizenship"
+: [13] "EmploymentStatus"   "Industry"           "MetroArea"
+: [16] "Country"
+
+**** Answer
+
+*Country*.
+
+*** Question b
+
+How many interviewees have a missing value for the new country of
+birth variable?
+
+#+BEGIN_SRC R :session :results output :exports all
+  nrow(CPS[is.na(CPS$Country),])
+#+END_SRC
+
+#+RESULTS:
+: [1] 176
+
+**** Answer
+
+From summary(CPS), we can read that Country is the name of the added
+variable, and that it has 176 missing values.
+
+** DONE Problem 4.2 - Integrating Country of Birth Data (2 points possible)
+CLOSED: [2015-06-08 Mon 17:06]
+
+Among all interviewees born outside of North America, which country
+was the most common place of birth?
+
+#+BEGIN_SRC R :session :results output :exports all
+  head(sort(table(CPS$Country), decreasing = TRUE))
+#+END_SRC
+
+#+RESULTS:
+:
+: United States        Mexico   Philippines         India         China
+:        115063          3921           839           770           581
+:   Puerto Rico
+:           518
+
+*** Answer
+
+From the summary(CPS) output, or alternately sort(table(CPS$Country)),
+we see that the top two countries of birth were United States and
+Mexico, both of which are in North America. The third highest value,
+839, was for the Philippines.
+
+** DONE Problem 4.3 - Integrating Country of Birth Data (2 points possible)
+CLOSED: [2015-06-08 Mon 17:38]
+
+What proportion of the interviewees from the "New York-Northern New
+Jersey-Long Island, NY-NJ-PA" metropolitan area have a country of
+birth that is not the United States? For this computation, don't
+include people from this metropolitan area who have a missing country
+of birth.
+
+#+BEGIN_SRC R :session :results output :exports all
+  ForMetroArea <- subset(CPS, !is.na(CPS$Country))
+  table(ForMetroArea$MetroArea ==
+                "New York-Northern New Jersey-Long Island, NY-NJ-PA",
+        ForMetroArea$Country != "United States")
+  1668 / (3736 + 1668)
+#+END_SRC
+
+#+RESULTS:
+:
+:         FALSE  TRUE
+:   FALSE 78757 12744
+:   TRUE   3736  1668
+: [1] 0.3086603
+
+*** Answer
+
+From table(CPS$MetroArea == "New York-Northern New Jersey-Long Island,
+NY-NJ-PA", CPS$Country != "United States"), we can see that 1668 of
+interviewees from this metropolitan area were born outside the United
+States and 3736 were born in the United States (it turns out an
+additional 5 have a missing country of origin). Therefore, the
+proportion is 1668/(1668+3736)=0.309.
+
+** DONE Problem 4.4 - Integrating Country of Birth Data (3 points possible)
+CLOSED: [2015-06-08 Mon 18:10]
+
+Which metropolitan area has the largest number (note -- not
+proportion) of interviewees with a country of birth in India? Hint --
+remember to include na.rm=TRUE if you are using tapply() to answer
+this question.
+
+#+BEGIN_SRC R :session :results output :exports all
+  ForMetroAreaIndia <- subset(CPS, CPS$Country == "India")
+  head(sort(table(ForMetroAreaIndia$MetroArea), decreasing = TRUE), 1)
+
+  ForMetroAreaBrazil <- subset(CPS, CPS$Country == "Brazil")
+  head(sort(table(ForMetroAreaBrazil$MetroArea), decreasing = TRUE), 1)
+
+  ForMetroAreaSomalia <- subset(CPS, CPS$Country == "Somalia")
+  head(sort(table(ForMetroAreaSomalia$MetroArea), decreasing = TRUE), 1)
+
+  writeLines("\n Other method!")
+
+  head(sort(tapply(CPS$Country == "India", CPS$MetroArea, sum,
+                   na.rm=TRUE), decreasing = TRUE), 1)
+
+  head(sort(tapply(CPS$Country == "Brazil", CPS$MetroArea, sum,
+                   na.rm=TRUE), decreasing = TRUE), 1)
+
+  head(sort(tapply(CPS$Country == "Somalia", CPS$MetroArea, sum,
+                   na.rm=TRUE), decreasing = TRUE), 1)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+New York-Northern New Jersey-Long Island, NY-NJ-PA
+                                                96
+Boston-Cambridge-Quincy, MA-NH
+                            18
+Minneapolis-St Paul-Bloomington, MN-WI
+                                    17
+
+ Other method!
+ New York-Northern New Jersey-Long Island, NY-NJ-PA
+                                                96
+ Boston-Cambridge-Quincy, MA-NH
+                            18
+ Minneapolis-St Paul-Bloomington, MN-WI
+                                    17
+#+end_example
+
+*** Answer
+
+ To obtain the number of TRUE values in a vector of TRUE/FALSE values,
+ you can use the sum() function. For instance, sum(c(TRUE, FALSE,
+ TRUE, TRUE)) is 3. Therefore, we can obtain counts of people born in
+ a particular country living in a particular metropolitan area with:
+
+sort(tapply(CPS$Country == "India", CPS$MetroArea, sum, na.rm=TRUE))
+
+sort(tapply(CPS$Country == "Brazil", CPS$MetroArea, sum, na.rm=TRUE))
+
+sort(tapply(CPS$Country == "Somalia", CPS$MetroArea, sum, na.rm=TRUE))
+
+We see that New York has the most interviewees born in India (96),
+Boston has the most born in Brazil (18), and Minneapolis has the most
+born in Somalia (17).
+
+* Internet privacy poll (OPTIONAL)
+
+Internet privacy has gained widespread attention in recent years. To
+measure the degree to which people are concerned about hot-button
+issues like Internet privacy, social scientists conduct polls in which
+they interview a large number of people about the topic. In this
+assignment, we will analyze data from a July 2013 Pew Internet and
+American Life Project poll on Internet anonymity and privacy, which
+involved interviews across the United States. While the full polling
+data can be found here, we will use a more limited version of the
+results, available in AnonymityPoll.csv. The dataset has the following
+fields (all Internet use-related fields were only collected from
+interviewees who either use the Internet or have a smartphone):
+
+- *Internet*.Use: A binary variable indicating if the interviewee uses
+  the Internet, at least occasionally (equals 1 if the interviewee
+  uses the Internet, and equals 0 if the interviewee does not use the
+  Internet).
+- *Smartphone*: A binary variable indicating if the interviewee has a
+  smartphone (equals 1 if they do have a smartphone, and equals 0 if
+  they don't have a smartphone).
+- *Sex*: Male or Female.
+- *Age*: Age in years.
+- *State*: State of residence of the interviewee.
+- *Region*: Census region of the interviewee (Midwest, Northeast,
+  South, or West).
+- *Conservativeness*: Self-described level of conservativeness of
+  interviewee, from 1 (very liberal) to 5 (very conservative).
+- *Info.On.Internet*: Number of the following items this interviewee
+  believes to be available on the Internet for others to see: (1)
+  Their email address; (2) Their home address; (3) Their home phone
+  number; (4) Their cell phone number; (5) The employer/company they
+  work for; (6) Their political party or political affiliation; (7)
+  Things they've written that have their name on it; (8) A photo of
+  them; (9) A video of them; (10) Which groups or organizations they
+  belong to; and (11) Their birth date.
+- *Worry.About.Info*: A binary variable indicating if the interviewee
+  worries about how much information is available about them on the
+  Internet (equals 1 if they worry, and equals 0 if they don't
+  worry).
+- *Privacy.Importance*: A score from 0 (privacy is not too important)
+  to 100 (privacy is very important), which combines the degree to
+  which they find privacy important in the following: (1) The websites
+  they browse; (2) Knowledge of the place they are located when they
+  use the Internet; (3) The content and files they download; (4) The
+  times of day they are online; (5) The applications or programs they
+  use; (6) The searches they perform; (7) The content of their email;
+  (8) The people they exchange email with; and (9) The content of
+  their online chats or hangouts with others.
+- *Anonymity.Possible*: A binary variable indicating if the
+  interviewee thinks it's possible to use the Internet anonymously,
+  meaning in such a way that online activities can't be traced back to
+  them (equals 1 if he/she believes you can, and equals 0 if he/she
+  believes you can't).
+- *Tried.Masking.Identity*: A binary variable indicating if the
+  interviewee has ever tried to mask his/her identity when using the
+  Internet (equals 1 if he/she has tried to mask his/her identity, and
+  equals 0 if he/she has not tried to mask his/her identity).
+- *Privacy.Laws.Effective*: A binary variable indicating if the
+  interviewee believes United States law provides reasonable privacy
+  protection for Internet users (equals 1 if he/she believes it does,
+  and equals 0 if he/she believes it doesn't).
+
+
+** Problem 1.1 - Loading and Summarizing the Dataset
+
+Using read.csv(), load the dataset from AnonymityPoll.csv into a data
+frame called poll and summarize it with the summary() and str()
+functions.
+
+How many people participated in the poll?
