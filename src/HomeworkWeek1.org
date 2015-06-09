@@ -3674,7 +3674,8 @@ is possible and 475 said it is not. Therefore, the desired proportion
 is 278/(278+475)=0.3692. This can also be read from
 summary(limited$Anonymity.Possible).
 
-** TODO Problem 3.6 - Summarizing Opinions about Internet Privacy
+** DONE Problem 3.6 - Summarizing Opinions about Internet Privacy
+CLOSED: [2015-06-09 Tue 16:39]
 
 What proportion of interviewees who answered the
 Tried.Masking.Identity question have tried masking their identity on
@@ -3702,7 +3703,8 @@ table(limited$Tried.Masking.Identity). The output tells us that of all
 the respondents who answered the Tried.Masking.Identity question, 128
 out of (128+656) have tried masking their identity on the internet.
 
-** Problem 3.7 - Summarizing Opinions about Internet Privacy
+** DONE Problem 3.7 - Summarizing Opinions about Internet Privacy
+CLOSED: [2015-06-09 Tue 16:39]
 
 What proportion of interviewees who answered the
 Privacy.Laws.Effective question find United States privacy laws
@@ -3733,3 +3735,294 @@ We can find this number with the command
 table(limited$Privacy.Laws.Effective). The output tells us that 186
 out of (186+541) people who answered the Privacy.Laws.Effective
 question find US privacy laws effective.
+
+** DONE Problem 4.1 - Relating Demographics to Polling Results
+CLOSED: [2015-06-09 Tue 17:09]
+
+Often, we are interested in whether certain characteristics of
+interviewees (e.g. their age or political opinions) affect their
+opinions on the topic of the poll (in this case, opinions on
+privacy). In this section, we will investigate the relationship
+between the characteristics Age and Smartphone and outcome variables
+Info.On.Internet and Tried.Masking.Identity, again using the limited
+data frame we built in an earlier section of this problem.
+
+Build a histogram of the age of interviewees. What is the best
+represented age group in the population?
+
+#+BEGIN_SRC R :var basename="exploratoryAgeLimited" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  hist(limited$Age)
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION: Exploratory Data Analysis of the Age Limited Poll
+#+NAME:   fig:exploratoryAgeLimited
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/exploratoryAgeLimited.png]]
+
+*** Answer
+
+From hist(limited$Age), we see the histogram peaks at around 60 years
+old.
+
+** DONE Problem 4.2 - Relating Demographics to Polling Results
+CLOSED: [2015-06-09 Tue 17:09]
+
+Both *Age* and *Info.On.Internet* are variables that take on many values,
+so a good way to observe their relationship is through a graph. We
+learned in lecture that we can plot *Age* against *Info.On.Internet* with
+the command *plot(limited$Age, limited$Info.On.Internet)*. However,
+because *Info.On.Internet* takes on a small number of values, multiple
+points can be plotted in exactly the same location on this graph.
+
+#+BEGIN_SRC R :var basename="LimitedAgeVsInfoOnInternet" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  plot(limited$Age, limited$Info.On.Internet)
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION: Relationship between Age and Info on internet
+#+NAME:   fig:LimitedAgeVsInfoOnInternet
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/LimitedAgeVsInfoOnInternet.png]]
+
+What is the largest number of interviewees that have exactly the same
+value in their Age variable AND the same value in their
+Info.On.Internet variable? In other words, what is the largest number
+of overlapping points in the plot plot(limited$Age,
+limited$Info.On.Internet)? (HINT: Use the table function to compare
+the number of observations with different values of Age and
+Info.On.Internet.)
+
+#+BEGIN_SRC R :session :results output :exports all
+  summary(limited$Age)
+  summary(limited$Info.On.Internet)
+  sort(table(limited$Age, limited$Info.On.Internet), decreasing = TRUE)
+
+  writeLines("\n    A better way.")
+  max(table(limited$Age, limited$Info.On.Internet))
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's
+  18.00   33.00   51.00   48.57   62.00   93.00      22
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  0.000   2.000   4.000   3.795   6.000  11.000
+  [1] 6 6 6 5 5 5 5 5 5 5 5 5 5 5 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 3 3 3 3 3
+ [38] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+ [75] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 2 2 2 2 2 2 2 2 2 2 2 2
+[112] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+[149] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+[186] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[223] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[260] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[297] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[334] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[371] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[408] 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[445] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[482] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[519] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[556] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[593] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[630] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[667] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[704] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[741] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[778] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[815] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[852] 0
+
+    A better way.
+[1] 6
+#+end_example
+
+*** Answer
+
+ By reviewing the output of table(limited$Age,
+ limited$Info.On.Internet), we can see that there are 6 interviewees
+ with age 53 and Info.On.Internet value 0, with age 60 and
+ Info.On.Internet value 0, and with age 60 and Info.On.Internet
+ value 1.
+
+A more efficient way to have obtained the maximum number would have
+been to run max(table(limited$Age, limited$Info.On.Internet))
+
+** DONE Problem 4.3 - Relating Demographics to Polling Results
+CLOSED: [2015-06-09 Tue 17:26]
+
+To avoid points covering each other up, we can use the jitter()
+function on the values we pass to the plot function. Experimenting
+with the command jitter(c(1, 2, 3)), what appears to be the
+functionality of the jitter command?
+
+#+BEGIN_SRC R :var basename="JitterPlot" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  plot(jitter(c(1, 2, 3)))
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION: Relationship between Age and Info on internet
+#+NAME:   fig:LimitedAgeVsInfoOnInternet-Jitter
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/JitterPlot.png]]
+
+*** Answer
+
+By running the command jitter(c(1, 2, 3)) multiple times, we can see
+that the jitter function randomly adds or subtracts a small value from
+each number, and two runs will yield different results.
+
+** DONE Problem 4.4 - Relating Demographics to Polling Results
+CLOSED: [2015-06-09 Tue 17:33]
+
+Now, plot *Age* against *Info.On.Internet* with plot(jitter(limited$Age),
+jitter(limited$Info.On.Internet)).
+
+#+BEGIN_SRC R :var basename="LimitedAgeVsInfoOnInternet-Jitter" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  plot(jitter(limited$Age), jitter(limited$Info.On.Internet))
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION: Relationship between Age and Info on internet
+#+NAME:   fig:LimitedAgeVsInfoOnInternet-Jitter
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/LimitedAgeVsInfoOnInternet-Jitter.png]]
+
+#+BEGIN_SRC R :session :results output :exports all
+  summary(limited$Info.On.Internet)
+#+END_SRC
+
+#+RESULTS:
+:    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+:   0.000   2.000   4.000   3.795   6.000  11.000
+
+What relationship to you observe between Age and Info.On.Internet?
+
+*** Answer
+
+For younger people aged 18-30, the average value of Info.On.Internet
+appears to be roughly 5, while most peopled aged 60 and older have a
+value less than 5. Therefore, older age appears to be associated with
+a smaller value of Info.On.Internet, but from the spread of dots on
+the image, it's clear the association is not particularly strong.
+
+** TODO Problem 4.5 - Relating Demographics to Polling Results
+
+Use the tapply() function to obtain the summary of the
+Info.On.Internet value, broken down by whether an interviewee is a
+smartphone user.
+
+#+BEGIN_SRC R :session :results output :exports all
+  tapply(limited$Info.On.Internet, limited$Smartphone, summary)
+#+END_SRC
+
+#+RESULTS:
+: $`0`
+:    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+:   0.000   1.000   3.000   2.923   5.000  11.000
+:
+: $`1`
+:    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+:   0.000   2.000   4.000   4.368   6.000  11.000
+
+*** Question a
+
+What is the average Info.On.Internet value for smartphone users?
+
+**** Answer
+
+4.368
+
+*** Question b
+
+What is the average Info.On.Internet value for non-smartphone users?
+
+**** Answer
+
+2.923
+
+We can read the average for non-smartphone users from the summary
+output labeled with 0 and the average for smartphone users from the
+summary output labeled with 1.
+
+** Problem 4.6 - Relating Demographics to Polling Results
+
+Similarly use tapply to break down the Tried.Masking.Identity variable
+for smartphone and non-smartphone users.
+
+#+BEGIN_SRC R :session :results output :exports all
+  tapply(limited$Tried.Masking.Identity, limited$Smartphone, summary)
+#+END_SRC
+
+#+RESULTS:
+: $`0`
+:    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's
+:  0.0000  0.0000  0.0000  0.1174  0.0000  1.0000       4
+:
+: $`1`
+:    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's
+:  0.0000  0.0000  0.0000  0.1925  0.0000  1.0000       4
+
+*** Question a
+
+What proportion of smartphone users who answered the
+Tried.Masking.Identity question have tried masking their identity when
+using the Internet?
+
+**** Answer
+
+0.1925
+
+*** Question b
+
+What proportion of non-smartphone users who answered the
+Tried.Masking.Identity question have tried masking their identity when
+using the Internet?
+
+**** Answer
+
+0.1174
+
+We can get the breakdown for smartphone and non-smartphone users with:
+
+tapply(limited$Tried.Masking.Identity, limited$Smartphone, table)
+
+Among smartphone users, 93 tried masking their identity and 390 did
+not, resulting in proportion 93/(93+390)=0.1925. Among non-smartphone
+users, 33 tried masking their identity and 248 did not, resulting in
+proportion 33/(33+248)=0.1174.
+
+This could have also been read from
+tapply(limited$Tried.Masking.Identity, limited$Smartphone, summary).
