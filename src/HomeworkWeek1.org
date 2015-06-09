@@ -3053,25 +3053,32 @@ they interview a large number of people about the topic. In this
 assignment, we will analyze data from a July 2013 Pew Internet and
 American Life Project poll on Internet anonymity and privacy, which
 involved interviews across the United States. While the full polling
-data can be found here, we will use a more limited version of the
-results, available in AnonymityPoll.csv. The dataset has the following
+data can be found [[http://pewinternet.org/Shared-Content/Data-Sets/2013/July-2013--Anonymity-(Omnibus).aspx][here]], we will use a more limited version of the
+results, available in [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/AnonymityPoll.csv][AnonymityPoll.csv]]. The dataset has the following
 fields (all Internet use-related fields were only collected from
 interviewees who either use the Internet or have a smartphone):
 
-- *Internet*.Use: A binary variable indicating if the interviewee uses
+- *Internet.Use*: A binary variable indicating if the interviewee uses
   the Internet, at least occasionally (equals 1 if the interviewee
   uses the Internet, and equals 0 if the interviewee does not use the
   Internet).
+
 - *Smartphone*: A binary variable indicating if the interviewee has a
   smartphone (equals 1 if they do have a smartphone, and equals 0 if
   they don't have a smartphone).
+
 - *Sex*: Male or Female.
+
 - *Age*: Age in years.
+
 - *State*: State of residence of the interviewee.
+
 - *Region*: Census region of the interviewee (Midwest, Northeast,
   South, or West).
+
 - *Conservativeness*: Self-described level of conservativeness of
   interviewee, from 1 (very liberal) to 5 (very conservative).
+
 - *Info.On.Internet*: Number of the following items this interviewee
   believes to be available on the Internet for others to see: (1)
   Their email address; (2) Their home address; (3) Their home phone
@@ -3080,10 +3087,12 @@ interviewees who either use the Internet or have a smartphone):
   Things they've written that have their name on it; (8) A photo of
   them; (9) A video of them; (10) Which groups or organizations they
   belong to; and (11) Their birth date.
+
 - *Worry.About.Info*: A binary variable indicating if the interviewee
   worries about how much information is available about them on the
   Internet (equals 1 if they worry, and equals 0 if they don't
   worry).
+
 - *Privacy.Importance*: A score from 0 (privacy is not too important)
   to 100 (privacy is very important), which combines the degree to
   which they find privacy important in the following: (1) The websites
@@ -3093,25 +3102,552 @@ interviewees who either use the Internet or have a smartphone):
   use; (6) The searches they perform; (7) The content of their email;
   (8) The people they exchange email with; and (9) The content of
   their online chats or hangouts with others.
+
 - *Anonymity.Possible*: A binary variable indicating if the
   interviewee thinks it's possible to use the Internet anonymously,
   meaning in such a way that online activities can't be traced back to
   them (equals 1 if he/she believes you can, and equals 0 if he/she
   believes you can't).
+
 - *Tried.Masking.Identity*: A binary variable indicating if the
   interviewee has ever tried to mask his/her identity when using the
   Internet (equals 1 if he/she has tried to mask his/her identity, and
   equals 0 if he/she has not tried to mask his/her identity).
+
 - *Privacy.Laws.Effective*: A binary variable indicating if the
   interviewee believes United States law provides reasonable privacy
   protection for Internet users (equals 1 if he/she believes it does,
   and equals 0 if he/she believes it doesn't).
 
 
-** Problem 1.1 - Loading and Summarizing the Dataset
+** DONE Problem 1.1 - Loading and Summarizing the Dataset
+CLOSED: [2015-06-09 Tue 07:17]
 
-Using read.csv(), load the dataset from AnonymityPoll.csv into a data
+Using read.csv(), load the dataset from [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/AnonymityPoll.csv][AnonymityPoll.csv]] into a data
 frame called poll and summarize it with the summary() and str()
 functions.
 
 How many people participated in the poll?
+
+*** Download the data sets
+
+In this part we can download the data
+
+#+BEGIN_SRC R :session :results output :exports all
+  library(parallel)
+
+  if(!file.exists("../data")) {
+          dir.create("../data")
+  }
+
+  fileUrl <- "https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/AnonymityPoll.csv"
+
+  fileName <- "AnonymityPoll.csv"
+
+  dataPath <- "../data"
+
+  filePath <- paste(dataPath, fileName, sep = "/")
+
+  if(!file.exists(filePath)) {
+          download.file(fileUrl, destfile = filePath, method = "curl")
+          list.files("../data")
+  }
+  list.files("../data")
+#+END_SRC
+
+#+RESULTS:
+:  [1] "AnonymityPoll.csv"      "BoeingStock.csv"        "CPSData.csv"
+:  [4] "CocaColaStock.csv"      "CountryCodes.csv"       "GEStock.csv"
+:  [7] "IBMStock.csv"           "MetroAreaCodes.csv"     "ProcterGambleStock.csv"
+: [10] "README.md"              "USDA.csv"               "WHO.csv"
+: [13] "WHO_Europe.csv"         "mvtWeek1.csv"
+
+*** Load the data set
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("    Loading data into their data frame...")
+  poll <- read.table("../data/AnonymityPoll.csv", sep = ",", header = TRUE)
+
+  writeLines("\n    Number of interviewees:")
+  nrow(poll)
+#+END_SRC
+
+#+RESULTS:
+:     Loading data into their data frame...
+:
+:     Number of interviewees:
+: [1] 1002
+
+**** Answer
+
+The number of people who took the poll is equal to the number of rows
+of the data frame, and can be obtained with nrow(poll) or from the
+output of str(poll).
+
+** DONE Problem 1.2 - Loading and Summarizing the Dataset
+CLOSED: [2015-06-09 Tue 08:19]
+
+Let's look at the breakdown of the number of people with smartphones
+using the table() and summary() commands on the Smartphone
+variable. (HINT: These three numbers should sum to 1002.)
+
+*** Question a
+
+How many interviewees responded that they use a smartphone?
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n    Summary of poll dataframe:")
+  summary(poll$Smartphone)
+
+  writeLines("\n    Smartphone data table")
+  table(poll$Smartphone)
+
+  writeLines("\n    Total of interviewees")
+  (472 + 487 + 43)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+
+    Summary of poll dataframe:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's
+ 0.0000  0.0000  1.0000  0.5078  1.0000  1.0000      43
+
+    Smartphone data table
+
+  0   1
+472 487
+
+    Total of interviewees
+[1] 1002
+#+end_example
+
+**** Answer
+
+*487*.
+
+*** Question b
+
+How many interviewees responded that they don't use a smartphone?
+
+**** Answer
+
+*472*.
+
+*** Question c
+
+How many interviewees did not respond to the question, resulting in a
+missing value, or NA, in the summary() output?
+
+**** Answer
+
+*43*.
+
+From the output of table(poll$Smartphone), we can read that 487
+interviewees use a smartphone and 472 do not. From the
+summary(poll$Smartphone) output, we see that another 43 had missing
+values. As a sanity check, 487+472+43=1002, the total number of
+interviewees.
+
+** DONE Problem 1.3 - Loading and Summarizing the Dataset
+CLOSED: [2015-06-09 Tue 08:19]
+
+By using the *table()* function on two variables, we can tell how they
+are related. To use the *table()* function on two variables, just put
+the two variable names inside the parentheses, separated by a comma
+(don't forget to add poll$ before each variable name).
+
+In the output, the possible values of the first variable will be
+listed in the left, and the possible values of the second variable
+will be listed on the top.
+
+Each entry of the table counts the number of observations in the data
+set that have the value of the first value in that row, and the value
+of the second variable in that column. For example, suppose we want to
+create a table of the variables "Sex" and "Region". We would type
+
+#+BEGIN_SRC R :session :results output :exports all
+  table(poll$Sex, poll$Region)
+#+END_SRC
+
+#+RESULTS:
+:
+:          Midwest Northeast South West
+:   Female     123        90   176  116
+:   Male       116        76   183  122
+
+in our R Console, and we would get as output (see above)
+
+This table tells us that we have 123 people in our dataset who are
+female and from the Midwest, 116 people in our dataset who are male
+and from the Midwest, 90 people in our dataset who are female and from
+the Northeast, etc.
+
+You might find it helpful to use the table() function to answer the
+following questions:
+
+Which of the following are states in the Midwest census region?
+(Select all that apply.)
+
+#+BEGIN_SRC R :session :results output :exports all
+  table(poll$State, poll$Region)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+
+                       Midwest Northeast South West
+  Alabama                    0         0    11    0
+  Arizona                    0         0     0   24
+  Arkansas                   0         0    10    0
+  California                 0         0     0  103
+  Colorado                   0         0     0   19
+  Connecticut                0         8     0    0
+  Delaware                   0         0     6    0
+  District of Columbia       0         0     2    0
+  Florida                    0         0    42    0
+  Georgia                    0         0    34    0
+  Idaho                      0         0     0    8
+  Illinois                  32         0     0    0
+  Indiana                   27         0     0    0
+  Iowa                      14         0     0    0
+  Kansas                    14         0     0    0
+  Kentucky                   0         0    25    0
+  Louisiana                  0         0    17    0
+  Maine                      0         4     0    0
+  Maryland                   0         0    18    0
+  Massachusetts              0        19     0    0
+  Michigan                  31         0     0    0
+  Minnesota                 15         0     0    0
+  Mississippi                0         0    11    0
+  Missouri                  26         0     0    0
+  Montana                    0         0     0    5
+  Nebraska                  11         0     0    0
+  Nevada                     0         0     0    8
+  New Hampshire              0         7     0    0
+  New Jersey                 0        16     0    0
+  New Mexico                 0         0     0    5
+  New York                   0        60     0    0
+  North Carolina             0         0    32    0
+  North Dakota               5         0     0    0
+  Ohio                      38         0     0    0
+  Oklahoma                   0         0    14    0
+  Oregon                     0         0     0   20
+  Pennsylvania               0        45     0    0
+  Rhode Island               0         4     0    0
+  South Carolina             0         0    12    0
+  South Dakota               3         0     0    0
+  Tennessee                  0         0    17    0
+  Texas                      0         0    72    0
+  Utah                       0         0     0   11
+  Vermont                    0         3     0    0
+  Virginia                   0         0    31    0
+  Washington                 0         0     0   28
+  West Virginia              0         0     5    0
+  Wisconsin                 23         0     0    0
+  Wyoming                    0         0     0    7
+#+end_example
+
+*** Answer
+
+From table(poll$State, poll$Region), we can identify the census region
+of a particular state by looking at the region associated with all its
+interviewees. We can read that Colorado is in the West region,
+Kentucky is in the South region, Pennsylvania is in the Northeast
+region, but the other three states are all in the Midwest region. From
+the same chart we can read that Texas is the state in the South region
+with the largest number of interviewees, 72.
+
+Another way to approach these problems would have been to subset the
+data frame and then use table on the limited data frame. For instance,
+to find which states are in the Midwest region we could have used:
+
+MidwestInterviewees = subset(poll, Region=="Midwest")
+
+table(MidwestInterviewees$State)
+
+and to find the number of interviewees from each South region state we
+could have used:
+
+SouthInterviewees = subset(poll, Region=="South")
+
+table(SouthInterviewees$State)
+
+** DONE Problem 2.1 - Internet and Smartphone Users
+CLOSED: [2015-06-09 Tue 08:19]
+
+As mentioned in the introduction to this problem, many of the response
+variables (Info.On.Internet, Worry.About.Info, Privacy.Importance,
+Anonymity.Possible, and Tried.Masking.Identity) were not collected if
+an interviewee does not use the Internet or a smartphone, meaning the
+variables will have missing values for these interviewees.
+
+#+BEGIN_SRC R :session :results output :exports all
+  table(poll$Internet.Use, poll$Smartphone)
+#+END_SRC
+
+#+RESULTS:
+:
+:       0   1
+:   0 186  17
+:   1 285 470
+
+*** Question a
+
+How many interviewees reported not having used the Internet and not
+having used a smartphone?
+
+**** Answer
+
+186
+
+*** Question b
+
+How many interviewees reported having used the Internet and having
+used a smartphone?
+
+**** Answer
+
+470
+
+*** Question c
+
+How many interviewees reported having used the Internet but not having
+used a smartphone?
+
+**** Answer
+
+285
+
+*** Question d
+
+How many interviewees reported having used a smartphone but not having
+used the Internet?
+
+**** Answer
+
+17
+
+*These four values can be read from*
+
+table(poll$Internet.Use, poll$Smartphone)
+
+** DONE Problem 2.2 - Internet and Smartphone Users
+CLOSED: [2015-06-09 Tue 08:19]
+
+*** Question a
+
+How many interviewees have a missing value for their Internet use?
+
+#+BEGIN_SRC R :session :results output :exports all
+  summary(poll$Internet.Use)
+#+END_SRC
+
+#+RESULTS:
+:    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's
+:  0.0000  1.0000  1.0000  0.7742  1.0000  1.0000       1
+
+**** Answer
+
+1
+
+*** Question b
+
+How many interviewees have a missing value for their smartphone use?
+
+#+BEGIN_SRC R :session :results output :exports all
+  summary(poll$Smartphone)
+#+END_SRC
+
+#+RESULTS:
+:    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's
+:  0.0000  0.0000  1.0000  0.5078  1.0000  1.0000      43
+
+**** Answer
+
+43
+
+*The number of missing values can be read from summary(poll)*.
+
+** DONE Problem 2.3 - Internet and Smartphone Users
+CLOSED: [2015-06-09 Tue 08:19]
+
+Use the subset function to obtain a data frame called "limited", which
+is limited to interviewees who reported Internet use or who reported
+smartphone use. In lecture, we used the & symbol to use two criteria
+to make a subset of the data. To only take observations that have a
+certain value in one variable or the other, the | character can be
+used in place of the & symbol. This is also called a logical "or"
+operation.
+
+How many interviewees are in the new data frame?
+
+#+BEGIN_SRC R :session :results output :exports all
+  limited <- subset(poll, Internet.Use == 1 | Smartphone == 1)
+  nrow(limited)
+#+END_SRC
+
+#+RESULTS:
+: [1] 792
+
+*** Answer
+
+The new data frame can be constructed with:
+
+limited = subset(poll, Internet.Use == 1 | Smartphone == 1)
+
+The number of rows can be computed with nrow(limited).
+
+** DONE Important:
+CLOSED: [2015-06-09 Tue 08:46]
+
+For all remaining questions in this assignment please use the limited
+data frame you created in Problem 2.3.
+
+** DONE Problem 3.1 - Summarizing Opinions about Internet Privacy
+CLOSED: [2015-06-09 Tue 08:46]
+
+Which variables have missing values in the limited data frame? (Select
+all that apply.)
+
+#+BEGIN_SRC R :session :results output :exports all
+  summary(limited)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+  Internet.Use      Smartphone         Sex           Age
+ Min.   :0.0000   Min.   :0.0000   Female:392   Min.   :18.00
+ 1st Qu.:1.0000   1st Qu.:0.0000   Male  :400   1st Qu.:33.00
+ Median :1.0000   Median :1.0000                Median :51.00
+ Mean   :0.9785   Mean   :0.6308                Mean   :48.57
+ 3rd Qu.:1.0000   3rd Qu.:1.0000                3rd Qu.:62.00
+ Max.   :1.0000   Max.   :1.0000                Max.   :93.00
+                  NA's   :20                    NA's   :22
+            State           Region    Conservativeness Info.On.Internet
+ California    : 89   Midwest  :172   Min.   :1.000    Min.   : 0.000
+ Texas         : 57   Northeast:128   1st Qu.:3.000    1st Qu.: 2.000
+ New York      : 45   South    :288   Median :3.000    Median : 4.000
+ Pennsylvania  : 33   West     :204   Mean   :3.237    Mean   : 3.795
+ Florida       : 32                   3rd Qu.:4.000    3rd Qu.: 6.000
+ North Carolina: 28                   Max.   :5.000    Max.   :11.000
+ (Other)       :508                   NA's   :45
+ Worry.About.Info Privacy.Importance Anonymity.Possible Tried.Masking.Identity
+ Min.   :0.0000   Min.   :  0.00     Min.   :0.0000     Min.   :0.0000
+ 1st Qu.:0.0000   1st Qu.: 41.43     1st Qu.:0.0000     1st Qu.:0.0000
+ Median :0.0000   Median : 68.75     Median :0.0000     Median :0.0000
+ Mean   :0.4886   Mean   : 62.85     Mean   :0.3692     Mean   :0.1633
+ 3rd Qu.:1.0000   3rd Qu.: 88.89     3rd Qu.:1.0000     3rd Qu.:0.0000
+ Max.   :1.0000   Max.   :100.00     Max.   :1.0000     Max.   :1.0000
+ NA's   :2        NA's   :5          NA's   :39         NA's   :8
+ Privacy.Laws.Effective
+ Min.   :0.0000
+ 1st Qu.:0.0000
+ Median :0.0000
+ Mean   :0.2559
+ 3rd Qu.:1.0000
+ Max.   :1.0000
+ NA's   :65
+#+end_example
+
+*** Answer
+
+You can read the number of missing values for each variable from
+summary(limited).
+
+Smartphone
+Age
+Conservativeness
+Worry.About.Info
+Privacy.Importance
+Anonymity.Possible
+Tried.Masking.Identity
+Privacy.Laws.Effective
+
+** DONE Problem 3.2 - Summarizing Opinions about Internet Privacy
+CLOSED: [2015-06-09 Tue 08:46]
+
+What is the average number of pieces of personal information on the
+Internet, according to the Info.On.Internet variable?
+
+#+BEGIN_SRC R :session :results output :exports all
+  mean(poll$Info.On.Internet, na.rm = TRUE)
+  summary(poll$Info.On.Internet)
+#+END_SRC
+
+#+RESULTS:
+: [1] 3.795455
+:    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's
+:   0.000   2.000   4.000   3.795   6.000  11.000     210
+
+*** Answer
+
+mean = 3.795455
+
+This can be obtained with mean(limited$Info.On.Internet) or
+summary(limited$Info.On.Internet).
+
+** DONE Problem 3.3 - Summarizing Opinions about Internet Privacy
+CLOSED: [2015-06-09 Tue 08:47]
+
+How many interviewees reported a value of 0 for Info.On.Internet?
+
+#+BEGIN_SRC R :session :results output :exports all
+  nrow(subset(poll, Info.On.Internet == 0, na.rm = TRUE))
+  nrow(subset(poll, Info.On.Internet == 11, na.rm = TRUE))
+
+  table(limited$Info.On.Internet)
+#+END_SRC
+
+#+RESULTS:
+: [1] 105
+: [1] 8
+:
+:   0   1   2   3   4   5   6   7   8   9  10  11
+: 105  84  95 101 104  94  67  63  40  18  13   8
+
+*** Answer
+
+*These can be read from table(limited$Info.On.Internet)*.
+
+** DONE Problem 3.4 - Summarizing Opinions about Internet Privacy
+CLOSED: [2015-06-09 Tue 08:47]
+
+What proportion of interviewees who answered the Worry.About.Info
+question worry about how much information is available about them on
+the Internet? Note that to compute this proportion you will be
+dividing by the number of people who answered the Worry.About.Info
+question, not the total number of people in the data frame.
+
+#+BEGIN_SRC R :session :results output :exports all
+  table(poll$Worry.About.Info)
+
+  nrow(subset(poll, Worry.About.Info == 1, na.rm = TRUE)) /
+  (nrow(subset(poll, Worry.About.Info == 0, na.rm = TRUE)) +
+  nrow(subset(poll, Worry.About.Info == 1, na.rm = TRUE)))
+#+END_SRC
+
+#+RESULTS:
+:
+:   0   1
+: 404 386
+: [1] 0.4886076
+
+*** Answer
+
+ From table(limited$Worry.About.Info), we see that 386 of interviewees
+ worry about their info, and 404 do not. Therefore, there were
+ 386+404=790 people who answered the question, and the proportion of
+ them who worry about their info is 386/790=0.4886. Note that we did
+ not divide by 792 (the total number of people in the data frame) to
+ compute this proportion.
+
+An easier way to compute this value is from the summary(limited)
+output. The mean value of a variable that has values 1 and 0 will be
+the proportion of the values that are a 1.
+
+** TODO Problem 3.5 - Summarizing Opinions about Internet Privacy
+
+What proportion of interviewees who answered the Anonymity.Possible
+question think it is possible to be completely anonymous on the
+Internet?
