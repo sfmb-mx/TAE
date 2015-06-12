@@ -3938,7 +3938,8 @@ value less than 5. Therefore, older age appears to be associated with
 a smaller value of Info.On.Internet, but from the spread of dots on
 the image, it's clear the association is not particularly strong.
 
-** TODO Problem 4.5 - Relating Demographics to Polling Results
+** DONE Problem 4.5 - Relating Demographics to Polling Results
+CLOSED: [2015-06-12 Fri 06:13]
 
 Use the tapply() function to obtain the summary of the
 Info.On.Internet value, broken down by whether an interviewee is a
@@ -3977,7 +3978,8 @@ We can read the average for non-smartphone users from the summary
 output labeled with 0 and the average for smartphone users from the
 summary output labeled with 1.
 
-** Problem 4.6 - Relating Demographics to Polling Results
+** DONE Problem 4.6 - Relating Demographics to Polling Results
+CLOSED: [2015-06-12 Fri 06:14]
 
 Similarly use tapply to break down the Tried.Masking.Identity variable
 for smartphone and non-smartphone users.

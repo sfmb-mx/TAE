@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Homework Week 1</title>
-<!-- 2015-06-09 Tue 07:26 -->
+<!-- 2015-06-12 Fri 06:15 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Sergio-Feliciano Mendoza-Barrera" />
@@ -4075,7 +4075,6 @@ and equals 0 if he/she believes it doesn't).
 </ul>
 </div>
 
-
 <div id="outline-container-sec-4-1" class="outline-3">
 <h3 id="sec-4-1"><span class="section-number-3">4.1</span> <span class="done DONE">DONE</span> Problem 1.1 - Loading and Summarizing the Dataset</h3>
 <div class="outline-text-3" id="text-4-1">
@@ -4166,7 +4165,7 @@ output of str(poll).
 </div>
 
 <div id="outline-container-sec-4-2" class="outline-3">
-<h3 id="sec-4-2"><span class="section-number-3">4.2</span> Problem 1.2 - Loading and Summarizing the Dataset</h3>
+<h3 id="sec-4-2"><span class="section-number-3">4.2</span> <span class="done DONE">DONE</span> Problem 1.2 - Loading and Summarizing the Dataset</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 Let's look at the breakdown of the number of people with smartphones
@@ -4267,21 +4266,1074 @@ interviewees.
 </div>
 
 <div id="outline-container-sec-4-3" class="outline-3">
-<h3 id="sec-4-3"><span class="section-number-3">4.3</span> Problem 1.3 - Loading and Summarizing the Dataset</h3>
+<h3 id="sec-4-3"><span class="section-number-3">4.3</span> <span class="done DONE">DONE</span> Problem 1.3 - Loading and Summarizing the Dataset</h3>
 <div class="outline-text-3" id="text-4-3">
 <p>
 By using the <b>table()</b> function on two variables, we can tell how they
-are related. To use the table() function on two variables, just put
+are related. To use the <b>table()</b> function on two variables, just put
 the two variable names inside the parentheses, separated by a comma
-(don't forget to add poll$ before each variable name). In the output,
-the possible values of the first variable will be listed in the left,
-and the possible values of the second variable will be listed on the
-top. Each entry of the table counts the number of observations in the
-data set that have the value of the first value in that row, and the
-value of the second variable in that column. For example, suppose we
-want to create a table of the variables "Sex" and "Region". We would
-type
+(don't forget to add poll$ before each variable name).
 </p>
+
+<p>
+In the output, the possible values of the first variable will be
+listed in the left, and the possible values of the second variable
+will be listed on the top.
+</p>
+
+<p>
+Each entry of the table counts the number of observations in the data
+set that have the value of the first value in that row, and the value
+of the second variable in that column. For example, suppose we want to
+create a table of the variables "Sex" and "Region". We would type
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">table(poll$Sex, poll$Region)
+</pre>
+</div>
+
+<pre class="example">
+       Midwest Northeast South West
+Female     123        90   176  116
+Male       116        76   183  122
+</pre>
+
+<p>
+in our R Console, and we would get as output (see above)
+</p>
+
+<p>
+This table tells us that we have 123 people in our dataset who are
+female and from the Midwest, 116 people in our dataset who are male
+and from the Midwest, 90 people in our dataset who are female and from
+the Northeast, etc.
+</p>
+
+<p>
+You might find it helpful to use the table() function to answer the
+following questions:
+</p>
+
+<p>
+Which of the following are states in the Midwest census region?
+(Select all that apply.)
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">table(poll$State, poll$Region)
+</pre>
+</div>
+
+<pre class="example">
+                     Midwest Northeast South West
+Alabama                    0         0    11    0
+Arizona                    0         0     0   24
+Arkansas                   0         0    10    0
+California                 0         0     0  103
+Colorado                   0         0     0   19
+Connecticut                0         8     0    0
+Delaware                   0         0     6    0
+District of Columbia       0         0     2    0
+Florida                    0         0    42    0
+Georgia                    0         0    34    0
+Idaho                      0         0     0    8
+Illinois                  32         0     0    0
+Indiana                   27         0     0    0
+Iowa                      14         0     0    0
+Kansas                    14         0     0    0
+Kentucky                   0         0    25    0
+Louisiana                  0         0    17    0
+Maine                      0         4     0    0
+Maryland                   0         0    18    0
+Massachusetts              0        19     0    0
+Michigan                  31         0     0    0
+Minnesota                 15         0     0    0
+Mississippi                0         0    11    0
+Missouri                  26         0     0    0
+Montana                    0         0     0    5
+Nebraska                  11         0     0    0
+Nevada                     0         0     0    8
+New Hampshire              0         7     0    0
+New Jersey                 0        16     0    0
+New Mexico                 0         0     0    5
+New York                   0        60     0    0
+North Carolina             0         0    32    0
+North Dakota               5         0     0    0
+Ohio                      38         0     0    0
+Oklahoma                   0         0    14    0
+Oregon                     0         0     0   20
+Pennsylvania               0        45     0    0
+Rhode Island               0         4     0    0
+South Carolina             0         0    12    0
+South Dakota               3         0     0    0
+Tennessee                  0         0    17    0
+Texas                      0         0    72    0
+Utah                       0         0     0   11
+Vermont                    0         3     0    0
+Virginia                   0         0    31    0
+Washington                 0         0     0   28
+West Virginia              0         0     5    0
+Wisconsin                 23         0     0    0
+Wyoming                    0         0     0    7
+</pre>
+</div>
+
+<div id="outline-container-sec-4-3-1" class="outline-4">
+<h4 id="sec-4-3-1"><span class="section-number-4">4.3.1</span> Answer</h4>
+<div class="outline-text-4" id="text-4-3-1">
+<p>
+From table(poll$State, poll$Region), we can identify the census region
+of a particular state by looking at the region associated with all its
+interviewees. We can read that Colorado is in the West region,
+Kentucky is in the South region, Pennsylvania is in the Northeast
+region, but the other three states are all in the Midwest region. From
+the same chart we can read that Texas is the state in the South region
+with the largest number of interviewees, 72.
+</p>
+
+<p>
+Another way to approach these problems would have been to subset the
+data frame and then use table on the limited data frame. For instance,
+to find which states are in the Midwest region we could have used:
+</p>
+
+<p>
+MidwestInterviewees = subset(poll, Region=="Midwest")
+</p>
+
+<p>
+table(MidwestInterviewees$State)
+</p>
+
+<p>
+and to find the number of interviewees from each South region state we
+could have used:
+</p>
+
+<p>
+SouthInterviewees = subset(poll, Region=="South")
+</p>
+
+<p>
+table(SouthInterviewees$State)
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-4" class="outline-3">
+<h3 id="sec-4-4"><span class="section-number-3">4.4</span> <span class="done DONE">DONE</span> Problem 2.1 - Internet and Smartphone Users</h3>
+<div class="outline-text-3" id="text-4-4">
+<p>
+As mentioned in the introduction to this problem, many of the response
+variables (Info.On.Internet, Worry.About.Info, Privacy.Importance,
+Anonymity.Possible, and Tried.Masking.Identity) were not collected if
+an interviewee does not use the Internet or a smartphone, meaning the
+variables will have missing values for these interviewees.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">table(poll$Internet.Use, poll$Smartphone)
+</pre>
+</div>
+
+<pre class="example">
+    0   1
+0 186  17
+1 285 470
+</pre>
+</div>
+
+<div id="outline-container-sec-4-4-1" class="outline-4">
+<h4 id="sec-4-4-1"><span class="section-number-4">4.4.1</span> Question a</h4>
+<div class="outline-text-4" id="text-4-4-1">
+<p>
+How many interviewees reported not having used the Internet and not
+having used a smartphone?
+</p>
+</div>
+
+<div id="outline-container-sec-4-4-1-1" class="outline-5">
+<h5 id="sec-4-4-1-1"><span class="section-number-5">4.4.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-4-4-1-1">
+<p>
+186
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-4-2" class="outline-4">
+<h4 id="sec-4-4-2"><span class="section-number-4">4.4.2</span> Question b</h4>
+<div class="outline-text-4" id="text-4-4-2">
+<p>
+How many interviewees reported having used the Internet and having
+used a smartphone?
+</p>
+</div>
+
+<div id="outline-container-sec-4-4-2-1" class="outline-5">
+<h5 id="sec-4-4-2-1"><span class="section-number-5">4.4.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-4-4-2-1">
+<p>
+470
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-4-3" class="outline-4">
+<h4 id="sec-4-4-3"><span class="section-number-4">4.4.3</span> Question c</h4>
+<div class="outline-text-4" id="text-4-4-3">
+<p>
+How many interviewees reported having used the Internet but not having
+used a smartphone?
+</p>
+</div>
+
+<div id="outline-container-sec-4-4-3-1" class="outline-5">
+<h5 id="sec-4-4-3-1"><span class="section-number-5">4.4.3.1</span> Answer</h5>
+<div class="outline-text-5" id="text-4-4-3-1">
+<p>
+285
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-4-4" class="outline-4">
+<h4 id="sec-4-4-4"><span class="section-number-4">4.4.4</span> Question d</h4>
+<div class="outline-text-4" id="text-4-4-4">
+<p>
+How many interviewees reported having used a smartphone but not having
+used the Internet?
+</p>
+</div>
+
+<div id="outline-container-sec-4-4-4-1" class="outline-5">
+<h5 id="sec-4-4-4-1"><span class="section-number-5">4.4.4.1</span> Answer</h5>
+<div class="outline-text-5" id="text-4-4-4-1">
+<p>
+17
+</p>
+
+<p>
+<b>These four values can be read from</b>
+</p>
+
+<p>
+table(poll$Internet.Use, poll$Smartphone)
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-5" class="outline-3">
+<h3 id="sec-4-5"><span class="section-number-3">4.5</span> <span class="done DONE">DONE</span> Problem 2.2 - Internet and Smartphone Users</h3>
+<div class="outline-text-3" id="text-4-5">
+</div>
+
+<div id="outline-container-sec-4-5-1" class="outline-4">
+<h4 id="sec-4-5-1"><span class="section-number-4">4.5.1</span> Question a</h4>
+<div class="outline-text-4" id="text-4-5-1">
+<p>
+How many interviewees have a missing value for their Internet use?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">summary(poll$Internet.Use)
+</pre>
+</div>
+
+<pre class="example">
+  Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's
+0.0000  1.0000  1.0000  0.7742  1.0000  1.0000       1
+</pre>
+</div>
+
+<div id="outline-container-sec-4-5-1-1" class="outline-5">
+<h5 id="sec-4-5-1-1"><span class="section-number-5">4.5.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-4-5-1-1">
+<p>
+1
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-5-2" class="outline-4">
+<h4 id="sec-4-5-2"><span class="section-number-4">4.5.2</span> Question b</h4>
+<div class="outline-text-4" id="text-4-5-2">
+<p>
+How many interviewees have a missing value for their smartphone use?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">summary(poll$Smartphone)
+</pre>
+</div>
+
+<pre class="example">
+  Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's
+0.0000  0.0000  1.0000  0.5078  1.0000  1.0000      43
+</pre>
+</div>
+
+<div id="outline-container-sec-4-5-2-1" class="outline-5">
+<h5 id="sec-4-5-2-1"><span class="section-number-5">4.5.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-4-5-2-1">
+<p>
+43
+</p>
+
+<p>
+<b>The number of missing values can be read from summary(poll)</b>.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-6" class="outline-3">
+<h3 id="sec-4-6"><span class="section-number-3">4.6</span> <span class="done DONE">DONE</span> Problem 2.3 - Internet and Smartphone Users</h3>
+<div class="outline-text-3" id="text-4-6">
+<p>
+Use the subset function to obtain a data frame called "limited", which
+is limited to interviewees who reported Internet use or who reported
+smartphone use. In lecture, we used the &amp; symbol to use two criteria
+to make a subset of the data. To only take observations that have a
+certain value in one variable or the other, the | character can be
+used in place of the &amp; symbol. This is also called a logical "or"
+operation.
+</p>
+
+<p>
+How many interviewees are in the new data frame?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">limited <span style="color: #db7093;">&lt;-</span> subset(poll, Internet.Use == 1 | Smartphone == 1)
+nrow(limited)
+</pre>
+</div>
+
+<pre class="example">
+[1] 792
+</pre>
+</div>
+
+<div id="outline-container-sec-4-6-1" class="outline-4">
+<h4 id="sec-4-6-1"><span class="section-number-4">4.6.1</span> Answer</h4>
+<div class="outline-text-4" id="text-4-6-1">
+<p>
+The new data frame can be constructed with:
+</p>
+
+<p>
+limited = subset(poll, Internet.Use <code>= 1 | Smartphone =</code> 1)
+</p>
+
+<p>
+The number of rows can be computed with nrow(limited).
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-7" class="outline-3">
+<h3 id="sec-4-7"><span class="section-number-3">4.7</span> <span class="done DONE">DONE</span> Important:</h3>
+<div class="outline-text-3" id="text-4-7">
+<p>
+For all remaining questions in this assignment please use the limited
+data frame you created in Problem 2.3.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4-8" class="outline-3">
+<h3 id="sec-4-8"><span class="section-number-3">4.8</span> <span class="done DONE">DONE</span> Problem 3.1 - Summarizing Opinions about Internet Privacy</h3>
+<div class="outline-text-3" id="text-4-8">
+<p>
+Which variables have missing values in the limited data frame? (Select
+all that apply.)
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">summary(limited)
+</pre>
+</div>
+
+<pre class="example">
+ Internet.Use      Smartphone         Sex           Age
+Min.   :0.0000   Min.   :0.0000   Female:392   Min.   :18.00
+1st Qu.:1.0000   1st Qu.:0.0000   Male  :400   1st Qu.:33.00
+Median :1.0000   Median :1.0000                Median :51.00
+Mean   :0.9785   Mean   :0.6308                Mean   :48.57
+3rd Qu.:1.0000   3rd Qu.:1.0000                3rd Qu.:62.00
+Max.   :1.0000   Max.   :1.0000                Max.   :93.00
+                 NA's   :20                    NA's   :22
+           State           Region    Conservativeness Info.On.Internet
+California    : 89   Midwest  :172   Min.   :1.000    Min.   : 0.000
+Texas         : 57   Northeast:128   1st Qu.:3.000    1st Qu.: 2.000
+New York      : 45   South    :288   Median :3.000    Median : 4.000
+Pennsylvania  : 33   West     :204   Mean   :3.237    Mean   : 3.795
+Florida       : 32                   3rd Qu.:4.000    3rd Qu.: 6.000
+North Carolina: 28                   Max.   :5.000    Max.   :11.000
+(Other)       :508                   NA's   :45
+Worry.About.Info Privacy.Importance Anonymity.Possible Tried.Masking.Identity
+Min.   :0.0000   Min.   :  0.00     Min.   :0.0000     Min.   :0.0000
+1st Qu.:0.0000   1st Qu.: 41.43     1st Qu.:0.0000     1st Qu.:0.0000
+Median :0.0000   Median : 68.75     Median :0.0000     Median :0.0000
+Mean   :0.4886   Mean   : 62.85     Mean   :0.3692     Mean   :0.1633
+3rd Qu.:1.0000   3rd Qu.: 88.89     3rd Qu.:1.0000     3rd Qu.:0.0000
+Max.   :1.0000   Max.   :100.00     Max.   :1.0000     Max.   :1.0000
+NA's   :2        NA's   :5          NA's   :39         NA's   :8
+Privacy.Laws.Effective
+Min.   :0.0000
+1st Qu.:0.0000
+Median :0.0000
+Mean   :0.2559
+3rd Qu.:1.0000
+Max.   :1.0000
+NA's   :65
+</pre>
+</div>
+
+<div id="outline-container-sec-4-8-1" class="outline-4">
+<h4 id="sec-4-8-1"><span class="section-number-4">4.8.1</span> Answer</h4>
+<div class="outline-text-4" id="text-4-8-1">
+<p>
+You can read the number of missing values for each variable from
+summary(limited).
+</p>
+
+<p>
+Smartphone
+Age
+Conservativeness
+Worry.About.Info
+Privacy.Importance
+Anonymity.Possible
+Tried.Masking.Identity
+Privacy.Laws.Effective
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-9" class="outline-3">
+<h3 id="sec-4-9"><span class="section-number-3">4.9</span> <span class="done DONE">DONE</span> Problem 3.2 - Summarizing Opinions about Internet Privacy</h3>
+<div class="outline-text-3" id="text-4-9">
+<p>
+What is the average number of pieces of personal information on the
+Internet, according to the Info.On.Internet variable?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">mean(poll$Info.On.Internet, na.rm = <span style="color: #3cb371;">TRUE</span>)
+summary(poll$Info.On.Internet)
+</pre>
+</div>
+
+<pre class="example">
+[1] 3.795455
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's
+  0.000   2.000   4.000   3.795   6.000  11.000     210
+</pre>
+</div>
+
+<div id="outline-container-sec-4-9-1" class="outline-4">
+<h4 id="sec-4-9-1"><span class="section-number-4">4.9.1</span> Answer</h4>
+<div class="outline-text-4" id="text-4-9-1">
+<p>
+mean = 3.795455
+</p>
+
+<p>
+This can be obtained with mean(limited$Info.On.Internet) or
+summary(limited$Info.On.Internet).
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-10" class="outline-3">
+<h3 id="sec-4-10"><span class="section-number-3">4.10</span> <span class="done DONE">DONE</span> Problem 3.3 - Summarizing Opinions about Internet Privacy</h3>
+<div class="outline-text-3" id="text-4-10">
+<p>
+How many interviewees reported a value of 0 for Info.On.Internet?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">nrow(subset(poll, Info.On.Internet == 0, na.rm = <span style="color: #3cb371;">TRUE</span>))
+nrow(subset(poll, Info.On.Internet == 11, na.rm = <span style="color: #3cb371;">TRUE</span>))
+
+table(limited$Info.On.Internet)
+</pre>
+</div>
+
+<pre class="example">
+[1] 105
+[1] 8
+
+  0   1   2   3   4   5   6   7   8   9  10  11
+105  84  95 101 104  94  67  63  40  18  13   8
+</pre>
+</div>
+
+<div id="outline-container-sec-4-10-1" class="outline-4">
+<h4 id="sec-4-10-1"><span class="section-number-4">4.10.1</span> Answer</h4>
+<div class="outline-text-4" id="text-4-10-1">
+<p>
+<b>These can be read from table(limited$Info.On.Internet)</b>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-11" class="outline-3">
+<h3 id="sec-4-11"><span class="section-number-3">4.11</span> <span class="done DONE">DONE</span> Problem 3.4 - Summarizing Opinions about Internet Privacy</h3>
+<div class="outline-text-3" id="text-4-11">
+<p>
+What proportion of interviewees who answered the Worry.About.Info
+question worry about how much information is available about them on
+the Internet? Note that to compute this proportion you will be
+dividing by the number of people who answered the Worry.About.Info
+question, not the total number of people in the data frame.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">table(poll$Worry.About.Info)
+
+nrow(subset(poll, Worry.About.Info == 1, na.rm = <span style="color: #3cb371;">TRUE</span>)) /
+(nrow(subset(poll, Worry.About.Info == 0, na.rm = <span style="color: #3cb371;">TRUE</span>)) +
+nrow(subset(poll, Worry.About.Info == 1, na.rm = <span style="color: #3cb371;">TRUE</span>)))
+</pre>
+</div>
+
+<pre class="example">
+  0   1
+404 386
+[1] 0.4886076
+</pre>
+</div>
+
+<div id="outline-container-sec-4-11-1" class="outline-4">
+<h4 id="sec-4-11-1"><span class="section-number-4">4.11.1</span> Answer</h4>
+<div class="outline-text-4" id="text-4-11-1">
+<p>
+From table(limited$Worry.About.Info), we see that 386 of interviewees
+worry about their info, and 404 do not. Therefore, there were
+386+404=790 people who answered the question, and the proportion of
+them who worry about their info is 386/790=0.4886. Note that we did
+not divide by 792 (the total number of people in the data frame) to
+compute this proportion.
+</p>
+
+<p>
+An easier way to compute this value is from the summary(limited)
+output. The mean value of a variable that has values 1 and 0 will be
+the proportion of the values that are a 1.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-12" class="outline-3">
+<h3 id="sec-4-12"><span class="section-number-3">4.12</span> <span class="done DONE">DONE</span> Problem 3.5 - Summarizing Opinions about Internet Privacy</h3>
+<div class="outline-text-3" id="text-4-12">
+<p>
+What proportion of interviewees who answered the Anonymity.Possible
+question think it is possible to be completely anonymous on the
+Internet?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">summary(poll$Anonymity.Possible)
+table(poll$Anonymity.Possible)
+
+278 / (475 + 278)
+</pre>
+</div>
+
+<pre class="example">
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's
+ 0.0000  0.0000  0.0000  0.3692  1.0000  1.0000     249
+
+  0   1
+475 278
+[1] 0.3691899
+</pre>
+</div>
+
+<div id="outline-container-sec-4-12-1" class="outline-4">
+<h4 id="sec-4-12-1"><span class="section-number-4">4.12.1</span> Answer</h4>
+<div class="outline-text-4" id="text-4-12-1">
+<p>
+From table(limited$Anonymity.Possible), 278 respondents said anonymity
+is possible and 475 said it is not. Therefore, the desired proportion
+is 278/(278+475)=0.3692. This can also be read from
+summary(limited$Anonymity.Possible).
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-13" class="outline-3">
+<h3 id="sec-4-13"><span class="section-number-3">4.13</span> <span class="done DONE">DONE</span> Problem 3.6 - Summarizing Opinions about Internet Privacy</h3>
+<div class="outline-text-3" id="text-4-13">
+<p>
+What proportion of interviewees who answered the
+Tried.Masking.Identity question have tried masking their identity on
+the Internet?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">summary(poll$Tried.Masking.Identity)
+table(poll$Tried.Masking.Identity)
+
+128 / (656 + 128)
+</pre>
+</div>
+
+<pre class="example">
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's
+ 0.0000  0.0000  0.0000  0.1633  0.0000  1.0000     218
+
+  0   1
+656 128
+[1] 0.1632653
+</pre>
+</div>
+
+<div id="outline-container-sec-4-13-1" class="outline-4">
+<h4 id="sec-4-13-1"><span class="section-number-4">4.13.1</span> Answer</h4>
+<div class="outline-text-4" id="text-4-13-1">
+<p>
+This can be computed with the command
+table(limited$Tried.Masking.Identity). The output tells us that of all
+the respondents who answered the Tried.Masking.Identity question, 128
+out of (128+656) have tried masking their identity on the internet.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-14" class="outline-3">
+<h3 id="sec-4-14"><span class="section-number-3">4.14</span> <span class="done DONE">DONE</span> Problem 3.7 - Summarizing Opinions about Internet Privacy</h3>
+<div class="outline-text-3" id="text-4-14">
+<p>
+What proportion of interviewees who answered the
+Privacy.Laws.Effective question find United States privacy laws
+effective?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">summary(limited$Privacy.Laws.Effective)
+table(limited$Privacy.Laws.Effective)
+
+nrow(subset(limited, Privacy.Laws.Effective == 1)) /
+(nrow(subset(limited, Privacy.Laws.Effective == 0)) +
+         nrow(subset(limited, Privacy.Laws.Effective == 1)))
+</pre>
+</div>
+
+<pre class="example">
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's
+ 0.0000  0.0000  0.0000  0.2558  1.0000  1.0000      65
+
+  0   1
+541 186
+[1] 0.2558459
+</pre>
+</div>
+
+<div id="outline-container-sec-4-14-1" class="outline-4">
+<h4 id="sec-4-14-1"><span class="section-number-4">4.14.1</span> Answer</h4>
+<div class="outline-text-4" id="text-4-14-1">
+<p>
+We can find this number with the command
+table(limited$Privacy.Laws.Effective). The output tells us that 186
+out of (186+541) people who answered the Privacy.Laws.Effective
+question find US privacy laws effective.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-15" class="outline-3">
+<h3 id="sec-4-15"><span class="section-number-3">4.15</span> <span class="done DONE">DONE</span> Problem 4.1 - Relating Demographics to Polling Results</h3>
+<div class="outline-text-3" id="text-4-15">
+<p>
+Often, we are interested in whether certain characteristics of
+interviewees (e.g. their age or political opinions) affect their
+opinions on the topic of the poll (in this case, opinions on
+privacy). In this section, we will investigate the relationship
+between the characteristics Age and Smartphone and outcome variables
+Info.On.Internet and Tried.Masking.Identity, again using the limited
+data frame we built in an earlier section of this problem.
+</p>
+
+<p>
+Build a histogram of the age of interviewees. What is the best
+represented age group in the population?
+</p>
+
+
+<div id="fig:exploratoryAgeLimited" class="figure">
+<p><img src="../graphs/exploratoryAgeLimited.png" alt="exploratoryAgeLimited.png" />
+</p>
+<p><span class="figure-number">Figure 10:</span> Exploratory Data Analysis of the Age Limited Poll</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4-15-1" class="outline-4">
+<h4 id="sec-4-15-1"><span class="section-number-4">4.15.1</span> Answer</h4>
+<div class="outline-text-4" id="text-4-15-1">
+<p>
+From hist(limited$Age), we see the histogram peaks at around 60 years
+old.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-16" class="outline-3">
+<h3 id="sec-4-16"><span class="section-number-3">4.16</span> <span class="done DONE">DONE</span> Problem 4.2 - Relating Demographics to Polling Results</h3>
+<div class="outline-text-3" id="text-4-16">
+<p>
+Both <b>Age</b> and <b>Info.On.Internet</b> are variables that take on many values,
+so a good way to observe their relationship is through a graph. We
+learned in lecture that we can plot <b>Age</b> against <b>Info.On.Internet</b> with
+the command <b>plot(limited$Age, limited$Info.On.Internet)</b>. However,
+because <b>Info.On.Internet</b> takes on a small number of values, multiple
+points can be plotted in exactly the same location on this graph.
+</p>
+
+
+<div id="fig:LimitedAgeVsInfoOnInternet" class="figure">
+<p><img src="../graphs/LimitedAgeVsInfoOnInternet.png" alt="LimitedAgeVsInfoOnInternet.png" />
+</p>
+<p><span class="figure-number">Figure 11:</span> Relationship between Age and Info on internet</p>
+</div>
+
+<p>
+What is the largest number of interviewees that have exactly the same
+value in their Age variable AND the same value in their
+Info.On.Internet variable? In other words, what is the largest number
+of overlapping points in the plot plot(limited$Age,
+limited$Info.On.Internet)? (HINT: Use the table function to compare
+the number of observations with different values of Age and
+Info.On.Internet.)
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">summary(limited$Age)
+summary(limited$Info.On.Internet)
+sort(table(limited$Age, limited$Info.On.Internet), decreasing = <span style="color: #3cb371;">TRUE</span>)
+
+writeLines(<span style="color: #fffacd;">"\n    A better way."</span>)
+max(table(limited$Age, limited$Info.On.Internet))
+</pre>
+</div>
+
+<pre class="example">
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's
+  18.00   33.00   51.00   48.57   62.00   93.00      22
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  0.000   2.000   4.000   3.795   6.000  11.000
+  [1] 6 6 6 5 5 5 5 5 5 5 5 5 5 5 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 3 3 3 3 3
+ [38] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+ [75] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 2 2 2 2 2 2 2 2 2 2 2 2
+[112] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+[149] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+[186] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[223] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[260] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[297] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[334] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[371] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[408] 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[445] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[482] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[519] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[556] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[593] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[630] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[667] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[704] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[741] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[778] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[815] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[852] 0
+
+    A better way.
+[1] 6
+</pre>
+</div>
+
+<div id="outline-container-sec-4-16-1" class="outline-4">
+<h4 id="sec-4-16-1"><span class="section-number-4">4.16.1</span> Answer</h4>
+<div class="outline-text-4" id="text-4-16-1">
+<p>
+By reviewing the output of table(limited$Age,
+limited$Info.On.Internet), we can see that there are 6 interviewees
+with age 53 and Info.On.Internet value 0, with age 60 and
+Info.On.Internet value 0, and with age 60 and Info.On.Internet
+value 1.
+</p>
+
+<p>
+A more efficient way to have obtained the maximum number would have
+been to run max(table(limited$Age, limited$Info.On.Internet))
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-17" class="outline-3">
+<h3 id="sec-4-17"><span class="section-number-3">4.17</span> <span class="done DONE">DONE</span> Problem 4.3 - Relating Demographics to Polling Results</h3>
+<div class="outline-text-3" id="text-4-17">
+<p>
+To avoid points covering each other up, we can use the jitter()
+function on the values we pass to the plot function. Experimenting
+with the command jitter(c(1, 2, 3)), what appears to be the
+functionality of the jitter command?
+</p>
+
+
+<div id="fig:LimitedAgeVsInfoOnInternet-Jitter" class="figure">
+<p><img src="../graphs/JitterPlot.png" alt="JitterPlot.png" />
+</p>
+<p><span class="figure-number">Figure 12:</span> Relationship between Age and Info on internet</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4-17-1" class="outline-4">
+<h4 id="sec-4-17-1"><span class="section-number-4">4.17.1</span> Answer</h4>
+<div class="outline-text-4" id="text-4-17-1">
+<p>
+By running the command jitter(c(1, 2, 3)) multiple times, we can see
+that the jitter function randomly adds or subtracts a small value from
+each number, and two runs will yield different results.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-18" class="outline-3">
+<h3 id="sec-4-18"><span class="section-number-3">4.18</span> <span class="done DONE">DONE</span> Problem 4.4 - Relating Demographics to Polling Results</h3>
+<div class="outline-text-3" id="text-4-18">
+<p>
+Now, plot <b>Age</b> against <b>Info.On.Internet</b> with plot(jitter(limited$Age),
+jitter(limited$Info.On.Internet)).
+</p>
+
+
+<div id="fig:LimitedAgeVsInfoOnInternet-Jitter" class="figure">
+<p><img src="../graphs/LimitedAgeVsInfoOnInternet-Jitter.png" alt="LimitedAgeVsInfoOnInternet-Jitter.png" />
+</p>
+<p><span class="figure-number">Figure 13:</span> Relationship between Age and Info on internet</p>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-R">summary(limited$Info.On.Internet)
+</pre>
+</div>
+
+<pre class="example">
+ Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+0.000   2.000   4.000   3.795   6.000  11.000
+</pre>
+
+<p>
+What relationship to you observe between Age and Info.On.Internet?
+</p>
+</div>
+
+<div id="outline-container-sec-4-18-1" class="outline-4">
+<h4 id="sec-4-18-1"><span class="section-number-4">4.18.1</span> Answer</h4>
+<div class="outline-text-4" id="text-4-18-1">
+<p>
+For younger people aged 18-30, the average value of Info.On.Internet
+appears to be roughly 5, while most peopled aged 60 and older have a
+value less than 5. Therefore, older age appears to be associated with
+a smaller value of Info.On.Internet, but from the spread of dots on
+the image, it's clear the association is not particularly strong.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-19" class="outline-3">
+<h3 id="sec-4-19"><span class="section-number-3">4.19</span> <span class="done DONE">DONE</span> Problem 4.5 - Relating Demographics to Polling Results</h3>
+<div class="outline-text-3" id="text-4-19">
+<p>
+Use the tapply() function to obtain the summary of the
+Info.On.Internet value, broken down by whether an interviewee is a
+smartphone user.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">tapply(limited$Info.On.Internet, limited$Smartphone, summary)
+</pre>
+</div>
+
+<pre class="example">
+$`0`
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  0.000   1.000   3.000   2.923   5.000  11.000
+
+$`1`
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  0.000   2.000   4.000   4.368   6.000  11.000
+</pre>
+</div>
+
+<div id="outline-container-sec-4-19-1" class="outline-4">
+<h4 id="sec-4-19-1"><span class="section-number-4">4.19.1</span> Question a</h4>
+<div class="outline-text-4" id="text-4-19-1">
+<p>
+What is the average Info.On.Internet value for smartphone users?
+</p>
+</div>
+
+<div id="outline-container-sec-4-19-1-1" class="outline-5">
+<h5 id="sec-4-19-1-1"><span class="section-number-5">4.19.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-4-19-1-1">
+<p>
+4.368
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-19-2" class="outline-4">
+<h4 id="sec-4-19-2"><span class="section-number-4">4.19.2</span> Question b</h4>
+<div class="outline-text-4" id="text-4-19-2">
+<p>
+What is the average Info.On.Internet value for non-smartphone users?
+</p>
+</div>
+
+<div id="outline-container-sec-4-19-2-1" class="outline-5">
+<h5 id="sec-4-19-2-1"><span class="section-number-5">4.19.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-4-19-2-1">
+<p>
+2.923
+</p>
+
+<p>
+We can read the average for non-smartphone users from the summary
+output labeled with 0 and the average for smartphone users from the
+summary output labeled with 1.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-20" class="outline-3">
+<h3 id="sec-4-20"><span class="section-number-3">4.20</span> <span class="done DONE">DONE</span> Problem 4.6 - Relating Demographics to Polling Results</h3>
+<div class="outline-text-3" id="text-4-20">
+<p>
+Similarly use tapply to break down the Tried.Masking.Identity variable
+for smartphone and non-smartphone users.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">tapply(limited$Tried.Masking.Identity, limited$Smartphone, summary)
+</pre>
+</div>
+
+<pre class="example">
+$`0`
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's
+ 0.0000  0.0000  0.0000  0.1174  0.0000  1.0000       4
+
+$`1`
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's
+ 0.0000  0.0000  0.0000  0.1925  0.0000  1.0000       4
+</pre>
+</div>
+
+<div id="outline-container-sec-4-20-1" class="outline-4">
+<h4 id="sec-4-20-1"><span class="section-number-4">4.20.1</span> Question a</h4>
+<div class="outline-text-4" id="text-4-20-1">
+<p>
+What proportion of smartphone users who answered the
+Tried.Masking.Identity question have tried masking their identity when
+using the Internet?
+</p>
+</div>
+
+<div id="outline-container-sec-4-20-1-1" class="outline-5">
+<h5 id="sec-4-20-1-1"><span class="section-number-5">4.20.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-4-20-1-1">
+<p>
+0.1925
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-20-2" class="outline-4">
+<h4 id="sec-4-20-2"><span class="section-number-4">4.20.2</span> Question b</h4>
+<div class="outline-text-4" id="text-4-20-2">
+<p>
+What proportion of non-smartphone users who answered the
+Tried.Masking.Identity question have tried masking their identity when
+using the Internet?
+</p>
+</div>
+
+<div id="outline-container-sec-4-20-2-1" class="outline-5">
+<h5 id="sec-4-20-2-1"><span class="section-number-5">4.20.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-4-20-2-1">
+<p>
+0.1174
+</p>
+
+<p>
+We can get the breakdown for smartphone and non-smartphone users with:
+</p>
+
+<p>
+tapply(limited$Tried.Masking.Identity, limited$Smartphone, table)
+</p>
+
+<p>
+Among smartphone users, 93 tried masking their identity and 390 did
+not, resulting in proportion 93/(93+390)=0.1925. Among non-smartphone
+users, 33 tried masking their identity and 248 did not, resulting in
+proportion 33/(33+248)=0.1174.
+</p>
+
+<p>
+This could have also been read from
+tapply(limited$Tried.Masking.Identity, limited$Smartphone, summary).
+</p>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -4297,7 +5349,7 @@ type
 <div id="postamble" class="status">
 <p class="date">Date: 07/06/2015</p>
 <p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
-<p class="date">Created: 2015-06-09 Tue 07:26</p>
+<p class="date">Created: 2015-06-12 Fri 06:15</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
