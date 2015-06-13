@@ -964,3 +964,671 @@ value of 2.4.
 However, all other values are valid (even the negative ones!), since
 SSE can be more or less than SST, due to the fact that this is an
 out-of-sample $R^2$, not a model $R^2$.
+
+* Moneyball: The Power of the Sports Analytics
+
+If you are unfamiliar with the game of baseball, please watch this
+short video clip for a quick introduction to the game. You don't need
+to be a baseball expert to understand this lecture, but basic
+knowledge of the game will be helpful to you.
+
+This video is from [[https://www.youtube.com/watch?v%3D0bKkGeROiPA][Baseball Rules Whiteboard Video Rules of Baseball]].
+
+** Download the data
+
+In this lecture, we will be using the dataset [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/baseball.csv][baseball.csv]]. Download
+this dataset to follow along in R as we build regression models. This
+data comes from [[http://www.baseball-reference.com][Baseball-Reference.com]].
+
+A script file containing all of the R commands used in this lecture
+can be downloaded [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/Unit2_Moneyball.R][here]].
+
+*** Download the data set
+
+In this part we can download the data
+
+#+BEGIN_SRC R :session :results output :exports all
+  library(parallel)
+
+  if(!file.exists("../data")) {
+          dir.create("../data")
+  }
+
+  fileUrl <-
+          c("https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/baseball.csv")
+
+  fileName <- c("baseball.csv")
+
+  dataPath <- "../data"
+
+  filePath <- paste(dataPath, fileName, sep = "/")
+
+  if(!file.exists(filePath)) {
+          download.file(fileUrl, destfile = filePath, method = "curl")
+  }
+
+  list.files("../data")
+#+END_SRC
+
+#+RESULTS:
+:  [1] "AnonymityPoll.csv"      "BoeingStock.csv"        "CPSData.csv"
+:  [4] "CocaColaStock.csv"      "CountryCodes.csv"       "GEStock.csv"
+:  [7] "IBMStock.csv"           "MetroAreaCodes.csv"     "ProcterGambleStock.csv"
+: [10] "README.md"              "USDA.csv"               "WHO.csv"
+: [13] "WHO_Europe.csv"         "baseball.csv"           "mvtWeek1.csv"
+: [16] "wine.csv"               "wine_test.csv"
+
+** The Problem
+
+In 2002, the A's lost three key players. The key question: could they
+continue winning without them?
+
+So what is the key problem? Let us discuss the graph on the left of
+the screen.
+
+The horizontal axis shows the average payroll during the years 1998
+to 2001. The vertical axis shows the average yearly wins over the same
+years. So let's look at some of the teams in this graph. So which one
+is this team?
+
+This is a team (blue dot)  that won about 100 games and spent roughly
+$90 million during this period. So this is the New York Yankees.
+
+[[../graphs/MoneyBallProblem01.png]]
+
+Let's look at this team (Red dot). This team spent about $80 million
+and won about 90 games. This is the Red Sox. Where are the Oakland
+A's? The A's are here (Green dot). They won about 90 games, and they
+spent under $30 million.
+
+If you compare it with the Red Sox, they won about the same number of
+games during this period but the Red Sox spent about $50 million more
+per year than the A's.
+
+Clearly, rich teams like the Yankees and the Red Sox can afford the
+all-star players.
+
+*** The Approach
+
+So the A's started using a different method to select players. The
+traditional way of selecting players was through scouting.
+
+Scouts would watch high school and college players, and they would
+report back about their skills, especially discussing their speed and
+their athletic build. The A's, however, selected players based on
+their statistics, not on their looks.
+
+The following are quotes from the book Moneyball. "The statistics
+enable you to find your way past all sorts of sight-based scouting
+prejudices." And a direct quote from Billy Beane, the manager of the
+Oakland A's and the architect of this approach: "We are not selling
+jeans here."
+
+[[../graphs/TakingAQuantitativeView.png]]
+
+** Video 2: Making it to the Playoffs
+
+The A's approach was to get to the playoffs by using analytics.
+
+We'll first show how we can predict whether or not a team will make
+the playoffs by knowing how many games they won in the regular
+season. We'll then use linear regression to predict how many games a
+team will win using the difference between runs scored and runs allowed,
+or opponent runs.
+
+We'll then use linear regression again to predict the number of runs a
+team will score using batting statistics, and the number of runs a
+team will allow using fielding and pitching statistics.
+
+We'll start by figuring out how many games a team needs to win to make
+the playoffs, and then how many more runs a team needs to score than
+their opponent to win that many games.
+
+[[../graphs/TheGoal.png]]
+
+So our first question is:
+
+- How many games does a team need to win in the regular season to make
+  it to the playoffs?
+
+In Moneyball, Paul DePodesta reduced the regular season to a math
+problem.
+
+He judged that it would take *95* wins for the A's to make it to the
+playoffs. Let's see if we can verify this using data. This graph uses
+data from all teams and seasons from 1996 to 2001.
+
+[[../graphs/MakingThePlayOffs.png]]
+
+So we know that a team wants to win 95 or more games, but how does a
+team win games?
+
+Well, they score more runs than their opponent does. We just need to
+figure out how many more. The A's calculated that they needed to score
+135 more runs than they allowed during the regular season to expect to
+win 95 games.
+
+** Loading the data
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: Read in data")
+  baseball <- read.table("../data/baseball.csv", sep = ",", header = TRUE)
+  str(baseball)
+  summary(baseball)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+
+ :: Read in data
+'data.frame':	1232 obs. of  15 variables:
+ $ Team        : Factor w/ 39 levels "ANA","ARI","ATL",..: 2 3 4 5 7 8 9 10 11 12 ...
+ $ League      : Factor w/ 2 levels "AL","NL": 2 2 1 1 2 1 2 1 2 1 ...
+ $ Year        : int  2012 2012 2012 2012 2012 2012 2012 2012 2012 2012 ...
+ $ RS          : int  734 700 712 734 613 748 669 667 758 726 ...
+ $ RA          : int  688 600 705 806 759 676 588 845 890 670 ...
+ $ W           : int  81 94 93 69 61 85 97 68 64 88 ...
+ $ OBP         : num  0.328 0.32 0.311 0.315 0.302 0.318 0.315 0.324 0.33 0.335 ...
+ $ SLG         : num  0.418 0.389 0.417 0.415 0.378 0.422 0.411 0.381 0.436 0.422 ...
+ $ BA          : num  0.259 0.247 0.247 0.26 0.24 0.255 0.251 0.251 0.274 0.268 ...
+ $ Playoffs    : int  0 1 1 0 0 0 1 0 0 1 ...
+ $ RankSeason  : int  NA 4 5 NA NA NA 2 NA NA 6 ...
+ $ RankPlayoffs: int  NA 5 4 NA NA NA 4 NA NA 2 ...
+ $ G           : int  162 162 162 162 162 162 162 162 162 162 ...
+ $ OOBP        : num  0.317 0.306 0.315 0.331 0.335 0.319 0.305 0.336 0.357 0.314 ...
+ $ OSLG        : num  0.415 0.378 0.403 0.428 0.424 0.405 0.39 0.43 0.47 0.402 ...
+      Team     League        Year            RS               RA
+ BAL    : 47   AL:616   Min.   :1962   Min.   : 463.0   Min.   : 472.0
+ BOS    : 47   NL:616   1st Qu.:1977   1st Qu.: 652.0   1st Qu.: 649.8
+ CHC    : 47            Median :1989   Median : 711.0   Median : 709.0
+ CHW    : 47            Mean   :1989   Mean   : 715.1   Mean   : 715.1
+ CIN    : 47            3rd Qu.:2002   3rd Qu.: 775.0   3rd Qu.: 774.2
+ CLE    : 47            Max.   :2012   Max.   :1009.0   Max.   :1103.0
+ (Other):950
+       W              OBP              SLG               BA
+ Min.   : 40.0   Min.   :0.2770   Min.   :0.3010   Min.   :0.2140
+ 1st Qu.: 73.0   1st Qu.:0.3170   1st Qu.:0.3750   1st Qu.:0.2510
+ Median : 81.0   Median :0.3260   Median :0.3960   Median :0.2600
+ Mean   : 80.9   Mean   :0.3263   Mean   :0.3973   Mean   :0.2593
+ 3rd Qu.: 89.0   3rd Qu.:0.3370   3rd Qu.:0.4210   3rd Qu.:0.2680
+ Max.   :116.0   Max.   :0.3730   Max.   :0.4910   Max.   :0.2940
+
+    Playoffs        RankSeason     RankPlayoffs         G
+ Min.   :0.0000   Min.   :1.000   Min.   :1.000   Min.   :158.0
+ 1st Qu.:0.0000   1st Qu.:2.000   1st Qu.:2.000   1st Qu.:162.0
+ Median :0.0000   Median :3.000   Median :3.000   Median :162.0
+ Mean   :0.1981   Mean   :3.123   Mean   :2.717   Mean   :161.9
+ 3rd Qu.:0.0000   3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:162.0
+ Max.   :1.0000   Max.   :8.000   Max.   :5.000   Max.   :165.0
+                  NA's   :988     NA's   :988
+      OOBP             OSLG
+ Min.   :0.2940   Min.   :0.3460
+ 1st Qu.:0.3210   1st Qu.:0.4010
+ Median :0.3310   Median :0.4190
+ Mean   :0.3323   Mean   :0.4197
+ 3rd Qu.:0.3430   3rd Qu.:0.4380
+ Max.   :0.3840   Max.   :0.4990
+ NA's   :812      NA's   :812
+#+end_example
+
+This data set includes an observation for every team and year pair
+from 1962 to 2012 for all seasons with 162 games. We have 15 variables
+in our data set, including Runs Scored, RS, Runs Allowed, RA, and
+Wins, W. We also have several other variables that we'll use when
+building models later on in the lecture.
+
+Since we're confirming the claims made in Moneyball, we want to build
+models using data Paul DePodesta had in 2002, so let's start by
+subsetting our data to only include the years before 2002.
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: Subset to only include moneyball years")
+  moneyball <- subset(baseball, Year < 2002)
+  str(moneyball)
+  summary(moneyball)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+
+ :: Subset to only include moneyball years
+'data.frame':	902 obs. of  15 variables:
+ $ Team        : Factor w/ 39 levels "ANA","ARI","ATL",..: 1 2 3 4 5 7 8 9 10 11 ...
+ $ League      : Factor w/ 2 levels "AL","NL": 1 2 2 1 1 2 1 2 1 2 ...
+ $ Year        : int  2001 2001 2001 2001 2001 2001 2001 2001 2001 2001 ...
+ $ RS          : int  691 818 729 687 772 777 798 735 897 923 ...
+ $ RA          : int  730 677 643 829 745 701 795 850 821 906 ...
+ $ W           : int  75 92 88 63 82 88 83 66 91 73 ...
+ $ OBP         : num  0.327 0.341 0.324 0.319 0.334 0.336 0.334 0.324 0.35 0.354 ...
+ $ SLG         : num  0.405 0.442 0.412 0.38 0.439 0.43 0.451 0.419 0.458 0.483 ...
+ $ BA          : num  0.261 0.267 0.26 0.248 0.266 0.261 0.268 0.262 0.278 0.292 ...
+ $ Playoffs    : int  0 1 1 0 0 0 0 0 1 0 ...
+ $ RankSeason  : int  NA 5 7 NA NA NA NA NA 6 NA ...
+ $ RankPlayoffs: int  NA 1 3 NA NA NA NA NA 4 NA ...
+ $ G           : int  162 162 162 162 161 162 162 162 162 162 ...
+ $ OOBP        : num  0.331 0.311 0.314 0.337 0.329 0.321 0.334 0.341 0.341 0.35 ...
+ $ OSLG        : num  0.412 0.404 0.384 0.439 0.393 0.398 0.427 0.455 0.417 0.48 ...
+      Team     League        Year            RS               RA
+ BAL    : 36   AL:462   Min.   :1962   Min.   : 463.0   Min.   : 472.0
+ BOS    : 36   NL:440   1st Qu.:1973   1st Qu.: 641.2   1st Qu.: 640.0
+ CHC    : 36            Median :1983   Median : 695.0   Median : 697.0
+ CHW    : 36            Mean   :1982   Mean   : 703.8   Mean   : 703.8
+ CIN    : 36            3rd Qu.:1992   3rd Qu.: 761.8   3rd Qu.: 763.0
+ CLE    : 36            Max.   :2001   Max.   :1009.0   Max.   :1103.0
+ (Other):686
+       W               OBP             SLG               BA
+ Min.   : 40.00   Min.   :0.277   Min.   :0.3010   Min.   :0.2140
+ 1st Qu.: 73.00   1st Qu.:0.314   1st Qu.:0.3680   1st Qu.:0.2500
+ Median : 81.00   Median :0.324   Median :0.3880   Median :0.2580
+ Mean   : 80.88   Mean   :0.325   Mean   :0.3904   Mean   :0.2582
+ 3rd Qu.: 89.00   3rd Qu.:0.335   3rd Qu.:0.4118   3rd Qu.:0.2670
+ Max.   :116.00   Max.   :0.373   Max.   :0.4850   Max.   :0.2940
+
+    Playoffs        RankSeason     RankPlayoffs         G
+ Min.   :0.0000   Min.   :1.000   Min.   :1.000   Min.   :158.0
+ 1st Qu.:0.0000   1st Qu.:2.000   1st Qu.:2.000   1st Qu.:162.0
+ Median :0.0000   Median :2.500   Median :3.000   Median :162.0
+ Mean   :0.1707   Mean   :2.792   Mean   :2.454   Mean   :161.9
+ 3rd Qu.:0.0000   3rd Qu.:4.000   3rd Qu.:3.000   3rd Qu.:162.0
+ Max.   :1.0000   Max.   :8.000   Max.   :4.000   Max.   :165.0
+                  NA's   :748     NA's   :748
+      OOBP             OSLG
+ Min.   :0.3010   Min.   :0.3770
+ 1st Qu.:0.3290   1st Qu.:0.4160
+ Median :0.3420   Median :0.4325
+ Mean   :0.3405   Mean   :0.4325
+ 3rd Qu.:0.3500   3rd Qu.:0.4508
+ Max.   :0.3840   Max.   :0.4990
+ NA's   :812      NA's   :812
+#+end_example
+
+So we want to build a linear regression equation to predict wins using
+the difference between runs scored and runs allowed.
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: Compute Run Difference")
+  moneyball$RD <- moneyball$RS - moneyball$RA
+  str(moneyball)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+
+ :: Compute Run Difference
+'data.frame':	902 obs. of  16 variables:
+ $ Team        : Factor w/ 39 levels "ANA","ARI","ATL",..: 1 2 3 4 5 7 8 9 10 11 ...
+ $ League      : Factor w/ 2 levels "AL","NL": 1 2 2 1 1 2 1 2 1 2 ...
+ $ Year        : int  2001 2001 2001 2001 2001 2001 2001 2001 2001 2001 ...
+ $ RS          : int  691 818 729 687 772 777 798 735 897 923 ...
+ $ RA          : int  730 677 643 829 745 701 795 850 821 906 ...
+ $ W           : int  75 92 88 63 82 88 83 66 91 73 ...
+ $ OBP         : num  0.327 0.341 0.324 0.319 0.334 0.336 0.334 0.324 0.35 0.354 ...
+ $ SLG         : num  0.405 0.442 0.412 0.38 0.439 0.43 0.451 0.419 0.458 0.483 ...
+ $ BA          : num  0.261 0.267 0.26 0.248 0.266 0.261 0.268 0.262 0.278 0.292 ...
+ $ Playoffs    : int  0 1 1 0 0 0 0 0 1 0 ...
+ $ RankSeason  : int  NA 5 7 NA NA NA NA NA 6 NA ...
+ $ RankPlayoffs: int  NA 1 3 NA NA NA NA NA 4 NA ...
+ $ G           : int  162 162 162 162 161 162 162 162 162 162 ...
+ $ OOBP        : num  0.331 0.311 0.314 0.337 0.329 0.321 0.334 0.341 0.341 0.35 ...
+ $ OSLG        : num  0.412 0.404 0.384 0.439 0.393 0.398 0.427 0.455 0.417 0.48 ...
+ $ RD          : int  -39 141 86 -142 27 76 3 -115 76 17 ...
+#+end_example
+
+Now, before we build the linear regression equation, let's visually
+check to see if there's a linear relationship between Run Difference
+and Wins.
+
+#+BEGIN_SRC R :var basename="exploratoryMoneyBall" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  plot(moneyball$RD, moneyball$W)
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION: Scatterplot to check for linear relationship
+#+NAME:   fig:exploratoryMoneyBall
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/exploratoryMoneyBall.png]]
+
+** Linear Regression Model
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: Regression model to predict wins")
+  WinsReg <- lm(W ~ RD, data = moneyball)
+  summary(WinsReg)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+
+ :: Regression model to predict wins
+
+Call:
+lm(formula = W ~ RD, data = moneyball)
+
+Residuals:
+     Min       1Q   Median       3Q      Max
+-14.2662  -2.6509   0.1234   2.9364  11.6570
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)
+(Intercept) 80.881375   0.131157  616.67   <2e-16 ***
+RD           0.105766   0.001297   81.55   <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 3.939 on 900 degrees of freedom
+Multiple R-squared:  0.8808,	Adjusted R-squared:  0.8807
+F-statistic:  6651 on 1 and 900 DF,  p-value: < 2.2e-16
+#+end_example
+
+We can take a look at the summary of our regression equation using the
+summary function, which shows us that RD is very significant with
+three stars, and the R-squared of our model is 0.88.
+
+So we have a strong model to predict wins using the difference between
+runs scored and runs allowed. Now, let's see if we can use this model
+to confirm the claim made in Moneyball that a team needs to score at
+least 135 more runs than they allow to win at least *95 games*.
+
+[[../graphs/AppModel.png]]
+
+So this tells us that if the run difference of a team is greater than
+or equal to $133.4$, then we predict that the team will win at least
+$95$ games. This is very close to the claim made in Moneyball that a
+team needs to score at least $135$ more runs than they allow to win at
+least $95$ games.
+
+** Quick Question (1 point possible)
+
+If a baseball team scores 713 runs and allows 614 runs, how many games
+do we expect the team to win?
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: Using the predict function")
+  RD <- (713 - 614)
+  TestData01 <- data.frame(RD)
+  predict(WinsReg, TestData01)
+
+  writeLines("\n :: Using the model directly")
+  W <- 80.881375 + (0.105766 * TestData01$RD)
+  W
+#+END_SRC
+
+#+RESULTS:
+:
+:  :: Using the predict function
+:        1
+: 91.35217
+:
+:  :: Using the model directly
+: [1] 91.35221
+
+Using the linear regression model constructed during the lecture,
+enter the number of games we expect the team to win:
+
+*** Answer
+
+Our linear regression model was
+
+$Wins = 80.88 + 0.1058 * (Run~Difference)$
+
+Here, the run difference is $99$, so our prediction is
+
+$Wins = 80.88 + 0.1058*99 = 91~games$.
+
+** Video 3: Predicting Runs
+
+The Oakland A's were interested in answering the question: how does a
+team score more runs?
+
+They discovered that two particular baseball statistics were very
+predictive of runs scored:
+
+- on-base percentage, or OBP, and
+- slugging percentage, or SLG.
+
+*On-base* percentage is the percentage of time a player gets on base,
+including walks. *Slugging* percentage measures how far a player gets
+around the bases on his turn, and measures the power of a hitter.
+
+[[../graphs/ScoringRuns.png]]
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: Structure of the DF")
+  str(moneyball)
+
+  writeLines("\n :: Regression model to predict runs scored")
+  RunsReg <- lm(RS ~ OBP + SLG + BA, data=moneyball)
+  summary(RunsReg)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+
+ :: Structure of the DF
+'data.frame':	902 obs. of  16 variables:
+ $ Team        : Factor w/ 39 levels "ANA","ARI","ATL",..: 1 2 3 4 5 7 8 9 10 11 ...
+ $ League      : Factor w/ 2 levels "AL","NL": 1 2 2 1 1 2 1 2 1 2 ...
+ $ Year        : int  2001 2001 2001 2001 2001 2001 2001 2001 2001 2001 ...
+ $ RS          : int  691 818 729 687 772 777 798 735 897 923 ...
+ $ RA          : int  730 677 643 829 745 701 795 850 821 906 ...
+ $ W           : int  75 92 88 63 82 88 83 66 91 73 ...
+ $ OBP         : num  0.327 0.341 0.324 0.319 0.334 0.336 0.334 0.324 0.35 0.354 ...
+ $ SLG         : num  0.405 0.442 0.412 0.38 0.439 0.43 0.451 0.419 0.458 0.483 ...
+ $ BA          : num  0.261 0.267 0.26 0.248 0.266 0.261 0.268 0.262 0.278 0.292 ...
+ $ Playoffs    : int  0 1 1 0 0 0 0 0 1 0 ...
+ $ RankSeason  : int  NA 5 7 NA NA NA NA NA 6 NA ...
+ $ RankPlayoffs: int  NA 1 3 NA NA NA NA NA 4 NA ...
+ $ G           : int  162 162 162 162 161 162 162 162 162 162 ...
+ $ OOBP        : num  0.331 0.311 0.314 0.337 0.329 0.321 0.334 0.341 0.341 0.35 ...
+ $ OSLG        : num  0.412 0.404 0.384 0.439 0.393 0.398 0.427 0.455 0.417 0.48 ...
+ $ RD          : int  -39 141 86 -142 27 76 3 -115 76 17 ...
+
+ :: Regression model to predict runs scored
+
+Call:
+lm(formula = RS ~ OBP + SLG + BA, data = moneyball)
+
+Residuals:
+    Min      1Q  Median      3Q     Max
+-70.941 -17.247  -0.621  16.754  90.998
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)  -788.46      19.70 -40.029  < 2e-16 ***
+OBP          2917.42     110.47  26.410  < 2e-16 ***
+SLG          1637.93      45.99  35.612  < 2e-16 ***
+BA           -368.97     130.58  -2.826  0.00482 **
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 24.69 on 898 degrees of freedom
+Multiple R-squared:  0.9302,	Adjusted R-squared:   0.93
+F-statistic:  3989 on 3 and 898 DF,  p-value: < 2.2e-16
+#+end_example
+
+All the variables (OBP + SLG + BA) are significant, and the $R^2 = 0.9302$.
+
+But if we look at our coefficients, we can see that the coefficient
+for batting average is *negative*. This implies that, all else being
+equal, a team with a lower batting average will score more runs, which
+is a little counterintuitive.
+
+What's going on here is a case of multicollinearity. These three
+hitting statistics are highly correlated.
+
+** Refining the model
+
+Let's try removing batting average, the variable with the least
+significance, to see what happens to our model.
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: Regression model to predict runs scored")
+  RunsReg <- lm(RS ~ OBP + SLG, data = moneyball)
+  summary(RunsReg)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+
+ :: Regression model to predict runs scored
+
+Call:
+lm(formula = RS ~ OBP + SLG, data = moneyball)
+
+Residuals:
+    Min      1Q  Median      3Q     Max
+-70.838 -17.174  -1.108  16.770  90.036
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)  -804.63      18.92  -42.53   <2e-16 ***
+OBP          2737.77      90.68   30.19   <2e-16 ***
+SLG          1584.91      42.16   37.60   <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 24.79 on 899 degrees of freedom
+Multiple R-squared:  0.9296,	Adjusted R-squared:  0.9294
+F-statistic:  5934 on 2 and 899 DF,  p-value: < 2.2e-16
+#+end_example
+
+So this model is simpler, with only two independent variables, and has
+about the same R-squared.
+
+Overall a better model. You could experiment and see that if we'd
+removed on-base percentage or slugging percentage instead of batting
+average, our R-squared would have decreased.
+
+If we look at the coefficients of our model, we can see that on-base
+percentage has a larger coefficient than slugging percentage. Since
+these variables are on about the same scale, this tells us that
+on-base percentage is probably worth more than slugging percentage.
+
+So by using linear regression, we're able to verify the claims made in
+Moneyball: that batting average is overvalued, on-base percentage is
+the most important, and slugging percentage is important for
+predicting runs scored.
+
+** Allowing Runs Model
+
+We can create a very similar model to predict runs allowed, or
+opponent runs. This model uses pitching statistics: opponents on-base
+percentage, or OOBP, and opponents slugging percentage, or OSLG.
+
+These statistics are computed in the same way as on-base percentage
+and slugging percentage, but they use the actions of the opposing
+batters against our team's pitcher and fielders.
+
+[[../graphs/AllowingRuns.png]]
+
+The key message here is that simple models, using only a couple
+independent variables, can be constructed to answer some of the most
+important questions in baseball.
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: Regression model to predict runs allowed")
+  RunsAllowed <- lm(RA ~ OOBP + OSLG, data = moneyball)
+  summary(RunsAllowed)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+
+ :: Regression model to predict runs allowed
+
+Call:
+lm(formula = RA ~ OOBP + OSLG, data = moneyball)
+
+Residuals:
+    Min      1Q  Median      3Q     Max
+-82.397 -15.178  -0.129  17.679  60.955
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)  -837.38      60.26 -13.897  < 2e-16 ***
+OOBP         2913.60     291.97   9.979 4.46e-16 ***
+OSLG         1514.29     175.43   8.632 2.55e-13 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 25.67 on 87 degrees of freedom
+  (812 observations deleted due to missingness)
+Multiple R-squared:  0.9073,	Adjusted R-squared:  0.9052
+F-statistic: 425.8 on 2 and 87 DF,  p-value: < 2.2e-16
+#+end_example
+
+** Quick Question (2 points possible)
+
+If a baseball team's OBP is 0.311 and SLG is 0.405, how many runs do
+we expect the team to score?
+
+#+BEGIN_SRC R :session :results output :exports all
+  OBP <- 0.311; SLG <- 0.405
+  RSTest <- data.frame(OBP, SLG)
+  predict(RunsReg, newdata = RSTest)
+#+END_SRC
+
+#+RESULTS:
+:        1
+: 688.7068
+
+*** Question a
+
+Using the linear regression model constructed during the lecture (the
+one that uses OBP and SLG as independent variables), enter the number
+of runs we expect the team to score:
+
+**** Answer
+
+688.7068
+
+*Explanation*
+
+Our linear regression model was:
+
+Runs Scored = -804.63 + 2737.77*(OBP) + 1584.91*(SLG)
+
+Here, OBP is 0.311 and SLG is 0.405, so our prediction is:
+
+Runs Scored = -804.63 + 2737.77*0.311 + 1584.91*0.405 = 689 runs
+
+*** Question b
+
+If a baseball team's opponents OBP (OOBP) is 0.297 and oppenents SLG
+(OSLG) is 0.370, how many runs do we expect the team to allow?
+
+#+BEGIN_SRC R :session :results output :exports all
+  OOBP <- 0.297; OSLG <- 0.370
+  RSTest02 <- data.frame(OOBP, OSLG)
+  predict(RunsAllowed, newdata = RSTest02)
+#+END_SRC
+
+#+RESULTS:
+:       1
+: 588.247
+
+Using the linear regression model discussed during the lecture (the
+one on the last slide of the previous video), enter the number of runs
+we expect the team to allow:
+
+**** Answer
+
+588.247
+
+*Explanation*
+
+Our linear regression model was:
+
+Runs Allowed = -837.38 + 2913.60*(OOBP) + 1514.29*(OSLG)
+
+Here, OOBP is 0.297 and OSLG is 0.370, so our prediction is:
+
+Runs Scored = -837.38 + 2913.60*(.297) + 1514.29*(.370) = 588 runs

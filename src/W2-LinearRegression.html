@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Unit 2 - Linear Regression</title>
-<!-- 2015-06-12 Fri 07:46 -->
+<!-- 2015-06-13 Sat 09:15 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Sergio-Feliciano Mendoza-Barrera" />
@@ -206,6 +206,17 @@ for the JavaScript code in this tag.
 <li><a href="#sec-1-9">1.9. Quick Question (1 point possible)</a></li>
 <li><a href="#sec-1-10">1.10. Video 7: Making Predictions</a></li>
 <li><a href="#sec-1-11">1.11. Quick Question (1 point possible)</a></li>
+</ul>
+</li>
+<li><a href="#sec-2">2. Moneyball: The Power of the Sports Analytics</a>
+<ul>
+<li><a href="#sec-2-1">2.1. Download the data</a></li>
+<li><a href="#sec-2-2">2.2. The Problem</a></li>
+<li><a href="#sec-2-3">2.3. Video 2: Making it to the Playoffs</a></li>
+<li><a href="#sec-2-4">2.4. Loading the data</a></li>
+<li><a href="#sec-2-5">2.5. Linear Regression Model</a></li>
+<li><a href="#sec-2-6">2.6. Quick Question (1 point possible)</a></li>
+<li><a href="#sec-2-7">2.7. Video 3: Predicting Runs</a></li>
 </ul>
 </li>
 </ul>
@@ -1455,11 +1466,654 @@ out-of-sample \(R^2\), not a model \(R^2\).
 </div>
 </div>
 </div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Moneyball: The Power of the Sports Analytics</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+If you are unfamiliar with the game of baseball, please watch this
+short video clip for a quick introduction to the game. You don't need
+to be a baseball expert to understand this lecture, but basic
+knowledge of the game will be helpful to you.
+</p>
+
+<p>
+This video is from <a href="https://www.youtube.com/watch?v=0bKkGeROiPA">Baseball Rules Whiteboard Video Rules of Baseball</a>.
+</p>
+</div>
+
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> Download the data</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+In this lecture, we will be using the dataset <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/baseball.csv">baseball.csv</a>. Download
+this dataset to follow along in R as we build regression models. This
+data comes from <a href="http://www.baseball-reference.com">Baseball-Reference.com</a>.
+</p>
+
+<p>
+A script file containing all of the R commands used in this lecture
+can be downloaded <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/Unit2_Moneyball.R">here</a>.
+</p>
+</div>
+
+<div id="outline-container-sec-2-1-1" class="outline-4">
+<h4 id="sec-2-1-1"><span class="section-number-4">2.1.1</span> Download the data set</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<p>
+In this part we can download the data
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R"><span style="color: #db7093;">library</span>(parallel)
+
+<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #fffacd;">"../data"</span>)) {
+        dir.create(<span style="color: #fffacd;">"../data"</span>)
+}
+
+fileUrl <span style="color: #db7093;">&lt;-</span>
+        c(<span style="color: #fffacd;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/baseball.csv"</span>)
+
+fileName <span style="color: #db7093;">&lt;-</span> c(<span style="color: #fffacd;">"baseball.csv"</span>)
+
+dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"../data"</span>
+
+filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #fffacd;">"/"</span>)
+
+<span style="color: #4682b4;">if</span>(!file.exists(filePath)) {
+        download.file(fileUrl, destfile = filePath, method = <span style="color: #fffacd;">"curl"</span>)
+}
+
+list.files(<span style="color: #fffacd;">"../data"</span>)
+</pre>
+</div>
+
+<pre class="example">
+ [1] "AnonymityPoll.csv"      "BoeingStock.csv"        "CPSData.csv"
+ [4] "CocaColaStock.csv"      "CountryCodes.csv"       "GEStock.csv"
+ [7] "IBMStock.csv"           "MetroAreaCodes.csv"     "ProcterGambleStock.csv"
+[10] "README.md"              "USDA.csv"               "WHO.csv"
+[13] "WHO_Europe.csv"         "baseball.csv"           "mvtWeek1.csv"
+[16] "wine.csv"               "wine_test.csv"
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> The Problem</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+In 2002, the A's lost three key players. The key question: could they
+continue winning without them?
+</p>
+
+<p>
+So what is the key problem? Let us discuss the graph on the left of
+the screen.
+</p>
+
+<p>
+The horizontal axis shows the average payroll during the years 1998
+to 2001. The vertical axis shows the average yearly wins over the same
+years. So let's look at some of the teams in this graph. So which one
+is this team?
+</p>
+
+<p>
+This is a team (blue dot)  that won about 100 games and spent roughly
+$90 million during this period. So this is the New York Yankees.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/MoneyBallProblem01.png" alt="MoneyBallProblem01.png" />
+</p>
+</div>
+
+<p>
+Let's look at this team (Red dot). This team spent about $80 million
+and won about 90 games. This is the Red Sox. Where are the Oakland
+A's? The A's are here (Green dot). They won about 90 games, and they
+spent under $30 million.
+</p>
+
+<p>
+If you compare it with the Red Sox, they won about the same number of
+games during this period but the Red Sox spent about $50 million more
+per year than the A's.
+</p>
+
+<p>
+Clearly, rich teams like the Yankees and the Red Sox can afford the
+all-star players.
+</p>
+</div>
+
+<div id="outline-container-sec-2-2-1" class="outline-4">
+<h4 id="sec-2-2-1"><span class="section-number-4">2.2.1</span> The Approach</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<p>
+So the A's started using a different method to select players. The
+traditional way of selecting players was through scouting.
+</p>
+
+<p>
+Scouts would watch high school and college players, and they would
+report back about their skills, especially discussing their speed and
+their athletic build. The A's, however, selected players based on
+their statistics, not on their looks.
+</p>
+
+<p>
+The following are quotes from the book Moneyball. "The statistics
+enable you to find your way past all sorts of sight-based scouting
+prejudices." And a direct quote from Billy Beane, the manager of the
+Oakland A's and the architect of this approach: "We are not selling
+jeans here."
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/TakingAQuantitativeView.png" alt="TakingAQuantitativeView.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> Video 2: Making it to the Playoffs</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+The A's approach was to get to the playoffs by using analytics.
+</p>
+
+<p>
+We'll first show how we can predict whether or not a team will make
+the playoffs by knowing how many games they won in the regular
+season. We'll then use linear regression to predict how many games a
+team will win using the difference between runs scored and runs allowed,
+or opponent runs.
+</p>
+
+<p>
+We'll then use linear regression again to predict the number of runs a
+team will score using batting statistics, and the number of runs a
+team will allow using fielding and pitching statistics.
+</p>
+
+<p>
+We'll start by figuring out how many games a team needs to win to make
+the playoffs, and then how many more runs a team needs to score than
+their opponent to win that many games.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/TheGoal.png" alt="TheGoal.png" />
+</p>
+</div>
+
+<p>
+So our first question is:
+</p>
+
+<ul class="org-ul">
+<li>How many games does a team need to win in the regular season to make
+it to the playoffs?
+</li>
+</ul>
+
+<p>
+In Moneyball, Paul DePodesta reduced the regular season to a math
+problem.
+</p>
+
+<p>
+He judged that it would take <b>95</b> wins for the A's to make it to the
+playoffs. Let's see if we can verify this using data. This graph uses
+data from all teams and seasons from 1996 to 2001.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/MakingThePlayOffs.png" alt="MakingThePlayOffs.png" />
+</p>
+</div>
+
+<p>
+So we know that a team wants to win 95 or more games, but how does a
+team win games?
+</p>
+
+<p>
+Well, they score more runs than their opponent does. We just need to
+figure out how many more. The A's calculated that they needed to score
+135 more runs than they allowed during the regular season to expect to
+win 95 games.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-4" class="outline-3">
+<h3 id="sec-2-4"><span class="section-number-3">2.4</span> Loading the data</h3>
+<div class="outline-text-3" id="text-2-4">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Read in data"</span>)
+baseball <span style="color: #db7093;">&lt;-</span> read.table(<span style="color: #fffacd;">"../data/baseball.csv"</span>, sep = <span style="color: #fffacd;">","</span>, header = <span style="color: #3cb371;">TRUE</span>)
+str(baseball)
+summary(baseball)
+</pre>
+</div>
+
+<pre class="example">
+ :: Read in data
+'data.frame':	1232 obs. of  15 variables:
+ $ Team        : Factor w/ 39 levels "ANA","ARI","ATL",..: 2 3 4 5 7 8 9 10 11 12 ...
+ $ League      : Factor w/ 2 levels "AL","NL": 2 2 1 1 2 1 2 1 2 1 ...
+ $ Year        : int  2012 2012 2012 2012 2012 2012 2012 2012 2012 2012 ...
+ $ RS          : int  734 700 712 734 613 748 669 667 758 726 ...
+ $ RA          : int  688 600 705 806 759 676 588 845 890 670 ...
+ $ W           : int  81 94 93 69 61 85 97 68 64 88 ...
+ $ OBP         : num  0.328 0.32 0.311 0.315 0.302 0.318 0.315 0.324 0.33 0.335 ...
+ $ SLG         : num  0.418 0.389 0.417 0.415 0.378 0.422 0.411 0.381 0.436 0.422 ...
+ $ BA          : num  0.259 0.247 0.247 0.26 0.24 0.255 0.251 0.251 0.274 0.268 ...
+ $ Playoffs    : int  0 1 1 0 0 0 1 0 0 1 ...
+ $ RankSeason  : int  NA 4 5 NA NA NA 2 NA NA 6 ...
+ $ RankPlayoffs: int  NA 5 4 NA NA NA 4 NA NA 2 ...
+ $ G           : int  162 162 162 162 162 162 162 162 162 162 ...
+ $ OOBP        : num  0.317 0.306 0.315 0.331 0.335 0.319 0.305 0.336 0.357 0.314 ...
+ $ OSLG        : num  0.415 0.378 0.403 0.428 0.424 0.405 0.39 0.43 0.47 0.402 ...
+      Team     League        Year            RS               RA
+ BAL    : 47   AL:616   Min.   :1962   Min.   : 463.0   Min.   : 472.0
+ BOS    : 47   NL:616   1st Qu.:1977   1st Qu.: 652.0   1st Qu.: 649.8
+ CHC    : 47            Median :1989   Median : 711.0   Median : 709.0
+ CHW    : 47            Mean   :1989   Mean   : 715.1   Mean   : 715.1
+ CIN    : 47            3rd Qu.:2002   3rd Qu.: 775.0   3rd Qu.: 774.2
+ CLE    : 47            Max.   :2012   Max.   :1009.0   Max.   :1103.0
+ (Other):950
+       W              OBP              SLG               BA
+ Min.   : 40.0   Min.   :0.2770   Min.   :0.3010   Min.   :0.2140
+ 1st Qu.: 73.0   1st Qu.:0.3170   1st Qu.:0.3750   1st Qu.:0.2510
+ Median : 81.0   Median :0.3260   Median :0.3960   Median :0.2600
+ Mean   : 80.9   Mean   :0.3263   Mean   :0.3973   Mean   :0.2593
+ 3rd Qu.: 89.0   3rd Qu.:0.3370   3rd Qu.:0.4210   3rd Qu.:0.2680
+ Max.   :116.0   Max.   :0.3730   Max.   :0.4910   Max.   :0.2940
+
+    Playoffs        RankSeason     RankPlayoffs         G
+ Min.   :0.0000   Min.   :1.000   Min.   :1.000   Min.   :158.0
+ 1st Qu.:0.0000   1st Qu.:2.000   1st Qu.:2.000   1st Qu.:162.0
+ Median :0.0000   Median :3.000   Median :3.000   Median :162.0
+ Mean   :0.1981   Mean   :3.123   Mean   :2.717   Mean   :161.9
+ 3rd Qu.:0.0000   3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:162.0
+ Max.   :1.0000   Max.   :8.000   Max.   :5.000   Max.   :165.0
+                  NA's   :988     NA's   :988
+      OOBP             OSLG
+ Min.   :0.2940   Min.   :0.3460
+ 1st Qu.:0.3210   1st Qu.:0.4010
+ Median :0.3310   Median :0.4190
+ Mean   :0.3323   Mean   :0.4197
+ 3rd Qu.:0.3430   3rd Qu.:0.4380
+ Max.   :0.3840   Max.   :0.4990
+ NA's   :812      NA's   :812
+</pre>
+
+<p>
+This data set includes an observation for every team and year pair
+from 1962 to 2012 for all seasons with 162 games. We have 15 variables
+in our data set, including Runs Scored, RS, Runs Allowed, RA, and
+Wins, W. We also have several other variables that we'll use when
+building models later on in the lecture.
+</p>
+
+<p>
+Since we're confirming the claims made in Moneyball, we want to build
+models using data Paul DePodesta had in 2002, so let's start by
+subsetting our data to only include the years before 2002.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Subset to only include moneyball years"</span>)
+moneyball <span style="color: #db7093;">&lt;-</span> subset(baseball, Year &lt; 2002)
+str(moneyball)
+summary(moneyball)
+</pre>
+</div>
+
+<pre class="example">
+ :: Subset to only include moneyball years
+'data.frame':	902 obs. of  15 variables:
+ $ Team        : Factor w/ 39 levels "ANA","ARI","ATL",..: 1 2 3 4 5 7 8 9 10 11 ...
+ $ League      : Factor w/ 2 levels "AL","NL": 1 2 2 1 1 2 1 2 1 2 ...
+ $ Year        : int  2001 2001 2001 2001 2001 2001 2001 2001 2001 2001 ...
+ $ RS          : int  691 818 729 687 772 777 798 735 897 923 ...
+ $ RA          : int  730 677 643 829 745 701 795 850 821 906 ...
+ $ W           : int  75 92 88 63 82 88 83 66 91 73 ...
+ $ OBP         : num  0.327 0.341 0.324 0.319 0.334 0.336 0.334 0.324 0.35 0.354 ...
+ $ SLG         : num  0.405 0.442 0.412 0.38 0.439 0.43 0.451 0.419 0.458 0.483 ...
+ $ BA          : num  0.261 0.267 0.26 0.248 0.266 0.261 0.268 0.262 0.278 0.292 ...
+ $ Playoffs    : int  0 1 1 0 0 0 0 0 1 0 ...
+ $ RankSeason  : int  NA 5 7 NA NA NA NA NA 6 NA ...
+ $ RankPlayoffs: int  NA 1 3 NA NA NA NA NA 4 NA ...
+ $ G           : int  162 162 162 162 161 162 162 162 162 162 ...
+ $ OOBP        : num  0.331 0.311 0.314 0.337 0.329 0.321 0.334 0.341 0.341 0.35 ...
+ $ OSLG        : num  0.412 0.404 0.384 0.439 0.393 0.398 0.427 0.455 0.417 0.48 ...
+      Team     League        Year            RS               RA
+ BAL    : 36   AL:462   Min.   :1962   Min.   : 463.0   Min.   : 472.0
+ BOS    : 36   NL:440   1st Qu.:1973   1st Qu.: 641.2   1st Qu.: 640.0
+ CHC    : 36            Median :1983   Median : 695.0   Median : 697.0
+ CHW    : 36            Mean   :1982   Mean   : 703.8   Mean   : 703.8
+ CIN    : 36            3rd Qu.:1992   3rd Qu.: 761.8   3rd Qu.: 763.0
+ CLE    : 36            Max.   :2001   Max.   :1009.0   Max.   :1103.0
+ (Other):686
+       W               OBP             SLG               BA
+ Min.   : 40.00   Min.   :0.277   Min.   :0.3010   Min.   :0.2140
+ 1st Qu.: 73.00   1st Qu.:0.314   1st Qu.:0.3680   1st Qu.:0.2500
+ Median : 81.00   Median :0.324   Median :0.3880   Median :0.2580
+ Mean   : 80.88   Mean   :0.325   Mean   :0.3904   Mean   :0.2582
+ 3rd Qu.: 89.00   3rd Qu.:0.335   3rd Qu.:0.4118   3rd Qu.:0.2670
+ Max.   :116.00   Max.   :0.373   Max.   :0.4850   Max.   :0.2940
+
+    Playoffs        RankSeason     RankPlayoffs         G
+ Min.   :0.0000   Min.   :1.000   Min.   :1.000   Min.   :158.0
+ 1st Qu.:0.0000   1st Qu.:2.000   1st Qu.:2.000   1st Qu.:162.0
+ Median :0.0000   Median :2.500   Median :3.000   Median :162.0
+ Mean   :0.1707   Mean   :2.792   Mean   :2.454   Mean   :161.9
+ 3rd Qu.:0.0000   3rd Qu.:4.000   3rd Qu.:3.000   3rd Qu.:162.0
+ Max.   :1.0000   Max.   :8.000   Max.   :4.000   Max.   :165.0
+                  NA's   :748     NA's   :748
+      OOBP             OSLG
+ Min.   :0.3010   Min.   :0.3770
+ 1st Qu.:0.3290   1st Qu.:0.4160
+ Median :0.3420   Median :0.4325
+ Mean   :0.3405   Mean   :0.4325
+ 3rd Qu.:0.3500   3rd Qu.:0.4508
+ Max.   :0.3840   Max.   :0.4990
+ NA's   :812      NA's   :812
+</pre>
+
+<p>
+So we want to build a linear regression equation to predict wins using
+the difference between runs scored and runs allowed.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Compute Run Difference"</span>)
+moneyball$RD <span style="color: #db7093;">&lt;-</span> moneyball$RS - moneyball$RA
+str(moneyball)
+</pre>
+</div>
+
+<pre class="example">
+ :: Compute Run Difference
+'data.frame':	902 obs. of  16 variables:
+ $ Team        : Factor w/ 39 levels "ANA","ARI","ATL",..: 1 2 3 4 5 7 8 9 10 11 ...
+ $ League      : Factor w/ 2 levels "AL","NL": 1 2 2 1 1 2 1 2 1 2 ...
+ $ Year        : int  2001 2001 2001 2001 2001 2001 2001 2001 2001 2001 ...
+ $ RS          : int  691 818 729 687 772 777 798 735 897 923 ...
+ $ RA          : int  730 677 643 829 745 701 795 850 821 906 ...
+ $ W           : int  75 92 88 63 82 88 83 66 91 73 ...
+ $ OBP         : num  0.327 0.341 0.324 0.319 0.334 0.336 0.334 0.324 0.35 0.354 ...
+ $ SLG         : num  0.405 0.442 0.412 0.38 0.439 0.43 0.451 0.419 0.458 0.483 ...
+ $ BA          : num  0.261 0.267 0.26 0.248 0.266 0.261 0.268 0.262 0.278 0.292 ...
+ $ Playoffs    : int  0 1 1 0 0 0 0 0 1 0 ...
+ $ RankSeason  : int  NA 5 7 NA NA NA NA NA 6 NA ...
+ $ RankPlayoffs: int  NA 1 3 NA NA NA NA NA 4 NA ...
+ $ G           : int  162 162 162 162 161 162 162 162 162 162 ...
+ $ OOBP        : num  0.331 0.311 0.314 0.337 0.329 0.321 0.334 0.341 0.341 0.35 ...
+ $ OSLG        : num  0.412 0.404 0.384 0.439 0.393 0.398 0.427 0.455 0.417 0.48 ...
+ $ RD          : int  -39 141 86 -142 27 76 3 -115 76 17 ...
+</pre>
+
+<p>
+Now, before we build the linear regression equation, let's visually
+check to see if there's a linear relationship between Run Difference
+and Wins.
+</p>
+
+
+<div id="fig:exploratoryMoneyBall" class="figure">
+<p><img src="../graphs/exploratoryMoneyBall.png" alt="exploratoryMoneyBall.png" />
+</p>
+<p><span class="figure-number">Figure 9:</span> Scatterplot to check for linear relationship</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-5" class="outline-3">
+<h3 id="sec-2-5"><span class="section-number-3">2.5</span> Linear Regression Model</h3>
+<div class="outline-text-3" id="text-2-5">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Regression model to predict wins"</span>)
+WinsReg <span style="color: #db7093;">&lt;-</span> lm(W ~ RD, data = moneyball)
+summary(WinsReg)
+</pre>
+</div>
+
+<pre class="example">
+ :: Regression model to predict wins
+
+Call:
+lm(formula = W ~ RD, data = moneyball)
+
+Residuals:
+     Min       1Q   Median       3Q      Max
+-14.2662  -2.6509   0.1234   2.9364  11.6570
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept) 80.881375   0.131157  616.67   &lt;2e-16 ***
+RD           0.105766   0.001297   81.55   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 3.939 on 900 degrees of freedom
+Multiple R-squared:  0.8808,	Adjusted R-squared:  0.8807
+F-statistic:  6651 on 1 and 900 DF,  p-value: &lt; 2.2e-16
+</pre>
+
+<p>
+We can take a look at the summary of our regression equation using the
+summary function, which shows us that RD is very significant with
+three stars, and the R-squared of our model is 0.88.
+</p>
+
+<p>
+So we have a strong model to predict wins using the difference between
+runs scored and runs allowed. Now, let's see if we can use this model
+to confirm the claim made in Moneyball that a team needs to score at
+least 135 more runs than they allow to win at least <b>95 games</b>.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/AppModel.png" alt="AppModel.png" />
+</p>
+</div>
+
+<p>
+So this tells us that if the run difference of a team is greater than
+or equal to \(133.4\), then we predict that the team will win at least
+\(95\) games. This is very close to the claim made in Moneyball that a
+team needs to score at least \(135\) more runs than they allow to win at
+least \(95\) games.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-6" class="outline-3">
+<h3 id="sec-2-6"><span class="section-number-3">2.6</span> Quick Question (1 point possible)</h3>
+<div class="outline-text-3" id="text-2-6">
+<p>
+If a baseball team scores 713 runs and allows 614 runs, how many games
+do we expect the team to win?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Using the predict function"</span>)
+RD <span style="color: #db7093;">&lt;-</span> (713 - 614)
+TestData01 <span style="color: #db7093;">&lt;-</span> data.frame(RD)
+predict(WinsReg, TestData01)
+
+writeLines(<span style="color: #fffacd;">"\n :: Using the model directly"</span>)
+W <span style="color: #db7093;">&lt;-</span> 80.881375 + (0.105766 * TestData01$RD)
+W
+</pre>
+</div>
+
+<pre class="example">
+ :: Using the predict function
+       1
+91.35217
+
+ :: Using the model directly
+[1] 91.35221
+</pre>
+
+<p>
+Using the linear regression model constructed during the lecture,
+enter the number of games we expect the team to win:
+</p>
+</div>
+
+<div id="outline-container-sec-2-6-1" class="outline-4">
+<h4 id="sec-2-6-1"><span class="section-number-4">2.6.1</span> Answer</h4>
+<div class="outline-text-4" id="text-2-6-1">
+<p>
+Our linear regression model was
+</p>
+
+<p>
+\(Wins = 80.88 + 0.1058 * (Run~Difference)\)
+</p>
+
+<p>
+Here, the run difference is \(99\), so our prediction is
+</p>
+
+<p>
+\(Wins = 80.88 + 0.1058*99 = 91~games\).
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-7" class="outline-3">
+<h3 id="sec-2-7"><span class="section-number-3">2.7</span> Video 3: Predicting Runs</h3>
+<div class="outline-text-3" id="text-2-7">
+<p>
+The Oakland A's were interested in answering the question: how does a
+team score more runs?
+</p>
+
+<p>
+They discovered that two particular baseball statistics were very
+predictive of runs scored:
+</p>
+
+<ul class="org-ul">
+<li>on-base percentage, or OBP, and
+</li>
+<li>slugging percentage, or SLG.
+</li>
+</ul>
+
+<p>
+<b>On-base</b> percentage is the percentage of time a player gets on base,
+including walks. <b>Slugging</b> percentage measures how far a player gets
+around the bases on his turn, and measures the power of a hitter.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/ScoringRuns.png" alt="ScoringRuns.png" />
+</p>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Structure of the DF"</span>)
+str(moneyball)
+
+writeLines(<span style="color: #fffacd;">"\n :: Regression model to predict runs scored"</span>)
+RunsReg <span style="color: #db7093;">&lt;-</span> lm(RS ~ OBP + SLG + BA, data=moneyball)
+summary(RunsReg)
+</pre>
+</div>
+
+<pre class="example">
+ :: Structure of the DF
+'data.frame':	902 obs. of  16 variables:
+ $ Team        : Factor w/ 39 levels "ANA","ARI","ATL",..: 1 2 3 4 5 7 8 9 10 11 ...
+ $ League      : Factor w/ 2 levels "AL","NL": 1 2 2 1 1 2 1 2 1 2 ...
+ $ Year        : int  2001 2001 2001 2001 2001 2001 2001 2001 2001 2001 ...
+ $ RS          : int  691 818 729 687 772 777 798 735 897 923 ...
+ $ RA          : int  730 677 643 829 745 701 795 850 821 906 ...
+ $ W           : int  75 92 88 63 82 88 83 66 91 73 ...
+ $ OBP         : num  0.327 0.341 0.324 0.319 0.334 0.336 0.334 0.324 0.35 0.354 ...
+ $ SLG         : num  0.405 0.442 0.412 0.38 0.439 0.43 0.451 0.419 0.458 0.483 ...
+ $ BA          : num  0.261 0.267 0.26 0.248 0.266 0.261 0.268 0.262 0.278 0.292 ...
+ $ Playoffs    : int  0 1 1 0 0 0 0 0 1 0 ...
+ $ RankSeason  : int  NA 5 7 NA NA NA NA NA 6 NA ...
+ $ RankPlayoffs: int  NA 1 3 NA NA NA NA NA 4 NA ...
+ $ G           : int  162 162 162 162 161 162 162 162 162 162 ...
+ $ OOBP        : num  0.331 0.311 0.314 0.337 0.329 0.321 0.334 0.341 0.341 0.35 ...
+ $ OSLG        : num  0.412 0.404 0.384 0.439 0.393 0.398 0.427 0.455 0.417 0.48 ...
+ $ RD          : int  -39 141 86 -142 27 76 3 -115 76 17 ...
+
+ :: Regression model to predict runs scored
+
+Call:
+lm(formula = RS ~ OBP + SLG + BA, data = moneyball)
+
+Residuals:
+    Min      1Q  Median      3Q     Max
+-70.941 -17.247  -0.621  16.754  90.998
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)  -788.46      19.70 -40.029  &lt; 2e-16 ***
+OBP          2917.42     110.47  26.410  &lt; 2e-16 ***
+SLG          1637.93      45.99  35.612  &lt; 2e-16 ***
+BA           -368.97     130.58  -2.826  0.00482 **
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 24.69 on 898 degrees of freedom
+Multiple R-squared:  0.9302,	Adjusted R-squared:   0.93
+F-statistic:  3989 on 3 and 898 DF,  p-value: &lt; 2.2e-16
+</pre>
+
+<p>
+All the variables (OBP + SLG + BA) are significant, and the \(R^2 = 0.9302\).
+</p>
+
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Structure of the DF"</span>)
+str(moneyball)
+
+writeLines(<span style="color: #fffacd;">"\n :: Regression model to predict runs scored"</span>)
+RunsReg <span style="color: #db7093;">&lt;-</span> lm(RS ~ OBP + SLG, data=moneyball)
+summary(RunsReg)
+</pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
 <p class="date">Date: 11/06/2015</p>
 <p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
-<p class="date">Created: 2015-06-12 Fri 07:46</p>
+<p class="date">Created: 2015-06-13 Sat 09:15</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
