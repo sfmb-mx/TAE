@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Unit 2 - Linear Regression</title>
-<!-- 2015-06-13 Sat 09:15 -->
+<!-- 2015-06-16 Tue 18:51 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Sergio-Feliciano Mendoza-Barrera" />
@@ -217,6 +217,10 @@ for the JavaScript code in this tag.
 <li><a href="#sec-2-5">2.5. Linear Regression Model</a></li>
 <li><a href="#sec-2-6">2.6. Quick Question (1 point possible)</a></li>
 <li><a href="#sec-2-7">2.7. Video 3: Predicting Runs</a></li>
+<li><a href="#sec-2-8">2.8. Refining the model</a></li>
+<li><a href="#sec-2-9">2.9. Allowing Runs Model</a></li>
+<li><a href="#sec-2-10">2.10. Quick Question (2 points possible)</a></li>
+<li><a href="#sec-2-11">2.11. Video 4: Using the Models to Make Predictions</a></li>
 </ul>
 </li>
 </ul>
@@ -538,8 +542,8 @@ list.files(<span style="color: #fffacd;">"../data"</span>)
  [4] "CocaColaStock.csv"      "CountryCodes.csv"       "GEStock.csv"
  [7] "IBMStock.csv"           "MetroAreaCodes.csv"     "ProcterGambleStock.csv"
 [10] "README.md"              "USDA.csv"               "WHO.csv"
-[13] "WHO_Europe.csv"         "mvtWeek1.csv"           "wine.csv"
-[16] "wine_test.csv"
+[13] "WHO_Europe.csv"         "baseball.csv"           "mvtWeek1.csv"
+[16] "wine.csv"               "wine_test.csv"
 </pre>
 </div>
 </div>
@@ -1897,6 +1901,9 @@ summary(WinsReg)
 </div>
 
 <pre class="example">
+null device
+          1
+
  :: Regression model to predict wins
 
 Call:
@@ -2095,16 +2102,302 @@ F-statistic:  3989 on 3 and 898 DF,  p-value: &lt; 2.2e-16
 All the variables (OBP + SLG + BA) are significant, and the \(R^2 = 0.9302\).
 </p>
 
+<p>
+But if we look at our coefficients, we can see that the coefficient
+for batting average is <b>negative</b>. This implies that, all else being
+equal, a team with a lower batting average will score more runs, which
+is a little counterintuitive.
+</p>
+
+<p>
+What's going on here is a case of multicollinearity. These three
+hitting statistics are highly correlated.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-8" class="outline-3">
+<h3 id="sec-2-8"><span class="section-number-3">2.8</span> Refining the model</h3>
+<div class="outline-text-3" id="text-2-8">
+<p>
+Let's try removing batting average, the variable with the least
+significance, to see what happens to our model.
+</p>
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Structure of the DF"</span>)
-str(moneyball)
-
-writeLines(<span style="color: #fffacd;">"\n :: Regression model to predict runs scored"</span>)
-RunsReg <span style="color: #db7093;">&lt;-</span> lm(RS ~ OBP + SLG, data=moneyball)
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Regression model to predict runs scored"</span>)
+RunsReg <span style="color: #db7093;">&lt;-</span> lm(RS ~ OBP + SLG, data = moneyball)
 summary(RunsReg)
 </pre>
+</div>
+
+<pre class="example">
+ :: Regression model to predict runs scored
+
+Call:
+lm(formula = RS ~ OBP + SLG, data = moneyball)
+
+Residuals:
+    Min      1Q  Median      3Q     Max
+-70.838 -17.174  -1.108  16.770  90.036
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)  -804.63      18.92  -42.53   &lt;2e-16 ***
+OBP          2737.77      90.68   30.19   &lt;2e-16 ***
+SLG          1584.91      42.16   37.60   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 24.79 on 899 degrees of freedom
+Multiple R-squared:  0.9296,	Adjusted R-squared:  0.9294
+F-statistic:  5934 on 2 and 899 DF,  p-value: &lt; 2.2e-16
+</pre>
+
+<p>
+So this model is simpler, with only two independent variables, and has
+about the same R-squared.
+</p>
+
+<p>
+Overall a better model. You could experiment and see that if we'd
+removed on-base percentage or slugging percentage instead of batting
+average, our R-squared would have decreased.
+</p>
+
+<p>
+If we look at the coefficients of our model, we can see that on-base
+percentage has a larger coefficient than slugging percentage. Since
+these variables are on about the same scale, this tells us that
+on-base percentage is probably worth more than slugging percentage.
+</p>
+
+<p>
+So by using linear regression, we're able to verify the claims made in
+Moneyball: that batting average is overvalued, on-base percentage is
+the most important, and slugging percentage is important for
+predicting runs scored.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-9" class="outline-3">
+<h3 id="sec-2-9"><span class="section-number-3">2.9</span> Allowing Runs Model</h3>
+<div class="outline-text-3" id="text-2-9">
+<p>
+We can create a very similar model to predict runs allowed, or
+opponent runs. This model uses pitching statistics: opponents on-base
+percentage, or OOBP, and opponents slugging percentage, or OSLG.
+</p>
+
+<p>
+These statistics are computed in the same way as on-base percentage
+and slugging percentage, but they use the actions of the opposing
+batters against our team's pitcher and fielders.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/AllowingRuns.png" alt="AllowingRuns.png" />
+</p>
+</div>
+
+<p>
+The key message here is that simple models, using only a couple
+independent variables, can be constructed to answer some of the most
+important questions in baseball.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Regression model to predict runs allowed"</span>)
+RunsAllowed <span style="color: #db7093;">&lt;-</span> lm(RA ~ OOBP + OSLG, data = moneyball)
+summary(RunsAllowed)
+</pre>
+</div>
+
+<pre class="example">
+ :: Regression model to predict runs allowed
+
+Call:
+lm(formula = RA ~ OOBP + OSLG, data = moneyball)
+
+Residuals:
+    Min      1Q  Median      3Q     Max
+-82.397 -15.178  -0.129  17.679  60.955
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)  -837.38      60.26 -13.897  &lt; 2e-16 ***
+OOBP         2913.60     291.97   9.979 4.46e-16 ***
+OSLG         1514.29     175.43   8.632 2.55e-13 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 25.67 on 87 degrees of freedom
+  (812 observations deleted due to missingness)
+Multiple R-squared:  0.9073,	Adjusted R-squared:  0.9052
+F-statistic: 425.8 on 2 and 87 DF,  p-value: &lt; 2.2e-16
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-2-10" class="outline-3">
+<h3 id="sec-2-10"><span class="section-number-3">2.10</span> Quick Question (2 points possible)</h3>
+<div class="outline-text-3" id="text-2-10">
+<p>
+If a baseball team's OBP is 0.311 and SLG is 0.405, how many runs do
+we expect the team to score?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">OBP <span style="color: #db7093;">&lt;-</span> 0.311; SLG <span style="color: #db7093;">&lt;-</span> 0.405
+RSTest <span style="color: #db7093;">&lt;-</span> data.frame(OBP, SLG)
+predict(RunsReg, newdata = RSTest)
+</pre>
+</div>
+
+<pre class="example">
+       1
+688.7068
+</pre>
+</div>
+
+<div id="outline-container-sec-2-10-1" class="outline-4">
+<h4 id="sec-2-10-1"><span class="section-number-4">2.10.1</span> Question a</h4>
+<div class="outline-text-4" id="text-2-10-1">
+<p>
+Using the linear regression model constructed during the lecture (the
+one that uses OBP and SLG as independent variables), enter the number
+of runs we expect the team to score:
+</p>
+</div>
+
+<div id="outline-container-sec-2-10-1-1" class="outline-5">
+<h5 id="sec-2-10-1-1"><span class="section-number-5">2.10.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-2-10-1-1">
+<p>
+688.7068
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+Our linear regression model was:
+</p>
+
+<p>
+Runs Scored = -804.63 + 2737.77*(OBP) + 1584.91*(SLG)
+</p>
+
+<p>
+Here, OBP is 0.311 and SLG is 0.405, so our prediction is:
+</p>
+
+<p>
+Runs Scored = -804.63 + 2737.77*0.311 + 1584.91*0.405 = 689 runs
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-10-2" class="outline-4">
+<h4 id="sec-2-10-2"><span class="section-number-4">2.10.2</span> Question b</h4>
+<div class="outline-text-4" id="text-2-10-2">
+<p>
+If a baseball team's opponents OBP (OOBP) is 0.297 and oppenents SLG
+(OSLG) is 0.370, how many runs do we expect the team to allow?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">OOBP <span style="color: #db7093;">&lt;-</span> 0.297; OSLG <span style="color: #db7093;">&lt;-</span> 0.370
+RSTest02 <span style="color: #db7093;">&lt;-</span> data.frame(OOBP, OSLG)
+predict(RunsAllowed, newdata = RSTest02)
+</pre>
+</div>
+
+<pre class="example">
+      1
+588.247
+</pre>
+
+<p>
+Using the linear regression model discussed during the lecture (the
+one on the last slide of the previous video), enter the number of runs
+we expect the team to allow:
+</p>
+</div>
+
+<div id="outline-container-sec-2-10-2-1" class="outline-5">
+<h5 id="sec-2-10-2-1"><span class="section-number-5">2.10.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-2-10-2-1">
+<p>
+588.247
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+Our linear regression model was:
+</p>
+
+<p>
+Runs Allowed = -837.38 + 2913.60*(OOBP) + 1514.29*(OSLG)
+</p>
+
+<p>
+Here, OOBP is 0.297 and OSLG is 0.370, so our prediction is:
+</p>
+
+<p>
+Runs Scored = -837.38 + 2913.60*(.297) + 1514.29*(.370) = 588 runs
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-11" class="outline-3">
+<h3 id="sec-2-11"><span class="section-number-3">2.11</span> Video 4: Using the Models to Make Predictions</h3>
+<div class="outline-text-3" id="text-2-11">
+<p>
+Using our regression models, we would like to predict before the
+season starts how many games the 2002 Oakland A's will win. To do
+this, we first have to predict how many runs the team will score and
+how many runs they will allow.
+</p>
+
+<p>
+These models use team statistics. However, when we are predicting for
+the 2002 Oakland A's before the season has occurred, the team is
+probably different than it was the year before. So we don't know the
+team statistics.
+</p>
+
+<p>
+But we can estimate these statistics using past player
+performance. This approach assumes that past performance correlates
+with future performance and that there will be few injuries during the
+season.
+</p>
+
+<p>
+Using this approach, we can estimate the team statistics for 2002 by
+using the 2001 player statistics. Let's start by making a prediction
+for runs scored.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PredictingRunsScored.png" alt="PredictingRunsScored.png" />
+</p>
 </div>
 </div>
 </div>
@@ -2113,7 +2406,7 @@ summary(RunsReg)
 <div id="postamble" class="status">
 <p class="date">Date: 11/06/2015</p>
 <p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
-<p class="date">Created: 2015-06-13 Sat 09:15</p>
+<p class="date">Created: 2015-06-16 Tue 18:51</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

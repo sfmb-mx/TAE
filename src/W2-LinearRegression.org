@@ -245,8 +245,8 @@ In this part we can download the data
 :  [4] "CocaColaStock.csv"      "CountryCodes.csv"       "GEStock.csv"
 :  [7] "IBMStock.csv"           "MetroAreaCodes.csv"     "ProcterGambleStock.csv"
 : [10] "README.md"              "USDA.csv"               "WHO.csv"
-: [13] "WHO_Europe.csv"         "mvtWeek1.csv"           "wine.csv"
-: [16] "wine_test.csv"
+: [13] "WHO_Europe.csv"         "baseball.csv"           "mvtWeek1.csv"
+: [16] "wine.csv"               "wine_test.csv"
 
 *** Load the wine data set
 
@@ -1607,8 +1607,8 @@ If a baseball team's opponents OBP (OOBP) is 0.297 and oppenents SLG
 
 #+BEGIN_SRC R :session :results output :exports all
   OOBP <- 0.297; OSLG <- 0.370
-  RSTest02 <- data.frame(OOBP, OSLG)
-  predict(RunsAllowed, newdata = RSTest02)
+  RATest <- data.frame(OOBP, OSLG)
+  predict(RunsAllowed, newdata = RATest)
 #+END_SRC
 
 #+RESULTS:
@@ -1632,3 +1632,51 @@ Runs Allowed = -837.38 + 2913.60*(OOBP) + 1514.29*(OSLG)
 Here, OOBP is 0.297 and OSLG is 0.370, so our prediction is:
 
 Runs Scored = -837.38 + 2913.60*(.297) + 1514.29*(.370) = 588 runs
+
+** Video 4: Using the Models to Make Predictions
+
+Using our regression models, we would like to predict before the
+season starts how many games the 2002 Oakland A's will win. To do
+this, we first have to predict how many runs the team will score and
+how many runs they will allow.
+
+These models use team statistics. However, when we are predicting for
+the 2002 Oakland A's before the season has occurred, the team is
+probably different than it was the year before. So we don't know the
+team statistics.
+
+But we can estimate these statistics using past player
+performance. This approach assumes that past performance correlates
+with future performance and that there will be few injuries during the
+season.
+
+Using this approach, we can estimate the team statistics for 2002 by
+using the 2001 player statistics. Let's start by making a prediction
+for runs scored.
+
+[[../graphs/PredictingRunsScored.png]]
+
+
+#+BEGIN_SRC R :session :results output :exports all
+  OBP <- 0.339; SLG <- 0.430
+  RS2002 <- data.frame(OBP, SLG)
+  predict(RunsReg, newdata = RS2002)
+#+END_SRC
+
+#+RESULTS:
+:       1
+: 804.987
+
+** Predicting Runs Allowed
+
+[[../graphs/PredictingRunsAllowed.png]]
+
+#+BEGIN_SRC R :session :results output :exports all
+  OOBP <- 0.307; OSLG <- 0.373
+  RA2002 <- data.frame(OOBP, OSLG)
+  predict(RunsAllowed, newdata = RA2002)
+#+END_SRC
+
+#+RESULTS:
+:        1
+: 621.9258
