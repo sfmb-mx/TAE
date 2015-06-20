@@ -243,10 +243,11 @@ In this part we can download the data
 #+RESULTS:
 :  [1] "AnonymityPoll.csv"      "BoeingStock.csv"        "CPSData.csv"
 :  [4] "CocaColaStock.csv"      "CountryCodes.csv"       "GEStock.csv"
-:  [7] "IBMStock.csv"           "MetroAreaCodes.csv"     "ProcterGambleStock.csv"
-: [10] "README.md"              "USDA.csv"               "WHO.csv"
-: [13] "WHO_Europe.csv"         "baseball.csv"           "mvtWeek1.csv"
-: [16] "wine.csv"               "wine_test.csv"
+:  [7] "IBMStock.csv"           "MetroAreaCodes.csv"     "NBA_test.csv"
+: [10] "NBA_train.csv"          "ProcterGambleStock.csv" "README.md"
+: [13] "USDA.csv"               "WHO.csv"                "WHO_Europe.csv"
+: [16] "baseball.csv"           "mvtWeek1.csv"           "wine.csv"
+: [19] "wine_test.csv"
 
 *** Load the wine data set
 
@@ -1013,10 +1014,11 @@ In this part we can download the data
 #+RESULTS:
 :  [1] "AnonymityPoll.csv"      "BoeingStock.csv"        "CPSData.csv"
 :  [4] "CocaColaStock.csv"      "CountryCodes.csv"       "GEStock.csv"
-:  [7] "IBMStock.csv"           "MetroAreaCodes.csv"     "ProcterGambleStock.csv"
-: [10] "README.md"              "USDA.csv"               "WHO.csv"
-: [13] "WHO_Europe.csv"         "baseball.csv"           "mvtWeek1.csv"
-: [16] "wine.csv"               "wine_test.csv"
+:  [7] "IBMStock.csv"           "MetroAreaCodes.csv"     "NBA_test.csv"
+: [10] "NBA_train.csv"          "ProcterGambleStock.csv" "README.md"
+: [13] "USDA.csv"               "WHO.csv"                "WHO_Europe.csv"
+: [16] "baseball.csv"           "mvtWeek1.csv"           "wine.csv"
+: [19] "wine_test.csv"
 
 ** The Problem
 
@@ -1680,3 +1682,908 @@ for runs scored.
 #+RESULTS:
 :        1
 : 621.9258
+
+** Quick Question (1 point possible)
+
+Suppose you are the General Manager of a baseball team, and you are
+selecting TWO players for your team. You have a budget of $1,500,000,
+and you have the choice between the following players:
+
+| Player Name     |   OBP |   SLG |  Salary |
+|-----------------+-------+-------+---------|
+| Eric Chavez     | 0.338 | 0.540 | 1400000 |
+| Jeremy Giambi   | 0.391 | 0.450 | 1065000 |
+| Frank Menechino | 0.369 | 0.374 |  295000 |
+| Greg Myers      | 0.313 | 0.447 |  800000 |
+| Carlos Pena     | 0.361 | 0.500 |  300000 |
+
+Given your budget and the player statistics, which TWO players would
+you select?
+
+#+BEGIN_SRC R :session :results output :exports all
+  OBP <- c(0.338, 0.391, 0.369, 0.313, 0.361)
+  SLG <- c(0.540, 0.450, 0.374, 0.447, 0.500)
+  PlayerName <- c("Eric Chavez", "Jeremy Giambi", "Frank Menechino",
+                  "Greg Myers", "Carlos Pena")
+  Salary <- c(1400000, 1065000, 295000, 800000, 300000)
+
+  RSnewPlayers <- data.frame(PlayerName, OBP, SLG, Salary)
+  RSnewPlayers$RSPred <- predict(RunsReg, newdata = RSnewPlayers)
+  RSnewPlayers
+
+  writeLines("\n :: For the best players with the budget restriction:")
+  RSnewPlayers$Salary[2] + RSnewPlayers$Salary[5]
+#+END_SRC
+
+#+RESULTS:
+:        PlayerName   OBP   SLG  Salary   RSPred
+: 1     Eric Chavez 0.338 0.540 1400000 976.5892
+: 2   Jeremy Giambi 0.391 0.450 1065000 979.0491
+: 3 Frank Menechino 0.369 0.374  295000 798.3652
+: 4      Greg Myers 0.313 0.447  800000 760.7485
+: 5     Carlos Pena 0.361 0.500  300000 976.1615
+:
+:  :: For the best players with the budget restriction:
+: [1] 1365000
+
+*** Answer
+
+*Explanation*
+
+We would select Jeremy Giambi and Carlos Pena, since they give the
+highest contribution to Runs Scored.
+
+We would not select Eric Chavez, since his salary consumes our entire
+budget, and although he has the highest SLG, there are players with
+better OBP.
+
+We would not select Frank Menechino since even though he has a high
+OBP, his SLG is low.
+
+We would not select Greg Myers since he is dominated by Carlos Pena in
+OBP and SLG, but has a much higher salary.
+
+** Video 5: Winning the World Series
+
+We stated that the goal of a baseball team is to make the playoffs and
+we built predictive models to achieve this goal. But why isn't the
+goal of a baseball team to win the playoffs or win the World Series?
+
+Billy Beane and Paul Depodesta see their job as making sure the team
+makes it to the playoffs, and after that, all bets are off. The A's
+made it to the playoffs four years in a row-- 2000, 2001, 2002, and
+2003-- but they didn't win the World Series.
+
+*Why not?*
+
+In Moneyball, they say that "over a long season luck evens out, and
+skill shines through.
+
+In Moneyball, they say that "over a long season luck evens out, and
+skill shines through. But in a series of three out of five, or even
+four out of seven, anything can happen."
+
+In other words, the playoffs suffer from the sample size problem.
+
+There are not enough games to make any statistical claims. Let's see
+if we can verify this using our data set.
+
+The number of teams in the playoffs has changed over the years. So
+let's only use the years with eight teams in the playoffs, which was
+the number of teams in the playoffs in 2002, the year Moneyball
+discusses. We can compute the correlation between whether or not the
+team wins the World Series-- a binary variable-- and the number of
+regular season wins, since we would expect teams with more wins to be
+more likely to win the World Series.
+
+This *correlation* is $0.03$, which is *very low*. So it turns out that
+winning regular season games gets you to the playoffs, but in the
+playoffs, there too few games for luck to even out.
+
+[[../graphs/IsPlayoffPerformancePredictable.png]]
+
+** Quick Question (2 points possible)
+
+In 2012 and 2013, there were 10 teams in the MLB playoffs: the six
+teams that had the most wins in each baseball division, and four "wild
+card" teams. The playoffs start between the four wild card teams - the
+two teams that win proceed in the playoffs (8 teams remaining). Then,
+these teams are paired off and play a series of games. The four teams
+that win are then paired and play to determine who will play in the
+World Series.
+
+We can assign rankings to the teams as follows:
+
+- Rank 1: the team that won the World Series
+- Rank 2: the team that lost the World Series
+- Rank 3: the two teams that lost to the teams in the World Series
+- Rank 4: the four teams that made it past the wild card round, but
+  lost to the above four teams
+- Rank 5: the two teams that lost the wild card round
+
+In your R console, create a corresponding rank vector by typing
+
+#+BEGIN_SRC R :session :results output :exports all
+  teamRank = c(1, 2, 3, 3, 4, 4, 4, 4, 5, 5)
+#+END_SRC
+
+#+RESULTS:
+
+In this quick question, we'll see how well these rankings correlate
+with the regular season wins of the teams. In 2012, the ranking of the
+teams and their regular season wins were as follows:
+
+- Rank 1: San Francisco Giants (Wins = 94)
+- Rank 2: Detroit Tigers (Wins = 88)
+- Rank 3: New York Yankees (Wins = 95), and St. Louis Cardinals (Wins = 88)
+- Rank 4: Baltimore Orioles (Wins = 93), Oakland A's (Wins = 94),
+  Washington Nationals (Wins = 98), Cincinnati Reds (Wins = 97)
+- Rank 5: Texas Rangers (Wins = 93), and Atlanta Braves (Wins = 94)
+
+Create a vector in R called wins2012, that has the wins of each team
+in 2012, in order of rank (the vector should have 10 numbers).
+
+#+BEGIN_SRC R :session :results output :exports all
+  wins2012 <- c(94, 88, 95, 88, 93, 94, 98, 97, 93, 94)
+#+END_SRC
+
+#+RESULTS:
+
+In 2013, the ranking of the teams and their regular season wins were as follows:
+
+- Rank 1: Boston Red Sox (Wins = 97)
+- Rank 2: St. Louis Cardinals (Wins = 97)
+- Rank 3: Los Angeles Dodgers (Wins = 92), and Detroit Tigers (Wins = 93)
+- Rank 4: Tampa Bay Rays (Wins = 92), Oakland A's (Wins = 96),
+  Pittsburgh Pirates (Wins = 94), and Atlanta Braves (Wins = 96)
+- Rank 5: Cleveland Indians (Wins = 92), and Cincinnati Reds (Wins = 90)
+
+Create another vector in R called wins2013, that has the wins of each
+team in 2013, in order of rank (the vector should have 10 numbers).
+
+#+BEGIN_SRC R :session :results output :exports all
+  wins2013 <- c(97, 97, 92, 93, 92, 96, 94, 96, 92, 90)
+#+END_SRC
+
+#+RESULTS:
+
+*** Question a
+
+What is the correlation between teamRank and wins2012?
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: Correlation between teamRank and wins2012")
+  cor(teamRank, wins2012)
+#+END_SRC
+
+#+RESULTS:
+:
+:  :: Correlation between teamRank and wins2012
+: [1] 0.3477129
+
+*** Question b
+
+What is the correlation between teamRank and wins2013?
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: Correlation between teamRank and wins2013")
+  cor(teamRank, wins2013)
+#+END_SRC
+
+#+RESULTS:
+:
+:  :: Correlation between teamRank and wins2013
+: [1] -0.6556945
+
+*** Answer
+
+The output of the last line is 0.3477129, which is the correlation
+between teamRank and wins2012.
+
+The output of the last line is -0.6556945, which is the correlation
+between teamRank and wins2013.
+
+Since one of the correlations is positive and the other is negative,
+this means that there does not seem to be a pattern between regular
+season wins and winning the playoffs. We wouldn't feel comfortable
+making a bet for this year given this data!
+
+** Quick Question (1 point possible)
+
+Which of the following is MOST LIKELY to be a topic of Sabermetric
+research?
+
+- Evaluating how the attitude of managers influences player
+  performance
+- Determining the correlation between scouting predictions and player
+  performance
+- Predicting how many home runs the Oakland A's will hit next year
+
+While Moneyball made the use of analytics in sports very popular,
+baseball is not the only sport for which analytics is used. Analytics
+is currently used in almost every single sport, including basketball,
+soccer, cricket, and hockey.
+
+Basketball: The study of analytics in basketball, called APBRmetrics,
+is very popular. There have been many books written in this area,
+including "Pro Basketball Forecast" by John Hollinger and "Basketball
+on Paper" by Dean Oliver. There are also several websites dedicated to
+the study of basketball analytics, including [[http://www.82games.com][82games.com]]. We'll talk
+more about basketball during recitation.
+
+Soccer: The soccer analytics community is currently growing, and new
+data is constantly being collected. Many argue that it is much harder
+to apply analytics to soccer, but there are several books and websites
+on the topic. Check out "The Numbers Game: Why Everything You Know
+about Football is Wrong" by Chris Anderson and David Sally, as well as
+the websites [[http://www.socceranalysts.com][socceranalysts.com]] and [[http://www.soccermetrics.net/][soccermetrics.net]].
+
+Cricket: There are several websites dedicated to building models for
+evaluating player performance in cricket. Check out [[http://www.cricmetric.com][cricmetric.com]] and
+[[http://www.impactindexcricket.com][impactindexcricket.com]].
+
+Hockey: Analytics are used in hockey to track player performance and
+to better shape the composition of teams. Check out the websites
+[[http://www.hockeyanalytics.com][hockeyanalytics.com]] and [[http://www.lighthousehockey.com][lighthousehockey.com]].
+
+*** Answer
+
+*Explanation*
+
+*Sabermetric* research tries to take a quantitative approach to
+baseball. Predicting how many home runs the Oakland A's will hit next
+year is a very quantitative problem. While the other two topics could
+be an area of Sabermetric research, they are more qualitative.
+
+* Recitation: Playing Moneyball in the NBA
+
+Now, we'll apply the same method, linear regression, to data from the
+National Basketball Association, the NBA.
+
+** Video 1: The Data
+
+In this recitation, we'll apply some of the ideas from Moneyball to
+data from the National Basketball Association (NBA). Please download
+the datasets [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/NBA_train.csv][NBA_train.csv]] and [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/NBA_test.csv][NBA_test.csv]], and save them to a
+location on your computer that you will remember. This data comes from
+[[http://www.basketball-reference.com][Basketball-Reference.com]].
+
+A script file containing all of the R commands used in this recitation
+can be downloaded [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/Unit2_Recitation.R][here]].
+
+*** Download the data set
+
+In this part we can download the data
+
+#+BEGIN_SRC R :session :results output :exports all
+  library(parallel)
+
+  if(!file.exists("../data")) {
+          dir.create("../data")
+  }
+
+  fileUrl <-
+          c("https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/NBA_train.csv", "https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/NBA_test.csv")
+
+  fileName <- c("NBA_train.csv", "NBA_test.csv")
+
+  dataPath <- "../data"
+
+  for(i in 1:2) {
+          filePath <- paste(dataPath, fileName[i], sep = "/")
+
+          if(!file.exists(filePath)) {
+                  download.file(fileUrl[i], destfile = filePath, method = "curl")
+          }
+  }
+  list.files("../data")
+#+END_SRC
+
+#+RESULTS:
+:  [1] "AnonymityPoll.csv"      "BoeingStock.csv"        "CPSData.csv"
+:  [4] "CocaColaStock.csv"      "CountryCodes.csv"       "GEStock.csv"
+:  [7] "IBMStock.csv"           "MetroAreaCodes.csv"     "NBA_test.csv"
+: [10] "NBA_train.csv"          "ProcterGambleStock.csv" "README.md"
+: [13] "USDA.csv"               "WHO.csv"                "WHO_Europe.csv"
+: [16] "baseball.csv"           "mvtWeek1.csv"           "wine.csv"
+: [19] "wine_test.csv"
+
+** Loading the data
+
+In this recitation we will apply some of the ideas from Moneyball to
+data from the National Basketball Association-- that is, the *NBA*.
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: Read the data")
+  NBA <- read.table("../data/NBA_train.csv", sep = ",", header = TRUE)
+  str(NBA)
+  summary(NBA)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+
+ :: Read the data
+'data.frame':	835 obs. of  20 variables:
+ $ SeasonEnd: int  1980 1980 1980 1980 1980 1980 1980 1980 1980 1980 ...
+ $ Team     : Factor w/ 37 levels "Atlanta Hawks",..: 1 2 5 6 8 9 10 11 12 13 ...
+ $ Playoffs : int  1 1 0 0 0 0 0 1 0 1 ...
+ $ W        : int  50 61 30 37 30 16 24 41 37 47 ...
+ $ PTS      : int  8573 9303 8813 9360 8878 8933 8493 9084 9119 8860 ...
+ $ oppPTS   : int  8334 8664 9035 9332 9240 9609 8853 9070 9176 8603 ...
+ $ FG       : int  3261 3617 3362 3811 3462 3643 3527 3599 3639 3582 ...
+ $ FGA      : int  7027 7387 6943 8041 7470 7596 7318 7496 7689 7489 ...
+ $ X2P      : int  3248 3455 3292 3775 3379 3586 3500 3495 3551 3557 ...
+ $ X2PA     : int  6952 6965 6668 7854 7215 7377 7197 7117 7375 7375 ...
+ $ X3P      : int  13 162 70 36 83 57 27 104 88 25 ...
+ $ X3PA     : int  75 422 275 187 255 219 121 379 314 114 ...
+ $ FT       : int  2038 1907 2019 1702 1871 1590 1412 1782 1753 1671 ...
+ $ FTA      : int  2645 2449 2592 2205 2539 2149 1914 2326 2333 2250 ...
+ $ ORB      : int  1369 1227 1115 1307 1311 1226 1155 1394 1398 1187 ...
+ $ DRB      : int  2406 2457 2465 2381 2524 2415 2437 2217 2326 2429 ...
+ $ AST      : int  1913 2198 2152 2108 2079 1950 2028 2149 2148 2123 ...
+ $ STL      : int  782 809 704 764 746 783 779 782 900 863 ...
+ $ BLK      : int  539 308 392 342 404 562 339 373 530 356 ...
+ $ TOV      : int  1495 1539 1684 1370 1533 1742 1492 1565 1517 1439 ...
+   SeasonEnd                     Team        Playoffs            W
+ Min.   :1980   Atlanta Hawks      : 31   Min.   :0.0000   Min.   :11.0
+ 1st Qu.:1989   Boston Celtics     : 31   1st Qu.:0.0000   1st Qu.:31.0
+ Median :1996   Chicago Bulls      : 31   Median :1.0000   Median :42.0
+ Mean   :1996   Cleveland Cavaliers: 31   Mean   :0.5749   Mean   :41.0
+ 3rd Qu.:2005   Denver Nuggets     : 31   3rd Qu.:1.0000   3rd Qu.:50.5
+ Max.   :2011   Detroit Pistons    : 31   Max.   :1.0000   Max.   :72.0
+                (Other)            :649
+      PTS            oppPTS            FG            FGA            X2P
+ Min.   : 6901   Min.   : 6909   Min.   :2565   Min.   :5972   Min.   :1981
+ 1st Qu.: 7934   1st Qu.: 7934   1st Qu.:2974   1st Qu.:6564   1st Qu.:2510
+ Median : 8312   Median : 8365   Median :3150   Median :6831   Median :2718
+ Mean   : 8370   Mean   : 8370   Mean   :3200   Mean   :6873   Mean   :2881
+ 3rd Qu.: 8784   3rd Qu.: 8768   3rd Qu.:3434   3rd Qu.:7157   3rd Qu.:3296
+ Max.   :10371   Max.   :10723   Max.   :3980   Max.   :8868   Max.   :3954
+
+      X2PA           X3P             X3PA              FT            FTA
+ Min.   :4153   Min.   : 10.0   Min.   :  75.0   Min.   :1189   Min.   :1475
+ 1st Qu.:5269   1st Qu.:131.5   1st Qu.: 413.0   1st Qu.:1502   1st Qu.:2008
+ Median :5706   Median :329.0   Median : 942.0   Median :1628   Median :2176
+ Mean   :5956   Mean   :319.0   Mean   : 916.9   Mean   :1650   Mean   :2190
+ 3rd Qu.:6754   3rd Qu.:481.5   3rd Qu.:1347.5   3rd Qu.:1781   3rd Qu.:2352
+ Max.   :7873   Max.   :841.0   Max.   :2284.0   Max.   :2388   Max.   :3051
+
+      ORB              DRB            AST            STL
+ Min.   : 639.0   Min.   :2044   Min.   :1423   Min.   : 455.0
+ 1st Qu.: 953.5   1st Qu.:2346   1st Qu.:1735   1st Qu.: 599.0
+ Median :1055.0   Median :2433   Median :1899   Median : 658.0
+ Mean   :1061.6   Mean   :2427   Mean   :1912   Mean   : 668.4
+ 3rd Qu.:1167.0   3rd Qu.:2516   3rd Qu.:2078   3rd Qu.: 729.0
+ Max.   :1520.0   Max.   :2753   Max.   :2575   Max.   :1053.0
+
+      BLK             TOV
+ Min.   :204.0   Min.   : 931
+ 1st Qu.:359.0   1st Qu.:1192
+ Median :410.0   Median :1289
+ Mean   :419.8   Mean   :1303
+ 3rd Qu.:469.5   3rd Qu.:1396
+ Max.   :716.0   Max.   :1873
+#+end_example
+
+The data we have is located in the file NBA_train.csv and contains
+data from all teams in season since 1980, except for ones with less
+than 82 games. So I'll read this in to the variable NBA.
+
+*** Exploratory Analysis
+
+- We have 835 observations of 20 variables.
+- SeasonEnd is the year the season ended.
+- Team is the name of the team.
+- And playoffs is a binary variable for whether or not a team made it
+  to the playoffs that year. If they made it to the playoffs it's a 1,
+  if not it's a 0.
+- W stands for the number of regular season wins.
+- PTS stands for points scored during the regular season.
+- oppPTS stands for opponent points scored during the regular season.
+
+And then we've got quite a few variables that have the variable name
+and then the same variable with an 'A' afterwards. So we've got FG and
+FGA, X2P, X2PA, X3P, X3PA, FT, and FTA. So what this notation is, is
+it means if there is an 'A' it means the number that were attempted.
+
+And if not it means the number that were successful. So for example FG
+is the number of successful field goals, including two and three
+pointers.
+
+Whereas FGA is the number of field goal attempts. So this also
+contains the number of unsuccessful field goals. So FGA will always be
+a bigger number than FG.
+
+- The next pair is for two pointers. The number of successful two
+  pointers and the number attempted.
+- The pair after that, right down here, is for three pointers, the
+  number successful and the number attempted.
+- And the next pair is for free throws, the number successful and the
+  number attempted.
+
+Now you'll notice, actually, that the two pointer and three pointer
+variables have an 'X' in front of them. Well, this isn't because we
+had an 'X' in the original data.
+
+In fact, if you were to open up the csv file of the original data, it
+would just say, 2P and 2PA, and, 3P and 3PA, without the 'X' in
+front. The reason there's an 'X' in front of it is because when we
+load it into R, R doesn't like it when a variable begins with a
+number.
+
+So if a variable begins with a number it will put an 'X' in front of
+it. This is fine. It's just something we need to be mindful of when
+we're dealing with variables in R.
+
+- We've got ORB and DRB. These are offensive and defensive rebounds.
+- AST stands for assists.
+- STL stands for steals.
+- BLK stands for blocks.
+- And TOV stands for turnovers.
+
+Ee just wanted to familiarize you with some common basketball
+statistics that are recorded, and explain the labeling notation that
+we use in our data.
+
+** Video 2: Playoffs and Wins
+
+The goal of a basketball team is similar to that of a baseball team,
+making the playoffs. So how many games does a team need to win in
+order to make the playoffs?
+
+Recall that in the lecture we found this number by looking at a
+graph.
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: How many wins to make the playoffs?")
+  head(table(NBA$W, NBA$Playoffs), 15)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+
+ :: How many wins to make the playoffs?
+
+      0 1
+  11  2 0
+  12  2 0
+  13  2 0
+  14  2 0
+  15 10 0
+  16  2 0
+  17 11 0
+  18  5 0
+  19 10 0
+  20 10 0
+  21 12 0
+  22 11 0
+  23 11 0
+  24 18 0
+  25 11 0
+#+end_example
+
+So for all of our data, for example, consider all the times that a
+team won 17 games. So this happened 11 times in total. And all 11
+times the teams didn't make it to the playoffs when they won 17
+games.
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: How many wins to make the playoffs?")
+  tail(table(NBA$W, NBA$Playoffs), 15)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+
+ :: How many wins to make the playoffs?
+
+     0  1
+  55 0 24
+  56 0 16
+  57 0 23
+  58 0 13
+  59 0 14
+  60 0  8
+  61 0 10
+  62 0 13
+  63 0  7
+  64 0  3
+  65 0  3
+  66 0  2
+  67 0  4
+  69 0  1
+  72 0  1
+#+end_example
+
+At the end of the table, for example, 61 wins. If a team won 61 games
+then 10 of those times they made it to the playoffs, and 0 times they
+didn't.
+
+So it seems like if you win 61 games you are definitely going to make
+it to the playoffs. But I'm sure we can find a much better threshold.
+
+Let's take a look at the table, say around the middle section. OK, so
+here we can see that a team who wins say about 35 games or fewer
+almost never makes it to the playoffs.
+
+We see a lot of 0s and 1s in this column up until 35. After 35 we
+start seeing some numbers over here. So teams are starting to make it
+to the playoffs. And if we scroll down, we see that after about 45
+wins, teams almost always make it to the playoffs.
+
+We see very few 1s and 0s in the category of not making it. So it
+seems like a good goal would be to try to win about 42 games.
+
+*If a team can win about 42 games then they have a very good chance of
+making it to the playoffs*. So in basketball, games are won by scoring
+more points than the other team.
+
+Can we use the difference between points scored and points allowed
+throughout the regular season in order to predict the number of games
+that a team will win?
+
+First we add a variable that is the difference between points scored
+and points allowed.
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n ::Compute Points Difference")
+  NBA$PTSdiff <- NBA$PTS - NBA$oppPTS
+#+END_SRC
+
+#+RESULTS:
+:
+:  ::Compute Points Difference
+
+#+BEGIN_SRC R :var basename="exploratoryNBA" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  plot(NBA$PTSdiff, NBA$W)
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION: Scatterplot to check for linear relationship
+#+NAME:   fig:exploratoryNBA
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/exploratoryNBA.png]]
+
+So our graph pops up and it looks like there's an incredibly strong
+linear relationship between these two variables. So it seems like
+linear regression is going to be a good way to predict how many wins a
+team will have given the point difference.
+
+** Building a linear regression model
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: Linear regression model for wins")
+  WinsReg <- lm(W ~ PTSdiff, data = NBA)
+  summary(WinsReg)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+
+ :: Linear regression model for wins
+
+Call:
+lm(formula = W ~ PTSdiff, data = NBA)
+
+Residuals:
+    Min      1Q  Median      3Q     Max
+-9.7393 -2.1018 -0.0672  2.0265 10.6026
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)
+(Intercept) 4.100e+01  1.059e-01   387.0   <2e-16 ***
+PTSdiff     3.259e-02  2.793e-04   116.7   <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 3.061 on 833 degrees of freedom
+Multiple R-squared:  0.9423,	Adjusted R-squared:  0.9423
+F-statistic: 1.361e+04 on 1 and 833 DF,  p-value: < 2.2e-16
+#+end_example
+
+OK, so the first thing that we notice is that we've got very
+significant variables over here. And an R squared of *0.9423*, which is
+very high. And this is verifying the scatter plot we saw before that
+there's a very strong linear relationship between the wins and the
+points difference.
+
+$$W = 41 + 0.03259 \times PTSdiff$$
+
+If we know that a good chance to go to the playoffs is about 42
+wins. Then
+
+$$PTSdiff \geq \frac{42 - 41}{0.03259} $$
+
+making the calculations we obtain
+
+$$ PTSdiff = 30.6$$
+
+So we need to score at least $31$ more points than we allow in order to
+win at least $42$ games.
+
+** Video 3: Points Scored
+
+So now let's build an equation to predict points scored using some
+common basketball statistics. So our dependent variable would now be
+PTS, and our independent variables would be some of the common
+basketball statistics that we have in our data set.
+
+So for example, the number of two-point field goal attempts, the
+number of three-point field goal attempts, offensive rebounds,
+defensive rebounds, assists, steals, blocks, turnovers, free throw
+attempts-- we can use all of these.
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: Linear regression model for points scored")
+  PointsReg <- lm(PTS ~ X2PA + X3PA + FTA + AST + ORB + DRB + TOV + STL + BLK, data = NBA)
+  summary(PointsReg)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+
+ :: Linear regression model for points scored
+
+Call:
+lm(formula = PTS ~ X2PA + X3PA + FTA + AST + ORB + DRB + TOV +
+    STL + BLK, data = NBA)
+
+Residuals:
+    Min      1Q  Median      3Q     Max
+-527.40 -119.83    7.83  120.67  564.71
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)
+(Intercept) -2.051e+03  2.035e+02 -10.078   <2e-16 ***
+X2PA         1.043e+00  2.957e-02  35.274   <2e-16 ***
+X3PA         1.259e+00  3.843e-02  32.747   <2e-16 ***
+FTA          1.128e+00  3.373e-02  33.440   <2e-16 ***
+AST          8.858e-01  4.396e-02  20.150   <2e-16 ***
+ORB         -9.554e-01  7.792e-02 -12.261   <2e-16 ***
+DRB          3.883e-02  6.157e-02   0.631   0.5285
+TOV         -2.475e-02  6.118e-02  -0.405   0.6859
+STL         -1.992e-01  9.181e-02  -2.169   0.0303 *
+BLK         -5.576e-02  8.782e-02  -0.635   0.5256
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 185.5 on 825 degrees of freedom
+Multiple R-squared:  0.8992,	Adjusted R-squared:  0.8981
+F-statistic: 817.3 on 9 and 825 DF,  p-value: < 2.2e-16
+#+end_example
+
+Okay, so taking a look at this, we can see that some of our variables
+are indeed very, very, significant. Others are less significant. For
+example, steals only has one significance star. And some don't seem to
+be significant at all.
+
+For example, defensive rebounds, turnovers, and blocks. We do have a
+pretty good R-squared value, $0.8992$, so it shows that there really is
+a linear relationship between points and all of these basketball
+statistics.
+
+We'll use this to compute the sum of squared errors. SSE, standing for
+sum of squared errors:
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: Residuals:")
+  head(PointsReg$residuals, 20)
+
+  writeLines("\n :: Sum of Squared Errors:")
+  SSE <- sum(PointsReg$residuals^2)
+  SSE
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+
+ :: Residuals:
+          1           2           3           4           5           6
+  38.572271  142.872004  -92.895718   -8.391347 -258.470561  171.460833
+          7           8           9          10          11          12
+ 150.408162  169.381143   40.775620  -75.325661  444.908874   94.386470
+         13          14          15          16          17          18
+-205.680905  113.596904   64.199400  -76.571200  249.488801   28.036324
+         19          20
+ 329.448799   96.324834
+
+ :: Sum of Squared Errors:
+[1] 28394314
+#+end_example
+
+But remember, we can also calculate the root mean squared error, which
+is much more interpretable. It's more like the average error we make
+in our predictions. So the root mean squared error, RMSE-- let's
+calculate it here. So RMSE is just equal to the square root of the sum
+of squared errors divided by n, where n here is the number of rows in
+our data set.
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: Root mean squared error")
+  RMSE <- sqrt(SSE / nrow(NBA))
+  RMSE
+#+END_SRC
+
+#+RESULTS:
+:
+:  :: Root mean squared error
+: [1] 184.4049
+
+That seems like quite a lot, until you remember that the average
+number of points in a season is:
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: Average number of points in a season")
+  mean(NBA$PTS)
+#+END_SRC
+
+#+RESULTS:
+:
+:  :: Average number of points in a season
+: [1] 8370.24
+
+So, okay, if we have an average number of points of $8,370$, being off
+by about 184.4 points is really not so bad.
+
+#+BEGIN_SRC R :session :results output :exports all
+  summary(PointsReg)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+
+Call:
+lm(formula = PTS ~ X2PA + X3PA + FTA + AST + ORB + DRB + TOV +
+    STL + BLK, data = NBA)
+
+Residuals:
+    Min      1Q  Median      3Q     Max
+-527.40 -119.83    7.83  120.67  564.71
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)
+(Intercept) -2.051e+03  2.035e+02 -10.078   <2e-16 ***
+X2PA         1.043e+00  2.957e-02  35.274   <2e-16 ***
+X3PA         1.259e+00  3.843e-02  32.747   <2e-16 ***
+FTA          1.128e+00  3.373e-02  33.440   <2e-16 ***
+AST          8.858e-01  4.396e-02  20.150   <2e-16 ***
+ORB         -9.554e-01  7.792e-02 -12.261   <2e-16 ***
+DRB          3.883e-02  6.157e-02   0.631   0.5285
+TOV         -2.475e-02  6.118e-02  -0.405   0.6859
+STL         -1.992e-01  9.181e-02  -2.169   0.0303 *
+BLK         -5.576e-02  8.782e-02  -0.635   0.5256
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 185.5 on 825 degrees of freedom
+Multiple R-squared:  0.8992,	Adjusted R-squared:  0.8981
+F-statistic: 817.3 on 9 and 825 DF,  p-value: < 2.2e-16
+#+end_example
+
+We'll take a look again at our model, summary(PointsReg), in order to
+figure out which variable we should remove first. The first variable
+we would want to remove is probably turnovers.
+
+And why do I say turnovers?
+
+It's because the p value for turnovers, which you see here in this
+column, 0.6859, is the highest of all of the p values. So that means
+that turnovers is the least statistically significant variable in our
+model.
+
+So let's create a new regression model without turnovers.
+
+#+BEGIN_SRC R :session :results output :exports all
+  PointsReg2 <- lm(PTS ~ X2PA + X3PA + FTA + AST + ORB + DRB + STL +
+                           BLK, data = NBA)
+  summary(PointsReg2)
+
+  PointsReg3 <- lm(PTS ~ X2PA + X3PA + FTA + AST + ORB + STL + BLK, data
+                   = NBA)
+  summary(PointsReg3)
+
+  PointsReg4 <- lm(PTS ~ X2PA + X3PA + FTA + AST + ORB + STL, data =
+                                                                      NBA)
+  summary(PointsReg4)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+
+Call:
+lm(formula = PTS ~ X2PA + X3PA + FTA + AST + ORB + DRB + STL +
+    BLK, data = NBA)
+
+Residuals:
+    Min      1Q  Median      3Q     Max
+-526.79 -121.09    6.37  120.74  565.94
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)
+(Intercept) -2.077e+03  1.931e+02 -10.755   <2e-16 ***
+X2PA         1.044e+00  2.951e-02  35.366   <2e-16 ***
+X3PA         1.263e+00  3.703e-02  34.099   <2e-16 ***
+FTA          1.125e+00  3.308e-02  34.023   <2e-16 ***
+AST          8.861e-01  4.393e-02  20.173   <2e-16 ***
+ORB         -9.581e-01  7.758e-02 -12.350   <2e-16 ***
+DRB          3.892e-02  6.154e-02   0.632   0.5273
+STL         -2.068e-01  8.984e-02  -2.301   0.0216 *
+BLK         -5.863e-02  8.749e-02  -0.670   0.5029
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 185.4 on 826 degrees of freedom
+Multiple R-squared:  0.8991,	Adjusted R-squared:  0.8982
+F-statistic: 920.4 on 8 and 826 DF,  p-value: < 2.2e-16
+
+Call:
+lm(formula = PTS ~ X2PA + X3PA + FTA + AST + ORB + STL + BLK,
+    data = NBA)
+
+Residuals:
+    Min      1Q  Median      3Q     Max
+-523.79 -121.64    6.07  120.81  573.64
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)
+(Intercept) -2.015e+03  1.670e+02 -12.068  < 2e-16 ***
+X2PA         1.048e+00  2.852e-02  36.753  < 2e-16 ***
+X3PA         1.271e+00  3.475e-02  36.568  < 2e-16 ***
+FTA          1.128e+00  3.270e-02  34.506  < 2e-16 ***
+AST          8.909e-01  4.326e-02  20.597  < 2e-16 ***
+ORB         -9.702e-01  7.519e-02 -12.903  < 2e-16 ***
+STL         -2.276e-01  8.356e-02  -2.724  0.00659 **
+BLK         -3.882e-02  8.165e-02  -0.475  0.63462
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 185.4 on 827 degrees of freedom
+Multiple R-squared:  0.8991,	Adjusted R-squared:  0.8982
+F-statistic:  1053 on 7 and 827 DF,  p-value: < 2.2e-16
+
+Call:
+lm(formula = PTS ~ X2PA + X3PA + FTA + AST + ORB + STL, data = NBA)
+
+Residuals:
+    Min      1Q  Median      3Q     Max
+-523.33 -122.02    6.93  120.68  568.26
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)
+(Intercept) -2.033e+03  1.629e+02 -12.475  < 2e-16 ***
+X2PA         1.050e+00  2.829e-02  37.117  < 2e-16 ***
+X3PA         1.273e+00  3.441e-02  37.001  < 2e-16 ***
+FTA          1.127e+00  3.260e-02  34.581  < 2e-16 ***
+AST          8.884e-01  4.292e-02  20.701  < 2e-16 ***
+ORB         -9.743e-01  7.465e-02 -13.051  < 2e-16 ***
+STL         -2.268e-01  8.350e-02  -2.717  0.00673 **
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 185.3 on 828 degrees of freedom
+Multiple R-squared:  0.8991,	Adjusted R-squared:  0.8983
+F-statistic:  1229 on 6 and 828 DF,  p-value: < 2.2e-16
+#+end_example
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: Compute SSE and RMSE for new model")
+  SSE_4 = sum(PointsReg4$residuals^2)
+  RMSE_4 = sqrt(SSE_4/nrow(NBA))
+  SSE_4
+  RMSE_4
+#+END_SRC
+
+#+RESULTS:
+:
+:  :: Compute SSE and RMSE for new model
+: [1] 28421465
+: [1] 184.493
