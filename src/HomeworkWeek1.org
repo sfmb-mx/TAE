@@ -56,7 +56,7 @@
 #+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.min.js"></script>
 
 #+BEGIN_ABSTRACT
-Homework week 1 part 1. An analytical detective.
+Homework week 1.
 #+END_ABSTRACT
 
 * An analytical detective

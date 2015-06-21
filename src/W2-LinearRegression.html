@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Unit 2 - Linear Regression</title>
-<!-- 2015-06-19 Fri 20:59 -->
+<!-- 2015-06-20 Sat 22:18 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Sergio-Feliciano Mendoza-Barrera" />
@@ -235,6 +235,7 @@ for the JavaScript code in this tag.
 <li><a href="#sec-3-3">3.3. Video 2: Playoffs and Wins</a></li>
 <li><a href="#sec-3-4">3.4. Building a linear regression model</a></li>
 <li><a href="#sec-3-5">3.5. Video 3: Points Scored</a></li>
+<li><a href="#sec-3-6">3.6. Video 4: Making Predictions</a></li>
 </ul>
 </li>
 </ul>
@@ -1917,6 +1918,9 @@ summary(WinsReg)
 </div>
 
 <pre class="example">
+null device
+          1
+
  :: Regression model to predict wins
 
 Call:
@@ -3309,6 +3313,9 @@ summary(WinsReg)
 </div>
 
 <pre class="example">
+ null device
+          1
+
  :: Linear regression model for wins
 
 Call:
@@ -3572,14 +3579,6 @@ So let's create a new regression model without turnovers.
 <pre class="src src-R">PointsReg2 <span style="color: #3aff83;">&lt;-</span> lm(PTS ~ X2PA + X3PA + FTA + AST + ORB + DRB + STL +
                          BLK, data = NBA)
 summary(PointsReg2)
-
-PointsReg3 <span style="color: #3aff83;">&lt;-</span> lm(PTS ~ X2PA + X3PA + FTA + AST + ORB + STL + BLK, data
-                 = NBA)
-summary(PointsReg3)
-
-PointsReg4 <span style="color: #3aff83;">&lt;-</span> lm(PTS ~ X2PA + X3PA + FTA + AST + ORB + STL, data =
-                                                                    NBA)
-summary(PointsReg4)
 </pre>
 </div>
 
@@ -3609,7 +3608,33 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 Residual standard error: 185.4 on 826 degrees of freedom
 Multiple R-squared:  0.8991,	Adjusted R-squared:  0.8982
 F-statistic: 920.4 on 8 and 826 DF,  p-value: &lt; 2.2e-16
+</pre>
 
+<p>
+So in our first regression model, <b>PointsReg</b>, we had an <b>R-squared</b> of
+\(0.8992\). Let's take a look at the <b>R-squared</b> of <b>PointsReg2</b>. And we see
+that it's \(0.8991\). It does go down, as we would expect, but very,
+very slightly.
+</p>
+
+<p>
+<b>So it seems that we're justified in removing turnovers.</b>
+</p>
+
+<p>
+The next one, based on p-value, that we would want to remove is
+<b>defensive rebounds</b>.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">PointsReg3 <span style="color: #3aff83;">&lt;-</span> lm(PTS ~ X2PA + X3PA + FTA + AST + ORB + STL + BLK, data
+                 = NBA)
+summary(PointsReg3)
+</pre>
+</div>
+
+<pre class="example">
 Call:
 lm(formula = PTS ~ X2PA + X3PA + FTA + AST + ORB + STL + BLK,
     data = NBA)
@@ -3634,7 +3659,27 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 Residual standard error: 185.4 on 827 degrees of freedom
 Multiple R-squared:  0.8991,	Adjusted R-squared:  0.8982
 F-statistic:  1053 on 7 and 827 DF,  p-value: &lt; 2.2e-16
+</pre>
 
+<p>
+Let's look at the summary again to see if the <b>R-squared</b> has
+changed. And it's the same, it's \(0.8991\). So I think we're justified
+again in removing <b>defensive rebounds</b>.
+</p>
+
+<p>
+Let's try this one more time and see if we can remove <b>blocks</b>.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">PointsReg4 <span style="color: #3aff83;">&lt;-</span> lm(PTS ~ X2PA + X3PA + FTA + AST + ORB + STL, data =
+                                                                    NBA)
+summary(PointsReg4)
+</pre>
+</div>
+
+<pre class="example">
 Call:
 lm(formula = PTS ~ X2PA + X3PA + FTA + AST + ORB + STL, data = NBA)
 
@@ -3659,11 +3704,29 @@ Multiple R-squared:  0.8991,	Adjusted R-squared:  0.8983
 F-statistic:  1229 on 6 and 828 DF,  p-value: &lt; 2.2e-16
 </pre>
 
+<p>
+And again, the <b>R-squared</b> value stayed the same. So now we've gotten
+down to a model which is a bit simpler. All the variables are
+significant. We've still got an <b>R-squared</b> \(0.899\).
+</p>
+
+<p>
+And let's take a look now at the sum of squared errors and the root
+mean square error, just to make sure we didn't inflate those too much
+by removing a few variables.
+</p>
+
+<p>
+Remember that the sum of squared errors that we had in the original
+model was this giant number, 28,394,314. And the root mean squared
+error, the much more interpretable number, was 184.4.
+</p>
+
 <div class="org-src-container">
 
 <pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Compute SSE and RMSE for new model"</span>)
-SSE_4 = sum(PointsReg4$residuals^2)
-RMSE_4 = sqrt(SSE_4/nrow(NBA))
+SSE_4 <span style="color: #3aff83;">&lt;-</span> sum(PointsReg4$residuals^2)
+RMSE_4 <span style="color: #3aff83;">&lt;-</span> sqrt(SSE_4/nrow(NBA))
 SSE_4
 RMSE_4
 </pre>
@@ -3674,6 +3737,171 @@ RMSE_4
 [1] 28421465
 [1] 184.493
 </pre>
+
+<p>
+So although we've increased the root mean squared error a little bit
+by removing those variables, it's really a very, very, small
+amount. Essentially, we've kept the root mean squared error the
+same. So it seems like we've narrowed down on a much better model
+because it's simpler, it's more interpretable, and it's got just about
+the same amount of error.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-6" class="outline-3">
+<h3 id="sec-3-6"><span class="section-number-3">3.6</span> Video 4: Making Predictions</h3>
+<div class="outline-text-3" id="text-3-6">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Read the data of the test data set"</span>)
+NBA_test <span style="color: #3aff83;">&lt;-</span> read.table(<span style="color: #ff5f87;">"../data/NBA_test.csv"</span>, sep = <span style="color: #ff5f87;">","</span>, header = <span style="color: #b2baf6;">TRUE</span>)
+str(NBA_test)
+summary(NBA_test)
+</pre>
+</div>
+
+<pre class="example">
+ :: Read the data of the test data set
+'data.frame':	28 obs. of  20 variables:
+ $ SeasonEnd: int  2013 2013 2013 2013 2013 2013 2013 2013 2013 2013 ...
+ $ Team     : Factor w/ 28 levels "Atlanta Hawks",..: 1 2 3 4 5 6 7 8 9 10 ...
+ $ Playoffs : int  1 1 0 1 0 0 1 0 1 1 ...
+ $ W        : int  44 49 21 45 24 41 57 29 47 45 ...
+ $ PTS      : int  8032 7944 7661 7641 7913 8293 8704 7778 8296 8688 ...
+ $ oppPTS   : int  7999 7798 8418 7615 8297 8342 8287 8105 8223 8403 ...
+ $ FG       : int  3084 2942 2823 2926 2993 3182 3339 2979 3130 3124 ...
+ $ FGA      : int  6644 6544 6649 6698 6901 6892 6983 6638 6840 6782 ...
+ $ X2P      : int  2378 2314 2354 2480 2446 2576 2818 2466 2472 2257 ...
+ $ X2PA     : int  4743 4784 5250 5433 5320 5264 5465 5198 5208 4413 ...
+ $ X3P      : int  706 628 469 446 547 606 521 513 658 867 ...
+ $ X3PA     : int  1901 1760 1399 1265 1581 1628 1518 1440 1632 2369 ...
+ $ FT       : int  1158 1432 1546 1343 1380 1323 1505 1307 1378 1573 ...
+ $ FTA      : int  1619 1958 2060 1738 1826 1669 2148 1870 1744 2087 ...
+ $ ORB      : int  758 1047 917 1026 1004 767 1092 991 885 909 ...
+ $ DRB      : int  2593 2460 2389 2514 2359 2670 2601 2463 2801 2652 ...
+ $ AST      : int  2007 1668 1587 1886 1694 1906 2002 1742 1845 1902 ...
+ $ STL      : int  664 599 591 588 647 648 762 574 567 679 ...
+ $ BLK      : int  369 391 479 417 334 454 533 400 346 359 ...
+ $ TOV      : int  1219 1206 1153 1171 1149 1144 1253 1241 1236 1348 ...
+   SeasonEnd                     Team       Playoffs         W
+ Min.   :2013   Atlanta Hawks      : 1   Min.   :0.0   Min.   :20.00
+ 1st Qu.:2013   Brooklyn Nets      : 1   1st Qu.:0.0   1st Qu.:29.00
+ Median :2013   Charlotte Bobcats  : 1   Median :0.5   Median :42.00
+ Mean   :2013   Chicago Bulls      : 1   Mean   :0.5   Mean   :40.68
+ 3rd Qu.:2013   Cleveland Cavaliers: 1   3rd Qu.:1.0   3rd Qu.:50.25
+ Max.   :2013   Dallas Mavericks   : 1   Max.   :1.0   Max.   :66.00
+                (Other)            :22
+      PTS           oppPTS           FG            FGA            X2P
+ Min.   :7640   Min.   :7319   Min.   :2823   Min.   :6348   Min.   :2105
+ 1st Qu.:7763   1st Qu.:7898   1st Qu.:2975   1st Qu.:6643   1st Qu.:2375
+ Median :8014   Median :8068   Median :3052   Median :6696   Median :2474
+ Mean   :8062   Mean   :8073   Mean   :3051   Mean   :6737   Mean   :2460
+ 3rd Qu.:8294   3rd Qu.:8288   3rd Qu.:3126   3rd Qu.:6893   3rd Qu.:2540
+ Max.   :8704   Max.   :8619   Max.   :3339   Max.   :7197   Max.   :2818
+
+      X2PA           X3P             X3PA            FT            FTA
+ Min.   :4318   Min.   :382.0   Min.   :1107   Min.   :1004   Min.   :1359
+ 1st Qu.:4845   1st Qu.:511.5   1st Qu.:1469   1st Qu.:1298   1st Qu.:1695
+ Median :5203   Median :584.5   Median :1608   Median :1357   Median :1786
+ Mean   :5091   Mean   :591.1   Mean   :1646   Mean   :1368   Mean   :1819
+ 3rd Qu.:5336   3rd Qu.:659.2   3rd Qu.:1761   3rd Qu.:1440   3rd Qu.:1906
+ Max.   :5572   Max.   :891.0   Max.   :2371   Max.   :1819   Max.   :2289
+
+      ORB              DRB            AST            STL             BLK
+ Min.   : 666.0   Min.   :2359   Min.   :1579   Min.   :520.0   Min.   :294.0
+ 1st Qu.: 882.2   1st Qu.:2452   1st Qu.:1737   1st Qu.:590.2   1st Qu.:366.5
+ Median : 927.5   Median :2482   Median :1840   Median :653.5   Median :408.5
+ Mean   : 920.0   Mean   :2533   Mean   :1819   Mean   :640.4   Mean   :419.4
+ 3rd Qu.: 989.5   3rd Qu.:2622   3rd Qu.:1887   3rd Qu.:686.2   3rd Qu.:448.0
+ Max.   :1092.0   Max.   :2801   Max.   :2058   Max.   :784.0   Max.   :624.0
+
+      TOV
+ Min.   : 988
+ 1st Qu.:1152
+ Median :1201
+ Mean   :1191
+ 3rd Qu.:1233
+ Max.   :1348
+</pre>
+
+<p>
+All right, so now let's try to predict using our model that we made in
+the previous video, how many points we'll see in the 2012-2013
+season.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Make predictions on test set"</span>)
+PointsPredictions = predict(PointsReg4, newdata=NBA_test)
+</pre>
+</div>
+
+<pre class="example">
+:: Make predictions on test set
+</pre>
+
+<p>
+OK, so now that we have our prediction, how good is it? We can compute
+the out of sample R-squared. This is a measurement of how well the
+model predicts on test data.
+</p>
+
+<p>
+The <b>R-squared</b> value we had before from our model, the \(0.8991\), you
+might remember, is the measure of an in-sample R-squared, which is how
+well the model fits the training data.
+</p>
+
+<p>
+But to get a measure of the predictions goodness of fit, we need to
+calculate the <b>out of sample R-squared</b>.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Compute out-of-sample R^2"</span>)
+SSE <span style="color: #3aff83;">&lt;-</span> sum((PointsPredictions - NBA_test$PTS)^2)
+SST <span style="color: #3aff83;">&lt;-</span> sum((mean(NBA$PTS) - NBA_test$PTS)^2)
+R2 <span style="color: #3aff83;">&lt;-</span> 1 - (SSE/SST)
+R2
+</pre>
+</div>
+
+<pre class="example">
+ :: Compute out-of-sample R^2
+[1] 0.8127142
+</pre>
+
+<p>
+We can also calculate the root mean squared error the same way as
+before, root mean squared error is going to be the square root of the
+sum of squared errors divided by n, which is the number of rows in our
+test data set.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Compute the RMSE"</span>)
+RMSE <span style="color: #3aff83;">&lt;-</span> sqrt(SSE/nrow(NBA_test))
+RMSE
+</pre>
+</div>
+
+<pre class="example">
+ :: Compute the RMSE
+[1] 196.3723
+</pre>
+
+<p>
+OK and the <b>root mean squared error</b> here is \(196.37\).
+</p>
+
+<p>
+So it's a little bit higher than before. But it's not too bad. We're
+making an <b>average error</b> of about \(196\) points.
+</p>
 </div>
 </div>
 </div>
@@ -3681,7 +3909,7 @@ RMSE_4
 <div id="postamble" class="status">
 <p class="date">Date: 11/06/2015</p>
 <p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
-<p class="date">Created: 2015-06-19 Fri 20:59</p>
+<p class="date">Created: 2015-06-20 Sat 22:18</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
