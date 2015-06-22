@@ -897,7 +897,7 @@ Now we can use this data set to make some predictions
 
 #+BEGIN_SRC R :session :results output :exports all
   writeLines("\n :: Make test set predictions")
-  predictTest <- predict(model4, newdata=wineTest)
+  predictTest <- predict(model4, newdata = wineTest)
   predictTest
 #+END_SRC
 

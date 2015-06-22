@@ -161,8 +161,8 @@ In this part we can download the data
 : [10] "MetroAreaCodes.csv"     "mvtWeek1.csv"           "NBA_test.csv"
 : [13] "NBA_train.csv"          "pisa2009test.csv"       "pisa2009train.csv"
 : [16] "ProcterGambleStock.csv" "README.md"              "USDA.csv"
-: [19] "WHO.csv"                "WHO_Europe.csv"         "wine.csv"
-: [22] "wine_test.csv"
+: [19] "WHO_Europe.csv"         "WHO.csv"                "wine_test.csv"
+: [22] "wine.csv"
 
 *** Loading the data
 
@@ -531,8 +531,6 @@ model.
 
 #+RESULTS:
 #+begin_example
- null device
-          1
 
  :: Linear regression model for Climate Change
 
@@ -756,7 +754,7 @@ SST = sum( (mean(train$Temp) - test$Temp)^2)
 
 R2 = 1 - SSE/SST
 
-* Reading Test Scores [7/8]
+* Reading Test Scores [16/16]
 
 The Programme for International Student Assessment (PISA) is a test
 given every three years to 15-year-old students from around the world
@@ -882,8 +880,8 @@ In this part we can download the data
 : [10] "MetroAreaCodes.csv"     "mvtWeek1.csv"           "NBA_test.csv"
 : [13] "NBA_train.csv"          "pisa2009test.csv"       "pisa2009train.csv"
 : [16] "ProcterGambleStock.csv" "README.md"              "USDA.csv"
-: [19] "WHO.csv"                "WHO_Europe.csv"         "wine.csv"
-: [22] "wine_test.csv"
+: [19] "WHO_Europe.csv"         "WHO.csv"                "wine_test.csv"
+: [22] "wine.csv"
 
 *** Loading the data
 
@@ -1333,7 +1331,8 @@ An Asian student will have raceethAsian set to 1 and all other raceeth
 binary variables set to 0. Because "White" is the reference level, a
 white student will have all raceeth binary variables set to 0.
 
-** TODO Problem 3.1 - Building a model (2 points possible)
+** DONE Problem 3.1 - Building a model (2 points possible)
+CLOSED: [2015-06-22 Mon 16:49]
 
 Because the race variable takes on text values, it was loaded as a
 factor variable when we read in the dataset with read.csv() -- you can
@@ -1471,3 +1470,386 @@ based on demographic and school-related variables) is more difficult
 than other prediction problems (like predicting a team's number of
 wins from their runs scored and allowed, or predicting the quality of
 wine from weather conditions).
+
+** DONE Problem 3.2 - Computing the root-mean squared error of the model (1 point possible)
+CLOSED: [2015-06-22 Mon 16:49]
+
+What is the training-set root-mean squared error (RMSE) of lmScore?
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: Sum of Squared Errors")
+  SSE = sum(lmScore$residuals^2)
+  SSE
+
+  writeLines("\n :: The training-set root-mean squared error (RMSE):")
+  sqrt(SSE / nrow(pisaTrain))
+
+  writeLines("\n :: A alternative way of getting the RMSE value:")
+  sqrt(mean(lmScore$residuals^2))
+#+END_SRC
+
+#+RESULTS:
+:
+:  :: Sum of Squared Errors
+: [1] 12993365
+:
+:  :: The training-set root-mean squared error (RMSE):
+: [1] 73.36555
+:
+:  :: A alternative way of getting the RMSE value:
+: [1] 73.36555
+
+*** Answer
+
+*Explanation*
+
+The training-set RMSE can be computed by first computing the SSE:
+
+SSE = sum(lmScore$residuals^2)
+
+and then dividing by the number of observations and taking the square
+root:
+
+RMSE = sqrt(SSE / nrow(pisaTrain))
+
+A alternative way of getting this answer would be with the following
+command:
+
+sqrt(mean(lmScore$residuals^2)).
+
+** DONE Problem 3.3 - Comparing predictions for similar students (1 point possible)
+CLOSED: [2015-06-22 Mon 16:49]
+
+Consider two students A and B. They have all variable values the same,
+except that student A is in grade 11 and student B is in grade 9. What
+is the predicted reading score of student A minus the predicted
+reading score of student B?
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: Make test set predictions")
+  predictRScoreDF <- rbind(pisaTrain[1, ], pisaTrain[1, ])
+  predictRScoreDF[2, 1] <- 9
+  predictRScoreDF
+
+  predict01 <- predict(lmScore, newdata = predictRScoreDF)
+  predict01[1] - predict01[2]
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+
+ :: Make test set predictions
+   grade male raceeth preschool expectBachelors motherHS motherBachelors
+2     11    1   White         0               0        1               1
+21     9    1   White         0               0        1               1
+   motherWork fatherHS fatherBachelors fatherWork selfBornUS motherBornUS
+2           1        1               0          1          1            1
+21          1        1               0          1          1            1
+   fatherBornUS englishAtHome computerForSchoolwork read30MinsADay
+2             1             1                     1              1
+21            1             1                     1              1
+   minutesPerWeekEnglish studentsInEnglish schoolHasLibrary publicSchool urban
+2                    450                25                1            1     0
+21                   450                25                1            1     0
+   schoolSize readingScore
+2        1173       575.01
+21       1173       575.01
+       2
+59.08541
+#+end_example
+
+*** Answer
+
+*Explanation*
+
+The coefficient $29.54$ on *grade* is the difference in reading score
+between two students who are identical other than having a difference
+in grade of 1. Because A and B have a difference in grade of 2, the
+model predicts that student A has a reading score that is $2 \times 29.54$
+larger.
+
+** DONE Problem 3.4 - Interpreting model coefficients (1 point possible)
+CLOSED: [2015-06-22 Mon 16:49]
+
+What is the meaning of the coefficient associated with variable
+raceethAsian?
+
+*** Answer
+
+Predicted difference in the reading score between an Asian student and
+a white student who is otherwise identical.
+
+*Explanation*
+
+The only difference between an Asian student and white student with
+otherwise identical variables is that the former has raceethAsian=1
+and the latter has raceethAsian=0. The predicted reading score for
+these two students will differ by the coefficient on the variable
+raceethAsian.
+
+** DONE Problem 3.5 - Identifying variables lacking statistical significance (1 point possible)
+CLOSED: [2015-06-22 Mon 16:49]
+
+Based on the significance codes, which variables are candidates for
+removal from the model? Select all that apply. (We'll assume that the
+factor variable raceeth should only be removed if none of its levels
+are significant.)
+
+#+BEGIN_SRC R :session :results output :exports all
+  summary(lmScore)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+
+Call:
+lm(formula = readingScore ~ ., data = pisaTrain)
+
+Residuals:
+    Min      1Q  Median      3Q     Max
+-247.44  -48.86    1.86   49.77  217.18
+
+Coefficients:
+                                                Estimate Std. Error t value
+(Intercept)                                   143.766333  33.841226   4.248
+grade                                          29.542707   2.937399  10.057
+male                                          -14.521653   3.155926  -4.601
+raceethAmerican Indian/Alaska Native          -67.277327  16.786935  -4.008
+raceethAsian                                   -4.110325   9.220071  -0.446
+raceethBlack                                  -67.012347   5.460883 -12.271
+raceethHispanic                               -38.975486   5.177743  -7.528
+raceethMore than one race                     -16.922522   8.496268  -1.992
+raceethNative Hawaiian/Other Pacific Islander  -5.101601  17.005696  -0.300
+preschool                                      -4.463670   3.486055  -1.280
+expectBachelors                                55.267080   4.293893  12.871
+motherHS                                        6.058774   6.091423   0.995
+motherBachelors                                12.638068   3.861457   3.273
+motherWork                                     -2.809101   3.521827  -0.798
+fatherHS                                        4.018214   5.579269   0.720
+fatherBachelors                                16.929755   3.995253   4.237
+fatherWork                                      5.842798   4.395978   1.329
+selfBornUS                                     -3.806278   7.323718  -0.520
+motherBornUS                                   -8.798153   6.587621  -1.336
+fatherBornUS                                    4.306994   6.263875   0.688
+englishAtHome                                   8.035685   6.859492   1.171
+computerForSchoolwork                          22.500232   5.702562   3.946
+read30MinsADay                                 34.871924   3.408447  10.231
+minutesPerWeekEnglish                           0.012788   0.010712   1.194
+studentsInEnglish                              -0.286631   0.227819  -1.258
+schoolHasLibrary                               12.215085   9.264884   1.318
+publicSchool                                  -16.857475   6.725614  -2.506
+urban                                          -0.110132   3.962724  -0.028
+schoolSize                                      0.006540   0.002197   2.977
+                                              Pr(>|t|)
+(Intercept)                                   2.24e-05 ***
+grade                                          < 2e-16 ***
+male                                          4.42e-06 ***
+raceethAmerican Indian/Alaska Native          6.32e-05 ***
+raceethAsian                                   0.65578
+raceethBlack                                   < 2e-16 ***
+raceethHispanic                               7.29e-14 ***
+raceethMore than one race                      0.04651 *
+raceethNative Hawaiian/Other Pacific Islander  0.76421
+preschool                                      0.20052
+expectBachelors                                < 2e-16 ***
+motherHS                                       0.32001
+motherBachelors                                0.00108 **
+motherWork                                     0.42517
+fatherHS                                       0.47147
+fatherBachelors                               2.35e-05 ***
+fatherWork                                     0.18393
+selfBornUS                                     0.60331
+motherBornUS                                   0.18182
+fatherBornUS                                   0.49178
+englishAtHome                                  0.24153
+computerForSchoolwork                         8.19e-05 ***
+read30MinsADay                                 < 2e-16 ***
+minutesPerWeekEnglish                          0.23264
+studentsInEnglish                              0.20846
+schoolHasLibrary                               0.18749
+publicSchool                                   0.01226 *
+urban                                          0.97783
+schoolSize                                     0.00294 **
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 73.81 on 2385 degrees of freedom
+Multiple R-squared:  0.3251,	Adjusted R-squared:  0.3172
+F-statistic: 41.04 on 28 and 2385 DF,  p-value: < 2.2e-16
+#+end_example
+
+*** Answer
+
+*Explanation*
+
+From *summary(lmScore)*, we can see which variables were significant at
+the $0.05$ level. Because several of the binary variables generated from
+the race factor variable are significant, we should not remove this
+variable.
+
+** DONE Problem 4.1 - Predicting on unseen data (2 points possible)
+CLOSED: [2015-06-22 Mon 16:49]
+
+Using the "predict" function and supplying the "newdata" argument, use
+the *lmScore* model to predict the reading scores of students in
+*pisaTest*. Call this vector of predictions "predTest". Do not change
+the variables in the model (for example, do not remove variables that
+we found were not significant in the previous part of this
+problem). Use the summary function to describe the test set
+predictions.
+
+What is the range between the maximum and minimum predicted reading
+score on the test set?
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: Make test set predictions")
+  predTest <- predict(lmScore, newdata = pisaTest)
+  summary(predTest)
+  637.7 - 353.2
+#+END_SRC
+
+#+RESULTS:
+:
+:  :: Make test set predictions
+:    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+:   353.2   482.0   524.0   516.7   555.7   637.7
+: [1] 284.5
+
+*** Answer
+
+*Explanation*
+
+We can obtain the predictions with:
+
+predTest = predict(lmScore, newdata=pisaTest)
+
+From *summary(predTest)*, we see that the maximum predicted reading
+score is $637.7$, and the minimum predicted score is $353.2$. Therefore,
+the range is $284.5$.
+
+** DONE Problem 4.2 - Test set SSE and RMSE (2 points possible)
+CLOSED: [2015-06-22 Mon 16:49]
+
+*** Question a
+
+What is the sum of squared errors (SSE) of lmScore on the testing set?
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: Sum of Squared Errors in the testing set")
+  SSE <- sum((predTest - pisaTest$readingScore)^2)
+  SSE
+#+END_SRC
+
+#+RESULTS:
+:
+:  :: Sum of Squared Errors in the testing set
+: [1] 5762082
+
+**** Answer
+
+5762082
+
+*** Question b
+
+What is the root-mean squared error (RMSE) of lmScore on the testing
+set?
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: The RMSE of the testing data set is:")
+  RMSE <- sqrt(SSE / nrow(pisaTest))
+  RMSE
+
+  writeLines("\n :: An alternative for calculation:")
+  sqrt(mean((predTest-pisaTest$readingScore)^2))
+#+END_SRC
+
+#+RESULTS:
+:
+:  :: The RMSE of the testing data set is:
+: [1] 76.29079
+:
+:  :: An alternative for calculation:
+: [1] 76.29079
+
+**** Answer
+
+*Explanation*
+
+This can be calculated with
+sqrt(mean((predTest-pisaTest$readingScore)^2)).
+
+** DONE Problem 4.3 - Baseline prediction and test-set SSE (2 points possible)
+CLOSED: [2015-06-22 Mon 16:49]
+
+*** Question a
+
+What is the predicted test score used in the baseline model? Remember
+to compute this value using the training set and not the test set.
+
+#+BEGIN_SRC R :session :results output :exports all
+  SSE <- sum((predTest - pisaTest$readingScore)^2)
+
+  writeLines("\n :: The predicted test score used in the baseline model:")
+  mean(pisaTrain$readingScore)
+
+  SST <- sum((mean(pisaTrain$readingScore) - pisaTest$readingScore)^2)
+  R2 <- 1 - (SSE/SST)
+
+  writeLines("\n :: The SST for the training pisa data set")
+  SST
+#+END_SRC
+
+#+RESULTS:
+:
+:  :: The predicted test score used in the baseline model:
+: [1] 517.9629
+:
+:  :: The SST for the training pisa data set
+: [1] 7802354
+
+**** Answer
+
+*Explanation*
+
+This can be computed with:
+
+baseline = mean(pisaTrain$readingScore)
+
+*** Question b
+
+What is the sum of squared errors of the baseline model on the testing
+set? HINT: We call the sum of squared errors for the baseline model
+the total sum of squares (SST).
+
+**** Answer
+
+*Explanation*
+
+This can be computed with sum((baseline-pisaTest$readingScore)^2).
+
+** DONE Problem 4.4 - Test-set R-squared (1 point possible)
+CLOSED: [2015-06-22 Mon 16:49]
+
+What is the test-set R-squared value of lmScore?
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: The test-set R-squared value:")
+  SSE <- sum((predTest - pisaTest$readingScore)^2)
+  SST <- sum((mean(pisaTrain$readingScore) - pisaTest$readingScore)^2)
+  R2 <- 1 - (SSE/SST)
+  R2
+#+END_SRC
+
+#+RESULTS:
+:
+:  :: The test-set R-squared value:
+: [1] 0.2614944
+
+*** Answer
+
+*Explanation*
+
+The test-set $R^2$ is defined as $1-\frac{SSE}{SST}$, where $SSE$ is
+the sum of squared errors of the model on the test set and $SST$ is
+the sum of squared errors of the baseline model. For this model, the
+$R^2$ is then computed to be $1-\frac{5762082}{7802354}$.
