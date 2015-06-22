@@ -531,6 +531,8 @@ model.
 
 #+RESULTS:
 #+begin_example
+ null device
+          1
 
  :: Linear regression model for Climate Change
 
@@ -754,7 +756,7 @@ SST = sum( (mean(train$Temp) - test$Temp)^2)
 
 R2 = 1 - SSE/SST
 
-* Reading Test Scores [4/4]
+* Reading Test Scores [7/8]
 
 The Programme for International Student Assessment (PISA) is a test
 given every three years to 15-year-old students from around the world
@@ -1175,7 +1177,8 @@ After running the provided commands we can use str(pisaTrain) and
 str(pisaTest), or nrow(pisaTrain) and nrow(pisaTest), to check the new
 number of rows in the datasets.
 
-** Problem 2.1 - Factor variables (2 points possible)
+** DONE Problem 2.1 - Factor variables (2 points possible)
+CLOSED: [2015-06-22 Mon 11:09]
 
 Factor variables are variables that take on a discrete set of values,
 like the "Region" variable in the WHO dataset from the second lecture
@@ -1234,7 +1237,8 @@ the different values of raceeth, so it is an unordered
 factor. Meanwhile, we can order grades (8, 9, 10, 11, 12), so it is an
 ordered factor.
 
-** Problem 2.2 - Unordered factors in regression models (1 point possible)
+** DONE Problem 2.2 - Unordered factors in regression models (1 point possible)
+CLOSED: [2015-06-22 Mon 13:35]
 
 To include unordered factors in a linear regression model, we define
 one level as the "reference level" and add a binary variable for each
@@ -1255,3 +1259,215 @@ Now, consider the variable "raceeth" in our problem, which has levels
 than one race", "Native Hawaiian/Other Pacific Islander", and
 "White". Because it is the most common in our population, we will
 select White as the reference level.
+
+*** Question a
+
+Which binary variables will be included in the regression model?
+(Select all that apply.)
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: Exploring the raceeth feature:")
+  sort(table(pisaTrain$raceeth), decreasing = TRUE)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+
+ :: Exploring the raceeth feature:
+
+                                 White                               Hispanic
+                                  1470                                    500
+                                 Black                                  Asian
+                                   228                                     95
+                    More than one race          American Indian/Alaska Native
+                                    81                                     20
+Native Hawaiian/Other Pacific Islander
+                                    20
+#+end_example
+
+**** Answer
+
+ We create a binary variable for each level except the reference
+ level, so we would create all these variables except for
+ raceethWhite.
+
+- raceethAmerican Indian/Alaska Native
+- raceethAsian
+- raceethBlack
+- raceethHispanic
+- raceethMore than one race
+- raceethNative Hawaiian/Other Pacific Islander
+
+** DONE Problem 2.3 - Example unordered factors (2 points possible)
+CLOSED: [2015-06-22 Mon 13:46]
+
+Consider again adding our unordered factor race to the regression
+model with reference level "White".
+
+*** Question a
+
+For a student who is Asian, which binary variables would be set to 0?
+All remaining variables will be set to 1. (Select all that apply.)
+
+- raceethAmerican Indian/Alaska Native
+- raceethBlack
+- raceethHispanic
+- raceethMore than one race
+- raceethNative Hawaiian/Other Pacific Islander
+
+*** Question b
+
+For a student who is white, which binary variables would be set to 0?
+All remaining variables will be set to 1. (Select all that apply.)
+
+- raceethAmerican Indian/Alaska Native
+- raceethAsian
+- raceethBlack
+- raceethHispanic
+- raceethMore than one race
+- raceethNative Hawaiian/Other Pacific Islander
+
+*Explanation*
+
+An Asian student will have raceethAsian set to 1 and all other raceeth
+binary variables set to 0. Because "White" is the reference level, a
+white student will have all raceeth binary variables set to 0.
+
+** TODO Problem 3.1 - Building a model (2 points possible)
+
+Because the race variable takes on text values, it was loaded as a
+factor variable when we read in the dataset with read.csv() -- you can
+see this when you run str(pisaTrain) or str(pisaTest). However, by
+default R selects the first level alphabetically ("American
+Indian/Alaska Native") as the reference level of our factor instead of
+the most common level ("White"). Set the reference level of the factor
+by typing the following two lines in your R console:
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: Setting the reference level of the factor to white")
+  pisaTrain$raceeth <- relevel(pisaTrain$raceeth, "White")
+  pisaTest$raceeth <- relevel(pisaTest$raceeth, "White")
+#+END_SRC
+
+#+RESULTS:
+:
+:  :: Setting the reference level of the factor to white
+
+Now, build a linear regression model (call it lmScore) using the
+training set to predict readingScore using all the remaining
+variables.
+
+#+BEGIN_SRC R :session :results output :exports all
+  lmScore <- lm(readingScore ~ ., data = pisaTrain)
+  summary(lmScore)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+
+Call:
+lm(formula = readingScore ~ ., data = pisaTrain)
+
+Residuals:
+    Min      1Q  Median      3Q     Max
+-247.44  -48.86    1.86   49.77  217.18
+
+Coefficients:
+                                                Estimate Std. Error t value
+(Intercept)                                   143.766333  33.841226   4.248
+grade                                          29.542707   2.937399  10.057
+male                                          -14.521653   3.155926  -4.601
+raceethAmerican Indian/Alaska Native          -67.277327  16.786935  -4.008
+raceethAsian                                   -4.110325   9.220071  -0.446
+raceethBlack                                  -67.012347   5.460883 -12.271
+raceethHispanic                               -38.975486   5.177743  -7.528
+raceethMore than one race                     -16.922522   8.496268  -1.992
+raceethNative Hawaiian/Other Pacific Islander  -5.101601  17.005696  -0.300
+preschool                                      -4.463670   3.486055  -1.280
+expectBachelors                                55.267080   4.293893  12.871
+motherHS                                        6.058774   6.091423   0.995
+motherBachelors                                12.638068   3.861457   3.273
+motherWork                                     -2.809101   3.521827  -0.798
+fatherHS                                        4.018214   5.579269   0.720
+fatherBachelors                                16.929755   3.995253   4.237
+fatherWork                                      5.842798   4.395978   1.329
+selfBornUS                                     -3.806278   7.323718  -0.520
+motherBornUS                                   -8.798153   6.587621  -1.336
+fatherBornUS                                    4.306994   6.263875   0.688
+englishAtHome                                   8.035685   6.859492   1.171
+computerForSchoolwork                          22.500232   5.702562   3.946
+read30MinsADay                                 34.871924   3.408447  10.231
+minutesPerWeekEnglish                           0.012788   0.010712   1.194
+studentsInEnglish                              -0.286631   0.227819  -1.258
+schoolHasLibrary                               12.215085   9.264884   1.318
+publicSchool                                  -16.857475   6.725614  -2.506
+urban                                          -0.110132   3.962724  -0.028
+schoolSize                                      0.006540   0.002197   2.977
+                                              Pr(>|t|)
+(Intercept)                                   2.24e-05 ***
+grade                                          < 2e-16 ***
+male                                          4.42e-06 ***
+raceethAmerican Indian/Alaska Native          6.32e-05 ***
+raceethAsian                                   0.65578
+raceethBlack                                   < 2e-16 ***
+raceethHispanic                               7.29e-14 ***
+raceethMore than one race                      0.04651 *
+raceethNative Hawaiian/Other Pacific Islander  0.76421
+preschool                                      0.20052
+expectBachelors                                < 2e-16 ***
+motherHS                                       0.32001
+motherBachelors                                0.00108 **
+motherWork                                     0.42517
+fatherHS                                       0.47147
+fatherBachelors                               2.35e-05 ***
+fatherWork                                     0.18393
+selfBornUS                                     0.60331
+motherBornUS                                   0.18182
+fatherBornUS                                   0.49178
+englishAtHome                                  0.24153
+computerForSchoolwork                         8.19e-05 ***
+read30MinsADay                                 < 2e-16 ***
+minutesPerWeekEnglish                          0.23264
+studentsInEnglish                              0.20846
+schoolHasLibrary                               0.18749
+publicSchool                                   0.01226 *
+urban                                          0.97783
+schoolSize                                     0.00294 **
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 73.81 on 2385 degrees of freedom
+Multiple R-squared:  0.3251,	Adjusted R-squared:  0.3172
+F-statistic: 41.04 on 28 and 2385 DF,  p-value: < 2.2e-16
+#+end_example
+
+It would be time-consuming to type all the variables, but R provides
+the shorthand notation "readingScore ~ ." to mean "predict
+readingScore using all the other variables in the data frame." The
+period is used to replace listing out all of the independent
+variables. As an example, if your dependent variable is called "Y",
+your independent variables are called "X1", "X2", and "X3", and your
+training data set is called "Train", instead of the regular notation:
+
+LinReg = lm(Y ~ X1 + X2 + X3, data = Train)
+
+You would use the following command to build your model:
+
+LinReg = lm(Y ~ ., data = Train)
+
+*** Question
+
+What is the Multiple R-squared value of lmScore on the training set?
+
+*** Answer
+
+$$R^2 = 0.3251$$
+
+Note that this R-squared is lower than the ones for the models we saw
+in the lectures and recitation. This does not necessarily imply that
+the model is of poor quality. More often than not, it simply means
+that the prediction problem at hand (predicting a student's test score
+based on demographic and school-related variables) is more difficult
+than other prediction problems (like predicting a team's number of
+wins from their runs scored and allowed, or predicting the quality of
+wine from weather conditions).
