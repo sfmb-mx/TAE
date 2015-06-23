@@ -155,14 +155,14 @@ In this part we can download the data
 #+END_SRC
 
 #+RESULTS:
-:  [1] "AnonymityPoll.csv"      "BoeingStock.csv"        "CPSData.csv"
-:  [4] "CocaColaStock.csv"      "CountryCodes.csv"       "FluTest.csv"
-:  [7] "FluTrain.csv"           "GEStock.csv"            "IBMStock.csv"
-: [10] "MetroAreaCodes.csv"     "NBA_test.csv"           "NBA_train.csv"
-: [13] "ProcterGambleStock.csv" "README.md"              "USDA.csv"
-: [16] "WHO.csv"                "WHO_Europe.csv"         "baseball.csv"
-: [19] "climate_change.csv"     "mvtWeek1.csv"           "pisa2009test.csv"
-: [22] "pisa2009train.csv"      "wine.csv"               "wine_test.csv"
+:  [1] "AnonymityPoll.csv"      "baseball.csv"           "BoeingStock.csv"
+:  [4] "climate_change.csv"     "CocaColaStock.csv"      "CountryCodes.csv"
+:  [7] "CPSData.csv"            "GEStock.csv"            "IBMStock.csv"
+: [10] "MetroAreaCodes.csv"     "mvtWeek1.csv"           "NBA_test.csv"
+: [13] "NBA_train.csv"          "pisa2009test.csv"       "pisa2009train.csv"
+: [16] "ProcterGambleStock.csv" "README.md"              "USDA.csv"
+: [19] "WHO_Europe.csv"         "WHO.csv"                "wine_test.csv"
+: [22] "wine.csv"
 
 *** Loading the data
 
@@ -347,7 +347,7 @@ CFC.12       3.808e-03  1.014e-03   3.757  0.00021 ***
 TSI          9.314e-02  1.475e-02   6.313 1.10e-09 ***
 Aerosols    -1.538e+00  2.133e-01  -7.210 5.41e-12 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Residual standard error: 0.09171 on 275 degrees of freedom
 Multiple R-squared:  0.7509,	Adjusted R-squared:  0.7436
@@ -549,7 +549,7 @@ TSI          7.949e-02  1.487e-02   5.344 1.89e-07 ***
 Aerosols    -1.702e+00  2.180e-01  -7.806 1.19e-13 ***
 N2O          2.532e-02  1.311e-03  19.307  < 2e-16 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Residual standard error: 0.09547 on 279 degrees of freedom
 Multiple R-squared:  0.7261,	Adjusted R-squared:  0.7222
@@ -670,7 +670,7 @@ CFC.12       3.868e-03  9.812e-04   3.942 0.000103 ***
 TSI          9.312e-02  1.473e-02   6.322 1.04e-09 ***
 Aerosols    -1.540e+00  2.126e-01  -7.244 4.36e-12 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Residual standard error: 0.09155 on 276 degrees of freedom
 Multiple R-squared:  0.7508,	Adjusted R-squared:  0.7445
@@ -874,14 +874,14 @@ In this part we can download the data
 #+END_SRC
 
 #+RESULTS:
-:  [1] "AnonymityPoll.csv"      "BoeingStock.csv"        "CPSData.csv"
-:  [4] "CocaColaStock.csv"      "CountryCodes.csv"       "FluTest.csv"
-:  [7] "FluTrain.csv"           "GEStock.csv"            "IBMStock.csv"
-: [10] "MetroAreaCodes.csv"     "NBA_test.csv"           "NBA_train.csv"
-: [13] "ProcterGambleStock.csv" "README.md"              "USDA.csv"
-: [16] "WHO.csv"                "WHO_Europe.csv"         "baseball.csv"
-: [19] "climate_change.csv"     "mvtWeek1.csv"           "pisa2009test.csv"
-: [22] "pisa2009train.csv"      "wine.csv"               "wine_test.csv"
+:  [1] "AnonymityPoll.csv"      "baseball.csv"           "BoeingStock.csv"
+:  [4] "climate_change.csv"     "CocaColaStock.csv"      "CountryCodes.csv"
+:  [7] "CPSData.csv"            "GEStock.csv"            "IBMStock.csv"
+: [10] "MetroAreaCodes.csv"     "mvtWeek1.csv"           "NBA_test.csv"
+: [13] "NBA_train.csv"          "pisa2009test.csv"       "pisa2009train.csv"
+: [16] "ProcterGambleStock.csv" "README.md"              "USDA.csv"
+: [19] "WHO_Europe.csv"         "WHO.csv"                "wine_test.csv"
+: [22] "wine.csv"
 
 *** Loading the data
 
@@ -1433,7 +1433,7 @@ publicSchool                                   0.01226 *
 urban                                          0.97783
 schoolSize                                     0.00294 **
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Residual standard error: 73.81 on 2385 degrees of freedom
 Multiple R-squared:  0.3251,	Adjusted R-squared:  0.3172
@@ -1671,7 +1671,7 @@ publicSchool                                   0.01226 *
 urban                                          0.97783
 schoolSize                                     0.00294 **
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Residual standard error: 73.81 on 2385 degrees of freedom
 Multiple R-squared:  0.3251,	Adjusted R-squared:  0.3172
@@ -1854,7 +1854,7 @@ the sum of squared errors of the model on the test set and $SST$ is
 the sum of squared errors of the baseline model. For this model, the
 $R^2$ is then computed to be $1-\frac{5762082}{7802354}$.
 
-* Detecting Flu Epidemics via Search Engine Query Data [16/17]
+* Detecting Flu Epidemics via Search Engine Query Data [11/12]
 
 Flu epidemics constitute a major public health concern causing
 respiratory illnesses, hospitalizations, and deaths. According to the
@@ -2533,8 +2533,7 @@ variables?
 From plot(log(FluTrain$ILILag2), log(FluTrain$ILI)), we observe a
 strong positive relationship.
 
-** DONE Problem 4.3 - Training a Time Series Model (2 points possible)
-CLOSED: [2015-06-22 Mon 22:17]
+** TODO Problem 4.3 - Training a Time Series Model (2 points possible)
 
 Train a linear regression model on the FluTrain dataset to predict the
 log of the ILI variable using the Queries variable as well as the log
@@ -2585,8 +2584,7 @@ summary(FluTrend2)
 As can be seen, all three coefficients are highly significant, and the
 $R^2$ value is $0.9063$.
 
-** DONE Problem 4.4 - Training a Time Series Model (1 point possible)
-CLOSED: [2015-06-22 Mon 22:17]
+** Problem 4.4 - Training a Time Series Model (1 point possible)
 
 On the basis of R-squared value and significance of coefficients,
 which statement is the most accurate?
@@ -2600,8 +2598,7 @@ to 0.9063, and the new variable is highly significant. As a result,
 there is no sign of overfitting, and FluTrend2 is superior to
 FluTrend1 on the training set.
 
-** DONE Problem 5.1 - Evaluating the Time Series Model in the Test Set (1 point possible)
-CLOSED: [2015-06-22 Mon 22:17]
+** Problem 5.1 - Evaluating the Time Series Model in the Test Set (1 point possible)
 
 So far, we have only added the ILILag2 variable to the FluTrain data
 frame. To make predictions with our FluTrend2 model, we will also need
@@ -2636,8 +2633,7 @@ FluTest$ILILag2 = coredata(ILILag2)
 From summary(FluTest$ILILag2), we can see that we're missing two
 values of the new variable.
 
-** DONE Problem 5.2 - Evaluating the Time Series Model in the Test Set (2 points possible)
-CLOSED: [2015-06-22 Mon 22:17]
+** Problem 5.2 - Evaluating the Time Series Model in the Test Set (2 points possible)
 
 In this problem, the training and testing sets are split sequentially
 -- the training set contains all observations from 2004-2011 and the
@@ -2708,8 +2704,7 @@ The ILI value of the last observation in the FluTrain data frame.
 The time two weeks before the second week of 2012 is the last week
 of 2011. This corresponds to the last observation in FluTrain.
 
-** DONE Problem 5.3 - Evaluating the Time Series Model in the Test Set (2 points possible)
-CLOSED: [2015-06-22 Mon 22:17]
+** Problem 5.3 - Evaluating the Time Series Model in the Test Set (2 points possible)
 
 Fill in the missing values for ILILag2 in FluTest. In terms of syntax,
 you could set the value of ILILag2 in row "x" of the FluTest data
@@ -2778,7 +2773,7 @@ FluTest$ILILag2[1] = FluTrain$ILI[416]
 
 FluTest$ILILag2[2] = FluTrain$ILI[417]
 
-** TODO Problem 5.4 - Evaluating the Time Series Model in the Test Set (2 points possible)
+** Problem 5.4 - Evaluating the Time Series Model in the Test Set (2 points possible)
 
 Obtain test set predictions of the ILI variable from the FluTrend2
 model, again remembering to call the exp() function on the result of
