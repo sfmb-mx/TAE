@@ -155,14 +155,14 @@ In this part we can download the data
 #+END_SRC
 
 #+RESULTS:
-:  [1] "AnonymityPoll.csv"      "BoeingStock.csv"        "CPSData.csv"
-:  [4] "CocaColaStock.csv"      "CountryCodes.csv"       "FluTest.csv"
-:  [7] "FluTrain.csv"           "GEStock.csv"            "IBMStock.csv"
-: [10] "MetroAreaCodes.csv"     "NBA_test.csv"           "NBA_train.csv"
-: [13] "ProcterGambleStock.csv" "README.md"              "USDA.csv"
-: [16] "WHO.csv"                "WHO_Europe.csv"         "baseball.csv"
-: [19] "climate_change.csv"     "mvtWeek1.csv"           "pisa2009test.csv"
-: [22] "pisa2009train.csv"      "wine.csv"               "wine_test.csv"
+:  [1] "AnonymityPoll.csv"      "baseball.csv"           "BoeingStock.csv"
+:  [4] "climate_change.csv"     "CocaColaStock.csv"      "CountryCodes.csv"
+:  [7] "CPSData.csv"            "FluTest.csv"            "FluTrain.csv"
+: [10] "GEStock.csv"            "IBMStock.csv"           "MetroAreaCodes.csv"
+: [13] "mvtWeek1.csv"           "NBA_test.csv"           "NBA_train.csv"
+: [16] "pisa2009test.csv"       "pisa2009train.csv"      "ProcterGambleStock.csv"
+: [19] "README.md"              "USDA.csv"               "WHO.csv"
+: [22] "WHO_Europe.csv"         "wine.csv"               "wine_test.csv"
 
 *** Loading the data
 
@@ -347,7 +347,7 @@ CFC.12       3.808e-03  1.014e-03   3.757  0.00021 ***
 TSI          9.314e-02  1.475e-02   6.313 1.10e-09 ***
 Aerosols    -1.538e+00  2.133e-01  -7.210 5.41e-12 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Residual standard error: 0.09171 on 275 degrees of freedom
 Multiple R-squared:  0.7509,	Adjusted R-squared:  0.7436
@@ -531,6 +531,8 @@ model.
 
 #+RESULTS:
 #+begin_example
+ null device
+          1
 
  :: Linear regression model for Climate Change
 
@@ -549,7 +551,7 @@ TSI          7.949e-02  1.487e-02   5.344 1.89e-07 ***
 Aerosols    -1.702e+00  2.180e-01  -7.806 1.19e-13 ***
 N2O          2.532e-02  1.311e-03  19.307  < 2e-16 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Residual standard error: 0.09547 on 279 degrees of freedom
 Multiple R-squared:  0.7261,	Adjusted R-squared:  0.7222
@@ -670,7 +672,7 @@ CFC.12       3.868e-03  9.812e-04   3.942 0.000103 ***
 TSI          9.312e-02  1.473e-02   6.322 1.04e-09 ***
 Aerosols    -1.540e+00  2.126e-01  -7.244 4.36e-12 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Residual standard error: 0.09155 on 276 degrees of freedom
 Multiple R-squared:  0.7508,	Adjusted R-squared:  0.7445
@@ -874,14 +876,14 @@ In this part we can download the data
 #+END_SRC
 
 #+RESULTS:
-:  [1] "AnonymityPoll.csv"      "BoeingStock.csv"        "CPSData.csv"
-:  [4] "CocaColaStock.csv"      "CountryCodes.csv"       "FluTest.csv"
-:  [7] "FluTrain.csv"           "GEStock.csv"            "IBMStock.csv"
-: [10] "MetroAreaCodes.csv"     "NBA_test.csv"           "NBA_train.csv"
-: [13] "ProcterGambleStock.csv" "README.md"              "USDA.csv"
-: [16] "WHO.csv"                "WHO_Europe.csv"         "baseball.csv"
-: [19] "climate_change.csv"     "mvtWeek1.csv"           "pisa2009test.csv"
-: [22] "pisa2009train.csv"      "wine.csv"               "wine_test.csv"
+:  [1] "AnonymityPoll.csv"      "baseball.csv"           "BoeingStock.csv"
+:  [4] "climate_change.csv"     "CocaColaStock.csv"      "CountryCodes.csv"
+:  [7] "CPSData.csv"            "FluTest.csv"            "FluTrain.csv"
+: [10] "GEStock.csv"            "IBMStock.csv"           "MetroAreaCodes.csv"
+: [13] "mvtWeek1.csv"           "NBA_test.csv"           "NBA_train.csv"
+: [16] "pisa2009test.csv"       "pisa2009train.csv"      "ProcterGambleStock.csv"
+: [19] "README.md"              "USDA.csv"               "WHO.csv"
+: [22] "WHO_Europe.csv"         "wine.csv"               "wine_test.csv"
 
 *** Loading the data
 
@@ -1433,7 +1435,7 @@ publicSchool                                   0.01226 *
 urban                                          0.97783
 schoolSize                                     0.00294 **
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Residual standard error: 73.81 on 2385 degrees of freedom
 Multiple R-squared:  0.3251,	Adjusted R-squared:  0.3172
@@ -1671,7 +1673,7 @@ publicSchool                                   0.01226 *
 urban                                          0.97783
 schoolSize                                     0.00294 **
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Residual standard error: 73.81 on 2385 degrees of freedom
 Multiple R-squared:  0.3251,	Adjusted R-squared:  0.3172
@@ -1930,14 +1932,14 @@ In this part we can download the data
 #+END_SRC
 
 #+RESULTS:
-:  [1] "AnonymityPoll.csv"      "BoeingStock.csv"        "CPSData.csv"
-:  [4] "CocaColaStock.csv"      "CountryCodes.csv"       "FluTest.csv"
-:  [7] "FluTrain.csv"           "GEStock.csv"            "IBMStock.csv"
-: [10] "MetroAreaCodes.csv"     "NBA_test.csv"           "NBA_train.csv"
-: [13] "ProcterGambleStock.csv" "README.md"              "USDA.csv"
-: [16] "WHO.csv"                "WHO_Europe.csv"         "baseball.csv"
-: [19] "climate_change.csv"     "mvtWeek1.csv"           "pisa2009test.csv"
-: [22] "pisa2009train.csv"      "wine.csv"               "wine_test.csv"
+:  [1] "AnonymityPoll.csv"      "baseball.csv"           "BoeingStock.csv"
+:  [4] "climate_change.csv"     "CocaColaStock.csv"      "CountryCodes.csv"
+:  [7] "CPSData.csv"            "FluTest.csv"            "FluTrain.csv"
+: [10] "GEStock.csv"            "IBMStock.csv"           "MetroAreaCodes.csv"
+: [13] "mvtWeek1.csv"           "NBA_test.csv"           "NBA_train.csv"
+: [16] "pisa2009test.csv"       "pisa2009train.csv"      "ProcterGambleStock.csv"
+: [19] "README.md"              "USDA.csv"               "WHO.csv"
+: [22] "WHO_Europe.csv"         "wine.csv"               "wine_test.csv"
 
 *** Loading the data
 
@@ -2115,6 +2117,10 @@ estimation problem?
 
 #+RESULTS:
 #+begin_example
+ null device
+          1
+ null device
+          1
 
 Call:
 lm(formula = log(ILI) ~ Queries, data = FluTrain)
@@ -2128,7 +2134,7 @@ Coefficients:
 (Intercept) -0.49934    0.03041  -16.42   <2e-16 ***
 Queries      2.96129    0.09312   31.80   <2e-16 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Residual standard error: 0.2995 on 415 degrees of freedom
 Multiple R-squared:  0.709,	Adjusted R-squared:  0.7083
@@ -2173,7 +2179,7 @@ Coefficients:
 (Intercept) -0.49934    0.03041  -16.42   <2e-16 ***
 Queries      2.96129    0.09312   31.80   <2e-16 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Residual standard error: 0.2995 on 415 degrees of freedom
 Multiple R-squared:  0.709,	Adjusted R-squared:  0.7083
@@ -2270,14 +2276,14 @@ In this part we can download the data
 #+END_SRC
 
 #+RESULTS:
-:  [1] "AnonymityPoll.csv"      "BoeingStock.csv"        "CPSData.csv"
-:  [4] "CocaColaStock.csv"      "CountryCodes.csv"       "FluTest.csv"
-:  [7] "FluTrain.csv"           "GEStock.csv"            "IBMStock.csv"
-: [10] "MetroAreaCodes.csv"     "NBA_test.csv"           "NBA_train.csv"
-: [13] "ProcterGambleStock.csv" "README.md"              "USDA.csv"
-: [16] "WHO.csv"                "WHO_Europe.csv"         "baseball.csv"
-: [19] "climate_change.csv"     "mvtWeek1.csv"           "pisa2009test.csv"
-: [22] "pisa2009train.csv"      "wine.csv"               "wine_test.csv"
+:  [1] "AnonymityPoll.csv"      "baseball.csv"           "BoeingStock.csv"
+:  [4] "climate_change.csv"     "CocaColaStock.csv"      "CountryCodes.csv"
+:  [7] "CPSData.csv"            "FluTest.csv"            "FluTrain.csv"
+: [10] "GEStock.csv"            "IBMStock.csv"           "MetroAreaCodes.csv"
+: [13] "mvtWeek1.csv"           "NBA_test.csv"           "NBA_train.csv"
+: [16] "pisa2009test.csv"       "pisa2009train.csv"      "ProcterGambleStock.csv"
+: [19] "README.md"              "USDA.csv"               "WHO.csv"
+: [22] "WHO_Europe.csv"         "wine.csv"               "wine_test.csv"
 
 *** Loading the data
 
@@ -2470,9 +2476,9 @@ you geographically.
 
 #+RESULTS:
 :
-: Attaching package: 'zoo'
+: Attaching package: ‘zoo’
 :
-: The following objects are masked from 'package:base':
+: The following objects are masked from ‘package:base’:
 :
 :     as.Date, as.Date.numeric
 
@@ -2563,6 +2569,8 @@ regression model? (Select all that apply.)
 
 #+RESULTS:
 #+begin_example
+ null device
+          1
 
 Call:
 lm(formula = log(ILI) ~ Queries + log(ILILag2), data = FluTrain)
@@ -2577,7 +2585,7 @@ Coefficients:
 Queries       1.25578    0.07910   15.88   <2e-16 ***
 log(ILILag2)  0.65569    0.02251   29.14   <2e-16 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Residual standard error: 0.1703 on 412 degrees of freedom
   (2 observations deleted due to missingness)
@@ -3020,6 +3028,8 @@ school graduation rate of all the states in the region:
 #+END_SRC
 
 #+RESULTS:
+:  null device
+:           1
 :     Northeast         South North Central          West
 :      53.96667      44.34375      54.51667      62.00000
 : West
@@ -3080,3 +3090,41 @@ boxplot you just generated. Which state does this correspond to?
 (Hint: There are many ways to find the answer to this question, but
 one way is to use the subset command to only look at the Northeast
 data.)
+
+#+BEGIN_SRC R :session :results output :exports all
+  subset(statedata, statedata$state.region == "Northeast")
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+              Population Income Illiteracy Life.Exp Murder HS.Grad Frost  Area
+Connecticut         3100   5348        1.1    72.48    3.1    56.0   139  4862
+Maine               1058   3694        0.7    70.39    2.7    54.7   161 30920
+Massachusetts       5814   4755        1.1    71.83    3.3    58.5   103  7826
+New Hampshire        812   4281        0.7    71.23    3.3    57.6   174  9027
+New Jersey          7333   5237        1.1    70.93    5.2    52.5   115  7521
+New York           18076   4903        1.4    70.55   10.9    52.7    82 47831
+Pennsylvania       11860   4449        1.0    70.43    6.1    50.2   126 44966
+Rhode Island         931   4558        1.3    71.90    2.4    46.4   127  1049
+Vermont              472   3907        0.6    71.64    5.5    57.1   168  9267
+              state.abb state.area        x       y  state.division
+Connecticut          CT       5009 -72.3573 41.5928     New England
+Maine                ME      33215 -68.9801 45.6226     New England
+Massachusetts        MA       8257 -71.5800 42.3645     New England
+New Hampshire        NH       9304 -71.3924 43.3934     New England
+New Jersey           NJ       7836 -74.2336 39.9637 Middle Atlantic
+New York             NY      49576 -75.1449 43.1361 Middle Atlantic
+Pennsylvania         PA      45333 -77.4500 40.9069 Middle Atlantic
+Rhode Island         RI       1214 -71.1244 41.5928     New England
+Vermont              VT       9609 -72.5450 44.2508     New England
+                 state.name state.region
+Connecticut     Connecticut    Northeast
+Maine                 Maine    Northeast
+Massachusetts Massachusetts    Northeast
+New Hampshire New Hampshire    Northeast
+New Jersey       New Jersey    Northeast
+New York           New York    Northeast
+Pennsylvania   Pennsylvania    Northeast
+Rhode Island   Rhode Island    Northeast
+Vermont             Vermont    Northeast
+#+end_example
