@@ -109,8 +109,8 @@ The file [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@as
 - *MEI*: multivariate El Nino Southern Oscillation index (MEI), a
   measure of the strength of the [[http://en.wikipedia.org/wiki/El_nino][El Nino/La Nina-Southern Oscillation]]
   (a weather effect in the Pacific Ocean that affects global
-  temperatures). This data comes from the [[http://www.esrl.noaa.gov/psd/enso/mei/table.html][ESRL/NOAA Physical Sciences
-  Division]].
+  temperatures). This data comes from the
+  [[http://www.esrl.noaa.gov/psd/enso/mei/table.html][ESRL/NOAA Physical Sciences Division]].
 
 ** DONE Problem 1.1 - Creating Our First Model (2 points possible)
 CLOSED: [2015-06-21 Sun 12:36]
@@ -1854,7 +1854,7 @@ the sum of squared errors of the model on the test set and $SST$ is
 the sum of squared errors of the baseline model. For this model, the
 $R^2$ is then computed to be $1-\frac{5762082}{7802354}$.
 
-* Detecting Flu Epidemics via Search Engine Query Data [16/17]
+* Detecting Flu Epidemics via Search Engine Query Data [18/18]
 
 Flu epidemics constitute a major public health concern causing
 respiratory illnesses, hospitalizations, and deaths. According to the
@@ -2791,7 +2791,8 @@ FluTest$ILILag2[1] = FluTrain$ILI[416]
 
 FluTest$ILILag2[2] = FluTrain$ILI[417]
 
-** TODO Problem 5.4 - Evaluating the Time Series Model in the Test Set (2 points possible)
+** DONE Problem 5.4 - Evaluating the Time Series Model in the Test Set (2 points possible)
+CLOSED: [2015-06-23 Tue 06:41]
 
 Obtain test set predictions of the ILI variable from the FluTrend2
 model, again remembering to call the exp() function on the result of
@@ -2842,7 +2843,8 @@ sqrt(mean((PredTest2-FluTest$ILI)^2)).
 
 The *test-set RMSE of FluTrend2* is $0.294$.
 
-** Problem 5.5 - Evaluating the Time Series Model in the Test Set (1 point possible)
+** DONE Problem 5.5 - Evaluating the Time Series Model in the Test Set (1 point possible)
+CLOSED: [2015-06-23 Tue 06:41]
 
 In this problem, we used a simple time series model with a single lag
 term. ARIMA models are a more general form of the model we built,
@@ -2861,3 +2863,220 @@ Which model obtained the best test-set RMSE?
 
 The test-set RMSE of FluTrend2 is 0.294, as opposed to the 0.749 value
 obtained by the FluTrend1 model.
+
+* State Data (OPTIONAL) [3/4]
+
+We often take data for granted. However, one of the hardest parts
+about analyzing a problem you're interested in can be to find good
+data to answer the questions you want to ask. As you're learning R,
+though, there are many datasets that R has built in that you can take
+advantage of.
+
+In this problem, we will be examining the "state" dataset, which has
+data from the 1970s on all fifty US states. For each state, the
+dataset includes the population, per capita income, illiteracy rate,
+murder rate, high school graduation rate, average number of frost
+days, area, latitude and longitude, division the state belongs to,
+region the state belongs to, and two-letter abbreviation.
+
+Load the dataset and convert it to a data frame by running the
+following two commands in R:
+
+#+BEGIN_SRC R :session :results output :exports all
+  data(state)
+  statedata <- cbind(data.frame(state.x77), state.abb, state.area,
+                     state.center, state.division, state.name,
+                     state.region)
+  writeLines("\n :: data set loaded...")
+#+END_SRC
+
+#+RESULTS:
+:
+:  :: data set loaded...
+
+If you can't access the state dataset in R, here is a CSV file with
+the same data that you can load into R using the read.csv function:
+[[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/statedata.csv][statedata.csv]].
+
+After you have loaded the data into R, inspect the data set using the
+command:
+
+#+BEGIN_SRC R :session :results output :exports all
+  str(statedata)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+'data.frame':	50 obs. of  15 variables:
+ $ Population    : num  3615 365 2212 2110 21198 ...
+ $ Income        : num  3624 6315 4530 3378 5114 ...
+ $ Illiteracy    : num  2.1 1.5 1.8 1.9 1.1 0.7 1.1 0.9 1.3 2 ...
+ $ Life.Exp      : num  69 69.3 70.5 70.7 71.7 ...
+ $ Murder        : num  15.1 11.3 7.8 10.1 10.3 6.8 3.1 6.2 10.7 13.9 ...
+ $ HS.Grad       : num  41.3 66.7 58.1 39.9 62.6 63.9 56 54.6 52.6 40.6 ...
+ $ Frost         : num  20 152 15 65 20 166 139 103 11 60 ...
+ $ Area          : num  50708 566432 113417 51945 156361 ...
+ $ state.abb     : Factor w/ 50 levels "AK","AL","AR",..: 2 1 4 3 5 6 7 8 9 10 ...
+ $ state.area    : num  51609 589757 113909 53104 158693 ...
+ $ x             : num  -86.8 -127.2 -111.6 -92.3 -119.8 ...
+ $ y             : num  32.6 49.2 34.2 34.7 36.5 ...
+ $ state.division: Factor w/ 9 levels "New England",..: 4 9 8 5 9 8 1 3 3 3 ...
+ $ state.name    : Factor w/ 50 levels "Alabama","Alaska",..: 1 2 3 4 5 6 7 8 9 10 ...
+ $ state.region  : Factor w/ 4 levels "Northeast","South",..: 2 4 4 2 4 4 1 2 2 2 ...
+#+end_example
+
+This dataset has 50 observations (one for each US state) and the
+following 15 variables:
+
+- *Population* - the population estimate of the state in 1975
+
+- *Income* - per capita income in 1974
+
+- *Illiteracy* - illiteracy rates in 1970, as a percent of the
+  population
+
+- *Life.Exp* - the life expectancy in years of residents of the state
+  in 1970
+
+- *Murder* - the murder and non-negligent manslaughter rate per
+  100,000 population in 1976
+
+- *HS.Grad* - percent of high-school graduates in 1970
+
+- *Frost* - the mean number of days with minimum temperature below
+  freezing from 1931–1960 in the capital or a large city of the state
+
+- *Area* - the land area (in square miles) of the state
+
+- *state.abb* - a 2-letter abreviation for each state
+
+- *state.area* - the area of each state, in square miles
+
+- *x* - the longitude of the center of the state
+
+- *y* - the latitude of the center of the state
+
+- *state.division* - the division each state belongs to (New England,
+  Middle Atlantic, South Atlantic, East South Central, West South
+  Central, East North Central, West North Central, Mountain, or
+  Pacific)
+
+- *state.name* - the full names of each state
+
+- *state.region* - the region each state belong to (Northeast, South,
+  North Central, or West)
+
+** DONE Problem 1.1 - Data Exploration
+CLOSED: [2015-06-23 Tue 07:37]
+
+We begin by exploring the data. Plot all of the states' centers with
+latitude on the y axis (the "y" variable in our dataset) and longitude
+on the x axis (the "x" variable in our dataset). The shape of the plot
+should look like the outline of the United States! Note that Alaska
+and Hawaii have had their coordinates adjusted to appear just off of
+the west coast.
+
+#+BEGIN_SRC R :var basename="StatesLatLong" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  plot(statedata$x, statedata$y)
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION: States Latitude and Longitude centers
+#+NAME:   fig:StatesLatLong
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/StatesLatLong.png]]
+
+In the R command you used to generate this plot, which variable name
+did you use as the first argument?
+
+*** Answer
+
+*statedata$x*
+
+*Explanation*
+
+To generate the described plot, you should type plot(statedata$x,
+statedata$y) in your R console. The first variable here is
+statedata$x.
+
+** DONE Problem 1.2 - Data Exploration
+CLOSED: [2015-06-23 Tue 07:57]
+
+Using the tapply command, determine which region of the US (West,
+North Central, South, or Northeast) has the highest average high
+school graduation rate of all the states in the region:
+
+#+BEGIN_SRC R :session :results output :exports all
+  tapply(statedata$HS.Grad, statedata$state.region, mean)
+  which.max(tapply(statedata$HS.Grad, statedata$state.region, mean))
+#+END_SRC
+
+#+RESULTS:
+:     Northeast         South North Central          West
+:      53.96667      44.34375      54.51667      62.00000
+: West
+:    4
+
+*** Answer
+
+*Explanation*
+
+You can find the average high school graduation rate of all states in
+each of the regions by typing the following command in your R console:
+
+tapply(statedata$HS.Grad, statedata$state.region, mean)
+
+The highest value is for the West region.
+
+** DONE Problem 1.3 - Data Exploration
+CLOSED: [2015-06-23 Tue 07:57]
+
+Now, make a boxplot of the murder rate by region (for more information
+about creating boxplots in R, type ?boxplot in your console).
+
+#+BEGIN_SRC R :var basename="BPMurderVsRegion" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  boxplot(Murder ~ state.region, data = statedata, col = "lightblue")
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION: Murder rate by region
+#+NAME:   fig:BPMurderVsRegion
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/BPMurderVsRegion.png]]
+
+Which region has the highest median murder rate?
+
+*** Answer
+
+*South*.
+
+*Explanation*
+
+To generate the boxplot, you should type boxplot(statedata$Murder ~
+statedata$state.region) in your R console. You can see that the region
+with the highest median murder rate (the one with the highest solid
+line in the box) is the South.
+
+** TODO Problem 1.4 - Data Exploration
+
+You should see that there is an outlier in the Northeast region of the
+boxplot you just generated. Which state does this correspond to?
+(Hint: There are many ways to find the answer to this question, but
+one way is to use the subset command to only look at the Northeast
+data.)

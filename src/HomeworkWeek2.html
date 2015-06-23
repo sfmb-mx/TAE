@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Homework Week 2</title>
-<!-- 2015-06-22 Mon 22:20 -->
+<!-- 2015-06-23 Tue 07:58 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Sergio-Feliciano Mendoza-Barrera" />
@@ -269,8 +269,8 @@ from the <a href="http://solarisheppa.geomar.de/solarisheppa/cmip5">SOLARIS-HEPP
 <li><b>MEI</b>: multivariate El Nino Southern Oscillation index (MEI), a
 measure of the strength of the <a href="http://en.wikipedia.org/wiki/El_nino">El Nino/La Nina-Southern Oscillation</a>
 (a weather effect in the Pacific Ocean that affects global
-temperatures). This data comes from the <a href="http://www.esrl.noaa.gov/psd/enso/mei/table.html">ESRL/NOAA Physical Sciences
-Division</a>.
+temperatures). This data comes from the
+<a href="http://www.esrl.noaa.gov/psd/enso/mei/table.html">ESRL/NOAA Physical Sciences Division</a>.
 </li>
 </ul>
 </div>
@@ -304,26 +304,26 @@ In this part we can download the data
 
 <div class="org-src-container">
 
-<pre class="src src-R"><span style="color: #db7093;">library</span>(parallel)
+<pre class="src src-R"><span style="color: #3aff83;">library</span>(parallel)
 
-<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #fffacd;">"../data"</span>)) {
-        dir.create(<span style="color: #fffacd;">"../data"</span>)
+<span style="color: #5af2ee;">if</span>(!file.exists(<span style="color: #ff5f87;">"../data"</span>)) {
+        dir.create(<span style="color: #ff5f87;">"../data"</span>)
 }
 
-fileUrl <span style="color: #db7093;">&lt;-</span>
-        c(<span style="color: #fffacd;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/climate_change.csv"</span>)
+fileUrl <span style="color: #3aff83;">&lt;-</span>
+        c(<span style="color: #ff5f87;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/climate_change.csv"</span>)
 
-fileName <span style="color: #db7093;">&lt;-</span> c(<span style="color: #fffacd;">"climate_change.csv"</span>)
+fileName <span style="color: #3aff83;">&lt;-</span> c(<span style="color: #ff5f87;">"climate_change.csv"</span>)
 
-dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"../data"</span>
+dataPath <span style="color: #3aff83;">&lt;-</span> <span style="color: #ff5f87;">"../data"</span>
 
-filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #fffacd;">"/"</span>)
+filePath <span style="color: #3aff83;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #ff5f87;">"/"</span>)
 
-<span style="color: #4682b4;">if</span>(!file.exists(filePath)) {
-        download.file(fileUrl, destfile = filePath, method = <span style="color: #fffacd;">"curl"</span>)
+<span style="color: #5af2ee;">if</span>(!file.exists(filePath)) {
+        download.file(fileUrl, destfile = filePath, method = <span style="color: #ff5f87;">"curl"</span>)
 }
 
-list.files(<span style="color: #fffacd;">"../data"</span>)
+list.files(<span style="color: #ff5f87;">"../data"</span>)
 </pre>
 </div>
 
@@ -345,8 +345,8 @@ list.files(<span style="color: #fffacd;">"../data"</span>)
 <div class="outline-text-4" id="text-1-1-2">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Read in data"</span>)
-climateChange <span style="color: #db7093;">&lt;-</span> read.table(<span style="color: #fffacd;">"../data/climate_change.csv"</span>, sep = <span style="color: #fffacd;">","</span>, header = <span style="color: #3cb371;">TRUE</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Read in data"</span>)
+climateChange <span style="color: #3aff83;">&lt;-</span> read.table(<span style="color: #ff5f87;">"../data/climate_change.csv"</span>, sep = <span style="color: #ff5f87;">","</span>, header = <span style="color: #b2baf6;">TRUE</span>)
 str(climateChange)
 summary(climateChange)
 </pre>
@@ -399,9 +399,9 @@ First data frame for training purposes:
 
 <div class="org-src-container">
 
-<pre class="src src-R">training <span style="color: #db7093;">&lt;-</span> subset(climateChange, Year &lt;= 2006)
+<pre class="src src-R">training <span style="color: #3aff83;">&lt;-</span> subset(climateChange, Year &lt;= 2006)
 
-writeLines(<span style="color: #fffacd;">"\n :: Exploratory data analysis for the training dataframe"</span>)
+writeLines(<span style="color: #ff5f87;">"\n :: Exploratory data analysis for the training dataframe"</span>)
 str(training)
 summary(training)
 </pre>
@@ -450,7 +450,7 @@ First data frame for test purposes:
 
 <div class="org-src-container">
 
-<pre class="src src-R">test <span style="color: #db7093;">&lt;-</span> subset(climateChange, Year &gt; 2006)
+<pre class="src src-R">test <span style="color: #3aff83;">&lt;-</span> subset(climateChange, Year &gt; 2006)
 str(test)
 summary(test)
 </pre>
@@ -506,8 +506,8 @@ in the model). Use the training set to build the model.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Linear regression model for Climate Change"</span>)
-tempReg <span style="color: #db7093;">&lt;-</span> lm(Temp ~ MEI + CO2 + CH4 + N2O + CFC.11 + CFC.12 + TSI +
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Linear regression model for Climate Change"</span>)
+tempReg <span style="color: #3aff83;">&lt;-</span> lm(Temp ~ MEI + CO2 + CH4 + N2O + CFC.11 + CFC.12 + TSI +
                       Aerosols, data = training)
 summary(tempReg)
 </pre>
@@ -635,7 +635,7 @@ contradiction?
 
 <div class="org-src-container">
 
-<pre class="src src-R">cor(training, use=<span style="color: #fffacd;">"complete.obs"</span>)
+<pre class="src src-R">cor(training, use=<span style="color: #ff5f87;">"complete.obs"</span>)
 </pre>
 </div>
 
@@ -774,8 +774,8 @@ model.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Linear regression model for Climate Change"</span>)
-tempReg2 <span style="color: #db7093;">&lt;-</span> lm(Temp ~ MEI + TSI + Aerosols + N2O, data = training)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Linear regression model for Climate Change"</span>)
+tempReg2 <span style="color: #3aff83;">&lt;-</span> lm(Temp ~ MEI + TSI + Aerosols + N2O, data = training)
 summary(tempReg2)
 </pre>
 </div>
@@ -903,8 +903,8 @@ information about the step function, type ?step in your R console.)
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Optimizing the linear regression model for Climate Change"</span>)
-tempReg3 <span style="color: #db7093;">&lt;-</span> step(tempReg)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Optimizing the linear regression model for Climate Change"</span>)
+tempReg3 <span style="color: #3aff83;">&lt;-</span> step(tempReg)
 summary(tempReg3)
 </pre>
 </div>
@@ -1010,8 +1010,8 @@ predictions for the testing data set, using the predict function.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Make test set predictions"</span>)
-predictTest <span style="color: #db7093;">&lt;-</span> predict(tempReg3, newdata = test)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Make test set predictions"</span>)
+predictTest <span style="color: #3aff83;">&lt;-</span> predict(tempReg3, newdata = test)
 predictTest
 </pre>
 </div>
@@ -1033,10 +1033,10 @@ calculate the <b>out of sample R-squared</b>.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Compute out-of-sample R^2"</span>)
-SSE <span style="color: #db7093;">&lt;-</span> sum((predictTest - test$Temp)^2)
-SST <span style="color: #db7093;">&lt;-</span> sum((mean(training$Temp) - test$Temp)^2)
-R2 <span style="color: #db7093;">&lt;-</span> 1 - (SSE/SST)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Compute out-of-sample R^2"</span>)
+SSE <span style="color: #3aff83;">&lt;-</span> sum((predictTest - test$Temp)^2)
+SST <span style="color: #3aff83;">&lt;-</span> sum((mean(training$Temp) - test$Temp)^2)
+R2 <span style="color: #3aff83;">&lt;-</span> 1 - (SSE/SST)
 R2
 </pre>
 </div>
@@ -1224,27 +1224,27 @@ In this part we can download the data
 
 <div class="org-src-container">
 
-<pre class="src src-R"><span style="color: #db7093;">library</span>(parallel)
+<pre class="src src-R"><span style="color: #3aff83;">library</span>(parallel)
 
-<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #fffacd;">"../data"</span>)) {
-        dir.create(<span style="color: #fffacd;">"../data"</span>)
+<span style="color: #5af2ee;">if</span>(!file.exists(<span style="color: #ff5f87;">"../data"</span>)) {
+        dir.create(<span style="color: #ff5f87;">"../data"</span>)
 }
 
-fileUrl <span style="color: #db7093;">&lt;-</span>
-        c(<span style="color: #fffacd;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/pisa2009train.csv"</span>, <span style="color: #fffacd;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/pisa2009test.csv"</span>)
+fileUrl <span style="color: #3aff83;">&lt;-</span>
+        c(<span style="color: #ff5f87;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/pisa2009train.csv"</span>, <span style="color: #ff5f87;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/pisa2009test.csv"</span>)
 
-fileName <span style="color: #db7093;">&lt;-</span> c(<span style="color: #fffacd;">"pisa2009train.csv"</span>, <span style="color: #fffacd;">"pisa2009test.csv"</span>)
+fileName <span style="color: #3aff83;">&lt;-</span> c(<span style="color: #ff5f87;">"pisa2009train.csv"</span>, <span style="color: #ff5f87;">"pisa2009test.csv"</span>)
 
-dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"../data"</span>
+dataPath <span style="color: #3aff83;">&lt;-</span> <span style="color: #ff5f87;">"../data"</span>
 
-<span style="color: #4682b4;">for</span>(i <span style="color: #4682b4;">in</span> 1:2) {
-        filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName[i], sep = <span style="color: #fffacd;">"/"</span>)
+<span style="color: #5af2ee;">for</span>(i <span style="color: #5af2ee;">in</span> 1:2) {
+        filePath <span style="color: #3aff83;">&lt;-</span> paste(dataPath, fileName[i], sep = <span style="color: #ff5f87;">"/"</span>)
 
-        <span style="color: #4682b4;">if</span>(!file.exists(filePath)) {
-                download.file(fileUrl[i], destfile = filePath, method = <span style="color: #fffacd;">"curl"</span>)
+        <span style="color: #5af2ee;">if</span>(!file.exists(filePath)) {
+                download.file(fileUrl[i], destfile = filePath, method = <span style="color: #ff5f87;">"curl"</span>)
         }
 }
-list.files(<span style="color: #fffacd;">"../data"</span>)
+list.files(<span style="color: #ff5f87;">"../data"</span>)
 </pre>
 </div>
 
@@ -1266,13 +1266,13 @@ list.files(<span style="color: #fffacd;">"../data"</span>)
 <div class="outline-text-4" id="text-2-1-2">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Read the training data set"</span>)
-pisaTrain <span style="color: #db7093;">&lt;-</span> read.table(<span style="color: #fffacd;">"../data/pisa2009train.csv"</span>, sep = <span style="color: #fffacd;">","</span>, header = <span style="color: #3cb371;">TRUE</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Read the training data set"</span>)
+pisaTrain <span style="color: #3aff83;">&lt;-</span> read.table(<span style="color: #ff5f87;">"../data/pisa2009train.csv"</span>, sep = <span style="color: #ff5f87;">","</span>, header = <span style="color: #b2baf6;">TRUE</span>)
 str(pisaTrain)
 summary(pisaTrain)
 
-writeLines(<span style="color: #fffacd;">"\n\n :: Read the test data set: DO NOT SEE THE DATA!"</span>)
-pisaTest <span style="color: #db7093;">&lt;-</span> read.table(<span style="color: #fffacd;">"../data/pisa2009test.csv"</span>, sep = <span style="color: #fffacd;">","</span>, header = <span style="color: #3cb371;">TRUE</span>)
+writeLines(<span style="color: #ff5f87;">"\n\n :: Read the test data set: DO NOT SEE THE DATA!"</span>)
+pisaTest <span style="color: #3aff83;">&lt;-</span> read.table(<span style="color: #ff5f87;">"../data/pisa2009test.csv"</span>, sep = <span style="color: #ff5f87;">","</span>, header = <span style="color: #b2baf6;">TRUE</span>)
 </pre>
 </div>
 
@@ -1371,7 +1371,7 @@ How many students are there in the training set?
 <div class="outline-text-5" id="text-2-1-3-1">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Number of students in the training data set"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Number of students in the training data set"</span>)
 nrow(pisaTrain)
 </pre>
 </div>
@@ -1472,7 +1472,7 @@ training set? Select all that apply.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: any NA in the features"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: any NA in the features"</span>)
 summary(pisaTrain)
 </pre>
 </div>
@@ -1601,9 +1601,9 @@ with any missing value from pisaTrain and pisaTest:
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Omiting the non complete observations"</span>)
-pisaTrain <span style="color: #db7093;">&lt;-</span> na.omit(pisaTrain)
-pisaTest <span style="color: #db7093;">&lt;-</span> na.omit(pisaTest)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Omiting the non complete observations"</span>)
+pisaTrain <span style="color: #3aff83;">&lt;-</span> na.omit(pisaTrain)
+pisaTest <span style="color: #3aff83;">&lt;-</span> na.omit(pisaTest)
 </pre>
 </div>
 
@@ -1621,7 +1621,7 @@ How many observations are now in the training set?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Number of observations in the training set"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Number of observations in the training set"</span>)
 nrow(pisaTrain)
 </pre>
 </div>
@@ -1642,7 +1642,7 @@ How many observations are now in the testing set?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Number of observations in the testing set"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Number of observations in the testing set"</span>)
 nrow(pisaTest)
 </pre>
 </div>
@@ -1789,8 +1789,8 @@ Which binary variables will be included in the regression model?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Exploring the raceeth feature:"</span>)
-sort(table(pisaTrain$raceeth), decreasing = <span style="color: #3cb371;">TRUE</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Exploring the raceeth feature:"</span>)
+sort(table(pisaTrain$raceeth), decreasing = <span style="color: #b2baf6;">TRUE</span>)
 </pre>
 </div>
 
@@ -1919,9 +1919,9 @@ by typing the following two lines in your R console:
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Setting the reference level of the factor to white"</span>)
-pisaTrain$raceeth <span style="color: #db7093;">&lt;-</span> relevel(pisaTrain$raceeth, <span style="color: #fffacd;">"White"</span>)
-pisaTest$raceeth <span style="color: #db7093;">&lt;-</span> relevel(pisaTest$raceeth, <span style="color: #fffacd;">"White"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Setting the reference level of the factor to white"</span>)
+pisaTrain$raceeth <span style="color: #3aff83;">&lt;-</span> relevel(pisaTrain$raceeth, <span style="color: #ff5f87;">"White"</span>)
+pisaTest$raceeth <span style="color: #3aff83;">&lt;-</span> relevel(pisaTest$raceeth, <span style="color: #ff5f87;">"White"</span>)
 </pre>
 </div>
 
@@ -1937,7 +1937,7 @@ variables.
 
 <div class="org-src-container">
 
-<pre class="src src-R">lmScore <span style="color: #db7093;">&lt;-</span> lm(readingScore ~ ., data = pisaTrain)
+<pre class="src src-R">lmScore <span style="color: #3aff83;">&lt;-</span> lm(readingScore ~ ., data = pisaTrain)
 summary(lmScore)
 </pre>
 </div>
@@ -2081,14 +2081,14 @@ What is the training-set root-mean squared error (RMSE) of lmScore?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Sum of Squared Errors"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Sum of Squared Errors"</span>)
 SSE = sum(lmScore$residuals^2)
 SSE
 
-writeLines(<span style="color: #fffacd;">"\n :: The training-set root-mean squared error (RMSE):"</span>)
+writeLines(<span style="color: #ff5f87;">"\n :: The training-set root-mean squared error (RMSE):"</span>)
 sqrt(SSE / nrow(pisaTrain))
 
-writeLines(<span style="color: #fffacd;">"\n :: A alternative way of getting the RMSE value:"</span>)
+writeLines(<span style="color: #ff5f87;">"\n :: A alternative way of getting the RMSE value:"</span>)
 sqrt(mean(lmScore$residuals^2))
 </pre>
 </div>
@@ -2153,12 +2153,12 @@ reading score of student B?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Make test set predictions"</span>)
-predictRScoreDF <span style="color: #db7093;">&lt;-</span> rbind(pisaTrain[1, ], pisaTrain[1, ])
-predictRScoreDF[2, 1] <span style="color: #db7093;">&lt;-</span> 9
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Make test set predictions"</span>)
+predictRScoreDF <span style="color: #3aff83;">&lt;-</span> rbind(pisaTrain[1, ], pisaTrain[1, ])
+predictRScoreDF[2, 1] <span style="color: #3aff83;">&lt;-</span> 9
 predictRScoreDF
 
-predict01 <span style="color: #db7093;">&lt;-</span> predict(lmScore, newdata = predictRScoreDF)
+predict01 <span style="color: #3aff83;">&lt;-</span> predict(lmScore, newdata = predictRScoreDF)
 predict01[1] - predict01[2]
 </pre>
 </div>
@@ -2366,8 +2366,8 @@ score on the test set?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Make test set predictions"</span>)
-predTest <span style="color: #db7093;">&lt;-</span> predict(lmScore, newdata = pisaTest)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Make test set predictions"</span>)
+predTest <span style="color: #3aff83;">&lt;-</span> predict(lmScore, newdata = pisaTest)
 summary(predTest)
 637.7 - 353.2
 </pre>
@@ -2419,8 +2419,8 @@ What is the sum of squared errors (SSE) of lmScore on the testing set?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Sum of Squared Errors in the testing set"</span>)
-SSE <span style="color: #db7093;">&lt;-</span> sum((predTest - pisaTest$readingScore)^2)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Sum of Squared Errors in the testing set"</span>)
+SSE <span style="color: #3aff83;">&lt;-</span> sum((predTest - pisaTest$readingScore)^2)
 SSE
 </pre>
 </div>
@@ -2451,11 +2451,11 @@ set?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: The RMSE of the testing data set is:"</span>)
-RMSE <span style="color: #db7093;">&lt;-</span> sqrt(SSE / nrow(pisaTest))
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: The RMSE of the testing data set is:"</span>)
+RMSE <span style="color: #3aff83;">&lt;-</span> sqrt(SSE / nrow(pisaTest))
 RMSE
 
-writeLines(<span style="color: #fffacd;">"\n :: An alternative for calculation:"</span>)
+writeLines(<span style="color: #ff5f87;">"\n :: An alternative for calculation:"</span>)
 sqrt(mean((predTest-pisaTest$readingScore)^2))
 </pre>
 </div>
@@ -2500,15 +2500,15 @@ to compute this value using the training set and not the test set.
 
 <div class="org-src-container">
 
-<pre class="src src-R">SSE <span style="color: #db7093;">&lt;-</span> sum((predTest - pisaTest$readingScore)^2)
+<pre class="src src-R">SSE <span style="color: #3aff83;">&lt;-</span> sum((predTest - pisaTest$readingScore)^2)
 
-writeLines(<span style="color: #fffacd;">"\n :: The predicted test score used in the baseline model:"</span>)
+writeLines(<span style="color: #ff5f87;">"\n :: The predicted test score used in the baseline model:"</span>)
 mean(pisaTrain$readingScore)
 
-SST <span style="color: #db7093;">&lt;-</span> sum((mean(pisaTrain$readingScore) - pisaTest$readingScore)^2)
-R2 <span style="color: #db7093;">&lt;-</span> 1 - (SSE/SST)
+SST <span style="color: #3aff83;">&lt;-</span> sum((mean(pisaTrain$readingScore) - pisaTest$readingScore)^2)
+R2 <span style="color: #3aff83;">&lt;-</span> 1 - (SSE/SST)
 
-writeLines(<span style="color: #fffacd;">"\n :: The SST for the training pisa data set"</span>)
+writeLines(<span style="color: #ff5f87;">"\n :: The SST for the training pisa data set"</span>)
 SST
 </pre>
 </div>
@@ -2574,10 +2574,10 @@ What is the test-set R-squared value of lmScore?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: The test-set R-squared value:"</span>)
-SSE <span style="color: #db7093;">&lt;-</span> sum((predTest - pisaTest$readingScore)^2)
-SST <span style="color: #db7093;">&lt;-</span> sum((mean(pisaTrain$readingScore) - pisaTest$readingScore)^2)
-R2 <span style="color: #db7093;">&lt;-</span> 1 - (SSE/SST)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: The test-set R-squared value:"</span>)
+SSE <span style="color: #3aff83;">&lt;-</span> sum((predTest - pisaTest$readingScore)^2)
+SST <span style="color: #3aff83;">&lt;-</span> sum((mean(pisaTrain$readingScore) - pisaTest$readingScore)^2)
+R2 <span style="color: #3aff83;">&lt;-</span> 1 - (SSE/SST)
 R2
 </pre>
 </div>
@@ -2607,7 +2607,7 @@ the sum of squared errors of the baseline model. For this model, the
 </div>
 
 <div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> Detecting Flu Epidemics via Search Engine Query Data <code>[16/17]</code></h2>
+<h2 id="sec-3"><span class="section-number-2">3</span> Detecting Flu Epidemics via Search Engine Query Data <code>[18/18]</code></h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Flu epidemics constitute a major public health concern causing
@@ -2688,24 +2688,24 @@ In this part we can download the data
 
 <div class="org-src-container">
 
-<pre class="src src-R"><span style="color: #db7093;">library</span>(parallel)
+<pre class="src src-R"><span style="color: #3aff83;">library</span>(parallel)
 
-<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #fffacd;">"../data"</span>)) {
-        dir.create(<span style="color: #fffacd;">"../data"</span>)
+<span style="color: #5af2ee;">if</span>(!file.exists(<span style="color: #ff5f87;">"../data"</span>)) {
+        dir.create(<span style="color: #ff5f87;">"../data"</span>)
 }
 
-fileUrl <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/FluTrain.csv"</span>
+fileUrl <span style="color: #3aff83;">&lt;-</span> <span style="color: #ff5f87;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/FluTrain.csv"</span>
 
-fileName <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"FluTrain.csv"</span>
+fileName <span style="color: #3aff83;">&lt;-</span> <span style="color: #ff5f87;">"FluTrain.csv"</span>
 
-dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"../data"</span>
+dataPath <span style="color: #3aff83;">&lt;-</span> <span style="color: #ff5f87;">"../data"</span>
 
-filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #fffacd;">"/"</span>)
+filePath <span style="color: #3aff83;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #ff5f87;">"/"</span>)
 
-<span style="color: #4682b4;">if</span>(!file.exists(filePath)) {
-        download.file(fileUrl, destfile = filePath, method = <span style="color: #fffacd;">"curl"</span>)
+<span style="color: #5af2ee;">if</span>(!file.exists(filePath)) {
+        download.file(fileUrl, destfile = filePath, method = <span style="color: #ff5f87;">"curl"</span>)
 }
-list.files(<span style="color: #fffacd;">"../data"</span>)
+list.files(<span style="color: #ff5f87;">"../data"</span>)
 </pre>
 </div>
 
@@ -2727,8 +2727,8 @@ list.files(<span style="color: #fffacd;">"../data"</span>)
 <div class="outline-text-4" id="text-3-1-2">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Read the training data set"</span>)
-FluTrain <span style="color: #db7093;">&lt;-</span> read.table(<span style="color: #fffacd;">"../data/FluTrain.csv"</span>, sep = <span style="color: #fffacd;">","</span>, header = <span style="color: #3cb371;">TRUE</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Read the training data set"</span>)
+FluTrain <span style="color: #3aff83;">&lt;-</span> read.table(<span style="color: #ff5f87;">"../data/FluTrain.csv"</span>, sep = <span style="color: #ff5f87;">","</span>, header = <span style="color: #b2baf6;">TRUE</span>)
 str(FluTrain)
 summary(FluTrain)
 </pre>
@@ -2939,7 +2939,7 @@ estimation problem?
 
 <div class="org-src-container">
 
-<pre class="src src-R">FluTrend1 <span style="color: #db7093;">&lt;-</span> lm(log(ILI) ~ Queries, data = FluTrain)
+<pre class="src src-R">FluTrend1 <span style="color: #3aff83;">&lt;-</span> lm(log(ILI) ~ Queries, data = FluTrain)
 summary(FluTrend1)
 </pre>
 </div>
@@ -3063,8 +3063,8 @@ exponential can be computed in R using the function exp().
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Relationship between R^2 and Correlation"</span>)
-Correlation <span style="color: #db7093;">&lt;-</span> cor(log(FluTrain$ILI), FluTrain$Queries)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Relationship between R^2 and Correlation"</span>)
+Correlation <span style="color: #3aff83;">&lt;-</span> cor(log(FluTrain$ILI), FluTrain$Queries)
 Correlation^2
 </pre>
 </div>
@@ -3140,24 +3140,24 @@ In this part we can download the data
 
 <div class="org-src-container">
 
-<pre class="src src-R"><span style="color: #db7093;">library</span>(parallel)
+<pre class="src src-R"><span style="color: #3aff83;">library</span>(parallel)
 
-<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #fffacd;">"../data"</span>)) {
-        dir.create(<span style="color: #fffacd;">"../data"</span>)
+<span style="color: #5af2ee;">if</span>(!file.exists(<span style="color: #ff5f87;">"../data"</span>)) {
+        dir.create(<span style="color: #ff5f87;">"../data"</span>)
 }
 
-fileUrl <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/FluTest.csv"</span>
+fileUrl <span style="color: #3aff83;">&lt;-</span> <span style="color: #ff5f87;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/FluTest.csv"</span>
 
-fileName <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"FluTest.csv"</span>
+fileName <span style="color: #3aff83;">&lt;-</span> <span style="color: #ff5f87;">"FluTest.csv"</span>
 
-dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"../data"</span>
+dataPath <span style="color: #3aff83;">&lt;-</span> <span style="color: #ff5f87;">"../data"</span>
 
-filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #fffacd;">"/"</span>)
+filePath <span style="color: #3aff83;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #ff5f87;">"/"</span>)
 
-<span style="color: #4682b4;">if</span>(!file.exists(filePath)) {
-        download.file(fileUrl, destfile = filePath, method = <span style="color: #fffacd;">"curl"</span>)
+<span style="color: #5af2ee;">if</span>(!file.exists(filePath)) {
+        download.file(fileUrl, destfile = filePath, method = <span style="color: #ff5f87;">"curl"</span>)
 }
-list.files(<span style="color: #fffacd;">"../data"</span>)
+list.files(<span style="color: #ff5f87;">"../data"</span>)
 </pre>
 </div>
 
@@ -3179,8 +3179,8 @@ list.files(<span style="color: #fffacd;">"../data"</span>)
 <div class="outline-text-4" id="text-3-7-2">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Read the testing data set"</span>)
-FluTest <span style="color: #db7093;">&lt;-</span> read.table(<span style="color: #fffacd;">"../data/FluTest.csv"</span>, sep = <span style="color: #fffacd;">","</span>, header = <span style="color: #3cb371;">TRUE</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Read the testing data set"</span>)
+FluTest <span style="color: #3aff83;">&lt;-</span> read.table(<span style="color: #ff5f87;">"../data/FluTest.csv"</span>, sep = <span style="color: #ff5f87;">","</span>, header = <span style="color: #b2baf6;">TRUE</span>)
 str(FluTest)
 summary(FluTest)
 </pre>
@@ -3241,11 +3241,11 @@ the which function, type ?which in your R console.)
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: estimate for the percentage of ILI-related physician\nvisits for the week of March 11, 2012:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: estimate for the percentage of ILI-related physician\nvisits for the week of March 11, 2012:"</span>)
 
-FluPredictTest <span style="color: #db7093;">&lt;-</span> cbind(FluTest, PredTest1)
+FluPredictTest <span style="color: #3aff83;">&lt;-</span> cbind(FluTest, PredTest1)
 names(FluPredictTest)
-FluPredictTest[which(FluPredictTest$Week == <span style="color: #fffacd;">"2012-03-11 - 2012-03-17"</span>), 4]
+FluPredictTest[which(FluPredictTest$Week == <span style="color: #ff5f87;">"2012-03-11 - 2012-03-17"</span>), 4]
 </pre>
 </div>
 
@@ -3313,13 +3313,13 @@ relative error is calculated as
 
 <div class="org-src-container">
 
-<pre class="src src-R">stmILI <span style="color: #db7093;">&lt;-</span> FluPredictTest[which(FluPredictTest$Week ==
-                                       <span style="color: #fffacd;">"2012-03-11 - 2012-03-17"</span>), 4]
-obsILI <span style="color: #db7093;">&lt;-</span> FluPredictTest[which(FluPredictTest$Week ==
-                                       <span style="color: #fffacd;">"2012-03-11 - 2012-03-17"</span>), 2]
+<pre class="src src-R">stmILI <span style="color: #3aff83;">&lt;-</span> FluPredictTest[which(FluPredictTest$Week ==
+                                       <span style="color: #ff5f87;">"2012-03-11 - 2012-03-17"</span>), 4]
+obsILI <span style="color: #3aff83;">&lt;-</span> FluPredictTest[which(FluPredictTest$Week ==
+                                       <span style="color: #ff5f87;">"2012-03-11 - 2012-03-17"</span>), 2]
 
-writeLines(<span style="color: #fffacd;">"\n :: Relative error for our observation:"</span>)
-relError <span style="color: #db7093;">&lt;-</span> (obsILI - stmILI) / obsILI
+writeLines(<span style="color: #ff5f87;">"\n :: Relative error for our observation:"</span>)
+relError <span style="color: #3aff83;">&lt;-</span> (obsILI - stmILI) / obsILI
 relError
 </pre>
 </div>
@@ -3358,7 +3358,7 @@ visits, on the test set?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: The RMSE of the testing data set is:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: The RMSE of the testing data set is:"</span>)
 sqrt(mean((FluPredictTest$PredTest1 - FluPredictTest$ILI)^2))
 </pre>
 </div>
@@ -3440,8 +3440,8 @@ you geographically.
 
 <div class="org-src-container">
 
-<pre class="src src-R"><span style="color: #9932cc;">## </span><span style="color: #ba55d3;">install.packages("zoo")</span>
-<span style="color: #db7093;">library</span>(zoo)
+<pre class="src src-R"><span style="color: #f6df92;">## </span><span style="color: #efc334;">install.packages("zoo")</span>
+<span style="color: #3aff83;">library</span>(zoo)
 </pre>
 </div>
 
@@ -3460,8 +3460,8 @@ commands to create the ILILag2 variable in the training set:
 
 <div class="org-src-container">
 
-<pre class="src src-R">ILILag2 <span style="color: #db7093;">&lt;-</span> lag(zoo(FluTrain$ILI), -2, na.pad = <span style="color: #3cb371;">TRUE</span>)
-FluTrain$ILILag2 <span style="color: #db7093;">&lt;-</span> coredata(ILILag2)
+<pre class="src src-R">ILILag2 <span style="color: #3aff83;">&lt;-</span> lag(zoo(FluTrain$ILI), -2, na.pad = <span style="color: #b2baf6;">TRUE</span>)
+FluTrain$ILILag2 <span style="color: #3aff83;">&lt;-</span> coredata(ILILag2)
 </pre>
 </div>
 
@@ -3557,7 +3557,7 @@ regression model? (Select all that apply.)
 
 <div class="org-src-container">
 
-<pre class="src src-R">FluTrend2 <span style="color: #db7093;">&lt;-</span> lm(log(ILI) ~ Queries + log(ILILag2), data = FluTrain)
+<pre class="src src-R">FluTrend2 <span style="color: #3aff83;">&lt;-</span> lm(log(ILI) ~ Queries + log(ILILag2), data = FluTrain)
 summary(FluTrend2)
 </pre>
 </div>
@@ -3657,8 +3657,8 @@ in this new variable?
 
 <div class="org-src-container">
 
-<pre class="src src-R">ILILag2 <span style="color: #db7093;">&lt;-</span> lag(zoo(FluTest$ILI), -2, na.pad = <span style="color: #3cb371;">TRUE</span>)
-FluTest$ILILag2 <span style="color: #db7093;">&lt;-</span> coredata(ILILag2)
+<pre class="src src-R">ILILag2 <span style="color: #3aff83;">&lt;-</span> lag(zoo(FluTest$ILI), -2, na.pad = <span style="color: #b2baf6;">TRUE</span>)
+FluTest$ILILag2 <span style="color: #3aff83;">&lt;-</span> coredata(ILILag2)
 summary(FluTest$ILILag2)
 </pre>
 </div>
@@ -3816,13 +3816,13 @@ str(FluTrain) or nrow(FluTrain).
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Old values for the FluTest$ILILag2 first two values:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Old values for the FluTest$ILILag2 first two values:"</span>)
 tail(FluTrain)
 head(FluTest)
 
-writeLines(<span style="color: #fffacd;">"\n :: New first two values for the FluTest$ILILag2:"</span>)
-FluTest$ILILag2[1] <span style="color: #db7093;">&lt;-</span> FluTrain$ILI[416]
-FluTest$ILILag2[2] <span style="color: #db7093;">&lt;-</span> FluTrain$ILI[417]
+writeLines(<span style="color: #ff5f87;">"\n :: New first two values for the FluTest$ILILag2:"</span>)
+FluTest$ILILag2[1] <span style="color: #3aff83;">&lt;-</span> FluTrain$ILI[416]
+FluTest$ILILag2[2] <span style="color: #3aff83;">&lt;-</span> FluTrain$ILI[417]
 tail(FluTrain)
 head(FluTest)
 </pre>
@@ -3887,7 +3887,7 @@ FluTest$ILILag2<sup><a id="fnr.5" name="fnr.5" class="footref" href="#fn.5">5</a
 </div>
 
 <div id="outline-container-sec-3-17" class="outline-3">
-<h3 id="sec-3-17"><span class="section-number-3">3.17</span> <span class="todo TODO">TODO</span> Problem 5.4 - Evaluating the Time Series Model in the Test Set (2 points possible)</h3>
+<h3 id="sec-3-17"><span class="section-number-3">3.17</span> <span class="done DONE">DONE</span> Problem 5.4 - Evaluating the Time Series Model in the Test Set (2 points possible)</h3>
 <div class="outline-text-3" id="text-3-17">
 <p>
 Obtain test set predictions of the ILI variable from the FluTrend2
@@ -3896,8 +3896,397 @@ the predict() function to obtain predictions for ILI instead of
 log(ILI).
 </p>
 
+<div class="org-src-container">
+
+<pre class="src src-R">PredTest2 <span style="color: #3aff83;">&lt;-</span> exp(predict(FluTrend2, newdata = FluTest))
+summary(PredTest2)
+</pre>
+</div>
+
+<pre class="example">
+ Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+1.004   1.275   1.655   1.808   2.141   5.006
+</pre>
+
 <p>
 What is the test-set RMSE of the FluTrend2 model?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: The RMSE of the testing data set and the new model is:"</span>)
+sqrt(mean((PredTest2 - FluTest$ILI)^2))
+</pre>
+</div>
+
+<pre class="example">
+ :: The RMSE of the testing data set and the new model is:
+[1] 0.2942029
+</pre>
+</div>
+
+<div id="outline-container-sec-3-17-1" class="outline-4">
+<h4 id="sec-3-17-1"><span class="section-number-4">3.17.1</span> Answer</h4>
+<div class="outline-text-4" id="text-3-17-1">
+<p>
+$$RMSE = 0.2942029$$
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+We can obtain the test-set predictions with:
+</p>
+
+<p>
+PredTest2 = exp(predict(FluTrend2, newdata=FluTest))
+</p>
+
+<p>
+And then we can compute the RMSE with the following commands:
+</p>
+
+<p>
+SSE = sum((PredTest2-FluTest$ILI)^2)
+</p>
+
+<p>
+RMSE = sqrt(SSE / nrow(FluTest))
+</p>
+
+<p>
+Alternatively, you could use the following command to compute the
+RMSE:
+</p>
+
+<p>
+sqrt(mean((PredTest2-FluTest$ILI)^2)).
+</p>
+
+<p>
+The <b>test-set RMSE of FluTrend2</b> is \(0.294\).
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-18" class="outline-3">
+<h3 id="sec-3-18"><span class="section-number-3">3.18</span> <span class="done DONE">DONE</span> Problem 5.5 - Evaluating the Time Series Model in the Test Set (1 point possible)</h3>
+<div class="outline-text-3" id="text-3-18">
+<p>
+In this problem, we used a simple time series model with a single lag
+term. ARIMA models are a more general form of the model we built,
+which can include multiple lag terms as well as more complicated
+combinations of previous values of the dependent variable. If you're
+interested in learning more, check out ?arima or the available online
+tutorials for these sorts of models.
+</p>
+
+<p>
+Which model obtained the best test-set RMSE?
+</p>
+</div>
+
+<div id="outline-container-sec-3-18-1" class="outline-4">
+<h4 id="sec-3-18-1"><span class="section-number-4">3.18.1</span> Answer</h4>
+<div class="outline-text-4" id="text-3-18-1">
+<p>
+<b>FluTrend2</b>.
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+The test-set RMSE of FluTrend2 is 0.294, as opposed to the 0.749 value
+obtained by the FluTrend1 model.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> State Data (OPTIONAL) <code>[3/4]</code></h2>
+<div class="outline-text-2" id="text-4">
+<p>
+We often take data for granted. However, one of the hardest parts
+about analyzing a problem you're interested in can be to find good
+data to answer the questions you want to ask. As you're learning R,
+though, there are many datasets that R has built in that you can take
+advantage of.
+</p>
+
+<p>
+In this problem, we will be examining the "state" dataset, which has
+data from the 1970s on all fifty US states. For each state, the
+dataset includes the population, per capita income, illiteracy rate,
+murder rate, high school graduation rate, average number of frost
+days, area, latitude and longitude, division the state belongs to,
+region the state belongs to, and two-letter abbreviation.
+</p>
+
+<p>
+Load the dataset and convert it to a data frame by running the
+following two commands in R:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">data(state)
+statedata <span style="color: #3aff83;">&lt;-</span> cbind(data.frame(state.x77), state.abb, state.area,
+                   state.center, state.division, state.name,
+                   state.region)
+writeLines(<span style="color: #ff5f87;">"\n :: data set loaded..."</span>)
+</pre>
+</div>
+
+<pre class="example">
+:: data set loaded...
+</pre>
+
+<p>
+If you can't access the state dataset in R, here is a CSV file with
+the same data that you can load into R using the read.csv function:
+<a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/statedata.csv">statedata.csv</a>.
+</p>
+
+<p>
+After you have loaded the data into R, inspect the data set using the
+command:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">str(statedata)
+</pre>
+</div>
+
+<pre class="example">
+'data.frame':	50 obs. of  15 variables:
+ $ Population    : num  3615 365 2212 2110 21198 ...
+ $ Income        : num  3624 6315 4530 3378 5114 ...
+ $ Illiteracy    : num  2.1 1.5 1.8 1.9 1.1 0.7 1.1 0.9 1.3 2 ...
+ $ Life.Exp      : num  69 69.3 70.5 70.7 71.7 ...
+ $ Murder        : num  15.1 11.3 7.8 10.1 10.3 6.8 3.1 6.2 10.7 13.9 ...
+ $ HS.Grad       : num  41.3 66.7 58.1 39.9 62.6 63.9 56 54.6 52.6 40.6 ...
+ $ Frost         : num  20 152 15 65 20 166 139 103 11 60 ...
+ $ Area          : num  50708 566432 113417 51945 156361 ...
+ $ state.abb     : Factor w/ 50 levels "AK","AL","AR",..: 2 1 4 3 5 6 7 8 9 10 ...
+ $ state.area    : num  51609 589757 113909 53104 158693 ...
+ $ x             : num  -86.8 -127.2 -111.6 -92.3 -119.8 ...
+ $ y             : num  32.6 49.2 34.2 34.7 36.5 ...
+ $ state.division: Factor w/ 9 levels "New England",..: 4 9 8 5 9 8 1 3 3 3 ...
+ $ state.name    : Factor w/ 50 levels "Alabama","Alaska",..: 1 2 3 4 5 6 7 8 9 10 ...
+ $ state.region  : Factor w/ 4 levels "Northeast","South",..: 2 4 4 2 4 4 1 2 2 2 ...
+</pre>
+
+<p>
+This dataset has 50 observations (one for each US state) and the
+following 15 variables:
+</p>
+
+<ul class="org-ul">
+<li><b>Population</b> - the population estimate of the state in 1975
+</li>
+
+<li><b>Income</b> - per capita income in 1974
+</li>
+
+<li><b>Illiteracy</b> - illiteracy rates in 1970, as a percent of the
+population
+</li>
+
+<li><b>Life.Exp</b> - the life expectancy in years of residents of the state
+in 1970
+</li>
+
+<li><b>Murder</b> - the murder and non-negligent manslaughter rate per
+100,000 population in 1976
+</li>
+
+<li><b>HS.Grad</b> - percent of high-school graduates in 1970
+</li>
+
+<li><b>Frost</b> - the mean number of days with minimum temperature below
+freezing from 1931–1960 in the capital or a large city of the state
+</li>
+
+<li><b>Area</b> - the land area (in square miles) of the state
+</li>
+
+<li><b>state.abb</b> - a 2-letter abreviation for each state
+</li>
+
+<li><b>state.area</b> - the area of each state, in square miles
+</li>
+
+<li><b>x</b> - the longitude of the center of the state
+</li>
+
+<li><b>y</b> - the latitude of the center of the state
+</li>
+
+<li><b>state.division</b> - the division each state belongs to (New England,
+Middle Atlantic, South Atlantic, East South Central, West South
+Central, East North Central, West North Central, Mountain, or
+Pacific)
+</li>
+
+<li><b>state.name</b> - the full names of each state
+</li>
+
+<li><b>state.region</b> - the region each state belong to (Northeast, South,
+North Central, or West)
+</li>
+</ul>
+</div>
+
+<div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1"><span class="section-number-3">4.1</span> <span class="done DONE">DONE</span> Problem 1.1 - Data Exploration</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+We begin by exploring the data. Plot all of the states' centers with
+latitude on the y axis (the "y" variable in our dataset) and longitude
+on the x axis (the "x" variable in our dataset). The shape of the plot
+should look like the outline of the United States! Note that Alaska
+and Hawaii have had their coordinates adjusted to appear just off of
+the west coast.
+</p>
+
+
+<div id="fig:StatesLatLong" class="figure">
+<p><img src="../graphs/StatesLatLong.png" alt="StatesLatLong.png" />
+</p>
+<p><span class="figure-number">Figure 5:</span> States Latitude and Longitude centers</p>
+</div>
+
+<p>
+In the R command you used to generate this plot, which variable name
+did you use as the first argument?
+</p>
+</div>
+
+<div id="outline-container-sec-4-1-1" class="outline-4">
+<h4 id="sec-4-1-1"><span class="section-number-4">4.1.1</span> Answer</h4>
+<div class="outline-text-4" id="text-4-1-1">
+<p>
+<b>statedata$x</b>
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+To generate the described plot, you should type plot(statedata$x,
+statedata$y) in your R console. The first variable here is
+statedata$x.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2"><span class="section-number-3">4.2</span> <span class="done DONE">DONE</span> Problem 1.2 - Data Exploration</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+Using the tapply command, determine which region of the US (West,
+North Central, South, or Northeast) has the highest average high
+school graduation rate of all the states in the region:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">tapply(statedata$HS.Grad, statedata$state.region, mean)
+which.max(tapply(statedata$HS.Grad, statedata$state.region, mean))
+</pre>
+</div>
+
+<pre class="example">
+    Northeast         South North Central          West
+     53.96667      44.34375      54.51667      62.00000
+West
+   4
+</pre>
+</div>
+
+<div id="outline-container-sec-4-2-1" class="outline-4">
+<h4 id="sec-4-2-1"><span class="section-number-4">4.2.1</span> Answer</h4>
+<div class="outline-text-4" id="text-4-2-1">
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+You can find the average high school graduation rate of all states in
+each of the regions by typing the following command in your R console:
+</p>
+
+<p>
+tapply(statedata$HS.Grad, statedata$state.region, mean)
+</p>
+
+<p>
+The highest value is for the West region.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-3" class="outline-3">
+<h3 id="sec-4-3"><span class="section-number-3">4.3</span> <span class="done DONE">DONE</span> Problem 1.3 - Data Exploration</h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+Now, make a boxplot of the murder rate by region (for more information
+about creating boxplots in R, type ?boxplot in your console).
+</p>
+
+
+<div id="fig:BPMurderVsRegion" class="figure">
+<p><img src="../graphs/BPMurderVsRegion.png" alt="BPMurderVsRegion.png" />
+</p>
+<p><span class="figure-number">Figure 6:</span> Murder rate by region</p>
+</div>
+
+<p>
+Which region has the highest median murder rate?
+</p>
+</div>
+
+<div id="outline-container-sec-4-3-1" class="outline-4">
+<h4 id="sec-4-3-1"><span class="section-number-4">4.3.1</span> Answer</h4>
+<div class="outline-text-4" id="text-4-3-1">
+<p>
+<b>South</b>.
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+To generate the boxplot, you should type boxplot(statedata$Murder ~
+statedata$state.region) in your R console. You can see that the region
+with the highest median murder rate (the one with the highest solid
+line in the box) is the South.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-4" class="outline-3">
+<h3 id="sec-4-4"><span class="section-number-3">4.4</span> <span class="todo TODO">TODO</span> Problem 1.4 - Data Exploration</h3>
+<div class="outline-text-3" id="text-4-4">
+<p>
+You should see that there is an outlier in the Northeast region of the
+boxplot you just generated. Which state does this correspond to?
+(Hint: There are many ways to find the answer to this question, but
+one way is to use the subset command to only look at the Northeast
+data.)
 </p>
 </div>
 </div>
@@ -3924,7 +4313,7 @@ What is the test-set RMSE of the FluTrend2 model?
 <div id="postamble" class="status">
 <p class="date">Date: 20/06/2015</p>
 <p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
-<p class="date">Created: 2015-06-22 Mon 22:20</p>
+<p class="date">Created: 2015-06-23 Tue 07:58</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
