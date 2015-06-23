@@ -1,65 +1,51 @@
-#+TITLE:         Homework Week 2
-#+AUTHOR:        Sergio-Feliciano Mendoza-Barrera
-#+DRAWERS:       Jaalkab
-#+EMAIL:         smendoza.barrera@gmail.com
-#+DATE:          20/06/2015
-#+DESCRIPTION:   R introduction, remembering the syntax and some useful examples
-#+KEYWORDS:      R, data science, emacs, ESS, org-mode
-#+LANGUAGE:      en
-#+OPTIONS:       H:10 num:t toc:nil \n:nil @:t ::t |:t ^:{} -:t f:t *:t <:t d:HIDDEN
-#+OPTIONS:       TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
-#+OPTIONS:       LaTeX:dvipng
-#+INFOJS_OPT:    view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
-#+EXPORT_SELECT_TAGS: export
-#+EXPORT_EXCLUDE_TAGS: noexport
-#+LINK_UP:
-#+LINK_HOME:
-#+XSLT:
-#+STYLE: <link rel="stylesheet" type="text/css" href="dft.css"/>
+% Created 2015-06-22 Mon 19:32
+\documentclass[letterpaper, 9pt, onecolumn, twoside, technote, final]{IEEEtran}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usepackage{minted}
+\usepackage{minted}
+\usepackage{makeidx}
+\usepackage[lining,tabular]{fbb} % so math uses tabular lining figures
+\usepackage[scaled=.95,type1]{cabin} % sans serif in style of Gill Sans
+\usepackage[varqu,varl]{zi4}% inconsolata typewriter
+\usepackage[T1]{fontenc} % LY1 also works
+\usepackage[libertine,bigdelims]{newtxmath}
+\usepackage[cal=boondoxo,bb=boondox,frak=boondox]{mathalfa}
+\useosf % change normal text to use proportional oldstyle figures
+\markboth{Reporte de gastos Febrero - Abril, 2015}%
+{Sergio-Feliciano Mendoza-Barrera - CEO Global Labs Mexico}
+\newcommand{\degC}{$^\circ$C{}}
+\author{Sergio-Feliciano Mendoza-Barrera}
+\date{20/06/2015}
+\title{Homework Week 2}
+\hypersetup{
+  pdfkeywords={R, data science, emacs, ESS, org-mode},
+  pdfsubject={R introduction, remembering the syntax and some useful examples},
+  pdfcreator={Emacs 24.4.1 (Org mode 8.2.10)}}
+\begin{document}
 
-#+LaTeX_CLASS: IEEEtran
-#+LATEX_CLASS_OPTIONS: [letterpaper, 9pt, onecolumn, twoside, technote, final]
-#+LATEX_HEADER: \usepackage{minted}
-#+LATEX_HEADER: \usepackage{makeidx}
+\maketitle
 
-#+LATEX_HEADER: \usepackage[lining,tabular]{fbb} % so math uses tabular lining figures
-#+LATEX_HEADER: \usepackage[scaled=.95,type1]{cabin} % sans serif in style of Gill Sans
-#+LATEX_HEADER: \usepackage[varqu,varl]{zi4}% inconsolata typewriter
-#+LATEX_HEADER: \usepackage[T1]{fontenc} % LY1 also works
-#+LATEX_HEADER: \usepackage[libertine,bigdelims]{newtxmath}
-#+LATEX_HEADER: \usepackage[cal=boondoxo,bb=boondox,frak=boondox]{mathalfa}
-#+LATEX_HEADER: \useosf % change normal text to use proportional oldstyle figures
-
-#+LATEX_HEADER: \markboth{Reporte de gastos Febrero - Abril, 2015}%
-#+LATEX_HEADER: {Sergio-Feliciano Mendoza-Barrera - CEO Global Labs Mexico}
-
-#+LATEX_HEADER: \newcommand{\degC}{$^\circ$C{}}
-
-#+STYLE: <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
-
-#+ATTR_HTML: width="500px"
-
-# -*- mode: org; -*-
-
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/htmlize.css"/>
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/bigblow.css"/>
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/hideshow.css"/>
-
-#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery-1.11.0.min.js"></script>
-#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery-ui-1.10.2.min.js"></script>
-
-#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.localscroll-min.js"></script>
-#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.scrollTo-1.4.3.1-min.js"></script>
-#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.zclip.min.js"></script>
-#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/bigblow.js"></script>
-#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/hideshow.js"></script>
-#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.min.js"></script>
-
-#+BEGIN_ABSTRACT
+\begin{abstract}
 Homework week 2.
-#+END_ABSTRACT
+\end{abstract}
 
-* Climate Change [7/7]
+\section{Climate Change [7/7]}
+\label{sec-1}
 
 There have been many studies documenting that the average global
 temperature has been increasing over the last century. The
@@ -70,54 +56,57 @@ events will affect billions of people.
 In this problem, we will attempt to study the relationship between
 average global temperature and several other factors.
 
-The file [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/climate_change.csv][climate_change.csv]] contains climate data from *May 1983* to
-*December 2008*. The available variables include:
+The file \href{https://courses.edx.org/asset-v1:MITx\%2B15.071x_2a\%2B2T2015\%2Btype@asset\%2Bblock/climate_change.csv}{climate\_change.csv} contains climate data from \textbf{May 1983} to
+\textbf{December 2008}. The available variables include:
 
-- *Year*: the observation year.
+\begin{itemize}
+\item \textbf{Year}: the observation year.
 
-- *Month*: the observation month.
+\item \textbf{Month}: the observation month.
 
-- *Temp*: the difference in degrees Celsius between the average global
-  temperature in that period and a reference value. This data comes
-  from the [[http://www.cru.uea.ac.uk/cru/data/temperature][Climatic Research Unit at the University of East Anglia]].
+\item \textbf{Temp}: the difference in degrees Celsius between the average global
+temperature in that period and a reference value. This data comes
+from the \href{http://www.cru.uea.ac.uk/cru/data/temperature}{Climatic Research Unit at the University of East Anglia}.
 
-- *CO2, N2O, CH4, CFC.11, CFC.12*: atmospheric concentrations of carbon
-  dioxide (CO2), nitrous oxide (N2O), methane  (CH4),
-  trichlorofluoromethane (CCl3F; commonly referred to as CFC-11) and
-  dichlorodifluoromethane (CCl2F2; commonly referred to as CFC-12),
-  respectively. This data comes from the [[http://www.esrl.noaa.gov/gmd/ccgg/data-products.html][ESRL/NOAA Global Monitoring
-  Division]].
+\item \textbf{CO2, N2O, CH4, CFC.11, CFC.12}: atmospheric concentrations of carbon
+dioxide (CO2), nitrous oxide (N2O), methane  (CH4),
+trichlorofluoromethane (CCl3F; commonly referred to as CFC-11) and
+dichlorodifluoromethane (CCl2F2; commonly referred to as CFC-12),
+respectively. This data comes from the \href{http://www.esrl.noaa.gov/gmd/ccgg/data-products.html}{ESRL/NOAA Global Monitoring
+Division}.
 
-    + *CO2, N2O and CH4* are expressed in ppmv (parts per million by
-      volume -- i.e., 397 ppmv of CO2 means that CO2 constitutes 397
-      millionths of the total volume of the atmosphere)
-    + *CFC.11 and CFC.12* are expressed in ppbv (parts per billion by
-      volume).
+\begin{itemize}
+\item \textbf{CO2, N2O and CH4} are expressed in ppmv (parts per million by
+volume -- i.e., 397 ppmv of CO2 means that CO2 constitutes 397
+millionths of the total volume of the atmosphere)
+\item \textbf{CFC.11 and CFC.12} are expressed in ppbv (parts per billion by
+volume).
+\end{itemize}
 
-- *Aerosols*: the mean stratospheric aerosol optical depth at 550
-  nm. This variable is linked to volcanoes, as volcanic eruptions
-  result in new particles being added to the atmosphere, which affect
-  how much of the sun's energy is reflected back into space. This data
-  is from the [[http://data.giss.nasa.gov/modelforce/strataer][Godard Institute for Space Studies at NASA]].
+\item \textbf{Aerosols}: the mean stratospheric aerosol optical depth at 550
+nm. This variable is linked to volcanoes, as volcanic eruptions
+result in new particles being added to the atmosphere, which affect
+how much of the sun's energy is reflected back into space. This data
+is from the \href{http://data.giss.nasa.gov/modelforce/strataer}{Godard Institute for Space Studies at NASA}.
 
-- *TSI*: the total solar irradiance (TSI) in $\frac{W}{m^2}$ (the rate
-  at which the sun's energy is deposited per unit area). Due to
-  sunspots and other solar phenomena, the amount of energy that is
-  given off by the sun varies substantially with time. This data is
-  from the [[http://solarisheppa.geomar.de/solarisheppa/cmip5][SOLARIS-HEPPA project website]].
+\item \textbf{TSI}: the total solar irradiance (TSI) in $\frac{W}{m^2}$ (the rate
+at which the sun's energy is deposited per unit area). Due to
+sunspots and other solar phenomena, the amount of energy that is
+given off by the sun varies substantially with time. This data is
+from the \href{http://solarisheppa.geomar.de/solarisheppa/cmip5}{SOLARIS-HEPPA project website}.
 
-- *MEI*: multivariate El Nino Southern Oscillation index (MEI), a
-  measure of the strength of the [[http://en.wikipedia.org/wiki/El_nino][El Nino/La Nina-Southern Oscillation]]
-  (a weather effect in the Pacific Ocean that affects global
-  temperatures). This data comes from the [[http://www.esrl.noaa.gov/psd/enso/mei/table.html][ESRL/NOAA Physical Sciences
-  Division]].
+\item \textbf{MEI}: multivariate El Nino Southern Oscillation index (MEI), a
+measure of the strength of the \href{http://en.wikipedia.org/wiki/El_nino}{El Nino/La Nina-Southern Oscillation}
+(a weather effect in the Pacific Ocean that affects global
+temperatures). This data comes from the \href{http://www.esrl.noaa.gov/psd/enso/mei/table.html}{ESRL/NOAA Physical Sciences
+Division}.
+\end{itemize}
 
-** DONE Problem 1.1 - Creating Our First Model (2 points possible)
-CLOSED: [2015-06-21 Sun 12:36]
-
+\subsection{{\bfseries\sffamily DONE} Problem 1.1 - Creating Our First Model (2 points possible)}
+\label{sec-1-1}
 We are interested in how changes in these variables affect future
 temperatures, as well as how well these variables explain temperature
-changes so far. To do this, first read the dataset climate_change.csv
+changes so far. To do this, first read the dataset climate\_change.csv
 into R.
 
 Then, split the data into a training set, consisting of all the
@@ -127,55 +116,56 @@ data that will be used to build the model (this is the data we give to
 the lm() function), and a testing set refers to the data we will use
 to test our predictive ability.
 
-*** Download the data set
+\subsubsection{Download the data set}
+\label{sec-1-1-1}
 
 In this part we can download the data
 
-#+BEGIN_SRC R :session :results output :exports all
-  library(parallel)
+\begin{minted}[]{r}
+library(parallel)
 
-  if(!file.exists("../data")) {
-          dir.create("../data")
-  }
+if(!file.exists("../data")) {
+        dir.create("../data")
+}
 
-  fileUrl <-
-          c("https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/climate_change.csv")
+fileUrl <-
+        c("https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/climate_change.csv")
 
-  fileName <- c("climate_change.csv")
+fileName <- c("climate_change.csv")
 
-  dataPath <- "../data"
+dataPath <- "../data"
 
-  filePath <- paste(dataPath, fileName, sep = "/")
+filePath <- paste(dataPath, fileName, sep = "/")
 
-  if(!file.exists(filePath)) {
-          download.file(fileUrl, destfile = filePath, method = "curl")
-  }
+if(!file.exists(filePath)) {
+        download.file(fileUrl, destfile = filePath, method = "curl")
+}
 
-  list.files("../data")
-#+END_SRC
+list.files("../data")
+\end{minted}
 
-#+RESULTS:
-:  [1] "AnonymityPoll.csv"      "baseball.csv"           "BoeingStock.csv"
-:  [4] "climate_change.csv"     "CocaColaStock.csv"      "CountryCodes.csv"
-:  [7] "CPSData.csv"            "FluTrain.csv"           "GEStock.csv"
-: [10] "IBMStock.csv"           "MetroAreaCodes.csv"     "mvtWeek1.csv"
-: [13] "NBA_test.csv"           "NBA_train.csv"          "pisa2009test.csv"
-: [16] "pisa2009train.csv"      "ProcterGambleStock.csv" "README.md"
-: [19] "USDA.csv"               "WHO.csv"                "WHO_Europe.csv"
-: [22] "wine.csv"               "wine_test.csv"
+\begin{verbatim}
+ [1] "AnonymityPoll.csv"      "baseball.csv"           "BoeingStock.csv"
+ [4] "climate_change.csv"     "CocaColaStock.csv"      "CountryCodes.csv"
+ [7] "CPSData.csv"            "FluTrain.csv"           "GEStock.csv"
+[10] "IBMStock.csv"           "MetroAreaCodes.csv"     "mvtWeek1.csv"
+[13] "NBA_test.csv"           "NBA_train.csv"          "pisa2009test.csv"
+[16] "pisa2009train.csv"      "ProcterGambleStock.csv" "README.md"
+[19] "USDA.csv"               "WHO.csv"                "WHO_Europe.csv"
+[22] "wine.csv"               "wine_test.csv"
+\end{verbatim}
 
-*** Loading the data
+\subsubsection{Loading the data}
+\label{sec-1-1-2}
 
-#+BEGIN_SRC R :session :results output :exports all
-  writeLines("\n :: Read in data")
-  climateChange <- read.table("../data/climate_change.csv", sep = ",", header = TRUE)
-  str(climateChange)
-  summary(climateChange)
-#+END_SRC
+\begin{minted}[]{r}
+writeLines("\n :: Read in data")
+climateChange <- read.table("../data/climate_change.csv", sep = ",", header = TRUE)
+str(climateChange)
+summary(climateChange)
+\end{minted}
 
-#+RESULTS:
-#+begin_example
-
+\begin{verbatim}
  :: Read in data
 'data.frame':	308 obs. of  11 variables:
  $ Year    : int  1983 1983 1983 1983 1983 1983 1983 1983 1984 1984 ...
@@ -210,23 +200,21 @@ In this part we can download the data
  Mean   :0.01666   Mean   : 0.2568
  3rd Qu.:0.01260   3rd Qu.: 0.4073
  Max.   :0.14940   Max.   : 0.7390
-#+end_example
+\end{verbatim}
 
 Splitting the data in two data sets for training and test data frames.
 
 First data frame for training purposes:
 
-#+BEGIN_SRC R :session :results output :exports all
-  training <- subset(climateChange, Year <= 2006)
+\begin{minted}[]{r}
+training <- subset(climateChange, Year <= 2006)
 
-  writeLines("\n :: Exploratory data analysis for the training dataframe")
-  str(training)
-  summary(training)
-#+END_SRC
+writeLines("\n :: Exploratory data analysis for the training dataframe")
+str(training)
+summary(training)
+\end{minted}
 
-#+RESULTS:
-#+begin_example
-
+\begin{verbatim}
  :: Exploratory data analysis for the training dataframe
 'data.frame':	284 obs. of  11 variables:
  $ Year    : int  1983 1983 1983 1983 1983 1983 1983 1983 1984 1984 ...
@@ -261,18 +249,17 @@ First data frame for training purposes:
  Mean   :0.01772   Mean   : 0.2478
  3rd Qu.:0.01400   3rd Qu.: 0.4065
  Max.   :0.14940   Max.   : 0.7390
-#+end_example
+\end{verbatim}
 
 First data frame for test purposes:
 
-#+BEGIN_SRC R :session :results output :exports all
-  test <- subset(climateChange, Year > 2006)
-  str(test)
-  summary(test)
-#+END_SRC
+\begin{minted}[]{r}
+test <- subset(climateChange, Year > 2006)
+str(test)
+summary(test)
+\end{minted}
 
-#+RESULTS:
-#+begin_example
+\begin{verbatim}
 'data.frame':	24 obs. of  11 variables:
  $ Year    : int  2007 2007 2007 2007 2007 2007 2007 2007 2007 2007 ...
  $ Month   : int  1 2 3 4 5 6 7 8 9 10 ...
@@ -306,25 +293,24 @@ First data frame for test purposes:
  Mean   :0.004071   Mean   :0.363
  3rd Qu.:0.004500   3rd Qu.:0.414
  Max.   :0.005400   Max.   :0.601
-#+end_example
+\end{verbatim}
 
-*** Question a
+\subsubsection{Question a}
+\label{sec-1-1-3}
 
 Next, build a linear regression model to predict the dependent
 variable Temp, using MEI, CO2, CH4, N2O, CFC.11, CFC.12, TSI, and
 Aerosols as independent variables (Year and Month should NOT be used
 in the model). Use the training set to build the model.
 
-#+BEGIN_SRC R :session :results output :exports all
-  writeLines("\n :: Linear regression model for Climate Change")
-  tempReg <- lm(Temp ~ MEI + CO2 + CH4 + N2O + CFC.11 + CFC.12 + TSI +
-                        Aerosols, data = training)
-  summary(tempReg)
-#+END_SRC
+\begin{minted}[]{r}
+writeLines("\n :: Linear regression model for Climate Change")
+tempReg <- lm(Temp ~ MEI + CO2 + CH4 + N2O + CFC.11 + CFC.12 + TSI +
+                      Aerosols, data = training)
+summary(tempReg)
+\end{minted}
 
-#+RESULTS:
-#+begin_example
-
+\begin{verbatim}
  :: Linear regression model for Climate Change
 
 Call:
@@ -352,19 +338,20 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 Residual standard error: 0.09171 on 275 degrees of freedom
 Multiple R-squared:  0.7509,	Adjusted R-squared:  0.7436
 F-statistic: 103.6 on 8 and 275 DF,  p-value: < 2.2e-16
-#+end_example
+\end{verbatim}
 
 Enter the model R2 (the "Multiple R-squared" value):
 
-**** Answer
+\paragraph{Answer}
+\label{sec-1-1-3-1}
 
 0.7509
 
-*Explanation*
+\textbf{Explanation}
 
 First, read in the data and split it using the subset command:
 
-climate = read.csv("climate_change.csv")
+climate = read.csv("climate\_change.csv")
 
 train = subset(climate, Year <= 2006)
 
@@ -372,29 +359,28 @@ test = subset(climate, Year > 2006)
 
 Then, you can create the model using the command:
 
-climatelm = lm(Temp ~ MEI + CO2 + CH4 + N2O + CFC.11 + CFC.12 + TSI +
+climatelm = lm(Temp \textasciitilde{} MEI + CO2 + CH4 + N2O + CFC.11 + CFC.12 + TSI +
 Aerosols, data=train)
 
 Lastly, look at the model using summary(climatelm). The Multiple
 R-squared value is 0.7509.
 
-** DONE Problem 1.2 - Creating Our First Model (1 point possible)
-CLOSED: [2015-06-21 Sun 12:36]
-
+\subsection{{\bfseries\sffamily DONE} Problem 1.2 - Creating Our First Model (1 point possible)}
+\label{sec-1-2}
 Which variables are significant in the model? We will consider a
 variable signficant only if the p-value is below 0.05. (Select all
 that apply.)
 
-*** Answer
+\subsubsection{Answer}
+\label{sec-1-2-1}
 
 If you look at the model we created in the previous problem using
 summary(climatelm), all of the variables have at least one star except
 for CH4 and N2O. So MEI, CO2, CFC.11, CFC.12, TSI, and Aerosols are
 all significant.
 
-** DONE Problem 2.1 - Understanding the Model (1 point possible)
-CLOSED: [2015-06-21 Sun 12:36]
-
+\subsection{{\bfseries\sffamily DONE} Problem 2.1 - Understanding the Model (1 point possible)}
+\label{sec-1-3}
 Current scientific opinion is that nitrous oxide and CFC-11 are
 greenhouse gases: gases that are able to trap heat from the sun and
 contribute to the heating of the Earth. However, the regression
@@ -405,12 +391,11 @@ these two compounds is associated with lower global temperatures.
 Which of the following is the simplest correct explanation for this
 contradiction?
 
-#+BEGIN_SRC R :session :results output :exports all
-  cor(training, use="complete.obs")
-#+END_SRC
+\begin{minted}[]{r}
+cor(training, use="complete.obs")
+\end{minted}
 
-#+RESULTS:
-#+begin_example
+\begin{verbatim}
                 Year         Month           MEI         CO2         CH4
 Year      1.00000000 -0.0279419602 -0.0369876842  0.98274939  0.91565945
 Month    -0.02794196  1.0000000000  0.0008846905 -0.10673246  0.01856866
@@ -447,20 +432,20 @@ CFC.12    0.68755755
 TSI       0.24338269
 Aerosols -0.38491375
 Temp      1.00000000
-#+end_example
+\end{verbatim}
 
-#+CAPTION: Correlation plot of the climate change variables
-#+NAME:   fig:climateChangeVarCorr
-#+ATTR_LaTeX: placement: [H]
-[[../graphs/climateChangeVarCorr.png]]
-
-#+RESULTS:
+\begin{figure}[htb]
+\centering
+\includegraphics[width=.9\linewidth]{../graphs/climateChangeVarCorr.png}
+\caption{\label{fig:climateChangeVarCorr}Correlation plot of the climate change variables}
+\end{figure}
 
 The correlation plot shows a strong correlation between $N_2 O$ and
 and $CO_2$ in one hand, in other hand $CFC.11$ is highly correlated
 with $CFC.12$ and $CH_4$.
 
-*** Answer
+\subsubsection{Answer}
+\label{sec-1-3-1}
 
 The linear correlation of N2O and CFC.11 with other variables in the
 data set is quite large. The first explanation does not seem correct,
@@ -469,24 +454,26 @@ and our regression analysis is not enough to disprove it. The second
 explanation is unlikely, as we have estimated eight coefficients and
 the intercept from 284 observations.
 
-** DONE Problem 2.2 - Understanding the Model (2 points possible)
-CLOSED: [2015-06-21 Sun 12:36]
-
+\subsection{{\bfseries\sffamily DONE} Problem 2.2 - Understanding the Model (2 points possible)}
+\label{sec-1-4}
 Compute the correlations between all the variables in the training
 set.
 
-*** Question a
+\subsubsection{Question a}
+\label{sec-1-4-1}
 
 Which of the following independent variables is $N_2O$ highly correlated
 with (absolute correlation greater than 0.7)? Select all that apply.
 
-**** Answer
+\paragraph{Answer}
+\label{sec-1-4-1-1}
 
 CO2
 CH4
 CFC.12
 
-*** Question b
+\subsubsection{Question b}
+\label{sec-1-4-2}
 
 Which of the following independent variables is $CFC.11$ highly
 correlated with? Select all that apply.
@@ -494,27 +481,25 @@ correlated with? Select all that apply.
 CH4
 CFC.12
 
-*Explanation*
+\textbf{Explanation}
 
 You can calculate all correlations at once using cor(train) where
 train is the name of the training data set.
 
-** DONE Problem 3 - Simplifying the Model (2 points possible)
-CLOSED: [2015-06-21 Sun 12:36]
-
+\subsection{{\bfseries\sffamily DONE} Problem 3 - Simplifying the Model (2 points possible)}
+\label{sec-1-5}
 Given that the correlations are so high, let us focus on the $N_2O$
 variable and build a model with only MEI, TSI, Aerosols and $N_2O$ as
 independent variables. Remember to use the training set to build the
 model.
 
-#+BEGIN_SRC R :session :results output :exports all
-  writeLines("\n :: Linear regression model for Climate Change")
-  tempReg2 <- lm(Temp ~ MEI + TSI + Aerosols + N2O, data = training)
-  summary(tempReg2)
-#+END_SRC
+\begin{minted}[]{r}
+writeLines("\n :: Linear regression model for Climate Change")
+tempReg2 <- lm(Temp ~ MEI + TSI + Aerosols + N2O, data = training)
+summary(tempReg2)
+\end{minted}
 
-#+RESULTS:
-#+begin_example
+\begin{verbatim}
  null device
           1
 
@@ -540,32 +525,36 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 Residual standard error: 0.09547 on 279 degrees of freedom
 Multiple R-squared:  0.7261,	Adjusted R-squared:  0.7222
 F-statistic: 184.9 on 4 and 279 DF,  p-value: < 2.2e-16
-#+end_example
+\end{verbatim}
 
-*** Question a
+\subsubsection{Question a}
+\label{sec-1-5-1}
 
 Enter the coefficient of $N_2O$ in this reduced model:
 
-**** Answer
+\paragraph{Answer}
+\label{sec-1-5-1-1}
 
 2.532e-02
 
-*** Question b
+\subsubsection{Question b}
+\label{sec-1-5-2}
 
 (How does this compare to the coefficient in the previous model with
 all of the variables?)
 
 Enter the model $R^2$:
 
-**** Answer
+\paragraph{Answer}
+\label{sec-1-5-2-1}
 
 0.7261
 
-*Explanation*
+\textbf{Explanation}
 
 We can create this simplified model with the command:
 
-LinReg = lm(Temp ~ MEI + N2O + TSI + Aerosols, data=train)
+LinReg = lm(Temp \textasciitilde{} MEI + N2O + TSI + Aerosols, data=train)
 
 You can get the coefficient for N2O and the model R-squared by typing
 summary(LinReg).
@@ -580,15 +569,14 @@ particular problem many of the variables (CO2, CH4, N2O, CFC.11 and
 CFC.12) are highly correlated, since they are all driven by human
 industrial development.
 
-** DONE Problem 4 - Automatically Building the Model (4 points possible)
-CLOSED: [2015-06-21 Sun 12:36]
-
+\subsection{{\bfseries\sffamily DONE} Problem 4 - Automatically Building the Model (4 points possible)}
+\label{sec-1-6}
 We have many variables in this problem, and as we have seen above,
 dropping some from the model does not decrease model quality. R
 provides a function, step, that will automate the procedure of trying
 different combinations of variables to find a good compromise of model
-simplicity and $R^2$. This trade-off is formalized by the *Akaike*
-information criterion ([[http://en.wikipedia.org/wiki/Akaike_information_criterion][AIC]]) - it can be informally thought of as the
+simplicity and $R^2$. This trade-off is formalized by the \textbf{Akaike}
+information criterion (\href{http://en.wikipedia.org/wiki/Akaike_information_criterion}{AIC}) - it can be informally thought of as the
 quality of the model with a penalty for the number of variables in the
 model.
 
@@ -600,15 +588,13 @@ the step function by typing step(climateLM). Be sure to save your new
 model to a variable name so that you can look at the summary. For more
 information about the step function, type ?step in your R console.)
 
-#+BEGIN_SRC R :session :results output :exports all
-  writeLines("\n :: Optimizing the linear regression model for Climate Change")
-  tempReg3 <- step(tempReg)
-  summary(tempReg3)
-#+END_SRC
+\begin{minted}[]{r}
+writeLines("\n :: Optimizing the linear regression model for Climate Change")
+tempReg3 <- step(tempReg)
+summary(tempReg3)
+\end{minted}
 
-#+RESULTS:
-#+begin_example
-
+\begin{verbatim}
  :: Optimizing the linear regression model for Climate Change
 Start:  AIC=-1348.16
 Temp ~ MEI + CO2 + CH4 + N2O + CFC.11 + CFC.12 + TSI + Aerosols
@@ -661,15 +647,17 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 Residual standard error: 0.09155 on 276 degrees of freedom
 Multiple R-squared:  0.7508,	Adjusted R-squared:  0.7445
 F-statistic: 118.8 on 7 and 276 DF,  p-value: < 2.2e-16
-#+end_example
+\end{verbatim}
 
-*** Question a
+\subsubsection{Question a}
+\label{sec-1-6-1}
 
 Enter the R2 value of the model produced by the step function:
 
-**** Answer
+\paragraph{Answer}
+\label{sec-1-6-1-1}
 
-*Only $CH_4$ was removed*.
+\textbf{Only $CH_4$ was removed}.
 
 It is interesting to note that the step function does not address the
 collinearity of the variables, except that adding highly correlated
@@ -679,9 +667,8 @@ interpretable model - just a model that has balanced quality and
 simplicity for a particular weighting of quality and simplicity
 (AIC).
 
-** DONE Problem 5 - Testing on Unseen Data (2 points possible)
-CLOSED: [2015-06-21 Sun 12:36]
-
+\subsection{{\bfseries\sffamily DONE} Problem 5 - Testing on Unseen Data (2 points possible)}
+\label{sec-1-7}
 We have developed an understanding of how well we can fit a linear
 regression to the training data, but does the model quality hold when
 applied to unseen data?
@@ -689,58 +676,62 @@ applied to unseen data?
 Using the model produced from the step function, calculate temperature
 predictions for the testing data set, using the predict function.
 
-#+BEGIN_SRC R :session :results output :exports all
-  writeLines("\n :: Make test set predictions")
-  predictTest <- predict(tempReg3, newdata = test)
-  predictTest
-#+END_SRC
+\begin{minted}[]{r}
+writeLines("\n :: Make test set predictions")
+predictTest <- predict(tempReg3, newdata = test)
+predictTest
+\end{minted}
 
-#+RESULTS:
-:
-:  :: Make test set predictions
-:       285       286       287       288       289       290       291       292
-: 0.4677808 0.4435404 0.4265541 0.4299162 0.4455113 0.4151422 0.4097367 0.3839390
-:       293       294       295       296       297       298       299       300
-: 0.3255595 0.3274147 0.3231401 0.3316704 0.3522134 0.3313129 0.3142112 0.3703410
-:       301       302       303       304       305       306       307       308
-: 0.4162213 0.4391458 0.4237965 0.3913679 0.3587615 0.3451991 0.3607087 0.3638076
+\begin{verbatim}
+
+ :: Make test set predictions
+      285       286       287       288       289       290       291       292
+0.4677808 0.4435404 0.4265541 0.4299162 0.4455113 0.4151422 0.4097367 0.3839390
+      293       294       295       296       297       298       299       300
+0.3255595 0.3274147 0.3231401 0.3316704 0.3522134 0.3313129 0.3142112 0.3703410
+      301       302       303       304       305       306       307       308
+0.4162213 0.4391458 0.4237965 0.3913679 0.3587615 0.3451991 0.3607087 0.3638076
+\end{verbatim}
 
 But to get a measure of the predictions goodness of fit, we need to
-calculate the *out of sample R-squared*.
+calculate the \textbf{out of sample R-squared}.
 
-#+BEGIN_SRC R :session :results output :exports all
-  writeLines("\n :: Compute out-of-sample R^2")
-  SSE <- sum((predictTest - test$Temp)^2)
-  SST <- sum((mean(training$Temp) - test$Temp)^2)
-  R2 <- 1 - (SSE/SST)
-  R2
-#+END_SRC
+\begin{minted}[]{r}
+writeLines("\n :: Compute out-of-sample R^2")
+SSE <- sum((predictTest - test$Temp)^2)
+SST <- sum((mean(training$Temp) - test$Temp)^2)
+R2 <- 1 - (SSE/SST)
+R2
+\end{minted}
 
-#+RESULTS:
-:
-:  :: Compute out-of-sample R^2
-: [1] 0.6286051
+\begin{verbatim}
+
+ :: Compute out-of-sample R^2
+[1] 0.6286051
+\end{verbatim}
 
 Enter the testing set R2:
 
-*** Answer
+\subsubsection{Answer}
+\label{sec-1-7-1}
 
 0.6286051
 
-*Explanation*
+\textbf{Explanation}
 
 The R code to calculate the R-squared can be written as follows (your
 variable names may be different):
 
 tempPredict = predict(climateStep, newdata = test)
 
-SSE = sum((tempPredict - test$Temp)^2)
+SSE = sum((tempPredict - test\$Temp)\^{}2)
 
-SST = sum( (mean(train$Temp) - test$Temp)^2)
+SST = sum( (mean(train\$Temp) - test\$Temp)\^{}2)
 
 R2 = 1 - SSE/SST
 
-* Reading Test Scores [16/16]
+\section{Reading Test Scores [16/16]}
+\label{sec-2}
 
 The Programme for International Student Assessment (PISA) is a test
 given every three years to 15-year-old students from around the world
@@ -750,140 +741,142 @@ performance of students from different parts of the world. In this
 homework assignment, we will predict the reading scores of students
 from the United States of America on the 2009 PISA exam.
 
-The datasets [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/pisa2009train.csv][pisa2009train.csv]] and [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/pisa2009test.csv][pisa2009test.csv]] contain
+The datasets \href{https://courses.edx.org/asset-v1:MITx\%2B15.071x_2a\%2B2T2015\%2Btype@asset\%2Bblock/pisa2009train.csv}{pisa2009train.csv} and \href{https://courses.edx.org/asset-v1:MITx\%2B15.071x_2a\%2B2T2015\%2Btype@asset\%2Bblock/pisa2009test.csv}{pisa2009test.csv} contain
 information about the demographics and schools for American students
-taking the exam, derived from [[http://nces.ed.gov/pubsearch/pubsinfo.asp?pubid%3D2011038][2009 PISA Public-Use Data Files]]
+taking the exam, derived from \href{http://nces.ed.gov/pubsearch/pubsinfo.asp?pubid\%3D2011038}{2009 PISA Public-Use Data Files}
 distributed by the United States National Center for Education
 Statistics (NCES). While the datasets are not supposed to contain
 identifying information about students taking the test, by using the
-data you are bound by the [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/NCES_Data_Use_Agreement.txt][NCES data use agreement]], which prohibits any
+data you are bound by the \href{https://courses.edx.org/asset-v1:MITx\%2B15.071x_2a\%2B2T2015\%2Btype@asset\%2Bblock/NCES_Data_Use_Agreement.txt}{NCES data use agreement}, which prohibits any
 attempt to determine the identity of any student in the datasets.
 
 Each row in the datasets pisa2009train.csv and pisa2009test.csv
 represents one student taking the exam. The datasets have the
 following variables:
 
-- *grade*: The grade in school of the student (most 15-year-olds in
-  America are in 10th grade)
+\begin{itemize}
+\item \textbf{grade}: The grade in school of the student (most 15-year-olds in
+America are in 10th grade)
 
-- *male*: Whether the student is male (1/0)
+\item \textbf{male}: Whether the student is male (1/0)
 
-- *raceeth*: The race/ethnicity composite of the student
+\item \textbf{raceeth}: The race/ethnicity composite of the student
 
-- *preschool*: Whether the student attended preschool (1/0)
+\item \textbf{preschool}: Whether the student attended preschool (1/0)
 
-- *expectBachelors*: Whether the student expects to obtain a
-  bachelor's degree (1/0)
+\item \textbf{expectBachelors}: Whether the student expects to obtain a
+bachelor's degree (1/0)
 
-- *motherHS*: Whether the student's mother completed high school (1/0)
+\item \textbf{motherHS}: Whether the student's mother completed high school (1/0)
 
-- *motherBachelors*: Whether the student's mother obtained a
-  bachelor's degree (1/0)
+\item \textbf{motherBachelors}: Whether the student's mother obtained a
+bachelor's degree (1/0)
 
-- *motherWork*: Whether the student's mother has part-time or
-  full-time work (1/0)
+\item \textbf{motherWork}: Whether the student's mother has part-time or
+full-time work (1/0)
 
-- *fatherHS*: Whether the student's father completed high school (1/0)
+\item \textbf{fatherHS}: Whether the student's father completed high school (1/0)
 
-- *fatherBachelors*: Whether the student's father obtained a
-  bachelor's degree (1/0)
+\item \textbf{fatherBachelors}: Whether the student's father obtained a
+bachelor's degree (1/0)
 
-- *fatherWork*: Whether the student's father has part-time or
-  full-time work (1/0)
+\item \textbf{fatherWork}: Whether the student's father has part-time or
+full-time work (1/0)
 
-- *selfBornUS*: Whether the student was born in the United States of
-  America (1/0)
+\item \textbf{selfBornUS}: Whether the student was born in the United States of
+America (1/0)
 
-- *motherBornUS*: Whether the student's mother was born in the United
-  States of America (1/0)
+\item \textbf{motherBornUS}: Whether the student's mother was born in the United
+States of America (1/0)
 
-- *fatherBornUS*: Whether the student's father was born in the United
-  States of America (1/0)
+\item \textbf{fatherBornUS}: Whether the student's father was born in the United
+States of America (1/0)
 
-- *englishAtHome*: Whether the student speaks English at home (1/0)
+\item \textbf{englishAtHome}: Whether the student speaks English at home (1/0)
 
-- *computerForSchoolwork*: Whether the student has access to a
-  computer for schoolwork (1/0)
+\item \textbf{computerForSchoolwork}: Whether the student has access to a
+computer for schoolwork (1/0)
 
-- *read30MinsADay*: Whether the student reads for pleasure for 30
-  minutes/day (1/0)
+\item \textbf{read30MinsADay}: Whether the student reads for pleasure for 30
+minutes/day (1/0)
 
-- *minutesPerWeekEnglish*: The number of minutes per week the student
-  spend in English class
+\item \textbf{minutesPerWeekEnglish}: The number of minutes per week the student
+spend in English class
 
-- *studentsInEnglish*: The number of students in this student's
-  English class at school
+\item \textbf{studentsInEnglish}: The number of students in this student's
+English class at school
 
-- *schoolHasLibrary*: Whether this student's school has a library
-  (1/0)
+\item \textbf{schoolHasLibrary}: Whether this student's school has a library
+(1/0)
 
-- *publicSchool*: Whether this student attends a public school (1/0)
+\item \textbf{publicSchool}: Whether this student attends a public school (1/0)
 
-- *urban*: Whether this student's school is in an urban area (1/0)
+\item \textbf{urban}: Whether this student's school is in an urban area (1/0)
 
-- *schoolSize*: The number of students in this student's school
+\item \textbf{schoolSize}: The number of students in this student's school
 
-- *readingScore*: The student's reading score, on a 1000-point scale
+\item \textbf{readingScore}: The student's reading score, on a 1000-point scale
+\end{itemize}
 
-** DONE Problem 1.1 - Dataset size (1 point possible)
-CLOSED: [2015-06-21 Sun 13:17]
-
+\subsection{{\bfseries\sffamily DONE} Problem 1.1 - Dataset size (1 point possible)}
+\label{sec-2-1}
 Load the training and testing sets using the read.csv() function, and
 save them as variables with the names pisaTrain and pisaTest.
 
-*** Download the data sets
+\subsubsection{Download the data sets}
+\label{sec-2-1-1}
 
 In this part we can download the data
 
-#+BEGIN_SRC R :session :results output :exports all
-  library(parallel)
+\begin{minted}[]{r}
+library(parallel)
 
-  if(!file.exists("../data")) {
-          dir.create("../data")
-  }
+if(!file.exists("../data")) {
+        dir.create("../data")
+}
 
-  fileUrl <-
-          c("https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/pisa2009train.csv", "https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/pisa2009test.csv")
+fileUrl <-
+        c("https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/pisa2009train.csv", "https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/pisa2009test.csv")
 
-  fileName <- c("pisa2009train.csv", "pisa2009test.csv")
+fileName <- c("pisa2009train.csv", "pisa2009test.csv")
 
-  dataPath <- "../data"
+dataPath <- "../data"
 
-  for(i in 1:2) {
-          filePath <- paste(dataPath, fileName[i], sep = "/")
+for(i in 1:2) {
+        filePath <- paste(dataPath, fileName[i], sep = "/")
 
-          if(!file.exists(filePath)) {
-                  download.file(fileUrl[i], destfile = filePath, method = "curl")
-          }
-  }
-  list.files("../data")
-#+END_SRC
+        if(!file.exists(filePath)) {
+                download.file(fileUrl[i], destfile = filePath, method = "curl")
+        }
+}
+list.files("../data")
+\end{minted}
 
-#+RESULTS:
-:  [1] "AnonymityPoll.csv"      "baseball.csv"           "BoeingStock.csv"
-:  [4] "climate_change.csv"     "CocaColaStock.csv"      "CountryCodes.csv"
-:  [7] "CPSData.csv"            "FluTrain.csv"           "GEStock.csv"
-: [10] "IBMStock.csv"           "MetroAreaCodes.csv"     "mvtWeek1.csv"
-: [13] "NBA_test.csv"           "NBA_train.csv"          "pisa2009test.csv"
-: [16] "pisa2009train.csv"      "ProcterGambleStock.csv" "README.md"
-: [19] "USDA.csv"               "WHO.csv"                "WHO_Europe.csv"
-: [22] "wine.csv"               "wine_test.csv"
+\begin{verbatim}
+ [1] "AnonymityPoll.csv"      "baseball.csv"           "BoeingStock.csv"
+ [4] "climate_change.csv"     "CocaColaStock.csv"      "CountryCodes.csv"
+ [7] "CPSData.csv"            "FluTrain.csv"           "GEStock.csv"
+[10] "IBMStock.csv"           "MetroAreaCodes.csv"     "mvtWeek1.csv"
+[13] "NBA_test.csv"           "NBA_train.csv"          "pisa2009test.csv"
+[16] "pisa2009train.csv"      "ProcterGambleStock.csv" "README.md"
+[19] "USDA.csv"               "WHO.csv"                "WHO_Europe.csv"
+[22] "wine.csv"               "wine_test.csv"
+\end{verbatim}
 
-*** Loading the data
+\subsubsection{Loading the data}
+\label{sec-2-1-2}
 
-#+BEGIN_SRC R :session :results output :exports all
-  writeLines("\n :: Read the training data set")
-  pisaTrain <- read.table("../data/pisa2009train.csv", sep = ",", header = TRUE)
-  str(pisaTrain)
-  summary(pisaTrain)
+\begin{minted}[]{r}
+writeLines("\n :: Read the training data set")
+pisaTrain <- read.table("../data/pisa2009train.csv", sep = ",", header = TRUE)
+str(pisaTrain)
+summary(pisaTrain)
 
-  writeLines("\n\n :: Read the test data set: DO NOT SEE THE DATA!")
-  pisaTest <- read.table("../data/pisa2009test.csv", sep = ",", header = TRUE)
-#+END_SRC
+writeLines("\n\n :: Read the test data set: DO NOT SEE THE DATA!")
+pisaTest <- read.table("../data/pisa2009test.csv", sep = ",", header = TRUE)
+\end{minted}
 
-#+RESULTS:
-#+begin_example
-
+\begin{verbatim}
  :: Read the training data set
 'data.frame':	3663 obs. of  24 variables:
  $ grade                : int  11 11 9 10 10 10 10 10 9 10 ...
@@ -961,25 +954,28 @@ In this part we can download the data
 
 
  :: Read the test data set: DO NOT SEE THE DATA!
-#+end_example
+\end{verbatim}
 
-*** Question a
+\subsubsection{Question a}
+\label{sec-2-1-3}
 
 How many students are there in the training set?
 
-**** Answer
+\paragraph{Answer}
+\label{sec-2-1-3-1}
 
-#+BEGIN_SRC R :session :results output :exports all
-  writeLines("\n :: Number of students in the training data set")
-  nrow(pisaTrain)
-#+END_SRC
+\begin{minted}[]{r}
+writeLines("\n :: Number of students in the training data set")
+nrow(pisaTrain)
+\end{minted}
 
-#+RESULTS:
-:
-:  :: Number of students in the training data set
-: [1] 3663
+\begin{verbatim}
 
-*Explanation*
+ :: Number of students in the training data set
+[1] 3663
+\end{verbatim}
+
+\textbf{Explanation}
 
 The datasets can be loaded with:
 
@@ -990,125 +986,129 @@ pisaTest = read.csv("pisa2009test.csv")
 We can then access the number of rows in the training set with
 str(pisaTrain) or nrow(pisaTrain).
 
-** DONE Problem 1.2 - Summarizing the dataset (2 points possible)
-CLOSED: [2015-06-21 Sun 13:17]
-
+\subsection{{\bfseries\sffamily DONE} Problem 1.2 - Summarizing the dataset (2 points possible)}
+\label{sec-2-2}
 Using tapply() on pisaTrain, what is the average reading test score of
 males?
 
-#+BEGIN_SRC R :session :results output :exports all
-  tapply(pisaTrain$readingScore, pisaTrain$male, mean)
-#+END_SRC
+\begin{minted}[]{r}
+tapply(pisaTrain$readingScore, pisaTrain$male, mean)
+\end{minted}
 
-#+RESULTS:
-:        0        1
-: 512.9406 483.5325
+\begin{verbatim}
+       0        1
+512.9406 483.5325
+\end{verbatim}
 
-*** Answer
+\subsubsection{Answer}
+\label{sec-2-2-1}
 
 The correct invocation of tapply() here is:
 
-tapply(pisaTrain$readingScore, pisaTrain$male, mean)
+tapply(pisaTrain\$readingScore, pisaTrain\$male, mean)
 
-| Females    | Males      |
-|------------+------------|
-| $512.9406$ | $483.5325$ |
+\begin{center}
+\begin{tabular}{ll}
+Females & Males\\
+\hline
+$512.9406$ & $483.5325$\\
+\end{tabular}
+\end{center}
 
-** DONE Problem 1.3 - Locating missing values (1 point possible)
-CLOSED: [2015-06-21 Sun 13:36]
-
+\subsection{{\bfseries\sffamily DONE} Problem 1.3 - Locating missing values (1 point possible)}
+\label{sec-2-3}
 Which variables are missing data in at least one observation in the
 training set? Select all that apply.
 
-#+BEGIN_SRC R :session :results output :exports all
-  writeLines("\n :: any NA in the features")
-  summary(pisaTrain)
-#+END_SRC
+\begin{minted}[]{r}
+writeLines("\n :: any NA in the features")
+summary(pisaTrain)
+\end{minted}
 
-#+RESULTS:
-#+begin_example
+\begin{verbatim}
+:: any NA in the features
+    grade            male                      raceeth       preschool
+Min.   : 8.00   Min.   :0.0000   White             :2015   Min.   :0.0000
+1st Qu.:10.00   1st Qu.:0.0000   Hispanic          : 834   1st Qu.:0.0000
+Median :10.00   Median :1.0000   Black             : 444   Median :1.0000
+Mean   :10.09   Mean   :0.5111   Asian             : 143   Mean   :0.7228
+3rd Qu.:10.00   3rd Qu.:1.0000   More than one race: 124   3rd Qu.:1.0000
+Max.   :12.00   Max.   :1.0000   (Other)           :  68   Max.   :1.0000
+                                 NA's              :  35   NA's   :56
+expectBachelors     motherHS    motherBachelors    motherWork
+Min.   :0.0000   Min.   :0.00   Min.   :0.0000   Min.   :0.0000
+1st Qu.:1.0000   1st Qu.:1.00   1st Qu.:0.0000   1st Qu.:0.0000
+Median :1.0000   Median :1.00   Median :0.0000   Median :1.0000
+Mean   :0.7859   Mean   :0.88   Mean   :0.3481   Mean   :0.7345
+3rd Qu.:1.0000   3rd Qu.:1.00   3rd Qu.:1.0000   3rd Qu.:1.0000
+Max.   :1.0000   Max.   :1.00   Max.   :1.0000   Max.   :1.0000
+NA's   :62       NA's   :97     NA's   :397      NA's   :93
+   fatherHS      fatherBachelors    fatherWork       selfBornUS
+Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :0.0000
+1st Qu.:1.0000   1st Qu.:0.0000   1st Qu.:1.0000   1st Qu.:1.0000
+Median :1.0000   Median :0.0000   Median :1.0000   Median :1.0000
+Mean   :0.8593   Mean   :0.3319   Mean   :0.8531   Mean   :0.9313
+3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:1.0000
+Max.   :1.0000   Max.   :1.0000   Max.   :1.0000   Max.   :1.0000
+NA's   :245      NA's   :569      NA's   :233      NA's   :69
+ motherBornUS     fatherBornUS    englishAtHome    computerForSchoolwork
+Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :0.0000
+1st Qu.:1.0000   1st Qu.:1.0000   1st Qu.:1.0000   1st Qu.:1.0000
+Median :1.0000   Median :1.0000   Median :1.0000   Median :1.0000
+Mean   :0.7725   Mean   :0.7668   Mean   :0.8717   Mean   :0.8994
+3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:1.0000
+Max.   :1.0000   Max.   :1.0000   Max.   :1.0000   Max.   :1.0000
+NA's   :71       NA's   :113      NA's   :71       NA's   :65
+read30MinsADay   minutesPerWeekEnglish studentsInEnglish schoolHasLibrary
+Min.   :0.0000   Min.   :   0.0        Min.   : 1.0      Min.   :0.0000
+1st Qu.:0.0000   1st Qu.: 225.0        1st Qu.:20.0      1st Qu.:1.0000
+Median :0.0000   Median : 250.0        Median :25.0      Median :1.0000
+Mean   :0.2899   Mean   : 266.2        Mean   :24.5      Mean   :0.9676
+3rd Qu.:1.0000   3rd Qu.: 300.0        3rd Qu.:30.0      3rd Qu.:1.0000
+Max.   :1.0000   Max.   :2400.0        Max.   :75.0      Max.   :1.0000
+NA's   :34       NA's   :186           NA's   :249       NA's   :143
+ publicSchool        urban          schoolSize    readingScore
+Min.   :0.0000   Min.   :0.0000   Min.   : 100   Min.   :168.6
+1st Qu.:1.0000   1st Qu.:0.0000   1st Qu.: 712   1st Qu.:431.7
+Median :1.0000   Median :0.0000   Median :1212   Median :499.7
+Mean   :0.9339   Mean   :0.3849   Mean   :1369   Mean   :497.9
+3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:1900   3rd Qu.:566.2
+Max.   :1.0000   Max.   :1.0000   Max.   :6694   Max.   :746.0
+                                  NA's   :162
+\end{verbatim}
 
- :: any NA in the features
-     grade            male                      raceeth       preschool
- Min.   : 8.00   Min.   :0.0000   White             :2015   Min.   :0.0000
- 1st Qu.:10.00   1st Qu.:0.0000   Hispanic          : 834   1st Qu.:0.0000
- Median :10.00   Median :1.0000   Black             : 444   Median :1.0000
- Mean   :10.09   Mean   :0.5111   Asian             : 143   Mean   :0.7228
- 3rd Qu.:10.00   3rd Qu.:1.0000   More than one race: 124   3rd Qu.:1.0000
- Max.   :12.00   Max.   :1.0000   (Other)           :  68   Max.   :1.0000
-                                  NA's              :  35   NA's   :56
- expectBachelors     motherHS    motherBachelors    motherWork
- Min.   :0.0000   Min.   :0.00   Min.   :0.0000   Min.   :0.0000
- 1st Qu.:1.0000   1st Qu.:1.00   1st Qu.:0.0000   1st Qu.:0.0000
- Median :1.0000   Median :1.00   Median :0.0000   Median :1.0000
- Mean   :0.7859   Mean   :0.88   Mean   :0.3481   Mean   :0.7345
- 3rd Qu.:1.0000   3rd Qu.:1.00   3rd Qu.:1.0000   3rd Qu.:1.0000
- Max.   :1.0000   Max.   :1.00   Max.   :1.0000   Max.   :1.0000
- NA's   :62       NA's   :97     NA's   :397      NA's   :93
-    fatherHS      fatherBachelors    fatherWork       selfBornUS
- Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :0.0000
- 1st Qu.:1.0000   1st Qu.:0.0000   1st Qu.:1.0000   1st Qu.:1.0000
- Median :1.0000   Median :0.0000   Median :1.0000   Median :1.0000
- Mean   :0.8593   Mean   :0.3319   Mean   :0.8531   Mean   :0.9313
- 3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:1.0000
- Max.   :1.0000   Max.   :1.0000   Max.   :1.0000   Max.   :1.0000
- NA's   :245      NA's   :569      NA's   :233      NA's   :69
-  motherBornUS     fatherBornUS    englishAtHome    computerForSchoolwork
- Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :0.0000
- 1st Qu.:1.0000   1st Qu.:1.0000   1st Qu.:1.0000   1st Qu.:1.0000
- Median :1.0000   Median :1.0000   Median :1.0000   Median :1.0000
- Mean   :0.7725   Mean   :0.7668   Mean   :0.8717   Mean   :0.8994
- 3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:1.0000
- Max.   :1.0000   Max.   :1.0000   Max.   :1.0000   Max.   :1.0000
- NA's   :71       NA's   :113      NA's   :71       NA's   :65
- read30MinsADay   minutesPerWeekEnglish studentsInEnglish schoolHasLibrary
- Min.   :0.0000   Min.   :   0.0        Min.   : 1.0      Min.   :0.0000
- 1st Qu.:0.0000   1st Qu.: 225.0        1st Qu.:20.0      1st Qu.:1.0000
- Median :0.0000   Median : 250.0        Median :25.0      Median :1.0000
- Mean   :0.2899   Mean   : 266.2        Mean   :24.5      Mean   :0.9676
- 3rd Qu.:1.0000   3rd Qu.: 300.0        3rd Qu.:30.0      3rd Qu.:1.0000
- Max.   :1.0000   Max.   :2400.0        Max.   :75.0      Max.   :1.0000
- NA's   :34       NA's   :186           NA's   :249       NA's   :143
-  publicSchool        urban          schoolSize    readingScore
- Min.   :0.0000   Min.   :0.0000   Min.   : 100   Min.   :168.6
- 1st Qu.:1.0000   1st Qu.:0.0000   1st Qu.: 712   1st Qu.:431.7
- Median :1.0000   Median :0.0000   Median :1212   Median :499.7
- Mean   :0.9339   Mean   :0.3849   Mean   :1369   Mean   :497.9
- 3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:1900   3rd Qu.:566.2
- Max.   :1.0000   Max.   :1.0000   Max.   :6694   Max.   :746.0
-                                   NA's   :162
-#+end_example
-
-*** Answer
+\subsubsection{Answer}
+\label{sec-2-3-1}
 
 We can read which variables have missing values from
 summary(pisaTrain). Because most variables are collected from study
 participants via survey, it is expected that most questions will have
 at least one missing value.
 
-- raceeth
-- preschool
-- expectBachelors
-- motherHS
-- motherBachelors
-- motherWork
-- fatherHS
-- fatherBachelors
-- fatherWork
-- selfBornUS
-- motherBornUS
-- fatherBornUS
-- englishAtHome
-- computerForSchoolwork
-- read30MinsADay
-- minutesPerWeekEnglish
-- studentsInEnglish
-- schoolHasLibrary
-- schoolSize
+\begin{itemize}
+\item raceeth
+\item preschool
+\item expectBachelors
+\item motherHS
+\item motherBachelors
+\item motherWork
+\item fatherHS
+\item fatherBachelors
+\item fatherWork
+\item selfBornUS
+\item motherBornUS
+\item fatherBornUS
+\item englishAtHome
+\item computerForSchoolwork
+\item read30MinsADay
+\item minutesPerWeekEnglish
+\item studentsInEnglish
+\item schoolHasLibrary
+\item schoolSize
+\end{itemize}
 
-** DONE Problem 1.4 - Removing missing values (2 points possible)
-CLOSED: [2015-06-21 Sun 13:37]
-
+\subsection{{\bfseries\sffamily DONE} Problem 1.4 - Removing missing values (2 points possible)}
+\label{sec-2-4}
 Linear regression discards observations with missing data, so we will
 remove all such observations from the training and testing sets. Later
 in the course, we will learn about imputation, which deals with
@@ -1117,53 +1117,58 @@ missing data by filling in missing values with plausible information.
 Type the following commands into your R console to remove observations
 with any missing value from pisaTrain and pisaTest:
 
-#+BEGIN_SRC R :session :results output :exports all
-  writeLines("\n :: Omiting the non complete observations")
-  pisaTrain <- na.omit(pisaTrain)
-  pisaTest <- na.omit(pisaTest)
-#+END_SRC
+\begin{minted}[]{r}
+writeLines("\n :: Omiting the non complete observations")
+pisaTrain <- na.omit(pisaTrain)
+pisaTest <- na.omit(pisaTest)
+\end{minted}
 
-#+RESULTS:
-:
-:  :: Omiting the non complete observations
+\begin{verbatim}
 
-*** Question a
+:: Omiting the non complete observations
+\end{verbatim}
+
+\subsubsection{Question a}
+\label{sec-2-4-1}
 
 How many observations are now in the training set?
 
-#+BEGIN_SRC R :session :results output :exports all
-  writeLines("\n :: Number of observations in the training set")
-  nrow(pisaTrain)
-#+END_SRC
+\begin{minted}[]{r}
+writeLines("\n :: Number of observations in the training set")
+nrow(pisaTrain)
+\end{minted}
 
-#+RESULTS:
-:
-:  :: Number of observations in the training set
-: [1] 2414
+\begin{verbatim}
 
-*** Question b
+ :: Number of observations in the training set
+[1] 2414
+\end{verbatim}
+
+\subsubsection{Question b}
+\label{sec-2-4-2}
 
 How many observations are now in the testing set?
 
-#+BEGIN_SRC R :session :results output :exports all
-  writeLines("\n :: Number of observations in the testing set")
-  nrow(pisaTest)
-#+END_SRC
+\begin{minted}[]{r}
+writeLines("\n :: Number of observations in the testing set")
+nrow(pisaTest)
+\end{minted}
 
-#+RESULTS:
-:
-:  :: Number of observations in the testing set
-: [1] 990
+\begin{verbatim}
 
-*** Answer
+ :: Number of observations in the testing set
+[1] 990
+\end{verbatim}
+
+\subsubsection{Answer}
+\label{sec-2-4-3}
 
 After running the provided commands we can use str(pisaTrain) and
 str(pisaTest), or nrow(pisaTrain) and nrow(pisaTest), to check the new
 number of rows in the datasets.
 
-** DONE Problem 2.1 - Factor variables (2 points possible)
-CLOSED: [2015-06-22 Mon 11:09]
-
+\subsection{{\bfseries\sffamily DONE} Problem 2.1 - Factor variables (2 points possible)}
+\label{sec-2-5}
 Factor variables are variables that take on a discrete set of values,
 like the "Region" variable in the WHO dataset from the second lecture
 of Unit 1. This is an unordered factor because there isn't any natural
@@ -1171,37 +1176,39 @@ ordering between the levels. An ordered factor has a natural ordering
 between the levels (an example would be the classifications "large,"
 "medium," and "small").
 
-*** Question a
+\subsubsection{Question a}
+\label{sec-2-5-1}
 
 Which of the following variables is an unordered factor with at least
 3 levels? (Select all that apply.)
 
-#+BEGIN_SRC R :session :results output :exports all
-  class(pisaTrain$grade)
-  class(pisaTrain$male)
-  class(pisaTrain$raceeth)
-  str(pisaTrain$raceeth)
-#+END_SRC
+\begin{minted}[]{r}
+class(pisaTrain$grade)
+class(pisaTrain$male)
+class(pisaTrain$raceeth)
+str(pisaTrain$raceeth)
+\end{minted}
 
-#+RESULTS:
-: [1] "integer"
-: [1] "integer"
-: [1] "factor"
-:  Factor w/ 7 levels "American Indian/Alaska Native",..: 7 3 4 7 5 4 7 4 7 7 ...
+\begin{verbatim}
+[1] "integer"
+[1] "integer"
+[1] "factor"
+ Factor w/ 7 levels "American Indian/Alaska Native",..: 7 3 4 7 5 4 7 4 7 7 ...
+\end{verbatim}
 
-*** Question b
+\subsubsection{Question b}
+\label{sec-2-5-2}
 
 Which of the following variables is an ordered factor with at least 3
 levels? (Select all that apply.)
 
-#+BEGIN_SRC R :session :results output :exports all
-  class(pisaTrain$raceeth)
-  str(pisaTrain$raceeth)
-  summary(pisaTrain$raceeth)
-#+END_SRC
+\begin{minted}[]{r}
+class(pisaTrain$raceeth)
+str(pisaTrain$raceeth)
+summary(pisaTrain$raceeth)
+\end{minted}
 
-#+RESULTS:
-#+begin_example
+\begin{verbatim}
 [1] "factor"
  Factor w/ 7 levels "American Indian/Alaska Native",..: 7 3 4 7 5 4 7 4 7 7 ...
          American Indian/Alaska Native                                  Asian
@@ -1212,18 +1219,18 @@ levels? (Select all that apply.)
                                     81                                     20
                                  White
                                   1470
-#+end_example
+\end{verbatim}
 
-*** Answer
+\subsubsection{Answer}
+\label{sec-2-5-3}
 
 Male only has 2 levels (1 and 0). There is no natural ordering between
 the different values of raceeth, so it is an unordered
 factor. Meanwhile, we can order grades (8, 9, 10, 11, 12), so it is an
 ordered factor.
 
-** DONE Problem 2.2 - Unordered factors in regression models (1 point possible)
-CLOSED: [2015-06-22 Mon 13:35]
-
+\subsection{{\bfseries\sffamily DONE} Problem 2.2 - Unordered factors in regression models (1 point possible)}
+\label{sec-2-6}
 To include unordered factors in a linear regression model, we define
 one level as the "reference level" and add a binary variable for each
 of the remaining levels. In this way, a factor with n levels is
@@ -1244,19 +1251,18 @@ than one race", "Native Hawaiian/Other Pacific Islander", and
 "White". Because it is the most common in our population, we will
 select White as the reference level.
 
-*** Question a
+\subsubsection{Question a}
+\label{sec-2-6-1}
 
 Which binary variables will be included in the regression model?
 (Select all that apply.)
 
-#+BEGIN_SRC R :session :results output :exports all
-  writeLines("\n :: Exploring the raceeth feature:")
-  sort(table(pisaTrain$raceeth), decreasing = TRUE)
-#+END_SRC
+\begin{minted}[]{r}
+writeLines("\n :: Exploring the raceeth feature:")
+sort(table(pisaTrain$raceeth), decreasing = TRUE)
+\end{minted}
 
-#+RESULTS:
-#+begin_example
-
+\begin{verbatim}
  :: Exploring the raceeth feature:
 
                                  White                               Hispanic
@@ -1267,59 +1273,66 @@ Which binary variables will be included in the regression model?
                                     81                                     20
 Native Hawaiian/Other Pacific Islander
                                     20
-#+end_example
+\end{verbatim}
 
-**** Answer
+\paragraph{Answer}
+\label{sec-2-6-1-1}
 
- We create a binary variable for each level except the reference
- level, so we would create all these variables except for
- raceethWhite.
+We create a binary variable for each level except the reference
+level, so we would create all these variables except for
+raceethWhite.
 
-- raceethAmerican Indian/Alaska Native
-- raceethAsian
-- raceethBlack
-- raceethHispanic
-- raceethMore than one race
-- raceethNative Hawaiian/Other Pacific Islander
+\begin{itemize}
+\item raceethAmerican Indian/Alaska Native
+\item raceethAsian
+\item raceethBlack
+\item raceethHispanic
+\item raceethMore than one race
+\item raceethNative Hawaiian/Other Pacific Islander
+\end{itemize}
 
-** DONE Problem 2.3 - Example unordered factors (2 points possible)
-CLOSED: [2015-06-22 Mon 13:46]
-
+\subsection{{\bfseries\sffamily DONE} Problem 2.3 - Example unordered factors (2 points possible)}
+\label{sec-2-7}
 Consider again adding our unordered factor race to the regression
 model with reference level "White".
 
-*** Question a
+\subsubsection{Question a}
+\label{sec-2-7-1}
 
 For a student who is Asian, which binary variables would be set to 0?
 All remaining variables will be set to 1. (Select all that apply.)
 
-- raceethAmerican Indian/Alaska Native
-- raceethBlack
-- raceethHispanic
-- raceethMore than one race
-- raceethNative Hawaiian/Other Pacific Islander
+\begin{itemize}
+\item raceethAmerican Indian/Alaska Native
+\item raceethBlack
+\item raceethHispanic
+\item raceethMore than one race
+\item raceethNative Hawaiian/Other Pacific Islander
+\end{itemize}
 
-*** Question b
+\subsubsection{Question b}
+\label{sec-2-7-2}
 
 For a student who is white, which binary variables would be set to 0?
 All remaining variables will be set to 1. (Select all that apply.)
 
-- raceethAmerican Indian/Alaska Native
-- raceethAsian
-- raceethBlack
-- raceethHispanic
-- raceethMore than one race
-- raceethNative Hawaiian/Other Pacific Islander
+\begin{itemize}
+\item raceethAmerican Indian/Alaska Native
+\item raceethAsian
+\item raceethBlack
+\item raceethHispanic
+\item raceethMore than one race
+\item raceethNative Hawaiian/Other Pacific Islander
+\end{itemize}
 
-*Explanation*
+\textbf{Explanation}
 
 An Asian student will have raceethAsian set to 1 and all other raceeth
 binary variables set to 0. Because "White" is the reference level, a
 white student will have all raceeth binary variables set to 0.
 
-** DONE Problem 3.1 - Building a model (2 points possible)
-CLOSED: [2015-06-22 Mon 16:49]
-
+\subsection{{\bfseries\sffamily DONE} Problem 3.1 - Building a model (2 points possible)}
+\label{sec-2-8}
 Because the race variable takes on text values, it was loaded as a
 factor variable when we read in the dataset with read.csv() -- you can
 see this when you run str(pisaTrain) or str(pisaTest). However, by
@@ -1328,28 +1341,27 @@ Indian/Alaska Native") as the reference level of our factor instead of
 the most common level ("White"). Set the reference level of the factor
 by typing the following two lines in your R console:
 
-#+BEGIN_SRC R :session :results output :exports all
-  writeLines("\n :: Setting the reference level of the factor to white")
-  pisaTrain$raceeth <- relevel(pisaTrain$raceeth, "White")
-  pisaTest$raceeth <- relevel(pisaTest$raceeth, "White")
-#+END_SRC
+\begin{minted}[]{r}
+writeLines("\n :: Setting the reference level of the factor to white")
+pisaTrain$raceeth <- relevel(pisaTrain$raceeth, "White")
+pisaTest$raceeth <- relevel(pisaTest$raceeth, "White")
+\end{minted}
 
-#+RESULTS:
-:
-:  :: Setting the reference level of the factor to white
+\begin{verbatim}
+
+:: Setting the reference level of the factor to white
+\end{verbatim}
 
 Now, build a linear regression model (call it lmScore) using the
 training set to predict readingScore using all the remaining
 variables.
 
-#+BEGIN_SRC R :session :results output :exports all
-  lmScore <- lm(readingScore ~ ., data = pisaTrain)
-  summary(lmScore)
-#+END_SRC
+\begin{minted}[]{r}
+lmScore <- lm(readingScore ~ ., data = pisaTrain)
+summary(lmScore)
+\end{minted}
 
-#+RESULTS:
-#+begin_example
-
+\begin{verbatim}
 Call:
 lm(formula = readingScore ~ ., data = pisaTrain)
 
@@ -1424,27 +1436,29 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 Residual standard error: 73.81 on 2385 degrees of freedom
 Multiple R-squared:  0.3251,	Adjusted R-squared:  0.3172
 F-statistic: 41.04 on 28 and 2385 DF,  p-value: < 2.2e-16
-#+end_example
+\end{verbatim}
 
 It would be time-consuming to type all the variables, but R provides
-the shorthand notation "readingScore ~ ." to mean "predict
+the shorthand notation "readingScore \textasciitilde{} ." to mean "predict
 readingScore using all the other variables in the data frame." The
 period is used to replace listing out all of the independent
 variables. As an example, if your dependent variable is called "Y",
 your independent variables are called "X1", "X2", and "X3", and your
 training data set is called "Train", instead of the regular notation:
 
-LinReg = lm(Y ~ X1 + X2 + X3, data = Train)
+LinReg = lm(Y \textasciitilde{} X1 + X2 + X3, data = Train)
 
 You would use the following command to build your model:
 
-LinReg = lm(Y ~ ., data = Train)
+LinReg = lm(Y \textasciitilde{} ., data = Train)
 
-*** Question
+\subsubsection{Question}
+\label{sec-2-8-1}
 
 What is the Multiple R-squared value of lmScore on the training set?
 
-*** Answer
+\subsubsection{Answer}
+\label{sec-2-8-2}
 
 $$R^2 = 0.3251$$
 
@@ -1457,41 +1471,42 @@ than other prediction problems (like predicting a team's number of
 wins from their runs scored and allowed, or predicting the quality of
 wine from weather conditions).
 
-** DONE Problem 3.2 - Computing the root-mean squared error of the model (1 point possible)
-CLOSED: [2015-06-22 Mon 16:49]
-
+\subsection{{\bfseries\sffamily DONE} Problem 3.2 - Computing the root-mean squared error of the model (1 point possible)}
+\label{sec-2-9}
 What is the training-set root-mean squared error (RMSE) of lmScore?
 
-#+BEGIN_SRC R :session :results output :exports all
-  writeLines("\n :: Sum of Squared Errors")
-  SSE = sum(lmScore$residuals^2)
-  SSE
+\begin{minted}[]{r}
+writeLines("\n :: Sum of Squared Errors")
+SSE = sum(lmScore$residuals^2)
+SSE
 
-  writeLines("\n :: The training-set root-mean squared error (RMSE):")
-  sqrt(SSE / nrow(pisaTrain))
+writeLines("\n :: The training-set root-mean squared error (RMSE):")
+sqrt(SSE / nrow(pisaTrain))
 
-  writeLines("\n :: A alternative way of getting the RMSE value:")
-  sqrt(mean(lmScore$residuals^2))
-#+END_SRC
+writeLines("\n :: A alternative way of getting the RMSE value:")
+sqrt(mean(lmScore$residuals^2))
+\end{minted}
 
-#+RESULTS:
-:
-:  :: Sum of Squared Errors
-: [1] 12993365
-:
-:  :: The training-set root-mean squared error (RMSE):
-: [1] 73.36555
-:
-:  :: A alternative way of getting the RMSE value:
-: [1] 73.36555
+\begin{verbatim}
 
-*** Answer
+ :: Sum of Squared Errors
+[1] 12993365
 
-*Explanation*
+ :: The training-set root-mean squared error (RMSE):
+[1] 73.36555
+
+ :: A alternative way of getting the RMSE value:
+[1] 73.36555
+\end{verbatim}
+
+\subsubsection{Answer}
+\label{sec-2-9-1}
+
+\textbf{Explanation}
 
 The training-set RMSE can be computed by first computing the SSE:
 
-SSE = sum(lmScore$residuals^2)
+SSE = sum(lmScore\$residuals\^{}2)
 
 and then dividing by the number of observations and taking the square
 root:
@@ -1501,29 +1516,26 @@ RMSE = sqrt(SSE / nrow(pisaTrain))
 A alternative way of getting this answer would be with the following
 command:
 
-sqrt(mean(lmScore$residuals^2)).
+sqrt(mean(lmScore\$residuals\^{}2)).
 
-** DONE Problem 3.3 - Comparing predictions for similar students (1 point possible)
-CLOSED: [2015-06-22 Mon 16:49]
-
+\subsection{{\bfseries\sffamily DONE} Problem 3.3 - Comparing predictions for similar students (1 point possible)}
+\label{sec-2-10}
 Consider two students A and B. They have all variable values the same,
 except that student A is in grade 11 and student B is in grade 9. What
 is the predicted reading score of student A minus the predicted
 reading score of student B?
 
-#+BEGIN_SRC R :session :results output :exports all
-  writeLines("\n :: Make test set predictions")
-  predictRScoreDF <- rbind(pisaTrain[1, ], pisaTrain[1, ])
-  predictRScoreDF[2, 1] <- 9
-  predictRScoreDF
+\begin{minted}[]{r}
+writeLines("\n :: Make test set predictions")
+predictRScoreDF <- rbind(pisaTrain[1, ], pisaTrain[1, ])
+predictRScoreDF[2, 1] <- 9
+predictRScoreDF
 
-  predict01 <- predict(lmScore, newdata = predictRScoreDF)
-  predict01[1] - predict01[2]
-#+END_SRC
+predict01 <- predict(lmScore, newdata = predictRScoreDF)
+predict01[1] - predict01[2]
+\end{minted}
 
-#+RESULTS:
-#+begin_example
-
+\begin{verbatim}
  :: Make test set predictions
    grade male raceeth preschool expectBachelors motherHS motherBachelors
 2     11    1   White         0               0        1               1
@@ -1542,30 +1554,31 @@ reading score of student B?
 21       1173       575.01
        2
 59.08541
-#+end_example
+\end{verbatim}
 
-*** Answer
+\subsubsection{Answer}
+\label{sec-2-10-1}
 
-*Explanation*
+\textbf{Explanation}
 
-The coefficient $29.54$ on *grade* is the difference in reading score
+The coefficient $29.54$ on \textbf{grade} is the difference in reading score
 between two students who are identical other than having a difference
 in grade of 1. Because A and B have a difference in grade of 2, the
 model predicts that student A has a reading score that is $2 \times 29.54$
 larger.
 
-** DONE Problem 3.4 - Interpreting model coefficients (1 point possible)
-CLOSED: [2015-06-22 Mon 16:49]
-
+\subsection{{\bfseries\sffamily DONE} Problem 3.4 - Interpreting model coefficients (1 point possible)}
+\label{sec-2-11}
 What is the meaning of the coefficient associated with variable
 raceethAsian?
 
-*** Answer
+\subsubsection{Answer}
+\label{sec-2-11-1}
 
 Predicted difference in the reading score between an Asian student and
 a white student who is otherwise identical.
 
-*Explanation*
+\textbf{Explanation}
 
 The only difference between an Asian student and white student with
 otherwise identical variables is that the former has raceethAsian=1
@@ -1573,21 +1586,18 @@ and the latter has raceethAsian=0. The predicted reading score for
 these two students will differ by the coefficient on the variable
 raceethAsian.
 
-** DONE Problem 3.5 - Identifying variables lacking statistical significance (1 point possible)
-CLOSED: [2015-06-22 Mon 16:49]
-
+\subsection{{\bfseries\sffamily DONE} Problem 3.5 - Identifying variables lacking statistical significance (1 point possible)}
+\label{sec-2-12}
 Based on the significance codes, which variables are candidates for
 removal from the model? Select all that apply. (We'll assume that the
 factor variable raceeth should only be removed if none of its levels
 are significant.)
 
-#+BEGIN_SRC R :session :results output :exports all
-  summary(lmScore)
-#+END_SRC
+\begin{minted}[]{r}
+summary(lmScore)
+\end{minted}
 
-#+RESULTS:
-#+begin_example
-
+\begin{verbatim}
 Call:
 lm(formula = readingScore ~ ., data = pisaTrain)
 
@@ -1662,23 +1672,23 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 Residual standard error: 73.81 on 2385 degrees of freedom
 Multiple R-squared:  0.3251,	Adjusted R-squared:  0.3172
 F-statistic: 41.04 on 28 and 2385 DF,  p-value: < 2.2e-16
-#+end_example
+\end{verbatim}
 
-*** Answer
+\subsubsection{Answer}
+\label{sec-2-12-1}
 
-*Explanation*
+\textbf{Explanation}
 
-From *summary(lmScore)*, we can see which variables were significant at
+From \textbf{summary(lmScore)}, we can see which variables were significant at
 the $0.05$ level. Because several of the binary variables generated from
 the race factor variable are significant, we should not remove this
 variable.
 
-** DONE Problem 4.1 - Predicting on unseen data (2 points possible)
-CLOSED: [2015-06-22 Mon 16:49]
-
+\subsection{{\bfseries\sffamily DONE} Problem 4.1 - Predicting on unseen data (2 points possible)}
+\label{sec-2-13}
 Using the "predict" function and supplying the "newdata" argument, use
-the *lmScore* model to predict the reading scores of students in
-*pisaTest*. Call this vector of predictions "predTest". Do not change
+the \textbf{lmScore} model to predict the reading scores of students in
+\textbf{pisaTest}. Call this vector of predictions "predTest". Do not change
 the variables in the model (for example, do not remove variables that
 we found were not significant in the previous part of this
 problem). Use the summary function to describe the test set
@@ -1687,160 +1697,175 @@ predictions.
 What is the range between the maximum and minimum predicted reading
 score on the test set?
 
-#+BEGIN_SRC R :session :results output :exports all
-  writeLines("\n :: Make test set predictions")
-  predTest <- predict(lmScore, newdata = pisaTest)
-  summary(predTest)
-  637.7 - 353.2
-#+END_SRC
+\begin{minted}[]{r}
+writeLines("\n :: Make test set predictions")
+predTest <- predict(lmScore, newdata = pisaTest)
+summary(predTest)
+637.7 - 353.2
+\end{minted}
 
-#+RESULTS:
-:
-:  :: Make test set predictions
-:    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
-:   353.2   482.0   524.0   516.7   555.7   637.7
-: [1] 284.5
+\begin{verbatim}
 
-*** Answer
+ :: Make test set predictions
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  353.2   482.0   524.0   516.7   555.7   637.7
+[1] 284.5
+\end{verbatim}
 
-*Explanation*
+\subsubsection{Answer}
+\label{sec-2-13-1}
+
+\textbf{Explanation}
 
 We can obtain the predictions with:
 
 predTest = predict(lmScore, newdata=pisaTest)
 
-From *summary(predTest)*, we see that the maximum predicted reading
+From \textbf{summary(predTest)}, we see that the maximum predicted reading
 score is $637.7$, and the minimum predicted score is $353.2$. Therefore,
 the range is $284.5$.
 
-** DONE Problem 4.2 - Test set SSE and RMSE (2 points possible)
-CLOSED: [2015-06-22 Mon 16:49]
+\subsection{{\bfseries\sffamily DONE} Problem 4.2 - Test set SSE and RMSE (2 points possible)}
+\label{sec-2-14}
 
-*** Question a
+\subsubsection{Question a}
+\label{sec-2-14-1}
 
 What is the sum of squared errors (SSE) of lmScore on the testing set?
 
-#+BEGIN_SRC R :session :results output :exports all
-  writeLines("\n :: Sum of Squared Errors in the testing set")
-  SSE <- sum((predTest - pisaTest$readingScore)^2)
-  SSE
-#+END_SRC
+\begin{minted}[]{r}
+writeLines("\n :: Sum of Squared Errors in the testing set")
+SSE <- sum((predTest - pisaTest$readingScore)^2)
+SSE
+\end{minted}
 
-#+RESULTS:
-:
-:  :: Sum of Squared Errors in the testing set
-: [1] 5762082
+\begin{verbatim}
 
-**** Answer
+ :: Sum of Squared Errors in the testing set
+[1] 5762082
+\end{verbatim}
+
+\paragraph{Answer}
+\label{sec-2-14-1-1}
 
 5762082
 
-*** Question b
+\subsubsection{Question b}
+\label{sec-2-14-2}
 
 What is the root-mean squared error (RMSE) of lmScore on the testing
 set?
 
-#+BEGIN_SRC R :session :results output :exports all
-  writeLines("\n :: The RMSE of the testing data set is:")
-  RMSE <- sqrt(SSE / nrow(pisaTest))
-  RMSE
+\begin{minted}[]{r}
+writeLines("\n :: The RMSE of the testing data set is:")
+RMSE <- sqrt(SSE / nrow(pisaTest))
+RMSE
 
-  writeLines("\n :: An alternative for calculation:")
-  sqrt(mean((predTest-pisaTest$readingScore)^2))
-#+END_SRC
+writeLines("\n :: An alternative for calculation:")
+sqrt(mean((predTest-pisaTest$readingScore)^2))
+\end{minted}
 
-#+RESULTS:
-:
-:  :: The RMSE of the testing data set is:
-: [1] 76.29079
-:
-:  :: An alternative for calculation:
-: [1] 76.29079
+\begin{verbatim}
 
-**** Answer
+ :: The RMSE of the testing data set is:
+[1] 76.29079
 
-*Explanation*
+ :: An alternative for calculation:
+[1] 76.29079
+\end{verbatim}
+
+\paragraph{Answer}
+\label{sec-2-14-2-1}
+
+\textbf{Explanation}
 
 This can be calculated with
-sqrt(mean((predTest-pisaTest$readingScore)^2)).
+sqrt(mean((predTest-pisaTest\$readingScore)\^{}2)).
 
-** DONE Problem 4.3 - Baseline prediction and test-set SSE (2 points possible)
-CLOSED: [2015-06-22 Mon 16:49]
+\subsection{{\bfseries\sffamily DONE} Problem 4.3 - Baseline prediction and test-set SSE (2 points possible)}
+\label{sec-2-15}
 
-*** Question a
+\subsubsection{Question a}
+\label{sec-2-15-1}
 
 What is the predicted test score used in the baseline model? Remember
 to compute this value using the training set and not the test set.
 
-#+BEGIN_SRC R :session :results output :exports all
-  SSE <- sum((predTest - pisaTest$readingScore)^2)
+\begin{minted}[]{r}
+SSE <- sum((predTest - pisaTest$readingScore)^2)
 
-  writeLines("\n :: The predicted test score used in the baseline model:")
-  mean(pisaTrain$readingScore)
+writeLines("\n :: The predicted test score used in the baseline model:")
+mean(pisaTrain$readingScore)
 
-  SST <- sum((mean(pisaTrain$readingScore) - pisaTest$readingScore)^2)
-  R2 <- 1 - (SSE/SST)
+SST <- sum((mean(pisaTrain$readingScore) - pisaTest$readingScore)^2)
+R2 <- 1 - (SSE/SST)
 
-  writeLines("\n :: The SST for the training pisa data set")
-  SST
-#+END_SRC
+writeLines("\n :: The SST for the training pisa data set")
+SST
+\end{minted}
 
-#+RESULTS:
-:
-:  :: The predicted test score used in the baseline model:
-: [1] 517.9629
-:
-:  :: The SST for the training pisa data set
-: [1] 7802354
+\begin{verbatim}
 
-**** Answer
+ :: The predicted test score used in the baseline model:
+[1] 517.9629
 
-*Explanation*
+ :: The SST for the training pisa data set
+[1] 7802354
+\end{verbatim}
+
+\paragraph{Answer}
+\label{sec-2-15-1-1}
+
+\textbf{Explanation}
 
 This can be computed with:
 
-baseline = mean(pisaTrain$readingScore)
+baseline = mean(pisaTrain\$readingScore)
 
-*** Question b
+\subsubsection{Question b}
+\label{sec-2-15-2}
 
 What is the sum of squared errors of the baseline model on the testing
 set? HINT: We call the sum of squared errors for the baseline model
 the total sum of squares (SST).
 
-**** Answer
+\paragraph{Answer}
+\label{sec-2-15-2-1}
 
-*Explanation*
+\textbf{Explanation}
 
-This can be computed with sum((baseline-pisaTest$readingScore)^2).
+This can be computed with sum((baseline-pisaTest\$readingScore)\^{}2).
 
-** DONE Problem 4.4 - Test-set R-squared (1 point possible)
-CLOSED: [2015-06-22 Mon 16:49]
-
+\subsection{{\bfseries\sffamily DONE} Problem 4.4 - Test-set R-squared (1 point possible)}
+\label{sec-2-16}
 What is the test-set R-squared value of lmScore?
 
-#+BEGIN_SRC R :session :results output :exports all
-  writeLines("\n :: The test-set R-squared value:")
-  SSE <- sum((predTest - pisaTest$readingScore)^2)
-  SST <- sum((mean(pisaTrain$readingScore) - pisaTest$readingScore)^2)
-  R2 <- 1 - (SSE/SST)
-  R2
-#+END_SRC
+\begin{minted}[]{r}
+writeLines("\n :: The test-set R-squared value:")
+SSE <- sum((predTest - pisaTest$readingScore)^2)
+SST <- sum((mean(pisaTrain$readingScore) - pisaTest$readingScore)^2)
+R2 <- 1 - (SSE/SST)
+R2
+\end{minted}
 
-#+RESULTS:
-:
-:  :: The test-set R-squared value:
-: [1] 0.2614944
+\begin{verbatim}
 
-*** Answer
+ :: The test-set R-squared value:
+[1] 0.2614944
+\end{verbatim}
 
-*Explanation*
+\subsubsection{Answer}
+\label{sec-2-16-1}
+
+\textbf{Explanation}
 
 The test-set $R^2$ is defined as $1-\frac{SSE}{SST}$, where $SSE$ is
 the sum of squared errors of the model on the test set and $SST$ is
 the sum of squared errors of the baseline model. For this model, the
 $R^2$ is then computed to be $1-\frac{5762082}{7802354}$.
 
-* Detecting Flu Epidemics via Search Engine Query Data [6/7]
+\section{Detecting Flu Epidemics via Search Engine Query Data [3/4]}
+\label{sec-3}
 
 Flu epidemics constitute a major public health concern causing
 respiratory illnesses, hospitalizations, and deaths. According to the
@@ -1855,88 +1880,88 @@ activity through virologic and clinical data, including Influenza-like
 Illness (ILI) physician visits. Reporting national and regional data,
 however, are published with a 1-2 week lag.
 
-The [[https://www.google.org/flutrends/us/#US][Google Flu Trends]] project was initiated to see if faster reporting
+The \href{https://www.google.org/flutrends/us/#US}{Google Flu Trends} project was initiated to see if faster reporting
 can be made possible by considering flu-related online search queries
 -- data that is available almost immediately.
 
-** DONE Problem 1.1 - Understanding the Data (6 points possible)
-CLOSED: [2015-06-22 Mon 19:04]
-
+\subsection{{\bfseries\sffamily DONE} Problem 1.1 - Understanding the Data (6 points possible)}
+\label{sec-3-1}
 We would like to estimate influenza-like illness (ILI) activity using
 Google web search logs. Fortunately, one can easily access this data
 online:
 
-*ILI Data* - The [[http://www.cdc.gov/flu/weekly/fluactivitysurv.htm][CDC]] publishes on its website the official regional and
+\textbf{ILI Data} - The \href{http://www.cdc.gov/flu/weekly/fluactivitysurv.htm}{CDC} publishes on its website the official regional and
 state-level percentage of patient visits to healthcare providers for
 ILI purposes on a weekly basis.
 
-*Google Search Queries* - [[http://www.google.com/trends][Google Trends]] allows public retrieval of
+\textbf{Google Search Queries} - \href{http://www.google.com/trends}{Google Trends} allows public retrieval of
 weekly counts for every query searched by users around the world. For
 each location, the counts are normalized by dividing the count for
 each query in a particular week by the total number of online search
 queries submitted in that location during the week. Then, the values
 are adjusted to be between 0 and 1.
 
-The csv file [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/FluTrain.csv][FluTrain.csv]] aggregates this data from January 1, 2004
+The csv file \href{https://courses.edx.org/asset-v1:MITx\%2B15.071x_2a\%2B2T2015\%2Btype@asset\%2Bblock/FluTrain.csv}{FluTrain.csv} aggregates this data from January 1, 2004
 until December 31, 2011 as follows:
 
-*Week* - The range of dates represented by this observation, in
+\textbf{Week} - The range of dates represented by this observation, in
 year/month/day format.
 
-*ILI* - This column lists the percentage of ILI-related physician
+\textbf{ILI} - This column lists the percentage of ILI-related physician
 visits for the corresponding week.
 
-*Queries* - This column lists the fraction of queries that are
+\textbf{Queries} - This column lists the fraction of queries that are
 ILI-related for the corresponding week, adjusted to be between 0 and 1
 (higher values correspond to more ILI-related search queries).
 
-*** Download the data sets
+\subsubsection{Download the data sets}
+\label{sec-3-1-1}
 
 In this part we can download the data
 
-#+BEGIN_SRC R :session :results output :exports all
-  library(parallel)
+\begin{minted}[]{r}
+library(parallel)
 
-  if(!file.exists("../data")) {
-          dir.create("../data")
-  }
+if(!file.exists("../data")) {
+        dir.create("../data")
+}
 
-  fileUrl <- "https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/FluTrain.csv"
+fileUrl <- "https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/FluTrain.csv"
 
-  fileName <- "FluTrain.csv"
+fileName <- "FluTrain.csv"
 
-  dataPath <- "../data"
+dataPath <- "../data"
 
-  filePath <- paste(dataPath, fileName, sep = "/")
+filePath <- paste(dataPath, fileName, sep = "/")
 
-  if(!file.exists(filePath)) {
-          download.file(fileUrl, destfile = filePath, method = "curl")
-  }
-  list.files("../data")
-#+END_SRC
+if(!file.exists(filePath)) {
+        download.file(fileUrl, destfile = filePath, method = "curl")
+}
+list.files("../data")
+\end{minted}
 
-#+RESULTS:
-:  [1] "AnonymityPoll.csv"      "baseball.csv"           "BoeingStock.csv"
-:  [4] "climate_change.csv"     "CocaColaStock.csv"      "CountryCodes.csv"
-:  [7] "CPSData.csv"            "FluTrain.csv"           "GEStock.csv"
-: [10] "IBMStock.csv"           "MetroAreaCodes.csv"     "mvtWeek1.csv"
-: [13] "NBA_test.csv"           "NBA_train.csv"          "pisa2009test.csv"
-: [16] "pisa2009train.csv"      "ProcterGambleStock.csv" "README.md"
-: [19] "USDA.csv"               "WHO.csv"                "WHO_Europe.csv"
-: [22] "wine.csv"               "wine_test.csv"
+\begin{verbatim}
+ [1] "AnonymityPoll.csv"      "baseball.csv"           "BoeingStock.csv"
+ [4] "climate_change.csv"     "CocaColaStock.csv"      "CountryCodes.csv"
+ [7] "CPSData.csv"            "FluTrain.csv"           "GEStock.csv"
+[10] "IBMStock.csv"           "MetroAreaCodes.csv"     "mvtWeek1.csv"
+[13] "NBA_test.csv"           "NBA_train.csv"          "pisa2009test.csv"
+[16] "pisa2009train.csv"      "ProcterGambleStock.csv" "README.md"
+[19] "USDA.csv"               "WHO.csv"                "WHO_Europe.csv"
+[22] "wine.csv"               "wine_test.csv"
+\end{verbatim}
 
-*** Loading the data
+\subsubsection{Loading the data}
+\label{sec-3-1-2}
 
-#+BEGIN_SRC R :session :results output :exports all
-  writeLines("\n :: Read the training data set")
-  FluTrain <- read.table("../data/FluTrain.csv", sep = ",", header = TRUE)
-  str(FluTrain)
-  summary(FluTrain)
-#+END_SRC
+\begin{minted}[]{r}
+writeLines("\n :: Read the training data set")
+FluTrain <- read.table("../data/FluTrain.csv", sep = ",", header = TRUE)
+str(FluTrain)
+summary(FluTrain)
+\end{minted}
 
-#+RESULTS:
-#+begin_example
-
+\begin{verbatim}
  :: Read the training data set
 'data.frame':	417 obs. of  3 variables:
  $ Week   : Factor w/ 417 levels "2004-01-04 - 2004-01-10",..: 1 2 3 4 5 6 7 8 9 10 ...
@@ -1950,89 +1975,95 @@ In this part we can download the data
  2004-02-01 - 2004-02-07:  1   3rd Qu.:2.0587   3rd Qu.:0.37849
  2004-02-08 - 2004-02-14:  1   Max.   :7.6189   Max.   :1.00000
  (Other)                :411
-#+end_example
+\end{verbatim}
 
 Before applying analytics tools on the training set, we first need to
 understand the data at hand. Load "FluTrain.csv" into a data frame
 called FluTrain.
 
-*** Question a
+\subsubsection{Question a}
+\label{sec-3-1-3}
 
 Looking at the time period 2004-2011, which week corresponds to the
 highest percentage of ILI-related physician visits? Select the day of
 the month corresponding to the start of this week.
 
-#+BEGIN_SRC R :session :results output :exports all
-  FluTrain[which.max(FluTrain$ILI), ]
-#+END_SRC
+\begin{minted}[]{r}
+FluTrain[which.max(FluTrain$ILI), ]
+\end{minted}
 
-#+RESULTS:
-:                        Week      ILI Queries
-: 303 2009-10-18 - 2009-10-24 7.618892       1
+\begin{verbatim}
+                       Week      ILI Queries
+303 2009-10-18 - 2009-10-24 7.618892       1
+\end{verbatim}
 
-**** Answer
+\paragraph{Answer}
+\label{sec-3-1-3-1}
 
-*Explanation*
+\textbf{Explanation}
 
-We can limit *FluTrain* to the observations that obtain the maximum ILI
+We can limit \textbf{FluTrain} to the observations that obtain the maximum ILI
 value with subset(FluTrain, ILI == max(ILI)). From here, we can read
 information about the week at which the maximum was
-obtained. Alternatively, you can use which.max(FluTrain$ILI) to find
+obtained. Alternatively, you can use which.max(FluTrain\$ILI) to find
 the row number corresponding to the observation with the maximum value
 of ILI, which is 303. Then, you can output the corresponding week
-using FluTrain$Week[303].
+using FluTrain\$Week\footnote{DEFINITION NOT FOUND.}.
 
-*** Question b
+\subsubsection{Question b}
+\label{sec-3-1-4}
 
 Which week corresponds to the highest percentage of ILI-related query
 fraction?
 
-#+BEGIN_SRC R :session :results output :exports all
-  FluTrain[which.max(FluTrain$Queries), ]
-#+END_SRC
+\begin{minted}[]{r}
+FluTrain[which.max(FluTrain$Queries), ]
+\end{minted}
 
-#+RESULTS:
-:                        Week      ILI Queries
-: 303 2009-10-18 - 2009-10-24 7.618892       1
+\begin{verbatim}
+                       Week      ILI Queries
+303 2009-10-18 - 2009-10-24 7.618892       1
+\end{verbatim}
 
-**** Answer
+\paragraph{Answer}
+\label{sec-3-1-4-1}
 
-*Explanation*
+\textbf{Explanation}
 
 We can limit FluTrain to the observations that obtain the maximum ILI
 value with subset(FluTrain, Queries == max(Queries)). From here, we
 can read information about the week at which the maximum was
-obtained. Alternatively, you can use which.max(FluTrain$Queries) to
+obtained. Alternatively, you can use which.max(FluTrain\$Queries) to
 find the row number corresponding to the observation with the maximum
 value of Queries, which is 303. Then, you can output the corresponding
-week using FluTrain$Week[303].
+week using FluTrain\$Week\footnotemark[1]{}.
 
-** DONE Problem 1.2 - Understanding the Data (1 point possible)
-CLOSED: [2015-06-22 Mon 19:10]
-
+\subsection{{\bfseries\sffamily DONE} Problem 1.2 - Understanding the Data (1 point possible)}
+\label{sec-3-2}
 Let us now understand the data at an aggregate level. Plot the
 histogram of the dependent variable, ILI. What best describes the
 distribution of values of ILI?
 
-#+CAPTION: Histogram of the dependent variable, ILI
-#+NAME:   fig:ExploratoryILI
-#+ATTR_LaTeX: placement: [H]
-[[../graphs/ExploratoryILI.png]]
+\begin{figure}[htb]
+\centering
+\includegraphics[width=.9\linewidth]{../graphs/ExploratoryILI.png}
+\caption{\label{fig:ExploratoryILI}Histogram of the dependent variable, ILI}
+\end{figure}
 
-*** Answer
+\subsubsection{Answer}
+\label{sec-3-2-1}
 
 Most of the ILI values are small, with a relatively small number of
 much larger values (in statistics, this sort of data is called "skew
 right").
 
-*Explanation*
+\textbf{Explanation}
 
 The histogram of ILI can be obtained with
-hist(FluTrain$ILI). Visually, the data is skew right.
+hist(FluTrain\$ILI). Visually, the data is skew right.
 
-** DONE Problem 1.3 - Understanding the Data (1 point possible)
-CLOSED: [2015-06-22 Mon 19:23]
-
+\subsection{{\bfseries\sffamily DONE} Problem 1.3 - Understanding the Data (1 point possible)}
+\label{sec-3-3}
 When handling a skewed dependent variable, it is often useful to
 predict the logarithm of the dependent variable instead of the
 dependent variable itself -- this prevents the small number of
@@ -2044,305 +2075,64 @@ computed in R using the log() function.
 Plot the natural logarithm of ILI versus Queries. What does the plot
 suggest?.
 
-#+BEGIN_SRC R :var basename="LogILIvsQueries" :session :results none silent :exports none
-  filename <- paste("../graphs/", basename, ".png", sep = "")
+\begin{figure}[htb]
+\centering
+\includegraphics[width=.9\linewidth]{../graphs/LogILIvsQueries.png}
+\caption{\label{fig:LogILIvsQueries}Natural logarithm of ILI versus Queries}
+\end{figure}
 
-  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+\subsubsection{Answer}
+\label{sec-3-3-1}
 
-  ## ----- Plot code begin here
-  plot(FluTrain$Queries, log(FluTrain$ILI))
-  ## ----- Plot code ends here
-
-  ## Close the PNG device and plots
-  dev.off()
-#+END_SRC
-
-#+CAPTION: Natural logarithm of ILI versus Queries
-#+NAME:   fig:LogILIvsQueries
-#+ATTR_LaTeX: placement: [H]
-[[../graphs/LogILIvsQueries.png]]
-
-*** Answer
-
-*Explanation*
+\textbf{Explanation}
 
 The plot can be obtained with
 
-plot(FluTrain$Queries, log(FluTrain$ILI)).
+plot(FluTrain\$Queries, log(FluTrain\$ILI)).
 
 Visually, there is a positive, linear relationship between log(ILI)
 and Queries.
 
-** DONE Problem 2.1 - Linear Regression Model (1 point possible)
-CLOSED: [2015-06-22 Mon 19:49]
+\subsection{{\bfseries\sffamily TODO} Problem 2.1 - Linear Regression Model (1 point possible)}
+\label{sec-3-4}
 
 Based on the plot we just made, it seems that a linear regression
 model could be a good modeling choice. Based on our understanding of
 the data from the previous subproblem, which model best describes our
 estimation problem?
 
-#+BEGIN_SRC R :session :results output :exports all
-  FluTrend1 <- lm(log(ILI) ~ Queries, data = FluTrain)
-  summary(FluTrend1)
-#+END_SRC
+\begin{minted}[]{r}
+logILIReg <- lm(ILI ~ Queries, data = FluTrain)
+summary(logILIReg)
+\end{minted}
 
-#+RESULTS:
-#+begin_example
-
+\begin{verbatim}
 Call:
-lm(formula = log(ILI) ~ Queries, data = FluTrain)
+lm(formula = ILI ~ Queries, data = FluTrain)
 
 Residuals:
      Min       1Q   Median       3Q      Max
--0.76003 -0.19696 -0.01657  0.18685  1.06450
+-1.73911 -0.38816 -0.04161  0.31012  2.48517
 
 Coefficients:
             Estimate Std. Error t value Pr(>|t|)
-(Intercept) -0.49934    0.03041  -16.42   <2e-16 ***
-Queries      2.96129    0.09312   31.80   <2e-16 ***
+(Intercept)  0.01374    0.06646   0.207    0.836
+Queries      5.81454    0.20352  28.570   <2e-16 ***
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
-Residual standard error: 0.2995 on 415 degrees of freedom
-Multiple R-squared:  0.709,	Adjusted R-squared:  0.7083
-F-statistic:  1011 on 1 and 415 DF,  p-value: < 2.2e-16
-#+end_example
+Residual standard error: 0.6546 on 415 degrees of freedom
+Multiple R-squared:  0.6629,	Adjusted R-squared:  0.6621
+F-statistic: 816.2 on 1 and 415 DF,  p-value: < 2.2e-16
+\end{verbatim}
 
-*** Answer
+\subsubsection{Answer}
+\label{sec-3-4-1}
 
-*Explanation*
+\textbf{Explanation}
 
 From the previous subproblem, we are predicting log(ILI) using the
 Queries variable. From the plot in the previous subproblem, we expect
 the coefficient on Queries to be positive.
-
-** DONE Problem 2.2 - Linear Regression Model (2 points possible)
-CLOSED: [2015-06-22 Mon 19:59]
-
-Let's call the regression model from the previous problem (Problem
-2.1) FluTrend1 and run it in R. Hint: to take the logarithm of a
-variable Var in a regression equation, you simply use log(Var) when
-specifying the formula to the lm() function.
-
-What is the training set R-squared value for FluTrend1 model (the
-"Multiple R-squared")?
-
-#+BEGIN_SRC R :session :results output :exports all
-  summary(FluTrend1)
-#+END_SRC
-
-#+RESULTS:
-#+begin_example
-
-Call:
-lm(formula = log(ILI) ~ Queries, data = FluTrain)
-
-Residuals:
-     Min       1Q   Median       3Q      Max
--0.76003 -0.19696 -0.01657  0.18685  1.06450
-
-Coefficients:
-            Estimate Std. Error t value Pr(>|t|)
-(Intercept) -0.49934    0.03041  -16.42   <2e-16 ***
-Queries      2.96129    0.09312   31.80   <2e-16 ***
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-
-Residual standard error: 0.2995 on 415 degrees of freedom
-Multiple R-squared:  0.709,	Adjusted R-squared:  0.7083
-F-statistic:  1011 on 1 and 415 DF,  p-value: < 2.2e-16
-#+end_example
-
-*** Answer
-
-*Explanation*
-
-The model can be trained with:
-
-FluTrend1 = lm(log(ILI)~Queries, data=FluTrain)
-
-From summary(FluTrend1), we read that the R-squared value is $0.709$.
-
-** DONE Problem 2.3 - Linear Regression Model (1 point possible)
-CLOSED: [2015-06-22 Mon 20:09]
-
-For a single variable linear regression model, there is a direct
-relationship between the R-squared and the correlation between the
-independent and the dependent variables. What is the relationship we
-infer from our problem? (Don't forget that you can use the cor
-function to compute the correlation between two variables.)
-
-Note that the "exp" function stands for the exponential function. The
-exponential can be computed in R using the function exp().
-
-#+BEGIN_SRC R :session :results output :exports all
-  writeLines("\n :: Relationship between R^2 and Correlation")
-  Correlation <- cor(log(FluTrain$ILI), FluTrain$Queries)
-  Correlation^2
-#+END_SRC
-
-#+RESULTS:
-:
-:  :: Relationship between R^2 and Correlation
-: [1] 0.7090201
-
-*** Answer
-
-$$R^2 = Correlation^2$$
-
-*Explanation*
-
-To test these hypotheses, we first need to compute the correlation
-between the independent variable used in the model (Queries) and the
-dependent variable (log(ILI)). This can be done with
-
-Correlation = cor(FluTrain$Queries, log(FluTrain$ILI))
-
-The values of the three expressions are then:
-
-Correlation^2 = 0.7090201
-
-log(1/Correlation) = 0.1719357
-
-exp(-0.5*Correlation) = 0.6563792
-
-It appears that Correlation^2 is equal to the R-squared value. It can
-be proved that this is always the case.
-
-** TODO Problem 3.1 - Performance on the Test Set (1 point possible)
-
-The csv file [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/FluTest.csv][FluTest.csv]] provides the 2012 weekly data of the
-ILI-related search queries and the observed weekly percentage of
-ILI-related physician visits. Load this data into a data frame called
-*FluTest*.
-
-*** Download the data sets
-
-In this part we can download the data
-
-#+BEGIN_SRC R :session :results output :exports all
-  library(parallel)
-
-  if(!file.exists("../data")) {
-          dir.create("../data")
-  }
-
-  fileUrl <- "https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/FluTest.csv"
-
-  fileName <- "FluTest.csv"
-
-  dataPath <- "../data"
-
-  filePath <- paste(dataPath, fileName, sep = "/")
-
-  if(!file.exists(filePath)) {
-          download.file(fileUrl, destfile = filePath, method = "curl")
-  }
-  list.files("../data")
-#+END_SRC
-
-#+RESULTS:
-:  [1] "AnonymityPoll.csv"      "baseball.csv"           "BoeingStock.csv"
-:  [4] "climate_change.csv"     "CocaColaStock.csv"      "CountryCodes.csv"
-:  [7] "CPSData.csv"            "FluTest.csv"            "FluTrain.csv"
-: [10] "GEStock.csv"            "IBMStock.csv"           "MetroAreaCodes.csv"
-: [13] "mvtWeek1.csv"           "NBA_test.csv"           "NBA_train.csv"
-: [16] "pisa2009test.csv"       "pisa2009train.csv"      "ProcterGambleStock.csv"
-: [19] "README.md"              "USDA.csv"               "WHO.csv"
-: [22] "WHO_Europe.csv"         "wine.csv"               "wine_test.csv"
-
-*** Loading the data
-
-#+BEGIN_SRC R :session :results output :exports all
-  writeLines("\n :: Read the testing data set")
-  FluTest <- read.table("../data/FluTest.csv", sep = ",", header = TRUE)
-  str(FluTest)
-  summary(FluTest)
-#+END_SRC
-
-#+RESULTS:
-#+begin_example
-
- :: Read the testing data set
-'data.frame':	52 obs. of  3 variables:
- $ Week   : Factor w/ 52 levels "2012-01-01 - 2012-01-07",..: 1 2 3 4 5 6 7 8 9 10 ...
- $ ILI    : num  1.77 1.54 1.65 1.68 1.86 ...
- $ Queries: num  0.594 0.499 0.501 0.479 0.471 ...
-                      Week         ILI            Queries
- 2012-01-01 - 2012-01-07: 1   Min.   :0.9018   Min.   :0.2390
- 2012-01-08 - 2012-01-14: 1   1st Qu.:1.1535   1st Qu.:0.2772
- 2012-01-15 - 2012-01-21: 1   Median :1.3592   Median :0.3924
- 2012-01-22 - 2012-01-28: 1   Mean   :1.6638   Mean   :0.4094
- 2012-01-29 - 2012-02-04: 1   3rd Qu.:1.8637   3rd Qu.:0.4874
- 2012-02-05 - 2012-02-11: 1   Max.   :6.0336   Max.   :0.8054
- (Other)                :46
-#+end_example
-
-Normally, we would obtain test-set predictions from the model
-FluTrend1 using the code
-
-PredTest1 = predict(FluTrend1, newdata=FluTest)
-
-However, the dependent variable in our model is log(ILI), so PredTest1
-would contain predictions of the log(ILI) value. We are instead
-interested in obtaining predictions of the ILI value. We can convert
-from predictions of log(ILI) to predictions of ILI via exponentiation,
-or the exp() function. The new code, which predicts the ILI value, is
-
-#+BEGIN_SRC R :session :results output :exports all
-  PredTest1 = exp(predict(FluTrend1, newdata=FluTest))
-  summary(PredTest1)
-#+END_SRC
-
-#+RESULTS:
-:    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
-:   1.232   1.379   1.946   2.249   2.571   6.591
-
-What is our estimate for the percentage of ILI-related physician
-visits for the week of March 11, 2012? (HINT: You can either just
-output FluTest$Week to find which element corresponds to March 11,
-2012, or you can use the "which" function in R. To learn more about
-the which function, type ?which in your R console.)
-
-#+BEGIN_SRC R :session :results output :exports all
-  writeLines("\n :: estimate for the percentage of ILI-related physician\nvisits for the week of March 11, 2012:")
-
-  FluPredictTest <- cbind(FluTest, PredTest1)
-  names(FluPredictTest)
-  FluPredictTest[which(FluPredictTest$Week == "2012-03-11 - 2012-03-17"), 4]
-#+END_SRC
-
-#+RESULTS:
-:
-:  :: estimate for the percentage of ILI-related physician
-: visits for the week of March 11, 2012:
-: [1] "Week"      "ILI"       "Queries"   "PredTest1"
-: [1] 2.187378
-
-*** Answer
-
-$2.187378$
-
-*Explanation*
-
-To obtain the predictions, we need can run
-
-PredTest1 = exp(predict(FluTrend1, newdata=FluTest))
-
-Next, we need to determine which element in the test set is for March
-11, 2012. We can determine this with:
-
-which(FluTest$Week == "2012-03-11 - 2012-03-17")
-
-Now we know we are looking for prediction number 11. This can be
-accessed with:
-
-PredTest1[11]
-
-** Problem 3.2 - Performance on the Test Set (1 point possible)
-
-What is the relative error betweeen the estimate (our prediction) and
-the observed value for the week of March 11, 2012? Note that the
-relative error is calculated as
-
-(Observed ILI - Estimated ILI)/Observed ILI
+% Emacs 24.4.1 (Org mode 8.2.10)
+\end{document}
