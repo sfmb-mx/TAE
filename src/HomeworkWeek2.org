@@ -2028,6 +2028,19 @@ Let us now understand the data at an aggregate level. Plot the
 histogram of the dependent variable, ILI. What best describes the
 distribution of values of ILI?
 
+#+BEGIN_SRC R :var basename="ExploratoryILI" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  hist(FluTrain$ILI)
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
 #+CAPTION: Histogram of the dependent variable, ILI
 #+NAME:   fig:ExploratoryILI
 #+ATTR_LaTeX: placement: [H]
@@ -2785,4 +2798,66 @@ model, again remembering to call the exp() function on the result of
 the predict() function to obtain predictions for ILI instead of
 log(ILI).
 
+#+BEGIN_SRC R :session :results output :exports all
+  PredTest2 <- exp(predict(FluTrend2, newdata = FluTest))
+  summary(PredTest2)
+#+END_SRC
+
+#+RESULTS:
+:    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+:   1.004   1.275   1.655   1.808   2.141   5.006
+
 What is the test-set RMSE of the FluTrend2 model?
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: The RMSE of the testing data set and the new model is:")
+  sqrt(mean((PredTest2 - FluTest$ILI)^2))
+#+END_SRC
+
+#+RESULTS:
+:
+:  :: The RMSE of the testing data set and the new model is:
+: [1] 0.2942029
+
+*** Answer
+
+$$RMSE = 0.2942029$$
+
+*Explanation*
+
+We can obtain the test-set predictions with:
+
+PredTest2 = exp(predict(FluTrend2, newdata=FluTest))
+
+And then we can compute the RMSE with the following commands:
+
+SSE = sum((PredTest2-FluTest$ILI)^2)
+
+RMSE = sqrt(SSE / nrow(FluTest))
+
+Alternatively, you could use the following command to compute the
+RMSE:
+
+sqrt(mean((PredTest2-FluTest$ILI)^2)).
+
+The *test-set RMSE of FluTrend2* is $0.294$.
+
+** Problem 5.5 - Evaluating the Time Series Model in the Test Set (1 point possible)
+
+In this problem, we used a simple time series model with a single lag
+term. ARIMA models are a more general form of the model we built,
+which can include multiple lag terms as well as more complicated
+combinations of previous values of the dependent variable. If you're
+interested in learning more, check out ?arima or the available online
+tutorials for these sorts of models.
+
+Which model obtained the best test-set RMSE?
+
+*** Answer
+
+*FluTrend2*.
+
+*Explanation*
+
+The test-set RMSE of FluTrend2 is 0.294, as opposed to the 0.749 value
+obtained by the FluTrend1 model.
