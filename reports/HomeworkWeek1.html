@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Homework Week 1</title>
-<!-- 2015-06-12 Fri 06:15 -->
+<!-- 2015-06-25 Thu 07:54 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Sergio-Feliciano Mendoza-Barrera" />
@@ -154,7 +154,7 @@ for the JavaScript code in this tag.
 <h1 class="title">Homework Week 1</h1>
 <div class="abstract">
 <p>
-Homework week 1 part 1. An analytical detective.
+Homework week 1.
 </p>
 
 </div>
@@ -261,34 +261,33 @@ In this part we can download the data
 
 <div class="org-src-container">
 
-<pre class="src src-R">rm(list = ls())                         <span style="color: #9932cc;"># </span><span style="color: #ba55d3;">Remove all workspace data</span>
-<span style="color: #db7093;">library</span>(parallel)
+<pre class="src src-R"><span style="color: #3aff83;">library</span>(parallel)
 
-<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #fffacd;">"../data"</span>)) {
-        dir.create(<span style="color: #fffacd;">"../data"</span>)
+<span style="color: #5af2ee;">if</span>(!file.exists(<span style="color: #ff5f87;">"../data"</span>)) {
+        dir.create(<span style="color: #ff5f87;">"../data"</span>)
 }
 
-fileUrl <span style="color: #db7093;">&lt;-</span>
-        <span style="color: #fffacd;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/mvtWeek1.csv"</span>
-fileName <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"mvtWeek1.csv"</span>
+fileUrl <span style="color: #3aff83;">&lt;-</span>
+        <span style="color: #ff5f87;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/mvtWeek1.csv"</span>
+fileName <span style="color: #3aff83;">&lt;-</span> <span style="color: #ff5f87;">"mvtWeek1.csv"</span>
 
-dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"../data"</span>
-filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #fffacd;">"/"</span>)
+dataPath <span style="color: #3aff83;">&lt;-</span> <span style="color: #ff5f87;">"../data"</span>
+filePath <span style="color: #3aff83;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #ff5f87;">"/"</span>)
 
-<span style="color: #4682b4;">if</span>(!file.exists(filePath)) {
-        download.file(fileUrl, destfile = filePath, method = <span style="color: #fffacd;">"curl"</span>)
-        list.files(<span style="color: #fffacd;">"../data"</span>)
-        dateDownloaded <span style="color: #db7093;">&lt;-</span> date()
+<span style="color: #5af2ee;">if</span>(!file.exists(filePath)) {
+        download.file(fileUrl, destfile = filePath, method = <span style="color: #ff5f87;">"curl"</span>)
+        list.files(<span style="color: #ff5f87;">"../data"</span>)
+        dateDownloaded <span style="color: #3aff83;">&lt;-</span> date()
 }
 </pre>
 </div>
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"    Loading data into mvt dataframe"</span>)
-mvt <span style="color: #db7093;">&lt;-</span> read.table(filePath, sep = <span style="color: #fffacd;">","</span>, header = <span style="color: #3cb371;">TRUE</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"    Loading data into mvt dataframe"</span>)
+mvt <span style="color: #3aff83;">&lt;-</span> read.table(filePath, sep = <span style="color: #ff5f87;">","</span>, header = <span style="color: #b2baf6;">TRUE</span>)
 
-writeLines(<span style="color: #fffacd;">"    Initial analysis of data mvt"</span>)
+writeLines(<span style="color: #ff5f87;">"    Initial analysis of data mvt"</span>)
 dim(mvt)
 str(mvt)
 </pre>
@@ -297,7 +296,7 @@ str(mvt)
 <pre class="example">
     Loading data into mvt dataframe
     Initial analysis of data mvt
-[1] 191641
+[1] 191641     11
 'data.frame':	191641 obs. of  11 variables:
  $ ID                 : int  8951354 8951141 8952745 8952223 8951608 8950793 8950760 8951611 8951802 8950706 ...
  $ Date               : Factor w/ 131680 levels "1/1/01 0:01",..: 42823 42822 42822 42822 42821 42820 42819 42818 42816 42815 ...
@@ -333,13 +332,13 @@ How many variables are in this dataset?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"    Dimension of the dataframe"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"    Dimension of the dataframe"</span>)
 dim(mvt)
 
-writeLines(<span style="color: #fffacd;">"    Names of the dataframe"</span>)
+writeLines(<span style="color: #ff5f87;">"    Names of the dataframe"</span>)
 names(mvt)
 
-writeLines(<span style="color: #fffacd;">"    Any NA in the dataframe"</span>)
+writeLines(<span style="color: #ff5f87;">"    Any NA in the dataframe"</span>)
 anyNA(mvt)
 </pre>
 </div>
@@ -377,7 +376,7 @@ Using the "max" function, what is the maximum value of the variable
 
 <div class="org-src-container">
 
-<pre class="src src-R">maxID <span style="color: #db7093;">&lt;-</span> mvt[which.max(mvt$ID), ]
+<pre class="src src-R">maxID <span style="color: #3aff83;">&lt;-</span> mvt[which.max(mvt$ID), ]
 maxID$ID
 </pre>
 </div>
@@ -406,7 +405,7 @@ What is the minimum value of the variable "Beat"?
 
 <div class="org-src-container">
 
-<pre class="src src-R">minBeat <span style="color: #db7093;">&lt;-</span> mvt[which.min(mvt$Beat), ]
+<pre class="src src-R">minBeat <span style="color: #3aff83;">&lt;-</span> mvt[which.min(mvt$Beat), ]
 minBeat$Beat
 </pre>
 </div>
@@ -436,13 +435,13 @@ the number of crimes for which an arrest was made)?
 
 <div class="org-src-container">
 
-<pre class="src src-R">TArrest <span style="color: #db7093;">&lt;-</span> subset(mvt, Arrest == <span style="color: #3cb371;">TRUE</span>)
+<pre class="src src-R">TArrest <span style="color: #3aff83;">&lt;-</span> subset(mvt, Arrest == <span style="color: #b2baf6;">TRUE</span>)
 dim(TArrest)
 </pre>
 </div>
 
 <pre class="example">
-[1] 15536
+[1] 15536    11
 </pre>
 </div>
 
@@ -465,12 +464,12 @@ How many observations have a LocationDescription value of ALLEY?
 
 <div class="org-src-container">
 
-<pre class="src src-R">dim(subset(mvt, LocationDescription == <span style="color: #fffacd;">"ALLEY"</span>))
+<pre class="src src-R">dim(subset(mvt, LocationDescription == <span style="color: #ff5f87;">"ALLEY"</span>))
 </pre>
 </div>
 
 <pre class="example">
-[1] 2308
+[1] 2308   11
 </pre>
 </div>
 
@@ -549,7 +548,7 @@ quotes.)
 
 <div class="org-src-container">
 
-<pre class="src src-R">DateConvert <span style="color: #db7093;">&lt;-</span> as.Date(strptime(mvt$Date, <span style="color: #fffacd;">"%m/%d/%y %H:%M"</span>))
+<pre class="src src-R">DateConvert <span style="color: #3aff83;">&lt;-</span> as.Date(strptime(mvt$Date, <span style="color: #ff5f87;">"%m/%d/%y %H:%M"</span>))
 class(DateConvert)
 
 summary(DateConvert)
@@ -867,11 +866,11 @@ value between 0 and 1.
 
 <div class="org-src-container">
 
-<pre class="src src-R"><span style="color: #db7093;">library</span>(lubridate)
-mvt$Year <span style="color: #db7093;">&lt;-</span> year(mvt$Date)
+<pre class="src src-R"><span style="color: #3aff83;">library</span>(lubridate)
+mvt$Year <span style="color: #3aff83;">&lt;-</span> year(mvt$Date)
 table(mvt$Year, mvt$Arrest)
 
-writeLines(<span style="color: #fffacd;">"\n        Proportion of vehicle thefts in 2001:"</span>)
+writeLines(<span style="color: #ff5f87;">"\n        Proportion of vehicle thefts in 2001:"</span>)
 print(2152 / (2152 + 18517))
 </pre>
 </div>
@@ -923,11 +922,11 @@ made?
 
 <div class="org-src-container">
 
-<pre class="src src-R"><span style="color: #db7093;">library</span>(lubridate)
-mvt$Year <span style="color: #db7093;">&lt;-</span> year(mvt$Date)
+<pre class="src src-R"><span style="color: #3aff83;">library</span>(lubridate)
+mvt$Year <span style="color: #3aff83;">&lt;-</span> year(mvt$Date)
 table(mvt$Year, mvt$Arrest)
 
-writeLines(<span style="color: #fffacd;">"\n        Proportion of vehicle thefts in 2007:"</span>)
+writeLines(<span style="color: #ff5f87;">"\n        Proportion of vehicle thefts in 2007:"</span>)
 print(1212 / (13068 + 1212))
 </pre>
 </div>
@@ -979,11 +978,11 @@ made?
 
 <div class="org-src-container">
 
-<pre class="src src-R"><span style="color: #db7093;">library</span>(lubridate)
-mvt$Year <span style="color: #db7093;">&lt;-</span> year(mvt$Date)
+<pre class="src src-R"><span style="color: #3aff83;">library</span>(lubridate)
+mvt$Year <span style="color: #3aff83;">&lt;-</span> year(mvt$Date)
 table(mvt$Year, mvt$Arrest)
 
-writeLines(<span style="color: #fffacd;">"\n        Proportion of vehicle thefts in 2012:"</span>)
+writeLines(<span style="color: #ff5f87;">"\n        Proportion of vehicle thefts in 2012:"</span>)
 print(550 / (13542 + 550))
 </pre>
 </div>
@@ -1054,7 +1053,7 @@ category. In your R console, type:
 
 <div class="org-src-container">
 
-<pre class="src src-R">head(sort(table(mvt$LocationDescription), decreasing = <span style="color: #3cb371;">TRUE</span>), 6)
+<pre class="src src-R">head(sort(table(mvt$LocationDescription), decreasing = <span style="color: #b2baf6;">TRUE</span>), 6)
 </pre>
 </div>
 
@@ -1111,13 +1110,13 @@ How many observations are in Top5?
 
 <div class="org-src-container">
 
-<pre class="src src-R">Top5 <span style="color: #db7093;">&lt;-</span> subset(mvt, LocationDescription == <span style="color: #fffacd;">"STREET"</span> |
-                    LocationDescription == <span style="color: #fffacd;">"PARKING LOT/GARAGE(NON.RESID.)"</span> |
-                    LocationDescription == <span style="color: #fffacd;">"ALLEY"</span> |
-                    LocationDescription == <span style="color: #fffacd;">"GAS STATION"</span> |
-                    LocationDescription == <span style="color: #fffacd;">"DRIVEWAY - RESIDENTIAL"</span>)
+<pre class="src src-R">Top5 <span style="color: #3aff83;">&lt;-</span> subset(mvt, LocationDescription == <span style="color: #ff5f87;">"STREET"</span> |
+                    LocationDescription == <span style="color: #ff5f87;">"PARKING LOT/GARAGE(NON.RESID.)"</span> |
+                    LocationDescription == <span style="color: #ff5f87;">"ALLEY"</span> |
+                    LocationDescription == <span style="color: #ff5f87;">"GAS STATION"</span> |
+                    LocationDescription == <span style="color: #ff5f87;">"DRIVEWAY - RESIDENTIAL"</span>)
 head(Top5, 5)
-writeLines(<span style="color: #fffacd;">"        The number of observations in Top5 are:"</span>)
+writeLines(<span style="color: #ff5f87;">"        The number of observations in Top5 are:"</span>)
 print(dim(Top5))
 </pre>
 </div>
@@ -1136,7 +1135,7 @@ print(dim(Top5))
 5            35 2012 41.83757 -87.62176 December  Monday
 6            19 2012 41.92856 -87.75400 December  Monday
         The number of observations in Top5 are:
-[1] 177510
+[1] 177510     13
 </pre>
 </div>
 
@@ -1155,11 +1154,11 @@ by typing the following two lines in your R console:
 
 <div class="org-src-container">
 
-<pre class="src src-R">TopLocations <span style="color: #db7093;">&lt;-</span> c(<span style="color: #fffacd;">"STREET"</span>, <span style="color: #fffacd;">"PARKING LOT/GARAGE(NON.RESID.)"</span>, <span style="color: #fffacd;">"ALLEY"</span>,
-                 <span style="color: #fffacd;">"GAS STATION"</span>, <span style="color: #fffacd;">"DRIVEWAY - RESIDENTIAL"</span>)
-Top5 <span style="color: #db7093;">&lt;-</span> subset(mvt, LocationDescription %<span style="color: #4682b4;">in</span>% TopLocations)
+<pre class="src src-R">TopLocations <span style="color: #3aff83;">&lt;-</span> c(<span style="color: #ff5f87;">"STREET"</span>, <span style="color: #ff5f87;">"PARKING LOT/GARAGE(NON.RESID.)"</span>, <span style="color: #ff5f87;">"ALLEY"</span>,
+                 <span style="color: #ff5f87;">"GAS STATION"</span>, <span style="color: #ff5f87;">"DRIVEWAY - RESIDENTIAL"</span>)
+Top5 <span style="color: #3aff83;">&lt;-</span> subset(mvt, LocationDescription %<span style="color: #5af2ee;">in</span>% TopLocations)
 head(Top5, 5)
-writeLines(<span style="color: #fffacd;">"        The number of observations in Top5 are:"</span>)
+writeLines(<span style="color: #ff5f87;">"        The number of observations in Top5 are:"</span>)
 print(dim(Top5))
 </pre>
 </div>
@@ -1178,7 +1177,7 @@ print(dim(Top5))
 5            35 2012 41.83757 -87.62176 December  Monday
 6            19 2012 41.92856 -87.75400 December  Monday
         The number of observations in Top5 are:
-[1] 177510
+[1] 177510     13
 </pre>
 </div>
 </div>
@@ -1197,7 +1196,7 @@ factor variable. In your R console, type:
 
 <div class="org-src-container">
 
-<pre class="src src-R">Top5$LocationDescription <span style="color: #db7093;">&lt;-</span> factor(Top5$LocationDescription)
+<pre class="src src-R">Top5$LocationDescription <span style="color: #3aff83;">&lt;-</span> factor(Top5$LocationDescription)
 </pre>
 </div>
 
@@ -1243,14 +1242,14 @@ as how it looks in the answer options for Problem 4.1.
 
 <pre class="src src-R">table(Top5$LocationDescription, Top5$Arrest)
 
-print(249 / (2059 + 249))                  <span style="color: #9932cc;"># </span><span style="color: #ba55d3;">ALLEY</span>
-print(132 / (1543 + 132))                  <span style="color: #9932cc;"># </span><span style="color: #ba55d3;">DRIVEWAY - RESIDENTIAL</span>
-print(439 / (1672 + 439))                  <span style="color: #9932cc;"># </span><span style="color: #ba55d3;">GAS STATION</span>
-print(1603  / (13249 + 1603))              <span style="color: #9932cc;"># </span><span style="color: #ba55d3;">PARKING LOT/GARAGE(NON.RESID.)</span>
-print(11595 / (144969 + 11595))            <span style="color: #9932cc;"># </span><span style="color: #ba55d3;">STREET</span>
+print(249 / (2059 + 249))                  <span style="color: #f6df92;"># </span><span style="color: #efc334;">ALLEY</span>
+print(132 / (1543 + 132))                  <span style="color: #f6df92;"># </span><span style="color: #efc334;">DRIVEWAY - RESIDENTIAL</span>
+print(439 / (1672 + 439))                  <span style="color: #f6df92;"># </span><span style="color: #efc334;">GAS STATION</span>
+print(1603  / (13249 + 1603))              <span style="color: #f6df92;"># </span><span style="color: #efc334;">PARKING LOT/GARAGE(NON.RESID.)</span>
+print(11595 / (144969 + 11595))            <span style="color: #f6df92;"># </span><span style="color: #efc334;">STREET</span>
 
-writeLines(<span style="color: #fffacd;">"The highest arrest rate is located at: GAS STATION"</span>)
-answer <span style="color: #db7093;">&lt;-</span> paste(<span style="color: #fffacd;">"with a"</span>, 439 / (1672 + 439), <span style="color: #fffacd;">"rate."</span>, sep = <span style="color: #fffacd;">" "</span>)
+writeLines(<span style="color: #ff5f87;">"The highest arrest rate is located at: GAS STATION"</span>)
+answer <span style="color: #3aff83;">&lt;-</span> paste(<span style="color: #ff5f87;">"with a"</span>, 439 / (1672 + 439), <span style="color: #ff5f87;">"rate."</span>, sep = <span style="color: #ff5f87;">" "</span>)
 print(answer)
 </pre>
 </div>
@@ -1439,26 +1438,25 @@ In this part we can download the data
 
 <div class="org-src-container">
 
-<pre class="src src-R">rm(list = ls())                         <span style="color: #9932cc;"># </span><span style="color: #ba55d3;">Remove all workspace data</span>
-<span style="color: #db7093;">library</span>(parallel)
+<pre class="src src-R"><span style="color: #3aff83;">library</span>(parallel)
 
-<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #fffacd;">"../data"</span>)) {
-        dir.create(<span style="color: #fffacd;">"../data"</span>)
+<span style="color: #5af2ee;">if</span>(!file.exists(<span style="color: #ff5f87;">"../data"</span>)) {
+        dir.create(<span style="color: #ff5f87;">"../data"</span>)
 }
 
-fileUrl <span style="color: #db7093;">&lt;-</span>
-        c(<span style="color: #fffacd;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/IBMStock.csv"</span>, <span style="color: #fffacd;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/GEStock.csv"</span>, <span style="color: #fffacd;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/ProcterGambleStock.csv"</span>, <span style="color: #fffacd;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/CocaColaStock.csv"</span>, <span style="color: #fffacd;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/BoeingStock.csv"</span>)
+fileUrl <span style="color: #3aff83;">&lt;-</span>
+        c(<span style="color: #ff5f87;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/IBMStock.csv"</span>, <span style="color: #ff5f87;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/GEStock.csv"</span>, <span style="color: #ff5f87;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/ProcterGambleStock.csv"</span>, <span style="color: #ff5f87;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/CocaColaStock.csv"</span>, <span style="color: #ff5f87;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/BoeingStock.csv"</span>)
 
-fileName <span style="color: #db7093;">&lt;-</span> c(<span style="color: #fffacd;">"IBMStock.csv"</span>, <span style="color: #fffacd;">"GEStock.csv"</span>, <span style="color: #fffacd;">"ProcterGambleStock.csv"</span>, <span style="color: #fffacd;">"CocaColaStock.csv"</span>, <span style="color: #fffacd;">"BoeingStock.csv"</span>)
+fileName <span style="color: #3aff83;">&lt;-</span> c(<span style="color: #ff5f87;">"IBMStock.csv"</span>, <span style="color: #ff5f87;">"GEStock.csv"</span>, <span style="color: #ff5f87;">"ProcterGambleStock.csv"</span>, <span style="color: #ff5f87;">"CocaColaStock.csv"</span>, <span style="color: #ff5f87;">"BoeingStock.csv"</span>)
 
-dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"../data"</span>
+dataPath <span style="color: #3aff83;">&lt;-</span> <span style="color: #ff5f87;">"../data"</span>
 
-<span style="color: #4682b4;">for</span>(i <span style="color: #4682b4;">in</span> 1:5) {
-        filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName[i], sep = <span style="color: #fffacd;">"/"</span>)
+<span style="color: #5af2ee;">for</span>(i <span style="color: #5af2ee;">in</span> 1:5) {
+        filePath <span style="color: #3aff83;">&lt;-</span> paste(dataPath, fileName[i], sep = <span style="color: #ff5f87;">"/"</span>)
 
-        <span style="color: #4682b4;">if</span>(!file.exists(filePath)) {
-                download.file(fileUrl[i], destfile = filePath, method = <span style="color: #fffacd;">"curl"</span>)
-                list.files(<span style="color: #fffacd;">"../data"</span>)
+        <span style="color: #5af2ee;">if</span>(!file.exists(filePath)) {
+                download.file(fileUrl[i], destfile = filePath, method = <span style="color: #ff5f87;">"curl"</span>)
+                list.files(<span style="color: #ff5f87;">"../data"</span>)
         }
 }
 </pre>
@@ -1471,12 +1469,12 @@ dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;
 <div class="outline-text-4" id="text-2-1-2">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"    Loading data into their data frames."</span>)
-IBM <span style="color: #db7093;">&lt;-</span> read.table(<span style="color: #fffacd;">"../data/IBMStock.csv"</span>, sep = <span style="color: #fffacd;">","</span>, header = <span style="color: #3cb371;">TRUE</span>)
-GE <span style="color: #db7093;">&lt;-</span> read.table(<span style="color: #fffacd;">"../data/GEStock.csv"</span>, sep = <span style="color: #fffacd;">","</span>, header = <span style="color: #3cb371;">TRUE</span>)
-ProcterGamble <span style="color: #db7093;">&lt;-</span> read.table(<span style="color: #fffacd;">"../data/ProcterGambleStock.csv"</span>, sep = <span style="color: #fffacd;">","</span>, header = <span style="color: #3cb371;">TRUE</span>)
-CocaCola <span style="color: #db7093;">&lt;-</span> read.table(<span style="color: #fffacd;">"../data/CocaColaStock.csv"</span>, sep = <span style="color: #fffacd;">","</span>, header = <span style="color: #3cb371;">TRUE</span>)
-Boeing <span style="color: #db7093;">&lt;-</span> read.table(<span style="color: #fffacd;">"../data/BoeingStock.csv"</span>, sep = <span style="color: #fffacd;">","</span>, header = <span style="color: #3cb371;">TRUE</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"    Loading data into their data frames."</span>)
+IBM <span style="color: #3aff83;">&lt;-</span> read.table(<span style="color: #ff5f87;">"../data/IBMStock.csv"</span>, sep = <span style="color: #ff5f87;">","</span>, header = <span style="color: #b2baf6;">TRUE</span>)
+GE <span style="color: #3aff83;">&lt;-</span> read.table(<span style="color: #ff5f87;">"../data/GEStock.csv"</span>, sep = <span style="color: #ff5f87;">","</span>, header = <span style="color: #b2baf6;">TRUE</span>)
+ProcterGamble <span style="color: #3aff83;">&lt;-</span> read.table(<span style="color: #ff5f87;">"../data/ProcterGambleStock.csv"</span>, sep = <span style="color: #ff5f87;">","</span>, header = <span style="color: #b2baf6;">TRUE</span>)
+CocaCola <span style="color: #3aff83;">&lt;-</span> read.table(<span style="color: #ff5f87;">"../data/CocaColaStock.csv"</span>, sep = <span style="color: #ff5f87;">","</span>, header = <span style="color: #b2baf6;">TRUE</span>)
+Boeing <span style="color: #3aff83;">&lt;-</span> read.table(<span style="color: #ff5f87;">"../data/BoeingStock.csv"</span>, sep = <span style="color: #ff5f87;">","</span>, header = <span style="color: #b2baf6;">TRUE</span>)
 </pre>
 </div>
 
@@ -1500,11 +1498,11 @@ using the following five commands (one for each data set):
 
 <div class="org-src-container">
 
-<pre class="src src-R">IBM$Date = as.Date(IBM$Date, <span style="color: #fffacd;">"%m/%d/%y"</span>)
-GE$Date = as.Date(GE$Date, <span style="color: #fffacd;">"%m/%d/%y"</span>)
-CocaCola$Date = as.Date(CocaCola$Date, <span style="color: #fffacd;">"%m/%d/%y"</span>)
-ProcterGamble$Date = as.Date(ProcterGamble$Date, <span style="color: #fffacd;">"%m/%d/%y"</span>)
-Boeing$Date = as.Date(Boeing$Date, <span style="color: #fffacd;">"%m/%d/%y"</span>)
+<pre class="src src-R">IBM$Date = as.Date(IBM$Date, <span style="color: #ff5f87;">"%m/%d/%y"</span>)
+GE$Date = as.Date(GE$Date, <span style="color: #ff5f87;">"%m/%d/%y"</span>)
+CocaCola$Date = as.Date(CocaCola$Date, <span style="color: #ff5f87;">"%m/%d/%y"</span>)
+ProcterGamble$Date = as.Date(ProcterGamble$Date, <span style="color: #ff5f87;">"%m/%d/%y"</span>)
+Boeing$Date = as.Date(Boeing$Date, <span style="color: #ff5f87;">"%m/%d/%y"</span>)
 </pre>
 </div>
 
@@ -1523,7 +1521,7 @@ observations are there in each data set?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"    Initial analysis of data frames"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"    Initial analysis of data frames"</span>)
 dim(IBM)
 str(IBM)
 
@@ -1591,7 +1589,7 @@ What is the earliest year in our datasets?
 
 <div class="org-src-container">
 
-<pre class="src src-R"><span style="color: #db7093;">library</span>(lubridate)
+<pre class="src src-R"><span style="color: #3aff83;">library</span>(lubridate)
 head(sort(year(IBM$Date)))
 head(sort(year(GE$Date)))
 head(sort(year(ProcterGamble$Date)))
@@ -1689,7 +1687,7 @@ What is the mean stock price of IBM over this time period?
 
 <pre class="src src-R">names(IBM)
 
-writeLines(<span style="color: #fffacd;">"The mean is:"</span>)
+writeLines(<span style="color: #ff5f87;">"The mean is:"</span>)
 mean(IBM$StockPrice)
 </pre>
 </div>
@@ -2174,16 +2172,16 @@ price. In which months has IBM historically had a higher stock price
 
 <pre class="src src-R">names(IBM)
 
-print(<span style="color: #fffacd;">"The over mean of the IBM stock price is:"</span>)
+print(<span style="color: #ff5f87;">"The over mean of the IBM stock price is:"</span>)
 mean(IBM$StockPrice)
-print(<span style="color: #fffacd;">"Mean stock price of IBM by month:"</span>)
+print(<span style="color: #ff5f87;">"Mean stock price of IBM by month:"</span>)
 tapply(IBM$StockPrice, months(IBM$Date), mean)
 </pre>
 </div>
 
 <pre class="example">
 [1] "Date"       "StockPrice"
-[1] "The over mean of the IBI stock price is:"
+[1] "The over mean of the IBM stock price is:"
 [1] 144.375
 [1] "Mean stock price of IBM by month:"
     April    August  December  February   January      July      June     March
@@ -2226,16 +2224,16 @@ price in the same month. Which month is this?
 
 <pre class="src src-R">names(GE); names(CocaCola)
 
-writeLines(<span style="color: #fffacd;">"\nThe over mean of the GE stock price is:"</span>)
+writeLines(<span style="color: #ff5f87;">"\nThe over mean of the GE stock price is:"</span>)
 mean(GE$StockPrice)
 
-writeLines(<span style="color: #fffacd;">"\nThe over mean of the Coca-Cola stock price is:"</span>)
+writeLines(<span style="color: #ff5f87;">"\nThe over mean of the Coca-Cola stock price is:"</span>)
 mean(CocaCola$StockPrice)
 
-writeLines(<span style="color: #fffacd;">"\nMean stock price of GE by month:"</span>)
+writeLines(<span style="color: #ff5f87;">"\nMean stock price of GE by month:"</span>)
 tapply(GE$StockPrice, months(GE$Date), mean)
 
-writeLines(<span style="color: #fffacd;">"\nMean stock price of Coca-Cola  by month:"</span>)
+writeLines(<span style="color: #ff5f87;">"\nMean stock price of Coca-Cola  by month:"</span>)
 tapply(CocaCola$StockPrice, months(CocaCola$Date), mean)
 </pre>
 </div>
@@ -2281,36 +2279,36 @@ of 62.69 in April, which is higher than any other month.
 <div class="outline-text-3" id="text-2-19">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\nThe over mean of the Boeing stock price is:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\nThe over mean of the Boeing stock price is:"</span>)
 mean(Boeing$StockPrice)
 
-writeLines(<span style="color: #fffacd;">"\nThe over mean of the Coca-Cola stock price is:"</span>)
+writeLines(<span style="color: #ff5f87;">"\nThe over mean of the Coca-Cola stock price is:"</span>)
 mean(CocaCola$StockPrice)
 
-writeLines(<span style="color: #fffacd;">"\nThe over mean of the GE stock price is:"</span>)
+writeLines(<span style="color: #ff5f87;">"\nThe over mean of the GE stock price is:"</span>)
 mean(GE$StockPrice)
 
-writeLines(<span style="color: #fffacd;">"\nThe over mean of the IBM stock price is:"</span>)
+writeLines(<span style="color: #ff5f87;">"\nThe over mean of the IBM stock price is:"</span>)
 mean(IBM$StockPrice)
 
-writeLines(<span style="color: #fffacd;">"\nThe over mean of the Procter&amp;Gamble stock price is:"</span>)
+writeLines(<span style="color: #ff5f87;">"\nThe over mean of the Procter&amp;Gamble stock price is:"</span>)
 mean(ProcterGamble$StockPrice)
 
-writeLines(<span style="color: #fffacd;">"\n---------\n"</span>)
+writeLines(<span style="color: #ff5f87;">"\n---------\n"</span>)
 
-writeLines(<span style="color: #fffacd;">"\nMean stock price of Boeing  by month:"</span>)
+writeLines(<span style="color: #ff5f87;">"\nMean stock price of Boeing  by month:"</span>)
 tapply(Boeing$StockPrice, months(Boeing$Date), mean)
 
-writeLines(<span style="color: #fffacd;">"\nMean stock price of Coca-Cola  by month:"</span>)
+writeLines(<span style="color: #ff5f87;">"\nMean stock price of Coca-Cola  by month:"</span>)
 tapply(CocaCola$StockPrice, months(CocaCola$Date), mean)
 
-writeLines(<span style="color: #fffacd;">"\nMean stock price of GE by month:"</span>)
+writeLines(<span style="color: #ff5f87;">"\nMean stock price of GE by month:"</span>)
 tapply(GE$StockPrice, months(GE$Date), mean)
 
-writeLines(<span style="color: #fffacd;">"\nMean stock price of IBM  by month:"</span>)
+writeLines(<span style="color: #ff5f87;">"\nMean stock price of IBM  by month:"</span>)
 tapply(IBM$StockPrice, months(IBM$Date), mean)
 
-writeLines(<span style="color: #fffacd;">"\nMean stock price of ProcterGamble  by month:"</span>)
+writeLines(<span style="color: #ff5f87;">"\nMean stock price of ProcterGamble  by month:"</span>)
 tapply(ProcterGamble$StockPrice, months(ProcterGamble$Date), mean)
 </pre>
 </div>
@@ -2500,34 +2498,37 @@ In this part we can download the data
 
 <div class="org-src-container">
 
-<pre class="src src-R"><span style="color: #db7093;">library</span>(parallel)
+<pre class="src src-R"><span style="color: #3aff83;">library</span>(parallel)
 
-<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #fffacd;">"../data"</span>)) {
-        dir.create(<span style="color: #fffacd;">"../data"</span>)
+<span style="color: #5af2ee;">if</span>(!file.exists(<span style="color: #ff5f87;">"../data"</span>)) {
+        dir.create(<span style="color: #ff5f87;">"../data"</span>)
 }
 
-fileUrl <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/CPSData.csv"</span>
+fileUrl <span style="color: #3aff83;">&lt;-</span> <span style="color: #ff5f87;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/CPSData.csv"</span>
 
-fileName <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"CPSData.csv"</span>
+fileName <span style="color: #3aff83;">&lt;-</span> <span style="color: #ff5f87;">"CPSData.csv"</span>
 
-dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"../data"</span>
+dataPath <span style="color: #3aff83;">&lt;-</span> <span style="color: #ff5f87;">"../data"</span>
 
-filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #fffacd;">"/"</span>)
+filePath <span style="color: #3aff83;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #ff5f87;">"/"</span>)
 
-<span style="color: #4682b4;">if</span>(!file.exists(filePath)) {
-        download.file(fileUrl, destfile = filePath, method = <span style="color: #fffacd;">"curl"</span>)
-        list.files(<span style="color: #fffacd;">"../data"</span>)
+<span style="color: #5af2ee;">if</span>(!file.exists(filePath)) {
+        download.file(fileUrl, destfile = filePath, method = <span style="color: #ff5f87;">"curl"</span>)
+        list.files(<span style="color: #ff5f87;">"../data"</span>)
 }
-list.files(<span style="color: #fffacd;">"../data"</span>)
+list.files(<span style="color: #ff5f87;">"../data"</span>)
 </pre>
 </div>
 
 <pre class="example">
- [1] "BoeingStock.csv"        "CocaColaStock.csv"      "CountryCodes.csv"
- [4] "CPSData.csv"            "GEStock.csv"            "IBMStock.csv"
- [7] "MetroAreaCodes.csv"     "mvtWeek1.csv"           "ProcterGambleStock.csv"
-[10] "README.md"              "USDA.csv"               "WHO.csv"
-[13] "WHO_Europe.csv"
+ [1] "AnonymityPoll.csv"      "BoeingStock.csv"        "CPSData.csv"
+ [4] "CocaColaStock.csv"      "CountryCodes.csv"       "FluTest.csv"
+ [7] "FluTrain.csv"           "GEStock.csv"            "IBMStock.csv"
+[10] "MetroAreaCodes.csv"     "NBA_test.csv"           "NBA_train.csv"
+[13] "ProcterGambleStock.csv" "README.md"              "USDA.csv"
+[16] "WHO.csv"                "WHO_Europe.csv"         "baseball.csv"
+[19] "climate_change.csv"     "mvtWeek1.csv"           "pisa2009test.csv"
+[22] "pisa2009train.csv"      "wine.csv"               "wine_test.csv"
 </pre>
 </div>
 </div>
@@ -2537,16 +2538,16 @@ list.files(<span style="color: #fffacd;">"../data"</span>)
 <div class="outline-text-4" id="text-3-1-2">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"    Loading data into their data frames..."</span>)
-CPS <span style="color: #db7093;">&lt;-</span> read.table(<span style="color: #fffacd;">"../data/CPSData.csv"</span>, sep = <span style="color: #fffacd;">","</span>, header = <span style="color: #3cb371;">TRUE</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"    Loading data into their data frames..."</span>)
+CPS <span style="color: #3aff83;">&lt;-</span> read.table(<span style="color: #ff5f87;">"../data/CPSData.csv"</span>, sep = <span style="color: #ff5f87;">","</span>, header = <span style="color: #b2baf6;">TRUE</span>)
 
-writeLines(<span style="color: #fffacd;">"\n    Summary of CPS dataframe:"</span>)
+writeLines(<span style="color: #ff5f87;">"\n    Summary of CPS dataframe:"</span>)
 summary(CPS)
 
-writeLines(<span style="color: #fffacd;">"\n    str command of the CPS dataframe"</span>)
+writeLines(<span style="color: #ff5f87;">"\n    str command of the CPS dataframe"</span>)
 str(CPS)
 
-writeLines(<span style="color: #fffacd;">"\n    Number of interviewees:"</span>)
+writeLines(<span style="color: #ff5f87;">"\n    Number of interviewees:"</span>)
 nrow(CPS)
 </pre>
 </div>
@@ -2640,7 +2641,7 @@ the name exactly how you see it.
 
 <div class="org-src-container">
 
-<pre class="src src-R">sort(summary(CPS$Industry), decreasing = <span style="color: #3cb371;">TRUE</span>)
+<pre class="src src-R">sort(summary(CPS$Industry), decreasing = <span style="color: #b2baf6;">TRUE</span>)
 </pre>
 </div>
 
@@ -2746,7 +2747,7 @@ These can be read from sort(table(CPS$State))
 <div class="outline-text-4" id="text-3-3-2">
 <div class="org-src-container">
 
-<pre class="src src-R">head(sort(table(CPS$State), decreasing = <span style="color: #3cb371;">TRUE</span>))
+<pre class="src src-R">head(sort(table(CPS$State), decreasing = <span style="color: #b2baf6;">TRUE</span>))
 </pre>
 </div>
 
@@ -2776,7 +2777,7 @@ What proportion of interviewees are citizens of the United States?
 
 <div class="org-src-container">
 
-<pre class="src src-R">CPSCitizenship <span style="color: #db7093;">&lt;-</span> table(CPS$Citizenship)
+<pre class="src src-R">CPSCitizenship <span style="color: #3aff83;">&lt;-</span> table(CPS$Citizenship)
 (CPSCitizenship[1] + CPSCitizenship[2]) / (CPSCitizenship[1] +
                                                    CPSCitizenship[2] +
                                                    CPSCitizenship[3])
@@ -2920,18 +2921,18 @@ Which is the most accurate:
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"The Married variable being missing is related to the Region value for the interviewee."</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"The Married variable being missing is related to the Region value for the interviewee."</span>)
 table(CPS$Region, is.na(CPS$Married))
 
-writeLines(<span style="color: #fffacd;">"\nThe Married variable being missing is related to the Sex value for the interviewee."</span>)
+writeLines(<span style="color: #ff5f87;">"\nThe Married variable being missing is related to the Sex value for the interviewee."</span>)
 table(CPS$Sex, is.na(CPS$Married))
 
-writeLines(<span style="color: #fffacd;">"\nThe Married variable being missing is related to the Age value for the interviewee."</span>)
+writeLines(<span style="color: #ff5f87;">"\nThe Married variable being missing is related to the Age value for the interviewee."</span>)
 table(CPS$Age, is.na(CPS$Married))
 summary(CPS$Age)
 anyNA(CPS$Age)
 
-writeLines(<span style="color: #fffacd;">"\nThe Married variable being missing is related to the Citizenship value for the interviewee."</span>)
+writeLines(<span style="color: #ff5f87;">"\nThe Married variable being missing is related to the Citizenship value for the interviewee."</span>)
 table(CPS$Citizenship, is.na(CPS$Married))
 </pre>
 </div>
@@ -3167,18 +3168,18 @@ interviewees living in a non-metropolitan area?
 
 <div class="org-src-container">
 
-<pre class="src src-R">nonMetroT <span style="color: #db7093;">&lt;-</span> table(CPS$Region, is.na(CPS$MetroAreaCode))
+<pre class="src src-R">nonMetroT <span style="color: #3aff83;">&lt;-</span> table(CPS$Region, is.na(CPS$MetroAreaCode))
 
-writeLines(<span style="color: #fffacd;">"\n Midwest proportion"</span>)
+writeLines(<span style="color: #ff5f87;">"\n Midwest proportion"</span>)
 nonMetroT[5] / (nonMetroT[1] + nonMetroT[5])
 
-writeLines(<span style="color: #fffacd;">"\n Northeast proportion"</span>)
+writeLines(<span style="color: #ff5f87;">"\n Northeast proportion"</span>)
 nonMetroT[6] / (nonMetroT[2] + nonMetroT[6])
 
-writeLines(<span style="color: #fffacd;">"\n South proportion"</span>)
+writeLines(<span style="color: #ff5f87;">"\n South proportion"</span>)
 nonMetroT[7] / (nonMetroT[3] + nonMetroT[7])
 
-writeLines(<span style="color: #fffacd;">"\n West proportion"</span>)
+writeLines(<span style="color: #ff5f87;">"\n West proportion"</span>)
 nonMetroT[8] / (nonMetroT[4] + nonMetroT[8])
 </pre>
 </div>
@@ -3239,7 +3240,7 @@ questions:
 
 <div class="org-src-container">
 
-<pre class="src src-R">sort(tapply(is.na(CPS$MetroAreaCode), CPS$State, mean), decreasing = <span style="color: #3cb371;">TRUE</span>)
+<pre class="src src-R">sort(tapply(is.na(CPS$MetroAreaCode), CPS$State, mean), decreasing = <span style="color: #b2baf6;">TRUE</span>)
 </pre>
 </div>
 
@@ -3361,26 +3362,25 @@ into data frames MetroAreaMap and CountryMap.
 <div class="outline-text-4" id="text-3-11-1">
 <div class="org-src-container">
 
-<pre class="src src-R">rm(list = ls())                         <span style="color: #9932cc;"># </span><span style="color: #ba55d3;">Remove all workspace data</span>
-<span style="color: #db7093;">library</span>(parallel)
+<pre class="src src-R"><span style="color: #3aff83;">library</span>(parallel)
 
-<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #fffacd;">"../data"</span>)) {
-        dir.create(<span style="color: #fffacd;">"../data"</span>)
+<span style="color: #5af2ee;">if</span>(!file.exists(<span style="color: #ff5f87;">"../data"</span>)) {
+        dir.create(<span style="color: #ff5f87;">"../data"</span>)
 }
 
-fileUrl <span style="color: #db7093;">&lt;-</span>
-        c(<span style="color: #fffacd;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/MetroAreaCodes.csv"</span>, <span style="color: #fffacd;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/CountryCodes.csv"</span>)
+fileUrl <span style="color: #3aff83;">&lt;-</span>
+        c(<span style="color: #ff5f87;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/MetroAreaCodes.csv"</span>, <span style="color: #ff5f87;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/CountryCodes.csv"</span>)
 
-fileName <span style="color: #db7093;">&lt;-</span> c(<span style="color: #fffacd;">"MetroAreaCodes.csv"</span>, <span style="color: #fffacd;">"CountryCodes.csv"</span>)
+fileName <span style="color: #3aff83;">&lt;-</span> c(<span style="color: #ff5f87;">"MetroAreaCodes.csv"</span>, <span style="color: #ff5f87;">"CountryCodes.csv"</span>)
 
-dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"../data"</span>
+dataPath <span style="color: #3aff83;">&lt;-</span> <span style="color: #ff5f87;">"../data"</span>
 
-<span style="color: #4682b4;">for</span>(i <span style="color: #4682b4;">in</span> 1:2) {
-        filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName[i], sep = <span style="color: #fffacd;">"/"</span>)
+<span style="color: #5af2ee;">for</span>(i <span style="color: #5af2ee;">in</span> 1:2) {
+        filePath <span style="color: #3aff83;">&lt;-</span> paste(dataPath, fileName[i], sep = <span style="color: #ff5f87;">"/"</span>)
 
-        <span style="color: #4682b4;">if</span>(!file.exists(filePath)) {
-                download.file(fileUrl[i], destfile = filePath, method = <span style="color: #fffacd;">"curl"</span>)
-                list.files(<span style="color: #fffacd;">"../data"</span>)
+        <span style="color: #5af2ee;">if</span>(!file.exists(filePath)) {
+                download.file(fileUrl[i], destfile = filePath, method = <span style="color: #ff5f87;">"curl"</span>)
+                list.files(<span style="color: #ff5f87;">"../data"</span>)
         }
 }
 </pre>
@@ -3392,10 +3392,10 @@ Loading the data
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"    Loading data into their data frames."</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"    Loading data into their data frames."</span>)
 
-MetroAreaMap <span style="color: #db7093;">&lt;-</span> read.table(<span style="color: #fffacd;">"../data/MetroAreaCodes.csv"</span>, sep = <span style="color: #fffacd;">","</span>, header = <span style="color: #3cb371;">TRUE</span>)
-CountryMap <span style="color: #db7093;">&lt;-</span> read.table(<span style="color: #fffacd;">"../data/CountryCodes.csv"</span>, sep = <span style="color: #fffacd;">","</span>, header = <span style="color: #3cb371;">TRUE</span>)
+MetroAreaMap <span style="color: #3aff83;">&lt;-</span> read.table(<span style="color: #ff5f87;">"../data/MetroAreaCodes.csv"</span>, sep = <span style="color: #ff5f87;">","</span>, header = <span style="color: #b2baf6;">TRUE</span>)
+CountryMap <span style="color: #3aff83;">&lt;-</span> read.table(<span style="color: #ff5f87;">"../data/CountryCodes.csv"</span>, sep = <span style="color: #ff5f87;">","</span>, header = <span style="color: #b2baf6;">TRUE</span>)
 </pre>
 </div>
 
@@ -3415,7 +3415,7 @@ MetroAreaMap?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"The number of area codes in Metroareacode dataframe are:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"The number of area codes in Metroareacode dataframe are:"</span>)
 nrow(MetroAreaMap)
 </pre>
 </div>
@@ -3436,7 +3436,7 @@ How many observations (codes for countries) are there in CountryMap?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"The number of observations in the Countrymap dataframe are:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"The number of observations in the Countrymap dataframe are:"</span>)
 nrow(CountryMap)
 </pre>
 </div>
@@ -3461,7 +3461,7 @@ these columns, overwriting the CPS data frame with the result:
 
 <div class="org-src-container">
 
-<pre class="src src-R">CPS <span style="color: #db7093;">&lt;-</span> merge(CPS, MetroAreaMap, by.x=<span style="color: #fffacd;">"MetroAreaCode"</span>, by.y=<span style="color: #fffacd;">"Code"</span>, all.x=<span style="color: #3cb371;">TRUE</span>)
+<pre class="src src-R">CPS <span style="color: #3aff83;">&lt;-</span> merge(CPS, MetroAreaMap, by.x=<span style="color: #ff5f87;">"MetroAreaCode"</span>, by.y=<span style="color: #ff5f87;">"Code"</span>, all.x=<span style="color: #b2baf6;">TRUE</span>)
 </pre>
 </div>
 
@@ -3490,7 +3490,7 @@ the data frame by the merge() operation?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n The names of the merged CPS dataframe is:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n The names of the merged CPS dataframe is:"</span>)
 names(CPS)
 </pre>
 </div>
@@ -3528,8 +3528,8 @@ all.x=TRUE parameter.
 <div class="org-src-container">
 
 <pre class="src src-R">nrow(CPS)
-tmp <span style="color: #db7093;">&lt;-</span> is.na(CPS$MetroArea)
-length(tmp[tmp == <span style="color: #3cb371;">TRUE</span>])
+tmp <span style="color: #3aff83;">&lt;-</span> is.na(CPS$MetroArea)
+length(tmp[tmp == <span style="color: #b2baf6;">TRUE</span>])
 </pre>
 </div>
 
@@ -3561,7 +3561,7 @@ interviewees?
 
 <div class="org-src-container">
 
-<pre class="src src-R">head(sort(table(CPS$MetroArea), decreasing = <span style="color: #3cb371;">TRUE</span>), 10)
+<pre class="src src-R">head(sort(table(CPS$MetroArea), decreasing = <span style="color: #b2baf6;">TRUE</span>), 10)
 </pre>
 </div>
 
@@ -3613,7 +3613,7 @@ helpful here.
 
 <div class="org-src-container">
 
-<pre class="src src-R">head(sort(tapply(CPS$Hispanic, CPS$MetroArea, mean), decreasing = <span style="color: #3cb371;">TRUE</span>))
+<pre class="src src-R">head(sort(tapply(CPS$Hispanic, CPS$MetroArea, mean), decreasing = <span style="color: #b2baf6;">TRUE</span>))
 </pre>
 </div>
 
@@ -3651,11 +3651,11 @@ Asian.
 
 <div class="org-src-container">
 
-<pre class="src src-R">head(sort(tapply(CPS$Race == <span style="color: #fffacd;">"Asian"</span>, CPS$MetroArea, mean), decreasing = <span style="color: #3cb371;">TRUE</span>))
+<pre class="src src-R">head(sort(tapply(CPS$Race == <span style="color: #ff5f87;">"Asian"</span>, CPS$MetroArea, mean), decreasing = <span style="color: #b2baf6;">TRUE</span>))
 
-<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">tmp &lt;- tapply(CPS$Race == "Asian", CPS$MetroArea, mean)</span>
-<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">tmp &lt;- sort(as.vector(tmp), decreasing = TRUE)</span>
-<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">head(tmp)</span>
+<span style="color: #f6df92;">## </span><span style="color: #efc334;">tmp &lt;- tapply(CPS$Race == "Asian", CPS$MetroArea, mean)</span>
+<span style="color: #f6df92;">## </span><span style="color: #efc334;">tmp &lt;- sort(as.vector(tmp), decreasing = TRUE)</span>
+<span style="color: #f6df92;">## </span><span style="color: #efc334;">head(tmp)</span>
 </pre>
 </div>
 
@@ -3708,7 +3708,7 @@ school diploma.
 
 <div class="org-src-container">
 
-<pre class="src src-R">head(sort(tapply(CPS$Education == <span style="color: #fffacd;">"No high school diploma"</span>, CPS$MetroArea, mean, na.rm = <span style="color: #3cb371;">TRUE</span>)))
+<pre class="src src-R">head(sort(tapply(CPS$Education == <span style="color: #ff5f87;">"No high school diploma"</span>, CPS$MetroArea, mean, na.rm = <span style="color: #b2baf6;">TRUE</span>)))
 </pre>
 </div>
 
@@ -3746,8 +3746,8 @@ sub-problem.
 
 <div class="org-src-container">
 
-<pre class="src src-R">CPS <span style="color: #db7093;">&lt;-</span> merge(CPS, CountryMap, by.x=<span style="color: #fffacd;">"CountryOfBirthCode"</span>, by.y=<span style="color: #fffacd;">"Code"</span>,
-             all.x=<span style="color: #3cb371;">TRUE</span>)
+<pre class="src src-R">CPS <span style="color: #3aff83;">&lt;-</span> merge(CPS, CountryMap, by.x=<span style="color: #ff5f87;">"CountryOfBirthCode"</span>, by.y=<span style="color: #ff5f87;">"Code"</span>,
+             all.x=<span style="color: #b2baf6;">TRUE</span>)
 </pre>
 </div>
 </div>
@@ -3828,7 +3828,7 @@ was the most common place of birth?
 
 <div class="org-src-container">
 
-<pre class="src src-R">head(sort(table(CPS$Country), decreasing = <span style="color: #3cb371;">TRUE</span>))
+<pre class="src src-R">head(sort(table(CPS$Country), decreasing = <span style="color: #b2baf6;">TRUE</span>))
 </pre>
 </div>
 
@@ -3866,10 +3866,10 @@ of birth.
 
 <div class="org-src-container">
 
-<pre class="src src-R">ForMetroArea <span style="color: #db7093;">&lt;-</span> subset(CPS, !is.na(CPS$Country))
+<pre class="src src-R">ForMetroArea <span style="color: #3aff83;">&lt;-</span> subset(CPS, !is.na(CPS$Country))
 table(ForMetroArea$MetroArea ==
-              <span style="color: #fffacd;">"New York-Northern New Jersey-Long Island, NY-NJ-PA"</span>,
-      ForMetroArea$Country != <span style="color: #fffacd;">"United States"</span>)
+              <span style="color: #ff5f87;">"New York-Northern New Jersey-Long Island, NY-NJ-PA"</span>,
+      ForMetroArea$Country != <span style="color: #ff5f87;">"United States"</span>)
 1668 / (3736 + 1668)
 </pre>
 </div>
@@ -3909,25 +3909,25 @@ this question.
 
 <div class="org-src-container">
 
-<pre class="src src-R">ForMetroAreaIndia <span style="color: #db7093;">&lt;-</span> subset(CPS, CPS$Country == <span style="color: #fffacd;">"India"</span>)
-head(sort(table(ForMetroAreaIndia$MetroArea), decreasing = <span style="color: #3cb371;">TRUE</span>), 1)
+<pre class="src src-R">ForMetroAreaIndia <span style="color: #3aff83;">&lt;-</span> subset(CPS, CPS$Country == <span style="color: #ff5f87;">"India"</span>)
+head(sort(table(ForMetroAreaIndia$MetroArea), decreasing = <span style="color: #b2baf6;">TRUE</span>), 1)
 
-ForMetroAreaBrazil <span style="color: #db7093;">&lt;-</span> subset(CPS, CPS$Country == <span style="color: #fffacd;">"Brazil"</span>)
-head(sort(table(ForMetroAreaBrazil$MetroArea), decreasing = <span style="color: #3cb371;">TRUE</span>), 1)
+ForMetroAreaBrazil <span style="color: #3aff83;">&lt;-</span> subset(CPS, CPS$Country == <span style="color: #ff5f87;">"Brazil"</span>)
+head(sort(table(ForMetroAreaBrazil$MetroArea), decreasing = <span style="color: #b2baf6;">TRUE</span>), 1)
 
-ForMetroAreaSomalia <span style="color: #db7093;">&lt;-</span> subset(CPS, CPS$Country == <span style="color: #fffacd;">"Somalia"</span>)
-head(sort(table(ForMetroAreaSomalia$MetroArea), decreasing = <span style="color: #3cb371;">TRUE</span>), 1)
+ForMetroAreaSomalia <span style="color: #3aff83;">&lt;-</span> subset(CPS, CPS$Country == <span style="color: #ff5f87;">"Somalia"</span>)
+head(sort(table(ForMetroAreaSomalia$MetroArea), decreasing = <span style="color: #b2baf6;">TRUE</span>), 1)
 
-writeLines(<span style="color: #fffacd;">"\n Other method!"</span>)
+writeLines(<span style="color: #ff5f87;">"\n Other method!"</span>)
 
-head(sort(tapply(CPS$Country == <span style="color: #fffacd;">"India"</span>, CPS$MetroArea, sum,
-                 na.rm=<span style="color: #3cb371;">TRUE</span>), decreasing = <span style="color: #3cb371;">TRUE</span>), 1)
+head(sort(tapply(CPS$Country == <span style="color: #ff5f87;">"India"</span>, CPS$MetroArea, sum,
+                 na.rm=<span style="color: #b2baf6;">TRUE</span>), decreasing = <span style="color: #b2baf6;">TRUE</span>), 1)
 
-head(sort(tapply(CPS$Country == <span style="color: #fffacd;">"Brazil"</span>, CPS$MetroArea, sum,
-                 na.rm=<span style="color: #3cb371;">TRUE</span>), decreasing = <span style="color: #3cb371;">TRUE</span>), 1)
+head(sort(tapply(CPS$Country == <span style="color: #ff5f87;">"Brazil"</span>, CPS$MetroArea, sum,
+                 na.rm=<span style="color: #b2baf6;">TRUE</span>), decreasing = <span style="color: #b2baf6;">TRUE</span>), 1)
 
-head(sort(tapply(CPS$Country == <span style="color: #fffacd;">"Somalia"</span>, CPS$MetroArea, sum,
-                 na.rm=<span style="color: #3cb371;">TRUE</span>), decreasing = <span style="color: #3cb371;">TRUE</span>), 1)
+head(sort(tapply(CPS$Country == <span style="color: #ff5f87;">"Somalia"</span>, CPS$MetroArea, sum,
+                 na.rm=<span style="color: #b2baf6;">TRUE</span>), decreasing = <span style="color: #b2baf6;">TRUE</span>), 1)
 </pre>
 </div>
 
@@ -4098,34 +4098,37 @@ In this part we can download the data
 
 <div class="org-src-container">
 
-<pre class="src src-R"><span style="color: #db7093;">library</span>(parallel)
+<pre class="src src-R"><span style="color: #3aff83;">library</span>(parallel)
 
-<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #fffacd;">"../data"</span>)) {
-        dir.create(<span style="color: #fffacd;">"../data"</span>)
+<span style="color: #5af2ee;">if</span>(!file.exists(<span style="color: #ff5f87;">"../data"</span>)) {
+        dir.create(<span style="color: #ff5f87;">"../data"</span>)
 }
 
-fileUrl <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/AnonymityPoll.csv"</span>
+fileUrl <span style="color: #3aff83;">&lt;-</span> <span style="color: #ff5f87;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/AnonymityPoll.csv"</span>
 
-fileName <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"AnonymityPoll.csv"</span>
+fileName <span style="color: #3aff83;">&lt;-</span> <span style="color: #ff5f87;">"AnonymityPoll.csv"</span>
 
-dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"../data"</span>
+dataPath <span style="color: #3aff83;">&lt;-</span> <span style="color: #ff5f87;">"../data"</span>
 
-filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #fffacd;">"/"</span>)
+filePath <span style="color: #3aff83;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #ff5f87;">"/"</span>)
 
-<span style="color: #4682b4;">if</span>(!file.exists(filePath)) {
-        download.file(fileUrl, destfile = filePath, method = <span style="color: #fffacd;">"curl"</span>)
-        list.files(<span style="color: #fffacd;">"../data"</span>)
+<span style="color: #5af2ee;">if</span>(!file.exists(filePath)) {
+        download.file(fileUrl, destfile = filePath, method = <span style="color: #ff5f87;">"curl"</span>)
+        list.files(<span style="color: #ff5f87;">"../data"</span>)
 }
-list.files(<span style="color: #fffacd;">"../data"</span>)
+list.files(<span style="color: #ff5f87;">"../data"</span>)
 </pre>
 </div>
 
 <pre class="example">
  [1] "AnonymityPoll.csv"      "BoeingStock.csv"        "CPSData.csv"
- [4] "CocaColaStock.csv"      "CountryCodes.csv"       "GEStock.csv"
- [7] "IBMStock.csv"           "MetroAreaCodes.csv"     "ProcterGambleStock.csv"
-[10] "README.md"              "USDA.csv"               "WHO.csv"
-[13] "WHO_Europe.csv"         "mvtWeek1.csv"
+ [4] "CocaColaStock.csv"      "CountryCodes.csv"       "FluTest.csv"
+ [7] "FluTrain.csv"           "GEStock.csv"            "IBMStock.csv"
+[10] "MetroAreaCodes.csv"     "NBA_test.csv"           "NBA_train.csv"
+[13] "ProcterGambleStock.csv" "README.md"              "USDA.csv"
+[16] "WHO.csv"                "WHO_Europe.csv"         "baseball.csv"
+[19] "climate_change.csv"     "mvtWeek1.csv"           "pisa2009test.csv"
+[22] "pisa2009train.csv"      "wine.csv"               "wine_test.csv"
 </pre>
 </div>
 </div>
@@ -4135,10 +4138,10 @@ list.files(<span style="color: #fffacd;">"../data"</span>)
 <div class="outline-text-4" id="text-4-1-2">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"    Loading data into their data frame..."</span>)
-poll <span style="color: #db7093;">&lt;-</span> read.table(<span style="color: #fffacd;">"../data/AnonymityPoll.csv"</span>, sep = <span style="color: #fffacd;">","</span>, header = <span style="color: #3cb371;">TRUE</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"    Loading data into their data frame..."</span>)
+poll <span style="color: #3aff83;">&lt;-</span> read.table(<span style="color: #ff5f87;">"../data/AnonymityPoll.csv"</span>, sep = <span style="color: #ff5f87;">","</span>, header = <span style="color: #b2baf6;">TRUE</span>)
 
-writeLines(<span style="color: #fffacd;">"\n    Number of interviewees:"</span>)
+writeLines(<span style="color: #ff5f87;">"\n    Number of interviewees:"</span>)
 nrow(poll)
 </pre>
 </div>
@@ -4183,13 +4186,13 @@ How many interviewees responded that they use a smartphone?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n    Summary of poll dataframe:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n    Summary of poll dataframe:"</span>)
 summary(poll$Smartphone)
 
-writeLines(<span style="color: #fffacd;">"\n    Smartphone data table"</span>)
+writeLines(<span style="color: #ff5f87;">"\n    Smartphone data table"</span>)
 table(poll$Smartphone)
 
-writeLines(<span style="color: #fffacd;">"\n    Total of interviewees"</span>)
+writeLines(<span style="color: #ff5f87;">"\n    Total of interviewees"</span>)
 (472 + 487 + 43)
 </pre>
 </div>
@@ -4620,7 +4623,7 @@ How many interviewees are in the new data frame?
 
 <div class="org-src-container">
 
-<pre class="src src-R">limited <span style="color: #db7093;">&lt;-</span> subset(poll, Internet.Use == 1 | Smartphone == 1)
+<pre class="src src-R">limited <span style="color: #3aff83;">&lt;-</span> subset(poll, Internet.Use == 1 | Smartphone == 1)
 nrow(limited)
 </pre>
 </div>
@@ -4740,7 +4743,7 @@ Internet, according to the Info.On.Internet variable?
 
 <div class="org-src-container">
 
-<pre class="src src-R">mean(poll$Info.On.Internet, na.rm = <span style="color: #3cb371;">TRUE</span>)
+<pre class="src src-R">mean(poll$Info.On.Internet, na.rm = <span style="color: #b2baf6;">TRUE</span>)
 summary(poll$Info.On.Internet)
 </pre>
 </div>
@@ -4776,8 +4779,8 @@ How many interviewees reported a value of 0 for Info.On.Internet?
 
 <div class="org-src-container">
 
-<pre class="src src-R">nrow(subset(poll, Info.On.Internet == 0, na.rm = <span style="color: #3cb371;">TRUE</span>))
-nrow(subset(poll, Info.On.Internet == 11, na.rm = <span style="color: #3cb371;">TRUE</span>))
+<pre class="src src-R">nrow(subset(poll, Info.On.Internet == 0, na.rm = <span style="color: #b2baf6;">TRUE</span>))
+nrow(subset(poll, Info.On.Internet == 11, na.rm = <span style="color: #b2baf6;">TRUE</span>))
 
 table(limited$Info.On.Internet)
 </pre>
@@ -4817,9 +4820,9 @@ question, not the total number of people in the data frame.
 
 <pre class="src src-R">table(poll$Worry.About.Info)
 
-nrow(subset(poll, Worry.About.Info == 1, na.rm = <span style="color: #3cb371;">TRUE</span>)) /
-(nrow(subset(poll, Worry.About.Info == 0, na.rm = <span style="color: #3cb371;">TRUE</span>)) +
-nrow(subset(poll, Worry.About.Info == 1, na.rm = <span style="color: #3cb371;">TRUE</span>)))
+nrow(subset(poll, Worry.About.Info == 1, na.rm = <span style="color: #b2baf6;">TRUE</span>)) /
+(nrow(subset(poll, Worry.About.Info == 0, na.rm = <span style="color: #b2baf6;">TRUE</span>)) +
+nrow(subset(poll, Worry.About.Info == 1, na.rm = <span style="color: #b2baf6;">TRUE</span>)))
 </pre>
 </div>
 
@@ -5046,9 +5049,9 @@ Info.On.Internet.)
 
 <pre class="src src-R">summary(limited$Age)
 summary(limited$Info.On.Internet)
-sort(table(limited$Age, limited$Info.On.Internet), decreasing = <span style="color: #3cb371;">TRUE</span>)
+sort(table(limited$Age, limited$Info.On.Internet), decreasing = <span style="color: #b2baf6;">TRUE</span>)
 
-writeLines(<span style="color: #fffacd;">"\n    A better way."</span>)
+writeLines(<span style="color: #ff5f87;">"\n    A better way."</span>)
 max(table(limited$Age, limited$Info.On.Internet))
 </pre>
 </div>
@@ -5349,7 +5352,7 @@ tapply(limited$Tried.Masking.Identity, limited$Smartphone, summary).
 <div id="postamble" class="status">
 <p class="date">Date: 07/06/2015</p>
 <p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
-<p class="date">Created: 2015-06-12 Fri 06:15</p>
+<p class="date">Created: 2015-06-25 Thu 07:54</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

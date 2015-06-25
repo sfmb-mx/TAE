@@ -242,12 +242,13 @@ In this part we can download the data
 
 #+RESULTS:
 :  [1] "AnonymityPoll.csv"      "BoeingStock.csv"        "CPSData.csv"
-:  [4] "CocaColaStock.csv"      "CountryCodes.csv"       "GEStock.csv"
-:  [7] "IBMStock.csv"           "MetroAreaCodes.csv"     "NBA_test.csv"
-: [10] "NBA_train.csv"          "ProcterGambleStock.csv" "README.md"
-: [13] "USDA.csv"               "WHO.csv"                "WHO_Europe.csv"
-: [16] "baseball.csv"           "mvtWeek1.csv"           "wine.csv"
-: [19] "wine_test.csv"
+:  [4] "CocaColaStock.csv"      "CountryCodes.csv"       "FluTest.csv"
+:  [7] "FluTrain.csv"           "GEStock.csv"            "IBMStock.csv"
+: [10] "MetroAreaCodes.csv"     "NBA_test.csv"           "NBA_train.csv"
+: [13] "ProcterGambleStock.csv" "README.md"              "USDA.csv"
+: [16] "WHO.csv"                "WHO_Europe.csv"         "baseball.csv"
+: [19] "climate_change.csv"     "mvtWeek1.csv"           "pisa2009test.csv"
+: [22] "pisa2009train.csv"      "wine.csv"               "wine_test.csv"
 
 *** Load the wine data set
 
@@ -1013,12 +1014,13 @@ In this part we can download the data
 
 #+RESULTS:
 :  [1] "AnonymityPoll.csv"      "BoeingStock.csv"        "CPSData.csv"
-:  [4] "CocaColaStock.csv"      "CountryCodes.csv"       "GEStock.csv"
-:  [7] "IBMStock.csv"           "MetroAreaCodes.csv"     "NBA_test.csv"
-: [10] "NBA_train.csv"          "ProcterGambleStock.csv" "README.md"
-: [13] "USDA.csv"               "WHO.csv"                "WHO_Europe.csv"
-: [16] "baseball.csv"           "mvtWeek1.csv"           "wine.csv"
-: [19] "wine_test.csv"
+:  [4] "CocaColaStock.csv"      "CountryCodes.csv"       "FluTest.csv"
+:  [7] "FluTrain.csv"           "GEStock.csv"            "IBMStock.csv"
+: [10] "MetroAreaCodes.csv"     "NBA_test.csv"           "NBA_train.csv"
+: [13] "ProcterGambleStock.csv" "README.md"              "USDA.csv"
+: [16] "WHO.csv"                "WHO_Europe.csv"         "baseball.csv"
+: [19] "climate_change.csv"     "mvtWeek1.csv"           "pisa2009test.csv"
+: [22] "pisa2009train.csv"      "wine.csv"               "wine_test.csv"
 
 ** The Problem
 
@@ -1308,8 +1310,6 @@ and Wins.
 
 #+RESULTS:
 #+begin_example
-null device
-          1
 
  :: Regression model to predict wins
 
@@ -1983,12 +1983,13 @@ In this part we can download the data
 
 #+RESULTS:
 :  [1] "AnonymityPoll.csv"      "BoeingStock.csv"        "CPSData.csv"
-:  [4] "CocaColaStock.csv"      "CountryCodes.csv"       "GEStock.csv"
-:  [7] "IBMStock.csv"           "MetroAreaCodes.csv"     "NBA_test.csv"
-: [10] "NBA_train.csv"          "ProcterGambleStock.csv" "README.md"
-: [13] "USDA.csv"               "WHO.csv"                "WHO_Europe.csv"
-: [16] "baseball.csv"           "mvtWeek1.csv"           "wine.csv"
-: [19] "wine_test.csv"
+:  [4] "CocaColaStock.csv"      "CountryCodes.csv"       "FluTest.csv"
+:  [7] "FluTrain.csv"           "GEStock.csv"            "IBMStock.csv"
+: [10] "MetroAreaCodes.csv"     "NBA_test.csv"           "NBA_train.csv"
+: [13] "ProcterGambleStock.csv" "README.md"              "USDA.csv"
+: [16] "WHO.csv"                "WHO_Europe.csv"         "baseball.csv"
+: [19] "climate_change.csv"     "mvtWeek1.csv"           "pisa2009test.csv"
+: [22] "pisa2009train.csv"      "wine.csv"               "wine_test.csv"
 
 ** Loading the data
 
@@ -2270,8 +2271,6 @@ team will have given the point difference.
 
 #+RESULTS:
 #+begin_example
- null device
-          1
 
  :: Linear regression model for wins
 

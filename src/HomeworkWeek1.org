@@ -125,7 +125,6 @@ How many rows of data (observations) are in this dataset?
 In this part we can download the data
 
 #+BEGIN_SRC R :session :results output :exports all
-  rm(list = ls())                         # Remove all workspace data
   library(parallel)
 
   if(!file.exists("../data")) {
@@ -161,7 +160,7 @@ In this part we can download the data
 #+begin_example
     Loading data into mvt dataframe
     Initial analysis of data mvt
-[1] 191641
+[1] 191641     11
 'data.frame':	191641 obs. of  11 variables:
  $ ID                 : int  8951354 8951141 8952745 8952223 8951608 8950793 8950760 8951611 8951802 8950706 ...
  $ Date               : Factor w/ 131680 levels "1/1/01 0:01",..: 42823 42822 42822 42822 42821 42820 42819 42818 42816 42815 ...
@@ -258,7 +257,7 @@ the number of crimes for which an arrest was made)?
 #+END_SRC
 
 #+RESULTS:
-: [1] 15536
+: [1] 15536    11
 
 *** Answer
 
@@ -274,7 +273,7 @@ How many observations have a LocationDescription value of ALLEY?
 #+END_SRC
 
 #+RESULTS:
-: [1] 2308
+: [1] 2308   11
 
 *** Answer
 
@@ -781,7 +780,7 @@ How many observations are in Top5?
 5            35 2012 41.83757 -87.62176 December  Monday
 6            19 2012 41.92856 -87.75400 December  Monday
         The number of observations in Top5 are:
-[1] 177510
+[1] 177510     13
 #+end_example
 
 *** Answer
@@ -816,7 +815,7 @@ by typing the following two lines in your R console:
 5            35 2012 41.83757 -87.62176 December  Monday
 6            19 2012 41.92856 -87.75400 December  Monday
         The number of observations in Top5 are:
-[1] 177510
+[1] 177510     13
 #+end_example
 
 ** DONE Problem 4.3 - Popular Locations (2 points possible)
@@ -1018,7 +1017,6 @@ dataframe.
 In this part we can download the data
 
 #+BEGIN_SRC R :session :results output :exports all
-  rm(list = ls())                         # Remove all workspace data
   library(parallel)
 
   if(!file.exists("../data")) {
@@ -1645,7 +1643,7 @@ price. In which months has IBM historically had a higher stock price
 
 #+RESULTS:
 : [1] "Date"       "StockPrice"
-: [1] "The over mean of the IBI stock price is:"
+: [1] "The over mean of the IBM stock price is:"
 : [1] 144.375
 : [1] "Mean stock price of IBM by month:"
 :     April    August  December  February   January      July      June     March
@@ -1918,11 +1916,14 @@ In this part we can download the data
 #+END_SRC
 
 #+RESULTS:
-:  [1] "BoeingStock.csv"        "CocaColaStock.csv"      "CountryCodes.csv"
-:  [4] "CPSData.csv"            "GEStock.csv"            "IBMStock.csv"
-:  [7] "MetroAreaCodes.csv"     "mvtWeek1.csv"           "ProcterGambleStock.csv"
-: [10] "README.md"              "USDA.csv"               "WHO.csv"
-: [13] "WHO_Europe.csv"
+:  [1] "AnonymityPoll.csv"      "BoeingStock.csv"        "CPSData.csv"
+:  [4] "CocaColaStock.csv"      "CountryCodes.csv"       "FluTest.csv"
+:  [7] "FluTrain.csv"           "GEStock.csv"            "IBMStock.csv"
+: [10] "MetroAreaCodes.csv"     "NBA_test.csv"           "NBA_train.csv"
+: [13] "ProcterGambleStock.csv" "README.md"              "USDA.csv"
+: [16] "WHO.csv"                "WHO_Europe.csv"         "baseball.csv"
+: [19] "climate_change.csv"     "mvtWeek1.csv"           "pisa2009test.csv"
+: [22] "pisa2009train.csv"      "wine.csv"               "wine_test.csv"
 
 *** Load the data sets in their respective dataframe
 
@@ -2600,7 +2601,6 @@ into data frames MetroAreaMap and CountryMap.
 *** Download and load the new data sets
 
 #+BEGIN_SRC R :session :results output :exports all
-  rm(list = ls())                         # Remove all workspace data
   library(parallel)
 
   if(!file.exists("../data")) {
@@ -2883,6 +2883,8 @@ sub-problem.
                all.x=TRUE)
 #+END_SRC
 
+#+RESULTS:
+
 *** Question a
 
 What is the name of the variable added to the CPS data frame by this
@@ -3156,10 +3158,13 @@ In this part we can download the data
 
 #+RESULTS:
 :  [1] "AnonymityPoll.csv"      "BoeingStock.csv"        "CPSData.csv"
-:  [4] "CocaColaStock.csv"      "CountryCodes.csv"       "GEStock.csv"
-:  [7] "IBMStock.csv"           "MetroAreaCodes.csv"     "ProcterGambleStock.csv"
-: [10] "README.md"              "USDA.csv"               "WHO.csv"
-: [13] "WHO_Europe.csv"         "mvtWeek1.csv"
+:  [4] "CocaColaStock.csv"      "CountryCodes.csv"       "FluTest.csv"
+:  [7] "FluTrain.csv"           "GEStock.csv"            "IBMStock.csv"
+: [10] "MetroAreaCodes.csv"     "NBA_test.csv"           "NBA_train.csv"
+: [13] "ProcterGambleStock.csv" "README.md"              "USDA.csv"
+: [16] "WHO.csv"                "WHO_Europe.csv"         "baseball.csv"
+: [19] "climate_change.csv"     "mvtWeek1.csv"           "pisa2009test.csv"
+: [22] "pisa2009train.csv"      "wine.csv"               "wine_test.csv"
 
 *** Load the data set
 

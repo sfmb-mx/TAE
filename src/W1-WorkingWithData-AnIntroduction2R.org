@@ -65,7 +65,6 @@ reproducibility.
 In this part we can download the data
 
 #+BEGIN_SRC R :session :results output :exports all
-  rm(list = ls())                         # Remove all workspace data
   library(parallel)
 
   if(!file.exists("../data")) {
@@ -730,7 +729,6 @@ carbs, protein, fat, and sodium, among other nutrients.
 In this part we can download the data
 
 #+BEGIN_SRC R :session :results output :exports all
-  rm(list = ls())                         # Remove all workspace data
   library(parallel)
 
   if(!file.exists("../data")) {

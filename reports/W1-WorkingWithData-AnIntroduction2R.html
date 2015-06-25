@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Working with data: An introduction to R</title>
-<!-- 2015-06-04 Thu 12:46 -->
+<!-- 2015-06-25 Thu 07:57 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Sergio-Feliciano Mendoza-Barrera" />
@@ -206,6 +206,8 @@ for the JavaScript code in this tag.
 <li><a href="#sec-2">2. Recitation 1 - Understanding food: Nutritional Education with data</a>
 <ul>
 <li><a href="#sec-2-1">2.1. The Importance of Food and Nutrition</a></li>
+<li><a href="#sec-2-2">2.2. Downloading the data set</a></li>
+<li><a href="#sec-2-3">2.3. Loading the data</a></li>
 </ul>
 </li>
 </ul>
@@ -237,24 +239,23 @@ In this part we can download the data
 
 <div class="org-src-container">
 
-<pre class="src src-R">rm(list = ls())                         <span style="color: #9932cc;"># </span><span style="color: #ba55d3;">Remove all workspace data</span>
-<span style="color: #db7093;">library</span>(parallel)
+<pre class="src src-R"><span style="color: #3aff83;">library</span>(parallel)
 
-<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #fffacd;">"../data"</span>)) {
-        dir.create(<span style="color: #fffacd;">"../data"</span>)
+<span style="color: #5af2ee;">if</span>(!file.exists(<span style="color: #ff5f87;">"../data"</span>)) {
+        dir.create(<span style="color: #ff5f87;">"../data"</span>)
 }
 
-fileUrl <span style="color: #db7093;">&lt;-</span>
-        <span style="color: #fffacd;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/WHO.csv"</span>
-fileName <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"WHO.csv"</span>
+fileUrl <span style="color: #3aff83;">&lt;-</span>
+        <span style="color: #ff5f87;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/WHO.csv"</span>
+fileName <span style="color: #3aff83;">&lt;-</span> <span style="color: #ff5f87;">"WHO.csv"</span>
 
-dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"../data"</span>
-filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #fffacd;">"/"</span>)
+dataPath <span style="color: #3aff83;">&lt;-</span> <span style="color: #ff5f87;">"../data"</span>
+filePath <span style="color: #3aff83;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #ff5f87;">"/"</span>)
 
-<span style="color: #4682b4;">if</span>(!file.exists(filePath)) {
-        download.file(fileUrl, destfile = filePath, method = <span style="color: #fffacd;">"curl"</span>)
-        list.files(<span style="color: #fffacd;">"../data"</span>)
-        dateDownloaded <span style="color: #db7093;">&lt;-</span> date()
+<span style="color: #5af2ee;">if</span>(!file.exists(filePath)) {
+        download.file(fileUrl, destfile = filePath, method = <span style="color: #ff5f87;">"curl"</span>)
+        list.files(<span style="color: #ff5f87;">"../data"</span>)
+        dateDownloaded <span style="color: #3aff83;">&lt;-</span> date()
 }
 </pre>
 </div>
@@ -270,28 +271,28 @@ Then we can work with the data file loading the data
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"    Loading data into WHO dataframe"</span>)
-WHO <span style="color: #db7093;">&lt;-</span> read.table(filePath, sep = <span style="color: #fffacd;">","</span>, header = <span style="color: #3cb371;">TRUE</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"    Loading data into WHO dataframe"</span>)
+WHO <span style="color: #3aff83;">&lt;-</span> read.table(filePath, sep = <span style="color: #ff5f87;">","</span>, header = <span style="color: #b2baf6;">TRUE</span>)
 
-writeLines(<span style="color: #fffacd;">"    Initial analysis of data WHO"</span>)
+writeLines(<span style="color: #ff5f87;">"    Initial analysis of data WHO"</span>)
 str(WHO)
 
-writeLines(<span style="color: #fffacd;">"    Summary data of the WHO dataframe"</span>)
+writeLines(<span style="color: #ff5f87;">"    Summary data of the WHO dataframe"</span>)
 summary(WHO)
 
-writeLines(<span style="color: #fffacd;">"    Names of the dataframe"</span>)
+writeLines(<span style="color: #ff5f87;">"    Names of the dataframe"</span>)
 names(WHO)
 
-writeLines(<span style="color: #fffacd;">"    Class of the data set in memory"</span>)
+writeLines(<span style="color: #ff5f87;">"    Class of the data set in memory"</span>)
 class(WHO)
 
-writeLines(<span style="color: #fffacd;">"    Dimension of the dataframe"</span>)
+writeLines(<span style="color: #ff5f87;">"    Dimension of the dataframe"</span>)
 dim(WHO)
 
-writeLines(<span style="color: #fffacd;">"    Head of the DF"</span>)
+writeLines(<span style="color: #ff5f87;">"    Head of the DF"</span>)
 head(WHO)
 
-writeLines(<span style="color: #fffacd;">"    Any NA in the dataframe"</span>)
+writeLines(<span style="color: #ff5f87;">"    Any NA in the dataframe"</span>)
 anyNA(WHO)
 </pre>
 </div>
@@ -395,7 +396,7 @@ We can find the numbers for Mexico
 
 <div class="org-src-container">
 
-<pre class="src src-R">WHO_Mexico <span style="color: #db7093;">&lt;-</span> subset(WHO, Country == <span style="color: #fffacd;">"Mexico"</span>)
+<pre class="src src-R">WHO_Mexico <span style="color: #3aff83;">&lt;-</span> subset(WHO, Country == <span style="color: #ff5f87;">"Mexico"</span>)
 str(WHO_Mexico)
 </pre>
 </div>
@@ -424,7 +425,7 @@ Other example is select all the countries in Europe
 
 <div class="org-src-container">
 
-<pre class="src src-R">WHO_Europe <span style="color: #db7093;">&lt;-</span> subset(WHO, Region = <span style="color: #fffacd;">"Europe"</span>)
+<pre class="src src-R">WHO_Europe <span style="color: #3aff83;">&lt;-</span> subset(WHO, Region = <span style="color: #ff5f87;">"Europe"</span>)
 str(WHO_Europe)
 summary(WHO_Europe)
 </pre>
@@ -490,7 +491,7 @@ We can export to a csv file our subset
 
 <div class="org-src-container">
 
-<pre class="src src-R">write.csv(WHO_Europe, <span style="color: #fffacd;">"../data/WHO_Europe.csv"</span>)
+<pre class="src src-R">write.csv(WHO_Europe, <span style="color: #ff5f87;">"../data/WHO_Europe.csv"</span>)
 rm(WHO_Europe)
 </pre>
 </div>
@@ -502,16 +503,16 @@ rm(WHO_Europe)
 <div class="outline-text-3" id="text-1-5">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"         Selecting a variable"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"         Selecting a variable"</span>)
 WHO$Under15
 
-writeLines(<span style="color: #fffacd;">"\n         Calculating the Mean of the variable Under15"</span>)
+writeLines(<span style="color: #ff5f87;">"\n         Calculating the Mean of the variable Under15"</span>)
 mean(WHO$Under15)
 
-writeLines(<span style="color: #fffacd;">"\n         Calculating the Standard Deviation of Under15"</span>)
+writeLines(<span style="color: #ff5f87;">"\n         Calculating the Standard Deviation of Under15"</span>)
 sd(WHO$Under15)
 
-writeLines(<span style="color: #fffacd;">"\n         Summary of the Under15 variable"</span>)
+writeLines(<span style="color: #ff5f87;">"\n         Summary of the Under15 variable"</span>)
 summary(WHO$Under15)
 </pre>
 </div>
@@ -551,7 +552,7 @@ country.
 
 <div class="org-src-container">
 
-<pre class="src src-R">minUnder15Country <span style="color: #db7093;">&lt;-</span> WHO[which.min(WHO$Under15), ]
+<pre class="src src-R">minUnder15Country <span style="color: #3aff83;">&lt;-</span> WHO[which.min(WHO$Under15), ]
 minUnder15Country$Country
 </pre>
 </div>
@@ -567,7 +568,7 @@ Now, who is the country with maximum population under 15 years
 
 <div class="org-src-container">
 
-<pre class="src src-R">maxUnder15Country <span style="color: #db7093;">&lt;-</span> WHO[which.max(WHO$Under15), ]
+<pre class="src src-R">maxUnder15Country <span style="color: #3aff83;">&lt;-</span> WHO[which.max(WHO$Under15), ]
 maxUnder15Country$Country
 </pre>
 </div>
@@ -596,13 +597,13 @@ rate. Lets investigate this phenomena.
 
 <div class="org-src-container">
 
-<pre class="src src-R">Outliers <span style="color: #db7093;">&lt;-</span> subset(WHO, GNI &gt; 10000 &amp; FertilityRate &gt; 2.5)
+<pre class="src src-R">Outliers <span style="color: #3aff83;">&lt;-</span> subset(WHO, GNI &gt; 10000 &amp; FertilityRate &gt; 2.5)
 
-writeLines(<span style="color: #fffacd;">"     Number of countries with GNI &gt;10000 and Fertilityrate &gt; 2.5"</span>)
+writeLines(<span style="color: #ff5f87;">"     Number of countries with GNI &gt;10000 and Fertilityrate &gt; 2.5"</span>)
 nrow(Outliers)
 
-writeLines(<span style="color: #fffacd;">"     Interested data for the Outliers DF"</span>)
-Outliers[c(<span style="color: #fffacd;">"Country"</span>, <span style="color: #fffacd;">"GNI"</span>, <span style="color: #fffacd;">"FertilityRate"</span>)]
+writeLines(<span style="color: #ff5f87;">"     Interested data for the Outliers DF"</span>)
+Outliers[c(<span style="color: #ff5f87;">"Country"</span>, <span style="color: #ff5f87;">"GNI"</span>, <span style="color: #ff5f87;">"FertilityRate"</span>)]
 </pre>
 </div>
 
@@ -636,7 +637,7 @@ What is the mean value of the "Over60" variable?
 
 <div class="org-src-container">
 
-<pre class="src src-R">mean(WHO$Over60, na.rm = <span style="color: #3cb371;">TRUE</span>)
+<pre class="src src-R">mean(WHO$Over60, na.rm = <span style="color: #b2baf6;">TRUE</span>)
 </pre>
 </div>
 
@@ -655,11 +656,11 @@ Which country has the smallest percentage of the population over 60?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"        Summary for WHO DF"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"        Summary for WHO DF"</span>)
 summary(WHO)
 
-writeLines(<span style="color: #fffacd;">"\n        Answer"</span>)
-minOver60Country <span style="color: #db7093;">&lt;-</span> WHO[which.min(WHO$Over60), ]
+writeLines(<span style="color: #ff5f87;">"\n        Answer"</span>)
+minOver60Country <span style="color: #3aff83;">&lt;-</span> WHO[which.min(WHO$Over60), ]
 minOver60Country$Country
 </pre>
 </div>
@@ -711,8 +712,8 @@ minOver60Country$Country
 <div class="outline-text-5" id="text-1-5-2-3">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n        Answer"</span>)
-maxLR <span style="color: #db7093;">&lt;-</span> WHO[which.max(WHO$LiteracyRate), ]
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n        Answer"</span>)
+maxLR <span style="color: #3aff83;">&lt;-</span> WHO[which.max(WHO$LiteracyRate), ]
 maxLR$Country
 </pre>
 </div>
@@ -868,7 +869,7 @@ some missing values in our data for literacy rate.
 
 <div class="org-src-container">
 
-<pre class="src src-R">tapply(WHO$LiteracyRate, WHO$Region, min, na.rm = <span style="color: #3cb371;">TRUE</span>)
+<pre class="src src-R">tapply(WHO$LiteracyRate, WHO$Region, min, na.rm = <span style="color: #b2baf6;">TRUE</span>)
 </pre>
 </div>
 
@@ -931,7 +932,7 @@ Calculating the lowest average child mortality by region.
 
 <div class="org-src-container">
 
-<pre class="src src-R">tapply(WHO$ChildMortality, WHO$Region, mean, na.rm = <span style="color: #3cb371;">TRUE</span>)
+<pre class="src src-R">tapply(WHO$ChildMortality, WHO$Region, mean, na.rm = <span style="color: #b2baf6;">TRUE</span>)
 </pre>
 </div>
 
@@ -1009,14 +1010,95 @@ The United States Department of Agricultural distributes nutritional
 information of over \(7,000\) food items including amount of calories,
 carbs, protein, fat, and sodium, among other nutrients.
 </p>
+</div>
+</div>
 
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> Downloading the data set</h3>
+<div class="outline-text-3" id="text-2-2">
 <p>
-L** Loading data set
+In this part we can download the data
 </p>
 
+<div class="org-src-container">
+
+<pre class="src src-R"><span style="color: #3aff83;">library</span>(parallel)
+
+<span style="color: #5af2ee;">if</span>(!file.exists(<span style="color: #ff5f87;">"../data"</span>)) {
+        dir.create(<span style="color: #ff5f87;">"../data"</span>)
+}
+
+fileUrl <span style="color: #3aff83;">&lt;-</span>
+        <span style="color: #ff5f87;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/USDA.csv"</span>
+fileName <span style="color: #3aff83;">&lt;-</span> <span style="color: #ff5f87;">"USDA.csv"</span>
+
+dataPath <span style="color: #3aff83;">&lt;-</span> <span style="color: #ff5f87;">"../data"</span>
+filePath <span style="color: #3aff83;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #ff5f87;">"/"</span>)
+
+<span style="color: #5af2ee;">if</span>(!file.exists(filePath)) {
+        download.file(fileUrl, destfile = filePath, method = <span style="color: #ff5f87;">"curl"</span>)
+        list.files(<span style="color: #ff5f87;">"../data"</span>)
+        dateDownloaded <span style="color: #3aff83;">&lt;-</span> date()
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> Loading the data</h3>
+<div class="outline-text-3" id="text-2-3">
 <p>
-<a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/USDA.csv">https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/USDA.csv</a>
+Then we can work with the data file loading the data
 </p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"    Loading data into USDA dataframe"</span>)
+USDA <span style="color: #3aff83;">&lt;-</span> read.table(filePath, sep = <span style="color: #ff5f87;">","</span>, header = <span style="color: #b2baf6;">TRUE</span>)
+
+writeLines(<span style="color: #ff5f87;">"    Initial analysis of data USDA"</span>)
+str(USDA)
+
+writeLines(<span style="color: #ff5f87;">"    Summary data of the USDA dataframe"</span>)
+summary(USDA)
+
+writeLines(<span style="color: #ff5f87;">"    Names of the dataframe"</span>)
+names(USDA)
+
+writeLines(<span style="color: #ff5f87;">"    Class of the data set in memory"</span>)
+class(USDA)
+
+writeLines(<span style="color: #ff5f87;">"    Dimension of the dataframe"</span>)
+dim(USDA)
+
+writeLines(<span style="color: #ff5f87;">"    Head of the DF"</span>)
+head(USDA)
+
+writeLines(<span style="color: #ff5f87;">"    Any NA in the dataframe"</span>)
+anyNA(USDA)
+</pre>
+</div>
+
+<pre class="example">
+    Loading data into USDA dataframe
+Error in scan(file, what, nmax, sep, dec, quote, skip, nlines, na.strings,  :
+  line 171 did not have 16 elements
+    Initial analysis of data USDA
+Error in str(USDA) : object 'USDA' not found
+    Summary data of the USDA dataframe
+Error in summary(USDA) : object 'USDA' not found
+    Names of the dataframe
+Error: object 'USDA' not found
+    Class of the data set in memory
+Error: object 'USDA' not found
+    Dimension of the dataframe
+Error: object 'USDA' not found
+    Head of the DF
+Error in head(USDA) : object 'USDA' not found
+    Any NA in the dataframe
+Error: object 'USDA' not found
+</pre>
 </div>
 </div>
 </div>
@@ -1024,7 +1106,7 @@ L** Loading data set
 <div id="postamble" class="status">
 <p class="date">Date: 03/06/2015</p>
 <p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
-<p class="date">Created: 2015-06-04 Thu 12:46</p>
+<p class="date">Created: 2015-06-25 Thu 07:57</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
