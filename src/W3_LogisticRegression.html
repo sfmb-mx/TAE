@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Unit 3 - Logistic Regression</title>
+<!-- 2015-06-25 Thu 10:03 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="Sergio-Feliciano Mendoza-Barrera" />
+<meta  name="description" content="R introduction, remembering the syntax and some useful examples"
+ />
+<meta  name="keywords" content="R, data science, emacs, ESS, org-mode" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/readtheorg/js/readtheorg.js"></script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js"></script>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+    MathJax.Hub.Config({
+        // Only one of the two following lines, depending on user settings
+        // First allows browser-native MathML display, second forces HTML/CSS
+        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
+                     "TeX/noUndefined.js"],
+        tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
+            skipTags: ["script","noscript","style","textarea","pre","code"],
+            ignoreClass: "tex2jax_ignore",
+            processEscapes: false,
+            processEnvironments: true,
+            preview: "TeX"
+        },
+        showProcessingMessages: true,
+        displayAlign: "center",
+        displayIndent: "2em",
+
+        "HTML-CSS": {
+             scale: 100,
+             availableFonts: ["STIX","TeX"],
+             preferredFont: "TeX",
+             webFont: "TeX",
+             imageFont: "TeX",
+             showMathMenu: true,
+        },
+        MMLorHTML: {
+             prefer: {
+                 MSIE:    "MML",
+                 Firefox: "MML",
+                 Opera:   "HTML",
+                 other:   "HTML"
+             }
+        }
+    });
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Unit 3 - Logistic Regression</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. Modeling the Expert: An Introduction to Logistic Regression</a>
+<ul>
+<li><a href="#sec-1-1">1.1. Logistic Regression</a></li>
+<li><a href="#sec-1-2">1.2. Logistic Regression in R</a></li>
+<li><a href="#sec-1-3">1.3. Video 1: Replicating Expert Assessment</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="abstract">
+<p>
+Logistic Regression topics. For the course "MITx: 15.071x The Analytics Edge".
+</p>
+
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Modeling the Expert: An Introduction to Logistic Regression</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Logistic Regression</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+<b>The Method</b>
+</p>
+
+<p>
+Logistic regression extends the idea of linear regression to cases
+where the dependent variable, y, only has two possible outcomes,
+called classes. Examples of dependent variables that could be used
+with logistic regression are predicting whether a new business will
+succeed or fail, predicting the approval or disapproval of a loan, and
+predicting whether a stock will increase or decrease in value. These
+are all called classification problems, since the goal is to figure
+out which class each observation belongs to.
+</p>
+
+<p>
+Similar to linear regression, logistic regression uses a set of
+independent variables to make predictions, but instead of predicting a
+continuous value for the dependent variable, it instead predicts the
+probability of each of the possible outcomes, or classes.
+</p>
+
+<p>
+Logistic regression consists of two steps. The first step is to
+compute the probability that an observation belongs to class 1, using
+the <b>Logistic Response Function</b>:
+</p>
+
+<p>
+$$
+P(y = 1) = \frac{1}{1 + e^{-(\beta_0 + \beta_1x_1 + \beta_2x_2 + \ldots + \beta_kx_k)}}
+$$
+</p>
+
+<p>
+The coefficients, or \(\beta\) values, are selected to maximize the likelihood
+of predicting a high probability for observations actually belonging
+to class 1, and predicting a low probability for observations actually
+belonging to class 0.
+</p>
+
+<p>
+In the second step of logistic regression, a threshold value is used
+to classify each observation into one of the classes. A common choice
+is \(0.5\), meaning that if \(P(y = 1) \geq 0.5\), the observation is
+classified into class 1, and if \(P(y = 1) < 0.5\), the observation is
+classified into class 0. Simply stated, each observation is classified
+into the class with the highest probability.
+</p>
+
+<p>
+However, other threshold values can be chosen, and in some cases are
+more appropriate. The threshold value that should be selected often
+depends on error preferences. When the probabilities are converted
+into class predictions, two types of errors can be made: false
+positives, and false negatives. A false positive error is made when
+the model predicts class 1, but the observation actually belongs to
+class 0. A false negative error is made when the model predicts class
+0, but the observation actually belongs to class 1. If a higher
+threshold value is selected, more false negative errors will be
+made. If a lower threshold value is selected, more false positive
+errors will be made.
+</p>
+
+<p>
+One application where decision-makers often have an error preference
+is in disease prediction. Suppose you built a model to predict whether
+or not someone will develop heart disease in the next 10 years (like
+the model we saw in the Framingham Heart Study lecture). We will
+consider class 1 to be the outcome in which the person does develop
+heart disease, and class 0 the outcome in which the person does not
+develop heart disease. If you pick a high threshold, you will tend to
+make more false negative errors, which means that you predicted that
+the person would not develop heart disease, but they actually did. If
+you pick a lower threshold, you will tend to make more false positive
+errors, which means that you predicted they would develop heart
+disease, but they actually did not. In this case, a false positive
+error is often preferred. Unnecessary resources might be spent
+treating a patient who did not need to worry, but you did not let as
+many patients go untreated (which is what a false negative error
+does).
+</p>
+
+<p>
+Now, let's consider spam filters. Almost every email provider has a
+built in spam filter that tries to detect whether or not an email
+message is spam. Let's classify spam messages as class 1 and non-spam
+messages as class 0. Then if we build a logistic regression model to
+predict spam, we will probably want to select a high threshold. Why?
+In this case, a false positive error means that we predicted a message
+was spam, and sent it to the spam folder, when it actually was not
+spam. We might have just sent an important email to the junk folder!
+On the other hand, a false negative error means that we predicted a
+message was not spam, when it actually was. This creates a slight
+annoyance for the user (since they have to delete the message from the
+inbox themselves) but at least an important message was not missed.
+</p>
+
+<p>
+This error trade-off can be formalized with a <a href="https://courses.edx.org/wiki/15.071x_2/logistic-regression/confusion-matrix">Confusion Matrix</a> or a
+<a href="https://courses.edx.org/wiki/15.071x_2/logistic-regression/roc-curve">Receiver Operator Characteristic Curve (ROC curve)</a>. A confusion matrix
+compares predicted classes with actual classes for a particular
+threshold value, while an ROC curve plots the false positive rate
+versus the true positive rate for all possible threshold values. The
+ROC curve motivates an important metric for classification problems:
+the AUC, or Area Under the Curve. The AUC of a model gives the area
+under the ROC curve, and is a number between 0 and 1. The higher the
+AUC, the more area under the ROC curve, and the better the model. The
+AUC of a model can be interpreted as the model's ability to
+distinguish between the two different classes. If the model were
+handed two random observations from the dataset, one belonging to one
+class and one belonging to the other class, the AUC gives the
+proportion of the time when the observation from class 1 has a higher
+predicted probability of being in class 1. If you were to just guess
+which observation was which, this would be an AUC of 0.5. So a model
+with an AUC greater than 0.5 is doing something smarter than just
+guessing, but we want the AUC of a model to be as close to 1 as
+possible.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Logistic Regression in R</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+Suppose the training data for your model is in a data frame called
+"TrainingData", consisting of your dependent variable "DependentVar",
+and your two independent variables "IndependentVar1" and
+"IndependentVar2". (If you just have one dataset, you can <a href="https://courses.edx.org/wiki/15.071x_2/logistic-regression/randomly-splitting-data">randomly
+split</a> your data frame into a training set and testing set with the
+sample.split function.) Then you can build a logistic regression model
+with the following command:
+</p>
+
+<p>
+<code>LogModel = glm(DependentVar ~ IndependentVar1 + IndependentVar2,
+data=TrainingData, family=binomial)</code>
+</p>
+
+<p>
+You can see the coefficients and other information about the model
+with the summary function:
+</p>
+
+<p>
+<code>summary(LogModel)</code>
+</p>
+
+<p>
+You can then create a vector of predictions for the training set and
+generate different confusion matrices with the predict() and table()
+functions:
+</p>
+
+<p>
+<code>TrainPredictions = predict(LogModel, type="response")</code>
+<code>table(TrainingData$DependentVar, TrainPredictions &gt;= 0.5)</code>
+<code>table(TrainingData$DependentVar, TrainPredictions &gt;= 0.3)</code>
+</p>
+
+<p>
+You can generate an ROC curve with the following commands (you first
+need to install and load the "ROCR" package):
+</p>
+
+<p>
+<code>ROC.Pred = prediction(TrainPredictions, TrainingData$DependentVar)</code>
+<code>ROC.Perf = performance(ROC.Pred, "tpr", "fpr")</code>
+<code>plot(ROC.Perf)</code>
+</p>
+
+<p>
+To add threshold labels and colors, replace the plot command with the following:
+</p>
+
+<p>
+<code>plot(ROC.Perf, colorize=TRUE, print.cutoffs.at=seq(0,1,by=0.1),
+text.adj=c(-0.2,1.7))</code>
+</p>
+
+<p>
+The AUC of the model can be computed with the following command:
+</p>
+
+<p>
+<code>as.numeric(performance(ROC.Pred, "auc")@y.values)</code>
+</p>
+
+<p>
+To make predictions on a test set called "TestData", you can use the
+predict() function:
+</p>
+
+<p>
+<code>TestPredictions = predict(LogModel, newdata=TestData,
+type="response")</code>
+</p>
+
+<p>
+You can then create confusion matrices, an ROC curve, and compute the
+AUC just like we did for the training set on the test set.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Video 1: Replicating Expert Assessment</h3>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 25/06/2015</p>
+<p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
+<p class="date">Created: 2015-06-25 Thu 10:03</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

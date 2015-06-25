@@ -4,11 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Homework Week 2</title>
-<<<<<<< HEAD:reports/HomeworkWeek2.html
-<!-- 2015-06-25 Thu 07:55 -->
-=======
-<!-- 2015-06-24 Wed 19:38 -->
->>>>>>> b93ff274e0c1d26ee665408f95a6db2f32e646b3:src/HomeworkWeek2.html
+<!-- 2015-06-25 Thu 08:14 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Sergio-Feliciano Mendoza-Barrera" />
@@ -308,38 +304,38 @@ In this part we can download the data
 
 <div class="org-src-container">
 
-<pre class="src src-R"><span style="color: #9933FF;">library</span>(parallel)
+<pre class="src src-R"><span style="color: #3aff83;">library</span>(parallel)
 
-<span style="color: #0000C8;">if</span>(!file.exists(<span style="color: #006600;">"../data"</span>)) {
-        dir.create(<span style="color: #006600;">"../data"</span>)
+<span style="color: #5af2ee;">if</span>(!file.exists(<span style="color: #ff5f87;">"../data"</span>)) {
+        dir.create(<span style="color: #ff5f87;">"../data"</span>)
 }
 
-fileUrl <span style="color: #9933FF;">&lt;-</span>
-        c(<span style="color: #006600;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/climate_change.csv"</span>)
+fileUrl <span style="color: #3aff83;">&lt;-</span>
+        c(<span style="color: #ff5f87;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/climate_change.csv"</span>)
 
-fileName <span style="color: #9933FF;">&lt;-</span> c(<span style="color: #006600;">"climate_change.csv"</span>)
+fileName <span style="color: #3aff83;">&lt;-</span> c(<span style="color: #ff5f87;">"climate_change.csv"</span>)
 
-dataPath <span style="color: #9933FF;">&lt;-</span> <span style="color: #006600;">"../data"</span>
+dataPath <span style="color: #3aff83;">&lt;-</span> <span style="color: #ff5f87;">"../data"</span>
 
-filePath <span style="color: #9933FF;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #006600;">"/"</span>)
+filePath <span style="color: #3aff83;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #ff5f87;">"/"</span>)
 
-<span style="color: #0000C8;">if</span>(!file.exists(filePath)) {
-        download.file(fileUrl, destfile = filePath, method = <span style="color: #006600;">"curl"</span>)
+<span style="color: #5af2ee;">if</span>(!file.exists(filePath)) {
+        download.file(fileUrl, destfile = filePath, method = <span style="color: #ff5f87;">"curl"</span>)
 }
 
-list.files(<span style="color: #006600;">"../data"</span>)
+list.files(<span style="color: #ff5f87;">"../data"</span>)
 </pre>
 </div>
 
 <pre class="example">
- [1] "AnonymityPoll.csv"      "baseball.csv"           "BoeingStock.csv"
- [4] "climate_change.csv"     "CocaColaStock.csv"      "CountryCodes.csv"
- [7] "CPSData.csv"            "FluTest.csv"            "FluTrain.csv"
-[10] "GEStock.csv"            "IBMStock.csv"           "MetroAreaCodes.csv"
-[13] "mvtWeek1.csv"           "NBA_test.csv"           "NBA_train.csv"
-[16] "pisa2009test.csv"       "pisa2009train.csv"      "ProcterGambleStock.csv"
-[19] "README.md"              "USDA.csv"               "WHO.csv"
-[22] "WHO_Europe.csv"         "wine.csv"               "wine_test.csv"
+ [1] "AnonymityPoll.csv"      "BoeingStock.csv"        "CPSData.csv"
+ [4] "CocaColaStock.csv"      "CountryCodes.csv"       "FluTest.csv"
+ [7] "FluTrain.csv"           "GEStock.csv"            "IBMStock.csv"
+[10] "MetroAreaCodes.csv"     "NBA_test.csv"           "NBA_train.csv"
+[13] "ProcterGambleStock.csv" "README.md"              "USDA.csv"
+[16] "WHO.csv"                "WHO_Europe.csv"         "baseball.csv"
+[19] "climate_change.csv"     "mvtWeek1.csv"           "pisa2009test.csv"
+[22] "pisa2009train.csv"      "wine.csv"               "wine_test.csv"
 </pre>
 </div>
 </div>
@@ -349,8 +345,8 @@ list.files(<span style="color: #006600;">"../data"</span>)
 <div class="outline-text-4" id="text-1-1-2">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: Read in data"</span>)
-climateChange <span style="color: #9933FF;">&lt;-</span> read.table(<span style="color: #006600;">"../data/climate_change.csv"</span>, sep = <span style="color: #006600;">","</span>, header = <span style="color: #660000;">TRUE</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Read in data"</span>)
+climateChange <span style="color: #3aff83;">&lt;-</span> read.table(<span style="color: #ff5f87;">"../data/climate_change.csv"</span>, sep = <span style="color: #ff5f87;">","</span>, header = <span style="color: #b2baf6;">TRUE</span>)
 str(climateChange)
 summary(climateChange)
 </pre>
@@ -403,9 +399,9 @@ First data frame for training purposes:
 
 <div class="org-src-container">
 
-<pre class="src src-R">training <span style="color: #9933FF;">&lt;-</span> subset(climateChange, Year &lt;= 2006)
+<pre class="src src-R">training <span style="color: #3aff83;">&lt;-</span> subset(climateChange, Year &lt;= 2006)
 
-writeLines(<span style="color: #006600;">"\n :: Exploratory data analysis for the training dataframe"</span>)
+writeLines(<span style="color: #ff5f87;">"\n :: Exploratory data analysis for the training dataframe"</span>)
 str(training)
 summary(training)
 </pre>
@@ -454,7 +450,7 @@ First data frame for test purposes:
 
 <div class="org-src-container">
 
-<pre class="src src-R">test <span style="color: #9933FF;">&lt;-</span> subset(climateChange, Year &gt; 2006)
+<pre class="src src-R">test <span style="color: #3aff83;">&lt;-</span> subset(climateChange, Year &gt; 2006)
 str(test)
 summary(test)
 </pre>
@@ -510,8 +506,8 @@ in the model). Use the training set to build the model.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: Linear regression model for Climate Change"</span>)
-tempReg <span style="color: #9933FF;">&lt;-</span> lm(Temp ~ MEI + CO2 + CH4 + N2O + CFC.11 + CFC.12 + TSI +
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Linear regression model for Climate Change"</span>)
+tempReg <span style="color: #3aff83;">&lt;-</span> lm(Temp ~ MEI + CO2 + CH4 + N2O + CFC.11 + CFC.12 + TSI +
                       Aerosols, data = training)
 summary(tempReg)
 </pre>
@@ -540,7 +536,7 @@ CFC.12       3.808e-03  1.014e-03   3.757  0.00021 ***
 TSI          9.314e-02  1.475e-02   6.313 1.10e-09 ***
 Aerosols    -1.538e+00  2.133e-01  -7.210 5.41e-12 ***
 ---
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Residual standard error: 0.09171 on 275 degrees of freedom
 Multiple R-squared:  0.7509,	Adjusted R-squared:  0.7436
@@ -639,7 +635,7 @@ contradiction?
 
 <div class="org-src-container">
 
-<pre class="src src-R">cor(training, use=<span style="color: #006600;">"complete.obs"</span>)
+<pre class="src src-R">cor(training, use=<span style="color: #ff5f87;">"complete.obs"</span>)
 </pre>
 </div>
 
@@ -778,16 +774,13 @@ model.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: Linear regression model for Climate Change"</span>)
-tempReg2 <span style="color: #9933FF;">&lt;-</span> lm(Temp ~ MEI + TSI + Aerosols + N2O, data = training)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Linear regression model for Climate Change"</span>)
+tempReg2 <span style="color: #3aff83;">&lt;-</span> lm(Temp ~ MEI + TSI + Aerosols + N2O, data = training)
 summary(tempReg2)
 </pre>
 </div>
 
 <pre class="example">
- null device
-          1
-
  :: Linear regression model for Climate Change
 
 Call:
@@ -805,7 +798,7 @@ TSI          7.949e-02  1.487e-02   5.344 1.89e-07 ***
 Aerosols    -1.702e+00  2.180e-01  -7.806 1.19e-13 ***
 N2O          2.532e-02  1.311e-03  19.307  &lt; 2e-16 ***
 ---
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Residual standard error: 0.09547 on 279 degrees of freedom
 Multiple R-squared:  0.7261,	Adjusted R-squared:  0.7222
@@ -910,8 +903,8 @@ information about the step function, type ?step in your R console.)
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: Optimizing the linear regression model for Climate Change"</span>)
-tempReg3 <span style="color: #9933FF;">&lt;-</span> step(tempReg)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Optimizing the linear regression model for Climate Change"</span>)
+tempReg3 <span style="color: #3aff83;">&lt;-</span> step(tempReg)
 summary(tempReg3)
 </pre>
 </div>
@@ -964,7 +957,7 @@ CFC.12       3.868e-03  9.812e-04   3.942 0.000103 ***
 TSI          9.312e-02  1.473e-02   6.322 1.04e-09 ***
 Aerosols    -1.540e+00  2.126e-01  -7.244 4.36e-12 ***
 ---
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Residual standard error: 0.09155 on 276 degrees of freedom
 Multiple R-squared:  0.7508,	Adjusted R-squared:  0.7445
@@ -1017,8 +1010,8 @@ predictions for the testing data set, using the predict function.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: Make test set predictions"</span>)
-predictTest <span style="color: #9933FF;">&lt;-</span> predict(tempReg3, newdata = test)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Make test set predictions"</span>)
+predictTest <span style="color: #3aff83;">&lt;-</span> predict(tempReg3, newdata = test)
 predictTest
 </pre>
 </div>
@@ -1040,10 +1033,10 @@ calculate the <b>out of sample R-squared</b>.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: Compute out-of-sample R^2"</span>)
-SSE <span style="color: #9933FF;">&lt;-</span> sum((predictTest - test$Temp)^2)
-SST <span style="color: #9933FF;">&lt;-</span> sum((mean(training$Temp) - test$Temp)^2)
-R2 <span style="color: #9933FF;">&lt;-</span> 1 - (SSE/SST)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Compute out-of-sample R^2"</span>)
+SSE <span style="color: #3aff83;">&lt;-</span> sum((predictTest - test$Temp)^2)
+SST <span style="color: #3aff83;">&lt;-</span> sum((mean(training$Temp) - test$Temp)^2)
+R2 <span style="color: #3aff83;">&lt;-</span> 1 - (SSE/SST)
 R2
 </pre>
 </div>
@@ -1231,39 +1224,39 @@ In this part we can download the data
 
 <div class="org-src-container">
 
-<pre class="src src-R"><span style="color: #9933FF;">library</span>(parallel)
+<pre class="src src-R"><span style="color: #3aff83;">library</span>(parallel)
 
-<span style="color: #0000C8;">if</span>(!file.exists(<span style="color: #006600;">"../data"</span>)) {
-        dir.create(<span style="color: #006600;">"../data"</span>)
+<span style="color: #5af2ee;">if</span>(!file.exists(<span style="color: #ff5f87;">"../data"</span>)) {
+        dir.create(<span style="color: #ff5f87;">"../data"</span>)
 }
 
-fileUrl <span style="color: #9933FF;">&lt;-</span>
-        c(<span style="color: #006600;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/pisa2009train.csv"</span>, <span style="color: #006600;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/pisa2009test.csv"</span>)
+fileUrl <span style="color: #3aff83;">&lt;-</span>
+        c(<span style="color: #ff5f87;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/pisa2009train.csv"</span>, <span style="color: #ff5f87;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/pisa2009test.csv"</span>)
 
-fileName <span style="color: #9933FF;">&lt;-</span> c(<span style="color: #006600;">"pisa2009train.csv"</span>, <span style="color: #006600;">"pisa2009test.csv"</span>)
+fileName <span style="color: #3aff83;">&lt;-</span> c(<span style="color: #ff5f87;">"pisa2009train.csv"</span>, <span style="color: #ff5f87;">"pisa2009test.csv"</span>)
 
-dataPath <span style="color: #9933FF;">&lt;-</span> <span style="color: #006600;">"../data"</span>
+dataPath <span style="color: #3aff83;">&lt;-</span> <span style="color: #ff5f87;">"../data"</span>
 
-<span style="color: #0000C8;">for</span>(i <span style="color: #0000C8;">in</span> 1:2) {
-        filePath <span style="color: #9933FF;">&lt;-</span> paste(dataPath, fileName[i], sep = <span style="color: #006600;">"/"</span>)
+<span style="color: #5af2ee;">for</span>(i <span style="color: #5af2ee;">in</span> 1:2) {
+        filePath <span style="color: #3aff83;">&lt;-</span> paste(dataPath, fileName[i], sep = <span style="color: #ff5f87;">"/"</span>)
 
-        <span style="color: #0000C8;">if</span>(!file.exists(filePath)) {
-                download.file(fileUrl[i], destfile = filePath, method = <span style="color: #006600;">"curl"</span>)
+        <span style="color: #5af2ee;">if</span>(!file.exists(filePath)) {
+                download.file(fileUrl[i], destfile = filePath, method = <span style="color: #ff5f87;">"curl"</span>)
         }
 }
-list.files(<span style="color: #006600;">"../data"</span>)
+list.files(<span style="color: #ff5f87;">"../data"</span>)
 </pre>
 </div>
 
 <pre class="example">
- [1] "AnonymityPoll.csv"      "baseball.csv"           "BoeingStock.csv"
- [4] "climate_change.csv"     "CocaColaStock.csv"      "CountryCodes.csv"
- [7] "CPSData.csv"            "FluTest.csv"            "FluTrain.csv"
-[10] "GEStock.csv"            "IBMStock.csv"           "MetroAreaCodes.csv"
-[13] "mvtWeek1.csv"           "NBA_test.csv"           "NBA_train.csv"
-[16] "pisa2009test.csv"       "pisa2009train.csv"      "ProcterGambleStock.csv"
-[19] "README.md"              "USDA.csv"               "WHO.csv"
-[22] "WHO_Europe.csv"         "wine.csv"               "wine_test.csv"
+ [1] "AnonymityPoll.csv"      "BoeingStock.csv"        "CPSData.csv"
+ [4] "CocaColaStock.csv"      "CountryCodes.csv"       "FluTest.csv"
+ [7] "FluTrain.csv"           "GEStock.csv"            "IBMStock.csv"
+[10] "MetroAreaCodes.csv"     "NBA_test.csv"           "NBA_train.csv"
+[13] "ProcterGambleStock.csv" "README.md"              "USDA.csv"
+[16] "WHO.csv"                "WHO_Europe.csv"         "baseball.csv"
+[19] "climate_change.csv"     "mvtWeek1.csv"           "pisa2009test.csv"
+[22] "pisa2009train.csv"      "wine.csv"               "wine_test.csv"
 </pre>
 </div>
 </div>
@@ -1273,13 +1266,13 @@ list.files(<span style="color: #006600;">"../data"</span>)
 <div class="outline-text-4" id="text-2-1-2">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: Read the training data set"</span>)
-pisaTrain <span style="color: #9933FF;">&lt;-</span> read.table(<span style="color: #006600;">"../data/pisa2009train.csv"</span>, sep = <span style="color: #006600;">","</span>, header = <span style="color: #660000;">TRUE</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Read the training data set"</span>)
+pisaTrain <span style="color: #3aff83;">&lt;-</span> read.table(<span style="color: #ff5f87;">"../data/pisa2009train.csv"</span>, sep = <span style="color: #ff5f87;">","</span>, header = <span style="color: #b2baf6;">TRUE</span>)
 str(pisaTrain)
 summary(pisaTrain)
 
-writeLines(<span style="color: #006600;">"\n\n :: Read the test data set: DO NOT SEE THE DATA!"</span>)
-pisaTest <span style="color: #9933FF;">&lt;-</span> read.table(<span style="color: #006600;">"../data/pisa2009test.csv"</span>, sep = <span style="color: #006600;">","</span>, header = <span style="color: #660000;">TRUE</span>)
+writeLines(<span style="color: #ff5f87;">"\n\n :: Read the test data set: DO NOT SEE THE DATA!"</span>)
+pisaTest <span style="color: #3aff83;">&lt;-</span> read.table(<span style="color: #ff5f87;">"../data/pisa2009test.csv"</span>, sep = <span style="color: #ff5f87;">","</span>, header = <span style="color: #b2baf6;">TRUE</span>)
 </pre>
 </div>
 
@@ -1378,7 +1371,7 @@ How many students are there in the training set?
 <div class="outline-text-5" id="text-2-1-3-1">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: Number of students in the training data set"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Number of students in the training data set"</span>)
 nrow(pisaTrain)
 </pre>
 </div>
@@ -1479,7 +1472,7 @@ training set? Select all that apply.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: any NA in the features"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: any NA in the features"</span>)
 summary(pisaTrain)
 </pre>
 </div>
@@ -1608,9 +1601,9 @@ with any missing value from pisaTrain and pisaTest:
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: Omiting the non complete observations"</span>)
-pisaTrain <span style="color: #9933FF;">&lt;-</span> na.omit(pisaTrain)
-pisaTest <span style="color: #9933FF;">&lt;-</span> na.omit(pisaTest)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Omiting the non complete observations"</span>)
+pisaTrain <span style="color: #3aff83;">&lt;-</span> na.omit(pisaTrain)
+pisaTest <span style="color: #3aff83;">&lt;-</span> na.omit(pisaTest)
 </pre>
 </div>
 
@@ -1628,7 +1621,7 @@ How many observations are now in the training set?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: Number of observations in the training set"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Number of observations in the training set"</span>)
 nrow(pisaTrain)
 </pre>
 </div>
@@ -1649,7 +1642,7 @@ How many observations are now in the testing set?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: Number of observations in the testing set"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Number of observations in the testing set"</span>)
 nrow(pisaTest)
 </pre>
 </div>
@@ -1796,8 +1789,8 @@ Which binary variables will be included in the regression model?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: Exploring the raceeth feature:"</span>)
-sort(table(pisaTrain$raceeth), decreasing = <span style="color: #660000;">TRUE</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Exploring the raceeth feature:"</span>)
+sort(table(pisaTrain$raceeth), decreasing = <span style="color: #b2baf6;">TRUE</span>)
 </pre>
 </div>
 
@@ -1926,9 +1919,9 @@ by typing the following two lines in your R console:
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: Setting the reference level of the factor to white"</span>)
-pisaTrain$raceeth <span style="color: #9933FF;">&lt;-</span> relevel(pisaTrain$raceeth, <span style="color: #006600;">"White"</span>)
-pisaTest$raceeth <span style="color: #9933FF;">&lt;-</span> relevel(pisaTest$raceeth, <span style="color: #006600;">"White"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Setting the reference level of the factor to white"</span>)
+pisaTrain$raceeth <span style="color: #3aff83;">&lt;-</span> relevel(pisaTrain$raceeth, <span style="color: #ff5f87;">"White"</span>)
+pisaTest$raceeth <span style="color: #3aff83;">&lt;-</span> relevel(pisaTest$raceeth, <span style="color: #ff5f87;">"White"</span>)
 </pre>
 </div>
 
@@ -1944,7 +1937,7 @@ variables.
 
 <div class="org-src-container">
 
-<pre class="src src-R">lmScore <span style="color: #9933FF;">&lt;-</span> lm(readingScore ~ ., data = pisaTrain)
+<pre class="src src-R">lmScore <span style="color: #3aff83;">&lt;-</span> lm(readingScore ~ ., data = pisaTrain)
 summary(lmScore)
 </pre>
 </div>
@@ -2019,7 +2012,7 @@ publicSchool                                   0.01226 *
 urban                                          0.97783
 schoolSize                                     0.00294 **
 ---
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Residual standard error: 73.81 on 2385 degrees of freedom
 Multiple R-squared:  0.3251,	Adjusted R-squared:  0.3172
@@ -2088,14 +2081,14 @@ What is the training-set root-mean squared error (RMSE) of lmScore?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: Sum of Squared Errors"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Sum of Squared Errors"</span>)
 SSE = sum(lmScore$residuals^2)
 SSE
 
-writeLines(<span style="color: #006600;">"\n :: The training-set root-mean squared error (RMSE):"</span>)
+writeLines(<span style="color: #ff5f87;">"\n :: The training-set root-mean squared error (RMSE):"</span>)
 sqrt(SSE / nrow(pisaTrain))
 
-writeLines(<span style="color: #006600;">"\n :: A alternative way of getting the RMSE value:"</span>)
+writeLines(<span style="color: #ff5f87;">"\n :: A alternative way of getting the RMSE value:"</span>)
 sqrt(mean(lmScore$residuals^2))
 </pre>
 </div>
@@ -2160,12 +2153,12 @@ reading score of student B?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: Make test set predictions"</span>)
-predictRScoreDF <span style="color: #9933FF;">&lt;-</span> rbind(pisaTrain[1, ], pisaTrain[1, ])
-predictRScoreDF[2, 1] <span style="color: #9933FF;">&lt;-</span> 9
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Make test set predictions"</span>)
+predictRScoreDF <span style="color: #3aff83;">&lt;-</span> rbind(pisaTrain[1, ], pisaTrain[1, ])
+predictRScoreDF[2, 1] <span style="color: #3aff83;">&lt;-</span> 9
 predictRScoreDF
 
-predict01 <span style="color: #9933FF;">&lt;-</span> predict(lmScore, newdata = predictRScoreDF)
+predict01 <span style="color: #3aff83;">&lt;-</span> predict(lmScore, newdata = predictRScoreDF)
 predict01[1] - predict01[2]
 </pre>
 </div>
@@ -2328,7 +2321,7 @@ publicSchool                                   0.01226 *
 urban                                          0.97783
 schoolSize                                     0.00294 **
 ---
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Residual standard error: 73.81 on 2385 degrees of freedom
 Multiple R-squared:  0.3251,	Adjusted R-squared:  0.3172
@@ -2373,8 +2366,8 @@ score on the test set?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: Make test set predictions"</span>)
-predTest <span style="color: #9933FF;">&lt;-</span> predict(lmScore, newdata = pisaTest)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Make test set predictions"</span>)
+predTest <span style="color: #3aff83;">&lt;-</span> predict(lmScore, newdata = pisaTest)
 summary(predTest)
 637.7 - 353.2
 </pre>
@@ -2426,8 +2419,8 @@ What is the sum of squared errors (SSE) of lmScore on the testing set?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: Sum of Squared Errors in the testing set"</span>)
-SSE <span style="color: #9933FF;">&lt;-</span> sum((predTest - pisaTest$readingScore)^2)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Sum of Squared Errors in the testing set"</span>)
+SSE <span style="color: #3aff83;">&lt;-</span> sum((predTest - pisaTest$readingScore)^2)
 SSE
 </pre>
 </div>
@@ -2458,11 +2451,11 @@ set?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: The RMSE of the testing data set is:"</span>)
-RMSE <span style="color: #9933FF;">&lt;-</span> sqrt(SSE / nrow(pisaTest))
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: The RMSE of the testing data set is:"</span>)
+RMSE <span style="color: #3aff83;">&lt;-</span> sqrt(SSE / nrow(pisaTest))
 RMSE
 
-writeLines(<span style="color: #006600;">"\n :: An alternative for calculation:"</span>)
+writeLines(<span style="color: #ff5f87;">"\n :: An alternative for calculation:"</span>)
 sqrt(mean((predTest-pisaTest$readingScore)^2))
 </pre>
 </div>
@@ -2507,15 +2500,15 @@ to compute this value using the training set and not the test set.
 
 <div class="org-src-container">
 
-<pre class="src src-R">SSE <span style="color: #9933FF;">&lt;-</span> sum((predTest - pisaTest$readingScore)^2)
+<pre class="src src-R">SSE <span style="color: #3aff83;">&lt;-</span> sum((predTest - pisaTest$readingScore)^2)
 
-writeLines(<span style="color: #006600;">"\n :: The predicted test score used in the baseline model:"</span>)
+writeLines(<span style="color: #ff5f87;">"\n :: The predicted test score used in the baseline model:"</span>)
 mean(pisaTrain$readingScore)
 
-SST <span style="color: #9933FF;">&lt;-</span> sum((mean(pisaTrain$readingScore) - pisaTest$readingScore)^2)
-R2 <span style="color: #9933FF;">&lt;-</span> 1 - (SSE/SST)
+SST <span style="color: #3aff83;">&lt;-</span> sum((mean(pisaTrain$readingScore) - pisaTest$readingScore)^2)
+R2 <span style="color: #3aff83;">&lt;-</span> 1 - (SSE/SST)
 
-writeLines(<span style="color: #006600;">"\n :: The SST for the training pisa data set"</span>)
+writeLines(<span style="color: #ff5f87;">"\n :: The SST for the training pisa data set"</span>)
 SST
 </pre>
 </div>
@@ -2581,10 +2574,10 @@ What is the test-set R-squared value of lmScore?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: The test-set R-squared value:"</span>)
-SSE <span style="color: #9933FF;">&lt;-</span> sum((predTest - pisaTest$readingScore)^2)
-SST <span style="color: #9933FF;">&lt;-</span> sum((mean(pisaTrain$readingScore) - pisaTest$readingScore)^2)
-R2 <span style="color: #9933FF;">&lt;-</span> 1 - (SSE/SST)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: The test-set R-squared value:"</span>)
+SSE <span style="color: #3aff83;">&lt;-</span> sum((predTest - pisaTest$readingScore)^2)
+SST <span style="color: #3aff83;">&lt;-</span> sum((mean(pisaTrain$readingScore) - pisaTest$readingScore)^2)
+R2 <span style="color: #3aff83;">&lt;-</span> 1 - (SSE/SST)
 R2
 </pre>
 </div>
@@ -2695,36 +2688,36 @@ In this part we can download the data
 
 <div class="org-src-container">
 
-<pre class="src src-R"><span style="color: #9933FF;">library</span>(parallel)
+<pre class="src src-R"><span style="color: #3aff83;">library</span>(parallel)
 
-<span style="color: #0000C8;">if</span>(!file.exists(<span style="color: #006600;">"../data"</span>)) {
-        dir.create(<span style="color: #006600;">"../data"</span>)
+<span style="color: #5af2ee;">if</span>(!file.exists(<span style="color: #ff5f87;">"../data"</span>)) {
+        dir.create(<span style="color: #ff5f87;">"../data"</span>)
 }
 
-fileUrl <span style="color: #9933FF;">&lt;-</span> <span style="color: #006600;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/FluTrain.csv"</span>
+fileUrl <span style="color: #3aff83;">&lt;-</span> <span style="color: #ff5f87;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/FluTrain.csv"</span>
 
-fileName <span style="color: #9933FF;">&lt;-</span> <span style="color: #006600;">"FluTrain.csv"</span>
+fileName <span style="color: #3aff83;">&lt;-</span> <span style="color: #ff5f87;">"FluTrain.csv"</span>
 
-dataPath <span style="color: #9933FF;">&lt;-</span> <span style="color: #006600;">"../data"</span>
+dataPath <span style="color: #3aff83;">&lt;-</span> <span style="color: #ff5f87;">"../data"</span>
 
-filePath <span style="color: #9933FF;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #006600;">"/"</span>)
+filePath <span style="color: #3aff83;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #ff5f87;">"/"</span>)
 
-<span style="color: #0000C8;">if</span>(!file.exists(filePath)) {
-        download.file(fileUrl, destfile = filePath, method = <span style="color: #006600;">"curl"</span>)
+<span style="color: #5af2ee;">if</span>(!file.exists(filePath)) {
+        download.file(fileUrl, destfile = filePath, method = <span style="color: #ff5f87;">"curl"</span>)
 }
-list.files(<span style="color: #006600;">"../data"</span>)
+list.files(<span style="color: #ff5f87;">"../data"</span>)
 </pre>
 </div>
 
 <pre class="example">
- [1] "AnonymityPoll.csv"      "baseball.csv"           "BoeingStock.csv"
- [4] "climate_change.csv"     "CocaColaStock.csv"      "CountryCodes.csv"
- [7] "CPSData.csv"            "FluTest.csv"            "FluTrain.csv"
-[10] "GEStock.csv"            "IBMStock.csv"           "MetroAreaCodes.csv"
-[13] "mvtWeek1.csv"           "NBA_test.csv"           "NBA_train.csv"
-[16] "pisa2009test.csv"       "pisa2009train.csv"      "ProcterGambleStock.csv"
-[19] "README.md"              "USDA.csv"               "WHO.csv"
-[22] "WHO_Europe.csv"         "wine.csv"               "wine_test.csv"
+ [1] "AnonymityPoll.csv"      "BoeingStock.csv"        "CPSData.csv"
+ [4] "CocaColaStock.csv"      "CountryCodes.csv"       "FluTest.csv"
+ [7] "FluTrain.csv"           "GEStock.csv"            "IBMStock.csv"
+[10] "MetroAreaCodes.csv"     "NBA_test.csv"           "NBA_train.csv"
+[13] "ProcterGambleStock.csv" "README.md"              "USDA.csv"
+[16] "WHO.csv"                "WHO_Europe.csv"         "baseball.csv"
+[19] "climate_change.csv"     "mvtWeek1.csv"           "pisa2009test.csv"
+[22] "pisa2009train.csv"      "wine.csv"               "wine_test.csv"
 </pre>
 </div>
 </div>
@@ -2734,8 +2727,8 @@ list.files(<span style="color: #006600;">"../data"</span>)
 <div class="outline-text-4" id="text-3-1-2">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: Read the training data set"</span>)
-FluTrain <span style="color: #9933FF;">&lt;-</span> read.table(<span style="color: #006600;">"../data/FluTrain.csv"</span>, sep = <span style="color: #006600;">","</span>, header = <span style="color: #660000;">TRUE</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Read the training data set"</span>)
+FluTrain <span style="color: #3aff83;">&lt;-</span> read.table(<span style="color: #ff5f87;">"../data/FluTrain.csv"</span>, sep = <span style="color: #ff5f87;">","</span>, header = <span style="color: #b2baf6;">TRUE</span>)
 str(FluTrain)
 summary(FluTrain)
 </pre>
@@ -2946,17 +2939,12 @@ estimation problem?
 
 <div class="org-src-container">
 
-<pre class="src src-R">FluTrend1 <span style="color: #9933FF;">&lt;-</span> lm(log(ILI) ~ Queries, data = FluTrain)
+<pre class="src src-R">FluTrend1 <span style="color: #3aff83;">&lt;-</span> lm(log(ILI) ~ Queries, data = FluTrain)
 summary(FluTrend1)
 </pre>
 </div>
 
 <pre class="example">
- null device
-          1
- null device
-          1
-
 Call:
 lm(formula = log(ILI) ~ Queries, data = FluTrain)
 
@@ -2969,7 +2957,7 @@ Coefficients:
 (Intercept) -0.49934    0.03041  -16.42   &lt;2e-16 ***
 Queries      2.96129    0.09312   31.80   &lt;2e-16 ***
 ---
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Residual standard error: 0.2995 on 415 degrees of freedom
 Multiple R-squared:  0.709,	Adjusted R-squared:  0.7083
@@ -3027,7 +3015,7 @@ Coefficients:
 (Intercept) -0.49934    0.03041  -16.42   &lt;2e-16 ***
 Queries      2.96129    0.09312   31.80   &lt;2e-16 ***
 ---
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Residual standard error: 0.2995 on 415 degrees of freedom
 Multiple R-squared:  0.709,	Adjusted R-squared:  0.7083
@@ -3075,8 +3063,8 @@ exponential can be computed in R using the function exp().
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: Relationship between R^2 and Correlation"</span>)
-Correlation <span style="color: #9933FF;">&lt;-</span> cor(log(FluTrain$ILI), FluTrain$Queries)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Relationship between R^2 and Correlation"</span>)
+Correlation <span style="color: #3aff83;">&lt;-</span> cor(log(FluTrain$ILI), FluTrain$Queries)
 Correlation^2
 </pre>
 </div>
@@ -3152,36 +3140,36 @@ In this part we can download the data
 
 <div class="org-src-container">
 
-<pre class="src src-R"><span style="color: #9933FF;">library</span>(parallel)
+<pre class="src src-R"><span style="color: #3aff83;">library</span>(parallel)
 
-<span style="color: #0000C8;">if</span>(!file.exists(<span style="color: #006600;">"../data"</span>)) {
-        dir.create(<span style="color: #006600;">"../data"</span>)
+<span style="color: #5af2ee;">if</span>(!file.exists(<span style="color: #ff5f87;">"../data"</span>)) {
+        dir.create(<span style="color: #ff5f87;">"../data"</span>)
 }
 
-fileUrl <span style="color: #9933FF;">&lt;-</span> <span style="color: #006600;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/FluTest.csv"</span>
+fileUrl <span style="color: #3aff83;">&lt;-</span> <span style="color: #ff5f87;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/FluTest.csv"</span>
 
-fileName <span style="color: #9933FF;">&lt;-</span> <span style="color: #006600;">"FluTest.csv"</span>
+fileName <span style="color: #3aff83;">&lt;-</span> <span style="color: #ff5f87;">"FluTest.csv"</span>
 
-dataPath <span style="color: #9933FF;">&lt;-</span> <span style="color: #006600;">"../data"</span>
+dataPath <span style="color: #3aff83;">&lt;-</span> <span style="color: #ff5f87;">"../data"</span>
 
-filePath <span style="color: #9933FF;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #006600;">"/"</span>)
+filePath <span style="color: #3aff83;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #ff5f87;">"/"</span>)
 
-<span style="color: #0000C8;">if</span>(!file.exists(filePath)) {
-        download.file(fileUrl, destfile = filePath, method = <span style="color: #006600;">"curl"</span>)
+<span style="color: #5af2ee;">if</span>(!file.exists(filePath)) {
+        download.file(fileUrl, destfile = filePath, method = <span style="color: #ff5f87;">"curl"</span>)
 }
-list.files(<span style="color: #006600;">"../data"</span>)
+list.files(<span style="color: #ff5f87;">"../data"</span>)
 </pre>
 </div>
 
 <pre class="example">
- [1] "AnonymityPoll.csv"      "baseball.csv"           "BoeingStock.csv"
- [4] "climate_change.csv"     "CocaColaStock.csv"      "CountryCodes.csv"
- [7] "CPSData.csv"            "FluTest.csv"            "FluTrain.csv"
-[10] "GEStock.csv"            "IBMStock.csv"           "MetroAreaCodes.csv"
-[13] "mvtWeek1.csv"           "NBA_test.csv"           "NBA_train.csv"
-[16] "pisa2009test.csv"       "pisa2009train.csv"      "ProcterGambleStock.csv"
-[19] "README.md"              "USDA.csv"               "WHO.csv"
-[22] "WHO_Europe.csv"         "wine.csv"               "wine_test.csv"
+ [1] "AnonymityPoll.csv"      "BoeingStock.csv"        "CPSData.csv"
+ [4] "CocaColaStock.csv"      "CountryCodes.csv"       "FluTest.csv"
+ [7] "FluTrain.csv"           "GEStock.csv"            "IBMStock.csv"
+[10] "MetroAreaCodes.csv"     "NBA_test.csv"           "NBA_train.csv"
+[13] "ProcterGambleStock.csv" "README.md"              "USDA.csv"
+[16] "WHO.csv"                "WHO_Europe.csv"         "baseball.csv"
+[19] "climate_change.csv"     "mvtWeek1.csv"           "pisa2009test.csv"
+[22] "pisa2009train.csv"      "wine.csv"               "wine_test.csv"
 </pre>
 </div>
 </div>
@@ -3191,8 +3179,8 @@ list.files(<span style="color: #006600;">"../data"</span>)
 <div class="outline-text-4" id="text-3-7-2">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: Read the testing data set"</span>)
-FluTest <span style="color: #9933FF;">&lt;-</span> read.table(<span style="color: #006600;">"../data/FluTest.csv"</span>, sep = <span style="color: #006600;">","</span>, header = <span style="color: #660000;">TRUE</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Read the testing data set"</span>)
+FluTest <span style="color: #3aff83;">&lt;-</span> read.table(<span style="color: #ff5f87;">"../data/FluTest.csv"</span>, sep = <span style="color: #ff5f87;">","</span>, header = <span style="color: #b2baf6;">TRUE</span>)
 str(FluTest)
 summary(FluTest)
 </pre>
@@ -3253,11 +3241,11 @@ the which function, type ?which in your R console.)
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: estimate for the percentage of ILI-related physician\nvisits for the week of March 11, 2012:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: estimate for the percentage of ILI-related physician\nvisits for the week of March 11, 2012:"</span>)
 
-FluPredictTest <span style="color: #9933FF;">&lt;-</span> cbind(FluTest, PredTest1)
+FluPredictTest <span style="color: #3aff83;">&lt;-</span> cbind(FluTest, PredTest1)
 names(FluPredictTest)
-FluPredictTest[which(FluPredictTest$Week == <span style="color: #006600;">"2012-03-11 - 2012-03-17"</span>), 4]
+FluPredictTest[which(FluPredictTest$Week == <span style="color: #ff5f87;">"2012-03-11 - 2012-03-17"</span>), 4]
 </pre>
 </div>
 
@@ -3325,13 +3313,13 @@ relative error is calculated as
 
 <div class="org-src-container">
 
-<pre class="src src-R">stmILI <span style="color: #9933FF;">&lt;-</span> FluPredictTest[which(FluPredictTest$Week ==
-                                       <span style="color: #006600;">"2012-03-11 - 2012-03-17"</span>), 4]
-obsILI <span style="color: #9933FF;">&lt;-</span> FluPredictTest[which(FluPredictTest$Week ==
-                                       <span style="color: #006600;">"2012-03-11 - 2012-03-17"</span>), 2]
+<pre class="src src-R">stmILI <span style="color: #3aff83;">&lt;-</span> FluPredictTest[which(FluPredictTest$Week ==
+                                       <span style="color: #ff5f87;">"2012-03-11 - 2012-03-17"</span>), 4]
+obsILI <span style="color: #3aff83;">&lt;-</span> FluPredictTest[which(FluPredictTest$Week ==
+                                       <span style="color: #ff5f87;">"2012-03-11 - 2012-03-17"</span>), 2]
 
-writeLines(<span style="color: #006600;">"\n :: Relative error for our observation:"</span>)
-relError <span style="color: #9933FF;">&lt;-</span> (obsILI - stmILI) / obsILI
+writeLines(<span style="color: #ff5f87;">"\n :: Relative error for our observation:"</span>)
+relError <span style="color: #3aff83;">&lt;-</span> (obsILI - stmILI) / obsILI
 relError
 </pre>
 </div>
@@ -3370,7 +3358,7 @@ visits, on the test set?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: The RMSE of the testing data set is:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: The RMSE of the testing data set is:"</span>)
 sqrt(mean((FluPredictTest$PredTest1 - FluPredictTest$ILI)^2))
 </pre>
 </div>
@@ -3452,18 +3440,10 @@ you geographically.
 
 <div class="org-src-container">
 
-<pre class="src src-R"><span style="color: #5180B3;">## </span><span style="color: #5180B3;">install.packages("zoo")</span>
-<span style="color: #9933FF;">library</span>(zoo)
+<pre class="src src-R"><span style="color: #f6df92;">## </span><span style="color: #efc334;">install.packages("zoo")</span>
+<span style="color: #3aff83;">library</span>(zoo)
 </pre>
 </div>
-
-<pre class="example">
-Attaching package: ‘zoo’
-
-The following objects are masked from ‘package:base’:
-
-    as.Date, as.Date.numeric
-</pre>
 
 <p>
 After installing and loading the zoo package, run the following
@@ -3472,8 +3452,8 @@ commands to create the ILILag2 variable in the training set:
 
 <div class="org-src-container">
 
-<pre class="src src-R">ILILag2 <span style="color: #9933FF;">&lt;-</span> lag(zoo(FluTrain$ILI), -2, na.pad = <span style="color: #660000;">TRUE</span>)
-FluTrain$ILILag2 <span style="color: #9933FF;">&lt;-</span> coredata(ILILag2)
+<pre class="src src-R">ILILag2 <span style="color: #3aff83;">&lt;-</span> lag(zoo(FluTrain$ILI), -2, na.pad = <span style="color: #b2baf6;">TRUE</span>)
+FluTrain$ILILag2 <span style="color: #3aff83;">&lt;-</span> coredata(ILILag2)
 </pre>
 </div>
 
@@ -3569,15 +3549,12 @@ regression model? (Select all that apply.)
 
 <div class="org-src-container">
 
-<pre class="src src-R">FluTrend2 <span style="color: #9933FF;">&lt;-</span> lm(log(ILI) ~ Queries + log(ILILag2), data = FluTrain)
+<pre class="src src-R">FluTrend2 <span style="color: #3aff83;">&lt;-</span> lm(log(ILI) ~ Queries + log(ILILag2), data = FluTrain)
 summary(FluTrend2)
 </pre>
 </div>
 
 <pre class="example">
- null device
-          1
-
 Call:
 lm(formula = log(ILI) ~ Queries + log(ILILag2), data = FluTrain)
 
@@ -3591,7 +3568,7 @@ Coefficients:
 Queries       1.25578    0.07910   15.88   &lt;2e-16 ***
 log(ILILag2)  0.65569    0.02251   29.14   &lt;2e-16 ***
 ---
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Residual standard error: 0.1703 on 412 degrees of freedom
   (2 observations deleted due to missingness)
@@ -3672,8 +3649,8 @@ in this new variable?
 
 <div class="org-src-container">
 
-<pre class="src src-R">ILILag2 <span style="color: #9933FF;">&lt;-</span> lag(zoo(FluTest$ILI), -2, na.pad = <span style="color: #660000;">TRUE</span>)
-FluTest$ILILag2 <span style="color: #9933FF;">&lt;-</span> coredata(ILILag2)
+<pre class="src src-R">ILILag2 <span style="color: #3aff83;">&lt;-</span> lag(zoo(FluTest$ILI), -2, na.pad = <span style="color: #b2baf6;">TRUE</span>)
+FluTest$ILILag2 <span style="color: #3aff83;">&lt;-</span> coredata(ILILag2)
 summary(FluTest$ILILag2)
 </pre>
 </div>
@@ -3831,13 +3808,13 @@ str(FluTrain) or nrow(FluTrain).
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: Old values for the FluTest$ILILag2 first two values:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Old values for the FluTest$ILILag2 first two values:"</span>)
 tail(FluTrain)
 head(FluTest)
 
-writeLines(<span style="color: #006600;">"\n :: New first two values for the FluTest$ILILag2:"</span>)
-FluTest$ILILag2[1] <span style="color: #9933FF;">&lt;-</span> FluTrain$ILI[416]
-FluTest$ILILag2[2] <span style="color: #9933FF;">&lt;-</span> FluTrain$ILI[417]
+writeLines(<span style="color: #ff5f87;">"\n :: New first two values for the FluTest$ILILag2:"</span>)
+FluTest$ILILag2[1] <span style="color: #3aff83;">&lt;-</span> FluTrain$ILI[416]
+FluTest$ILILag2[2] <span style="color: #3aff83;">&lt;-</span> FluTrain$ILI[417]
 tail(FluTrain)
 head(FluTest)
 </pre>
@@ -3913,7 +3890,7 @@ log(ILI).
 
 <div class="org-src-container">
 
-<pre class="src src-R">PredTest2 <span style="color: #9933FF;">&lt;-</span> exp(predict(FluTrend2, newdata = FluTest))
+<pre class="src src-R">PredTest2 <span style="color: #3aff83;">&lt;-</span> exp(predict(FluTrend2, newdata = FluTest))
 summary(PredTest2)
 </pre>
 </div>
@@ -3929,7 +3906,7 @@ What is the test-set RMSE of the FluTrend2 model?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: The RMSE of the testing data set and the new model is:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: The RMSE of the testing data set and the new model is:"</span>)
 sqrt(mean((PredTest2 - FluTest$ILI)^2))
 </pre>
 </div>
@@ -4052,10 +4029,10 @@ following two commands in R:
 <div class="org-src-container">
 
 <pre class="src src-R">data(state)
-statedata <span style="color: #9933FF;">&lt;-</span> cbind(data.frame(state.x77), state.abb, state.area,
+statedata <span style="color: #3aff83;">&lt;-</span> cbind(data.frame(state.x77), state.abb, state.area,
                    state.center, state.division, state.name,
                    state.region)
-writeLines(<span style="color: #006600;">"\n :: data set loaded..."</span>)
+writeLines(<span style="color: #ff5f87;">"\n :: data set loaded..."</span>)
 </pre>
 </div>
 
@@ -4222,8 +4199,6 @@ which.max(tapply(statedata$HS.Grad, statedata$state.region, mean))
 </div>
 
 <pre class="example">
- null device
-          1
     Northeast         South North Central          West
      53.96667      44.34375      54.51667      62.00000
 West
@@ -4309,14 +4284,12 @@ data.)
 <div class="org-src-container">
 
 <pre class="src src-R">subset(statedata, statedata$state.region ==
-                    <span style="color: #006600;">"Northeast"</span>)[which.max(subset(statedata,
-                    statedata$state.region == <span style="color: #006600;">"Northeast"</span>)$Murder), ]
+                    <span style="color: #ff5f87;">"Northeast"</span>)[which.max(subset(statedata,
+                    statedata$state.region == <span style="color: #ff5f87;">"Northeast"</span>)$Murder), ]
 </pre>
 </div>
 
 <pre class="example">
- null device
-          1
          Population Income Illiteracy Life.Exp Murder HS.Grad Frost  Area
 New York      18076   4903        1.4    70.55   10.9    52.7    82 47831
          state.abb state.area        x       y  state.division state.name
@@ -4370,8 +4343,8 @@ What is the coefficient for "Income" in your linear regression model?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: Regression model 1 for life expectancy:"</span>)
-Life.ExpRM <span style="color: #9933FF;">&lt;-</span> lm(Life.Exp ~ Population + Income + Illiteracy + Murder
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Regression model 1 for life expectancy:"</span>)
+Life.ExpRM <span style="color: #3aff83;">&lt;-</span> lm(Life.Exp ~ Population + Income + Illiteracy + Murder
                  + HS.Grad + Frost + Area, data = statedata)
 summary(Life.ExpRM)
 </pre>
@@ -4399,7 +4372,7 @@ HS.Grad      4.893e-02  2.332e-02   2.098   0.0420 *
 Frost       -5.735e-03  3.143e-03  -1.825   0.0752 .
 Area        -7.383e-08  1.668e-06  -0.044   0.9649
 ---
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Residual standard error: 0.7448 on 42 degrees of freedom
 Multiple R-squared:  0.7362,	Adjusted R-squared:  0.6922
@@ -4565,7 +4538,7 @@ contain?
 <div class="outline-text-4" id="text-4-9-1">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: Summary of the model 1"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Summary of the model 1"</span>)
 summary(Life.ExpRM)
 </pre>
 </div>
@@ -4592,7 +4565,7 @@ HS.Grad      4.893e-02  2.332e-02   2.098   0.0420 *
 Frost       -5.735e-03  3.143e-03  -1.825   0.0752 .
 Area        -7.383e-08  1.668e-06  -0.044   0.9649
 ---
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Residual standard error: 0.7448 on 42 degrees of freedom
 Multiple R-squared:  0.7362,	Adjusted R-squared:  0.6922
@@ -4605,8 +4578,8 @@ Now we will remove the highest Pr(&gt;|t|)
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: Regression model 2 for life expectancy:"</span>)
-Life.ExpRM2 <span style="color: #9933FF;">&lt;-</span> lm(Life.Exp ~ Population + Income + Illiteracy + Murder
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Regression model 2 for life expectancy:"</span>)
+Life.ExpRM2 <span style="color: #3aff83;">&lt;-</span> lm(Life.Exp ~ Population + Income + Illiteracy + Murder
                  + HS.Grad + Frost, data = statedata)
 summary(Life.ExpRM2)
 </pre>
@@ -4633,7 +4606,7 @@ Murder      -3.018e-01  4.334e-02  -6.963 1.45e-08 ***
 HS.Grad      4.847e-02  2.067e-02   2.345   0.0237 *
 Frost       -5.776e-03  2.970e-03  -1.945   0.0584 .
 ---
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Residual standard error: 0.7361 on 43 degrees of freedom
 Multiple R-squared:  0.7361,	Adjusted R-squared:  0.6993
@@ -4647,8 +4620,8 @@ variable.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: Regression model 3 for life expectancy:"</span>)
-Life.ExpRM3 <span style="color: #9933FF;">&lt;-</span> lm(Life.Exp ~ Population + Income + Murder + HS.Grad +
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Regression model 3 for life expectancy:"</span>)
+Life.ExpRM3 <span style="color: #3aff83;">&lt;-</span> lm(Life.Exp ~ Population + Income + Murder + HS.Grad +
                           Frost, data = statedata)
 summary(Life.ExpRM3)
 </pre>
@@ -4674,7 +4647,7 @@ Murder      -3.000e-01  3.704e-02  -8.099 2.91e-10 ***
 HS.Grad      4.776e-02  1.859e-02   2.569   0.0137 *
 Frost       -5.910e-03  2.468e-03  -2.395   0.0210 *
 ---
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Residual standard error: 0.7277 on 44 degrees of freedom
 Multiple R-squared:  0.7361,	Adjusted R-squared:  0.7061
@@ -4687,8 +4660,8 @@ Same behavior for the \(R^2\), then we can remove the Income variable.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: Regression model 4 for life expectancy:"</span>)
-Life.ExpRM4 <span style="color: #9933FF;">&lt;-</span> lm(Life.Exp ~ Population + Murder + HS.Grad + Frost,
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Regression model 4 for life expectancy:"</span>)
+Life.ExpRM4 <span style="color: #3aff83;">&lt;-</span> lm(Life.Exp ~ Population + Murder + HS.Grad + Frost,
                   data = statedata)
 summary(Life.ExpRM4)
 </pre>
@@ -4713,7 +4686,7 @@ Murder      -3.001e-01  3.661e-02  -8.199 1.77e-10 ***
 HS.Grad      4.658e-02  1.483e-02   3.142  0.00297 **
 Frost       -5.943e-03  2.421e-03  -2.455  0.01802 *
 ---
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Residual standard error: 0.7197 on 45 degrees of freedom
 Multiple R-squared:  0.736,	Adjusted R-squared:  0.7126
@@ -4853,8 +4826,8 @@ use the sort function)
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: Prediction data for model 4:"</span>)
-head(sort(predict(Life.ExpRM4), decreasing = <span style="color: #660000;">FALSE</span>))
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Prediction data for model 4:"</span>)
+head(sort(predict(Life.ExpRM4), decreasing = <span style="color: #b2baf6;">FALSE</span>))
 </pre>
 </div>
 
@@ -4906,7 +4879,7 @@ which.min function)
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: The state that actually has the lowest life expectancy:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: The state that actually has the lowest life expectancy:"</span>)
 statedata[which.min(statedata$Life.Exp), 14]
 </pre>
 </div>
@@ -4954,8 +4927,8 @@ Which state do we predict to have the highest life expectancy?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: Prediction data for model 4:"</span>)
-head(sort(predict(Life.ExpRM4), decreasing = <span style="color: #660000;">TRUE</span>))
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: Prediction data for model 4:"</span>)
+head(sort(predict(Life.ExpRM4), decreasing = <span style="color: #b2baf6;">TRUE</span>))
 </pre>
 </div>
 
@@ -4999,7 +4972,7 @@ Which state actually has the highest life expectancy?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #006600;">"\n :: The state that actually has the lowest life expectancy:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff5f87;">"\n :: The state that actually has the lowest life expectancy:"</span>)
 statedata[which.max(statedata$Life.Exp), 14]
 </pre>
 </div>
@@ -5109,7 +5082,7 @@ For which state do we make the largest absolute error?
 
 <div class="org-src-container">
 
-<pre class="src src-R">head(sort(abs(Life.ExpRM4$residuals), decreasing = <span style="color: #660000;">TRUE</span>))
+<pre class="src src-R">head(sort(abs(Life.ExpRM4$residuals), decreasing = <span style="color: #b2baf6;">TRUE</span>))
 </pre>
 </div>
 
@@ -5180,13 +5153,8 @@ in your R console. The largest absolute error is for Hawaii.
 <div id="postamble" class="status">
 <p class="date">Date: 20/06/2015</p>
 <p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
-<<<<<<< HEAD:reports/HomeworkWeek2.html
-<p class="date">Created: 2015-06-25 Thu 07:55</p>
+<p class="date">Created: 2015-06-25 Thu 08:14</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
-=======
-<p class="date">Created: 2015-06-24 Wed 19:38</p>
-<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.4.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
->>>>>>> b93ff274e0c1d26ee665408f95a6db2f32e646b3:src/HomeworkWeek2.html
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

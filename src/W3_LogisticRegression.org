@@ -1,0 +1,509 @@
+#+TITLE:         Unit 3 - Logistic Regression
+#+AUTHOR:        Sergio-Feliciano Mendoza-Barrera
+#+DRAWERS:       Jaalkab
+#+EMAIL:         smendoza.barrera@gmail.com
+#+DATE:          25/06/2015
+#+DESCRIPTION:   R introduction, remembering the syntax and some useful examples
+#+KEYWORDS:      R, data science, emacs, ESS, org-mode
+#+LANGUAGE:      en
+#+OPTIONS:       H:10 num:t toc:nil \n:nil @:t ::t |:t ^:{} -:t f:t *:t <:t d:HIDDEN
+#+OPTIONS:       TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+OPTIONS:       LaTeX:dvipng
+#+INFOJS_OPT:    view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:
+#+LINK_HOME:
+#+XSLT:
+#+STYLE: <link rel="stylesheet" type="text/css" href="dft.css"/>
+
+#+LaTeX_CLASS: IEEEtran
+#+LATEX_CLASS_OPTIONS: [letterpaper, 9pt, onecolumn, twoside, technote, final]
+#+LATEX_HEADER: \usepackage{minted}
+#+LATEX_HEADER: \usepackage{makeidx}
+
+#+LATEX_HEADER: \usepackage[lining,tabular]{fbb} % so math uses tabular lining figures
+#+LATEX_HEADER: \usepackage[scaled=.95,type1]{cabin} % sans serif in style of Gill Sans
+#+LATEX_HEADER: \usepackage[varqu,varl]{zi4}% inconsolata typewriter
+#+LATEX_HEADER: \usepackage[T1]{fontenc} % LY1 also works
+#+LATEX_HEADER: \usepackage[libertine,bigdelims]{newtxmath}
+#+LATEX_HEADER: \usepackage[cal=boondoxo,bb=boondox,frak=boondox]{mathalfa}
+#+LATEX_HEADER: \useosf % change normal text to use proportional oldstyle figures
+
+#+LATEX_HEADER: \markboth{Reporte de gastos Febrero - Abril, 2015}%
+#+LATEX_HEADER: {Sergio-Feliciano Mendoza-Barrera - CEO Global Labs Mexico}
+
+#+LATEX_HEADER: \newcommand{\degC}{$^\circ$C{}}
+
+#+STYLE: <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
+
+#+ATTR_HTML: width="500px"
+
+# -*- mode: org; -*-
+#+OPTIONS:   toc:2
+
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/htmlize.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/readtheorg.css"/>
+
+#+HTML_HEAD: <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+#+HTML_HEAD: <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/readtheorg/js/readtheorg.js"></script>
+
+#+BEGIN_ABSTRACT
+Logistic Regression topics. For the course "MITx: 15.071x The Analytics Edge".
+#+END_ABSTRACT
+
+* Modeling the Expert: An Introduction to Logistic Regression
+
+** Logistic Regression
+
+*The Method*
+
+Logistic regression extends the idea of linear regression to cases
+where the dependent variable, $y$, only has two possible outcomes,
+called classes. Examples of dependent variables that could be used
+with logistic regression are predicting whether a new business will
+succeed or fail, predicting the approval or disapproval of a loan, and
+predicting whether a stock will increase or decrease in value. These
+are all called *classification problems*, since the goal is to figure
+out which class each observation belongs to.
+
+Similar to linear regression, logistic regression uses a set of
+independent variables to make predictions, but instead of predicting a
+continuous value for the dependent variable, it instead predicts the
+probability of each of the possible outcomes, or classes.
+
+Logistic regression consists of two steps. The first step is to
+compute the probability that an observation belongs to class 1, using
+the *Logistic Response Function*:
+
+$$
+P(y = 1) = \frac{1}{1 + e^{-(\beta_0 + \beta_1x_1 + \beta_2x_2 + \ldots + \beta_kx_k)}}
+$$
+
+The coefficients, or $\beta$ values, are selected to maximize the likelihood
+of predicting a high probability for observations actually belonging
+to class 1, and predicting a low probability for observations actually
+belonging to class 0.
+
+In the second step of logistic regression, a threshold value is used
+to classify each observation into one of the classes. A common choice
+is $0.5$, meaning that if $P(y = 1) \geq 0.5$, the observation is
+classified into class 1, and if $P(y = 1) < 0.5$, the observation is
+classified into class 0. Simply stated, each observation is classified
+into the class with the highest probability.
+
+However, other threshold values can be chosen, and in some cases are
+more appropriate. The threshold value that should be selected often
+depends on error preferences. When the probabilities are converted
+into class predictions, two types of errors can be made: false
+positives, and false negatives. A *false positive error* is made when
+the model predicts class 1, but the observation actually belongs to
+class 0. A *false negative error* is made when the model predicts class
+0, but the observation actually belongs to class 1. If a higher
+threshold value is selected, more false negative errors will be
+made. If a lower threshold value is selected, more false positive
+errors will be made.
+
+One application where decision-makers often have an error preference
+is in disease prediction. Suppose you built a model to predict whether
+or not someone will develop heart disease in the next 10 years (like
+the model we saw in the Framingham Heart Study lecture). We will
+consider class 1 to be the outcome in which the person does develop
+heart disease, and class 0 the outcome in which the person does not
+develop heart disease. If you pick a high threshold, you will tend to
+make more false negative errors, which means that you predicted that
+the person would not develop heart disease, but they actually did. If
+you pick a lower threshold, you will tend to make more false positive
+errors, which means that you predicted they would develop heart
+disease, but they actually did not. In this case, a false positive
+error is often preferred. Unnecessary resources might be spent
+treating a patient who did not need to worry, but you did not let as
+many patients go untreated (which is what a false negative error
+does).
+
+Now, let's consider spam filters. Almost every email provider has a
+built in spam filter that tries to detect whether or not an email
+message is spam. Let's classify spam messages as class 1 and non-spam
+messages as class 0. Then if we build a logistic regression model to
+predict spam, we will probably want to select a high threshold. Why?
+In this case, a false positive error means that we predicted a message
+was spam, and sent it to the spam folder, when it actually was not
+spam. We might have just sent an important email to the junk folder!
+On the other hand, a false negative error means that we predicted a
+message was not spam, when it actually was. This creates a slight
+annoyance for the user (since they have to delete the message from the
+inbox themselves) but at least an important message was not missed.
+
+This error trade-off can be formalized with a [[https://courses.edx.org/wiki/15.071x_2/logistic-regression/confusion-matrix][Confusion Matrix]] or a
+[[https://courses.edx.org/wiki/15.071x_2/logistic-regression/roc-curve][Receiver Operator Characteristic Curve (ROC curve)]]. A confusion matrix
+compares predicted classes with actual classes for a particular
+threshold value, while an ROC curve plots the false positive rate
+versus the true positive rate for all possible threshold values. The
+ROC curve motivates an important metric for classification problems:
+the AUC, or Area Under the Curve. The AUC of a model gives the area
+under the ROC curve, and is a number between 0 and 1. The higher the
+AUC, the more area under the ROC curve, and the better the model. The
+AUC of a model can be interpreted as the model's ability to
+distinguish between the two different classes. If the model were
+handed two random observations from the dataset, one belonging to one
+class and one belonging to the other class, the AUC gives the
+proportion of the time when the observation from class 1 has a higher
+predicted probability of being in class 1. If you were to just guess
+which observation was which, this would be an AUC of 0.5. So a model
+with an AUC greater than 0.5 is doing something smarter than just
+guessing, but we want the AUC of a model to be as close to 1 as
+possible.
+
+** Logistic Regression in R
+
+Suppose the training data for your model is in a data frame called
+"TrainingData", consisting of your dependent variable "DependentVar",
+and your two independent variables "IndependentVar1" and
+"IndependentVar2". (If you just have one dataset, you can [[https://courses.edx.org/wiki/15.071x_2/logistic-regression/randomly-splitting-data][randomly
+split]] your data frame into a training set and testing set with the
+sample.split function.) Then you can build a logistic regression model
+with the following command:
+
+~LogModel = glm(DependentVar ~ IndependentVar1 + IndependentVar2,
+data=TrainingData, family=binomial)~
+
+You can see the coefficients and other information about the model
+with the summary function:
+
+~summary(LogModel)~
+
+You can then create a vector of predictions for the training set and
+generate different confusion matrices with the predict() and table()
+functions:
+
+~TrainPredictions = predict(LogModel, type="response")~
+~table(TrainingData$DependentVar, TrainPredictions >= 0.5)~
+~table(TrainingData$DependentVar, TrainPredictions >= 0.3)~
+
+You can generate an ROC curve with the following commands (you first
+need to install and load the "ROCR" package):
+
+~ROC.Pred = prediction(TrainPredictions, TrainingData$DependentVar)~
+~ROC.Perf = performance(ROC.Pred, "tpr", "fpr")~
+~plot(ROC.Perf)~
+
+To add threshold labels and colors, replace the plot command with the following:
+
+~plot(ROC.Perf, colorize=TRUE, print.cutoffs.at=seq(0,1,by=0.1),
+text.adj=c(-0.2,1.7))~
+
+The AUC of the model can be computed with the following command:
+
+~as.numeric(performance(ROC.Pred, "auc")@y.values)~
+
+To make predictions on a test set called "TestData", you can use the
+predict() function:
+
+~TestPredictions = predict(LogModel, newdata=TestData,
+type="response")~
+
+You can then create confusion matrices, an ROC curve, and compute the
+AUC just like we did for the training set on the test set.
+
+** Video 1: Replicating Expert Assessment
+
+We'll examine how analytics can model an expert, in this case a
+physician, in the context of assessing the quality of healthcare
+patients receive, and introduce a technique called logistic regression
+to achieve this objective.
+
+[[../graphs/AskTheExperts.png]]
+
+The large scale problem:
+
+[[../graphs/ExpertsAreHuman.png]]
+
+Clearly, physicians cannot assess quality for millions of patients,
+and D2Hawkeye had, indeed, millions of patients who receive claims
+data on a monthly basis that the quality of them needs to be assessed.
+
+So the key question is as follows. Can we develop analytics tools that
+replicate expert assessment on a large scale?
+
+The goal is to learn from expert human judgment by developing a model,
+interpret the results of the model, and further adjust the model to
+improve predictability. The objective is to make predictions and
+evaluations on a large scale basis, to be able to process millions of
+assessing the health care quality for millions of people.
+
+** Video 2: Building the Dataset
+
+So let us explain what claims data is. So medical claims are generated
+when a patient visits a doctor. Medical claims include diagnosis code,
+procedures codes, as well as costs.
+
+Pharmacy claims involve drugs, the quantity of these drugs, the
+prescribing doctor, as well as the medication costs. Claims data are
+electronically available, they are standardized, they use
+well-established codes.
+
+*However, since humans generate them, they are not 100% accurate*.
+
+[[../graphs/ClaimsData.png]]
+
+And often, under-reporting is common in the sense that it's a tedious
+job to record these claims, and as a result, often people under-report
+them. Also, claims for hospital visits can be vague.
+
+In creating a data set, our objective was to assess quality, health
+care quality.
+
+[[../graphs/CreatingTheDataSet01.png]]
+
+So we used a large health insurance claims database, and we randomly
+selected 131 diabetes patients. The ages ranged between 35 to 55 and
+the costs were in the neighborhood of $10,000 to $20,000.
+
+The period in which these claims were recorded were September 1, 2003
+to August 31, 2005.
+
+[[../graphs/CreatingTheDataSet02.png]]
+
+An expert physician reviewed the claims and wrote descriptive notes,
+like "ongoing use of narcotics"; "only on Avandia, not a good first
+choice drug"; "had regular visits, mammogram, and immunizations"; "was
+given home testing supplies".
+
+After this review, this expert physician rated the quality of care on
+a two-point scale, poor or good. Examples included, I'd say care was
+poor. Poorly treated diabetes. Not an eye exam, but overall I'd say
+high quality.
+
+[[../graphs/CreatingTheDataSet03.png]]
+
+So based on these comments, we extracted variables. The dependent
+variable was the *quality of care*. The independent variables involve
+the *ongoing use of narcotics*; only on Avandia, not a good first choice
+drug; had *regular visits*, *mammogram*, and *immunizations*; was given home
+testing supplies.
+
+[[../graphs/CreatingTheDataSet04.png]]
+
+Overall, the independent variables involved diabetes treatment
+variables, patient demographics, health care utilization, providers,
+claims, and prescriptions. The dependent variable was modeled as a
+binary variable -- 1 for low-quality care and 0 for high-quality
+care.
+
+[[../graphs/CreatingTheDataSet05.png]]
+
+This is by its nature a categorical variable. It only takes two
+possible values. We have seen linear regression as a way of predicting
+continuous outcomes.
+
+[[../graphs/PredictingQualityOfCare.png]]
+
+** Quick Question (2 points possible)
+
+*** Question a
+
+Which of the following dependent variables are categorical? (Select
+all that apply.)
+
+- [X] Deciding whether to buy, sell, or hold a stock
+- [ ] The weekly revenue of a company
+- [X] The winner of an election with two candidates
+- [X] The day of the week with the highest revenue
+- [ ] The number of daily car thefts in New York City
+- [X] Whether or not revenue will exceed $50,000
+
+**** Answer
+
+*Explanation*
+
+The weekly revenue of a company is not categorical, since it has a
+large number of possible values, on a continuous range. The number of
+daily car thefts in New York City is also not categorical because the
+number of car thefts could range from 0 to hundreds.
+
+On the other hand, the other options each have a limited number of
+possible outcomes.
+
+*** Question b
+
+Which of the following dependent variables are binary? (Select all
+that apply.)
+
+- [ ] Deciding whether to buy, sell, or hold a stock
+- [ ] The weekly revenue of a company
+- [X] The winner of an election with two candidates
+- [ ] The day of the week with the highest revenue
+- [ ] The number of daily car thefts in New York City
+- [X] Whether or not revenue will exceed $50,000
+
+**** Answer
+
+*Explanation*
+
+The only variables with two possible outcomes are the winner of an
+election with two candidates, and whether or not revenue will exceed
+$50,000.
+
+** Video 3: Logistic Regression
+
+*Logistic regression* predicts the probability of the outcome variable
+being *true*. In this example, a logistic regression model would predict
+the probability that the patient is receiving *poor care*. Or if we
+denote the PoorCare variable by $y$, the probability that $y = 1$.
+
+[[../graphs/LogisticRegression.png]]
+
+So by predicting the probability that $y = 1$, we also get the
+probability that $y = 0$. Just like in linear regression, we have a
+set of independent variables, $x_1$ through $x_k$, where $k$ is the
+total number of independent variables we have.
+
+Then to predict the probability that $y = 1$, we use what's called the
+*Logistic Response Function*. This seems like a complicated, nonlinear
+equation, but you can see the familiar linear regression equation in
+this Logistic Response Function.
+
+The Logistic Response Function is used to produce a number between $0$
+and $1$.
+
+** Understanding the Logistic Regression Function
+
+[[../graphs/UnderstandingTheLF.png]]
+
+This plot shows the logistic response function for different values of
+the linear regression piece. The logistic response function always
+takes values between $0$ and $1$, which makes sense, since it equals a
+probability.
+
+A positive coefficient value for a variable increases the linear
+regression piece, which increases the probability that $y = 1$, or
+increases the probability of poor care. On the other hand, a negative
+coefficient value for a variable decreases the linear regression
+piece, which in turn decreases the probability that $y = 1$, or
+increases the probability of good care.
+
+[[../graphs/UnderstandingTheLF02.png]]
+
+The coefficients, or betas, are selected to predict a high probability
+for the actual poor care cases, and to predict a low probability for
+the actual good care cases.
+
+Another useful way to think about the logistic response function is in
+terms of Odds, like in gambling.
+
+[[../graphs/UnderstandingTheLF03.png]]
+
+If you substitute the *Logistic Response Function* for the
+probabilities in the Odds equation.
+
+[[../graphs/TheLogit.png]]
+
+This helps us understand how the coefficients, or betas, affect our
+prediction of the probability. A positive $\beta$ value increases the
+*Logit*, which in turn increases the Odds of $1$. A negative $\beta$
+value decreases the *Logit*, which in turn, decreases the Odds of
+one.
+
+** Video 4: Logistic Regression in R
+
+We'll be using the dataset [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/quality.csv][quality.csv]] to build a logistic regression
+model in R. Please download this file to follow along.
+
+An R script file with all of the commands used in this lecture can be
+downloaded [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/Unit3_ModelingExpert.R][here]].
+
+*** Download the data sets
+
+In this part we can download the data
+
+#+BEGIN_SRC R :session :results output :exports all
+  library(parallel)
+
+  if(!file.exists("../data")) {
+          dir.create("../data")
+  }
+
+  fileUrl <- "https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/quality.csv"
+
+  fileName <- "quality.csv"
+
+  dataPath <- "../data"
+
+  filePath <- paste(dataPath, fileName, sep = "/")
+
+  if(!file.exists(filePath)) {
+          download.file(fileUrl, destfile = filePath, method = "curl")
+  }
+
+  list.files("../data")
+#+END_SRC
+
+#+RESULTS:
+:  [1] "AnonymityPoll.csv"      "BoeingStock.csv"        "CPSData.csv"
+:  [4] "CocaColaStock.csv"      "CountryCodes.csv"       "FluTest.csv"
+:  [7] "FluTrain.csv"           "GEStock.csv"            "IBMStock.csv"
+: [10] "MetroAreaCodes.csv"     "NBA_test.csv"           "NBA_train.csv"
+: [13] "ProcterGambleStock.csv" "README.md"              "USDA.csv"
+: [16] "WHO.csv"                "WHO_Europe.csv"         "baseball.csv"
+: [19] "climate_change.csv"     "mvtWeek1.csv"           "pisa2009test.csv"
+: [22] "pisa2009train.csv"      "quality.csv"            "wine.csv"
+: [25] "wine_test.csv"
+
+*** Load the data set
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("    Loading data into their data frames.")
+  quality <- read.table("../data/quality.csv", sep = ",", header = TRUE)
+  str(quality)
+  summary(quality)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+    Loading data into their data frames.
+'data.frame':	131 obs. of  14 variables:
+ $ MemberID            : int  1 2 3 4 5 6 7 8 9 10 ...
+ $ InpatientDays       : int  0 1 0 0 8 2 16 2 2 4 ...
+ $ ERVisits            : int  0 1 0 1 2 0 1 0 1 2 ...
+ $ OfficeVisits        : int  18 6 5 19 19 9 8 8 4 0 ...
+ $ Narcotics           : int  1 1 3 0 3 2 1 0 3 2 ...
+ $ DaysSinceLastERVisit: num  731 411 731 158 449 ...
+ $ Pain                : int  10 0 10 34 10 6 4 5 5 2 ...
+ $ TotalVisits         : int  18 8 5 20 29 11 25 10 7 6 ...
+ $ ProviderCount       : int  21 27 16 14 24 40 19 11 28 21 ...
+ $ MedicalClaims       : int  93 19 27 59 51 53 40 28 20 17 ...
+ $ ClaimLines          : int  222 115 148 242 204 156 261 87 98 66 ...
+ $ StartedOnCombination: logi  FALSE FALSE FALSE FALSE FALSE FALSE ...
+ $ AcuteDrugGapSmall   : int  0 1 5 0 0 4 0 0 0 0 ...
+ $ PoorCare            : int  0 0 0 0 0 1 0 0 1 0 ...
+    MemberID     InpatientDays       ERVisits       OfficeVisits
+ Min.   :  1.0   Min.   : 0.000   Min.   : 0.000   Min.   : 0.00
+ 1st Qu.: 33.5   1st Qu.: 0.000   1st Qu.: 0.000   1st Qu.: 7.00
+ Median : 66.0   Median : 0.000   Median : 1.000   Median :12.00
+ Mean   : 66.0   Mean   : 2.718   Mean   : 1.496   Mean   :13.23
+ 3rd Qu.: 98.5   3rd Qu.: 3.000   3rd Qu.: 2.000   3rd Qu.:18.50
+ Max.   :131.0   Max.   :30.000   Max.   :11.000   Max.   :46.00
+   Narcotics      DaysSinceLastERVisit      Pain         TotalVisits
+ Min.   : 0.000   Min.   :  6.0        Min.   :  0.00   Min.   : 0.00
+ 1st Qu.: 0.000   1st Qu.:207.0        1st Qu.:  1.00   1st Qu.: 8.00
+ Median : 1.000   Median :641.0        Median :  8.00   Median :15.00
+ Mean   : 4.573   Mean   :480.6        Mean   : 15.56   Mean   :17.44
+ 3rd Qu.: 3.000   3rd Qu.:731.0        3rd Qu.: 23.00   3rd Qu.:22.50
+ Max.   :59.000   Max.   :731.0        Max.   :104.00   Max.   :69.00
+ ProviderCount   MedicalClaims      ClaimLines    StartedOnCombination
+ Min.   : 5.00   Min.   : 11.00   Min.   : 20.0   Mode :logical
+ 1st Qu.:15.00   1st Qu.: 25.50   1st Qu.: 83.5   FALSE:125
+ Median :20.00   Median : 37.00   Median :120.0   TRUE :6
+ Mean   :23.98   Mean   : 43.24   Mean   :142.9   NA's :0
+ 3rd Qu.:30.00   3rd Qu.: 49.50   3rd Qu.:185.0
+ Max.   :82.00   Max.   :194.00   Max.   :577.0
+ AcuteDrugGapSmall    PoorCare
+ Min.   : 0.000    Min.   :0.0000
+ 1st Qu.: 0.000    1st Qu.:0.0000
+ Median : 1.000    Median :0.0000
+ Mean   : 2.695    Mean   :0.2519
+ 3rd Qu.: 3.000    3rd Qu.:0.5000
+ Max.   :71.000    Max.   :1.0000
+#+end_example
