@@ -2,7 +2,7 @@
 #+AUTHOR:        Sergio-Feliciano Mendoza-Barrera
 #+DRAWERS:       Jaalkab
 #+EMAIL:         smendoza.barrera@gmail.com
-#+DATE:          25/06/2015
+#+DATE:          26/06/2015
 #+DESCRIPTION:   R introduction, remembering the syntax and some useful examples
 #+KEYWORDS:      R, data science, emacs, ESS, org-mode
 #+LANGUAGE:      en
@@ -406,7 +406,113 @@ prediction of the probability. A positive $\beta$ value increases the
 value decreases the *Logit*, which in turn, decreases the Odds of
 one.
 
+** Quick Question (3 points possible)
+
+Suppose the coefficients of a logistic regression model with two
+independent variables are as follows:
+
+$$
+\beta_0 = -1.5,~ \beta_1 = 3,~\beta_2 = -0.5
+$$
+
+And we have an observation with the following values for the
+independent variables:
+
+$$
+x_1 = 1,~x_2 = 5
+$$
+
+*** Question a
+
+What is the value of the Logit for this observation? Recall that the
+Logit is log(Odds).
+
+$$
+log(Odds) = \beta_0 + \beta_1 x_1 + \beta_2 x_2
+$$
+
+#+begin_src R :session :results output :exports all
+  beta0 <- -1.5; beta1 <- 3; beta2 <- -0.5;
+  x1 <- 1; x2 <- 5
+  logit <- beta0 + (beta1 * x1) + (beta2 * x2)
+  writeLines("\n :: The value of logit is:")
+  logit
+#+end_src
+
+#+RESULTS:
+:
+:  :: The value of logit is:
+: [1] -1
+
+**** Answer
+
+*Explanation*
+
+The Logit is just log(Odds), and looks like the linear regression
+equation. So the Logit is -1.5 + 3*1 - 0.5*5 = -1.
+
+
+*** Question b
+
+What is the value of the Odds for this observation? Note that you can
+compute e^x, for some number x, in your R console by typing
+exp(x). The function exp() computes the exponential of its argument.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: The value of odds is:")
+  exp(logit)
+#+end_src
+
+#+RESULTS:
+:
+:  :: The value of odds is:
+: [1] 0.3678794
+
+**** Answer
+
+*Explanation*
+
+Using the value of the Logit from the previous question, we have that
+Odds = e^(-1) = 0.3678794.
+
+
+*** Question c
+
+What is the value of P(y = 1) for this observation?
+
+#+begin_src R :session :results output :exports all
+  P <- 1 / (1 + exp(-logit))
+  writeLines("\n :: The probability of P(y = 1) is:")
+  P
+#+end_src
+
+#+RESULTS:
+:
+:  :: The probability of P(y = 1) is:
+: [1] 0.2689414
+
+**** Answer
+
+*Explanation*
+
+Using the Logistic Response Function, we can compute that P(y = 1) =
+1/(1 + e^(-Logit)) = 1/(1 + e^(1)) = 0.2689414.
+
+
 ** Video 4: Logistic Regression in R
+
+[[../graphs/HealthQualityModel.png]]
+
+This plot shows two of our independent variables, the number of office
+visits on the x-axis and the number of narcotics prescribed on the
+y-axis. Each point is an observation or a patient in our data set. The
+red points are patients who received poor care, and the green points
+are patients who received good care.
+
+It's hard to see a trend in the data by just visually inspecting
+it. But it looks like maybe more office visits and more narcotics, or
+data points to the right of this line, are more likely to have poor
+care.
 
 We'll be using the dataset [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/quality.csv][quality.csv]] to build a logistic regression
 model in R. Please download this file to follow along.
@@ -507,3 +613,978 @@ In this part we can download the data
  3rd Qu.: 3.000    3rd Qu.:0.5000
  Max.   :71.000    Max.   :1.0000
 #+end_example
+
+We'll be using the number of office visits and the number of
+prescriptions for narcotics that the patient had.
+
+*** Data dictionary
+
+The variables in the dataset quality.csv are as follows:
+
+- *MemberID* numbers the patients from 1 to 131, and is just an
+  identifying number.
+
+- *InpatientDays* is the number of inpatient visits, or number of days
+  the person spent in the hospital.
+
+- *ERVisits* is the number of times the patient visited the emergency
+  room.
+
+- *OfficeVisits* is the number of times the patient visited any
+  doctor's office.
+
+- *Narcotics* is the number of prescriptions the patient had for
+  narcotics.
+
+- *DaysSinceLastERVisit* is the number of days between the patient's
+  last emergency room visit and the end of the study period (set to
+  the length of the study period if they never visited the ER).
+
+- *Pain* is the number of visits for which the patient complained
+  about pain.
+
+- *TotalVisits* is the total number of times the patient visited any
+  healthcare provider.
+
+- *ProviderCount* is the number of providers that served the patient.
+
+- *MedicalClaims* is the number of days on which the patient had a
+  medical claim.
+
+- *ClaimLines* is the total number of medical claims.
+
+- *StartedOnCombination* is whether or not the patient was started on
+  a combination of drugs to treat their diabetes (TRUE or FALSE).
+
+- *AcuteDrugGapSmall* is the fraction of acute drugs that were
+  refilled quickly after the prescription ran out.
+
+- *PoorCare* is the outcome or dependent variable, and is equal to 1
+  if the patient had poor care, and equal to 0 if the patient had good
+  care.
+
+In this part we learned how to use the ~sample.split()~ function from
+the *caTools* package to split data for a classification problem,
+balancing the positive and negative observations in the training and
+testing sets.
+
+If you wanted to instead split a data frame data, where the dependent
+variable is a continuous outcome (this was the case for all the
+datasets we used last week), you could instead use the ~sample()~
+function. Here is how to select $70\%$ of observations for the training
+set (called *train*) and $30\%$ of observations for the testing set
+(called *test*):
+
+~spl = sample(1:nrow(data), size=0.7 * nrow(data))~
+
+~train = data[spl,]~
+
+~test = data[-spl,]~
+
+*** Logistic Regression model building
+
+In a classification problem, a standard baseline method is to just
+predict the most frequent outcome for all observations.
+
+Since good care is more common than poor care, in this case, we would
+predict that all patients are receiving good care. If we did this, we
+would get $98$ out of the $131$ observations correct, or have an accuracy
+of about $75\%$.
+
+So our baseline model has an accuracy of $75\%$. This is what we'll
+try to beat with our logistic regression model.
+
+we only have one data set. So we want to randomly split our data set
+into a training set and testing set so that we'll have a test set to
+measure our out-of-sample accuracy.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Install and load caTools package (Only once)")
+  ## install.packages('caTools', repos='http://cran.rstudio.com/')
+  library(caTools)
+
+  writeLines("\n :: Randomly split data")
+  set.seed(88)
+  split <- sample.split(quality$PoorCare, SplitRatio = 0.75)
+  head(split)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Install and load caTools package (Only once)
+:
+:  :: Randomly split data
+: [1]  TRUE  TRUE  TRUE  TRUE FALSE  TRUE
+
+Since sample.split randomly splits your data, it could split it
+differently for each of us. To make sure that we all get the same
+split, we'll set our seed. This initializes the random number
+generator.
+
+~Sample.split~ randomly splits the data. But it also makes sure that
+the outcome variable is well-balanced in each piece. We saw earlier
+that about $75\%$ of our patients are receiving good care.
+
+This function makes sure that in our training set, $75\%$ of our patients
+are receiving good care and in our testing set $75\%$ of our patients are
+receiving good care.
+
+*** Building the training and the testing sets
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Create training and testing sets")
+  qualityTrain <- subset(quality, split == TRUE)
+  qualityTest <- subset(quality, split == FALSE)
+
+  writeLines("\n :: The number of observations in the training set")
+  nrow(qualityTrain)
+
+  writeLines("\n :: The number of observations in the testing set")
+  nrow(qualityTest)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Create training and testing sets
+:
+:  :: The number of observations in the training set
+: [1] 99
+:
+:  :: The number of observations in the testing set
+: [1] 32
+
+We are ready to build a logistic regression model using *OfficeVisits*
+and *Narcotics* as independent variables.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: First Logistic Regression Model")
+  QualityLog <- glm(PoorCare ~ OfficeVisits + Narcotics,
+                    data=qualityTrain, family = binomial)
+  summary(QualityLog)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: First Logistic Regression Model
+
+Call:
+glm(formula = PoorCare ~ OfficeVisits + Narcotics, family = binomial,
+    data = qualityTrain)
+
+Deviance Residuals:
+     Min        1Q    Median        3Q       Max
+-2.06303  -0.63155  -0.50503  -0.09689   2.16686
+
+Coefficients:
+             Estimate Std. Error z value Pr(>|z|)
+(Intercept)  -2.64613    0.52357  -5.054 4.33e-07 ***
+OfficeVisits  0.08212    0.03055   2.688  0.00718 **
+Narcotics     0.07630    0.03205   2.381  0.01728 *
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 111.888  on 98  degrees of freedom
+Residual deviance:  89.127  on 96  degrees of freedom
+AIC: 95.127
+
+Number of Fisher Scoring iterations: 4
+#+end_example
+
+This gives the estimate values for the coefficients, or the betas, for
+our logistic regression model. We see here that the coefficients for
+*OfficeVisits* and *Narcotics* are both positive, which means that higher
+values in these two variables are indicative of poor care as we
+suspected from looking at the data.
+
+We also see that both of these variables have at least one star,
+meaning that they're significant in our model.
+
+The preferred model is the one with the minimum *AIC*.
+
+*** Predictions in the training set
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Make predictions on training set")
+  predictTrain <- predict(QualityLog, type = "response")
+#+end_src
+
+#+RESULTS:
+:
+:  :: Make predictions on training set
+
+The second argument which is type="response". This tells the predict
+function to give us probabilities. Let's take a look at the
+statistical summary of our predictions.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Analyze predictions")
+  summary(predictTrain)
+  tapply(predictTrain, qualityTrain$PoorCare, mean)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Analyze predictions
+:    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+: 0.06623 0.11910 0.15970 0.25250 0.26760 0.98460
+:         0         1
+: 0.1894512 0.4392246
+
+Since we're expecting probabilities, all of the numbers should be
+between zero and one. And we see that the minimum value is about
+$0.07$ and the maximum value is $0.98$.
+
+Let's see if we're predicting higher probabilities for the actual poor
+care cases as we expect. Using the ~tapply~ function. So we see that
+for all of the *true poor care* cases, we predict an average probability
+of about $0.44$. And all of the *true good care* cases, we predict an
+average probability of about $0.19$.
+
+*So this is a good sign, because it looks like we're predicting a
+ higher probability for the actual poor care cases*.
+
+** Quick Question (1 point possible)
+
+In R, create a logistic regression model to predict "PoorCare" using
+the independent variables "StartedOnCombination" and
+"ProviderCount". Use the training set we created in the previous video
+to build the model.
+
+Note: If you haven't already loaded and split the data in R, please
+run these commands in your R console to load and split the data
+set. Remember to first navigate to the directory where you have saved
+"quality.csv".
+
+~quality = read.csv("quality.csv")~
+
+~install.packages("caTools")~
+
+~library(caTools)~
+
+~set.seed(88)~
+
+~split = sample.split(quality$PoorCare, SplitRatio = 0.75)~
+
+~qualityTrain = subset(quality, split == TRUE)~
+
+~qualityTest = subset(quality, split == FALSE)~
+
+Then recall that we built a logistic regression model to predict
+PoorCare using the R command:
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: create a logistic regression model to predict PoorCare using
+  the independent variables StartedOnCombination and ProviderCount:")
+  QualityLog2 <- glm(PoorCare ~ StartedOnCombination + ProviderCount,
+                     data = qualityTrain, family = binomial)
+  summary(QualityLog2)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: create a logistic regression model to predict PoorCare using
+the independent variables StartedOnCombination and ProviderCount:
+
+Call:
+glm(formula = PoorCare ~ StartedOnCombination + ProviderCount,
+    family = binomial, data = qualityTrain)
+
+Deviance Residuals:
+     Min        1Q    Median        3Q       Max
+-1.61826  -0.72782  -0.64555  -0.08407   1.94662
+
+Coefficients:
+                         Estimate Std. Error z value Pr(>|z|)
+(Intercept)              -2.00097    0.55097  -3.632 0.000282 ***
+StartedOnCombinationTRUE  1.95230    1.22342   1.596 0.110541
+ProviderCount             0.03366    0.01983   1.697 0.089706 .
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 111.89  on 98  degrees of freedom
+Residual deviance: 104.37  on 96  degrees of freedom
+AIC: 110.37
+
+Number of Fisher Scoring iterations: 4
+#+end_example
+
+You will need to adjust this command to answer this question, and then
+look at the ~summary(QualityLog)~ output.
+
+What is the coefficient for *StartedOnCombination*?
+
+*** Answer
+
+If you look at the output of ~summary(Model)~, the value of the
+coefficient (Estimate) for ~StartedOnCombination~ is $1.95230$.
+
+** Quick Question (1 point possible)
+
+*StartedOnCombination* is a binary variable, which equals $1$ if the
+patient is started on a combination of drugs to treat their diabetes,
+and equals $0$ if the patient is not started on a combination of
+drugs. All else being equal, does this model imply that starting a
+patient on a combination of drugs is indicative of poor care, or good
+care?
+
+*** Answer
+
+*Explanation*
+
+The coefficient value is positive, meaning that positive values of the
+variable make the outcome of $1$ more likely. This corresponds to Poor
+Care.
+
+** Video 5: Thresholding
+
+Often, we want to make an actual prediction.  Should we predict $1$ for
+*poor care*, or should we predict $0$ for *good care*? We can convert the
+probabilities to predictions using what's called a threshold value, $t$.
+
+If the probability of *poor care* is greater than this threshold value,
+$t$, we predict *poor quality care*. But if the probability of *poor care*
+is less than the threshold value, $t$, then we predict *good quality
+care*.
+
+[[../graphs/ThresholdValue.png]]
+
+*What value should we pick for the threshold, t?*
+
+The threshold value, $t$, is often selected based on which errors are
+better. You might be thinking that making no errors is better, which
+is, of course, true.
+
+But it's rare to have a model that predicts perfectly, so you're bound
+to make some errors. There are two types of errors that a model can
+make --ones where you predict $1$, or *poor care*, but the actual
+outcome is $0$, and ones where you predict $0$, or good care, but the
+actual outcome is $1$.
+
+[[../graphs/ThresholdValue02.png]]
+
+- The large $t$ selection approach would detect the patients receiving
+the worst care and prioritize them for intervention.
+
+- The small $t$ selection approach would detect all patients who might
+be receiving poor care.
+
+Some decision-makers often have a preference for one type of error
+over the other, which should influence the threshold value they pick.
+
+** The confusion matrix or classification matrix
+
+[[../graphs/ThresholdValue03.png]]
+
+The rows are labeled with the actual outcome, and the columns are
+labeled with the predicted outcome.
+
+Each entry of the table gives the number of data observations that
+fall into that category. So the number of *true negatives*, or *TN*, is
+the number of observations that are actually good care and for which
+we predict good care.
+
+The *true positives*, or *TP*, is the number of observations that are
+actually poor care and for which we predict poor care. These are the
+two types that we get correct.
+
+The *false positives*, or *FP*, are the number of data points for which we
+predict poor care, but they're actually good care. And the *false
+negatives*, or FN, are the number of data points for which we predict
+good care, but they're actually poor care.
+
+- The Sensitivity is often called *the true positive rate* and
+  measures the percentage of actual poor care cases that we classify
+  correctly.
+
+- The Specificity is called *the true negative rate* and measures the
+  percentage of actual good care cases that we classify correctly.
+
+A model with a *higher threshold* will have a *lower sensitivity* and a
+*higher specificity*. A model with a *lower threshold* will have a higher
+*sensitivity* and a lower *specificity*.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Confusion matrix for threshold of 0.5:")
+  table(qualityTrain$PoorCare, predictTrain > 0.5)
+
+  writeLines("\n :: Sensitivity:")
+  10/25
+
+  writeLines("\n :: Specificity:")
+  70/74
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Confusion matrix for threshold of 0.5:
+
+    FALSE TRUE
+  0    70    4
+  1    15   10
+
+ :: Sensitivity:
+[1] 0.4
+
+ :: Specificity:
+[1] 0.9459459
+#+end_example
+
+So you can see here that for $70$ cases, we *predict good care* and they
+actually *received good care*, and for $10$ cases, we *predict poor care*,
+and they actually *received poor care*.
+
+We make $4$ mistakes where *we say poor care* and it's actually *good
+care*, and we make $15$ mistakes where *we say good care*, but it's
+*actually poor care*.
+
+Now we can experiment with a higher threshold:
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Confusion matrix for threshold of 0.7")
+  table(qualityTrain$PoorCare, predictTrain > 0.7)
+
+  writeLines("\n :: Sensitivity:")
+  8/25
+
+  writeLines("\n :: Specificity:")
+  73/74
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Confusion matrix for threshold of 0.7
+
+    FALSE TRUE
+  0    73    1
+  1    17    8
+
+ :: Sensitivity:
+[1] 0.32
+
+ :: Specificity:
+[1] 0.9864865
+#+end_example
+
+So by increasing the threshold, our sensitivity went down and our
+specificity went up.
+
+If now we choose a small threshold:
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Confusion matrix for threshold of 0.2")
+  table(qualityTrain$PoorCare, predictTrain > 0.2)
+
+  writeLines("\n :: Sensitivity:")
+  16/25
+
+  writeLines("\n :: Specificity:")
+  54/74
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Confusion matrix for threshold of 0.2
+
+    FALSE TRUE
+  0    54   20
+  1     9   16
+
+ :: Sensitivity:
+[1] 0.64
+
+ :: Specificity:
+[1] 0.7297297
+#+end_example
+
+So with the lower threshold, our sensitivity went up, and our
+specificity went down.
+
+*But which threshold should we pick?* Maybe $0.4$ is better, or
+ $0.6$. How do we decide?
+
+** Confusion matrices questions
+
+This question asks about the following two confusion matrices:
+
+*** Confusion Matrix #1:
+
+|            | Predicted = 0 | Predicted = 1 |
+|------------+---------------+---------------|
+| Actual = 0 |            15 |            10 |
+| Actual = 1 |             5 |            20 |
+
+#+begin_src R :session :results output :exports all
+  TP <- 20; TN <- 15; FP <- 10; FN <- 5;
+  writeLines("\n :: Sensitivity:")
+  Sensitivity <- TP / (TP + FN)
+  Sensitivity
+
+  writeLines("\n :: Specificity:")
+  Specificity <- TN / (TN + FP)
+  Specificity
+#+end_src
+
+#+RESULTS:
+:
+:  :: Sensitivity:
+: [1] 0.8
+:
+:  :: Specificity:
+: [1] 0.6
+
+**** Answer
+
+*Explanation*
+
+The *sensitivity* of a confusion matrix is the true positives, divided
+by the true positives plus the false negatives. In this case, it is
+20/(20+5) = 0.8
+
+*Explanation*
+
+The *specificity* of a confusion matrix is the true negatives, divided
+by the true negatives plus the false positives. In this case, it is
+15/(15+10) = 0.6
+
+
+
+*** Confusion Matrix #2:
+
+|            | Predicted = 0 | Predicted = 1 |
+|------------+---------------+---------------|
+| Actual = 0 |            20 |             5 |
+| Actual = 1 |            10 |            15 |
+
+#+begin_src R :session :results output :exports all
+  TP <- 15; TN <- 20; FP <- 5; FN <- 10;
+  writeLines("\n :: Sensitivity:")
+  Sensitivity <- TP / (TP + FN)
+  Sensitivity
+
+  writeLines("\n :: Specificity:")
+  Specificity <- TN / (TN + FP)
+  Specificity
+#+end_src
+
+#+RESULTS:
+:
+:  :: Sensitivity:
+: [1] 0.6
+:
+:  :: Specificity:
+: [1] 0.8
+
+**** Answer
+
+The *Sensitivity* in the matrix 1 was $0.8$ and was $0.6$ in the
+second matrix, then the threshold went up.
+
+*Explanation*
+
+We predict the outcome 1 less often in Confusion Matrix #2. This means
+we must have increased the threshold.
+
+** Video 6: ROC Curves
+
+Picking a good threshold value is often challenging. A Receiver
+Operator Characteristic curve, or ROC curve, can help you decide which
+value of the threshold is best.
+
+[[../graphs/ROC.png]]
+
+The sensitivity or true positive rate is in the $y$ axis and the false
+positive rate, or 1 minus the specificity, is given on the x-axis.
+
+- The line shows how these two outcome measures vary with different
+  threshold values. The ROC curve always starts at the point $(0,
+  0)$. This corresponds to a threshold value of $1$. If you have a
+  threshold of $1$, you will not catch any poor care cases, or have a
+  sensitivity of $0$. But you will correctly label of all the good
+  care cases, meaning you have a false positive rate of $0$.
+
+- The ROC curve always ends at the point $(1, 1)$, which corresponds
+  to a threshold value of $0$. If you have a threshold of $0$, you'll
+  catch all of the poor care cases, or have a sensitivity of $1$, but
+  you'll label all of the good care cases as poor care cases too,
+  meaning you have a false positive rate of $1$.
+
+- The threshold decreases as you move from $(0, 0)$ to $(1, 1)$. At
+  the point $(0, 0.4)$, or about here, you're correctly labeling about
+  $40\%$ of the poor care cases with a very small false positive
+  rate.
+
+- On the other hand, at the point $(0.6, 0.9)$, you're correctly
+  labeling about $90\%$ of the poor care cases, but have a false
+  positive rate of $60\%$.
+
+- In the middle, around $(0.3, 0.8)$, you're correctly labeling about
+  80% of the poor care cases, with a $30\%$ false positive rate.
+
+[[../graphs/ROC02.png]]
+
+- The *higher the threshold*, or closer to $(0, 0)$, the *higher* the
+  *specificity* and the *lower* the *sensitivity*. The *lower the
+  threshold*,   or closer to $(1,1)$, the *higher* the *sensitivity*
+  and lower the *specificity*.
+
+*So which threshold value should you pick?* You should select the best
+ threshold for the trade-off you want to make.
+
+- If you're more concerned with having a *high specificity* or *low
+  false positive rate*, pick the threshold that *maximizes the true
+  positive rate* while *keeping the false positive rate really low*. A
+  threshold around $(0.1, 0.5)$ on this ROC curve looks like a good
+  choice in this case.
+
+- On the other hand, if you're more concerned with having a *high
+  sensitivity* or *high true positive rate*, pick a threshold that
+  *minimizes the false positive rate but has a very high true positive
+  rate*. A threshold around $(0.3, 0.8)$ looks like a good choice in
+  this case.
+
+[[../graphs/ROC03.png]]
+
+Recall that we made predictions on our training set and called them
+*predictTrain*. We'll use these predictions to create our ROC
+curve. First, we'll call the *prediction function of ROCR*. We'll call
+the output of this function *ROCRpred*, and then use the prediction
+function.
+
+This function takes two arguments. The first is the predictions we
+made with our model, which we called *predictTrain*. The second argument
+is the true outcomes of our data points, which in our case, is
+*qualityTrain$PoorCare*.
+
+Now, we need to use the *performance function*. This defines what we'd
+like to plot on the x and y-axes of our ROC curve. We'll call the
+output of this *ROCRperf*, and use the performance function, which takes
+as arguments the *output of the prediction function*, and then what we
+want on the x and y-axes.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Install package only once")
+  ## install.packages('ROCR', repos='http://cran.rstudio.com/')
+  library(ROCR)
+
+  writeLines("\n :: Prediction function")
+  ROCRpred = prediction(predictTrain, qualityTrain$PoorCare)
+
+  writeLines("\n :: Performance function")
+  ROCRperf = performance(ROCRpred, "tpr", "fpr")
+#+end_src
+
+#+RESULTS:
+:
+:  :: Install package only once
+:
+:  :: Prediction function
+:
+:  :: Performance function
+
+#+BEGIN_SRC R :var basename="ThresholdLabelsPlot" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  writeLines("\n :: Add threshold labels ")
+  plot(ROCRperf, colorize=TRUE, print.cutoffs.at=seq(0,1,by=0.1), text.adj=c(-0.2,1.7))
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION: Add threshold labels to better pick up a right value of t
+#+NAME:   fig:ThresholdLabelsPlot
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/ThresholdLabelsPlot.png]]
+
+** Quick Question (2 points possible)
+
+*** Question a
+
+Given this ROC curve, which threshold would you pick if you wanted to
+correctly identify a small group of patients who are receiving the
+worst care with high confidence?
+
+**** Answer
+
+*Explanation*
+
+The threshold $0.7$ is best to identify a small group of patients who
+are receiving the worst care with high confidence, since at this
+threshold we make very few false positive mistakes, and identify about
+35% of the true positives.
+
+The threshold $t = 0.8$ is not a good choice, since it makes about the
+same number of false positives, but only identifies $10\%$ of the true
+positives. The thresholds $0.2$ and $0.3$ both identify more of the true
+positives, but they make more false positive mistakes, so our
+confidence decreases.
+
+*** Question b
+
+Which threshold would you pick if you wanted to correctly identify
+half of the patients receiving poor care, while making as few errors
+as possible?
+
+**** Answer
+
+*Explanation*
+
+The threshold $0.3$ is the best choice in this scenerio. The threshold
+$0.2$ also identifies over half of the patients receiving poor care,
+but it makes many more false positive mistakes. The thresholds $0.7$
+and $0.8$ don't identify at least half of the patients receiving poor
+care.
+
+** Video 7: Interpreting the Model
+
+*Multicollinearity* occurs when the various independent variables are
+correlated, and this might confuse the coefficients-- the betas-- in
+the model. So tests to address that involve checking the correlations
+of independent variables.
+
+If they are excessively high, this would mean that there might be
+multicollinearity, and you have to potentially revisit the model, as
+well as whether the signs of the coefficients make sense.
+
+[[../graphs/Multicollinearity.png]]
+
+Is the coefficient beta positive or negative? If it agrees with
+intuition, then multicollinearity has not been a problem, but if
+intuition suggests a different sign, this might be a sign of
+multicollinearity.
+
+The next important element is *significance*. So how do we interpret the
+results, and how do we understand whether we have a good model or not?
+For that purpose, let's take a look at what is called Area Under the
+Curve, or AUC for short.
+
+[[../graphs/ROCArea.png]]
+
+So the *Area Under the Curve* shows an absolute measure of quality of
+prediction-- in this particular case, $77.5\%$, which means that,
+given that the perfect score is $100\%$, so this is like a B, whereas,
+as we'll see later, a $50\%$ score, which is pure guessing, is a
+$50\%$ rate of success.
+
+So the area under the curve gives an absolute measure of quality, and
+it's less affected by various benchmarks. So it illustrates how
+accurate the model is on a more absolute sense.
+
+*** So what is a good AUC?
+
+The area on the right shows the maximum possible of a perfect
+prediction, whereas the area on this curve now-- it is $0.5$, and it's
+pure guessing. Other outcome measures that are important for us to
+discuss is the so-called confusion matrix.
+
+[[../graphs/GoodAUC.png]]
+
+*** Other outcome measures
+
+Other outcome measures that are important for us to discuss
+is the so-called confusion matrix.
+
+[[../graphs/OutcomeMeasures.png]]
+
+The *actual class* is $0$ means, in our example, *good quality of care*,
+and *actual* $class = 1$ means *poor quality of care*, whereas the *predicted*
+$class = 0$ means that will *predict good quality*, and the *predicted*
+$class = 1$ means that we predict *poor quality*.
+
+So if $N$ is the number of observations, the *overall accuracy* is
+basically the number of true negatives and true positives divided by
+$N$. It's basically the terms in the diagonal of this two by two matrix
+divided by the total observations.
+
+The *overall error* rate is the terms off-diagonal-- the false
+positives, plus the false negatives, divided by the total number of
+observations.
+
+An important component is the so-called *sensitivity*, and sensitivity
+is TP, the true positives, whenever we predict poor quality, and
+indeed it is poor quality, divided by TP, these true positives, plus
+FN, which is the total number of cases of poor quality.
+
+So this is the total number of times that we predict poor quality, and
+it is, indeed, poor quality, versus the total number of times the
+actual quality is, in fact, poor.
+
+And specificity is TN, true negatives, the number of times we predict
+the quality is good, and, in fact, the quality is good, divided by
+this number, TN, plus false positives.
+
+*** Making predictions
+
+So in our test, we utilized 32 cases, and the R command that makes the
+statements about the quality of a prediction out-of-sample is
+illustrated here in the slide.
+
+So in that way, we make predictions about probabilities, of course,
+simply because logistic regression makes predictions about
+probabilities, and then we transform them to a binary outcome-- the
+quality is good, or the quality is poor-- using a threshold.
+
+In this particular example, we used a threshold value of $0.3$, and in
+doing so, we obtain the following confusion matrix.
+
+[[../graphs/Predictions.png]]
+
+#+begin_src R :session :results output :exports all
+  predictTest <- predict(QualityLog, type = "response", newdata = qualityTest)
+
+  writeLines("\n :: Confusion matrix for threshold of 0.3:")
+  table(qualityTest$PoorCare, predictTest > 0.3)
+
+  TN <- 19; TP <- 6; FN <- 2; FP <- 5
+
+  writeLines("\n :: Overall accuracy:")
+  OverallAccuracy <- (TN + TP) / nrow(qualityTest)
+  OverallAccuracy
+
+  writeLines("\n :: Sensitivity:")
+  Sensitivity <- TP / (TP + FN)
+  Sensitivity
+
+  writeLines("\n :: Specificity:")
+  Specificity <- TN / (TN + FP)
+  Specificity
+
+  writeLines("\n :: Overall error rate:")
+  OverallErrorRate <- (FP + FN) / nrow(qualityTest)
+  OverallErrorRate
+
+  writeLines("\n :: False Negative Error Rate:")
+  FalseNegativeErrorRate <- FN / (TP + FN)
+  FalseNegativeErrorRate
+
+  writeLines("\n :: False Positive Error Rate:")
+  FalsePositiveErrorRate <- FP / ( TN + FP)
+  FalsePositiveErrorRate
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Confusion matrix for threshold of 0.3:
+
+    FALSE TRUE
+  0    19    5
+  1     2    6
+
+ :: Overall accuracy:
+[1] 0.78125
+
+ :: Sensitivity:
+[1] 0.75
+
+ :: Specificity:
+[1] 0.7916667
+
+ :: Overall error rate:
+[1] 0.21875
+
+ :: False Negative Error Rate:
+[1] 0.25
+
+ :: False Positive Error Rate:
+[1] 0.2083333
+#+end_example
+
+Notice, if you compare this model with making always-- let's say one
+alternative is to say we predict good care all the time. In that
+situation, we will be correct 19 plus 5, 24 times, versus 25 times, in
+our case. But notice that predicting always good care does not capture
+the dynamics of what is happening, versus the logistic regression
+model that is far more intelligent in capturing these effects.
+
+** Quick Question (1 point possible)
+
+IMPORTANT NOTE: This question uses the original model with the
+independent variables *OfficeVisits* and *Narcotics*. Be sure to use
+this model, instead of the model you built in Quick Question 4.
+
+Compute the test set predictions in R by running the command:
+
+~predictTest = predict(QualityLog, type="response", newdata=qualityTest)~
+
+You can compute the test set AUC by running the following two commands
+in R:
+
+#+begin_src R :session :results output :exports all
+  ROCRpredTest <- prediction(predictTest, qualityTest$PoorCare)
+  auc <- as.numeric(performance(ROCRpredTest, "auc")@y.values)
+
+  writeLines("\n :: The AUC of the test set is:")
+  auc
+#+end_src
+
+#+RESULTS:
+:
+:  :: The AUC of the test set is:
+: [1] 0.7994792
+
+*** Question a
+
+What is the AUC of this model on the test set?
+
+**** Answer
+
+$$
+AUC = 0.7994792
+$$
+
+The AUC of a model has the following nice interpretation: given a
+random patient from the dataset who actually received poor care, and a
+random patient from the dataset who actually received good care, the
+AUC is the perecentage of time that our model will classify which is
+which correctly.
+
+** Video 8: The Analytics Edge
+
+*Conclusions*
+
+- An expert-trained model can accurately identify diabetics receiving
+  low-quality care
+
+- Out-of-sample accuracy of $78\%$
+
+- Identifies most patients receiving poor care
+
+- In practice, the probabilities returned by the logistic regression
+  model can be used to prioritize patients for intervention
+
+- Electronic medical records could be used in the future
+
+So a model like the one we built can be used to analyze literally
+millions of records. Whereas a human can only accurately analyze
+rather small amounts of information. So clearly such a model allows
+significantly larger scalability.
+
+Of course models do not replace expert judgement. However, models
+provide a way to translate expert judgement to a reproducible,
+testable prediction methodology that has significantly higher
+scalability, as we discussed. And of course experts can continuously
+improve and refine the model, as we have seen in this lecture.
+
+- While humans can accurately analyze small amounts of information,
+  models allow larger scalability
+
+- Models do not replace expert judgment
+
+- Experts can improve and refine the model
+
+- Models can integrate assessments of many experts into one final
+  unbiased and unemotional prediction.
