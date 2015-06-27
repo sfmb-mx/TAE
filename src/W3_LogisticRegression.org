@@ -1612,3 +1612,172 @@ On the other hand, FDR's personal physician said a moderate degree of
 atherosclerosis although no more than normal for a man of his age. Two
 months before his death, his blood pressure was 260/150, and the day
 of his death was 300/190.
+
+[[../graphs/FDR.png]]
+
+*** FDR’s Blood Pressure
+
+- Before presidency, blood pressure of 140/100
+
+    + Healthy blood pressure is less than 120/80
+    + Today, this is already considered high blood pressure
+
+- One year before death, 210/120
+
+- Today, this is called Hypertensive Crisis, and emergency care is
+  needed
+
+- FDR’s personal physician:
+
+"A moderate degree of arteriosclerosis, although no more than normal
+for a man of his age"
+
+- Two months before death: 260/150 - Day of death: 300/190
+
+*** Early Misconceptions
+
+- High blood pressure dubbed essential hypertension
+
+    + Considered important to force blood through arteries
+    + Considered harmful to lower blood pressure
+
+- Today, we know better
+
+"Today, presidential blood pressure numbers like FDR’s would send the
+country’s leading doctors racing down hallways ... whisking the
+nation’s leader into the cardiac care unit of Bethesda Naval
+Hospital."
+
+-- Daniel Levy, Framingham Heart Study Director
+
+*** How did we Learn?
+
+[[../graphs/HowDidWeLearn.png]]
+
+So in 1948, the *Framingham Heart Study* started. The study included
+5,209 patients, aged 30 to 59. Patients were given a questionnaire and
+an examination every two years.
+
+During this examination, their physical characteristics were recorded,
+their behavioral characteristics, as well as test results. Exams and
+questions expanded over time.
+
+[[../graphs/FraminghamHeartStudy.png]]
+
+** Quick Question (1 point possible)
+
+Why was the city of Framingham, Massachusetts selected for this study?
+Select all that apply.
+
+- [ ] It represented all types of people in the United States.
+- [X] It had an appropriate size.
+- [X] It had a stable population to observe over time.
+- [ ] It contained an abnormally large number of people with heart
+  disease.
+- [X] The doctors and residents in Framingham were willing to
+  participate.
+
+*** Answer
+
+*Explanation*
+
+The reasons for Framingham being selected for this study are listed on
+Slide 4 of the previous video: it had an appropriate size, it had a
+stable population, and the doctors and residents in the town were
+willing to participate. However, the city did not represent all types
+of people in the United States (we'll see later in the lecture how to
+extend the model to different populations) and there were not an
+abnormally large number of people with heart disease.
+
+** Video 2: Risk Factors
+
+[[../graphs/Analitics2PreventHeartDisease.png]]
+
+We'll be using analytical models to prevent heart disease. The first
+step is to identify risk factors, or the independent variables, that
+we will use in our model. Then, using data, we'll create a logistic
+regression model to predict heart disease.
+
+Using more data, we'll validate our model to make sure it performs
+well out of sample and on different populations than the training set
+population. Lastly, we'll discuss how medical interventions can be
+defined using the model.
+
+We'll be predicting the 10-year risk of coronary heart disease or
+CHD.
+
+[[../graphs/CHD.png]]
+
+This is in part due to earlier detection and monitoring partly because
+of the Framingham Heart Study. Before building a logistic regression
+model, we need to identify the independent variables we want to use.
+
+When predicting the risk of a disease, we want to identify what are
+known as risk factors. These are the variables that increase the
+chances of developing a disease. The term risk factors was actually
+coined by William Kannell and Roy Dawber from the Framingham Heart
+Study.
+
+[[../graphs/RiskFactors.png]]
+
+In this lecture, we'll focus on the risk factors that they collected
+data for in the original data collection for the Framingham Heart
+Study.
+
+[[../graphs/HypothesizedCHDRiskFactors.png]]
+
+Variables (2)
+
+[[../graphs/HypothesizedCHDRiskFactors02.png]]
+
+Variables (3)
+
+[[../graphs/HypothesizedCHDRiskFactors03.png]]
+
+** Quick Question (2 points possible)
+
+*** Question a
+
+Are *risk factors* the independent variables or the dependent
+variables in our model?
+
+**** Answer
+
+- [X] Independent Variables
+- [ ] Dependent Variables
+- [ ] Neither
+
+*Explanation*
+
+Risk factors are the independent variables in our model, and are what
+we will use to predict the dependent variable.
+
+*** Question b
+
+In many situations, a dataset is handed to you and you are tasked with
+discovering which variables are important. But for the Framingham
+Heart Study, the researchers had to collect data from patients. In a
+situation like this one, where data needs to be collected by the
+researchers, should the potential risk factors be defined before or
+after the data is collected?
+
+**** Answer
+
+- [X] Before
+- [ ] After
+
+*Explanation*
+
+The researchers should first hypothesize potential risk factors, and
+then collect data corresponding to those risk factors. Of course, they
+could always define more risk factors later and collect more data, but
+this data would take longer to collect.
+
+** Video 3: A Logistic Regression Model
+
+In this video, we'll use the dataset [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/framingham.csv][framingham.csv]] to build a
+logistic regression model. Please download this dataset to following
+along. This data comes from the [[https://biolincc.nhlbi.nih.gov/static/studies/teaching/framdoc.pdf][BioLINCC website]].
+
+An R script file with all of the commands used in this lecture can be
+downloaded [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/Unit3_Framingham.R][here]].
