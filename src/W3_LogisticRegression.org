@@ -498,7 +498,6 @@ What is the value of P(y = 1) for this observation?
 Using the Logistic Response Function, we can compute that P(y = 1) =
 1/(1 + e^(-Logit)) = 1/(1 + e^(1)) = 0.2689414.
 
-
 ** Video 4: Logistic Regression in R
 
 [[../graphs/HealthQualityModel.png]]
@@ -1588,3 +1587,28 @@ improve and refine the model, as we have seen in this lecture.
 
 - Models can integrate assessments of many experts into one final
   unbiased and unemotional prediction.
+
+*  The Framingham Heart Study: Evaluating Risk Factors to Save Lives
+
+** Video 1: The Framingham Heart Study
+
+We'll describe the Framingham Heart Study, one of the most important
+epidemiological studies ever conducted, and the underlying analytics
+that led to our current understanding of cardiovascular disease.
+
+To motivate how the study affected our understanding of blood pressure
+today, we describe the case of Franklin Delano Roosevelt, FDR for
+short, who was the President of the United States from 1933 to 1945.
+
+He died while President on April 12, 1945. Before the presidency,
+FDR's blood pressure was 140/100. Today, healthy blood pressure is
+considered to be less than 120/80.
+
+So therefore, 140/100 is today considered high blood pressure. One
+year before his death, his blood pressure was 210/120. Today this is
+called hypertensive crisis, and emergency care is needed.
+
+On the other hand, FDR's personal physician said a moderate degree of
+atherosclerosis although no more than normal for a man of his age. Two
+months before his death, his blood pressure was 260/150, and the day
+of his death was 300/190.
