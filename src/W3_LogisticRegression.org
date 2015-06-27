@@ -88,7 +88,7 @@ to class 1, and predicting a low probability for observations actually
 belonging to class 0.
 
 In the second step of logistic regression, a threshold value is used
-to classify each observation into one of the classes. A common choice
+to classify each observation into one of the classes. - [ ] A common choice
 is $0.5$, meaning that if $P(y = 1) \geq 0.5$, the observation is
 classified into class 1, and if $P(y = 1) < 0.5$, the observation is
 classified into class 0. Simply stated, each observation is classified
@@ -98,9 +98,9 @@ However, other threshold values can be chosen, and in some cases are
 more appropriate. The threshold value that should be selected often
 depends on error preferences. When the probabilities are converted
 into class predictions, two types of errors can be made: false
-positives, and false negatives. A *false positive error* is made when
+positives, and false negatives. - [ ] A *false positive error* is made when
 the model predicts class 1, but the observation actually belongs to
-class 0. A *false negative error* is made when the model predicts class
+class 0. - [ ] A *false negative error* is made when the model predicts class
 0, but the observation actually belongs to class 1. If a higher
 threshold value is selected, more false negative errors will be
 made. If a lower threshold value is selected, more false positive
@@ -137,7 +137,7 @@ annoyance for the user (since they have to delete the message from the
 inbox themselves) but at least an important message was not missed.
 
 This error trade-off can be formalized with a [[https://courses.edx.org/wiki/15.071x_2/logistic-regression/confusion-matrix][Confusion Matrix]] or a
-[[https://courses.edx.org/wiki/15.071x_2/logistic-regression/roc-curve][Receiver Operator Characteristic Curve (ROC curve)]]. A confusion matrix
+[[https://courses.edx.org/wiki/15.071x_2/logistic-regression/roc-curve][Receiver Operator Characteristic Curve (ROC curve)]]. - [ ] A confusion matrix
 compares predicted classes with actual classes for a particular
 threshold value, while an ROC curve plots the false positive rate
 versus the true positive rate for all possible threshold values. The
@@ -377,7 +377,7 @@ the linear regression piece. The logistic response function always
 takes values between $0$ and $1$, which makes sense, since it equals a
 probability.
 
-A positive coefficient value for a variable increases the linear
+- [ ] A positive coefficient value for a variable increases the linear
 regression piece, which increases the probability that $y = 1$, or
 increases the probability of poor care. On the other hand, a negative
 coefficient value for a variable decreases the linear regression
@@ -401,8 +401,8 @@ probabilities in the Odds equation.
 [[../graphs/TheLogit.png]]
 
 This helps us understand how the coefficients, or betas, affect our
-prediction of the probability. A positive $\beta$ value increases the
-*Logit*, which in turn increases the Odds of $1$. A negative $\beta$
+prediction of the probability. - [ ] A positive $\beta$ value increases the
+*Logit*, which in turn increases the Odds of $1$. - [ ] A negative $\beta$
 value decreases the *Logit*, which in turn, decreases the Odds of
 one.
 
@@ -546,15 +546,15 @@ In this part we can download the data
 #+END_SRC
 
 #+RESULTS:
-:  [1] "AnonymityPoll.csv"      "BoeingStock.csv"        "CPSData.csv"
-:  [4] "CocaColaStock.csv"      "CountryCodes.csv"       "FluTest.csv"
-:  [7] "FluTrain.csv"           "GEStock.csv"            "IBMStock.csv"
-: [10] "MetroAreaCodes.csv"     "NBA_test.csv"           "NBA_train.csv"
-: [13] "ProcterGambleStock.csv" "README.md"              "USDA.csv"
-: [16] "WHO.csv"                "WHO_Europe.csv"         "baseball.csv"
-: [19] "climate_change.csv"     "mvtWeek1.csv"           "pisa2009test.csv"
-: [22] "pisa2009train.csv"      "quality.csv"            "wine.csv"
-: [25] "wine_test.csv"
+:  [1] "AnonymityPoll.csv"      "baseball.csv"           "BoeingStock.csv"
+:  [4] "climate_change.csv"     "CocaColaStock.csv"      "CountryCodes.csv"
+:  [7] "CPSData.csv"            "FluTest.csv"            "FluTrain.csv"
+: [10] "framingham.csv"         "GEStock.csv"            "IBMStock.csv"
+: [13] "MetroAreaCodes.csv"     "mvtWeek1.csv"           "NBA_test.csv"
+: [16] "NBA_train.csv"          "pisa2009test.csv"       "pisa2009train.csv"
+: [19] "ProcterGambleStock.csv" "quality.csv"            "README.md"
+: [22] "USDA.csv"               "WHO_Europe.csv"         "WHO.csv"
+: [25] "wine_test.csv"          "wine.csv"
 
 *** Load the data set
 
@@ -781,7 +781,7 @@ Coefficients:
 OfficeVisits  0.08212    0.03055   2.688  0.00718 **
 Narcotics     0.07630    0.03205   2.381  0.01728 *
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
@@ -902,7 +902,7 @@ Coefficients:
 StartedOnCombinationTRUE  1.95230    1.22342   1.596 0.110541
 ProviderCount             0.03366    0.01983   1.697 0.089706 .
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
@@ -1004,8 +1004,8 @@ good care, but they're actually poor care.
 - The Specificity is called *the true negative rate* and measures the
   percentage of actual good care cases that we classify correctly.
 
-A model with a *higher threshold* will have a *lower sensitivity* and a
-*higher specificity*. A model with a *lower threshold* will have a higher
+- [ ] A model with a *higher threshold* will have a *lower sensitivity* and a
+*higher specificity*. - [ ] A model with a *lower threshold* will have a higher
 *sensitivity* and a lower *specificity*.
 
 #+begin_src R :session :results output :exports all
@@ -1194,7 +1194,7 @@ we must have increased the threshold.
 
 ** Video 6: ROC Curves
 
-Picking a good threshold value is often challenging. A Receiver
+Picking a good threshold value is often challenging. - [ ] A Receiver
 Operator Characteristic curve, or ROC curve, can help you decide which
 value of the threshold is best.
 
@@ -1247,7 +1247,7 @@ positive rate, or 1 minus the specificity, is given on the x-axis.
 - On the other hand, if you're more concerned with having a *high
   sensitivity* or *high true positive rate*, pick a threshold that
   *minimizes the false positive rate but has a very high true positive
-  rate*. A threshold around $(0.3, 0.8)$ looks like a good choice in
+  rate*. - [ ] A threshold around $(0.3, 0.8)$ looks like a good choice in
   this case.
 
 [[../graphs/ROC03.png]]
@@ -1282,12 +1282,21 @@ want on the x and y-axes.
 #+end_src
 
 #+RESULTS:
-:
-:  :: Install package only once
-:
-:  :: Prediction function
-:
-:  :: Performance function
+#+begin_example
+
+ :: Install package only once
+Loading required package: gplots
+
+Attaching package: ‘gplots’
+
+The following object is masked from ‘package:stats’:
+
+    lowess
+
+ :: Prediction function
+
+ :: Performance function
+#+end_example
 
 #+BEGIN_SRC R :var basename="ThresholdLabelsPlot" :session :results none silent :exports none
   filename <- paste("../graphs/", basename, ".png", sep = "")
@@ -1476,6 +1485,8 @@ doing so, we obtain the following confusion matrix.
 
 #+RESULTS:
 #+begin_example
+quartz_off_screen
+                2
 
  :: Confusion matrix for threshold of 0.3:
 
@@ -1629,7 +1640,7 @@ of his death was 300/190.
 
 - FDR’s personal physician:
 
-"A moderate degree of arteriosclerosis, although no more than normal
+"- [ ] A moderate degree of arteriosclerosis, although no more than normal
 for a man of his age"
 
 - Two months before death: 260/150 - Day of death: 300/190
@@ -1773,7 +1784,7 @@ then collect data corresponding to those risk factors. Of course, they
 could always define more risk factors later and collect more data, but
 this data would take longer to collect.
 
-** Video 3: A Logistic Regression Model
+** Video 3: - [ ] A Logistic Regression Model
 
 In this video, we'll use the dataset [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/framingham.csv][framingham.csv]] to build a
 logistic regression model. Please download this dataset to following
@@ -1781,3 +1792,539 @@ along. This data comes from the [[https://biolincc.nhlbi.nih.gov/static/studies/
 
 An R script file with all of the commands used in this lecture can be
 downloaded [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/Unit3_Framingham.R][here]].
+
+*** Download the data sets
+
+In this part we can download the data
+
+#+BEGIN_SRC R :session :results output :exports all
+  library(parallel)
+
+  if(!file.exists("../data")) {
+          dir.create("../data")
+  }
+
+  fileUrl <- "https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/framingham.csv"
+
+  fileName <- "framingham.csv"
+
+  dataPath <- "../data"
+
+  filePath <- paste(dataPath, fileName, sep = "/")
+
+  if(!file.exists(filePath)) {
+          download.file(fileUrl, destfile = filePath, method = "curl")
+  }
+
+  list.files("../data")
+#+END_SRC
+
+#+RESULTS:
+:  [1] "AnonymityPoll.csv"      "baseball.csv"           "BoeingStock.csv"
+:  [4] "climate_change.csv"     "CocaColaStock.csv"      "CountryCodes.csv"
+:  [7] "CPSData.csv"            "FluTest.csv"            "FluTrain.csv"
+: [10] "framingham.csv"         "GEStock.csv"            "IBMStock.csv"
+: [13] "MetroAreaCodes.csv"     "mvtWeek1.csv"           "NBA_test.csv"
+: [16] "NBA_train.csv"          "pisa2009test.csv"       "pisa2009train.csv"
+: [19] "ProcterGambleStock.csv" "quality.csv"            "README.md"
+: [22] "USDA.csv"               "WHO_Europe.csv"         "WHO.csv"
+: [25] "wine_test.csv"          "wine.csv"
+
+*** Load the data set
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("    Loading data into their data frames.")
+  framingham <- read.table("../data/framingham.csv", sep = ",", header = TRUE)
+  str(framingham)
+  summary(framingham)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+    Loading data into their data frames.
+'data.frame':	4240 obs. of  16 variables:
+ $ male           : int  1 0 1 0 0 0 0 0 1 1 ...
+ $ age            : int  39 46 48 61 46 43 63 45 52 43 ...
+ $ education      : int  4 2 1 3 3 2 1 2 1 1 ...
+ $ currentSmoker  : int  0 0 1 1 1 0 0 1 0 1 ...
+ $ cigsPerDay     : int  0 0 20 30 23 0 0 20 0 30 ...
+ $ BPMeds         : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ prevalentStroke: int  0 0 0 0 0 0 0 0 0 0 ...
+ $ prevalentHyp   : int  0 0 0 1 0 1 0 0 1 1 ...
+ $ diabetes       : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ totChol        : int  195 250 245 225 285 228 205 313 260 225 ...
+ $ sysBP          : num  106 121 128 150 130 ...
+ $ diaBP          : num  70 81 80 95 84 110 71 71 89 107 ...
+ $ BMI            : num  27 28.7 25.3 28.6 23.1 ...
+ $ heartRate      : int  80 95 75 65 85 77 60 79 76 93 ...
+ $ glucose        : int  77 76 70 103 85 99 85 78 79 88 ...
+ $ TenYearCHD     : int  0 0 0 1 0 0 1 0 0 0 ...
+      male             age          education     currentSmoker
+ Min.   :0.0000   Min.   :32.00   Min.   :1.000   Min.   :0.0000
+ 1st Qu.:0.0000   1st Qu.:42.00   1st Qu.:1.000   1st Qu.:0.0000
+ Median :0.0000   Median :49.00   Median :2.000   Median :0.0000
+ Mean   :0.4292   Mean   :49.58   Mean   :1.979   Mean   :0.4941
+ 3rd Qu.:1.0000   3rd Qu.:56.00   3rd Qu.:3.000   3rd Qu.:1.0000
+ Max.   :1.0000   Max.   :70.00   Max.   :4.000   Max.   :1.0000
+                                  NA's   :105
+   cigsPerDay         BPMeds        prevalentStroke     prevalentHyp
+ Min.   : 0.000   Min.   :0.00000   Min.   :0.000000   Min.   :0.0000
+ 1st Qu.: 0.000   1st Qu.:0.00000   1st Qu.:0.000000   1st Qu.:0.0000
+ Median : 0.000   Median :0.00000   Median :0.000000   Median :0.0000
+ Mean   : 9.006   Mean   :0.02962   Mean   :0.005896   Mean   :0.3106
+ 3rd Qu.:20.000   3rd Qu.:0.00000   3rd Qu.:0.000000   3rd Qu.:1.0000
+ Max.   :70.000   Max.   :1.00000   Max.   :1.000000   Max.   :1.0000
+ NA's   :29       NA's   :53
+    diabetes          totChol          sysBP           diaBP
+ Min.   :0.00000   Min.   :107.0   Min.   : 83.5   Min.   : 48.0
+ 1st Qu.:0.00000   1st Qu.:206.0   1st Qu.:117.0   1st Qu.: 75.0
+ Median :0.00000   Median :234.0   Median :128.0   Median : 82.0
+ Mean   :0.02571   Mean   :236.7   Mean   :132.4   Mean   : 82.9
+ 3rd Qu.:0.00000   3rd Qu.:263.0   3rd Qu.:144.0   3rd Qu.: 90.0
+ Max.   :1.00000   Max.   :696.0   Max.   :295.0   Max.   :142.5
+                   NA's   :50
+      BMI          heartRate         glucose         TenYearCHD
+ Min.   :15.54   Min.   : 44.00   Min.   : 40.00   Min.   :0.0000
+ 1st Qu.:23.07   1st Qu.: 68.00   1st Qu.: 71.00   1st Qu.:0.0000
+ Median :25.40   Median : 75.00   Median : 78.00   Median :0.0000
+ Mean   :25.80   Mean   : 75.88   Mean   : 81.96   Mean   :0.1519
+ 3rd Qu.:28.04   3rd Qu.: 83.00   3rd Qu.: 87.00   3rd Qu.:0.0000
+ Max.   :56.80   Max.   :143.00   Max.   :394.00   Max.   :1.0000
+ NA's   :19      NA's   :1        NA's   :388
+#+end_example
+
+Now that we have identified a set of risk factors, let's use this data
+to predict the 10 year risk of CHD. First, we'll randomly split our
+patients into a training set and a testing set.
+
+Then, we'll use logistic regression to predict whether or not a
+patient experienced CHD within 10 years of the first examination. Keep
+in mind that all of the risk factors were collected at the first
+examination of the patients.
+
+After building our model, we'll evaluate the predictive power of the
+model on the test set.
+
+[[../graphs/AnalyticalApproach.png]]
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Load the library caTools")
+  library(caTools)
+
+  writeLines("\n :: Randomly split the data into training and testing sets")
+  set.seed(1000)
+  split <- sample.split(framingham$TenYearCHD, SplitRatio = 0.65)
+
+  writeLines("\n :: Split up the data using subset")
+  train <- subset(framingham, split==TRUE)
+  test <- subset(framingham, split==FALSE)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Load the library caTools
+:
+:  :: Randomly split the data into training and testing sets
+:
+:  :: Split up the data using subset
+
+Here, we'll put $65\%$ of the data in the training set. When you have
+more data like we do here, you can afford to put less data in the
+training set and more in the testing set.
+
+This will increase our confidence in the ability of the model to
+extend to new data since we have a larger test set, and still give us
+enough data in the training set to create our model. You typically
+want to put somewhere between $50\%$ and $80\%$ of the data in the
+training set.
+
+Now we're ready to build our logistic regression model using the
+training set.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Logistic Regression Model")
+  framinghamLog <- glm(TenYearCHD ~ ., data = train, family=binomial)
+  summary(framinghamLog)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Logistic Regression Model
+
+Call:
+glm(formula = TenYearCHD ~ ., family = binomial, data = train)
+
+Deviance Residuals:
+    Min       1Q   Median       3Q      Max
+-1.8487  -0.6007  -0.4257  -0.2842   2.8369
+
+Coefficients:
+                 Estimate Std. Error z value Pr(>|z|)
+(Intercept)     -7.886574   0.890729  -8.854  < 2e-16 ***
+male             0.528457   0.135443   3.902 9.55e-05 ***
+age              0.062055   0.008343   7.438 1.02e-13 ***
+education       -0.058923   0.062430  -0.944  0.34525
+currentSmoker    0.093240   0.194008   0.481  0.63080
+cigsPerDay       0.015008   0.007826   1.918  0.05514 .
+BPMeds           0.311221   0.287408   1.083  0.27887
+prevalentStroke  1.165794   0.571215   2.041  0.04126 *
+prevalentHyp     0.315818   0.171765   1.839  0.06596 .
+diabetes        -0.421494   0.407990  -1.033  0.30156
+totChol          0.003835   0.001377   2.786  0.00533 **
+sysBP            0.011344   0.004566   2.485  0.01297 *
+diaBP           -0.004740   0.008001  -0.592  0.55353
+BMI              0.010723   0.016157   0.664  0.50689
+heartRate       -0.008099   0.005313  -1.524  0.12739
+glucose          0.008935   0.002836   3.150  0.00163 **
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 2020.7  on 2384  degrees of freedom
+Residual deviance: 1792.3  on 2369  degrees of freedom
+  (371 observations deleted due to missingness)
+AIC: 1824.3
+
+Number of Fisher Scoring iterations: 5
+#+end_example
+
+In the ~glm()~ logistic regression model generation you must be
+careful doing this with data sets  that have identifying variables
+like a patient ID or name since you wouldn't want to use these as
+independent variables.
+
+It looks like *male*, *age*, *prevalent stroke*, *total cholesterol*,
+*systolic blood pressure*, and *glucose* are all /significant/ in our
+model. *Cigarettes per day* and *prevalent hypertension* are almost
+significant. All of the significant variables have positive
+coefficients, meaning that higher values in these variables contribute
+to a higher probability of *10-year coronary heart disease*.
+
+Now, let's use this model to make predictions on our test set.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Predictions on the test set")
+  predictTest <- predict(framinghamLog, type="response", newdata=test)
+
+  writeLines("\n :: Confusion matrix with threshold of 0.5")
+  table(test$TenYearCHD, predictTest > 0.5)
+
+  writeLines("\n :: Accuracy")
+  (1069 + 11) / (1069 + 6 + 187 + 11)
+
+  writeLines("\n :: Baseline accuracy")
+  (1069 + 6) / (1069 + 6 + 187 + 11)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Predictions on the test set
+
+ :: Confusion matrix with threshold of 0.5
+
+    FALSE TRUE
+  0  1069    6
+  1   187   11
+
+ :: Accuracy
+[1] 0.8483896
+
+ :: Baseline accuracy
+[1] 0.8444619
+#+end_example
+
+- With a threshold of $0.5$, we predict an outcome of $1$, the true
+  column, very rarely. This means that our model rarely predicts a
+  10-year CHD risk above $50\%$.
+
+- So the accuracy of our model is about $84.8\%$.
+
+- We need to compare this to the accuracy of a simple baseline
+  method. The more frequent outcome in this case is $0$, so the baseline
+  method would always predict $0$ or no *CHD*.
+
+So the baseline model would get an accuracy of about $84.4\%$. So our
+model barely beats the baseline in terms of accuracy. But do we still
+have a valuable model by varying the threshold? Let's compute the
+*out-of-sample AUC*.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Test set AUC ")
+  library(ROCR)
+  ROCRpred <- prediction(predictTest, test$TenYearCHD)
+  as.numeric(performance(ROCRpred, "auc")@y.values)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Test set AUC
+: [1] 0.7421095
+
+This will give us the *AUC* value on our testing set. So we have an
+*AUC* of about 74% on our test set, which means that the model can
+differentiate between low risk patients and high risk patients pretty
+well.
+
+*** Conclusions
+
+We were able to build a logistic regression model with a few
+interesting properties.
+
+[[../graphs/ModelStrength.png]]
+
+We saw that more *cigarettes per day*, *higher cholesterol*, *higher
+systolic blood pressure*, and *higher glucose levels* all increased
+risk.
+
+** Quick Question (2 points possible)
+
+In the previous video, we computed the following confusion matrix for
+	our logistic regression model on our test set with a threshold
+	of 0.5:
+
+	FALSE 	TRUE
+0 	1069 	6
+1 	187 	11
+
+Using this confusion matrix, answer the following questions.
+
+#+begin_src R :session :results output :exports all
+  TN <- 1069; FP <- 6
+  FN <- 187; TP <- 11
+
+  writeLines("\n :: The Sensitivity is:")
+  Sensitivity <- TP / (TP + FN)
+  Sensitivity
+
+  writeLines("\n :: The Specificity is:")
+  Specificity <- TN / (TN + FP)
+  Specificity
+#+end_src
+
+#+RESULTS:
+:
+:  :: The Sensitivity is:
+: [1] 0.05555556
+:
+:  :: The Specificity is:
+: [1] 0.9944186
+
+*** Question a
+
+What is the sensitivity of our logistic regression model on the test
+set, using a threshold of 0.5?
+
+**** Answer
+
+0.05555556
+
+*** Question b
+
+What is the specificity of our logistic regression model on the test
+set, using a threshold of 0.5?
+
+**** Answer
+
+0.9944186
+
+*Explanation*
+
+Using this confusion matrix, we can compute that the sensitivity is
+11/(11+187) and the specificity is 1069/(1069+6).
+
+** Video 4: Validating the Model
+
+We mention that the Framingham Risk Model was tested on diverse
+cohorts. The original Framingham Risk Model was actually computed by a
+different sort of regression, called a Cox Proportional Hazards
+Model. This method is different but related to logistic regression,
+and it will return a similar estimate of 10-year CHD risk.
+
+So far, we have used what is known as internal validation to test our
+model. This means that we took the data from one set of patients and
+split them into a training set and a testing set. While this confirms
+that our model is good at making predictions for patients in the
+Framingham Heart Study population, it's unclear if the model
+generalizes to other populations.
+
+[[../graphs/ModelValidation.png]]
+
+*** External validation
+
+There have been many studies to test the Framingham model from the
+influential 1998 paper on diverse cohorts. This table shows a sample
+of studies that tested the model on populations with different races.
+
+The researchers for each study collected the same risk factors used in
+the original study, predicted CHD using the Framingham Heart Study
+model, and then analyzed how accurate the model was for that
+population.
+
+For some populations, the Framingham model was accurate.
+
+
+[[../graphs/ExternalValidation.png]]
+
+For the *ARIC* study that tested the model with black men, this figure
+shows a bar graph of how the Framingham predictions compare with the
+actual results.
+
+[[../graphs/ARIC.png]]
+
+The gray bars are the predictions. And the black bars are the actual
+outcomes. The patients are sorted on the x-axis by predicted risk and
+on the y-axis by the percentage of patients in each group who actually
+developed CHD.
+
+For the most part, the predictions are accurate. There's one group for
+which the model under-predicted the risk and one group for which the
+model over-predicted the risk.
+
+For the HHS study with Japanese-American men, the Framingham model
+systematically over-predicts a risk of CHD.
+
+[[../graphs/HHS.png]]
+
+The model can be recalibrated for this population by scaling down the
+predictions. This changes the predicted risk but not the order of the
+predictions.
+
+This changes the predicted risk but not the order of the
+predictions. The high risk patients still have higher predictions than
+the lower risk patients. This allows the model to have more accurate
+risk estimates for populations not included in the original group of
+patients. For models that will be used on different populations than
+the one used to create the model, external validation is critical.
+
+[[../graphs/Recalibration.png]]
+
+** Quick Question (1 point possible)
+
+For which of the following models should external validation be used?
+
+Consider both the population used to train the model, and the
+population that the model will be used on. (Select all that apply.)
+
+- [X] A model to predict obesity risk. Data from a random sample of
+  California residents was used to build the model, and we want to use
+  the model to predict the obesity risk of all United States
+  residents.
+
+- [ ] A model to predict the stress of MIT students. Data from a
+  random sample of MIT students was used to build the model, and we
+  want to use the model to predict the stress level of all MIT
+  students.
+
+- [X] A model to predict the probability of a runner winning a
+  marathon. Data from all runners in the Boston Marathon was used to
+  build the model, and we want use the model to predict the
+  probability of winning for all people who run marathons.
+
+*** Answer
+
+*Explanation*
+
+In the first and third models, we are using a *special sub-population*
+to build the model. While we can use the model for that
+sub-population, we should use external validation to test the model on
+other populations. The second model uses data from a special
+sub-population, but the model is only intended for that
+sub-population, so external validation is not necessary.
+
+** Video 5: Interventions
+
+We next discuss interventions suggested by the model developed for the
+Framingham Heart Study. The first intervention has to do with drugs to
+lower blood pressure.
+
+[[../graphs/Interventions.png]]
+
+In FDR's time, hypertension drugs were too toxic for practical
+use. But in the 1950s, the diuretic chlorothiazide was developed, and
+the Framingham Heart Study gave Ed Freis the evidence needed to argue
+for testing effects for blood pressure drugs.
+
+*** First intervention and business
+
+[[../graphs/Interventions01.png]]
+
+*** Second intervention
+
+Another intervention had to do with-- to lower cholesterol.
+
+[[../graphs/Interventions02.png]]
+
+** Quick Question (1 point possible)
+
+In Video 3, we built a logistic regression model and found that the
+following variables were significant (or almost significant) for
+predicting ten year risk of CHD: male, age, number of cigarettes per
+day, whether or not the patient previously had a stroke, whether or
+not the patient is currently hypertensive, total cholesterol level,
+systolic blood pressure, and blood glucose level. Which one of the
+following variables would be the most dramatically affected by a
+behavioral intervention? HINT: Think about how much control the
+patient has over each of the variables.
+
+- [ ] Male
+- [ ] Age
+- [X] Number of Cigarettes per day
+- [ ] Previously had a Stroke
+- [ ] Hypertensive
+- [ ] Total Cholesterol Level
+- [ ] Systolic Blood Pressure
+- [ ] Blood Glucose Level
+
+*** Answer
+
+*Explanation*
+
+The number of cigarettes smoked per day would be the most dramatically
+affected by a behavioral intervention. This is a variable that the
+patient has the ability to control the most.
+
+** Video 6: Overall Impact
+
+Let us next examine the impact that the Framingham Heart Study had
+through the years. So the graph on the right shows the number of
+papers written every year using data from the Framingham Study as a
+function of time, and we observe the very significant increase in the
+number of such publications.
+
+Altogether, there has been 2,400 studies written using the Framingham
+data. During the years, many other risk factors were
+evaluated. Obesity, exercise, psychological, and social issues. In
+fact, the Texas Heart Institute Journal named the Framingham Heart
+Study as the top 10 cardiology advance of the 20th century.
+
+[[../graphs/HeartStudyVsTime.png]]
+
+*** Online tool
+
+In addition to the study, there has been an online tool that assesses
+the risk for your 10-year risk of having a heart attack.
+
+[[../graphs/CHDOnlineTool.png]]
+
+So how about new research directions and challenges that the study is
+facing?
+
+[[../graphs/ResearchDirections.png]]
+
+A very important impact of the Framingham Heart Study is the
+development of clinical decision rules.
+
+[[../graphs/ClinicalDecisionRules.png]]
+
+And the graph shows the clinical prediction rules published as a
+function of the year from 1960s to today. And you observe that more
+than 70,000 published rules, clinical decision rules, have been
+published across medicine, and you observe that the rate of
+publication is increasing.
+
+So these clinical decision rules are developed using patient and
+disease characteristics, and then observed test results from patients
+that can assess the effectiveness of such rules.
