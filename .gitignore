@@ -1,7 +1,6 @@
 # History files
 .Rhistory
 .Rapp.history
-src/.Rhistory
 
 # Example code in package build process
 #*-Ex.R
@@ -10,3 +9,4 @@ src/.Rhistory
 .Rproj.user/
 
 src/*.BK??
+src/.Rhistory
