@@ -546,15 +546,22 @@ In this part we can download the data
 #+END_SRC
 
 #+RESULTS:
-:  [1] "AnonymityPoll.csv"      "baseball.csv"           "BoeingStock.csv"
-:  [4] "climate_change.csv"     "CocaColaStock.csv"      "CountryCodes.csv"
-:  [7] "CPSData.csv"            "FluTest.csv"            "FluTrain.csv"
-: [10] "framingham.csv"         "GEStock.csv"            "IBMStock.csv"
-: [13] "MetroAreaCodes.csv"     "mvtWeek1.csv"           "NBA_test.csv"
-: [16] "NBA_train.csv"          "pisa2009test.csv"       "pisa2009train.csv"
-: [19] "PollingData.csv"        "ProcterGambleStock.csv" "quality.csv"
-: [22] "README.md"              "USDA.csv"               "WHO.csv"
-: [25] "WHO_Europe.csv"         "wine.csv"               "wine_test.csv"
+#+begin_example
+ [1] "AnonymityPoll.csv"       "BoeingStock.csv"
+ [3] "CPSData.csv"             "CocaColaStock.csv"
+ [5] "CountryCodes.csv"        "FluTest.csv"
+ [7] "FluTrain.csv"            "GEStock.csv"
+ [9] "IBMStock.csv"            "MetroAreaCodes.csv"
+[11] "NBA_test.csv"            "NBA_train.csv"
+[13] "PollingData.csv"         "PollingData_Imputed.csv"
+[15] "ProcterGambleStock.csv"  "README.md"
+[17] "USDA.csv"                "WHO.csv"
+[19] "WHO_Europe.csv"          "baseball.csv"
+[21] "climate_change.csv"      "framingham.csv"
+[23] "mvtWeek1.csv"            "pisa2009test.csv"
+[25] "pisa2009train.csv"       "quality.csv"
+[27] "wine.csv"                "wine_test.csv"
+#+end_example
 
 *** Load the data set
 
@@ -781,7 +788,7 @@ Coefficients:
 OfficeVisits  0.08212    0.03055   2.688  0.00718 **
 Narcotics     0.07630    0.03205   2.381  0.01728 *
 ---
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
@@ -902,7 +909,7 @@ Coefficients:
 StartedOnCombinationTRUE  1.95230    1.22342   1.596 0.110541
 ProviderCount             0.03366    0.01983   1.697 0.089706 .
 ---
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
@@ -1282,21 +1289,12 @@ want on the x and y-axes.
 #+end_src
 
 #+RESULTS:
-#+begin_example
-
- :: Install package only once
-Loading required package: gplots
-
-Attaching package: ‘gplots’
-
-The following object is masked from ‘package:stats’:
-
-    lowess
-
- :: Prediction function
-
- :: Performance function
-#+end_example
+:
+:  :: Install package only once
+:
+:  :: Prediction function
+:
+:  :: Performance function
 
 #+BEGIN_SRC R :var basename="ThresholdLabelsPlot" :session :results none silent :exports none
   filename <- paste("../graphs/", basename, ".png", sep = "")
@@ -1818,15 +1816,22 @@ In this part we can download the data
 #+END_SRC
 
 #+RESULTS:
-:  [1] "AnonymityPoll.csv"      "baseball.csv"           "BoeingStock.csv"
-:  [4] "climate_change.csv"     "CocaColaStock.csv"      "CountryCodes.csv"
-:  [7] "CPSData.csv"            "FluTest.csv"            "FluTrain.csv"
-: [10] "framingham.csv"         "GEStock.csv"            "IBMStock.csv"
-: [13] "MetroAreaCodes.csv"     "mvtWeek1.csv"           "NBA_test.csv"
-: [16] "NBA_train.csv"          "pisa2009test.csv"       "pisa2009train.csv"
-: [19] "PollingData.csv"        "ProcterGambleStock.csv" "quality.csv"
-: [22] "README.md"              "USDA.csv"               "WHO.csv"
-: [25] "WHO_Europe.csv"         "wine.csv"               "wine_test.csv"
+#+begin_example
+ [1] "AnonymityPoll.csv"       "BoeingStock.csv"
+ [3] "CPSData.csv"             "CocaColaStock.csv"
+ [5] "CountryCodes.csv"        "FluTest.csv"
+ [7] "FluTrain.csv"            "GEStock.csv"
+ [9] "IBMStock.csv"            "MetroAreaCodes.csv"
+[11] "NBA_test.csv"            "NBA_train.csv"
+[13] "PollingData.csv"         "PollingData_Imputed.csv"
+[15] "ProcterGambleStock.csv"  "README.md"
+[17] "USDA.csv"                "WHO.csv"
+[19] "WHO_Europe.csv"          "baseball.csv"
+[21] "climate_change.csv"      "framingham.csv"
+[23] "mvtWeek1.csv"            "pisa2009test.csv"
+[25] "pisa2009train.csv"       "quality.csv"
+[27] "wine.csv"                "wine_test.csv"
+#+end_example
 
 *** Load the data set
 
@@ -1976,7 +1981,7 @@ BMI              0.010723   0.016157   0.664  0.50689
 heartRate       -0.008099   0.005313  -1.524  0.12739
 glucose          0.008935   0.002836   3.150  0.00163 **
 ---
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
@@ -2475,15 +2480,22 @@ In this part we can download the data
 #+END_SRC
 
 #+RESULTS:
-:  [1] "AnonymityPoll.csv"      "baseball.csv"           "BoeingStock.csv"
-:  [4] "climate_change.csv"     "CocaColaStock.csv"      "CountryCodes.csv"
-:  [7] "CPSData.csv"            "FluTest.csv"            "FluTrain.csv"
-: [10] "framingham.csv"         "GEStock.csv"            "IBMStock.csv"
-: [13] "MetroAreaCodes.csv"     "mvtWeek1.csv"           "NBA_test.csv"
-: [16] "NBA_train.csv"          "pisa2009test.csv"       "pisa2009train.csv"
-: [19] "PollingData.csv"        "ProcterGambleStock.csv" "quality.csv"
-: [22] "README.md"              "USDA.csv"               "WHO.csv"
-: [25] "WHO_Europe.csv"         "wine.csv"               "wine_test.csv"
+#+begin_example
+ [1] "AnonymityPoll.csv"       "BoeingStock.csv"
+ [3] "CPSData.csv"             "CocaColaStock.csv"
+ [5] "CountryCodes.csv"        "FluTest.csv"
+ [7] "FluTrain.csv"            "GEStock.csv"
+ [9] "IBMStock.csv"            "MetroAreaCodes.csv"
+[11] "NBA_test.csv"            "NBA_train.csv"
+[13] "PollingData.csv"         "PollingData_Imputed.csv"
+[15] "ProcterGambleStock.csv"  "README.md"
+[17] "USDA.csv"                "WHO.csv"
+[19] "WHO_Europe.csv"          "baseball.csv"
+[21] "climate_change.csv"      "framingham.csv"
+[23] "mvtWeek1.csv"            "pisa2009test.csv"
+[25] "pisa2009train.csv"       "quality.csv"
+[27] "wine.csv"                "wine_test.csv"
+#+end_example
 
 *** Load the data set
 
@@ -2710,3 +2722,585 @@ frame, which has all the variables for the problem.
 
 And as we can see, Rasmussen* and *SurveyUSA* are no longer missing
 values.
+
+Because the difference in the way that the architecture works with the
+seed, we had detected a difference with the recitation imputed data
+set, we will correct this in order to follow the exact behavior.
+
+*** Download the data sets
+
+In this part we can download the data
+
+#+BEGIN_SRC R :session :results output :exports all
+  library(parallel)
+
+  if(!file.exists("../data")) {
+          dir.create("../data")
+  }
+
+  fileUrl <- "https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/PollingData_Imputed.csv"
+
+  fileName <- "PollingData_Imputed.csv"
+
+  dataPath <- "../data"
+
+  filePath <- paste(dataPath, fileName, sep = "/")
+
+  if(!file.exists(filePath)) {
+          download.file(fileUrl, destfile = filePath, method = "curl")
+  }
+
+  list.files("../data")
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+ [1] "AnonymityPoll.csv"       "BoeingStock.csv"
+ [3] "CPSData.csv"             "CocaColaStock.csv"
+ [5] "CountryCodes.csv"        "FluTest.csv"
+ [7] "FluTrain.csv"            "GEStock.csv"
+ [9] "IBMStock.csv"            "MetroAreaCodes.csv"
+[11] "NBA_test.csv"            "NBA_train.csv"
+[13] "PollingData.csv"         "PollingData_Imputed.csv"
+[15] "ProcterGambleStock.csv"  "README.md"
+[17] "USDA.csv"                "WHO.csv"
+[19] "WHO_Europe.csv"          "baseball.csv"
+[21] "climate_change.csv"      "framingham.csv"
+[23] "mvtWeek1.csv"            "pisa2009test.csv"
+[25] "pisa2009train.csv"       "quality.csv"
+[27] "wine.csv"                "wine_test.csv"
+#+end_example
+
+*** Load the data set
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("    Loading the imputed data into their data frame.")
+  polling <- read.table("../data/PollingData_Imputed.csv", sep = ",", header = TRUE)
+  str(polling)
+  table(polling$Year)
+  summary(polling)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+    Loading the imputed data into their data frame.
+'data.frame':	145 obs. of  7 variables:
+ $ State     : Factor w/ 50 levels "Alabama","Alaska",..: 1 1 2 2 3 3 3 4 4 4 ...
+ $ Year      : int  2004 2008 2004 2008 2004 2008 2012 2004 2008 2012 ...
+ $ Rasmussen : int  11 21 19 16 5 5 8 7 10 13 ...
+ $ SurveyUSA : int  18 25 21 18 15 3 5 5 7 21 ...
+ $ DiffCount : int  5 5 1 6 8 9 4 8 5 2 ...
+ $ PropR     : num  1 1 1 1 1 ...
+ $ Republican: int  1 1 1 1 1 1 1 1 1 1 ...
+
+2004 2008 2012
+  50   50   45
+         State          Year        Rasmussen         SurveyUSA
+ Arizona    :  3   Min.   :2004   Min.   :-41.000   Min.   :-33.000
+ Arkansas   :  3   1st Qu.:2004   1st Qu.:-10.000   1st Qu.:-11.000
+ California :  3   Median :2008   Median :  3.000   Median :  1.000
+ Colorado   :  3   Mean   :2008   Mean   :  2.048   Mean   :  1.359
+ Connecticut:  3   3rd Qu.:2012   3rd Qu.: 12.000   3rd Qu.: 16.000
+ Florida    :  3   Max.   :2012   Max.   : 39.000   Max.   : 30.000
+ (Other)    :127
+   DiffCount           PropR          Republican
+ Min.   :-19.000   Min.   :0.0000   Min.   :0.0000
+ 1st Qu.: -6.000   1st Qu.:0.0000   1st Qu.:0.0000
+ Median :  1.000   Median :0.6250   Median :1.0000
+ Mean   : -1.269   Mean   :0.5259   Mean   :0.5103
+ 3rd Qu.:  4.000   3rd Qu.:1.0000   3rd Qu.:1.0000
+ Max.   : 11.000   Max.   :1.0000   Max.   :1.0000
+#+end_example
+
+** Video 3: A Sophisticated Baseline Method
+
+So as usual, the first thing we're going to do is split our data into
+a training and a testing set. And for this problem, we're actually
+going to train on data from the 2004 and 2008 elections, and we're
+going to test on data from the 2012 presidential election.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Subset data into training set and test set")
+  Train <- subset(polling, Year == 2004 | Year == 2008)
+  Test <- subset(polling, Year == 2012)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Subset data into training set and test set
+
+So now that we've broken it down into a training and a testing set, we
+want to understand the prediction of our baseline model against which
+we want to compare a later logistic regression model.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Naive Baseline")
+  table(Train$Republican)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Naive Baseline
+:
+:  0  1
+: 47 53
+
+What we can see here is that in $47$ of the $100$ training observations,
+the *Democrat* won the state, and in $53$ of the observations, the
+*Republican* won the state. So our *simple baseline model is always
+going to predict the more common outcome*, which is that the
+*Republican is going to win the state*.
+
+And we see that the simple baseline model will have accuracy of $53\%$ on
+the training set. Now, unfortunately, this is a pretty weak model. It
+always predicts Republican, even for a very landslide Democratic
+state, where the Democrat was polling by $15\%$ or $20\%$ ahead of the
+Republican. So nobody would really consider this to be a credible
+model.
+
+So we need to think of a smarter baseline model against which we can
+compare our logistic regression models that we're going to develop
+later.
+
+So a reasonable smart baseline would be to just take one of the
+polls-- in our case, we'll take *Rasmussen*-- and make a prediction
+based on who poll said was winning in the state.
+
+So for instance, if the *Republican* is polling ahead, the *Rasmussen*
+smart baseline would just pick the *Republican* to be the winner. If the
+*Democrat* was ahead, it would pick the *Democrat*. And if they were
+tied, the model would not know which one to select.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: The Sign function:")
+  sign(20)
+  sign(-10)
+  sign(0)
+
+  writeLines("\n :: Applying to the training set")
+  table(sign(Train$Rasmussen))
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: The Sign function:
+[1] 1
+[1] -1
+[1] 0
+
+ :: Applying to the training set
+
+-1  0  1
+42  2 56
+
+    -1  0  1
+  0 42  1  4
+  1  0  1 52
+#+end_example
+
+So if we passed the *Rasmussen* variable into ~sign~, whenever the
+Republican was winning the state, meaning *Rasmussen* is positive,
+it's going to return a $1$. So for instance, if the value $20$ is
+passed, meaning the Republican is polling $20$ ahead, it returns
+$1$. So $1$ signifies that the *Republican* is predicted to win.
+
+If the *Democrat* is leading in the *Rasmussen* poll, it'll take on a
+negative value.
+
+So if we took for instance the sign of $-10$, we get $-1$. So -1 means
+this smart baseline is predicting that the Democrat won the state. And
+finally, if we took the sign of $0$, meaning that the *Rasmussen* poll had
+a *tie*, it returns $0$, saying that the model is inconclusive about who's
+going to win the state.
+
+And what we can see is that in $56$ of the $100$ training set
+observations, the smart baseline predicted that the *Republican* was
+going to win.
+
+In $42$ instances, it predicted the Democrat. And in two instances, it
+was inconclusive. So what we really want to do is to see the breakdown
+of how the smart baseline model does, compared to the actual result --
+who actually won the state.
+
+So what we really want to do is to see the breakdown of how the smart
+baseline model does, compared to the actual result -- who actually won
+the state.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Comparing the smart baseline with the actual result")
+  table(Train$Republican, sign(Train$Rasmussen))
+#+end_src
+
+#+RESULTS:
+:
+:  :: Comparing the smart baseline with the actual result
+:
+:     -1  0  1
+:   0 42  1  4
+:   1  0  1 52
+
+So in this table, the rows are the true outcome $1$ is for
+*Republican*, $0$ is for *Democrat*, and the columns are the smart
+baseline predictions, $-1$, $0$, or $1$.
+
+We have $42$ observations where the *Rasmussen* smart baseline
+predicted the *Democrat* would win, and the *Democrat* actually did
+win.
+
+There were $52$ observations where the smart baseline predicted the
+*Republican* would win, and the *Republican* actually did win.
+
+Again, there were those two inconclusive observations. And finally,
+there were four mistakes. There were four times where the smart
+baseline model predicted that the *Republican* would win, but actually
+the *Democrat* won the state.
+
+So as we can see, this model, with four mistakes and two inconclusive
+results out of the $100$ training set observations is doing much, much
+better than the naive baseline, which simply was always predicting the
+*Republican* would win and made $47$ mistakes on the same data.
+
+Our $4$ mistakes smart model against the naive model with $53$
+mistakes.
+
+So we see that this is a much more reasonable baseline model to carry
+forward, against which we can compare our logistic regression-based
+approach.
+
+** Video 4: Logistic Regression Models
+
+We need to consider the possibility that there is multicollinearity
+within the independent variables.
+
+And there's a good reason to suspect that there would be
+multicollinearity amongst the variables, because in some sense,
+they're all measuring the same thing, which is how strong the
+Republican candidate is performing  in the particular state.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Multicollinearity")
+  ## cor(Train)                              # Error because is not numeric
+#+end_src
+
+#+RESULTS:
+:
+:  :: Multicollinearity
+: Error in cor(Train) : 'x' must be numeric
+
+So while normally, we would run the correlation function on the
+training set, in this case, it doesn't work. It says, x must be
+numeric. And if we go back and look at the structure of the training
+set, it jumps out why we're getting this issue. It's because we're
+trying to take the correlations of the names of states, which doesn't
+make any sense.
+
+So to compute the correlation, we're going to want to take the
+correlation amongst just the independent variables that we're going to
+be using to predict, and we can also add in the dependent variable to
+this correlation matrix.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Eliminate the issue:")
+  str(Train)
+
+  writeLines("\n :: The correlation between variables:")
+  cor(Train[c("Rasmussen", "SurveyUSA", "PropR", "DiffCount", "Republican")])
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Eliminate the issue:
+'data.frame':	100 obs. of  7 variables:
+ $ State     : Factor w/ 50 levels "Alabama","Alaska",..: 1 1 2 2 3 3 4 4 5 5 ...
+ $ Year      : int  2004 2008 2004 2008 2004 2008 2004 2008 2004 2008 ...
+ $ Rasmussen : int  11 21 19 16 5 5 7 10 -11 -27 ...
+ $ SurveyUSA : int  18 25 21 18 15 3 5 7 -11 -24 ...
+ $ DiffCount : int  5 5 1 6 8 9 8 5 -8 -5 ...
+ $ PropR     : num  1 1 1 1 1 1 1 1 0 0 ...
+ $ Republican: int  1 1 1 1 1 1 1 1 0 0 ...
+
+ :: The correlation between variables:
+           Rasmussen SurveyUSA     PropR DiffCount Republican
+Rasmussen  1.0000000 0.9365837 0.8431180 0.5109169  0.7929252
+SurveyUSA  0.9365837 1.0000000 0.8616478 0.5222585  0.8101645
+PropR      0.8431180 0.8616478 1.0000000 0.8273785  0.9484204
+DiffCount  0.5109169 0.5222585 0.8273785 1.0000000  0.8092777
+Republican 0.7929252 0.8101645 0.9484204 0.8092777  1.0000000
+#+end_example
+
+We're seeing a lot of big values here. For instance, *SurveyUSA* and
+*Rasmussen* are independent variables that have a correlation of $0.94$,
+which is very, very large and something that would be concerning.
+
+So let's first consider the case where we want to build a logistic
+regression model with just one variable.
+
+So in this case, it stands to reason that the variable we'd want to
+add would be the one that is most highly correlated with the outcome,
+*Republican*.
+
+So if we read the bottom row, which is the correlation of each
+variable to *Republican*, we see that *PropR* is probably the best
+candidate to include in our single-variable model, because it's so
+highly correlated, meaning it's going to do a good job of predicting
+the *Republican* status.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Logistic Regression Model 1:")
+  mod1 <- glm(Republican ~ PropR, data = Train, family = "binomial")
+  summary(mod1)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Logistic Regression Model 1:
+
+Call:
+glm(formula = Republican ~ PropR, family = "binomial", data = Train)
+
+Deviance Residuals:
+     Min        1Q    Median        3Q       Max
+-2.22880  -0.06541   0.10260   0.10260   1.37392
+
+Coefficients:
+            Estimate Std. Error z value Pr(>|z|)
+(Intercept)   -6.146      1.977  -3.108 0.001882 **
+PropR         11.390      3.153   3.613 0.000303 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 138.269  on 99  degrees of freedom
+Residual deviance:  15.772  on 98  degrees of freedom
+AIC: 19.772
+
+Number of Fisher Scoring iterations: 8
+#+end_example
+
+And we can see that it looks pretty nice in terms of its significance
+and the sign of the coefficients. PropR is the proportion of the polls
+that said the Republican won.
+
+We see that that has a very high coefficient in terms of predicting
+that the Republican will win in the state, which makes a lot of
+sense.
+
+And we'll note down that the AIC measuring the strength of the model
+is $19.8$. So this seems like a very reasonable model. Let's see how it
+does in terms of actually predicting the *Republican* outcome on the
+training set.
+
+we want to compute the predictions, the predicted probabilities that
+the Republican is going to win on the training set. We do need to pass
+it type = "response" to get probabilities out as the predictions.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Training set predictions")
+  pred1 <- predict(mod1, type="response")
+  table(Train$Republican, pred1 >= 0.5)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Training set predictions
+:
+:     FALSE TRUE
+:   0    45    2
+:   1     2   51
+
+The rows, as usual, are the outcome $1$ is *Republican*, $0$ is
+Democrat. And the columns *TRUE* means that we predicted *Republican*,
+*FALSE* means we predicted *Democrat*. So we see that on the training
+set, this model with one variable as a prediction makes four mistakes,
+which is just about the same as our smart baseline model.
+
+So now, let's see if we can improve on this performance by adding in
+another variable.
+
+We might be searching for a pair of variables that has a relatively
+lower correlation with each other, because they might kind of work
+together to improve the prediction overall of the *Republican*
+outcome.
+
+The basically the least correlated pairs of variables are either
+*Rasmussen and DiffCount*, or *SurveyUSA and DiffCount*.
+
+So the idea would be to try out one of these pairs in our two-variable
+model. So we'll go ahead and try out *SurveyUSA and DiffCount*
+together in our second model. So to save ourselves some typing, we can
+hit up a few times until we get to the model definition for model
+one. And then we can just change the variables. In this case, we're
+now using *SurveyUSA plus DiffCount*.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Two-variable model")
+  mod2 <- glm(Republican ~ SurveyUSA + DiffCount, data = Train, family = "binomial")
+  pred2 <- predict(mod2, type = "response")
+  table(Train$Republican, pred2 >= 0.5)
+  summary(mod2)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Two-variable model
+
+    FALSE TRUE
+  0    45    2
+  1     1   52
+
+Call:
+glm(formula = Republican ~ SurveyUSA + DiffCount, family = "binomial",
+    data = Train)
+
+Deviance Residuals:
+     Min        1Q    Median        3Q       Max
+-2.04741  -0.00977   0.00561   0.03751   1.32999
+
+Coefficients:
+            Estimate Std. Error z value Pr(>|z|)
+(Intercept)  -0.6827     1.0468  -0.652   0.5143
+SurveyUSA     0.3309     0.2226   1.487   0.1371
+DiffCount     0.6619     0.3663   1.807   0.0708 .
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 138.269  on 99  degrees of freedom
+Residual deviance:  11.154  on 97  degrees of freedom
+AIC: 17.154
+
+Number of Fisher Scoring iterations: 9
+#+end_example
+
+We can see that we made one less mistake. We made three mistakes
+instead of four on the training set so a little better than the
+smart baseline but nothing too impressive.
+
+- The AIC has a smaller value, which suggests a stronger model.
+
+- *SurveyUSA and DiffCount* both have positive coefficients in
+  predicting if the Republican wins the state, which makes sense.
+
+- But a weakness of this model is that neither of these variables has
+  a significance of a star or better, which means that they are less
+  significant statistically.
+
+So there are definitely some strengths and weaknesses between the
+two-variable and the one-variable model. We'll go ahead and use the
+two-variable model when we make our predictions on the testing set.
+
+** Video 5: Test Set Predictions
+
+*** Smart baseline model testing
+
+The first model we're going to want to look at is that smart baseline
+model that basically just took a look at the polling results from the
+*Rasmussen* poll and used those to determine who was predicted to win
+the election.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Smart baseline accuracy:")
+  table(Test$Republican, sign(Test$Rasmussen))
+#+end_src
+
+#+RESULTS:
+:
+:  :: Smart baseline accuracy:
+:
+:     -1  0  1
+:   0 18  2  4
+:   1  0  0 21
+
+We can see that for these results, there are 18 times where the smart
+baseline predicted that the *Democrat* would win and it's correct, $21$
+where it predicted the *Republican* would win and was correct, two times
+when it was inconclusive, and four times where it predicted *Republican*
+but the *Democrat* actually won. So that's four mistakes and two
+inconclusive results on the testing set.
+
+So this is going to be what we're going to compare our logistic
+regression-based model against. So we need to obtain final testing set
+prediction from our model.
+
+*** Logistic Regression Model testing
+
+So we need to obtain final testing set prediction from our model. So
+we selected mod2, which was the two variable model.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Test set predictions:")
+  TestPrediction <- predict(mod2, newdata = Test, type = "response")
+  table(Test$Republican, TestPrediction >= 0.5)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Test set predictions:
+:
+:     FALSE TRUE
+:   0    23    1
+:   1     0   21
+
+And the moment of truth, we're finally going to table the test set
+*Republican* value against the test prediction being greater than or
+equal to $0.5$, at least a $50\%$ probability of the *Republican*
+winning.
+
+*And we see that for this particular case, in all but one of the $45$
+observations in the testing set, we're correct*.
+
+Now, we could have tried changing this threshold from $0.5$ to other
+values and computed out an ROC curve, but that doesn't quite make as
+much sense in this setting where we're just trying to accurately
+predict the outcome of each state and we don't care more about one
+sort of error-- when we predicted *Republican* and it was *actually
+Democrat* -- than the other, where we predicted *Democrat* and it was
+actually *Republican*.
+
+*So in this particular case, we feel OK just using the cutoff of 0.5
+ to evaluate our model*.
+
+*** Analyze mistake
+
+So let's take a look now at the *mistake* we made and see if we can
+understand what's going on. So to actually pull out the mistake we
+made, we can just take a subset of the testing set and limit it to
+when we predicted true, but actually the Democrat won, which is the
+case when that one failed.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Analyze mistake:")
+  subset(Test, TestPrediction >= 0.5 & Republican == 0)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Analyze mistake:
+:      State Year Rasmussen SurveyUSA DiffCount     PropR Republican
+: 24 Florida 2012         2         0         6 0.6666667          0
+
+So here is that subset, which just has one observation since we made
+just one mistake. So this was for the year 2012, the testing set
+year. This was the state of Florida.
+
+And looking through these predictor variables, we see why we made the
+mistake. The *Rasmussen* poll gave the *Republican* a two percentage point
+lead, *SurveyUSA* called a *tie*, *DiffCount* said there were six more polls
+that predicted *Republican* than *Democrat*, and two thirds of the polls
+predicted the Republican was going to win. But actually in this case,
+the Republican didn't win. Barack Obama won the state of Florida in
+2012 over Mitt Romney.
+
+The models here are not magic, and given this sort of data, it's
+pretty unsurprising that our model actually didn't get Florida correct
+in this case and made the mistake.
+
+However, overall, it seems to be *outperforming the smart baseline*
+that we selected, and so we think that maybe this would be a nice
+model to use in the election prediction.
