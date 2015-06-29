@@ -558,9 +558,11 @@ In this part we can download the data
 [17] "USDA.csv"                "WHO.csv"
 [19] "WHO_Europe.csv"          "baseball.csv"
 [21] "climate_change.csv"      "framingham.csv"
-[23] "mvtWeek1.csv"            "pisa2009test.csv"
-[25] "pisa2009train.csv"       "quality.csv"
-[27] "wine.csv"                "wine_test.csv"
+[23] "loans.csv"               "loans_imputed.csv"
+[25] "mvtWeek1.csv"            "parole.csv"
+[27] "pisa2009test.csv"        "pisa2009train.csv"
+[29] "quality.csv"             "songs.csv"
+[31] "wine.csv"                "wine_test.csv"
 #+end_example
 
 *** Load the data set
@@ -1828,9 +1830,11 @@ In this part we can download the data
 [17] "USDA.csv"                "WHO.csv"
 [19] "WHO_Europe.csv"          "baseball.csv"
 [21] "climate_change.csv"      "framingham.csv"
-[23] "mvtWeek1.csv"            "pisa2009test.csv"
-[25] "pisa2009train.csv"       "quality.csv"
-[27] "wine.csv"                "wine_test.csv"
+[23] "loans.csv"               "loans_imputed.csv"
+[25] "mvtWeek1.csv"            "parole.csv"
+[27] "pisa2009test.csv"        "pisa2009train.csv"
+[29] "quality.csv"             "songs.csv"
+[31] "wine.csv"                "wine_test.csv"
 #+end_example
 
 *** Load the data set
@@ -2492,9 +2496,11 @@ In this part we can download the data
 [17] "USDA.csv"                "WHO.csv"
 [19] "WHO_Europe.csv"          "baseball.csv"
 [21] "climate_change.csv"      "framingham.csv"
-[23] "mvtWeek1.csv"            "pisa2009test.csv"
-[25] "pisa2009train.csv"       "quality.csv"
-[27] "wine.csv"                "wine_test.csv"
+[23] "loans.csv"               "loans_imputed.csv"
+[25] "mvtWeek1.csv"            "parole.csv"
+[27] "pisa2009test.csv"        "pisa2009train.csv"
+[29] "quality.csv"             "songs.csv"
+[31] "wine.csv"                "wine_test.csv"
 #+end_example
 
 *** Load the data set
@@ -2604,6 +2610,9 @@ value would likely be filled in as a negative value as well.
 #+RESULTS:
 :
 :  :: Install and load mice package (Only once)
+: Loading required package: Rcpp
+: Loading required package: lattice
+: mice 2.22 2014-06-10
 
 So for our multiple imputation to be useful, we have to be able to
 find out the values of our missing variables without using the outcome
@@ -2766,9 +2775,11 @@ In this part we can download the data
 [17] "USDA.csv"                "WHO.csv"
 [19] "WHO_Europe.csv"          "baseball.csv"
 [21] "climate_change.csv"      "framingham.csv"
-[23] "mvtWeek1.csv"            "pisa2009test.csv"
-[25] "pisa2009train.csv"       "quality.csv"
-[27] "wine.csv"                "wine_test.csv"
+[23] "loans.csv"               "loans_imputed.csv"
+[25] "mvtWeek1.csv"            "parole.csv"
+[27] "pisa2009test.csv"        "pisa2009train.csv"
+[29] "quality.csv"             "songs.csv"
+[31] "wine.csv"                "wine_test.csv"
 #+end_example
 
 *** Load the data set
@@ -2893,10 +2904,6 @@ tied, the model would not know which one to select.
 
 -1  0  1
 42  2 56
-
-    -1  0  1
-  0 42  1  4
-  1  0  1 52
 #+end_example
 
 So if we passed the *Rasmussen* variable into ~sign~, whenever the
@@ -2986,7 +2993,6 @@ Republican candidate is performing  in the particular state.
 #+RESULTS:
 :
 :  :: Multicollinearity
-: Error in cor(Train) : 'x' must be numeric
 
 So while normally, we would run the correlation function on the
 training set, in this case, it doesn't work. It says, x must be
