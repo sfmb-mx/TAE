@@ -182,10 +182,11 @@ In this part we can download the data
 [17] "USDA.csv"                "WHO.csv"
 [19] "WHO_Europe.csv"          "baseball.csv"
 [21] "climate_change.csv"      "framingham.csv"
-[23] "mvtWeek1.csv"            "parole.csv"
-[25] "pisa2009test.csv"        "pisa2009train.csv"
-[27] "quality.csv"             "songs.csv"
-[29] "wine.csv"                "wine_test.csv"
+[23] "loans.csv"               "loans_imputed.csv"
+[25] "mvtWeek1.csv"            "parole.csv"
+[27] "pisa2009test.csv"        "pisa2009train.csv"
+[29] "quality.csv"             "songs.csv"
+[31] "wine.csv"                "wine_test.csv"
 #+end_example
 
 *** Load the data set
@@ -1523,10 +1524,11 @@ In this part we can download the data
 [17] "USDA.csv"                "WHO.csv"
 [19] "WHO_Europe.csv"          "baseball.csv"
 [21] "climate_change.csv"      "framingham.csv"
-[23] "mvtWeek1.csv"            "parole.csv"
-[25] "pisa2009test.csv"        "pisa2009train.csv"
-[27] "quality.csv"             "songs.csv"
-[29] "wine.csv"                "wine_test.csv"
+[23] "loans.csv"               "loans_imputed.csv"
+[25] "mvtWeek1.csv"            "parole.csv"
+[27] "pisa2009test.csv"        "pisa2009train.csv"
+[29] "quality.csv"             "songs.csv"
+[31] "wine.csv"                "wine_test.csv"
 #+end_example
 
 *** Load the data set
@@ -1853,10 +1855,18 @@ If you instead ONLY re-ran lines [3]-[5], what would you expect?
 #+end_src
 
 #+RESULTS:
-:
-:  :: Differences between both sets of splits:
-: FALSE [FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE]
-: FALSE [FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE]
+#+begin_example
+
+ :: Differences between both sets of splits:
+
+Attaching package: 'compare'
+
+The following object is masked from 'package:base':
+
+    isTRUE
+FALSE [FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE]
+FALSE [FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE]
+#+end_example
 
 - [ ] The exact same training/testing set split as the first execution
   of [1]-[5]
@@ -2511,13 +2521,22 @@ Using the ROCR package, what is the AUC value for the model?
 #+end_src
 
 #+RESULTS:
-:
-:  :: Install package only once
-:
-:  :: Prediction function
-:
-:  :: The AUC for the prediction function:
-: [1] 0.8945834
+#+begin_example
+
+ :: Install package only once
+Loading required package: gplots
+
+Attaching package: 'gplots'
+
+The following object is masked from 'package:stats':
+
+    lowess
+
+ :: Prediction function
+
+ :: The AUC for the prediction function:
+[1] 0.8945834
+#+end_example
 
 *Explanation*
 
@@ -2709,11 +2728,11 @@ In this part we can download the data
 [17] "USDA.csv"                "WHO.csv"
 [19] "WHO_Europe.csv"          "baseball.csv"
 [21] "climate_change.csv"      "framingham.csv"
-[23] "loans.csv"               "mvtWeek1.csv"
-[25] "parole.csv"              "pisa2009test.csv"
-[27] "pisa2009train.csv"       "quality.csv"
-[29] "songs.csv"               "wine.csv"
-[31] "wine_test.csv"
+[23] "loans.csv"               "loans_imputed.csv"
+[25] "mvtWeek1.csv"            "parole.csv"
+[27] "pisa2009test.csv"        "pisa2009train.csv"
+[29] "quality.csv"             "songs.csv"
+[31] "wine.csv"                "wine_test.csv"
 #+end_example
 
 *** Load the data set
@@ -3528,3 +3547,94 @@ Training/testing set split rarely has a large effect on the
 significance of variables (this can be verified in this case by trying
 out a few other training/testing splits), and the models were trained
 on the same observations.
+
+** Problem 3.2 - A "Smart Baseline" (2 points possible)
+
+*** Question a
+
+Make test set predictions for the bivariate model. What is the highest
+predicted probability of a loan not being paid in full on the testing
+set?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Test set predictions:")
+  LoansTestPrediction <- predict(LoansLog2, newdata = loansTest, type = "response")
+  summary(LoansTestPrediction)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Test set predictions:
+:    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+: 0.06196 0.11550 0.15080 0.15960 0.18930 0.42660
+
+**** Answer
+
+$$
+P_{max}(y = 1) = 0.42660
+$$
+
+*** Question b
+
+With a logistic regression cutoff of 0.5, how many loans would be
+predicted as not being paid in full on the testing set?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Number of loans not fully paid prediction:")
+  summary(LoansTestPrediction)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Number of loans not fully paid prediction:
+:    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+: 0.06196 0.11550 0.15080 0.15960 0.18930 0.42660
+
+**** Answer
+
+*Explanation*
+
+Make and summarize the test set predictions with the following code:
+
+~pred.bivariate = predict(bivariate, newdata=test, type="response")~
+
+~summary(pred.bivariate)~
+
+According to the summary function, the maximum predicted probability
+of the loan not being paid back is 0.4266, which means no loans would
+be flagged at a logistic regression cutoff of 0.5.
+
+** Problem 3.3 - A "Smart Baseline" (1 point possible)
+
+What is the test set AUC of the bivariate model?
+
+*** Answer
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Install package only once:")
+  ## install.packages('ROCR', repos='http://cran.rstudio.com/')
+  library(ROCR)
+
+  writeLines("\n :: Bivariate Prediction function:")
+  ROCRpredBV <- prediction(LoansTestPrediction, loansTest$not.fully.paid)
+
+  writeLines("\n :: The AUC for the bivariate prediction function:")
+  as.numeric(performance(ROCRpredBV, "auc")@y.values)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Install package only once:
+:
+:  :: Bivariate Prediction function:
+:
+:  :: The AUC for the bivariate prediction function:
+: [1] 0.6239081
+
+*Explanation*
+
+The AUC can be computed with:
+
+~prediction.bivariate = prediction(pred.bivariate, test$not.fully.paid)~
+
+~as.numeric(performance(prediction.bivariate, "auc")@y.values)~
