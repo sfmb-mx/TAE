@@ -401,8 +401,8 @@ probabilities in the Odds equation.
 [[../graphs/TheLogit.png]]
 
 This helps us understand how the coefficients, or betas, affect our
-prediction of the probability. - [ ] A positive $\beta$ value increases the
-*Logit*, which in turn increases the Odds of $1$. - [ ] A negative $\beta$
+prediction of the probability. A positive $\beta$ value increases the
+*Logit*, which in turn increases the Odds of $1$. A negative $\beta$
 value decreases the *Logit*, which in turn, decreases the Odds of
 one.
 
@@ -1595,7 +1595,7 @@ improve and refine the model, as we have seen in this lecture.
 - Models can integrate assessments of many experts into one final
   unbiased and unemotional prediction.
 
-*  The Framingham Heart Study: Evaluating Risk Factors to Save Lives
+* The Framingham Heart Study: Evaluating Risk Factors to Save Lives
 
 ** Video 1: The Framingham Heart Study
 

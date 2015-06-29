@@ -1,0 +1,2855 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Assignment 3. The Analytics Edge</title>
+<!-- 2015-06-28 Sun 15:04 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="Sergio-Feliciano Mendoza-Barrera" />
+<meta  name="description" content="Homework week 3 of the analytics edge"
+ />
+<meta  name="keywords" content="R, data science, emacs, ESS, org-mode, the analytics edge" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/bigblow.css"/>
+<link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/hideshow.css"/>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery-ui-1.10.2.min.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.localscroll-min.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.scrollTo-1.4.3.1-min.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.zclip.min.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/bigblow.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/hideshow.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js"></script>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+    MathJax.Hub.Config({
+        // Only one of the two following lines, depending on user settings
+        // First allows browser-native MathML display, second forces HTML/CSS
+        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
+                     "TeX/noUndefined.js"],
+        tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
+            skipTags: ["script","noscript","style","textarea","pre","code"],
+            ignoreClass: "tex2jax_ignore",
+            processEscapes: false,
+            processEnvironments: true,
+            preview: "TeX"
+        },
+        showProcessingMessages: true,
+        displayAlign: "center",
+        displayIndent: "2em",
+
+        "HTML-CSS": {
+             scale: 100,
+             availableFonts: ["STIX","TeX"],
+             preferredFont: "TeX",
+             webFont: "TeX",
+             imageFont: "TeX",
+             showMathMenu: true,
+        },
+        MMLorHTML: {
+             prefer: {
+                 MSIE:    "MML",
+                 Firefox: "MML",
+                 Opera:   "HTML",
+                 other:   "HTML"
+             }
+        }
+    });
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Assignment 3. The Analytics Edge</h1>
+<div class="abstract">
+<p>
+This document content the assignment 3 of the third week of The
+Analytics Edge course of MIT.
+</p>
+
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Popularity of music records</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+The music industry has a well-developed market with a global annual
+revenue around \(15\) billion USD. The recording industry is highly
+competitive and is dominated by three big production companies which
+make up nearly \(82\%\) of the total annual album sales.
+</p>
+
+<p>
+Artists are at the core of the music industry and record labels
+provide them with the necessary resources to sell their music on a
+large scale. A record label incurs numerous costs (studio recording,
+marketing, distribution, and touring) in exchange for a percentage of
+the profits from album sales, singles and concert tickets.
+</p>
+
+<p>
+Unfortunately, the success of an artist's release is highly uncertain:
+a single may be extremely popular, resulting in widespread radio play
+and digital downloads, while another single may turn out quite
+unpopular, and therefore unprofitable.
+</p>
+
+<p>
+Knowing the competitive nature of the recording industry, record
+labels face the fundamental decision problem of which musical releases
+to support to maximize their financial success.
+</p>
+
+<p>
+How can we use analytics to predict the popularity of a song? In this
+assignment, we challenge ourselves to predict whether a song will
+reach a spot in the Top 10 of the Billboard Hot 100 Chart.
+</p>
+
+<p>
+Taking an analytics approach, we aim to use information about a song's
+properties to predict its popularity. The dataset <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/songs.csv">songs.csv</a> consists
+of all songs which made it to the Top 10 of the Billboard Hot 100
+Chart from 1990-2010 plus a sample of additional songs that didn't
+make the Top 10. This data comes from three sources: <a href="http://en.wikipedia.org/wiki/Billboard_Hot_100">Wikipedia</a>,
+<a href="http://www.billboard.com/">Billboard.com</a>, and <a href="http://echonest.com">EchoNest</a>.
+</p>
+
+<p>
+The variables included in the dataset either describe the artist or
+the song, or they are associated with the following song attributes:
+time signature, loudness, key, pitch, tempo, and timbre.
+</p>
+
+<p>
+Here's a detailed description of the variables:
+</p>
+
+<ul class="org-ul">
+<li><b>year</b> = the year the song was released
+</li>
+
+<li><b>songtitle</b> = the title of the song
+</li>
+
+<li><b>artistname</b> = the name of the artist of the song
+</li>
+
+<li><b>songID</b> and <b>artistID</b> = identifying variables for the song and
+artist
+</li>
+
+<li><b>timesignature</b> and <b>timesignature_confidence</b> = a variable
+estimating the time signature of the song, and the confidence in
+the estimate
+</li>
+
+<li><b>loudness</b> = a continuous variable indicating the average
+amplitude of the audio in decibels
+</li>
+
+<li><b>tempo</b> and <b>tempo_confidence</b> = a variable indicating the
+estimated beats per minute of the song, and the confidence in
+the estimate
+</li>
+
+<li><b>key</b> and <b>key_confidence</b> = a variable with twelve levels
+indicating the estimated key of the song (C, C#, . . ., B), and
+the confidence in the estimate
+</li>
+
+<li><b>energy</b> = a variable that represents the overall acoustic
+energy of the song, using a mix of features such as loudness
+</li>
+
+<li><b>pitch</b> = a continuous variable that indicates the pitch of the
+song
+</li>
+
+<li><b>timbre_0_min</b>, <b>timbre_0_max</b>, <b>timbre_1_min</b>, <b>timbre_1_max</b>,
+&#x2026;, <b>timbre_11_min</b>, and <b>timbre_11_max</b> = variables that
+indicate the minimum/maximum values over all segments for each
+of the twelve values in the timbre vector (resulting in 24
+continuous variables)
+</li>
+
+<li><b>Top10</b> = a binary variable indicating whether or not the song
+made it to the Top 10 of the Billboard Hot 100 Chart (1 if it
+was in the top 10, and 0 if it was not)
+</li>
+</ul>
+</div>
+
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Problem 1.1 - Understanding the Data (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+Use the read.csv function to load the dataset "songs.csv" into R.
+</p>
+</div>
+
+<div id="outline-container-sec-1-1-1" class="outline-4">
+<h4 id="sec-1-1-1"><span class="section-number-4">1.1.1</span> Download the data sets</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<p>
+In this part we can download the data
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R"><span style="color: #db7093;">library</span>(parallel)
+
+<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #fffacd;">"../data"</span>)) {
+        dir.create(<span style="color: #fffacd;">"../data"</span>)
+}
+
+fileUrl <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/songs.csv"</span>
+
+fileName <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"songs.csv"</span>
+
+dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"../data"</span>
+
+filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #fffacd;">"/"</span>)
+
+<span style="color: #4682b4;">if</span>(!file.exists(filePath)) {
+        download.file(fileUrl, destfile = filePath, method = <span style="color: #fffacd;">"curl"</span>)
+}
+
+list.files(<span style="color: #fffacd;">"../data"</span>)
+</pre>
+</div>
+
+<pre class="example">
+ [1] "AnonymityPoll.csv"       "BoeingStock.csv"
+ [3] "CPSData.csv"             "CocaColaStock.csv"
+ [5] "CountryCodes.csv"        "FluTest.csv"
+ [7] "FluTrain.csv"            "GEStock.csv"
+ [9] "IBMStock.csv"            "MetroAreaCodes.csv"
+[11] "NBA_test.csv"            "NBA_train.csv"
+[13] "PollingData.csv"         "PollingData_Imputed.csv"
+[15] "ProcterGambleStock.csv"  "README.md"
+[17] "USDA.csv"                "WHO.csv"
+[19] "WHO_Europe.csv"          "baseball.csv"
+[21] "climate_change.csv"      "framingham.csv"
+[23] "mvtWeek1.csv"            "parole.csv"
+[25] "pisa2009test.csv"        "pisa2009train.csv"
+[27] "quality.csv"             "songs.csv"
+[29] "wine.csv"                "wine_test.csv"
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-1-1-2" class="outline-4">
+<h4 id="sec-1-1-2"><span class="section-number-4">1.1.2</span> Load the data set</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Loading data into their data frames."</span>)
+songs <span style="color: #db7093;">&lt;-</span> read.csv(<span style="color: #fffacd;">"../data/songs.csv"</span>)
+str(songs)
+table(songs$Year)
+summary(songs)
+</pre>
+</div>
+
+<pre class="example">
+ :: Loading data into their data frames.
+'data.frame':	7574 obs. of  39 variables:
+ $ year                    : int  2010 2010 2010 2010 2010 2010 2010 2010 2010 2010 ...
+ $ songtitle               : Factor w/ 7141 levels "#1","'03 Bonnie &amp; Clyde",..: 6207 5515 234 3103 43 603 247 4413 2880 6749 ...
+ $ artistname              : Factor w/ 1032 levels "50 Cent","98 Degrees",..: 3 3 3 3 3 3 3 3 3 12 ...
+ $ songID                  : Factor w/ 7549 levels "SOAACNI1315CD4AC42",..: 595 5439 5252 1716 3431 1020 1831 3964 6904 2473 ...
+ $ artistID                : Factor w/ 1047 levels "AR00B1I1187FB433EB",..: 671 671 671 671 671 671 671 671 671 507 ...
+ $ timesignature           : int  3 4 4 4 4 4 4 4 4 4 ...
+ $ timesignature_confidence: num  0.853 1 1 1 0.788 1 0.968 0.861 0.622 0.938 ...
+ $ loudness                : num  -4.26 -4.05 -3.57 -3.81 -4.71 ...
+ $ tempo                   : num  91.5 140 160.5 97.5 140.1 ...
+ $ tempo_confidence        : num  0.953 0.921 0.489 0.794 0.286 0.347 0.273 0.83 0.018 0.929 ...
+ $ key                     : int  11 10 2 1 6 4 10 5 9 11 ...
+ $ key_confidence          : num  0.453 0.469 0.209 0.632 0.483 0.627 0.715 0.423 0.751 0.602 ...
+ $ energy                  : num  0.967 0.985 0.99 0.939 0.988 ...
+ $ pitch                   : num  0.024 0.025 0.026 0.013 0.063 0.038 0.026 0.033 0.027 0.004 ...
+ $ timbre_0_min            : num  0.002 0 0.003 0 0 ...
+ $ timbre_0_max            : num  57.3 57.4 57.4 57.8 56.9 ...
+ $ timbre_1_min            : num  -6.5 -37.4 -17.2 -32.1 -223.9 ...
+ $ timbre_1_max            : num  171 171 171 221 171 ...
+ $ timbre_2_min            : num  -81.7 -149.6 -72.9 -138.6 -147.2 ...
+ $ timbre_2_max            : num  95.1 180.3 157.9 173.4 166 ...
+ $ timbre_3_min            : num  -285 -380.1 -204 -73.5 -128.1 ...
+ $ timbre_3_max            : num  259 384 251 373 389 ...
+ $ timbre_4_min            : num  -40.4 -48.7 -66 -55.6 -43.9 ...
+ $ timbre_4_max            : num  73.6 100.4 152.1 119.2 99.3 ...
+ $ timbre_5_min            : num  -104.7 -87.3 -98.7 -77.5 -96.1 ...
+ $ timbre_5_max            : num  183.1 42.8 141.4 141.2 38.3 ...
+ $ timbre_6_min            : num  -88.8 -86.9 -88.9 -70.8 -110.8 ...
+ $ timbre_6_max            : num  73.5 75.5 66.5 64.5 72.4 ...
+ $ timbre_7_min            : num  -71.1 -65.8 -67.4 -63.7 -55.9 ...
+ $ timbre_7_max            : num  82.5 106.9 80.6 96.7 110.3 ...
+ $ timbre_8_min            : num  -52 -61.3 -59.8 -78.7 -56.5 ...
+ $ timbre_8_max            : num  39.1 35.4 46 41.1 37.6 ...
+ $ timbre_9_min            : num  -35.4 -81.9 -46.3 -49.2 -48.6 ...
+ $ timbre_9_max            : num  71.6 74.6 59.9 95.4 67.6 ...
+ $ timbre_10_min           : num  -126.4 -103.8 -108.3 -102.7 -52.8 ...
+ $ timbre_10_max           : num  18.7 121.9 33.3 46.4 22.9 ...
+ $ timbre_11_min           : num  -44.8 -38.9 -43.7 -59.4 -50.4 ...
+ $ timbre_11_max           : num  26 22.5 25.7 37.1 32.8 ...
+ $ Top10                   : int  0 0 0 0 0 0 0 0 0 1 ...
+&lt; table of extent 0 &gt;
+      year          songtitle              artistname
+ Min.   :1990   Intro    :  15   Various artists: 162
+ 1st Qu.:1997   Forever  :   8   Anal Cunt      :  49
+ Median :2002   Home     :   7   Various Artists:  44
+ Mean   :2001   Goodbye  :   6   Tori Amos      :  41
+ 3rd Qu.:2006   Again    :   5   Eels           :  37
+ Max.   :2010   Beautiful:   5   Napalm Death   :  37
+                (Other)  :7528   (Other)        :7204
+                songID                   artistID    timesignature
+ SOALSZJ1370F1A7C75:   2   ARAGWS81187FB3F768: 222   Min.   :0.000
+ SOANPAC13936E0B640:   2   ARL14X91187FB4CF14:  49   1st Qu.:4.000
+ SOBDGMX12B0B80808E:   2   AR4KS8C1187FB4CF3D:  41   Median :4.000
+ SOBUDCZ12A58A80013:   2   AR0JZZ01187B9B2C99:  37   Mean   :3.894
+ SODFRLK13134387FB5:   2   ARZGTK71187B9AC7F5:  37   3rd Qu.:4.000
+ SOEJPOK12A6D4FAFE4:   2   AR95XYH1187FB53951:  31   Max.   :7.000
+ (Other)           :7562   (Other)           :7157
+ timesignature_confidence    loudness           tempo        tempo_confidence
+ Min.   :0.0000           Min.   :-42.451   Min.   :  0.00   Min.   :0.0000
+ 1st Qu.:0.8193           1st Qu.:-10.847   1st Qu.: 88.86   1st Qu.:0.3720
+ Median :0.9790           Median : -7.649   Median :103.27   Median :0.7015
+ Mean   :0.8533           Mean   : -8.817   Mean   :107.35   Mean   :0.6229
+ 3rd Qu.:1.0000           3rd Qu.: -5.640   3rd Qu.:124.80   3rd Qu.:0.8920
+ Max.   :1.0000           Max.   :  1.305   Max.   :244.31   Max.   :1.0000
+
+      key         key_confidence       energy            pitch
+ Min.   : 0.000   Min.   :0.0000   Min.   :0.00002   Min.   :0.00000
+ 1st Qu.: 2.000   1st Qu.:0.2040   1st Qu.:0.50014   1st Qu.:0.00300
+ Median : 6.000   Median :0.4515   Median :0.71816   Median :0.00700
+ Mean   : 5.385   Mean   :0.4338   Mean   :0.67547   Mean   :0.01082
+ 3rd Qu.: 9.000   3rd Qu.:0.6460   3rd Qu.:0.88740   3rd Qu.:0.01400
+ Max.   :11.000   Max.   :1.0000   Max.   :0.99849   Max.   :0.54100
+
+  timbre_0_min     timbre_0_max    timbre_1_min      timbre_1_max
+ Min.   : 0.000   Min.   :12.58   Min.   :-333.72   Min.   :-74.37
+ 1st Qu.: 0.000   1st Qu.:53.12   1st Qu.:-160.12   1st Qu.:171.13
+ Median : 0.027   Median :55.53   Median :-107.75   Median :194.40
+ Mean   : 4.123   Mean   :54.46   Mean   :-110.79   Mean   :212.34
+ 3rd Qu.: 2.772   3rd Qu.:57.08   3rd Qu.: -59.71   3rd Qu.:239.24
+ Max.   :48.353   Max.   :64.01   Max.   : 123.73   Max.   :549.97
+
+  timbre_2_min      timbre_2_max      timbre_3_min      timbre_3_max
+ Min.   :-324.86   Min.   : -0.832   Min.   :-495.36   Min.   : 12.85
+ 1st Qu.:-167.64   1st Qu.:100.519   1st Qu.:-226.87   1st Qu.:127.14
+ Median :-136.60   Median :129.908   Median :-170.61   Median :189.50
+ Mean   :-136.89   Mean   :136.673   Mean   :-186.11   Mean   :211.81
+ 3rd Qu.:-106.51   3rd Qu.:166.121   3rd Qu.:-131.56   3rd Qu.:290.72
+ Max.   :  34.57   Max.   :397.095   Max.   : -21.55   Max.   :499.62
+
+  timbre_4_min      timbre_4_max      timbre_5_min      timbre_5_max
+ Min.   :-207.07   Min.   : -0.651   Min.   :-262.48   Min.   :-22.41
+ 1st Qu.: -77.69   1st Qu.: 83.966   1st Qu.:-113.58   1st Qu.: 84.64
+ Median : -63.83   Median :107.422   Median : -95.47   Median :119.90
+ Mean   : -65.28   Mean   :108.227   Mean   :-104.00   Mean   :127.04
+ 3rd Qu.: -51.34   3rd Qu.:130.286   3rd Qu.: -81.02   3rd Qu.:162.34
+ Max.   :  51.43   Max.   :257.801   Max.   : -42.17   Max.   :350.94
+
+  timbre_6_min       timbre_6_max     timbre_7_min       timbre_7_max
+ Min.   :-152.170   Min.   : 12.70   Min.   :-214.791   Min.   : 15.70
+ 1st Qu.: -94.792   1st Qu.: 59.04   1st Qu.:-101.171   1st Qu.: 76.50
+ Median : -80.418   Median : 70.47   Median : -81.797   Median : 94.63
+ Mean   : -80.944   Mean   : 72.17   Mean   : -84.313   Mean   : 95.65
+ 3rd Qu.: -66.521   3rd Qu.: 83.19   3rd Qu.: -64.301   3rd Qu.:112.71
+ Max.   :   4.503   Max.   :208.39   Max.   :   5.153   Max.   :214.82
+
+  timbre_8_min       timbre_8_max     timbre_9_min      timbre_9_max
+ Min.   :-158.756   Min.   :-25.95   Min.   :-149.51   Min.   :  8.415
+ 1st Qu.: -73.051   1st Qu.: 40.58   1st Qu.: -70.28   1st Qu.: 53.037
+ Median : -62.661   Median : 49.22   Median : -58.65   Median : 65.935
+ Mean   : -63.704   Mean   : 50.06   Mean   : -59.52   Mean   : 68.028
+ 3rd Qu.: -52.983   3rd Qu.: 58.46   3rd Qu.: -47.70   3rd Qu.: 81.267
+ Max.   :  -2.382   Max.   :144.99   Max.   :   1.14   Max.   :161.518
+
+ timbre_10_min     timbre_10_max     timbre_11_min      timbre_11_max
+ Min.   :-208.82   Min.   : -6.359   Min.   :-145.599   Min.   :  7.20
+ 1st Qu.:-105.13   1st Qu.: 39.196   1st Qu.: -58.058   1st Qu.: 38.98
+ Median : -83.07   Median : 50.895   Median : -50.892   Median : 46.44
+ Mean   : -87.34   Mean   : 55.521   Mean   : -50.868   Mean   : 47.49
+ 3rd Qu.: -64.52   3rd Qu.: 66.593   3rd Qu.: -43.292   3rd Qu.: 55.03
+ Max.   : -10.64   Max.   :192.417   Max.   :  -6.497   Max.   :110.27
+
+     Top10
+ Min.   :0.0000
+ 1st Qu.:0.0000
+ Median :0.0000
+ Mean   :0.1477
+ 3rd Qu.:0.0000
+ Max.   :1.0000
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-1-1-3" class="outline-4">
+<h4 id="sec-1-1-3"><span class="section-number-4">1.1.3</span> Question</h4>
+<div class="outline-text-4" id="text-1-1-3">
+<p>
+How many observations (songs) are from the year 2010?
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-1-4" class="outline-4">
+<h4 id="sec-1-1-4"><span class="section-number-4">1.1.4</span> Answer</h4>
+<div class="outline-text-4" id="text-1-1-4">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Number of songs in 2010:"</span>)
+nrow(subset(songs, songs$year == 2010))
+
+writeLines(<span style="color: #fffacd;">"\n :: Other way to calculate:"</span>)
+table(songs$year)
+</pre>
+</div>
+
+<pre class="example">
+ :: Number of songs in 2010:
+[1] 373
+
+ :: Other way to calculate:
+
+1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005
+ 328  196  186  324  198  258  178  329  380  357  363  282  518  434  479  392
+2006 2007 2008 2009 2010
+ 479  622  415  483  373
+</pre>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+First, navigate to the directory on your computer containing the file
+"songs.csv". You can load the dataset by using the command:
+</p>
+
+<p>
+<code>songs = read.csv("songs.csv")</code>
+</p>
+
+<p>
+Then, you can count the number of songs from 2010 by using the table
+function:
+</p>
+
+<p>
+<code>table(songs$year)</code>
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Problem 1.2 - Understanding the Data (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+How many songs does the dataset include for which the artist name is
+"Michael Jackson"?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Number of songs of Michael Jackson:"</span>)
+nrow(subset(songs, songs$artistname == <span style="color: #fffacd;">"Michael Jackson"</span>))
+</pre>
+</div>
+
+<pre class="example">
+ :: Number of songs of Michael Jackson:
+[1] 18
+</pre>
+</div>
+
+<div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1"><span class="section-number-4">1.2.1</span> Answer</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+If you look at the structure of the dataset by typing str(songs), you
+can see that there are 1032 different values of the variable
+"artistname". So if we create a table of artistname, it will be
+challenging to find Michael Jackson. Instead, we can use subset:
+</p>
+
+<p>
+<code>MichaelJackson = subset(songs, artistname == "Michael Jackson")</code>
+</p>
+
+<p>
+Then, by typing <code>str(MichaelJackson)</code> or <code>nrow(MichaelJackson)</code>, we can
+see that there are \(18\) observations.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Problem 1.3 - Understanding the Data (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+Which of these songs by Michael Jackson made it to the Top 10? Select
+all that apply.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Songs of Michael Jackson in the Top 10:"</span>)
+sort(subset(songs, songs$artistname == <span style="color: #fffacd;">"Michael Jackson"</span> &amp; songs$Top10
+            == 1)$songtitle, decreasing = <span style="color: #3cb371;">TRUE</span>)
+</pre>
+</div>
+
+<pre class="example">
+ :: Songs of Michael Jackson in the Top 10:
+[1] You Rock My World You Are Not Alone Remember the Time In The Closet
+[5] Black or White
+7141 Levels: #1 '03 Bonnie &amp; Clyde '69 ... \315\204 l'or_e des bois
+</pre>
+</div>
+
+<div id="outline-container-sec-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1"><span class="section-number-4">1.3.1</span> Answer</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> Beat It
+</li>
+<li><code>[X]</code> You Rock My World
+</li>
+<li><code>[&#xa0;]</code> Billie Jean
+</li>
+<li><code>[X]</code> You Are Not Alone
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+We can answer this question by using our subset MichaelJackson from
+the previous question. If you output the vector
+MichaelJackson$songtitle, you can see the row number of each of the
+songs. Then, you can see whether or not that song made it to the top
+10 by outputing the value of Top10 for that row. For example, "Beat
+It" is the 13th song in our subset. So then if we type:
+</p>
+
+<p>
+<code>MichaelJackson$Top10[13]</code>
+</p>
+
+<p>
+we get \(0\), which means that this song did not make it to the
+Top 10. The song "You Rock My World" is first on the list, so if we
+type:
+</p>
+
+<p>
+<code>MichaelJackson$Top10[1]</code>
+</p>
+
+<p>
+we get \(1\), which means that this song did make it to the Top 10.
+</p>
+
+<p>
+As a shortcut, you could just output:
+</p>
+
+<p>
+<code>MichaelJackson[c(“songtitle”, “Top10”)]</code>
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> Problem 1.4 - Understanding the Data (2 points possible)</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+The variable corresponding to the estimated time signature
+(timesignature) is discrete, meaning that it only takes integer values
+(0, 1, 2, 3, &#x2026;).
+</p>
+</div>
+
+<div id="outline-container-sec-1-4-1" class="outline-4">
+<h4 id="sec-1-4-1"><span class="section-number-4">1.4.1</span> Question a</h4>
+<div class="outline-text-4" id="text-1-4-1">
+<p>
+What are the values of this variable that occur in our dataset? Select
+all that apply.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: The values of the timesignature variable in the dataset:"</span>)
+table(songs$timesignature)
+</pre>
+</div>
+
+<pre class="example">
+:: The values of the timesignature variable in the dataset:
+
+  0    1    3    4    5    7
+ 10  143  503 6787  112   19
+</pre>
+</div>
+
+<div id="outline-container-sec-1-4-1-1" class="outline-5">
+<h5 id="sec-1-4-1-1"><span class="section-number-5">1.4.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-1-4-1-1">
+<p>
+0, 1, 3, 4, 5, 7
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4-2" class="outline-4">
+<h4 id="sec-1-4-2"><span class="section-number-4">1.4.2</span> Question b</h4>
+<div class="outline-text-4" id="text-1-4-2">
+<p>
+Which timesignature value is the most frequent among songs in our
+dataset?
+</p>
+</div>
+
+<div id="outline-container-sec-1-4-2-1" class="outline-5">
+<h5 id="sec-1-4-2-1"><span class="section-number-5">1.4.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-1-4-2-1">
+<p>
+4
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+You can answer these questions by using the table command:
+</p>
+
+<p>
+<code>table(songs$timesignature)</code>
+</p>
+
+<p>
+The only values that appear in the table for <b>timesignature</b> are 0, 1,
+3, 4, 5, and 7. We can also read from the table that 6787 songs have a
+value of 4 for the timesignature, which is the highest count out of
+all of the possible timesignature values.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5"><span class="section-number-3">1.5</span> Problem 1.5 - Understanding the Data (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-5">
+<p>
+Out of all of the songs in our dataset, the song with the highest
+tempo is one of the following songs. Which one is it?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: the song with the highest tempo is:"</span>)
+songs[which.max(songs$tempo), 2]
+
+writeLines(<span style="color: #fffacd;">"\n :: Other way to calculate:"</span>)
+songs$songtitle[which.max(songs$tempo)]
+</pre>
+</div>
+
+<pre class="example">
+ :: the song with the highest tempo is:
+[1] Wanna Be Startin' Somethin'
+7141 Levels: #1 '03 Bonnie &amp; Clyde '69 ... \315\204 l'or_e des bois
+
+ :: Other way to calculate:
+[1] Wanna Be Startin' Somethin'
+7141 Levels: #1 '03 Bonnie &amp; Clyde '69 ... \315\204 l'or_e des bois
+</pre>
+</div>
+
+<div id="outline-container-sec-1-5-1" class="outline-4">
+<h4 id="sec-1-5-1"><span class="section-number-4">1.5.1</span> Answer</h4>
+<div class="outline-text-4" id="text-1-5-1">
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+You can answer this question by using the which.max function. The
+output of <code>which.max(songs$tempo)</code> is \(6206\), meaning that the song
+with the highest tempo is the row 6206. We can output the song title
+by typing:
+</p>
+
+<p>
+<code>songs$songtitle[6206]</code>
+</p>
+
+<p>
+The song title is: *Wanna be Startin' Somethin'*.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6"><span class="section-number-3">1.6</span> Problem 2.1 - Creating Our Prediction Model (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-6">
+<p>
+We wish to predict whether or not a song will make it to the
+Top 10. To do this, first use the subset function to split the data
+into a training set <b>SongsTrain</b> consisting of all the observations up
+to and including 2009 song releases, and a testing set <b>SongsTest</b>,
+consisting of the 2010 song releases.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Building the training and testing sets:"</span>)
+SongsTrain <span style="color: #db7093;">&lt;-</span> subset(songs, songs$year &lt;= 2009)
+writeLines(<span style="color: #fffacd;">"\n :: Number of observations in the training set:"</span>)
+nrow(SongsTrain)
+
+SongsTest <span style="color: #db7093;">&lt;-</span> subset(songs, songs$year &gt;= 2010)
+writeLines(<span style="color: #fffacd;">"\n :: Number of observations on the test set:"</span>)
+nrow(SongsTest)
+</pre>
+</div>
+
+<pre class="example">
+ :: Building the training and testing sets:
+
+ :: Number of observations in the training set:
+[1] 7201
+
+ :: Number of observations on the test set:
+[1] 373
+</pre>
+
+<p>
+How many observations (songs) are in the training set?
+</p>
+</div>
+
+<div id="outline-container-sec-1-6-1" class="outline-4">
+<h4 id="sec-1-6-1"><span class="section-number-4">1.6.1</span> Answer</h4>
+<div class="outline-text-4" id="text-1-6-1">
+<p>
+7201
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+You can split the data into the training set and the test set by using
+the following commands:
+</p>
+
+<p>
+<code>SongsTrain = subset(songs, year &lt;= 2009)</code>
+</p>
+
+<p>
+<code>SongsTest = subset(songs, year == 2010)</code>
+</p>
+
+<p>
+The training set has \(7201\) observations, which can be found by looking
+at the structure with <code>str(SongsTrain)</code> or by typing <code>nrow(SongsTrain)</code>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7"><span class="section-number-3">1.7</span> Problem 2.2 - Creating our Prediction Model (2 points possible)</h3>
+<div class="outline-text-3" id="text-1-7">
+<p>
+In this problem, our outcome variable is <b>Top10</b> - we are trying to
+predict whether or not a song will make it to the Top 10 of the
+Billboard Hot 100 Chart. Since the outcome variable is binary, we will
+build a logistic regression model. We'll start by using all song
+attributes as our independent variables, which we'll call <b>Model 1</b>.
+</p>
+
+<p>
+We will only use the variables in our dataset that describe the
+numerical attributes of the song in our logistic regression model. So
+we won't use the variables <b>year</b>, <b>songtitle</b>, <b>artistname</b>, <b>songID</b>
+or <b>artistID</b>.
+</p>
+
+<p>
+We have seen in the lecture that, to build the logistic regression
+model, we would normally explicitly input the formula including all
+the independent variables in R. However, in this case, this is a
+tedious amount of work since we have a large number of independent
+variables.
+</p>
+
+<p>
+There is a nice trick to avoid doing so. Let's suppose that, except
+for the outcome variable Top10, all other variables in the training
+set are inputs to Model 1. Then, we can use the formula
+</p>
+
+<p>
+<code>SongsLog1 = glm(Top10 ~ ., data=SongsTrain, family=binomial)</code>
+</p>
+
+<p>
+to build our model. Notice that the "." is used in place of
+enumerating all the independent variables. (Also, keep in mind that
+you can choose to put quotes around binomial, or leave out the
+quotes. R can understand this argument either way.)
+</p>
+
+<p>
+However, in our case, we want to exclude some of the variables in our
+dataset from being used as independent variables (<b>year</b>, <b>songtitle</b>,
+<b>artistname</b>, <b>songID</b>, and <b>artistID</b>). To do this, we can use the
+following trick. First define a vector of variable names called
+nonvars - these are the variables that we won't use in our model.
+</p>
+
+<p>
+<code>nonvars = c("year", "songtitle", "artistname", "songID", "artistID")</code>
+</p>
+
+<p>
+To remove these variables from your training and testing sets, type
+the following commands in your R console:
+</p>
+
+<p>
+<code>SongsTrain = SongsTrain[ , !(names(SongsTrain) %in% nonvars) ]</code>
+</p>
+
+<p>
+<code>SongsTest = SongsTest[ , !(names(SongsTest) %in% nonvars) ]</code>
+</p>
+
+<p>
+Now, use the glm function to build a logistic regression model to
+predict Top10 using all of the other variables as the independent
+variables. You should use SongsTrain to build the model.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: To remove variables from your training and testing sets:"</span>)
+nonvars <span style="color: #db7093;">&lt;-</span> c(<span style="color: #fffacd;">"year"</span>, <span style="color: #fffacd;">"songtitle"</span>, <span style="color: #fffacd;">"artistname"</span>, <span style="color: #fffacd;">"songID"</span>, <span style="color: #fffacd;">"artistID"</span>)
+SongsTrain <span style="color: #db7093;">&lt;-</span> SongsTrain[ , !(names(SongsTrain) %<span style="color: #4682b4;">in</span>% nonvars) ]
+SongsTest <span style="color: #db7093;">&lt;-</span> SongsTest[ , !(names(SongsTest) %<span style="color: #4682b4;">in</span>% nonvars) ]
+
+writeLines(<span style="color: #fffacd;">"\n :: Build the logistic regression model:"</span>)
+SongsLog1 <span style="color: #db7093;">&lt;-</span> glm(Top10 ~ ., data=SongsTrain, family=binomial)
+summary(SongsLog1)
+</pre>
+</div>
+
+<pre class="example">
+ :: To remove variables from your training and testing sets:
+
+ :: Build the logistic regression model:
+
+Call:
+glm(formula = Top10 ~ ., family = binomial, data = SongsTrain)
+
+Deviance Residuals:
+    Min       1Q   Median       3Q      Max
+-1.9220  -0.5399  -0.3459  -0.1845   3.0770
+
+Coefficients:
+                           Estimate Std. Error z value Pr(&gt;|z|)
+(Intercept)               1.470e+01  1.806e+00   8.138 4.03e-16 ***
+timesignature             1.264e-01  8.674e-02   1.457 0.145050
+timesignature_confidence  7.450e-01  1.953e-01   3.815 0.000136 ***
+loudness                  2.999e-01  2.917e-02  10.282  &lt; 2e-16 ***
+tempo                     3.634e-04  1.691e-03   0.215 0.829889
+tempo_confidence          4.732e-01  1.422e-01   3.329 0.000873 ***
+key                       1.588e-02  1.039e-02   1.529 0.126349
+key_confidence            3.087e-01  1.412e-01   2.187 0.028760 *
+energy                   -1.502e+00  3.099e-01  -4.847 1.25e-06 ***
+pitch                    -4.491e+01  6.835e+00  -6.570 5.02e-11 ***
+timbre_0_min              2.316e-02  4.256e-03   5.441 5.29e-08 ***
+timbre_0_max             -3.310e-01  2.569e-02 -12.882  &lt; 2e-16 ***
+timbre_1_min              5.881e-03  7.798e-04   7.542 4.64e-14 ***
+timbre_1_max             -2.449e-04  7.152e-04  -0.342 0.732087
+timbre_2_min             -2.127e-03  1.126e-03  -1.889 0.058843 .
+timbre_2_max              6.586e-04  9.066e-04   0.726 0.467571
+timbre_3_min              6.920e-04  5.985e-04   1.156 0.247583
+timbre_3_max             -2.967e-03  5.815e-04  -5.103 3.34e-07 ***
+timbre_4_min              1.040e-02  1.985e-03   5.237 1.63e-07 ***
+timbre_4_max              6.110e-03  1.550e-03   3.942 8.10e-05 ***
+timbre_5_min             -5.598e-03  1.277e-03  -4.385 1.16e-05 ***
+timbre_5_max              7.736e-05  7.935e-04   0.097 0.922337
+timbre_6_min             -1.686e-02  2.264e-03  -7.445 9.66e-14 ***
+timbre_6_max              3.668e-03  2.190e-03   1.675 0.093875 .
+timbre_7_min             -4.549e-03  1.781e-03  -2.554 0.010661 *
+timbre_7_max             -3.774e-03  1.832e-03  -2.060 0.039408 *
+timbre_8_min              3.911e-03  2.851e-03   1.372 0.170123
+timbre_8_max              4.011e-03  3.003e-03   1.336 0.181620
+timbre_9_min              1.367e-03  2.998e-03   0.456 0.648356
+timbre_9_max              1.603e-03  2.434e-03   0.659 0.510188
+timbre_10_min             4.126e-03  1.839e-03   2.244 0.024852 *
+timbre_10_max             5.825e-03  1.769e-03   3.292 0.000995 ***
+timbre_11_min            -2.625e-02  3.693e-03  -7.108 1.18e-12 ***
+timbre_11_max             1.967e-02  3.385e-03   5.811 6.21e-09 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 6017.5  on 7200  degrees of freedom
+Residual deviance: 4759.2  on 7167  degrees of freedom
+AIC: 4827.2
+
+Number of Fisher Scoring iterations: 6
+</pre>
+
+<p>
+Looking at the summary of your model, what is the value of the Akaike
+Information Criterion (AIC)?
+</p>
+</div>
+
+<div id="outline-container-sec-1-7-1" class="outline-4">
+<h4 id="sec-1-7-1"><span class="section-number-4">1.7.1</span> Answer</h4>
+<div class="outline-text-4" id="text-1-7-1">
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+To answer this question, you first need to run the three given
+commands to remove the variables that we won't use in the model from
+the datasets:
+</p>
+
+<p>
+<code>nonvars = c("year", "songtitle", "artistname", "songID", "artistID")</code>
+</p>
+
+<p>
+<code>SongsTrain = SongsTrain[ , !(names(SongsTrain) %in% nonvars) ]</code>
+</p>
+
+<p>
+<code>SongsTest = SongsTest[ , !(names(SongsTest) %in% nonvars) ]</code>
+</p>
+
+<p>
+Then, you can create the logistic regression model with the following
+command:
+</p>
+
+<p>
+<code>SongsLog1 = glm(Top10 ~ ., data=SongsTrain, family=binomial)</code>
+</p>
+
+<p>
+Looking at the bottom of the summary(SongsLog1) output, we can see
+that the \(AIC = 4827.2\).
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-8" class="outline-3">
+<h3 id="sec-1-8"><span class="section-number-3">1.8</span> Problem 2.3 - Creating Our Prediction Model (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-8">
+<p>
+Let's now think about the variables in our dataset related to the
+<b>confidence of the time signature</b>, <b>key</b> and <b>tempo</b>
+(<b>timesignature_confidence</b>, <b>key_confidence</b>, and
+<b>tempo_confidence</b>).
+</p>
+
+<p>
+Our model seems to indicate that these confidence variables are
+significant (rather than the variables <b>timesignature</b>, key and tempo
+themselves).
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: The summary of the model 1:"</span>)
+summary(SongsLog1)
+</pre>
+</div>
+
+<pre class="example">
+ :: The summary of the model 1:
+
+Call:
+glm(formula = Top10 ~ ., family = binomial, data = SongsTrain)
+
+Deviance Residuals:
+    Min       1Q   Median       3Q      Max
+-1.9220  -0.5399  -0.3459  -0.1845   3.0770
+
+Coefficients:
+                           Estimate Std. Error z value Pr(&gt;|z|)
+(Intercept)               1.470e+01  1.806e+00   8.138 4.03e-16 ***
+timesignature             1.264e-01  8.674e-02   1.457 0.145050
+timesignature_confidence  7.450e-01  1.953e-01   3.815 0.000136 ***
+loudness                  2.999e-01  2.917e-02  10.282  &lt; 2e-16 ***
+tempo                     3.634e-04  1.691e-03   0.215 0.829889
+tempo_confidence          4.732e-01  1.422e-01   3.329 0.000873 ***
+key                       1.588e-02  1.039e-02   1.529 0.126349
+key_confidence            3.087e-01  1.412e-01   2.187 0.028760 *
+energy                   -1.502e+00  3.099e-01  -4.847 1.25e-06 ***
+pitch                    -4.491e+01  6.835e+00  -6.570 5.02e-11 ***
+timbre_0_min              2.316e-02  4.256e-03   5.441 5.29e-08 ***
+timbre_0_max             -3.310e-01  2.569e-02 -12.882  &lt; 2e-16 ***
+timbre_1_min              5.881e-03  7.798e-04   7.542 4.64e-14 ***
+timbre_1_max             -2.449e-04  7.152e-04  -0.342 0.732087
+timbre_2_min             -2.127e-03  1.126e-03  -1.889 0.058843 .
+timbre_2_max              6.586e-04  9.066e-04   0.726 0.467571
+timbre_3_min              6.920e-04  5.985e-04   1.156 0.247583
+timbre_3_max             -2.967e-03  5.815e-04  -5.103 3.34e-07 ***
+timbre_4_min              1.040e-02  1.985e-03   5.237 1.63e-07 ***
+timbre_4_max              6.110e-03  1.550e-03   3.942 8.10e-05 ***
+timbre_5_min             -5.598e-03  1.277e-03  -4.385 1.16e-05 ***
+timbre_5_max              7.736e-05  7.935e-04   0.097 0.922337
+timbre_6_min             -1.686e-02  2.264e-03  -7.445 9.66e-14 ***
+timbre_6_max              3.668e-03  2.190e-03   1.675 0.093875 .
+timbre_7_min             -4.549e-03  1.781e-03  -2.554 0.010661 *
+timbre_7_max             -3.774e-03  1.832e-03  -2.060 0.039408 *
+timbre_8_min              3.911e-03  2.851e-03   1.372 0.170123
+timbre_8_max              4.011e-03  3.003e-03   1.336 0.181620
+timbre_9_min              1.367e-03  2.998e-03   0.456 0.648356
+timbre_9_max              1.603e-03  2.434e-03   0.659 0.510188
+timbre_10_min             4.126e-03  1.839e-03   2.244 0.024852 *
+timbre_10_max             5.825e-03  1.769e-03   3.292 0.000995 ***
+timbre_11_min            -2.625e-02  3.693e-03  -7.108 1.18e-12 ***
+timbre_11_max             1.967e-02  3.385e-03   5.811 6.21e-09 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 6017.5  on 7200  degrees of freedom
+Residual deviance: 4759.2  on 7167  degrees of freedom
+AIC: 4827.2
+
+Number of Fisher Scoring iterations: 6
+</pre>
+
+<p>
+What does the model suggest?
+</p>
+</div>
+
+<div id="outline-container-sec-1-8-1" class="outline-4">
+<h4 id="sec-1-8-1"><span class="section-number-4">1.8.1</span> Answer</h4>
+<div class="outline-text-4" id="text-1-8-1">
+<p>
+<b>The higher our confidence about time signature, key and tempo, the
+more likely the song is to be in the Top 10</b>.
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+If you look at the output <code>summary(model)</code>, where model is the name of
+your logistic regression model, you can see that the coefficient
+estimates for the confidence variables (<b>timesignature_confidence</b>,
+<b>key_confidence</b>, and <b>tempo_confidence</b>) are positive. This means that
+higher confidence leads to a higher predicted probability of a Top 10
+hit.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-9" class="outline-3">
+<h3 id="sec-1-9"><span class="section-number-3">1.9</span> Problem 2.4 - Creating Our Prediction Model (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-9">
+<p>
+In general, if the confidence is low for the time signature, tempo,
+and key, then the song is more likely to be complex. What does Model 1
+suggest in terms of complexity?
+</p>
+
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> Mainstream listeners tend to prefer more complex songs
+</li>
+<li><code>[X]</code> Mainstream listeners tend to prefer less complex songs
+</li>
+</ul>
+</div>
+
+<div id="outline-container-sec-1-9-1" class="outline-4">
+<h4 id="sec-1-9-1"><span class="section-number-4">1.9.1</span> Answer</h4>
+<div class="outline-text-4" id="text-1-9-1">
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+Since the coefficient values for <b>timesignature_confidence</b>,
+<b>tempo_confidence</b>, and <b>key_confidence</b> are all positive, lower
+confidence leads to a lower predicted probability of a song being a
+hit. So mainstream listeners tend to prefer less complex songs.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-10" class="outline-3">
+<h3 id="sec-1-10"><span class="section-number-3">1.10</span> Problem 2.5 - Creating Our Prediction Model (2 points possible)</h3>
+<div class="outline-text-3" id="text-1-10">
+<p>
+Songs with heavier instrumentation tend to be louder (have higher
+values in the variable <b>loudness</b>) and more energetic (have higher
+values in the variable <b>energy</b>).
+</p>
+</div>
+
+<div id="outline-container-sec-1-10-1" class="outline-4">
+<h4 id="sec-1-10-1"><span class="section-number-4">1.10.1</span> Question a</h4>
+<div class="outline-text-4" id="text-1-10-1">
+<p>
+By inspecting the coefficient of the variable "loudness", what does
+Model 1 suggest?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: The summary of the model 1:"</span>)
+summary(SongsLog1)
+</pre>
+</div>
+
+<pre class="example">
+ :: The summary of the model 1:
+
+Call:
+glm(formula = Top10 ~ ., family = binomial, data = SongsTrain)
+
+Deviance Residuals:
+    Min       1Q   Median       3Q      Max
+-1.9220  -0.5399  -0.3459  -0.1845   3.0770
+
+Coefficients:
+                           Estimate Std. Error z value Pr(&gt;|z|)
+(Intercept)               1.470e+01  1.806e+00   8.138 4.03e-16 ***
+timesignature             1.264e-01  8.674e-02   1.457 0.145050
+timesignature_confidence  7.450e-01  1.953e-01   3.815 0.000136 ***
+loudness                  2.999e-01  2.917e-02  10.282  &lt; 2e-16 ***
+tempo                     3.634e-04  1.691e-03   0.215 0.829889
+tempo_confidence          4.732e-01  1.422e-01   3.329 0.000873 ***
+key                       1.588e-02  1.039e-02   1.529 0.126349
+key_confidence            3.087e-01  1.412e-01   2.187 0.028760 *
+energy                   -1.502e+00  3.099e-01  -4.847 1.25e-06 ***
+pitch                    -4.491e+01  6.835e+00  -6.570 5.02e-11 ***
+timbre_0_min              2.316e-02  4.256e-03   5.441 5.29e-08 ***
+timbre_0_max             -3.310e-01  2.569e-02 -12.882  &lt; 2e-16 ***
+timbre_1_min              5.881e-03  7.798e-04   7.542 4.64e-14 ***
+timbre_1_max             -2.449e-04  7.152e-04  -0.342 0.732087
+timbre_2_min             -2.127e-03  1.126e-03  -1.889 0.058843 .
+timbre_2_max              6.586e-04  9.066e-04   0.726 0.467571
+timbre_3_min              6.920e-04  5.985e-04   1.156 0.247583
+timbre_3_max             -2.967e-03  5.815e-04  -5.103 3.34e-07 ***
+timbre_4_min              1.040e-02  1.985e-03   5.237 1.63e-07 ***
+timbre_4_max              6.110e-03  1.550e-03   3.942 8.10e-05 ***
+timbre_5_min             -5.598e-03  1.277e-03  -4.385 1.16e-05 ***
+timbre_5_max              7.736e-05  7.935e-04   0.097 0.922337
+timbre_6_min             -1.686e-02  2.264e-03  -7.445 9.66e-14 ***
+timbre_6_max              3.668e-03  2.190e-03   1.675 0.093875 .
+timbre_7_min             -4.549e-03  1.781e-03  -2.554 0.010661 *
+timbre_7_max             -3.774e-03  1.832e-03  -2.060 0.039408 *
+timbre_8_min              3.911e-03  2.851e-03   1.372 0.170123
+timbre_8_max              4.011e-03  3.003e-03   1.336 0.181620
+timbre_9_min              1.367e-03  2.998e-03   0.456 0.648356
+timbre_9_max              1.603e-03  2.434e-03   0.659 0.510188
+timbre_10_min             4.126e-03  1.839e-03   2.244 0.024852 *
+timbre_10_max             5.825e-03  1.769e-03   3.292 0.000995 ***
+timbre_11_min            -2.625e-02  3.693e-03  -7.108 1.18e-12 ***
+timbre_11_max             1.967e-02  3.385e-03   5.811 6.21e-09 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 6017.5  on 7200  degrees of freedom
+Residual deviance: 4759.2  on 7167  degrees of freedom
+AIC: 4827.2
+
+Number of Fisher Scoring iterations: 6
+</pre>
+</div>
+
+<div id="outline-container-sec-1-10-1-1" class="outline-5">
+<h5 id="sec-1-10-1-1"><span class="section-number-5">1.10.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-1-10-1-1">
+<ul class="org-ul">
+<li><code>[X]</code> Mainstream listeners prefer songs with heavy instrumentation
+</li>
+<li><code>[&#xa0;]</code> Mainstream listeners prefer songs with light instrumentation
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-10-2" class="outline-4">
+<h4 id="sec-1-10-2"><span class="section-number-4">1.10.2</span> Question b</h4>
+<div class="outline-text-4" id="text-1-10-2">
+<p>
+By inspecting the coefficient of the variable <b>energy</b>, do we draw the
+same conclusions as above?
+</p>
+</div>
+
+<div id="outline-container-sec-1-10-2-1" class="outline-5">
+<h5 id="sec-1-10-2-1"><span class="section-number-5">1.10.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-1-10-2-1">
+<p>
+No
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+The coefficient estimate for loudness is positive, meaning that
+mainstream listeners prefer louder songs, which are those with heavier
+instrumentation. However, <b>the coefficient estimate for energy is
+negative</b>, meaning that mainstream listeners prefer songs that are
+less energetic, which are those with light instrumentation. <b>These
+coefficients lead us to different conclusions!</b>
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-11" class="outline-3">
+<h3 id="sec-1-11"><span class="section-number-3">1.11</span> Problem 3.1 - Beware of Multicollinearity Issues! (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-11">
+<p>
+What is the correlation between the variables "loudness" and "energy"
+in the training set?
+</p>
+</div>
+
+<div id="outline-container-sec-1-11-1" class="outline-4">
+<h4 id="sec-1-11-1"><span class="section-number-4">1.11.1</span> Answer</h4>
+<div class="outline-text-4" id="text-1-11-1">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: The correlation between variables loudness and energy:"</span>)
+cor(SongsTrain$loudness, SongsTrain$energy)
+</pre>
+</div>
+
+<pre class="example">
+ :: The correlation between variables loudness and energy:
+[1] 0.7399067
+</pre>
+
+<p>
+Given that these two variables are highly correlated, Model 1 suffers
+from <b>multicollinearity</b>. To avoid this issue, we will omit one of these
+two variables and rerun the logistic regression. In the rest of this
+problem, we'll build two variations of our original model: Model 2, in
+which we keep "energy" and omit "loudness", and Model 3, in which we
+keep "loudness" and omit "energy".
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-12" class="outline-3">
+<h3 id="sec-1-12"><span class="section-number-3">1.12</span> Problem 3.2 - Beware of Multicollinearity Issues! (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-12">
+<p>
+Create Model 2, which is Model 1 without the independent variable
+<b>loudness</b>. This can be done with the following command:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Model 2 omiting the loudness variable:"</span>)
+SongsLog2 <span style="color: #db7093;">&lt;-</span> glm(Top10 ~ . -loudness, data = SongsTrain, family = binomial)
+summary(SongsLog2)
+</pre>
+</div>
+
+<pre class="example">
+ :: Model 2 omiting the loudness variable:
+
+Call:
+glm(formula = Top10 ~ . - loudness, family = binomial, data = SongsTrain)
+
+Deviance Residuals:
+    Min       1Q   Median       3Q      Max
+-2.0983  -0.5607  -0.3602  -0.1902   3.3107
+
+Coefficients:
+                           Estimate Std. Error z value Pr(&gt;|z|)
+(Intercept)              -2.241e+00  7.465e-01  -3.002 0.002686 **
+timesignature             1.625e-01  8.734e-02   1.860 0.062873 .
+timesignature_confidence  6.885e-01  1.924e-01   3.578 0.000346 ***
+tempo                     5.521e-04  1.665e-03   0.332 0.740226
+tempo_confidence          5.497e-01  1.407e-01   3.906 9.40e-05 ***
+key                       1.740e-02  1.026e-02   1.697 0.089740 .
+key_confidence            2.954e-01  1.394e-01   2.118 0.034163 *
+energy                    1.813e-01  2.608e-01   0.695 0.486991
+pitch                    -5.150e+01  6.857e+00  -7.511 5.87e-14 ***
+timbre_0_min              2.479e-02  4.240e-03   5.847 5.01e-09 ***
+timbre_0_max             -1.007e-01  1.178e-02  -8.551  &lt; 2e-16 ***
+timbre_1_min              7.143e-03  7.710e-04   9.265  &lt; 2e-16 ***
+timbre_1_max             -7.830e-04  7.064e-04  -1.108 0.267650
+timbre_2_min             -1.579e-03  1.109e-03  -1.424 0.154531
+timbre_2_max              3.889e-04  8.964e-04   0.434 0.664427
+timbre_3_min              6.500e-04  5.949e-04   1.093 0.274524
+timbre_3_max             -2.462e-03  5.674e-04  -4.339 1.43e-05 ***
+timbre_4_min              9.115e-03  1.952e-03   4.670 3.02e-06 ***
+timbre_4_max              6.306e-03  1.532e-03   4.115 3.87e-05 ***
+timbre_5_min             -5.641e-03  1.255e-03  -4.495 6.95e-06 ***
+timbre_5_max              6.937e-04  7.807e-04   0.889 0.374256
+timbre_6_min             -1.612e-02  2.235e-03  -7.214 5.45e-13 ***
+timbre_6_max              3.814e-03  2.157e-03   1.768 0.076982 .
+timbre_7_min             -5.102e-03  1.755e-03  -2.907 0.003644 **
+timbre_7_max             -3.158e-03  1.811e-03  -1.744 0.081090 .
+timbre_8_min              4.488e-03  2.810e-03   1.597 0.110254
+timbre_8_max              6.423e-03  2.950e-03   2.177 0.029497 *
+timbre_9_min             -4.282e-04  2.955e-03  -0.145 0.884792
+timbre_9_max              3.525e-03  2.377e-03   1.483 0.138017
+timbre_10_min             2.993e-03  1.804e-03   1.660 0.097004 .
+timbre_10_max             7.367e-03  1.731e-03   4.255 2.09e-05 ***
+timbre_11_min            -2.837e-02  3.630e-03  -7.815 5.48e-15 ***
+timbre_11_max             1.829e-02  3.341e-03   5.476 4.34e-08 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 6017.5  on 7200  degrees of freedom
+Residual deviance: 4871.8  on 7168  degrees of freedom
+AIC: 4937.8
+
+Number of Fisher Scoring iterations: 6
+</pre>
+
+<p>
+We just subtracted the variable loudness. We couldn't do this with the
+variables <b>songtitle</b> and <b>artistname</b>, because they are not numeric
+variables, and we might get different values in the test set that the
+training set has never seen. But this approach (subtracting the
+variable from the model formula) will always work when you want to
+remove numeric variables.
+</p>
+
+<p>
+Look at the summary of SongsLog2, and inspect the coefficient of the
+variable <b>energy</b>. What do you observe?
+</p>
+</div>
+
+<div id="outline-container-sec-1-12-1" class="outline-4">
+<h4 id="sec-1-12-1"><span class="section-number-4">1.12.1</span> Answer</h4>
+<div class="outline-text-4" id="text-1-12-1">
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+The coefficient estimate for energy is positive in Model 2, suggesting
+that songs with higher energy levels tend to be more popular. However,
+note that the variable energy is not significant in this model.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-13" class="outline-3">
+<h3 id="sec-1-13"><span class="section-number-3">1.13</span> Problem 3.3 - Beware of Multicollinearity Issues! (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-13">
+<p>
+Now, create Model 3, which should be exactly like Model 1, but without
+the variable <b>energy</b>.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Model 3 omiting the energy variable:"</span>)
+SongsLog3 <span style="color: #db7093;">&lt;-</span> glm(Top10 ~ . - energy, data = SongsTrain, family = binomial)
+summary(SongsLog3)
+</pre>
+</div>
+
+<pre class="example">
+ :: Model 3 omiting the energy variable:
+
+Call:
+glm(formula = Top10 ~ . - energy, family = binomial, data = SongsTrain)
+
+Deviance Residuals:
+    Min       1Q   Median       3Q      Max
+-1.9182  -0.5417  -0.3481  -0.1874   3.4171
+
+Coefficients:
+                           Estimate Std. Error z value Pr(&gt;|z|)
+(Intercept)               1.196e+01  1.714e+00   6.977 3.01e-12 ***
+timesignature             1.151e-01  8.726e-02   1.319 0.187183
+timesignature_confidence  7.143e-01  1.946e-01   3.670 0.000242 ***
+loudness                  2.306e-01  2.528e-02   9.120  &lt; 2e-16 ***
+tempo                    -6.460e-04  1.665e-03  -0.388 0.698107
+tempo_confidence          3.841e-01  1.398e-01   2.747 0.006019 **
+key                       1.649e-02  1.035e-02   1.593 0.111056
+key_confidence            3.394e-01  1.409e-01   2.409 0.015984 *
+pitch                    -5.328e+01  6.733e+00  -7.914 2.49e-15 ***
+timbre_0_min              2.205e-02  4.239e-03   5.200 1.99e-07 ***
+timbre_0_max             -3.105e-01  2.537e-02 -12.240  &lt; 2e-16 ***
+timbre_1_min              5.416e-03  7.643e-04   7.086 1.38e-12 ***
+timbre_1_max             -5.115e-04  7.110e-04  -0.719 0.471928
+timbre_2_min             -2.254e-03  1.120e-03  -2.012 0.044190 *
+timbre_2_max              4.119e-04  9.020e-04   0.457 0.647915
+timbre_3_min              3.179e-04  5.869e-04   0.542 0.588083
+timbre_3_max             -2.964e-03  5.758e-04  -5.147 2.64e-07 ***
+timbre_4_min              1.105e-02  1.978e-03   5.585 2.34e-08 ***
+timbre_4_max              6.467e-03  1.541e-03   4.196 2.72e-05 ***
+timbre_5_min             -5.135e-03  1.269e-03  -4.046 5.21e-05 ***
+timbre_5_max              2.979e-04  7.855e-04   0.379 0.704526
+timbre_6_min             -1.784e-02  2.246e-03  -7.945 1.94e-15 ***
+timbre_6_max              3.447e-03  2.182e-03   1.580 0.114203
+timbre_7_min             -5.128e-03  1.768e-03  -2.900 0.003733 **
+timbre_7_max             -3.394e-03  1.820e-03  -1.865 0.062208 .
+timbre_8_min              3.686e-03  2.833e-03   1.301 0.193229
+timbre_8_max              4.658e-03  2.988e-03   1.559 0.119022
+timbre_9_min             -9.318e-05  2.957e-03  -0.032 0.974859
+timbre_9_max              1.342e-03  2.424e-03   0.554 0.579900
+timbre_10_min             4.050e-03  1.827e-03   2.217 0.026637 *
+timbre_10_max             5.793e-03  1.759e-03   3.294 0.000988 ***
+timbre_11_min            -2.638e-02  3.683e-03  -7.162 7.96e-13 ***
+timbre_11_max             1.984e-02  3.365e-03   5.896 3.74e-09 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 6017.5  on 7200  degrees of freedom
+Residual deviance: 4782.7  on 7168  degrees of freedom
+AIC: 4848.7
+
+Number of Fisher Scoring iterations: 6
+</pre>
+
+<p>
+Look at the summary of Model 3 and inspect the coefficient of the
+variable "loudness". Remembering that higher loudness and energy both
+occur in songs with heavier instrumentation, do we make the same
+observation about the popularity of heavy instrumentation as we did
+with Model 2?
+</p>
+</div>
+
+<div id="outline-container-sec-1-13-1" class="outline-4">
+<h4 id="sec-1-13-1"><span class="section-number-4">1.13.1</span> Answer</h4>
+<div class="outline-text-4" id="text-1-13-1">
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+Model 3 can be created with the following command:
+</p>
+
+<p>
+<code>SongsLog3 = glm(Top10 ~ . - energy, data=SongsTrain, family=binomial)</code>
+</p>
+
+<p>
+Looking at the output of summary(SongsLog3), we can see that loudness
+has a positive coefficient estimate, meaning that our model predicts
+that songs with heavier instrumentation tend to be more popular. This
+is the same conclusion we got from Model 2.
+</p>
+
+<p>
+<b>In the remainder of this problem, we'll just use Model 3</b>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-14" class="outline-3">
+<h3 id="sec-1-14"><span class="section-number-3">1.14</span> Problem 4.1 - Validating Our Model (2 points possible)</h3>
+<div class="outline-text-3" id="text-1-14">
+<p>
+Make predictions on the test set using Model 3. What is the accuracy
+of Model 3 on the test set, using a threshold of 0.45? (Compute the
+accuracy as a number between 0 and 1.)
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Test set predictions:"</span>)
+SongsTestPrediction <span style="color: #db7093;">&lt;-</span> predict(SongsLog3, newdata = SongsTest, type = <span style="color: #fffacd;">"response"</span>)
+table(SongsTest$Top10, SongsTestPrediction &gt;= 0.45)
+</pre>
+</div>
+
+<pre class="example">
+:: Test set predictions:
+
+   FALSE TRUE
+ 0   309    5
+ 1    40   19
+</pre>
+
+<div class="org-src-container">
+
+<pre class="src src-R">TN <span style="color: #db7093;">&lt;-</span> 309; FP <span style="color: #db7093;">&lt;-</span> 5;
+FN <span style="color: #db7093;">&lt;-</span> 40; TP <span style="color: #db7093;">&lt;-</span> 19
+
+writeLines(<span style="color: #fffacd;">"\n :: Overall accuracy:"</span>)
+OverallAccuracy <span style="color: #db7093;">&lt;-</span> (TN + TP) / nrow(SongsTest)
+OverallAccuracy
+</pre>
+</div>
+
+<pre class="example">
+ :: Overall accuracy:
+[1] 0.8793566
+</pre>
+</div>
+
+<div id="outline-container-sec-1-14-1" class="outline-4">
+<h4 id="sec-1-14-1"><span class="section-number-4">1.14.1</span> Answer</h4>
+<div class="outline-text-4" id="text-1-14-1">
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+You can make predictions on the test set by using the command:
+</p>
+
+<p>
+<code>testPredict = predict(SongsLog3, newdata=SongsTest, type="response")</code>
+</p>
+
+<p>
+Then, you can create a confusion matrix with a threshold of 0.45 by
+using the command:
+</p>
+
+<p>
+<code>table(SongsTest$Top10, testPredict &gt;= 0.45)</code>
+</p>
+
+<p>
+The accuracy of the model is
+</p>
+
+<p>
+$$\frac{(309 + 19)}{(309 + 5 + 40 + 19)} = 0.87936$$.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-15" class="outline-3">
+<h3 id="sec-1-15"><span class="section-number-3">1.15</span> Problem 4.2 - Validating Our Model (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-15">
+<p>
+Let's check if there's any incremental benefit in using Model 3
+instead of a baseline model. Given the difficulty of guessing which
+song is going to be a hit, an easier model would be to pick the most
+frequent outcome (a song is not a Top 10 hit) for all songs. What
+would the accuracy of the baseline model be on the test set? (Give
+your answer as a number between 0 and 1.)
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Baseline accuracy:"</span>)
+table(SongsTest$Top10)
+</pre>
+</div>
+
+<pre class="example">
+ :: Baseline accuracy:
+
+  0   1
+314  59
+</pre>
+</div>
+
+<div id="outline-container-sec-1-15-1" class="outline-4">
+<h4 id="sec-1-15-1"><span class="section-number-4">1.15.1</span> Answer</h4>
+<div class="outline-text-4" id="text-1-15-1">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Baseline model accuracy:"</span>)
+BaselineModelAcc <span style="color: #db7093;">&lt;-</span> 314 / (314 + 59)
+BaselineModelAcc
+</pre>
+</div>
+
+<pre class="example">
+ :: Baseline model accuracy:
+[1] 0.8418231
+</pre>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+You can compute the baseline accuracy by tabling the outcome variable
+in the test set:
+</p>
+
+<p>
+<code>table(SongsTest$Top10)</code>
+</p>
+
+<p>
+The baseline model would get \(314\) observations correct, and \(59\)
+wrong, for an
+</p>
+
+<p>
+$$
+accuracy = \frac{314}{(314 + 59)} = 0.8418231
+$$
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-16" class="outline-3">
+<h3 id="sec-1-16"><span class="section-number-3">1.16</span> Problem 4.3 - Validating Our Model (2 points possible)</h3>
+<div class="outline-text-3" id="text-1-16">
+<p>
+It seems that Model 3 gives us a small improvement over the baseline
+model. Still, does it create an edge?
+</p>
+
+<p>
+Let's view the two models from an investment perspective. A production
+company is interested in investing in songs that are highly likely to
+make it to the Top 10. The company's objective is to minimize its risk
+of financial losses attributed to investing in songs that end up
+unpopular.
+</p>
+
+<p>
+A competitive edge can therefore be achieved if we can provide the
+production company a list of songs that are highly likely to end up in
+the Top 10. We note that the baseline model does not prove useful, as
+it simply does not label any song as a hit. Let us see what our model
+has to offer.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Test set predictions for 2010:"</span>)
+table(SongsTest$Top10, SongsTestPrediction &gt;= 0.45)
+</pre>
+</div>
+
+<pre class="example">
+:: Test set predictions for 2010:
+
+   FALSE TRUE
+ 0   309    5
+ 1    40   19
+</pre>
+</div>
+
+<div id="outline-container-sec-1-16-1" class="outline-4">
+<h4 id="sec-1-16-1"><span class="section-number-4">1.16.1</span> Question a</h4>
+<div class="outline-text-4" id="text-1-16-1">
+<p>
+How many songs does Model 3 correctly predict as Top 10 hits in 2010
+(remember that all songs in 2010 went into our test set), using a
+threshold of 0.45?
+</p>
+</div>
+
+<div id="outline-container-sec-1-16-1-1" class="outline-5">
+<h5 id="sec-1-16-1-1"><span class="section-number-5">1.16.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-1-16-1-1">
+<div class="org-src-container">
+
+<pre class="src src-R">TN <span style="color: #db7093;">&lt;-</span> 309; FP <span style="color: #db7093;">&lt;-</span> 5;
+FN <span style="color: #db7093;">&lt;-</span> 40; TP <span style="color: #db7093;">&lt;-</span> 19;
+
+writeLines(<span style="color: #fffacd;">"\n :: Prediction in Top 10 in 2010:"</span>)
+PredTop10.2010 <span style="color: #db7093;">&lt;-</span> TP
+PredTop10.2010
+</pre>
+</div>
+
+<pre class="example">
+ :: Prediction in Top 10 in 2010:
+[1] 19
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-16-2" class="outline-4">
+<h4 id="sec-1-16-2"><span class="section-number-4">1.16.2</span> Question b</h4>
+<div class="outline-text-4" id="text-1-16-2">
+<p>
+How many non-hit songs does Model 3 predict will be Top 10 hits
+(again, looking at the test set), using a threshold of 0.45?
+</p>
+</div>
+
+<div id="outline-container-sec-1-16-2-1" class="outline-5">
+<h5 id="sec-1-16-2-1"><span class="section-number-5">1.16.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-1-16-2-1">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Prediction in NON hits in 2010:"</span>)
+PredNonHits2010 <span style="color: #db7093;">&lt;-</span> FP
+PredNonHits2010
+</pre>
+</div>
+
+<pre class="example">
+ :: Prediction in NON hits in 2010:
+[1] 5
+</pre>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+According to our model's confusion matrix:
+</p>
+
+<p>
+<code>table(SongsTest$Top10, testPredict &gt;= 0.45)</code>
+</p>
+
+<p>
+We have \(19\) true positives (Top 10 hits that we predict correctly), and
+\(5\) false positives (songs that we predict will be Top 10 hits, but end
+up not being Top 10 hits).
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-17" class="outline-3">
+<h3 id="sec-1-17"><span class="section-number-3">1.17</span> Problem 4.4 - Validating Our Model (2 points possible)</h3>
+<div class="outline-text-3" id="text-1-17">
+</div><div id="outline-container-sec-1-17-1" class="outline-4">
+<h4 id="sec-1-17-1"><span class="section-number-4">1.17.1</span> Question a</h4>
+<div class="outline-text-4" id="text-1-17-1">
+<p>
+What is the sensitivity of Model 3 on the test set, using a threshold
+of 0.45?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">TN <span style="color: #db7093;">&lt;-</span> 309; FP <span style="color: #db7093;">&lt;-</span> 5;
+FN <span style="color: #db7093;">&lt;-</span> 40; TP <span style="color: #db7093;">&lt;-</span> 19;
+
+writeLines(<span style="color: #fffacd;">"\n :: Sensitivity:"</span>)
+Sensitivity <span style="color: #db7093;">&lt;-</span> TP / (TP + FN)
+Sensitivity
+
+writeLines(<span style="color: #fffacd;">"\n :: Specificity:"</span>)
+Specificity <span style="color: #db7093;">&lt;-</span> TN / (TN + FP)
+Specificity
+</pre>
+</div>
+
+<pre class="example">
+ :: Sensitivity:
+[1] 0.3220339
+
+ :: Specificity:
+[1] 0.9840764
+</pre>
+</div>
+
+<div id="outline-container-sec-1-17-1-1" class="outline-5">
+<h5 id="sec-1-17-1-1"><span class="section-number-5">1.17.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-1-17-1-1">
+<p>
+0.3220339
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-17-2" class="outline-4">
+<h4 id="sec-1-17-2"><span class="section-number-4">1.17.2</span> Question b</h4>
+<div class="outline-text-4" id="text-1-17-2">
+<p>
+What is the specificity of Model 3 on the test set, using a threshold
+of 0.45?
+</p>
+</div>
+
+<div id="outline-container-sec-1-17-2-1" class="outline-5">
+<h5 id="sec-1-17-2-1"><span class="section-number-5">1.17.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-1-17-2-1">
+<p>
+0.9840764
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+Using the confusion matrix:
+</p>
+
+<p>
+<code>table(SongsTest$Top10, testPredict &gt;= 0.45)</code>
+</p>
+
+<p>
+We can compute the sensitivity to be 19/(19+40) = 0.3220339, and the
+specificity to be 309/(309+5) = 0.9840764.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-18" class="outline-3">
+<h3 id="sec-1-18"><span class="section-number-3">1.18</span> Problem 4.5 - Validating Our Model (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-18">
+<div class="org-src-container">
+
+<pre class="src src-R">TN <span style="color: #db7093;">&lt;-</span> 309; FP <span style="color: #db7093;">&lt;-</span> 5;
+FN <span style="color: #db7093;">&lt;-</span> 40; TP <span style="color: #db7093;">&lt;-</span> 19;
+
+writeLines(<span style="color: #fffacd;">"\n :: Sensitivity:"</span>)
+Sensitivity <span style="color: #db7093;">&lt;-</span> TP / (TP + FN)
+Sensitivity
+
+writeLines(<span style="color: #fffacd;">"\n :: Specificity:"</span>)
+Specificity <span style="color: #db7093;">&lt;-</span> TN / (TN + FP)
+Specificity
+
+writeLines(<span style="color: #fffacd;">"\n :: Test set predictions for 2010:"</span>)
+table(SongsTest$Top10, SongsTestPrediction &gt;= 0.45)
+</pre>
+</div>
+
+<pre class="example">
+ :: Sensitivity:
+[1] 0.3220339
+
+ :: Specificity:
+[1] 0.9840764
+
+ :: Test set predictions for 2010:
+
+    FALSE TRUE
+  0   309    5
+  1    40   19
+</pre>
+
+<p>
+What conclusions can you make about our model? (Select all that
+apply.)
+</p>
+</div>
+
+<div id="outline-container-sec-1-18-1" class="outline-4">
+<h4 id="sec-1-18-1"><span class="section-number-4">1.18.1</span> Answer</h4>
+<div class="outline-text-4" id="text-1-18-1">
+<ul class="org-ul">
+<li><code>[X]</code> Model 3 favors specificity over sensitivity.
+</li>
+
+<li><code>[&#xa0;]</code> Model 3 favors sensitivity over specificity.
+</li>
+
+<li><code>[&#xa0;]</code> Model 3 captures less than half of Top 10 songs in 2010. Model 3
+therefore does not provide a useful list of candidate songs to
+investors, and hence offers no competitive edge.
+</li>
+
+<li><code>[X]</code> Model 3 provides conservative predictions, and predicts that a
+song will make it to the Top 10 very rarely. So while it detects
+less than half of the Top 10 songs, we can be very confident in the
+songs that it does predict to be Top 10 hits.
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+Model 3 has a very high specificity, meaning that it favors
+specificity over sensitivity. While Model 3 only captures less than
+half of the Top 10 songs, it still can offer a competitive edge, since
+it is very conservative in its predictions.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Predicting parole violators</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+In many criminal justice systems around the world, inmates deemed not
+to be a threat to society are released from prison under the parole
+system prior to completing their sentence. They are still considered
+to be serving their sentence while on parole, and they can be returned
+to prison if they violate the terms of their parole.
+</p>
+
+<p>
+Parole boards are charged with identifying which inmates are good
+candidates for release on parole. They seek to release inmates who
+will not commit additional crimes after release. In this problem, we
+will build and validate a model that predicts if an inmate will
+violate the terms of his or her parole. Such a model could be useful
+to a parole board when deciding to approve or deny an application for
+parole.
+</p>
+
+<p>
+For this prediction task, we will use data from the United States 2004
+National <a href="http://www.icpsr.umich.edu/icpsrweb/NACJD/series/38/studies/26521?archive=NACJD&sortBy=7">Corrections Reporting Program</a>, a nationwide census of parole
+releases that occurred during 2004. We limited our focus to parolees
+who served no more than 6 months in prison and whose maximum sentence
+for all charges did not exceed 18 months. The dataset contains all
+such parolees who either successfully completed their term of parole
+during 2004 or those who violated the terms of their parole during
+that year. The dataset contains the following variables:
+</p>
+
+<ul class="org-ul">
+<li><b>male</b>: 1 if the parolee is male, 0 if female
+</li>
+
+<li><b>race</b>: 1 if the parolee is white, 2 otherwise
+</li>
+
+<li><b>age</b>: the parolee's age (in years) when he or she was released from
+prison
+</li>
+
+<li><b>state</b>: a code for the parolee's state. 2 is Kentucky, 3 is
+Louisiana, 4 is Virginia, and 1 is any other state. The three states
+were selected due to having a high representation in the dataset.
+</li>
+
+<li><b>time.served</b>: the number of months the parolee served in prison
+(limited by the inclusion criteria to not exceed 6 months).
+</li>
+
+<li><b>max.sentence</b>: the maximum sentence length for all charges, in
+months (limited by the inclusion criteria to not exceed 18 months).
+</li>
+
+<li><b>multiple.offenses</b>: 1 if the parolee was incarcerated for multiple
+offenses, 0 otherwise.
+</li>
+
+<li><b>crime</b>: a code for the parolee's main crime leading to
+incarceration. 2 is larceny, 3 is drug-related crime, 4 is
+driving-related crime, and 1 is any other crime.
+</li>
+
+<li><b>violator</b>: 1 if the parolee violated the parole, and 0 if the
+parolee completed the parole without violation.
+</li>
+</ul>
+</div>
+
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> Problem 1.1 - Loading the Dataset (1 point possible)</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+Load the dataset parole.csv into a data frame called parole, and
+investigate it using the str() and summary() functions.
+</p>
+</div>
+
+<div id="outline-container-sec-2-1-1" class="outline-4">
+<h4 id="sec-2-1-1"><span class="section-number-4">2.1.1</span> Download the data sets</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<p>
+In this part we can download the data
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R"><span style="color: #db7093;">library</span>(parallel)
+
+<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #fffacd;">"../data"</span>)) {
+        dir.create(<span style="color: #fffacd;">"../data"</span>)
+}
+
+fileUrl <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/parole.csv"</span>
+
+fileName <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"parole.csv"</span>
+
+dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"../data"</span>
+
+filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #fffacd;">"/"</span>)
+
+<span style="color: #4682b4;">if</span>(!file.exists(filePath)) {
+        download.file(fileUrl, destfile = filePath, method = <span style="color: #fffacd;">"curl"</span>)
+}
+
+list.files(<span style="color: #fffacd;">"../data"</span>)
+</pre>
+</div>
+
+<pre class="example">
+ [1] "AnonymityPoll.csv"       "BoeingStock.csv"
+ [3] "CPSData.csv"             "CocaColaStock.csv"
+ [5] "CountryCodes.csv"        "FluTest.csv"
+ [7] "FluTrain.csv"            "GEStock.csv"
+ [9] "IBMStock.csv"            "MetroAreaCodes.csv"
+[11] "NBA_test.csv"            "NBA_train.csv"
+[13] "PollingData.csv"         "PollingData_Imputed.csv"
+[15] "ProcterGambleStock.csv"  "README.md"
+[17] "USDA.csv"                "WHO.csv"
+[19] "WHO_Europe.csv"          "baseball.csv"
+[21] "climate_change.csv"      "framingham.csv"
+[23] "mvtWeek1.csv"            "parole.csv"
+[25] "pisa2009test.csv"        "pisa2009train.csv"
+[27] "quality.csv"             "songs.csv"
+[29] "wine.csv"                "wine_test.csv"
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-2-1-2" class="outline-4">
+<h4 id="sec-2-1-2"><span class="section-number-4">2.1.2</span> Load the data set</h4>
+<div class="outline-text-4" id="text-2-1-2">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Loading data into their data frames."</span>)
+parole <span style="color: #db7093;">&lt;-</span> read.csv(<span style="color: #fffacd;">"../data/parole.csv"</span>)
+str(parole)
+summary(parole)
+</pre>
+</div>
+
+<pre class="example">
+ :: Loading data into their data frames.
+'data.frame':	675 obs. of  9 variables:
+ $ male             : int  1 0 1 1 1 1 1 0 0 1 ...
+ $ race             : int  1 1 2 1 2 2 1 1 1 2 ...
+ $ age              : num  33.2 39.7 29.5 22.4 21.6 46.7 31 24.6 32.6 29.1 ...
+ $ state            : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ time.served      : num  5.5 5.4 5.6 5.7 5.4 6 6 4.8 4.5 4.7 ...
+ $ max.sentence     : int  18 12 12 18 12 18 18 12 13 12 ...
+ $ multiple.offenses: int  0 0 0 0 0 0 0 0 0 0 ...
+ $ crime            : int  4 3 3 1 1 4 3 1 3 2 ...
+ $ violator         : int  0 0 0 0 0 0 0 0 0 0 ...
+      male             race            age            state
+ Min.   :0.0000   Min.   :1.000   Min.   :18.40   Min.   :1.000
+ 1st Qu.:1.0000   1st Qu.:1.000   1st Qu.:25.35   1st Qu.:2.000
+ Median :1.0000   Median :1.000   Median :33.70   Median :3.000
+ Mean   :0.8074   Mean   :1.424   Mean   :34.51   Mean   :2.887
+ 3rd Qu.:1.0000   3rd Qu.:2.000   3rd Qu.:42.55   3rd Qu.:4.000
+ Max.   :1.0000   Max.   :2.000   Max.   :67.00   Max.   :4.000
+  time.served     max.sentence   multiple.offenses     crime
+ Min.   :0.000   Min.   : 1.00   Min.   :0.0000    Min.   :1.000
+ 1st Qu.:3.250   1st Qu.:12.00   1st Qu.:0.0000    1st Qu.:1.000
+ Median :4.400   Median :12.00   Median :1.0000    Median :2.000
+ Mean   :4.198   Mean   :13.06   Mean   :0.5363    Mean   :2.059
+ 3rd Qu.:5.200   3rd Qu.:15.00   3rd Qu.:1.0000    3rd Qu.:3.000
+ Max.   :6.000   Max.   :18.00   Max.   :1.0000    Max.   :4.000
+    violator
+ Min.   :0.0000
+ 1st Qu.:0.0000
+ Median :0.0000
+ Mean   :0.1156
+ 3rd Qu.:0.0000
+ Max.   :1.0000
+</pre>
+
+<p>
+How many parolees are contained in the dataset?
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-1-3" class="outline-4">
+<h4 id="sec-2-1-3"><span class="section-number-4">2.1.3</span> Answer</h4>
+<div class="outline-text-4" id="text-2-1-3">
+<p>
+675
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+You can load the dataset into R with the following command:
+</p>
+
+<p>
+<code>parole = read.csv("parole.csv")</code>
+</p>
+
+<p>
+Then you can count the number of parolees in the dataset with
+<code>str(parole)</code> or with <code>nrow(parole)</code>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> Problem 1.2 - Loading the Dataset (1 point possible)</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+How many of the parolees in the dataset violated the terms of their
+parole?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Parelee violator in the data set"</span>)
+nrow(subset(parole, parole$violator == 1))
+
+writeLines(<span style="color: #fffacd;">"\n :: Other way to calculate the same result:"</span>)
+table(parole$violator)
+</pre>
+</div>
+
+<pre class="example">
+ :: Parelee violator in the data set
+[1] 78
+
+ :: Other way to calculate the same result:
+
+  0   1
+597  78
+</pre>
+</div>
+
+<div id="outline-container-sec-2-2-1" class="outline-4">
+<h4 id="sec-2-2-1"><span class="section-number-4">2.2.1</span> Answer</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<p>
+78
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+This can be observed by running table(parole$violator)
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> Problem 2.1 - Preparing the Dataset (1 point possible)</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+You should be familiar with unordered factors (if not, review the Week
+2 homework problem "Reading Test Scores"). Which variables in this
+dataset are unordered factors with at least three levels? Select all
+that apply.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">str(parole)
+</pre>
+</div>
+
+<pre class="example">
+'data.frame':	675 obs. of  9 variables:
+ $ male             : int  1 0 1 1 1 1 1 0 0 1 ...
+ $ race             : int  1 1 2 1 2 2 1 1 1 2 ...
+ $ age              : num  33.2 39.7 29.5 22.4 21.6 46.7 31 24.6 32.6 29.1 ...
+ $ state            : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ time.served      : num  5.5 5.4 5.6 5.7 5.4 6 6 4.8 4.5 4.7 ...
+ $ max.sentence     : int  18 12 12 18 12 18 18 12 13 12 ...
+ $ multiple.offenses: int  0 0 0 0 0 0 0 0 0 0 ...
+ $ crime            : int  4 3 3 1 1 4 3 1 3 2 ...
+ $ violator         : int  0 0 0 0 0 0 0 0 0 0 ...
+</pre>
+</div>
+
+<div id="outline-container-sec-2-3-1" class="outline-4">
+<h4 id="sec-2-3-1"><span class="section-number-4">2.3.1</span> Answer</h4>
+<div class="outline-text-4" id="text-2-3-1">
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> male
+</li>
+<li><code>[&#xa0;]</code> race
+</li>
+<li><code>[&#xa0;]</code> age
+</li>
+<li><code>[X]</code> state
+</li>
+<li><code>[&#xa0;]</code> time.served
+</li>
+<li><code>[&#xa0;]</code> max.sentence
+</li>
+<li><code>[&#xa0;]</code> multiple.offenses
+</li>
+<li><code>[X]</code> crime
+</li>
+<li><code>[&#xa0;]</code> violator
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+While the variables male, race, state, crime, and violator are all
+<b>unordered factors</b>, only state and crime have at least 3 levels in this
+dataset.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-4" class="outline-3">
+<h3 id="sec-2-4"><span class="section-number-3">2.4</span> Problem 2.2 - Preparing the Dataset (1 point possible)</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+In the last subproblem, we identified variables that are unordered
+factors with at least 3 levels, so we need to convert them to factors
+for our prediction problem (we introduced this idea in the "Reading
+Test Scores" problem last week). Using the as.factor() function,
+convert these variables to factors. Keep in mind that we are not
+changing the values, just the way R understands them (the values are
+still numbers).
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Parole data set original:"</span>)
+paroleOrig <span style="color: #db7093;">&lt;-</span> parole
+
+writeLines(<span style="color: #fffacd;">"\n :: str() function over state and crime feature:"</span>)
+str(paroleOrig$state)
+str(paroleOrig$crime)
+
+writeLines(<span style="color: #fffacd;">"\n :: table() function over state and crime feature:"</span>)
+table(paroleOrig$state)
+table(paroleOrig$crime)
+
+writeLines(<span style="color: #fffacd;">"\n :: Converting state and crime features to factor..."</span>)
+parole$state <span style="color: #db7093;">&lt;-</span> as.factor(parole$state)
+parole$crime <span style="color: #db7093;">&lt;-</span> as.factor(parole$crime)
+summary(parole)
+</pre>
+</div>
+
+<pre class="example">
+ :: Parole data set original:
+
+ :: str() function over state and crime feature:
+ Factor w/ 4 levels "1","2","3","4": 1 1 1 1 1 1 1 1 1 1 ...
+ Factor w/ 4 levels "1","2","3","4": 4 3 3 1 1 4 3 1 3 2 ...
+
+ :: table() function over state and crime feature:
+
+  1   2   3   4
+143 120  82 330
+
+  1   2   3   4
+315 106 153 101
+
+ :: Converting state and crime features to factor...
+      male             race            age        state    time.served
+ Min.   :0.0000   Min.   :1.000   Min.   :18.40   1:143   Min.   :0.000
+ 1st Qu.:1.0000   1st Qu.:1.000   1st Qu.:25.35   2:120   1st Qu.:3.250
+ Median :1.0000   Median :1.000   Median :33.70   3: 82   Median :4.400
+ Mean   :0.8074   Mean   :1.424   Mean   :34.51   4:330   Mean   :4.198
+ 3rd Qu.:1.0000   3rd Qu.:2.000   3rd Qu.:42.55           3rd Qu.:5.200
+ Max.   :1.0000   Max.   :2.000   Max.   :67.00           Max.   :6.000
+  max.sentence   multiple.offenses crime      violator
+ Min.   : 1.00   Min.   :0.0000    1:315   Min.   :0.0000
+ 1st Qu.:12.00   1st Qu.:0.0000    2:106   1st Qu.:0.0000
+ Median :12.00   Median :1.0000    3:153   Median :0.0000
+ Mean   :13.06   Mean   :0.5363    4:101   Mean   :0.1156
+ 3rd Qu.:15.00   3rd Qu.:1.0000            3rd Qu.:0.0000
+ Max.   :18.00   Max.   :1.0000            Max.   :1.0000
+</pre>
+
+<p>
+How does the output of summary() change for a factor variable as
+compared to a numerical variable?
+</p>
+</div>
+
+<div id="outline-container-sec-2-4-1" class="outline-4">
+<h4 id="sec-2-4-1"><span class="section-number-4">2.4.1</span> Answer</h4>
+<div class="outline-text-4" id="text-2-4-1">
+<ul class="org-ul">
+<li><code>[X]</code> The output becomes similar to that of the table() function
+applied to that variable
+</li>
+
+<li><code>[&#xa0;]</code> The output becomes similar to that of the str() function applied
+to that variable
+</li>
+
+<li><code>[&#xa0;]</code> There is no change
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+To convert to factors, the following commands should be run:
+</p>
+
+<p>
+<code>parole$state = as.factor(parole$state)</code>
+</p>
+
+<p>
+<code>parole$crime = as.factor(parole$crime)</code>
+</p>
+
+<p>
+The output of <code>summary(parole$state)</code> or <code>summary(parole$crime)</code> now shows
+a breakdown of the number of parolees with each level of the factor,
+which is most similar to the output of the <code>table()</code> function.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-5" class="outline-3">
+<h3 id="sec-2-5"><span class="section-number-3">2.5</span> Problem 3.1 - Splitting into a Training and Testing Set (1 point possible)</h3>
+<div class="outline-text-3" id="text-2-5">
+<p>
+To ensure consistent training/testing set splits, run the following 5
+lines of code (do not include the line numbers at the beginning):
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">set.seed(144)
+<span style="color: #db7093;">library</span>(caTools)
+split <span style="color: #db7093;">&lt;-</span> sample.split(parole$violator, SplitRatio = 0.7)
+train <span style="color: #db7093;">&lt;-</span> subset(parole, split == <span style="color: #3cb371;">TRUE</span>)
+test <span style="color: #db7093;">&lt;-</span> subset(parole, split == <span style="color: #3cb371;">FALSE</span>)
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-2-5-1" class="outline-4">
+<h4 id="sec-2-5-1"><span class="section-number-4">2.5.1</span> Question</h4>
+<div class="outline-text-4" id="text-2-5-1">
+<p>
+Roughly what proportion of parolees have been allocated to the
+training and testing sets?
+</p>
+</div>
+
+<div id="outline-container-sec-2-5-1-1" class="outline-5">
+<h5 id="sec-2-5-1-1"><span class="section-number-5">2.5.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-2-5-1-1">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Training set proportion:"</span>)
+nrow(train) / (nrow(train) + nrow(test))
+
+writeLines(<span style="color: #fffacd;">"\n :: Testing set proportion:"</span>)
+nrow(test) / (nrow(train) + nrow(test))
+</pre>
+</div>
+
+<pre class="example">
+ :: Training set proportion:
+[1] 0.7007407
+
+ :: Testing set proportion:
+[1] 0.2992593
+</pre>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+\(SplitRatio = 0.7\) causes split to take the value TRUE roughly \(70\%\)
+of the time, so train should contain roughly \(70\%\) of the values in
+the dataset. You can verify this by running <code>nrow(train)</code> and
+<code>nrow(test)</code>.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-6" class="outline-3">
+<h3 id="sec-2-6"><span class="section-number-3">2.6</span> Problem 3.2 - Splitting into a Training and Testing Set (3 points possible)</h3>
+<div class="outline-text-3" id="text-2-6">
+</div><div id="outline-container-sec-2-6-1" class="outline-4">
+<h4 id="sec-2-6-1"><span class="section-number-4">2.6.1</span> Question a</h4>
+<div class="outline-text-4" id="text-2-6-1">
+<p>
+Now, suppose you re-ran lines <sup><a id="fnr.1" name="fnr.1" class="footref" href="#fn.1">1</a></sup>-<sup><a id="fnr.2" name="fnr.2" class="footref" href="#fn.2">2</a></sup> of Problem 3.1. What would you
+expect?
+</p>
+</div>
+
+<div id="outline-container-sec-2-6-1-1" class="outline-5">
+<h5 id="sec-2-6-1-1"><span class="section-number-5">2.6.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-2-6-1-1">
+<div class="org-src-container">
+
+<pre class="src src-R">set.seed(144)
+<span style="color: #db7093;">library</span>(caTools)
+split <span style="color: #db7093;">&lt;-</span> sample.split(parole$violator, SplitRatio = 0.7)
+train <span style="color: #db7093;">&lt;-</span> subset(parole, split == <span style="color: #3cb371;">TRUE</span>)
+test <span style="color: #db7093;">&lt;-</span> subset(parole, split == <span style="color: #3cb371;">FALSE</span>)
+
+writeLines(<span style="color: #fffacd;">"\n :: Training set proportion:"</span>)
+nrow(train) / (nrow(train) + nrow(test))
+
+writeLines(<span style="color: #fffacd;">"\n :: Testing set proportion:"</span>)
+nrow(test) / (nrow(train) + nrow(test))
+</pre>
+</div>
+
+<pre class="example">
+ :: Training set proportion:
+[1] 0.7007407
+
+ :: Testing set proportion:
+[1] 0.2992593
+</pre>
+
+<ul class="org-ul">
+<li><code>[X]</code> The exact same training/testing set split as the first execution
+of <sup><a id="fnr.1.100" name="fnr.1.100" class="footref" href="#fn.1">1</a></sup>-<sup><a id="fnr.2.100" name="fnr.2.100" class="footref" href="#fn.2">2</a></sup>
+</li>
+
+<li><code>[&#xa0;]</code> A different training/testing set split from the first execution
+of <sup><a id="fnr.1.100" name="fnr.1.100" class="footref" href="#fn.1">1</a></sup>-<sup><a id="fnr.2.100" name="fnr.2.100" class="footref" href="#fn.2">2</a></sup>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-2-6-2" class="outline-4">
+<h4 id="sec-2-6-2"><span class="section-number-4">2.6.2</span> Question b</h4>
+<div class="outline-text-4" id="text-2-6-2">
+<p>
+If you instead ONLY re-ran lines <sup><a id="fnr.3" name="fnr.3" class="footref" href="#fn.3">3</a></sup>-<sup><a id="fnr.2.100" name="fnr.2.100" class="footref" href="#fn.2">2</a></sup>, what would you expect?
+</p>
+</div>
+
+<div id="outline-container-sec-2-6-2-1" class="outline-5">
+<h5 id="sec-2-6-2-1"><span class="section-number-5">2.6.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-2-6-2-1">
+<div class="org-src-container">
+
+<pre class="src src-R">split2 <span style="color: #db7093;">&lt;-</span> sample.split(parole$violator, SplitRatio = 0.7)
+train2 <span style="color: #db7093;">&lt;-</span> subset(parole, split2 == <span style="color: #3cb371;">TRUE</span>)
+test2 <span style="color: #db7093;">&lt;-</span> subset(parole, split2 == <span style="color: #3cb371;">FALSE</span>)
+
+writeLines(<span style="color: #fffacd;">"\n :: Differences between both sets of splits:"</span>)
+<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">install.packages('compare', repos='http://cran.rstudio.com/')</span>
+<span style="color: #db7093;">library</span>(compare)
+compare(train, train2)
+compare(test, test2)
+</pre>
+</div>
+
+<pre class="example">
+ :: Differences between both sets of splits:
+FALSE [FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE]
+FALSE [FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE]
+</pre>
+
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> The exact same training/testing set split as the first execution
+of <sup><a id="fnr.1.100" name="fnr.1.100" class="footref" href="#fn.1">1</a></sup>-<sup><a id="fnr.2.100" name="fnr.2.100" class="footref" href="#fn.2">2</a></sup>
+</li>
+
+<li><code>[X]</code> A different training/testing set split from the first execution
+of <sup><a id="fnr.1.100" name="fnr.1.100" class="footref" href="#fn.1">1</a></sup>-<sup><a id="fnr.2.100" name="fnr.2.100" class="footref" href="#fn.2">2</a></sup>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-6-3" class="outline-4">
+<h4 id="sec-2-6-3"><span class="section-number-4">2.6.3</span> Question c</h4>
+<div class="outline-text-4" id="text-2-6-3">
+<p>
+If you instead called set.seed() with a different number and then
+re-ran lines <sup><a id="fnr.3.100" name="fnr.3.100" class="footref" href="#fn.3">3</a></sup>-<sup><a id="fnr.2.100" name="fnr.2.100" class="footref" href="#fn.2">2</a></sup> of Problem 3.1, what would you expect?
+</p>
+</div>
+
+<div id="outline-container-sec-2-6-3-1" class="outline-5">
+<h5 id="sec-2-6-3-1"><span class="section-number-5">2.6.3.1</span> Answer</h5>
+<div class="outline-text-5" id="text-2-6-3-1">
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> The exact same training/testing set split as the first execution
+of <sup><a id="fnr.1.100" name="fnr.1.100" class="footref" href="#fn.1">1</a></sup>-<sup><a id="fnr.2.100" name="fnr.2.100" class="footref" href="#fn.2">2</a></sup>
+</li>
+
+<li><code>[X]</code> A different training/testing set split from the first execution
+of <sup><a id="fnr.1.100" name="fnr.1.100" class="footref" href="#fn.1">1</a></sup>-<sup><a id="fnr.2.100" name="fnr.2.100" class="footref" href="#fn.2">2</a></sup>
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+If you set a random seed, <b>split</b>, set the seed again to the same value,
+and then split again, you will get the same split. However, if you set
+the seed and then split twice, you will get different splits. If you
+set the seed to different values, you will get different splits.
+</p>
+
+<p>
+You can also verify this by running the specified code in R. If you
+have training sets train1 and train2, the function
+</p>
+
+<p>
+<code>sum(train1 != train2)</code>
+</p>
+
+<p>
+will count the number of values in those two data frames that are
+different.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-7" class="outline-3">
+<h3 id="sec-2-7"><span class="section-number-3">2.7</span> Problem 4.1 - Building a Logistic Regression Model (1 point possible)</h3>
+<div class="outline-text-3" id="text-2-7">
+<p>
+<b>Note</b>: If you tested other training/testing set splits in the previous
+section, please re-run the original 5 lines of code to obtain the
+original split.
+</p>
+
+<p>
+Using glm (and remembering the parameter family="binomial"), train a
+logistic regression model on the training set. Your dependent variable
+is "violator", and you should use all of the other variables as
+independent variables.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Building the logistic regression model 1"</span>)
+ParoleLog1 = glm(violator ~ ., data = train, family = binomial)
+summary(ParoleLog1)
+</pre>
+</div>
+
+<pre class="example">
+ :: Building the logistic regression model 1
+
+Call:
+glm(formula = violator ~ ., family = binomial, data = train)
+
+Deviance Residuals:
+    Min       1Q   Median       3Q      Max
+-1.7041  -0.4236  -0.2719  -0.1690   2.8375
+
+Coefficients:
+                    Estimate Std. Error z value Pr(&gt;|z|)
+(Intercept)       -4.2411574  1.2938852  -3.278  0.00105 **
+male               0.3869904  0.4379613   0.884  0.37690
+race               0.8867192  0.3950660   2.244  0.02480 *
+age               -0.0001756  0.0160852  -0.011  0.99129
+state2             0.4433007  0.4816619   0.920  0.35739
+state3             0.8349797  0.5562704   1.501  0.13335
+state4            -3.3967878  0.6115860  -5.554 2.79e-08 ***
+time.served       -0.1238867  0.1204230  -1.029  0.30359
+max.sentence       0.0802954  0.0553747   1.450  0.14705
+multiple.offenses  1.6119919  0.3853050   4.184 2.87e-05 ***
+crime2             0.6837143  0.5003550   1.366  0.17180
+crime3            -0.2781054  0.4328356  -0.643  0.52054
+crime4            -0.0117627  0.5713035  -0.021  0.98357
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 340.04  on 472  degrees of freedom
+Residual deviance: 251.48  on 460  degrees of freedom
+AIC: 277.48
+
+Number of Fisher Scoring iterations: 6
+</pre>
+</div>
+
+<div id="outline-container-sec-2-7-1" class="outline-4">
+<h4 id="sec-2-7-1"><span class="section-number-4">2.7.1</span> Question</h4>
+<div class="outline-text-4" id="text-2-7-1">
+<p>
+What variables are significant in this model? Significant variables
+should have a least one star, or should have a probability less than
+0.05 (the column Pr(&gt;|z|) in the summary output). Select all that
+apply.
+</p>
+</div>
+
+<div id="outline-container-sec-2-7-1-1" class="outline-5">
+<h5 id="sec-2-7-1-1"><span class="section-number-5">2.7.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-2-7-1-1">
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> male
+</li>
+<li><code>[X]</code> race
+</li>
+<li><code>[&#xa0;]</code> age
+</li>
+<li><code>[&#xa0;]</code> state2
+</li>
+<li><code>[&#xa0;]</code> state3
+</li>
+<li><code>[X]</code> state4
+</li>
+<li><code>[&#xa0;]</code> time.served
+</li>
+<li><code>[&#xa0;]</code> max.sentence
+</li>
+<li><code>[X]</code> multiple.offenses
+</li>
+<li><code>[&#xa0;]</code> crime2
+</li>
+<li><code>[&#xa0;]</code> crime3
+</li>
+<li><code>[&#xa0;]</code> crime4
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+The following lines of code show the summary of the logistic
+regression model:
+</p>
+
+<p>
+<code>mod = glm(violator ~ ., data=train, family = "binomial")</code>
+</p>
+
+<p>
+<code>summary(mod)</code>
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" name="fn.1" class="footnum" href="#fnr.1">1</a></sup> <p>DEFINITION NOT FOUND.</p></div>
+
+<div class="footdef"><sup><a id="fn.2" name="fn.2" class="footnum" href="#fnr.2">2</a></sup> <p>DEFINITION NOT FOUND.</p></div>
+
+<div class="footdef"><sup><a id="fn.3" name="fn.3" class="footnum" href="#fnr.3">3</a></sup> <p>DEFINITION NOT FOUND.</p></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<p class="date">Date: 27/06/2015</p>
+<p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
+<p class="date">Created: 2015-06-28 Sun 15:04</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

@@ -40,15 +40,20 @@
 #+ATTR_HTML: width="500px"
 
 # -*- mode: org; -*-
-#+OPTIONS:   toc:2
 
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/htmlize.css"/>
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/readtheorg.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/htmlize.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/bigblow.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/hideshow.css"/>
 
-#+HTML_HEAD: <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-#+HTML_HEAD: <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.js"></script>
-#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/readtheorg/js/readtheorg.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery-1.11.0.min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery-ui-1.10.2.min.js"></script>
+
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.localscroll-min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.scrollTo-1.4.3.1-min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.zclip.min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/bigblow.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/hideshow.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.min.js"></script>
 
 #+BEGIN_ABSTRACT
 This document content the assignment 3 of the third week of The
@@ -138,4 +143,3388 @@ Here's a detailed description of the variables:
 
 Use the read.csv function to load the dataset "songs.csv" into R.
 
+*** Download the data sets
+
+In this part we can download the data
+
+#+BEGIN_SRC R :session :results output :exports all
+  library(parallel)
+
+  if(!file.exists("../data")) {
+          dir.create("../data")
+  }
+
+  fileUrl <- "https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/songs.csv"
+
+  fileName <- "songs.csv"
+
+  dataPath <- "../data"
+
+  filePath <- paste(dataPath, fileName, sep = "/")
+
+  if(!file.exists(filePath)) {
+          download.file(fileUrl, destfile = filePath, method = "curl")
+  }
+
+  list.files("../data")
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+ [1] "AnonymityPoll.csv"       "BoeingStock.csv"
+ [3] "CPSData.csv"             "CocaColaStock.csv"
+ [5] "CountryCodes.csv"        "FluTest.csv"
+ [7] "FluTrain.csv"            "GEStock.csv"
+ [9] "IBMStock.csv"            "MetroAreaCodes.csv"
+[11] "NBA_test.csv"            "NBA_train.csv"
+[13] "PollingData.csv"         "PollingData_Imputed.csv"
+[15] "ProcterGambleStock.csv"  "README.md"
+[17] "USDA.csv"                "WHO.csv"
+[19] "WHO_Europe.csv"          "baseball.csv"
+[21] "climate_change.csv"      "framingham.csv"
+[23] "mvtWeek1.csv"            "parole.csv"
+[25] "pisa2009test.csv"        "pisa2009train.csv"
+[27] "quality.csv"             "songs.csv"
+[29] "wine.csv"                "wine_test.csv"
+#+end_example
+
+*** Load the data set
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: Loading data into their data frames.")
+  songs <- read.csv("../data/songs.csv")
+  str(songs)
+  table(songs$Year)
+  summary(songs)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+
+ :: Loading data into their data frames.
+'data.frame':	7574 obs. of  39 variables:
+ $ year                    : int  2010 2010 2010 2010 2010 2010 2010 2010 2010 2010 ...
+ $ songtitle               : Factor w/ 7141 levels "#1","'03 Bonnie & Clyde",..: 6207 5515 234 3103 43 603 247 4413 2880 6749 ...
+ $ artistname              : Factor w/ 1032 levels "50 Cent","98 Degrees",..: 3 3 3 3 3 3 3 3 3 12 ...
+ $ songID                  : Factor w/ 7549 levels "SOAACNI1315CD4AC42",..: 595 5439 5252 1716 3431 1020 1831 3964 6904 2473 ...
+ $ artistID                : Factor w/ 1047 levels "AR00B1I1187FB433EB",..: 671 671 671 671 671 671 671 671 671 507 ...
+ $ timesignature           : int  3 4 4 4 4 4 4 4 4 4 ...
+ $ timesignature_confidence: num  0.853 1 1 1 0.788 1 0.968 0.861 0.622 0.938 ...
+ $ loudness                : num  -4.26 -4.05 -3.57 -3.81 -4.71 ...
+ $ tempo                   : num  91.5 140 160.5 97.5 140.1 ...
+ $ tempo_confidence        : num  0.953 0.921 0.489 0.794 0.286 0.347 0.273 0.83 0.018 0.929 ...
+ $ key                     : int  11 10 2 1 6 4 10 5 9 11 ...
+ $ key_confidence          : num  0.453 0.469 0.209 0.632 0.483 0.627 0.715 0.423 0.751 0.602 ...
+ $ energy                  : num  0.967 0.985 0.99 0.939 0.988 ...
+ $ pitch                   : num  0.024 0.025 0.026 0.013 0.063 0.038 0.026 0.033 0.027 0.004 ...
+ $ timbre_0_min            : num  0.002 0 0.003 0 0 ...
+ $ timbre_0_max            : num  57.3 57.4 57.4 57.8 56.9 ...
+ $ timbre_1_min            : num  -6.5 -37.4 -17.2 -32.1 -223.9 ...
+ $ timbre_1_max            : num  171 171 171 221 171 ...
+ $ timbre_2_min            : num  -81.7 -149.6 -72.9 -138.6 -147.2 ...
+ $ timbre_2_max            : num  95.1 180.3 157.9 173.4 166 ...
+ $ timbre_3_min            : num  -285 -380.1 -204 -73.5 -128.1 ...
+ $ timbre_3_max            : num  259 384 251 373 389 ...
+ $ timbre_4_min            : num  -40.4 -48.7 -66 -55.6 -43.9 ...
+ $ timbre_4_max            : num  73.6 100.4 152.1 119.2 99.3 ...
+ $ timbre_5_min            : num  -104.7 -87.3 -98.7 -77.5 -96.1 ...
+ $ timbre_5_max            : num  183.1 42.8 141.4 141.2 38.3 ...
+ $ timbre_6_min            : num  -88.8 -86.9 -88.9 -70.8 -110.8 ...
+ $ timbre_6_max            : num  73.5 75.5 66.5 64.5 72.4 ...
+ $ timbre_7_min            : num  -71.1 -65.8 -67.4 -63.7 -55.9 ...
+ $ timbre_7_max            : num  82.5 106.9 80.6 96.7 110.3 ...
+ $ timbre_8_min            : num  -52 -61.3 -59.8 -78.7 -56.5 ...
+ $ timbre_8_max            : num  39.1 35.4 46 41.1 37.6 ...
+ $ timbre_9_min            : num  -35.4 -81.9 -46.3 -49.2 -48.6 ...
+ $ timbre_9_max            : num  71.6 74.6 59.9 95.4 67.6 ...
+ $ timbre_10_min           : num  -126.4 -103.8 -108.3 -102.7 -52.8 ...
+ $ timbre_10_max           : num  18.7 121.9 33.3 46.4 22.9 ...
+ $ timbre_11_min           : num  -44.8 -38.9 -43.7 -59.4 -50.4 ...
+ $ timbre_11_max           : num  26 22.5 25.7 37.1 32.8 ...
+ $ Top10                   : int  0 0 0 0 0 0 0 0 0 1 ...
+< table of extent 0 >
+      year          songtitle              artistname
+ Min.   :1990   Intro    :  15   Various artists: 162
+ 1st Qu.:1997   Forever  :   8   Anal Cunt      :  49
+ Median :2002   Home     :   7   Various Artists:  44
+ Mean   :2001   Goodbye  :   6   Tori Amos      :  41
+ 3rd Qu.:2006   Again    :   5   Eels           :  37
+ Max.   :2010   Beautiful:   5   Napalm Death   :  37
+                (Other)  :7528   (Other)        :7204
+                songID                   artistID    timesignature
+ SOALSZJ1370F1A7C75:   2   ARAGWS81187FB3F768: 222   Min.   :0.000
+ SOANPAC13936E0B640:   2   ARL14X91187FB4CF14:  49   1st Qu.:4.000
+ SOBDGMX12B0B80808E:   2   AR4KS8C1187FB4CF3D:  41   Median :4.000
+ SOBUDCZ12A58A80013:   2   AR0JZZ01187B9B2C99:  37   Mean   :3.894
+ SODFRLK13134387FB5:   2   ARZGTK71187B9AC7F5:  37   3rd Qu.:4.000
+ SOEJPOK12A6D4FAFE4:   2   AR95XYH1187FB53951:  31   Max.   :7.000
+ (Other)           :7562   (Other)           :7157
+ timesignature_confidence    loudness           tempo        tempo_confidence
+ Min.   :0.0000           Min.   :-42.451   Min.   :  0.00   Min.   :0.0000
+ 1st Qu.:0.8193           1st Qu.:-10.847   1st Qu.: 88.86   1st Qu.:0.3720
+ Median :0.9790           Median : -7.649   Median :103.27   Median :0.7015
+ Mean   :0.8533           Mean   : -8.817   Mean   :107.35   Mean   :0.6229
+ 3rd Qu.:1.0000           3rd Qu.: -5.640   3rd Qu.:124.80   3rd Qu.:0.8920
+ Max.   :1.0000           Max.   :  1.305   Max.   :244.31   Max.   :1.0000
+
+      key         key_confidence       energy            pitch
+ Min.   : 0.000   Min.   :0.0000   Min.   :0.00002   Min.   :0.00000
+ 1st Qu.: 2.000   1st Qu.:0.2040   1st Qu.:0.50014   1st Qu.:0.00300
+ Median : 6.000   Median :0.4515   Median :0.71816   Median :0.00700
+ Mean   : 5.385   Mean   :0.4338   Mean   :0.67547   Mean   :0.01082
+ 3rd Qu.: 9.000   3rd Qu.:0.6460   3rd Qu.:0.88740   3rd Qu.:0.01400
+ Max.   :11.000   Max.   :1.0000   Max.   :0.99849   Max.   :0.54100
+
+  timbre_0_min     timbre_0_max    timbre_1_min      timbre_1_max
+ Min.   : 0.000   Min.   :12.58   Min.   :-333.72   Min.   :-74.37
+ 1st Qu.: 0.000   1st Qu.:53.12   1st Qu.:-160.12   1st Qu.:171.13
+ Median : 0.027   Median :55.53   Median :-107.75   Median :194.40
+ Mean   : 4.123   Mean   :54.46   Mean   :-110.79   Mean   :212.34
+ 3rd Qu.: 2.772   3rd Qu.:57.08   3rd Qu.: -59.71   3rd Qu.:239.24
+ Max.   :48.353   Max.   :64.01   Max.   : 123.73   Max.   :549.97
+
+  timbre_2_min      timbre_2_max      timbre_3_min      timbre_3_max
+ Min.   :-324.86   Min.   : -0.832   Min.   :-495.36   Min.   : 12.85
+ 1st Qu.:-167.64   1st Qu.:100.519   1st Qu.:-226.87   1st Qu.:127.14
+ Median :-136.60   Median :129.908   Median :-170.61   Median :189.50
+ Mean   :-136.89   Mean   :136.673   Mean   :-186.11   Mean   :211.81
+ 3rd Qu.:-106.51   3rd Qu.:166.121   3rd Qu.:-131.56   3rd Qu.:290.72
+ Max.   :  34.57   Max.   :397.095   Max.   : -21.55   Max.   :499.62
+
+  timbre_4_min      timbre_4_max      timbre_5_min      timbre_5_max
+ Min.   :-207.07   Min.   : -0.651   Min.   :-262.48   Min.   :-22.41
+ 1st Qu.: -77.69   1st Qu.: 83.966   1st Qu.:-113.58   1st Qu.: 84.64
+ Median : -63.83   Median :107.422   Median : -95.47   Median :119.90
+ Mean   : -65.28   Mean   :108.227   Mean   :-104.00   Mean   :127.04
+ 3rd Qu.: -51.34   3rd Qu.:130.286   3rd Qu.: -81.02   3rd Qu.:162.34
+ Max.   :  51.43   Max.   :257.801   Max.   : -42.17   Max.   :350.94
+
+  timbre_6_min       timbre_6_max     timbre_7_min       timbre_7_max
+ Min.   :-152.170   Min.   : 12.70   Min.   :-214.791   Min.   : 15.70
+ 1st Qu.: -94.792   1st Qu.: 59.04   1st Qu.:-101.171   1st Qu.: 76.50
+ Median : -80.418   Median : 70.47   Median : -81.797   Median : 94.63
+ Mean   : -80.944   Mean   : 72.17   Mean   : -84.313   Mean   : 95.65
+ 3rd Qu.: -66.521   3rd Qu.: 83.19   3rd Qu.: -64.301   3rd Qu.:112.71
+ Max.   :   4.503   Max.   :208.39   Max.   :   5.153   Max.   :214.82
+
+  timbre_8_min       timbre_8_max     timbre_9_min      timbre_9_max
+ Min.   :-158.756   Min.   :-25.95   Min.   :-149.51   Min.   :  8.415
+ 1st Qu.: -73.051   1st Qu.: 40.58   1st Qu.: -70.28   1st Qu.: 53.037
+ Median : -62.661   Median : 49.22   Median : -58.65   Median : 65.935
+ Mean   : -63.704   Mean   : 50.06   Mean   : -59.52   Mean   : 68.028
+ 3rd Qu.: -52.983   3rd Qu.: 58.46   3rd Qu.: -47.70   3rd Qu.: 81.267
+ Max.   :  -2.382   Max.   :144.99   Max.   :   1.14   Max.   :161.518
+
+ timbre_10_min     timbre_10_max     timbre_11_min      timbre_11_max
+ Min.   :-208.82   Min.   : -6.359   Min.   :-145.599   Min.   :  7.20
+ 1st Qu.:-105.13   1st Qu.: 39.196   1st Qu.: -58.058   1st Qu.: 38.98
+ Median : -83.07   Median : 50.895   Median : -50.892   Median : 46.44
+ Mean   : -87.34   Mean   : 55.521   Mean   : -50.868   Mean   : 47.49
+ 3rd Qu.: -64.52   3rd Qu.: 66.593   3rd Qu.: -43.292   3rd Qu.: 55.03
+ Max.   : -10.64   Max.   :192.417   Max.   :  -6.497   Max.   :110.27
+
+     Top10
+ Min.   :0.0000
+ 1st Qu.:0.0000
+ Median :0.0000
+ Mean   :0.1477
+ 3rd Qu.:0.0000
+ Max.   :1.0000
+#+end_example
+
+*** Question
+
 How many observations (songs) are from the year 2010?
+
+*** Answer
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Number of songs in 2010:")
+  nrow(subset(songs, songs$year == 2010))
+
+  writeLines("\n :: Other way to calculate:")
+  table(songs$year)
+
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Number of songs in 2010:
+[1] 373
+
+ :: Other way to calculate:
+
+1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005
+ 328  196  186  324  198  258  178  329  380  357  363  282  518  434  479  392
+2006 2007 2008 2009 2010
+ 479  622  415  483  373
+#+end_example
+
+*Explanation*
+
+First, navigate to the directory on your computer containing the file
+"songs.csv". You can load the dataset by using the command:
+
+~songs = read.csv("songs.csv")~
+
+Then, you can count the number of songs from 2010 by using the table
+function:
+
+~table(songs$year)~
+
+** Problem 1.2 - Understanding the Data (1 point possible)
+
+How many songs does the dataset include for which the artist name is
+"Michael Jackson"?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Number of songs of Michael Jackson:")
+  nrow(subset(songs, songs$artistname == "Michael Jackson"))
+#+end_src
+
+#+RESULTS:
+:
+:  :: Number of songs of Michael Jackson:
+: [1] 18
+
+*** Answer
+
+*Explanation*
+
+If you look at the structure of the dataset by typing str(songs), you
+can see that there are 1032 different values of the variable
+"artistname". So if we create a table of artistname, it will be
+challenging to find Michael Jackson. Instead, we can use subset:
+
+~MichaelJackson = subset(songs, artistname == "Michael Jackson")~
+
+Then, by typing ~str(MichaelJackson)~ or ~nrow(MichaelJackson)~, we can
+see that there are $18$ observations.
+
+** Problem 1.3 - Understanding the Data (1 point possible)
+
+Which of these songs by Michael Jackson made it to the Top 10? Select
+all that apply.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Songs of Michael Jackson in the Top 10:")
+  sort(subset(songs, songs$artistname == "Michael Jackson" & songs$Top10
+              == 1)$songtitle, decreasing = TRUE)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Songs of Michael Jackson in the Top 10:
+: [1] You Rock My World You Are Not Alone Remember the Time In The Closet
+: [5] Black or White
+: 7141 Levels: #1 '03 Bonnie & Clyde '69 ... \315\204 l'or_e des bois
+
+*** Answer
+
+- [ ] Beat It
+- [X] You Rock My World
+- [ ] Billie Jean
+- [X] You Are Not Alone
+
+*Explanation*
+
+We can answer this question by using our subset MichaelJackson from
+the previous question. If you output the vector
+MichaelJackson$songtitle, you can see the row number of each of the
+songs. Then, you can see whether or not that song made it to the top
+10 by outputing the value of Top10 for that row. For example, "Beat
+It" is the 13th song in our subset. So then if we type:
+
+~MichaelJackson$Top10[13]~
+
+we get $0$, which means that this song did not make it to the
+Top 10. The song "You Rock My World" is first on the list, so if we
+type:
+
+~MichaelJackson$Top10[1]~
+
+we get $1$, which means that this song did make it to the Top 10.
+
+As a shortcut, you could just output:
+
+~MichaelJackson[c(“songtitle”, “Top10”)]~
+
+** Problem 1.4 - Understanding the Data (2 points possible)
+
+The variable corresponding to the estimated time signature
+(timesignature) is discrete, meaning that it only takes integer values
+(0, 1, 2, 3, ...).
+
+*** Question a
+
+What are the values of this variable that occur in our dataset? Select
+all that apply.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: The values of the timesignature variable in the dataset:")
+  table(songs$timesignature)
+#+end_src
+
+#+RESULTS:
+:
+:  :: The values of the timesignature variable in the dataset:
+:
+:    0    1    3    4    5    7
+:   10  143  503 6787  112   19
+
+**** Answer
+
+0, 1, 3, 4, 5, 7
+
+*** Question b
+
+Which timesignature value is the most frequent among songs in our
+dataset?
+
+**** Answer
+
+4
+
+*Explanation*
+
+You can answer these questions by using the table command:
+
+~table(songs$timesignature)~
+
+The only values that appear in the table for *timesignature* are 0, 1,
+3, 4, 5, and 7. We can also read from the table that 6787 songs have a
+value of 4 for the timesignature, which is the highest count out of
+all of the possible timesignature values.
+
+** Problem 1.5 - Understanding the Data (1 point possible)
+
+Out of all of the songs in our dataset, the song with the highest
+tempo is one of the following songs. Which one is it?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: the song with the highest tempo is:")
+  songs[which.max(songs$tempo), 2]
+
+  writeLines("\n :: Other way to calculate:")
+  songs$songtitle[which.max(songs$tempo)]
+#+end_src
+
+#+RESULTS:
+:
+:  :: the song with the highest tempo is:
+: [1] Wanna Be Startin' Somethin'
+: 7141 Levels: #1 '03 Bonnie & Clyde '69 ... \315\204 l'or_e des bois
+:
+:  :: Other way to calculate:
+: [1] Wanna Be Startin' Somethin'
+: 7141 Levels: #1 '03 Bonnie & Clyde '69 ... \315\204 l'or_e des bois
+
+*** Answer
+
+*Explanation*
+
+You can answer this question by using the which.max function. The
+output of ~which.max(songs$tempo)~ is $6206$, meaning that the song
+with the highest tempo is the row 6206. We can output the song title
+by typing:
+
+~songs$songtitle[6206]~
+
+The song title is: *Wanna be Startin' Somethin'*.
+
+** Problem 2.1 - Creating Our Prediction Model (1 point possible)
+
+We wish to predict whether or not a song will make it to the
+Top 10. To do this, first use the subset function to split the data
+into a training set *SongsTrain* consisting of all the observations up
+to and including 2009 song releases, and a testing set *SongsTest*,
+consisting of the 2010 song releases.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Building the training and testing sets:")
+  SongsTrain <- subset(songs, songs$year <= 2009)
+  writeLines("\n :: Number of observations in the training set:")
+  nrow(SongsTrain)
+
+  SongsTest <- subset(songs, songs$year >= 2010)
+  writeLines("\n :: Number of observations on the test set:")
+  nrow(SongsTest)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Building the training and testing sets:
+:
+:  :: Number of observations in the training set:
+: [1] 7201
+:
+:  :: Number of observations on the test set:
+: [1] 373
+
+How many observations (songs) are in the training set?
+
+*** Answer
+
+7201
+
+*Explanation*
+
+You can split the data into the training set and the test set by using
+the following commands:
+
+~SongsTrain = subset(songs, year <= 2009)~
+
+~SongsTest = subset(songs, year == 2010)~
+
+The training set has $7201$ observations, which can be found by looking
+at the structure with ~str(SongsTrain)~ or by typing ~nrow(SongsTrain)~.
+
+** Problem 2.2 - Creating our Prediction Model (2 points possible)
+
+In this problem, our outcome variable is *Top10* - we are trying to
+predict whether or not a song will make it to the Top 10 of the
+Billboard Hot 100 Chart. Since the outcome variable is binary, we will
+build a logistic regression model. We'll start by using all song
+attributes as our independent variables, which we'll call *Model 1*.
+
+We will only use the variables in our dataset that describe the
+numerical attributes of the song in our logistic regression model. So
+we won't use the variables *year*, *songtitle*, *artistname*, *songID*
+or *artistID*.
+
+We have seen in the lecture that, to build the logistic regression
+model, we would normally explicitly input the formula including all
+the independent variables in R. However, in this case, this is a
+tedious amount of work since we have a large number of independent
+variables.
+
+There is a nice trick to avoid doing so. Let's suppose that, except
+for the outcome variable Top10, all other variables in the training
+set are inputs to Model 1. Then, we can use the formula
+
+~SongsLog1 = glm(Top10 ~ ., data=SongsTrain, family=binomial)~
+
+to build our model. Notice that the "." is used in place of
+enumerating all the independent variables. (Also, keep in mind that
+you can choose to put quotes around binomial, or leave out the
+quotes. R can understand this argument either way.)
+
+However, in our case, we want to exclude some of the variables in our
+dataset from being used as independent variables (*year*, *songtitle*,
+*artistname*, *songID*, and *artistID*). To do this, we can use the
+following trick. First define a vector of variable names called
+nonvars - these are the variables that we won't use in our model.
+
+~nonvars = c("year", "songtitle", "artistname", "songID", "artistID")~
+
+To remove these variables from your training and testing sets, type
+the following commands in your R console:
+
+~SongsTrain = SongsTrain[ , !(names(SongsTrain) %in% nonvars) ]~
+
+~SongsTest = SongsTest[ , !(names(SongsTest) %in% nonvars) ]~
+
+Now, use the glm function to build a logistic regression model to
+predict Top10 using all of the other variables as the independent
+variables. You should use SongsTrain to build the model.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: To remove variables from your training and testing sets:")
+  nonvars <- c("year", "songtitle", "artistname", "songID", "artistID")
+  SongsTrain <- SongsTrain[ , !(names(SongsTrain) %in% nonvars) ]
+  SongsTest <- SongsTest[ , !(names(SongsTest) %in% nonvars) ]
+
+  writeLines("\n :: Build the logistic regression model:")
+  SongsLog1 <- glm(Top10 ~ ., data=SongsTrain, family=binomial)
+  summary(SongsLog1)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: To remove variables from your training and testing sets:
+
+ :: Build the logistic regression model:
+
+Call:
+glm(formula = Top10 ~ ., family = binomial, data = SongsTrain)
+
+Deviance Residuals:
+    Min       1Q   Median       3Q      Max
+-1.9220  -0.5399  -0.3459  -0.1845   3.0770
+
+Coefficients:
+                           Estimate Std. Error z value Pr(>|z|)
+(Intercept)               1.470e+01  1.806e+00   8.138 4.03e-16 ***
+timesignature             1.264e-01  8.674e-02   1.457 0.145050
+timesignature_confidence  7.450e-01  1.953e-01   3.815 0.000136 ***
+loudness                  2.999e-01  2.917e-02  10.282  < 2e-16 ***
+tempo                     3.634e-04  1.691e-03   0.215 0.829889
+tempo_confidence          4.732e-01  1.422e-01   3.329 0.000873 ***
+key                       1.588e-02  1.039e-02   1.529 0.126349
+key_confidence            3.087e-01  1.412e-01   2.187 0.028760 *
+energy                   -1.502e+00  3.099e-01  -4.847 1.25e-06 ***
+pitch                    -4.491e+01  6.835e+00  -6.570 5.02e-11 ***
+timbre_0_min              2.316e-02  4.256e-03   5.441 5.29e-08 ***
+timbre_0_max             -3.310e-01  2.569e-02 -12.882  < 2e-16 ***
+timbre_1_min              5.881e-03  7.798e-04   7.542 4.64e-14 ***
+timbre_1_max             -2.449e-04  7.152e-04  -0.342 0.732087
+timbre_2_min             -2.127e-03  1.126e-03  -1.889 0.058843 .
+timbre_2_max              6.586e-04  9.066e-04   0.726 0.467571
+timbre_3_min              6.920e-04  5.985e-04   1.156 0.247583
+timbre_3_max             -2.967e-03  5.815e-04  -5.103 3.34e-07 ***
+timbre_4_min              1.040e-02  1.985e-03   5.237 1.63e-07 ***
+timbre_4_max              6.110e-03  1.550e-03   3.942 8.10e-05 ***
+timbre_5_min             -5.598e-03  1.277e-03  -4.385 1.16e-05 ***
+timbre_5_max              7.736e-05  7.935e-04   0.097 0.922337
+timbre_6_min             -1.686e-02  2.264e-03  -7.445 9.66e-14 ***
+timbre_6_max              3.668e-03  2.190e-03   1.675 0.093875 .
+timbre_7_min             -4.549e-03  1.781e-03  -2.554 0.010661 *
+timbre_7_max             -3.774e-03  1.832e-03  -2.060 0.039408 *
+timbre_8_min              3.911e-03  2.851e-03   1.372 0.170123
+timbre_8_max              4.011e-03  3.003e-03   1.336 0.181620
+timbre_9_min              1.367e-03  2.998e-03   0.456 0.648356
+timbre_9_max              1.603e-03  2.434e-03   0.659 0.510188
+timbre_10_min             4.126e-03  1.839e-03   2.244 0.024852 *
+timbre_10_max             5.825e-03  1.769e-03   3.292 0.000995 ***
+timbre_11_min            -2.625e-02  3.693e-03  -7.108 1.18e-12 ***
+timbre_11_max             1.967e-02  3.385e-03   5.811 6.21e-09 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 6017.5  on 7200  degrees of freedom
+Residual deviance: 4759.2  on 7167  degrees of freedom
+AIC: 4827.2
+
+Number of Fisher Scoring iterations: 6
+#+end_example
+
+Looking at the summary of your model, what is the value of the Akaike
+Information Criterion (AIC)?
+
+*** Answer
+
+*Explanation*
+
+To answer this question, you first need to run the three given
+commands to remove the variables that we won't use in the model from
+the datasets:
+
+~nonvars = c("year", "songtitle", "artistname", "songID", "artistID")~
+
+~SongsTrain = SongsTrain[ , !(names(SongsTrain) %in% nonvars) ]~
+
+~SongsTest = SongsTest[ , !(names(SongsTest) %in% nonvars) ]~
+
+Then, you can create the logistic regression model with the following
+command:
+
+~SongsLog1 = glm(Top10 ~ ., data=SongsTrain, family=binomial)~
+
+Looking at the bottom of the summary(SongsLog1) output, we can see
+that the $AIC = 4827.2$.
+
+** Problem 2.3 - Creating Our Prediction Model (1 point possible)
+
+Let's now think about the variables in our dataset related to the
+*confidence of the time signature*, *key* and *tempo*
+(*timesignature_confidence*, *key_confidence*, and
+*tempo_confidence*).
+
+Our model seems to indicate that these confidence variables are
+significant (rather than the variables *timesignature*, key and tempo
+themselves).
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: The summary of the model 1:")
+  summary(SongsLog1)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: The summary of the model 1:
+
+Call:
+glm(formula = Top10 ~ ., family = binomial, data = SongsTrain)
+
+Deviance Residuals:
+    Min       1Q   Median       3Q      Max
+-1.9220  -0.5399  -0.3459  -0.1845   3.0770
+
+Coefficients:
+                           Estimate Std. Error z value Pr(>|z|)
+(Intercept)               1.470e+01  1.806e+00   8.138 4.03e-16 ***
+timesignature             1.264e-01  8.674e-02   1.457 0.145050
+timesignature_confidence  7.450e-01  1.953e-01   3.815 0.000136 ***
+loudness                  2.999e-01  2.917e-02  10.282  < 2e-16 ***
+tempo                     3.634e-04  1.691e-03   0.215 0.829889
+tempo_confidence          4.732e-01  1.422e-01   3.329 0.000873 ***
+key                       1.588e-02  1.039e-02   1.529 0.126349
+key_confidence            3.087e-01  1.412e-01   2.187 0.028760 *
+energy                   -1.502e+00  3.099e-01  -4.847 1.25e-06 ***
+pitch                    -4.491e+01  6.835e+00  -6.570 5.02e-11 ***
+timbre_0_min              2.316e-02  4.256e-03   5.441 5.29e-08 ***
+timbre_0_max             -3.310e-01  2.569e-02 -12.882  < 2e-16 ***
+timbre_1_min              5.881e-03  7.798e-04   7.542 4.64e-14 ***
+timbre_1_max             -2.449e-04  7.152e-04  -0.342 0.732087
+timbre_2_min             -2.127e-03  1.126e-03  -1.889 0.058843 .
+timbre_2_max              6.586e-04  9.066e-04   0.726 0.467571
+timbre_3_min              6.920e-04  5.985e-04   1.156 0.247583
+timbre_3_max             -2.967e-03  5.815e-04  -5.103 3.34e-07 ***
+timbre_4_min              1.040e-02  1.985e-03   5.237 1.63e-07 ***
+timbre_4_max              6.110e-03  1.550e-03   3.942 8.10e-05 ***
+timbre_5_min             -5.598e-03  1.277e-03  -4.385 1.16e-05 ***
+timbre_5_max              7.736e-05  7.935e-04   0.097 0.922337
+timbre_6_min             -1.686e-02  2.264e-03  -7.445 9.66e-14 ***
+timbre_6_max              3.668e-03  2.190e-03   1.675 0.093875 .
+timbre_7_min             -4.549e-03  1.781e-03  -2.554 0.010661 *
+timbre_7_max             -3.774e-03  1.832e-03  -2.060 0.039408 *
+timbre_8_min              3.911e-03  2.851e-03   1.372 0.170123
+timbre_8_max              4.011e-03  3.003e-03   1.336 0.181620
+timbre_9_min              1.367e-03  2.998e-03   0.456 0.648356
+timbre_9_max              1.603e-03  2.434e-03   0.659 0.510188
+timbre_10_min             4.126e-03  1.839e-03   2.244 0.024852 *
+timbre_10_max             5.825e-03  1.769e-03   3.292 0.000995 ***
+timbre_11_min            -2.625e-02  3.693e-03  -7.108 1.18e-12 ***
+timbre_11_max             1.967e-02  3.385e-03   5.811 6.21e-09 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 6017.5  on 7200  degrees of freedom
+Residual deviance: 4759.2  on 7167  degrees of freedom
+AIC: 4827.2
+
+Number of Fisher Scoring iterations: 6
+#+end_example
+
+What does the model suggest?
+
+*** Answer
+
+*The higher our confidence about time signature, key and tempo, the
+more likely the song is to be in the Top 10*.
+
+*Explanation*
+
+If you look at the output ~summary(model)~, where model is the name of
+your logistic regression model, you can see that the coefficient
+estimates for the confidence variables (*timesignature_confidence*,
+*key_confidence*, and *tempo_confidence*) are positive. This means that
+higher confidence leads to a higher predicted probability of a Top 10
+hit.
+
+** Problem 2.4 - Creating Our Prediction Model (1 point possible)
+
+In general, if the confidence is low for the time signature, tempo,
+and key, then the song is more likely to be complex. What does Model 1
+suggest in terms of complexity?
+
+- [ ] Mainstream listeners tend to prefer more complex songs
+- [X] Mainstream listeners tend to prefer less complex songs
+
+*** Answer
+
+*Explanation*
+
+Since the coefficient values for *timesignature_confidence*,
+*tempo_confidence*, and *key_confidence* are all positive, lower
+confidence leads to a lower predicted probability of a song being a
+hit. So mainstream listeners tend to prefer less complex songs.
+
+** Problem 2.5 - Creating Our Prediction Model (2 points possible)
+
+Songs with heavier instrumentation tend to be louder (have higher
+values in the variable *loudness*) and more energetic (have higher
+values in the variable *energy*).
+
+*** Question a
+
+By inspecting the coefficient of the variable "loudness", what does
+Model 1 suggest?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: The summary of the model 1:")
+  summary(SongsLog1)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: The summary of the model 1:
+
+Call:
+glm(formula = Top10 ~ ., family = binomial, data = SongsTrain)
+
+Deviance Residuals:
+    Min       1Q   Median       3Q      Max
+-1.9220  -0.5399  -0.3459  -0.1845   3.0770
+
+Coefficients:
+                           Estimate Std. Error z value Pr(>|z|)
+(Intercept)               1.470e+01  1.806e+00   8.138 4.03e-16 ***
+timesignature             1.264e-01  8.674e-02   1.457 0.145050
+timesignature_confidence  7.450e-01  1.953e-01   3.815 0.000136 ***
+loudness                  2.999e-01  2.917e-02  10.282  < 2e-16 ***
+tempo                     3.634e-04  1.691e-03   0.215 0.829889
+tempo_confidence          4.732e-01  1.422e-01   3.329 0.000873 ***
+key                       1.588e-02  1.039e-02   1.529 0.126349
+key_confidence            3.087e-01  1.412e-01   2.187 0.028760 *
+energy                   -1.502e+00  3.099e-01  -4.847 1.25e-06 ***
+pitch                    -4.491e+01  6.835e+00  -6.570 5.02e-11 ***
+timbre_0_min              2.316e-02  4.256e-03   5.441 5.29e-08 ***
+timbre_0_max             -3.310e-01  2.569e-02 -12.882  < 2e-16 ***
+timbre_1_min              5.881e-03  7.798e-04   7.542 4.64e-14 ***
+timbre_1_max             -2.449e-04  7.152e-04  -0.342 0.732087
+timbre_2_min             -2.127e-03  1.126e-03  -1.889 0.058843 .
+timbre_2_max              6.586e-04  9.066e-04   0.726 0.467571
+timbre_3_min              6.920e-04  5.985e-04   1.156 0.247583
+timbre_3_max             -2.967e-03  5.815e-04  -5.103 3.34e-07 ***
+timbre_4_min              1.040e-02  1.985e-03   5.237 1.63e-07 ***
+timbre_4_max              6.110e-03  1.550e-03   3.942 8.10e-05 ***
+timbre_5_min             -5.598e-03  1.277e-03  -4.385 1.16e-05 ***
+timbre_5_max              7.736e-05  7.935e-04   0.097 0.922337
+timbre_6_min             -1.686e-02  2.264e-03  -7.445 9.66e-14 ***
+timbre_6_max              3.668e-03  2.190e-03   1.675 0.093875 .
+timbre_7_min             -4.549e-03  1.781e-03  -2.554 0.010661 *
+timbre_7_max             -3.774e-03  1.832e-03  -2.060 0.039408 *
+timbre_8_min              3.911e-03  2.851e-03   1.372 0.170123
+timbre_8_max              4.011e-03  3.003e-03   1.336 0.181620
+timbre_9_min              1.367e-03  2.998e-03   0.456 0.648356
+timbre_9_max              1.603e-03  2.434e-03   0.659 0.510188
+timbre_10_min             4.126e-03  1.839e-03   2.244 0.024852 *
+timbre_10_max             5.825e-03  1.769e-03   3.292 0.000995 ***
+timbre_11_min            -2.625e-02  3.693e-03  -7.108 1.18e-12 ***
+timbre_11_max             1.967e-02  3.385e-03   5.811 6.21e-09 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 6017.5  on 7200  degrees of freedom
+Residual deviance: 4759.2  on 7167  degrees of freedom
+AIC: 4827.2
+
+Number of Fisher Scoring iterations: 6
+#+end_example
+
+**** Answer
+
+- [X] Mainstream listeners prefer songs with heavy instrumentation
+- [ ] Mainstream listeners prefer songs with light instrumentation
+
+*** Question b
+
+By inspecting the coefficient of the variable *energy*, do we draw the
+same conclusions as above?
+
+**** Answer
+
+No
+
+*Explanation*
+
+The coefficient estimate for loudness is positive, meaning that
+mainstream listeners prefer louder songs, which are those with heavier
+instrumentation. However, *the coefficient estimate for energy is
+negative*, meaning that mainstream listeners prefer songs that are
+less energetic, which are those with light instrumentation. *These
+coefficients lead us to different conclusions!*
+
+** Problem 3.1 - Beware of Multicollinearity Issues! (1 point possible)
+
+What is the correlation between the variables "loudness" and "energy"
+in the training set?
+
+*** Answer
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: The correlation between variables loudness and energy:")
+  cor(SongsTrain$loudness, SongsTrain$energy)
+#+end_src
+
+#+RESULTS:
+:
+:  :: The correlation between variables loudness and energy:
+: [1] 0.7399067
+
+Given that these two variables are highly correlated, Model 1 suffers
+from *multicollinearity*. To avoid this issue, we will omit one of these
+two variables and rerun the logistic regression. In the rest of this
+problem, we'll build two variations of our original model: Model 2, in
+which we keep "energy" and omit "loudness", and Model 3, in which we
+keep "loudness" and omit "energy".
+
+** Problem 3.2 - Beware of Multicollinearity Issues! (1 point possible)
+
+Create Model 2, which is Model 1 without the independent variable
+*loudness*. This can be done with the following command:
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Model 2 omiting the loudness variable:")
+  SongsLog2 <- glm(Top10 ~ . -loudness, data = SongsTrain, family = binomial)
+  summary(SongsLog2)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Model 2 omiting the loudness variable:
+
+Call:
+glm(formula = Top10 ~ . - loudness, family = binomial, data = SongsTrain)
+
+Deviance Residuals:
+    Min       1Q   Median       3Q      Max
+-2.0983  -0.5607  -0.3602  -0.1902   3.3107
+
+Coefficients:
+                           Estimate Std. Error z value Pr(>|z|)
+(Intercept)              -2.241e+00  7.465e-01  -3.002 0.002686 **
+timesignature             1.625e-01  8.734e-02   1.860 0.062873 .
+timesignature_confidence  6.885e-01  1.924e-01   3.578 0.000346 ***
+tempo                     5.521e-04  1.665e-03   0.332 0.740226
+tempo_confidence          5.497e-01  1.407e-01   3.906 9.40e-05 ***
+key                       1.740e-02  1.026e-02   1.697 0.089740 .
+key_confidence            2.954e-01  1.394e-01   2.118 0.034163 *
+energy                    1.813e-01  2.608e-01   0.695 0.486991
+pitch                    -5.150e+01  6.857e+00  -7.511 5.87e-14 ***
+timbre_0_min              2.479e-02  4.240e-03   5.847 5.01e-09 ***
+timbre_0_max             -1.007e-01  1.178e-02  -8.551  < 2e-16 ***
+timbre_1_min              7.143e-03  7.710e-04   9.265  < 2e-16 ***
+timbre_1_max             -7.830e-04  7.064e-04  -1.108 0.267650
+timbre_2_min             -1.579e-03  1.109e-03  -1.424 0.154531
+timbre_2_max              3.889e-04  8.964e-04   0.434 0.664427
+timbre_3_min              6.500e-04  5.949e-04   1.093 0.274524
+timbre_3_max             -2.462e-03  5.674e-04  -4.339 1.43e-05 ***
+timbre_4_min              9.115e-03  1.952e-03   4.670 3.02e-06 ***
+timbre_4_max              6.306e-03  1.532e-03   4.115 3.87e-05 ***
+timbre_5_min             -5.641e-03  1.255e-03  -4.495 6.95e-06 ***
+timbre_5_max              6.937e-04  7.807e-04   0.889 0.374256
+timbre_6_min             -1.612e-02  2.235e-03  -7.214 5.45e-13 ***
+timbre_6_max              3.814e-03  2.157e-03   1.768 0.076982 .
+timbre_7_min             -5.102e-03  1.755e-03  -2.907 0.003644 **
+timbre_7_max             -3.158e-03  1.811e-03  -1.744 0.081090 .
+timbre_8_min              4.488e-03  2.810e-03   1.597 0.110254
+timbre_8_max              6.423e-03  2.950e-03   2.177 0.029497 *
+timbre_9_min             -4.282e-04  2.955e-03  -0.145 0.884792
+timbre_9_max              3.525e-03  2.377e-03   1.483 0.138017
+timbre_10_min             2.993e-03  1.804e-03   1.660 0.097004 .
+timbre_10_max             7.367e-03  1.731e-03   4.255 2.09e-05 ***
+timbre_11_min            -2.837e-02  3.630e-03  -7.815 5.48e-15 ***
+timbre_11_max             1.829e-02  3.341e-03   5.476 4.34e-08 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 6017.5  on 7200  degrees of freedom
+Residual deviance: 4871.8  on 7168  degrees of freedom
+AIC: 4937.8
+
+Number of Fisher Scoring iterations: 6
+#+end_example
+
+We just subtracted the variable loudness. We couldn't do this with the
+variables *songtitle* and *artistname*, because they are not numeric
+variables, and we might get different values in the test set that the
+training set has never seen. But this approach (subtracting the
+variable from the model formula) will always work when you want to
+remove numeric variables.
+
+Look at the summary of SongsLog2, and inspect the coefficient of the
+variable *energy*. What do you observe?
+
+*** Answer
+
+*Explanation*
+
+The coefficient estimate for energy is positive in Model 2, suggesting
+that songs with higher energy levels tend to be more popular. However,
+note that the variable energy is not significant in this model.
+
+** Problem 3.3 - Beware of Multicollinearity Issues! (1 point possible)
+
+Now, create Model 3, which should be exactly like Model 1, but without
+the variable *energy*.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Model 3 omiting the energy variable:")
+  SongsLog3 <- glm(Top10 ~ . - energy, data = SongsTrain, family = binomial)
+  summary(SongsLog3)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Model 3 omiting the energy variable:
+
+Call:
+glm(formula = Top10 ~ . - energy, family = binomial, data = SongsTrain)
+
+Deviance Residuals:
+    Min       1Q   Median       3Q      Max
+-1.9182  -0.5417  -0.3481  -0.1874   3.4171
+
+Coefficients:
+                           Estimate Std. Error z value Pr(>|z|)
+(Intercept)               1.196e+01  1.714e+00   6.977 3.01e-12 ***
+timesignature             1.151e-01  8.726e-02   1.319 0.187183
+timesignature_confidence  7.143e-01  1.946e-01   3.670 0.000242 ***
+loudness                  2.306e-01  2.528e-02   9.120  < 2e-16 ***
+tempo                    -6.460e-04  1.665e-03  -0.388 0.698107
+tempo_confidence          3.841e-01  1.398e-01   2.747 0.006019 **
+key                       1.649e-02  1.035e-02   1.593 0.111056
+key_confidence            3.394e-01  1.409e-01   2.409 0.015984 *
+pitch                    -5.328e+01  6.733e+00  -7.914 2.49e-15 ***
+timbre_0_min              2.205e-02  4.239e-03   5.200 1.99e-07 ***
+timbre_0_max             -3.105e-01  2.537e-02 -12.240  < 2e-16 ***
+timbre_1_min              5.416e-03  7.643e-04   7.086 1.38e-12 ***
+timbre_1_max             -5.115e-04  7.110e-04  -0.719 0.471928
+timbre_2_min             -2.254e-03  1.120e-03  -2.012 0.044190 *
+timbre_2_max              4.119e-04  9.020e-04   0.457 0.647915
+timbre_3_min              3.179e-04  5.869e-04   0.542 0.588083
+timbre_3_max             -2.964e-03  5.758e-04  -5.147 2.64e-07 ***
+timbre_4_min              1.105e-02  1.978e-03   5.585 2.34e-08 ***
+timbre_4_max              6.467e-03  1.541e-03   4.196 2.72e-05 ***
+timbre_5_min             -5.135e-03  1.269e-03  -4.046 5.21e-05 ***
+timbre_5_max              2.979e-04  7.855e-04   0.379 0.704526
+timbre_6_min             -1.784e-02  2.246e-03  -7.945 1.94e-15 ***
+timbre_6_max              3.447e-03  2.182e-03   1.580 0.114203
+timbre_7_min             -5.128e-03  1.768e-03  -2.900 0.003733 **
+timbre_7_max             -3.394e-03  1.820e-03  -1.865 0.062208 .
+timbre_8_min              3.686e-03  2.833e-03   1.301 0.193229
+timbre_8_max              4.658e-03  2.988e-03   1.559 0.119022
+timbre_9_min             -9.318e-05  2.957e-03  -0.032 0.974859
+timbre_9_max              1.342e-03  2.424e-03   0.554 0.579900
+timbre_10_min             4.050e-03  1.827e-03   2.217 0.026637 *
+timbre_10_max             5.793e-03  1.759e-03   3.294 0.000988 ***
+timbre_11_min            -2.638e-02  3.683e-03  -7.162 7.96e-13 ***
+timbre_11_max             1.984e-02  3.365e-03   5.896 3.74e-09 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 6017.5  on 7200  degrees of freedom
+Residual deviance: 4782.7  on 7168  degrees of freedom
+AIC: 4848.7
+
+Number of Fisher Scoring iterations: 6
+#+end_example
+
+Look at the summary of Model 3 and inspect the coefficient of the
+variable "loudness". Remembering that higher loudness and energy both
+occur in songs with heavier instrumentation, do we make the same
+observation about the popularity of heavy instrumentation as we did
+with Model 2?
+
+*** Answer
+
+*Explanation*
+
+Model 3 can be created with the following command:
+
+~SongsLog3 = glm(Top10 ~ . - energy, data=SongsTrain, family=binomial)~
+
+Looking at the output of summary(SongsLog3), we can see that loudness
+has a positive coefficient estimate, meaning that our model predicts
+that songs with heavier instrumentation tend to be more popular. This
+is the same conclusion we got from Model 2.
+
+*In the remainder of this problem, we'll just use Model 3*.
+
+** Problem 4.1 - Validating Our Model (2 points possible)
+
+Make predictions on the test set using Model 3. What is the accuracy
+of Model 3 on the test set, using a threshold of 0.45? (Compute the
+accuracy as a number between 0 and 1.)
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Test set predictions:")
+  SongsTestPrediction <- predict(SongsLog3, newdata = SongsTest, type = "response")
+  table(SongsTest$Top10, SongsTestPrediction >= 0.45)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Test set predictions:
+:
+:     FALSE TRUE
+:   0   309    5
+:   1    40   19
+
+#+begin_src R :session :results output :exports all
+  TN <- 309; FP <- 5;
+  FN <- 40; TP <- 19;
+
+  writeLines("\n :: Overall accuracy:")
+  OverallAccuracy <- (TN + TP) / nrow(SongsTest)
+  OverallAccuracy
+#+end_src
+
+#+RESULTS:
+:
+:  :: Overall accuracy:
+: [1] 0.8793566
+
+*** Answer
+
+*Explanation*
+
+You can make predictions on the test set by using the command:
+
+~testPredict = predict(SongsLog3, newdata=SongsTest, type="response")~
+
+Then, you can create a confusion matrix with a threshold of 0.45 by
+using the command:
+
+~table(SongsTest$Top10, testPredict >= 0.45)~
+
+The accuracy of the model is
+
+$$\frac{(309 + 19)}{(309 + 5 + 40 + 19)} = 0.87936$$.
+
+** Problem 4.2 - Validating Our Model (1 point possible)
+
+Let's check if there's any incremental benefit in using Model 3
+instead of a baseline model. Given the difficulty of guessing which
+song is going to be a hit, an easier model would be to pick the most
+frequent outcome (a song is not a Top 10 hit) for all songs. What
+would the accuracy of the baseline model be on the test set? (Give
+your answer as a number between 0 and 1.)
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Baseline accuracy:")
+  table(SongsTest$Top10)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Baseline accuracy:
+:
+:   0   1
+: 314  59
+
+*** Answer
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Baseline model accuracy:")
+  BaselineModelAcc <- 314 / (314 + 59)
+  BaselineModelAcc
+#+end_src
+
+#+RESULTS:
+:
+:  :: Baseline model accuracy:
+: [1] 0.8418231
+
+*Explanation*
+
+You can compute the baseline accuracy by tabling the outcome variable
+in the test set:
+
+~table(SongsTest$Top10)~
+
+The baseline model would get $314$ observations correct, and $59$
+wrong, for an
+
+$$
+accuracy = \frac{314}{(314 + 59)} = 0.8418231
+$$
+
+** Problem 4.3 - Validating Our Model (2 points possible)
+
+It seems that Model 3 gives us a small improvement over the baseline
+model. Still, does it create an edge?
+
+Let's view the two models from an investment perspective. A production
+company is interested in investing in songs that are highly likely to
+make it to the Top 10. The company's objective is to minimize its risk
+of financial losses attributed to investing in songs that end up
+unpopular.
+
+A competitive edge can therefore be achieved if we can provide the
+production company a list of songs that are highly likely to end up in
+the Top 10. We note that the baseline model does not prove useful, as
+it simply does not label any song as a hit. Let us see what our model
+has to offer.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Test set predictions for 2010:")
+  table(SongsTest$Top10, SongsTestPrediction >= 0.45)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Test set predictions for 2010:
+:
+:     FALSE TRUE
+:   0   309    5
+:   1    40   19
+
+*** Question a
+
+How many songs does Model 3 correctly predict as Top 10 hits in 2010
+(remember that all songs in 2010 went into our test set), using a
+threshold of 0.45?
+
+**** Answer
+
+#+begin_src R :session :results output :exports all
+    TN <- 309; FP <- 5;
+    FN <- 40; TP <- 19;
+
+    writeLines("\n :: Prediction in Top 10 in 2010:")
+    PredTop10.2010 <- TP
+    PredTop10.2010
+#+end_src
+
+#+RESULTS:
+:
+:  :: Prediction in Top 10 in 2010:
+: [1] 19
+
+*** Question b
+
+How many non-hit songs does Model 3 predict will be Top 10 hits
+(again, looking at the test set), using a threshold of 0.45?
+
+**** Answer
+
+#+begin_src R :session :results output :exports all
+    writeLines("\n :: Prediction in NON hits in 2010:")
+    PredNonHits2010 <- FP
+    PredNonHits2010
+#+end_src
+
+#+RESULTS:
+:
+:  :: Prediction in NON hits in 2010:
+: [1] 5
+
+*Explanation*
+
+According to our model's confusion matrix:
+
+~table(SongsTest$Top10, testPredict >= 0.45)~
+
+We have $19$ true positives (Top 10 hits that we predict correctly), and
+$5$ false positives (songs that we predict will be Top 10 hits, but end
+up not being Top 10 hits).
+
+** Problem 4.4 - Validating Our Model (2 points possible)
+
+*** Question a
+
+What is the sensitivity of Model 3 on the test set, using a threshold
+of 0.45?
+
+#+begin_src R :session :results output :exports all
+  TN <- 309; FP <- 5;
+  FN <- 40; TP <- 19;
+
+  writeLines("\n :: Sensitivity:")
+  Sensitivity <- TP / (TP + FN)
+  Sensitivity
+
+  writeLines("\n :: Specificity:")
+  Specificity <- TN / (TN + FP)
+  Specificity
+#+end_src
+
+#+RESULTS:
+:
+:  :: Sensitivity:
+: [1] 0.3220339
+:
+:  :: Specificity:
+: [1] 0.9840764
+
+**** Answer
+
+0.3220339
+
+*** Question b
+
+What is the specificity of Model 3 on the test set, using a threshold
+of 0.45?
+
+**** Answer
+
+0.9840764
+
+*Explanation*
+
+Using the confusion matrix:
+
+~table(SongsTest$Top10, testPredict >= 0.45)~
+
+We can compute the sensitivity to be 19/(19+40) = 0.3220339, and the
+specificity to be 309/(309+5) = 0.9840764.
+
+** Problem 4.5 - Validating Our Model (1 point possible)
+
+#+begin_src R :session :results output :exports all
+  TN <- 309; FP <- 5;
+  FN <- 40; TP <- 19;
+
+  writeLines("\n :: Sensitivity:")
+  Sensitivity <- TP / (TP + FN)
+  Sensitivity
+
+  writeLines("\n :: Specificity:")
+  Specificity <- TN / (TN + FP)
+  Specificity
+
+  writeLines("\n :: Test set predictions for 2010:")
+  table(SongsTest$Top10, SongsTestPrediction >= 0.45)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Sensitivity:
+[1] 0.3220339
+
+ :: Specificity:
+[1] 0.9840764
+
+ :: Test set predictions for 2010:
+
+    FALSE TRUE
+  0   309    5
+  1    40   19
+#+end_example
+
+What conclusions can you make about our model? (Select all that
+apply.)
+
+*** Answer
+
+- [X] Model 3 favors specificity over sensitivity.
+
+- [ ] Model 3 favors sensitivity over specificity.
+
+- [ ] Model 3 captures less than half of Top 10 songs in 2010. Model 3
+  therefore does not provide a useful list of candidate songs to
+  investors, and hence offers no competitive edge.
+
+- [X] Model 3 provides conservative predictions, and predicts that a
+  song will make it to the Top 10 very rarely. So while it detects
+  less than half of the Top 10 songs, we can be very confident in the
+  songs that it does predict to be Top 10 hits.
+
+*Explanation*
+
+Model 3 has a very high specificity, meaning that it favors
+specificity over sensitivity. While Model 3 only captures less than
+half of the Top 10 songs, it still can offer a competitive edge, since
+it is very conservative in its predictions.
+
+* Predicting parole violators
+
+In many criminal justice systems around the world, inmates deemed not
+to be a threat to society are released from prison under the parole
+system prior to completing their sentence. They are still considered
+to be serving their sentence while on parole, and they can be returned
+to prison if they violate the terms of their parole.
+
+Parole boards are charged with identifying which inmates are good
+candidates for release on parole. They seek to release inmates who
+will not commit additional crimes after release. In this problem, we
+will build and validate a model that predicts if an inmate will
+violate the terms of his or her parole. Such a model could be useful
+to a parole board when deciding to approve or deny an application for
+parole.
+
+For this prediction task, we will use data from the United States 2004
+National [[http://www.icpsr.umich.edu/icpsrweb/NACJD/series/38/studies/26521?archive%3DNACJD&sortBy%3D7][Corrections Reporting Program]], a nationwide census of parole
+releases that occurred during 2004. We limited our focus to parolees
+who served no more than 6 months in prison and whose maximum sentence
+for all charges did not exceed 18 months. The dataset contains all
+such parolees who either successfully completed their term of parole
+during 2004 or those who violated the terms of their parole during
+that year. The dataset contains the following variables:
+
+- *male*: 1 if the parolee is male, 0 if female
+
+- *race*: 1 if the parolee is white, 2 otherwise
+
+- *age*: the parolee's age (in years) when he or she was released from
+  prison
+
+- *state*: a code for the parolee's state. 2 is Kentucky, 3 is
+  Louisiana, 4 is Virginia, and 1 is any other state. The three states
+  were selected due to having a high representation in the dataset.
+
+- *time.served*: the number of months the parolee served in prison
+  (limited by the inclusion criteria to not exceed 6 months).
+
+- *max.sentence*: the maximum sentence length for all charges, in
+  months (limited by the inclusion criteria to not exceed 18 months).
+
+- *multiple.offenses*: 1 if the parolee was incarcerated for multiple
+  offenses, 0 otherwise.
+
+- *crime*: a code for the parolee's main crime leading to
+  incarceration. 2 is larceny, 3 is drug-related crime, 4 is
+  driving-related crime, and 1 is any other crime.
+
+- *violator*: 1 if the parolee violated the parole, and 0 if the
+  parolee completed the parole without violation.
+
+** Problem 1.1 - Loading the Dataset (1 point possible)
+
+Load the dataset parole.csv into a data frame called parole, and
+investigate it using the str() and summary() functions.
+
+*** Download the data sets
+
+In this part we can download the data
+
+#+BEGIN_SRC R :session :results output :exports all
+  library(parallel)
+
+  if(!file.exists("../data")) {
+          dir.create("../data")
+  }
+
+  fileUrl <- "https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/parole.csv"
+
+  fileName <- "parole.csv"
+
+  dataPath <- "../data"
+
+  filePath <- paste(dataPath, fileName, sep = "/")
+
+  if(!file.exists(filePath)) {
+          download.file(fileUrl, destfile = filePath, method = "curl")
+  }
+
+  list.files("../data")
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+ [1] "AnonymityPoll.csv"       "BoeingStock.csv"
+ [3] "CPSData.csv"             "CocaColaStock.csv"
+ [5] "CountryCodes.csv"        "FluTest.csv"
+ [7] "FluTrain.csv"            "GEStock.csv"
+ [9] "IBMStock.csv"            "MetroAreaCodes.csv"
+[11] "NBA_test.csv"            "NBA_train.csv"
+[13] "PollingData.csv"         "PollingData_Imputed.csv"
+[15] "ProcterGambleStock.csv"  "README.md"
+[17] "USDA.csv"                "WHO.csv"
+[19] "WHO_Europe.csv"          "baseball.csv"
+[21] "climate_change.csv"      "framingham.csv"
+[23] "mvtWeek1.csv"            "parole.csv"
+[25] "pisa2009test.csv"        "pisa2009train.csv"
+[27] "quality.csv"             "songs.csv"
+[29] "wine.csv"                "wine_test.csv"
+#+end_example
+
+*** Load the data set
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: Loading data into their data frames.")
+  parole <- read.csv("../data/parole.csv")
+  str(parole)
+  summary(parole)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+
+ :: Loading data into their data frames.
+'data.frame':	675 obs. of  9 variables:
+ $ male             : int  1 0 1 1 1 1 1 0 0 1 ...
+ $ race             : int  1 1 2 1 2 2 1 1 1 2 ...
+ $ age              : num  33.2 39.7 29.5 22.4 21.6 46.7 31 24.6 32.6 29.1 ...
+ $ state            : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ time.served      : num  5.5 5.4 5.6 5.7 5.4 6 6 4.8 4.5 4.7 ...
+ $ max.sentence     : int  18 12 12 18 12 18 18 12 13 12 ...
+ $ multiple.offenses: int  0 0 0 0 0 0 0 0 0 0 ...
+ $ crime            : int  4 3 3 1 1 4 3 1 3 2 ...
+ $ violator         : int  0 0 0 0 0 0 0 0 0 0 ...
+      male             race            age            state
+ Min.   :0.0000   Min.   :1.000   Min.   :18.40   Min.   :1.000
+ 1st Qu.:1.0000   1st Qu.:1.000   1st Qu.:25.35   1st Qu.:2.000
+ Median :1.0000   Median :1.000   Median :33.70   Median :3.000
+ Mean   :0.8074   Mean   :1.424   Mean   :34.51   Mean   :2.887
+ 3rd Qu.:1.0000   3rd Qu.:2.000   3rd Qu.:42.55   3rd Qu.:4.000
+ Max.   :1.0000   Max.   :2.000   Max.   :67.00   Max.   :4.000
+  time.served     max.sentence   multiple.offenses     crime
+ Min.   :0.000   Min.   : 1.00   Min.   :0.0000    Min.   :1.000
+ 1st Qu.:3.250   1st Qu.:12.00   1st Qu.:0.0000    1st Qu.:1.000
+ Median :4.400   Median :12.00   Median :1.0000    Median :2.000
+ Mean   :4.198   Mean   :13.06   Mean   :0.5363    Mean   :2.059
+ 3rd Qu.:5.200   3rd Qu.:15.00   3rd Qu.:1.0000    3rd Qu.:3.000
+ Max.   :6.000   Max.   :18.00   Max.   :1.0000    Max.   :4.000
+    violator
+ Min.   :0.0000
+ 1st Qu.:0.0000
+ Median :0.0000
+ Mean   :0.1156
+ 3rd Qu.:0.0000
+ Max.   :1.0000
+#+end_example
+
+How many parolees are contained in the dataset?
+
+*** Answer
+
+675
+
+*Explanation*
+
+You can load the dataset into R with the following command:
+
+~parole = read.csv("parole.csv")~
+
+Then you can count the number of parolees in the dataset with
+~str(parole)~ or with ~nrow(parole)~.
+
+** Problem 1.2 - Loading the Dataset (1 point possible)
+
+How many of the parolees in the dataset violated the terms of their
+parole?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Parelee violator in the data set")
+  nrow(subset(parole, parole$violator == 1))
+
+  writeLines("\n :: Other way to calculate the same result:")
+  table(parole$violator)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Parelee violator in the data set
+: [1] 78
+:
+:  :: Other way to calculate the same result:
+:
+:   0   1
+: 597  78
+
+*** Answer
+
+78
+
+*Explanation*
+
+This can be observed by running table(parole$violator)
+
+** Problem 2.1 - Preparing the Dataset (1 point possible)
+
+You should be familiar with unordered factors (if not, review the Week
+2 homework problem "Reading Test Scores"). Which variables in this
+dataset are unordered factors with at least three levels? Select all
+that apply.
+
+#+begin_src R :session :results output :exports all
+  str(parole)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+'data.frame':	675 obs. of  9 variables:
+ $ male             : int  1 0 1 1 1 1 1 0 0 1 ...
+ $ race             : int  1 1 2 1 2 2 1 1 1 2 ...
+ $ age              : num  33.2 39.7 29.5 22.4 21.6 46.7 31 24.6 32.6 29.1 ...
+ $ state            : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ time.served      : num  5.5 5.4 5.6 5.7 5.4 6 6 4.8 4.5 4.7 ...
+ $ max.sentence     : int  18 12 12 18 12 18 18 12 13 12 ...
+ $ multiple.offenses: int  0 0 0 0 0 0 0 0 0 0 ...
+ $ crime            : int  4 3 3 1 1 4 3 1 3 2 ...
+ $ violator         : int  0 0 0 0 0 0 0 0 0 0 ...
+#+end_example
+
+*** Answer
+
+- [ ] male
+- [ ] race
+- [ ] age
+- [X] state
+- [ ] time.served
+- [ ] max.sentence
+- [ ] multiple.offenses
+- [X] crime
+- [ ] violator
+
+*Explanation*
+
+While the variables male, race, state, crime, and violator are all
+*unordered factors*, only state and crime have at least 3 levels in this
+dataset.
+
+** Problem 2.2 - Preparing the Dataset (1 point possible)
+
+In the last subproblem, we identified variables that are unordered
+factors with at least 3 levels, so we need to convert them to factors
+for our prediction problem (we introduced this idea in the "Reading
+Test Scores" problem last week). Using the as.factor() function,
+convert these variables to factors. Keep in mind that we are not
+changing the values, just the way R understands them (the values are
+still numbers).
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Parole data set original:")
+  paroleOrig <- parole
+
+  writeLines("\n :: str() function over state and crime feature:")
+  str(paroleOrig$state)
+  str(paroleOrig$crime)
+
+  writeLines("\n :: table() function over state and crime feature:")
+  table(paroleOrig$state)
+  table(paroleOrig$crime)
+
+  writeLines("\n :: Converting state and crime features to factor...")
+  parole$state <- as.factor(parole$state)
+  parole$crime <- as.factor(parole$crime)
+  summary(parole)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Parole data set original:
+
+ :: str() function over state and crime feature:
+ int [1:675] 1 1 1 1 1 1 1 1 1 1 ...
+ int [1:675] 4 3 3 1 1 4 3 1 3 2 ...
+
+ :: table() function over state and crime feature:
+
+  1   2   3   4
+143 120  82 330
+
+  1   2   3   4
+315 106 153 101
+
+ :: Converting state and crime features to factor...
+      male             race            age        state    time.served
+ Min.   :0.0000   Min.   :1.000   Min.   :18.40   1:143   Min.   :0.000
+ 1st Qu.:1.0000   1st Qu.:1.000   1st Qu.:25.35   2:120   1st Qu.:3.250
+ Median :1.0000   Median :1.000   Median :33.70   3: 82   Median :4.400
+ Mean   :0.8074   Mean   :1.424   Mean   :34.51   4:330   Mean   :4.198
+ 3rd Qu.:1.0000   3rd Qu.:2.000   3rd Qu.:42.55           3rd Qu.:5.200
+ Max.   :1.0000   Max.   :2.000   Max.   :67.00           Max.   :6.000
+  max.sentence   multiple.offenses crime      violator
+ Min.   : 1.00   Min.   :0.0000    1:315   Min.   :0.0000
+ 1st Qu.:12.00   1st Qu.:0.0000    2:106   1st Qu.:0.0000
+ Median :12.00   Median :1.0000    3:153   Median :0.0000
+ Mean   :13.06   Mean   :0.5363    4:101   Mean   :0.1156
+ 3rd Qu.:15.00   3rd Qu.:1.0000            3rd Qu.:0.0000
+ Max.   :18.00   Max.   :1.0000            Max.   :1.0000
+#+end_example
+
+How does the output of summary() change for a factor variable as
+compared to a numerical variable?
+
+*** Answer
+
+- [X] The output becomes similar to that of the table() function
+  applied to that variable
+
+- [ ] The output becomes similar to that of the str() function applied
+  to that variable
+
+- [ ] There is no change
+
+*Explanation*
+
+To convert to factors, the following commands should be run:
+
+~parole$state = as.factor(parole$state)~
+
+~parole$crime = as.factor(parole$crime)~
+
+The output of ~summary(parole$state)~ or ~summary(parole$crime)~ now shows
+a breakdown of the number of parolees with each level of the factor,
+which is most similar to the output of the ~table()~ function.
+
+** Problem 3.1 - Splitting into a Training and Testing Set (1 point possible)
+
+To ensure consistent training/testing set splits, run the following 5
+lines of code (do not include the line numbers at the beginning):
+
+#+begin_src R :session :results output :exports all
+  set.seed(144)
+  library(caTools)
+  split <- sample.split(parole$violator, SplitRatio = 0.7)
+  train <- subset(parole, split == TRUE)
+  test <- subset(parole, split == FALSE)
+#+end_src
+
+#+RESULTS:
+
+*** Question
+
+Roughly what proportion of parolees have been allocated to the
+training and testing sets?
+
+**** Answer
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Training set proportion:")
+  nrow(train) / (nrow(train) + nrow(test))
+
+  writeLines("\n :: Testing set proportion:")
+  nrow(test) / (nrow(train) + nrow(test))
+#+end_src
+
+#+RESULTS:
+:
+:  :: Training set proportion:
+: [1] 0.7007407
+:
+:  :: Testing set proportion:
+: [1] 0.2992593
+
+*Explanation*
+
+$SplitRatio = 0.7$ causes split to take the value TRUE roughly $70\%$
+of the time, so train should contain roughly $70\%$ of the values in
+the dataset. You can verify this by running ~nrow(train)~ and
+~nrow(test)~.
+
+** Problem 3.2 - Splitting into a Training and Testing Set (3 points possible)
+
+*** Question a
+
+Now, suppose you re-ran lines [1]-[5] of Problem 3.1. What would you
+expect?
+
+**** Answer
+
+#+begin_src R :session :results output :exports all
+  set.seed(144)
+  library(caTools)
+  split <- sample.split(parole$violator, SplitRatio = 0.7)
+  train <- subset(parole, split == TRUE)
+  test <- subset(parole, split == FALSE)
+
+  writeLines("\n :: Training set proportion:")
+  nrow(train) / (nrow(train) + nrow(test))
+
+  writeLines("\n :: Testing set proportion:")
+  nrow(test) / (nrow(train) + nrow(test))
+#+end_src
+
+#+RESULTS:
+:
+:  :: Training set proportion:
+: [1] 0.7007407
+:
+:  :: Testing set proportion:
+: [1] 0.2992593
+
+- [X] The exact same training/testing set split as the first execution
+  of [1]-[5]
+
+- [ ] A different training/testing set split from the first execution
+  of [1]-[5]
+
+
+*** Question b
+
+If you instead ONLY re-ran lines [3]-[5], what would you expect?
+
+**** Answer
+
+#+begin_src R :session :results output :exports all
+  split2 <- sample.split(parole$violator, SplitRatio = 0.7)
+  train2 <- subset(parole, split2 == TRUE)
+  test2 <- subset(parole, split2 == FALSE)
+
+  writeLines("\n :: Differences between both sets of splits:")
+  ## install.packages('compare', repos='http://cran.rstudio.com/')
+  library(compare)
+  compare(train, train2)
+  compare(test, test2)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Differences between both sets of splits:
+: FALSE [FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE]
+: FALSE [FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE]
+
+- [ ] The exact same training/testing set split as the first execution
+  of [1]-[5]
+
+- [X] A different training/testing set split from the first execution
+  of [1]-[5]
+
+*** Question c
+
+If you instead called set.seed() with a different number and then
+re-ran lines [3]-[5] of Problem 3.1, what would you expect?
+
+**** Answer
+
+- [ ] The exact same training/testing set split as the first execution
+  of [1]-[5]
+
+- [X] A different training/testing set split from the first execution
+  of [1]-[5]
+
+*Explanation*
+
+If you set a random seed, *split*, set the seed again to the same value,
+and then split again, you will get the same split. However, if you set
+the seed and then split twice, you will get different splits. If you
+set the seed to different values, you will get different splits.
+
+You can also verify this by running the specified code in R. If you
+have training sets train1 and train2, the function
+
+~sum(train1 != train2)~
+
+will count the number of values in those two data frames that are
+different.
+
+** Problem 4.1 - Building a Logistic Regression Model (1 point possible)
+
+*Note*: If you tested other training/testing set splits in the previous
+section, please re-run the original 5 lines of code to obtain the
+original split.
+
+Using glm (and remembering the parameter family="binomial"), train a
+logistic regression model on the training set. Your dependent variable
+is "violator", and you should use all of the other variables as
+independent variables.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Building the logistic regression model 1")
+  ParoleLog1 = glm(violator ~ ., data = train, family = binomial)
+  summary(ParoleLog1)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Building the logistic regression model 1
+
+Call:
+glm(formula = violator ~ ., family = binomial, data = train)
+
+Deviance Residuals:
+    Min       1Q   Median       3Q      Max
+-1.7041  -0.4236  -0.2719  -0.1690   2.8375
+
+Coefficients:
+                    Estimate Std. Error z value Pr(>|z|)
+(Intercept)       -4.2411574  1.2938852  -3.278  0.00105 **
+male               0.3869904  0.4379613   0.884  0.37690
+race               0.8867192  0.3950660   2.244  0.02480 *
+age               -0.0001756  0.0160852  -0.011  0.99129
+state2             0.4433007  0.4816619   0.920  0.35739
+state3             0.8349797  0.5562704   1.501  0.13335
+state4            -3.3967878  0.6115860  -5.554 2.79e-08 ***
+time.served       -0.1238867  0.1204230  -1.029  0.30359
+max.sentence       0.0802954  0.0553747   1.450  0.14705
+multiple.offenses  1.6119919  0.3853050   4.184 2.87e-05 ***
+crime2             0.6837143  0.5003550   1.366  0.17180
+crime3            -0.2781054  0.4328356  -0.643  0.52054
+crime4            -0.0117627  0.5713035  -0.021  0.98357
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 340.04  on 472  degrees of freedom
+Residual deviance: 251.48  on 460  degrees of freedom
+AIC: 277.48
+
+Number of Fisher Scoring iterations: 6
+#+end_example
+
+*** Question
+
+What variables are significant in this model? Significant variables
+should have a least one star, or should have a probability less than
+0.05 (the column Pr(>|z|) in the summary output). Select all that
+apply.
+
+**** Answer
+
+- [ ] male
+- [X] race
+- [ ] age
+- [ ] state2
+- [ ] state3
+- [X] state4
+- [ ] time.served
+- [ ] max.sentence
+- [X] multiple.offenses
+- [ ] crime2
+- [ ] crime3
+- [ ] crime4
+
+*Explanation*
+
+The following lines of code show the summary of the logistic
+regression model:
+
+~mod = glm(violator ~ ., data=train, family = "binomial")~
+
+~summary(mod)~
+
+** Problem 4.2 - Building a Logistic Regression Model (1 point possible)
+
+What can we say based on the coefficient of the multiple.offenses
+variable?
+
+The following two properties might be useful to you when answering
+this question:
+
+1) If we have a coefficient c for a variable, then that means the log
+   odds (or Logit) are increased by c for a unit increase in the
+   variable.
+
+2) If we have a coefficient c for a variable, then that means the odds
+   are multiplied by e^c for a unit increase in the variable.
+
+*** Answer
+
+#+begin_src R :session :results output :exports all
+  beta0 <- -4.2411574; beta1 <- 1.6119919;
+  x1 <- c(0, 1, 2, 3, 4);
+
+  writeLines("\n :: The step in odds units:")
+  exp(beta1)
+
+  logit <- beta0 + (beta1 * x1)
+  writeLines("\n :: The value of logit is:")
+  logit
+#+end_src
+
+#+RESULTS:
+:
+:  :: The step in odds units:
+: [1] 5.012786
+:
+:  :: The value of logit is:
+: [1] -4.2411574 -2.6291655 -1.0171736  0.5948183  2.2068102
+
+- [ ] Our model predicts that parolees who committed multiple offenses
+  have 1.61 times higher odds of being a violator than the average
+  parolee.
+
+- [ ] Our model predicts that a parolee who committed multiple
+  offenses has 1.61 times higher odds of being a violator than a
+  parolee who did not commit multiple offenses but is otherwise
+  identical.
+
+- [ ] Our model predicts that parolees who committed multiple offenses
+  have 5.01 times higher odds of being a violator than the average
+  parolee.
+
+- [X] Our model predicts that a parolee who committed multiple
+  offenses has 5.01 times higher odds of being a violator than a
+  parolee who did not commit multiple offenses but is otherwise
+  identical.
+
+*Explanation*
+
+For parolees A and B who are identical other than A having committed
+multiple offenses, the predicted log odds of A is $1.61$ more than the
+predicted log odds of B. Then we have:
+
+~ln(odds of A) = ln(odds of B) + 1.61~
+
+~exp(ln(odds of A)) = exp(ln(odds of B) + 1.61)~
+
+~exp(ln(odds of A)) = exp(ln(odds of B)) * exp(1.61)~
+
+~odds of A = exp(1.61) * odds of B~
+
+~odds of A= 5.01 * odds of B~
+
+In the second step we raised e to the power of both sides. In the
+third step we used the exponentiation rule that
+
+~e^(a+b) = e^a * e^b.~
+
+In the fourth step we used the rule that
+
+~e^(ln(x)) = x~.
+
+** Problem 4.3 - Building a Logistic Regression Model (4 points possible)
+
+Consider a parolee who is:
+
+- male
+- white race
+- aged 50 years at prison release
+- from the state of Maryland
+- served 3 months
+- had a maximum sentence of 12 months
+- did not commit multiple offenses, and
+- committed a larceny.
+
+Answer the following questions based on the model's predictions for
+this individual. (HINT: You should use the coefficients of your model,
+the Logistic Response Function, and the Odds equation to solve this
+problem.)
+
+| Feature           | Coefficient | Value of feature |
+|-------------------+-------------+------------------|
+| (Intercept)       |  -4.2411574 |                  |
+| male              |   0.3869904 |                1 |
+| race              |   0.8867192 |                1 |
+| age               |  -0.0001756 |               50 |
+| state2            |   0.4433007 |                0 |
+| state3            |   0.8349797 |                0 |
+| state4            |  -3.3967878 |                0 |
+| time.served       |  -0.1238867 |                3 |
+| max.sentence      |   0.0802954 |               12 |
+| multiple.offenses |   1.6119919 |                0 |
+| crime2            |   0.6837143 |                1 |
+| crime3            |  -0.2781054 |                0 |
+| crime4            |  -0.0117627 |                0 |
+
+*** Question a
+
+According to the model, what are the odds this individual is a
+violator?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Building the new test set:")
+  newObservation <- c(1, 1, 50, 1, 3, 12, 0, 2, 1)
+  newTest <- rbind(test, newObservation)
+  newTest <- newTest[203, ]
+  newTest
+#+end_src
+
+#+RESULTS:
+:
+:  :: Building the new test set:
+:     male race age state time.served max.sentence multiple.offenses crime
+: 203    1    1  50     1           3           12                 0     2
+:     violator
+: 203        1
+
+#+begin_src R :session :results output :exports all
+  logit <- -4.2411574 + (0.3869904 * 1) + (0.8867192 * 1) + (-0.0001756
+          ,* 50) + (-0.1238867 * 3) + (0.0802954 * 12) + (0.6837143 * 1)
+
+  writeLines("\n :: The Odds are:")
+  exp(logit)
+#+end_src
+
+#+RESULTS:
+:
+:  :: The Odds are:
+: [1] 0.1825687
+
+**** Answer
+
+$$
+Odds = 0.1825687
+$$
+
+*** Question b
+
+According to the model, what is the probability this individual is a
+violator?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Predicting the probability of this individual is a violator:")
+  predictNewTest <- predict(ParoleLog1, type = "response", newdata = newTest)
+  predictNewTest
+#+end_src
+
+#+RESULTS:
+:
+:  :: Predicting the probability of this individual is a violator:
+:      203
+: 0.154383
+
+**** Answer
+
+$$
+P(y = 1) = 0.154383
+$$
+
+*Explanation*
+
+From the logistic regression equation, we have log(odds) =
+-4.2411574 + 0.3869904*male + 0.8867192*race - 0.0001756*age +
+0.4433007*state2 + 0.8349797*state3 - 3.3967878*state4 -
+0.1238867*time.served + 0.0802954*max.sentence +
+1.6119919*multiple.offenses + 0.6837143*crime2 - 0.2781054*crime3 -
+0.0117627*crime4. This parolee has male=1, race=1, age=50, state2=0,
+state3=0, state4=0, time.served=3, max.sentence=12,
+multiple.offenses=0, crime2=1, crime3=0, crime4=0. We conclude that
+log(odds) = -1.700629.
+
+Therefore, the odds ratio is exp(-1.700629) = 0.183, and the predicted
+probability of violation is 1/(1+exp(1.700629)) = 0.154.
+
+** Problem 5.1 - Evaluating the Model on the Testing Set (1 point possible)
+
+Use the predict() function to obtain the model's predicted
+probabilities for parolees in the testing set, remembering to pass
+type="response".
+
+What is the maximum predicted probability of a violation?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Predicting the maximum probability of a violation:")
+  predictTest <- predict(ParoleLog1, type = "response", newdata = test)
+  head(sort(predictTest, decreasing = TRUE), 1)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Predicting the maximum probability of a violation:
+:       236
+: 0.9072791
+
+*** Answer
+
+$$
+P_{max} = 0.9072791
+$$
+
+*Explanation*
+
+The following commands make the predictions and display a summary of
+the values:
+
+~predictions = predict(mod, newdata=test, type="response")~
+
+~ummary(predictions)~
+
+** Problem 5.2 - Evaluating the Model on the Testing Set (3 points possible)
+
+In the following questions, evaluate the model's predictions on the
+test set using a threshold of 0.5.
+
+#+begin_src R :session :results output :exports all
+  predictTest <- predict(ParoleLog1, type = "response", newdata = test)
+
+  writeLines("\n :: Confusion matrix for threshold of 0.5:")
+  table(test$violator, predictTest >= 0.5)
+
+  TN <- 167; FP <- 12;
+  FN <- 11;  TP <- 12;
+
+  writeLines("\n :: Overall accuracy:")
+  OverallAccuracy <- (TN + TP) / nrow(test)
+  OverallAccuracy
+
+  writeLines("\n :: Sensitivity:")
+  Sensitivity <- TP / (TP + FN)
+  Sensitivity
+
+  writeLines("\n :: Specificity:")
+  Specificity <- TN / (TN + FP)
+  Specificity
+
+  writeLines("\n :: Overall error rate:")
+  OverallErrorRate <- (FP + FN) / nrow(test)
+  OverallErrorRate
+
+  writeLines("\n :: False Negative Error Rate:")
+  FalseNegativeErrorRate <- FN / (TP + FN)
+  FalseNegativeErrorRate
+
+  writeLines("\n :: False Positive Error Rate:")
+  FalsePositiveErrorRate <- FP / ( TN + FP)
+  FalsePositiveErrorRate
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Confusion matrix for threshold of 0.5:
+
+    FALSE TRUE
+  0   167   12
+  1    11   12
+
+ :: Overall accuracy:
+[1] 0.8861386
+
+ :: Sensitivity:
+[1] 0.5217391
+
+ :: Specificity:
+[1] 0.9329609
+
+ :: Overall error rate:
+[1] 0.1138614
+
+ :: False Negative Error Rate:
+[1] 0.4782609
+
+ :: False Positive Error Rate:
+[1] 0.06703911
+#+end_example
+
+*** Question a
+
+What is the model's sensitivity?
+
+**** Answer
+
+0.5217391
+
+*** Question b
+
+What is the model's specificity?
+
+**** Answer
+
+0.9329609
+
+*** Question c
+
+What is the model's accuracy?
+
+**** Answer
+
+0.8861386
+
+*Explanation*
+
+To obtain the confusion matrix, use the following command:
+
+~table(test$violator, as.numeric(predictions >= 0.5))~
+
+There are 202 observations in the test set. The accuracy (percentage
+of values on the diagonal) is (167+12)/202 = 0.886. The sensitivity
+(proportion of the actual violators we got correct) is 12/(11+12) =
+0.522, and the specificity (proportion of the actual non-violators we
+got correct) is 167/(167+12) = 0.933.
+
+** Problem 5.3 - Evaluating the Model on the Testing Set (1 point possible)
+
+What is the accuracy of a simple model that predicts that every
+parolee is a non-violator?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Naive Baseline")
+  table(test$violator)
+
+  writeLines("\n :: The accuracy of the simple model:")
+  179 / (179 + 23)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Naive Baseline
+:
+:   0   1
+: 179  23
+:
+:  :: The accuracy of the simple model:
+: [1] 0.8861386
+
+*** Answer
+
+The accuracy of the simple model:
+0.8861386
+
+*Explanation*
+
+If you table the outcome variable using the following command:
+
+~table(test$violator)~
+
+you can see that there are 179 negative examples, which are the ones
+that the baseline model would get correct. Thus the baseline model
+would have an accuracy of 179/202 = 0.886.
+
+** Problem 5.4 - Evaluating the Model on the Testing Set (1 point possible)
+
+Consider a parole board using the model to predict whether parolees
+will be violators or not. The job of a parole board is to make sure
+that a prisoner is ready to be released into free society, and
+therefore parole boards tend to be particularily concerned with
+releasing prisoners who will violate their parole. Which of the
+following most likely describes their preferences and best course of
+action?
+
+*** Answer
+
+- [ ] The board assigns more cost to a false negative than a false
+  positive, and should therefore use a logistic regression cutoff
+  higher than 0.5.
+
+- [X] The board assigns more cost to a false negative than a false
+  positive, and should therefore use a logistic regression cutoff less
+  than 0.5.
+
+- [ ] The board assigns equal cost to a false positive and a false
+  negative, and should therefore use a logistic regression cutoff
+  equal to 0.5.
+
+- [ ] The board assigns more cost to a false positive than a false
+  negative, and should therefore use a logistic regression cutoff
+  higher than 0.5.
+
+- [ ] The board assigns more cost to a false positive than a false
+  negative, and should therefore use a logistic regression cutoff less
+  than 0.5.
+
+*Explanation*
+
+If the board used the model for parole decisions, a negative
+prediction would lead to a prisoner being granted parole, while a
+positive prediction would lead to a prisoner being denied parole. The
+parole board would experience more regret for releasing a prisoner who
+then violates parole (a negative prediction that is actually positive,
+or false negative) than it would experience for denying parole to a
+prisoner who would not have violated parole (a positive prediction
+that is actually negative, or false positive).
+
+Decreasing the cutoff leads to more positive predictions, which
+increases false positives and decreases false negatives. Meanwhile,
+increasing the cutoff leads to more negative predictions, which
+increases false negatives and decreases false positives. The parole
+board assigns high cost to false negatives, and therefore should
+decrease the cutoff.
+
+** Problem 5.5 - Evaluating the Model on the Testing Set (1 point possible)
+
+Which of the following is the most accurate assessment of the value of
+the logistic regression model with a cutoff 0.5 to a parole board,
+based on the model's accuracy as compared to the simple baseline
+model?
+
+*** Answer
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Confusion matrix for threshold of 0.2:")
+  table(test$violator, predictTest >= 0.2)
+
+  TN <- 154; FP <- 25;
+  FN <- 6;  TP <- 17;
+
+  writeLines("\n :: Overall accuracy:")
+  OverallAccuracy <- (TN + TP) / nrow(test)
+  OverallAccuracy
+
+  writeLines("\n :: Sensitivity:")
+  Sensitivity <- TP / (TP + FN)
+  Sensitivity
+
+  writeLines("\n :: Specificity:")
+  Specificity <- TN / (TN + FP)
+  Specificity
+
+  writeLines("\n :: Overall error rate:")
+  OverallErrorRate <- (FP + FN) / nrow(test)
+  OverallErrorRate
+
+  writeLines("\n :: False Negative Error Rate:")
+  FalseNegativeErrorRate <- FN / (TP + FN)
+  FalseNegativeErrorRate
+
+  writeLines("\n :: False Positive Error Rate:")
+  FalsePositiveErrorRate <- FP / ( TN + FP)
+  FalsePositiveErrorRate
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Confusion matrix for threshold of 0.2:
+
+    FALSE TRUE
+  0   154   25
+  1     6   17
+
+ :: Overall accuracy:
+[1] 0.8465347
+
+ :: Sensitivity:
+[1] 0.7391304
+
+ :: Specificity:
+[1] 0.8603352
+
+ :: Overall error rate:
+[1] 0.1534653
+
+ :: False Negative Error Rate:
+[1] 0.2608696
+
+ :: False Positive Error Rate:
+[1] 0.1396648
+#+end_example
+
+- [ ] The model is of limited value to the board because it cannot
+  outperform a simple baseline, and using a different logistic
+  regression cutoff is unlikely to improve the model's value.
+
+- [ ] The model is of limited value to the board because it cannot
+  outperform a simple baseline, and using a different logistic
+  regression cutoff is likely to improve the model's value.
+
+- [ ] The model is likely of value to the board, and using a different
+  logistic regression cutoff is unlikely to improve the model's value.
+
+- [X] The model is likely of value to the board, and using a different
+  logistic regression cutoff is likely to improve the model's value.
+
+*Explanation*
+
+The model at cutoff 0.5 has 12 false positives and 11 false negatives,
+while the baseline model has 0 false positives and 23 false
+negatives. Because a parole board is likely to assign more cost to a
+false negative, the model at cutoff 0.5 is likely of value to the
+board.
+
+From the previous question, the parole board would likely benefit from
+decreasing the logistic regression cutoffs, which decreases the false
+negative rate while increasing the false positive rate.
+
+** Problem 5.6 - Evaluating the Model on the Testing Set (2 points possible)
+
+Using the ROCR package, what is the AUC value for the model?
+
+*** Answer
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Install package only once")
+  ## install.packages('ROCR', repos='http://cran.rstudio.com/')
+  library(ROCR)
+
+  writeLines("\n :: Prediction function")
+  ROCRpred = prediction(predictTest, test$violator)
+
+  writeLines("\n :: The AUC for the prediction function:")
+  as.numeric(performance(ROCRpred, "auc")@y.values)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Install package only once
+:
+:  :: Prediction function
+:
+:  :: The AUC for the prediction function:
+: [1] 0.8945834
+
+*Explanation*
+
+This can be obtained with the following code:
+
+~library(ROCR)~
+
+~pred = prediction(predictions, test$violator)~
+
+~as.numeric(performance(pred, "auc")@y.values)~
+
+** Problem 5.7 - Evaluating the Model on the Testing Set (1 point possible)
+
+Describe the meaning of AUC in this context.
+
+*** Answer
+
+- [X] The probability the model can correctly differentiate between a
+  randomly selected parole violator and a randomly selected parole
+  non-violator.
+
+- [ ] The model's accuracy at logistic regression cutoff 0.5.
+
+- [ ] The model's accuracy at the logistic regression cutoff at which
+  it is most accurate.
+
+*Explanation*
+
+The AUC deals with differentiating between a randomly selected
+positive and negative example. It is independent of the regression
+cutoff selected.
+
+** Problem 6.1 - Identifying Bias in Observational Data (1 point possible)
+
+Our goal has been to predict the outcome of a parole decision, and we
+used a publicly available dataset of parole releases for
+predictions. In this final problem, we'll evaluate a potential source
+of bias associated with our analysis. It is always important to
+evaluate a dataset for possible sources of bias.
+
+The dataset contains all individuals released from parole in 2004,
+either due to completing their parole term or violating the terms of
+their parole. However, it does not contain parolees who *neither
+violated their parole nor completed their term in 2004*, causing
+non-violators to be underrepresented. This is called *selection bias*
+or *selecting on the dependent variable*, because only a subset of all
+relevant parolees were included in our analysis, based on our
+dependent variable in this analysis (parole violation). How could we
+improve our dataset to best address selection bias?
+
+*** Answer
+
+- [ ] There is no way to address this form of biasing.
+
+- [ ] We should use the current dataset, expanded to include the
+  missing parolees. Each added parolee should be labeled with
+  violator=0, because they have not yet had a violation.
+
+- [ ] We should use the current dataset, expanded to include the
+  missing parolees. Each added parolee should be labeled with
+  violator=NA, because the true outcome has not been observed for
+  these individuals.
+
+- [X] We should use a dataset tracking a group of parolees from the
+  start of their parole until either they violated parole or they
+  completed their term.
+
+*Explanation*
+
+While expanding the dataset to include the missing parolees and
+labeling each as violator=0 would improve the representation of
+non-violators, it does not capture the true outcome, since the parolee
+might become a violator after 2004. Though labeling these new examples
+with violator=NA correctly identifies that we don't know their true
+outcome, we cannot train or test a prediction model with a missing
+dependent variable.
+
+As a result, a prospective dataset that tracks a cohort of parolees
+and observes the true outcome of each is more
+desirable. Unfortunately, such datasets are often more challenging to
+obtain (for instance, if a parolee had a 10-year term, it might
+require tracking that individual for 10 years before building the
+model). Such a prospective analysis would not be possible using the
+2004 National Corrections Reporting Program dataset.
+
+* Predicting loan repayment
+
+In the lending industry, investors provide loans to borrowers in
+exchange for the promise of repayment with interest. If the borrower
+repays the loan, then the lender profits from the interest. However,
+if the borrower is unable to repay the loan, then the lender loses
+money. Therefore, lenders face the problem of predicting the risk of a
+borrower being unable to repay a loan.
+
+To address this problem, we will use publicly available data from
+[[https://www.lendingclub.com/info/download-data.action][LendingClub.com]], a website that connects borrowers and investors over
+the Internet. This dataset represents 9,578 3-year loans that were
+funded through the LendingClub.com platform between May 2007 and
+February 2010. The binary dependent variable *not_fully_paid* indicates
+that the loan was not paid back in full (the borrower either defaulted
+or the loan was *charged off*, meaning the borrower was deemed
+unlikely to ever pay it back).
+
+To predict this dependent variable, we will use the following
+independent variables available to the investor when deciding whether
+to fund a loan:
+
+- *credit.policy*: 1 if the customer meets the credit underwriting
+  criteria of LendingClub.com, and 0 otherwise.
+
+- *purpose*: The purpose of the loan (takes values "credit_card",
+  "debt_consolidation", "educational", "major_purchase",
+  "small_business", and "all_other").
+
+- *int.rate*: The interest rate of the loan, as a proportion (a rate
+  of 11% would be stored as 0.11). Borrowers judged by LendingClub.com
+  to be more risky are assigned higher interest rates.
+
+- *installment*: The monthly installments ($) owed by the borrower if
+  the loan is funded.
+
+- *log.annual.inc*: The natural log of the self-reported annual income
+  of the borrower.
+
+- *dti*: The debt-to-income ratio of the borrower (amount of debt
+  divided by annual income).
+
+- *fico*: The FICO credit score of the borrower.
+
+- *days.with.cr.line*: The number of days the borrower has had a
+  credit line.
+
+- *revol.bal*: The borrower's revolving balance (amount unpaid at the
+  end of the credit card billing cycle).
+
+- *revol.util*: The borrower's revolving line utilization rate (the
+  amount of the credit line used relative to total credit available).
+
+- *inq.last.6mths*: The borrower's number of inquiries by creditors in
+  the last 6 months.
+
+- *delinq.2yrs*: The number of times the borrower had been 30+ days
+  past due on a payment in the past 2 years.
+
+- *pub.rec*: The borrower's number of derogatory public records
+  (bankruptcy filings, tax liens, or judgments).
+
+** Problem 1.1 - Preparing the Dataset (1 point possible)
+
+Load the dataset loans.csv into a data frame called loans, and explore
+it using the ~str()~ and ~summary()~ functions.
+
+*** Download the data sets
+
+In this part we can download the data
+
+#+BEGIN_SRC R :session :results output :exports all
+  library(parallel)
+
+  if(!file.exists("../data")) {
+          dir.create("../data")
+  }
+
+  fileUrl <- "https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/loans.csv"
+
+  fileName <- "loans.csv"
+
+  dataPath <- "../data"
+
+  filePath <- paste(dataPath, fileName, sep = "/")
+
+  if(!file.exists(filePath)) {
+          download.file(fileUrl, destfile = filePath, method = "curl")
+  }
+
+  list.files("../data")
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+ [1] "AnonymityPoll.csv"       "BoeingStock.csv"
+ [3] "CPSData.csv"             "CocaColaStock.csv"
+ [5] "CountryCodes.csv"        "FluTest.csv"
+ [7] "FluTrain.csv"            "GEStock.csv"
+ [9] "IBMStock.csv"            "MetroAreaCodes.csv"
+[11] "NBA_test.csv"            "NBA_train.csv"
+[13] "PollingData.csv"         "PollingData_Imputed.csv"
+[15] "ProcterGambleStock.csv"  "README.md"
+[17] "USDA.csv"                "WHO.csv"
+[19] "WHO_Europe.csv"          "baseball.csv"
+[21] "climate_change.csv"      "framingham.csv"
+[23] "loans.csv"               "mvtWeek1.csv"
+[25] "parole.csv"              "pisa2009test.csv"
+[27] "pisa2009train.csv"       "quality.csv"
+[29] "songs.csv"               "wine.csv"
+[31] "wine_test.csv"
+#+end_example
+
+*** Load the data set
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: Loading data into their data frame.")
+  loans <- read.csv("../data/loans.csv")
+  str(loans)
+  summary(loans)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+
+ :: Loading data into their data frame.
+'data.frame':	9578 obs. of  14 variables:
+ $ credit.policy    : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ purpose          : Factor w/ 7 levels "all_other","credit_card",..: 3 2 3 3 2 2 3 1 5 3 ...
+ $ int.rate         : num  0.119 0.107 0.136 0.101 0.143 ...
+ $ installment      : num  829 228 367 162 103 ...
+ $ log.annual.inc   : num  11.4 11.1 10.4 11.4 11.3 ...
+ $ dti              : num  19.5 14.3 11.6 8.1 15 ...
+ $ fico             : int  737 707 682 712 667 727 667 722 682 707 ...
+ $ days.with.cr.line: num  5640 2760 4710 2700 4066 ...
+ $ revol.bal        : int  28854 33623 3511 33667 4740 50807 3839 24220 69909 5630 ...
+ $ revol.util       : num  52.1 76.7 25.6 73.2 39.5 51 76.8 68.6 51.1 23 ...
+ $ inq.last.6mths   : int  0 0 1 1 0 0 0 0 1 1 ...
+ $ delinq.2yrs      : int  0 0 0 0 1 0 0 0 0 0 ...
+ $ pub.rec          : int  0 0 0 0 0 0 1 0 0 0 ...
+ $ not.fully.paid   : int  0 0 0 0 0 0 1 1 0 0 ...
+ credit.policy                 purpose        int.rate       installment
+ Min.   :0.000   all_other         :2331   Min.   :0.0600   Min.   : 15.67
+ 1st Qu.:1.000   credit_card       :1262   1st Qu.:0.1039   1st Qu.:163.77
+ Median :1.000   debt_consolidation:3957   Median :0.1221   Median :268.95
+ Mean   :0.805   educational       : 343   Mean   :0.1226   Mean   :319.09
+ 3rd Qu.:1.000   home_improvement  : 629   3rd Qu.:0.1407   3rd Qu.:432.76
+ Max.   :1.000   major_purchase    : 437   Max.   :0.2164   Max.   :940.14
+                 small_business    : 619
+ log.annual.inc        dti              fico       days.with.cr.line
+ Min.   : 7.548   Min.   : 0.000   Min.   :612.0   Min.   :  179
+ 1st Qu.:10.558   1st Qu.: 7.213   1st Qu.:682.0   1st Qu.: 2820
+ Median :10.928   Median :12.665   Median :707.0   Median : 4140
+ Mean   :10.932   Mean   :12.607   Mean   :710.8   Mean   : 4562
+ 3rd Qu.:11.290   3rd Qu.:17.950   3rd Qu.:737.0   3rd Qu.: 5730
+ Max.   :14.528   Max.   :29.960   Max.   :827.0   Max.   :17640
+ NA's   :4                                         NA's   :29
+   revol.bal         revol.util     inq.last.6mths    delinq.2yrs
+ Min.   :      0   Min.   :  0.00   Min.   : 0.000   Min.   : 0.0000
+ 1st Qu.:   3187   1st Qu.: 22.70   1st Qu.: 0.000   1st Qu.: 0.0000
+ Median :   8596   Median : 46.40   Median : 1.000   Median : 0.0000
+ Mean   :  16914   Mean   : 46.87   Mean   : 1.572   Mean   : 0.1638
+ 3rd Qu.:  18250   3rd Qu.: 71.00   3rd Qu.: 2.000   3rd Qu.: 0.0000
+ Max.   :1207359   Max.   :119.00   Max.   :33.000   Max.   :13.0000
+                   NA's   :62       NA's   :29       NA's   :29
+    pub.rec       not.fully.paid
+ Min.   :0.0000   Min.   :0.0000
+ 1st Qu.:0.0000   1st Qu.:0.0000
+ Median :0.0000   Median :0.0000
+ Mean   :0.0621   Mean   :0.1601
+ 3rd Qu.:0.0000   3rd Qu.:0.0000
+ Max.   :5.0000   Max.   :1.0000
+ NA's   :29
+#+end_example
+
+How many parolees are contained in the dataset?
+
+
+*** Question
+
+What proportion of the loans in the dataset were not paid in full?
+Please input a number between 0 and 1.
+
+**** Answer
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Proportion of not fully paid loans:")
+  nrow(subset(loans, loans$not.fully.paid == 1)) / nrow(loans)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Proportion of not fully paid loans:
+: [1] 0.1600543
+
+*Explanation*
+
+From table(loans$not.fully.paid), we see that 1533 loans were not
+paid, and 8045 were fully paid. Therefore, the proportion of loans not
+paid is 1533/(1533+8045)=0.1601.
+
+** Problem 1.2 - Preparing the Dataset (1 point possible)
+
+Which of the following variables has at least one missing observation?
+Select all that apply.
+
+*** Answer
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Variables with NA instances:")
+  summary(loans)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Variables with NA instances:
+ credit.policy                 purpose        int.rate       installment
+ Min.   :0.000   all_other         :2331   Min.   :0.0600   Min.   : 15.67
+ 1st Qu.:1.000   credit_card       :1262   1st Qu.:0.1039   1st Qu.:163.77
+ Median :1.000   debt_consolidation:3957   Median :0.1221   Median :268.95
+ Mean   :0.805   educational       : 343   Mean   :0.1226   Mean   :319.09
+ 3rd Qu.:1.000   home_improvement  : 629   3rd Qu.:0.1407   3rd Qu.:432.76
+ Max.   :1.000   major_purchase    : 437   Max.   :0.2164   Max.   :940.14
+                 small_business    : 619
+ log.annual.inc        dti              fico       days.with.cr.line
+ Min.   : 7.548   Min.   : 0.000   Min.   :612.0   Min.   :  179
+ 1st Qu.:10.558   1st Qu.: 7.213   1st Qu.:682.0   1st Qu.: 2820
+ Median :10.928   Median :12.665   Median :707.0   Median : 4140
+ Mean   :10.932   Mean   :12.607   Mean   :710.8   Mean   : 4562
+ 3rd Qu.:11.290   3rd Qu.:17.950   3rd Qu.:737.0   3rd Qu.: 5730
+ Max.   :14.528   Max.   :29.960   Max.   :827.0   Max.   :17640
+ NA's   :4                                         NA's   :29
+   revol.bal         revol.util     inq.last.6mths    delinq.2yrs
+ Min.   :      0   Min.   :  0.00   Min.   : 0.000   Min.   : 0.0000
+ 1st Qu.:   3187   1st Qu.: 22.70   1st Qu.: 0.000   1st Qu.: 0.0000
+ Median :   8596   Median : 46.40   Median : 1.000   Median : 0.0000
+ Mean   :  16914   Mean   : 46.87   Mean   : 1.572   Mean   : 0.1638
+ 3rd Qu.:  18250   3rd Qu.: 71.00   3rd Qu.: 2.000   3rd Qu.: 0.0000
+ Max.   :1207359   Max.   :119.00   Max.   :33.000   Max.   :13.0000
+                   NA's   :62       NA's   :29       NA's   :29
+    pub.rec       not.fully.paid
+ Min.   :0.0000   Min.   :0.0000
+ 1st Qu.:0.0000   1st Qu.:0.0000
+ Median :0.0000   Median :0.0000
+ Mean   :0.0621   Mean   :0.1601
+ 3rd Qu.:0.0000   3rd Qu.:0.0000
+ Max.   :5.0000   Max.   :1.0000
+ NA's   :29
+#+end_example
+
+- [ ] credit.policy
+- [ ] purpose
+- [ ] int.rate
+- [ ] installment
+- [X] log.annual.inc
+- [ ] dti
+- [ ] fico
+- [X] days.with.cr.line
+- [ ] revol.bal
+- [X] revol.util
+- [X] inq.last.6mths
+- [X] delinq.2yrs
+- [X] pub.rec
+- [ ] not.fully.paid
+
+*Explanation*
+
+From summary(loans), we can read that log.annual.inc,
+days.with.cr.line, revol.util, inq.last.6mths, delinq.2yrs and pub.rec
+are missing values.
+
+** Problem 1.3 - Preparing the Dataset (1 point possible)
+
+Which of the following is the best reason to fill in the missing
+values for these variables instead of removing observations with
+missing data? (Hint: you can use the subset() function to build a data
+frame with the observations missing at least one value. To test if a
+variable, for example pub.rec, is missing a value, use
+is.na(pub.rec).)
+
+*** Answer
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Number of loans:")
+  nrow(loans)
+
+  writeLines("\n :: Number of observations with complete information:")
+  nrow(loans[complete.cases(loans), ])
+
+  writeLines("\n :: Non complete cases:")
+  nrow(loans[!complete.cases(loans), ])
+
+  table(loans[!complete.cases(loans), ]$not.fully.paid)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Number of loans:
+[1] 9578
+
+ :: Number of observations with complete information:
+[1] 9516
+
+ :: Non complete cases:
+[1] 62
+
+ 0  1
+50 12
+#+end_example
+
+- [ ] If we remove the missing observations there will be too little
+  remaining data, leading to overfitting in our models.
+
+- [X] We want to be able to predict risk for all borrowers, instead of
+  just the ones with all data reported.
+
+- [ ] In this dataset the observations with missing data have a much
+  different rate of not paying in full, so removing them would bias
+  subsequent models.
+
+*Explanation*
+
+Answering this question requires analyzing the loans with missing
+data. We can build a data frame limited to observations with some
+missing data with the following command:
+
+~missing = subset(loans, is.na(log.annual.inc) |~
+
+~is.na(days.with.cr.line) | is.na(revol.util) | is.na(inq.last.6mths) |~
+
+~is.na(delinq.2yrs) | is.na(pub.rec))~
+
+From ~nrow(missing)~, we see that only $62$ of $9578$ loans have missing
+data; removing this small number of observations would not lead to
+overfitting. From ~table(missing$not.fully.paid)~, we see that $12$ of
+$62$ loans with missing data were not fully paid, or $19.35\%$. This rate
+is similar to the $16.01\%$ across all loans, so the form of biasing
+described is not an issue. However, to predict risk for loans with
+missing data we need to fill in the missing values instead of removing
+the observations.
+
+** Problem 1.4 - Preparing the Dataset (1 point possible)
+
+For the rest of this problem, we'll be using a revised version of the
+dataset that has the missing values filled in with multiple imputation
+(which was discussed in the Recitation of this Unit). To ensure
+everybody has the same data frame going forward, you can either run
+the commands below in your R console (if you haven't already, run the
+command install.packages("mice") first), or you can download and load
+into R the dataset we created after running the imputation:
+[[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/loans_imputed.csv][loans_imputed.csv]].
+
+IMPORTANT NOTE: On certain operating systems, the imputation results
+are not the same even if you set the random seed. If you decide to do
+the imputation yourself, please still read the provided imputed
+dataset (loans_imputed.csv) into R and compare your results, using the
+summary function. If the results are different, please make sure to
+use the data in loans_imputed.csv for the rest of the problem.
+
+~library(mice)~
+
+~set.seed(144)~
+
+~vars.for.imputation = setdiff(names(loans), "not.fully.paid")~
+
+~imputed = complete(mice(loans[vars.for.imputation]))~
+
+~loans[vars.for.imputation] = imputed~
+
+Note that to do this imputation, we set *vars.for.imputation* to all
+variables in the data frame except for *not.fully.paid*, to impute the
+values using all of the other independent variables.
+
+*** Download the data sets
+
+In this part we can download the data
+
+#+BEGIN_SRC R :session :results output :exports all
+  library(parallel)
+
+  if(!file.exists("../data")) {
+          dir.create("../data")
+  }
+
+  fileUrl <- "https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/loans_imputed.csv"
+
+  fileName <- "loans_imputed.csv"
+
+  dataPath <- "../data"
+
+  filePath <- paste(dataPath, fileName, sep = "/")
+
+  if(!file.exists(filePath)) {
+          download.file(fileUrl, destfile = filePath, method = "curl")
+  }
+
+  list.files("../data")
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+ [1] "AnonymityPoll.csv"       "BoeingStock.csv"
+ [3] "CPSData.csv"             "CocaColaStock.csv"
+ [5] "CountryCodes.csv"        "FluTest.csv"
+ [7] "FluTrain.csv"            "GEStock.csv"
+ [9] "IBMStock.csv"            "MetroAreaCodes.csv"
+[11] "NBA_test.csv"            "NBA_train.csv"
+[13] "PollingData.csv"         "PollingData_Imputed.csv"
+[15] "ProcterGambleStock.csv"  "README.md"
+[17] "USDA.csv"                "WHO.csv"
+[19] "WHO_Europe.csv"          "baseball.csv"
+[21] "climate_change.csv"      "framingham.csv"
+[23] "loans.csv"               "loans_imputed.csv"
+[25] "mvtWeek1.csv"            "parole.csv"
+[27] "pisa2009test.csv"        "pisa2009train.csv"
+[29] "quality.csv"             "songs.csv"
+[31] "wine.csv"                "wine_test.csv"
+#+end_example
+
+*** Load the data set
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: Loading imputed data into their data frame.")
+  loans <- read.csv("../data/loans_imputed.csv")
+
+  writeLines("\n :: Verifying non NA existance:")
+  anyNA(loans)
+#+END_SRC
+
+#+RESULTS:
+:
+:  :: Loading imputed data into their data frame.
+:
+:  :: Verifying non NA existance:
+: [1] FALSE
+
+*** Question
+
+What best describes the process we just used to handle missing values?
+
+**** Answer
+
+- [ ] We removed all observations with a missing value.
+
+- [ ] We filled each missing value with the average of all other
+  values for that variable.
+
+- [X] We predicted missing variable values using the available
+  independent variables for each observation.
+
+- [ ] We predicted missing variable values using the available
+  independent and dependent variables for each observation.
+
+*Explanation*
+
+Imputation predicts missing variable values for a given observation
+using the variable values that are reported. We called the imputation
+on a data frame with the dependent variable not.fully.paid removed, so
+we predicted the missing values using only other independent
+variables.
+
+** Problem 2.1 - Prediction Models (1 point possible)
+
+Now that we have prepared the dataset, we need to split it into a
+training and testing set. To ensure everybody obtains the same split,
+set the random seed to 144 (even though you already did so earlier in
+the problem) and use the sample.split function to select the 70% of
+observations for the training set (the dependent variable for
+sample.split is not.fully.paid). Name the data frames train and test.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Split the loans dataset in training and testing datasets:")
+  set.seed(144)
+  library(caTools)
+  split <- sample.split(loans$not.fully.paid, SplitRatio = 0.7)
+  loansTrain <- subset(loans, split == TRUE)
+  loansTest <- subset(loans, split == FALSE)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Split the loans dataset in training and testing datasets:
+
+Now, use logistic regression trained on the training set to predict
+the dependent variable not.fully.paid using all the independent
+variables.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Building the logistic regression model 1")
+  LoansLog1 = glm(not.fully.paid ~ ., data = loansTrain, family = binomial)
+  summary(LoansLog1)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Building the logistic regression model 1
+
+Call:
+glm(formula = not.fully.paid ~ ., family = binomial, data = loansTrain)
+
+Deviance Residuals:
+    Min       1Q   Median       3Q      Max
+-2.2049  -0.6205  -0.4951  -0.3606   2.6397
+
+Coefficients:
+                            Estimate Std. Error z value Pr(>|z|)
+(Intercept)                9.187e+00  1.554e+00   5.910 3.42e-09 ***
+credit.policy             -3.368e-01  1.011e-01  -3.332 0.000861 ***
+purposecredit_card        -6.141e-01  1.344e-01  -4.568 4.93e-06 ***
+purposedebt_consolidation -3.212e-01  9.183e-02  -3.498 0.000469 ***
+purposeeducational         1.347e-01  1.753e-01   0.768 0.442201
+purposehome_improvement    1.727e-01  1.480e-01   1.167 0.243135
+purposemajor_purchase     -4.830e-01  2.009e-01  -2.404 0.016203 *
+purposesmall_business      4.120e-01  1.419e-01   2.905 0.003678 **
+int.rate                   6.110e-01  2.085e+00   0.293 0.769446
+installment                1.275e-03  2.092e-04   6.093 1.11e-09 ***
+log.annual.inc            -4.337e-01  7.148e-02  -6.067 1.30e-09 ***
+dti                        4.638e-03  5.502e-03   0.843 0.399288
+fico                      -9.317e-03  1.710e-03  -5.448 5.08e-08 ***
+days.with.cr.line          2.371e-06  1.588e-05   0.149 0.881343
+revol.bal                  3.085e-06  1.168e-06   2.641 0.008273 **
+revol.util                 1.839e-03  1.535e-03   1.199 0.230722
+inq.last.6mths             8.437e-02  1.600e-02   5.275 1.33e-07 ***
+delinq.2yrs               -8.320e-02  6.561e-02  -1.268 0.204762
+pub.rec                    3.300e-01  1.139e-01   2.898 0.003756 **
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 5896.6  on 6704  degrees of freedom
+Residual deviance: 5485.2  on 6686  degrees of freedom
+AIC: 5523.2
+
+Number of Fisher Scoring iterations: 5
+#+end_example
+
+Which independent variables are significant in our model? (Significant
+variables have at least one star, or a Pr(>|z|) value less than 0.05.)
+Select all that apply.
+
+- [X] credit.policy
+- [X] purpose2 (credit card)
+- [X] purpose3 (debt consolidation)
+- [ ] purpose4 (educational)
+- [ ] purpose5 (home improvement)
+- [X] purpose6 (major purchase)
+- [X] purpose7 (small business)
+- [ ] int.rate
+- [X] installment
+- [X] log.annual.inc
+- [ ] dti
+- [X] fico
+- [ ] days.with.cr.line
+- [X] revol.bal
+- [ ] revol.util
+- [X] inq.last.6mths
+- [ ] delinq.2yrs
+- [X] pub.rec
+
+*Explanation*
+
+The following steps are needed to split the data:
+
+~library(caTools)~
+
+~set.seed(144)~
+
+~spl = sample.split(loans$not.fully.paid, 0.7)~
+
+~train = subset(loans, spl == TRUE)~
+
+~test = subset(loans, spl == FALSE)~
+
+The model can be trained and summarized with the following commands:
+
+~mod = glm(not.fully.paid ~ ., data = train, family = "binomial")~
+
+~summary(mod)~
+
+Variables that are significant have at least one star in the
+coefficients table of the summary output. Note that some have a
+positive coefficient (meaning that higher values of the variable lead
+to an increased risk of defaulting) and some have a negative
+coefficient (meaning that higher values of the variable lead to a
+decreased risk of defaulting).
+
+** Problem 2.2 - Prediction Models (4 points possible)
+
+Consider two loan applications, which are identical other than the
+fact that the borrower in Application A has FICO credit score 700
+while the borrower in Application B has FICO credit score 710.
+
+*** Question a
+
+Let Logit(A) be the log odds of loan A not being paid back in full,
+according to our logistic regression model, and define Logit(B)
+similarly for loan B. What is the value of Logit(A) - Logit(B)?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: The value of Logit(A) - Logit(B)")
+  LogitAMinusLogitB <- -9.317e-03 * (700 - 710)
+  LogitAMinusLogitB
+#+end_src
+
+#+RESULTS:
+:
+:  :: The value of Logit(A) - Logit(B)
+: [1] 0.09317
+
+**** Answer
+
+$$ç
+Logit(A) - Logit(B) = 0.09317
+$$
+
+*Explanation*
+
+Because Application A is identical to Application B other than having
+a FICO score 10 lower, its predicted log odds differ by -0.009317 *
+-10 = 0.09317 from the predicted log odds of Application B.
+
+
+*** Question b
+
+Now, let O(A) be the odds of loan A not being paid back in full,
+according to our logistic regression model, and define O(B) similarly
+for loan B. What is the value of O(A)/O(B)? (HINT: Use the
+mathematical rule that exp(A + B + C) = exp(A)*exp(B)*exp(C). Also,
+remember that exp() is the exponential function in R.)
+
+**** Answer
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: The value of O(A) / O(B):")
+  exp(LogitAMinusLogitB)
+#+end_src
+
+#+RESULTS:
+:
+:  :: The value of O(A) / O(B):
+: [1] 1.097648
+
+$$
+\frac{O(A)}{O(B)} = 1.097648
+$$
+
+*Explanation*
+
+Using the answer from the previous question, the predicted odds of
+loan A not being paid back in full are exp(0.09317) = 1.0976 times
+larger than the predicted odds for loan B. Intuitively, it makes sense
+that loan A should have higher odds of non-payment than loan B, since
+the borrower has a worse credit score.
+
+** Problem 2.3 - Prediction Models (4 points possible)
+
+Predict the probability of the test set loans not being paid back in
+full (remember type="response" for the predict function). Store these
+predicted probabilities in a variable named *predicted.risk* and add it
+to your test set (we will use this variable in later parts of the
+problem). Compute the confusion matrix using a threshold of 0.5.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Predicting the probability of the testing set loans not being paid:")
+  predicted.risk <- predict(LoansLog1, type = "response", newdata = loansTest)
+  loansTest$predicted.risk <- predicted.risk
+
+  writeLines("\n :: Calculate the confusion matrix:")
+  table(loansTest$not.fully.paid, loansTest$predicted.risk >= 0.5)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Predicting the probability of the testing set loans not being paid:
+:
+:  :: Calculate the confusion matrix:
+:
+:     FALSE TRUE
+:   0  2400   13
+:   1   457    3
+
+*** Question a
+
+What is the accuracy of the logistic regression model? Input the
+accuracy as a number between 0 and 1.
+
+#+begin_src R :session :results output :exports all
+  TN <- 2400; FP <- 13;
+  FN <- 457; TP <- 3;
+
+  writeLines("\n :: Overall accuracy:")
+  OverallAccuracy <- (TN + TP) / nrow(loansTest)
+  OverallAccuracy
+#+end_src
+
+#+RESULTS:
+:
+:  :: Overall accuracy:
+: [1] 0.8364079
+
+*** Question b
+
+What is the accuracy of the baseline model? Input the accuracy as a
+number between 0 and 1.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Naive Baseline")
+  table(loansTest$not.fully.paid)
+
+  writeLines("\n :: The accuracy of the simple model:")
+  2413 / (2413 + 460)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Naive Baseline
+:
+:    0    1
+: 2413  460
+:
+:  :: The accuracy of the simple model:
+: [1] 0.8398886
+
+*Explanation*
+
+The confusion matrix can be computed with the following commands:
+
+~test$predicted.risk = predict(mod, newdata=test, type="response")~
+
+~table(test$not.fully.paid, test$predicted.risk > 0.5)~
+
+2403 predictions are correct (accuracy 2403/2873=0.8364), while 2413
+predictions would be correct in the baseline model of guessing every
+loan would be paid back in full (accuracy 2413/2873=0.8399).
+
+** Problem 2.4 - Prediction Models (2 points possible)
+
+*** Question
+
+Use the ROCR package to compute the test set AUC.
+
+**** Answer
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Install package only once:")
+  ## install.packages('ROCR', repos='http://cran.rstudio.com/')
+  library(ROCR)
+
+  writeLines("\n :: Prediction function:")
+  ROCRpred = prediction(predicted.risk, loansTest$not.fully.paid)
+
+  writeLines("\n :: The AUC for the prediction function:")
+  as.numeric(performance(ROCRpred, "auc")@y.values)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Install package only once:
+:
+:  :: Prediction function:
+:
+:  :: The AUC for the prediction function:
+: [1] 0.6720995
+
+$$
+AUC =  0.6720995
+$$
+
+*Explanation*
+
+The test set AUC can be computed with the following commands:
+
+~library(ROCR)~
+
+~pred = prediction(test$predicted.risk, test$not.fully.paid)~
+
+~as.numeric(performance(pred, "auc")@y.values)~
+
+The model has poor accuracy at the threshold 0.5. But despite the poor
+accuracy, we will see later how an investor can still leverage this
+logistic regression model to make profitable investments.
+
+** Problem 3.1 - A "Smart Baseline" (1 point possible)
+
+In the previous problem, we built a logistic regression model that has
+an AUC significantly higher than the AUC of 0.5 that would be obtained
+by randomly ordering observations.
+
+However, LendingClub.com assigns the interest rate to a loan based on
+their estimate of that loan's risk. This variable, *int.rate*, is an
+independent variable in our dataset. In this part, we will investigate
+using the loan's interest rate as a *smart baseline* to order the
+loans according to risk.
+
+Using the training set, build a bivariate logistic regression model
+(aka a logistic regression model with a single independent variable)
+that predicts the dependent variable *not.fully.paid* using only the
+variable *int.rate*.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Building the logistic regression model 2")
+  LoansLog2 <- glm(not.fully.paid ~ int.rate, data = loansTrain, family = binomial)
+  summary(LoansLog2)
+
+  writeLines("\n :: Remembering the Model 1: Loanslog1:")
+  summary(LoansLog1)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Building the logistic regression model 2
+
+Call:
+glm(formula = not.fully.paid ~ int.rate, family = binomial, data = loansTrain)
+
+Deviance Residuals:
+    Min       1Q   Median       3Q      Max
+-1.0547  -0.6271  -0.5442  -0.4361   2.2914
+
+Coefficients:
+            Estimate Std. Error z value Pr(>|z|)
+(Intercept)  -3.6726     0.1688  -21.76   <2e-16 ***
+int.rate     15.9214     1.2702   12.54   <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 5896.6  on 6704  degrees of freedom
+Residual deviance: 5734.8  on 6703  degrees of freedom
+AIC: 5738.8
+
+Number of Fisher Scoring iterations: 4
+
+ :: Remembering the Model 1: Loanslog1:
+
+Call:
+glm(formula = not.fully.paid ~ ., family = binomial, data = loansTrain)
+
+Deviance Residuals:
+    Min       1Q   Median       3Q      Max
+-2.2049  -0.6205  -0.4951  -0.3606   2.6397
+
+Coefficients:
+                            Estimate Std. Error z value Pr(>|z|)
+(Intercept)                9.187e+00  1.554e+00   5.910 3.42e-09 ***
+credit.policy             -3.368e-01  1.011e-01  -3.332 0.000861 ***
+purposecredit_card        -6.141e-01  1.344e-01  -4.568 4.93e-06 ***
+purposedebt_consolidation -3.212e-01  9.183e-02  -3.498 0.000469 ***
+purposeeducational         1.347e-01  1.753e-01   0.768 0.442201
+purposehome_improvement    1.727e-01  1.480e-01   1.167 0.243135
+purposemajor_purchase     -4.830e-01  2.009e-01  -2.404 0.016203 *
+purposesmall_business      4.120e-01  1.419e-01   2.905 0.003678 **
+int.rate                   6.110e-01  2.085e+00   0.293 0.769446
+installment                1.275e-03  2.092e-04   6.093 1.11e-09 ***
+log.annual.inc            -4.337e-01  7.148e-02  -6.067 1.30e-09 ***
+dti                        4.638e-03  5.502e-03   0.843 0.399288
+fico                      -9.317e-03  1.710e-03  -5.448 5.08e-08 ***
+days.with.cr.line          2.371e-06  1.588e-05   0.149 0.881343
+revol.bal                  3.085e-06  1.168e-06   2.641 0.008273 **
+revol.util                 1.839e-03  1.535e-03   1.199 0.230722
+inq.last.6mths             8.437e-02  1.600e-02   5.275 1.33e-07 ***
+delinq.2yrs               -8.320e-02  6.561e-02  -1.268 0.204762
+pub.rec                    3.300e-01  1.139e-01   2.898 0.003756 **
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 5896.6  on 6704  degrees of freedom
+Residual deviance: 5485.2  on 6686  degrees of freedom
+AIC: 5523.2
+
+Number of Fisher Scoring iterations: 5
+#+end_example
+
+The variable int.rate is highly significant in the bivariate model,
+but it is not significant at the 0.05 level in the model trained with
+all the independent variables. What is the most likely explanation for
+this difference?
+
+*** Answer
+
+- [X] *int.rate* is correlated with other risk-related variables, and
+  therefore does not incrementally improve the model when those other
+  variables are included.
+
+- [ ] This effect is likely due to the training/testing set split we
+  used. In other splits, we could see the opposite effect.
+
+- [ ] These models are trained on a different set of observations, so
+  the coefficients are not comparable.
+
+*Explanation*
+
+To train the bivariate model, run the following command:
+
+~bivariate = glm(not.fully.paid~int.rate, data=train, family="binomial")~
+
+~summary(bivariate)~
+
+Decreased significance between a bivariate and multivariate model is
+typically due to correlation. From cor(train$int.rate, train$fico), we
+can see that the interest rate is moderately well correlated with a
+borrower's credit score.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Correlation between int.rate and fico features:")
+  cor(loansTrain$int.rate, loansTrain$fico)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Correlation between int.rate and fico features:
+: [1] -0.711659
+
+Training/testing set split rarely has a large effect on the
+significance of variables (this can be verified in this case by trying
+out a few other training/testing splits), and the models were trained
+on the same observations.
