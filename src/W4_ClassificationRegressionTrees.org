@@ -1,0 +1,384 @@
+#+TITLE:         Week 4. Classification and Regression Trees
+#+AUTHOR:        Sergio-Feliciano Mendoza-Barrera
+#+DRAWERS:       sfmb
+#+EMAIL:         smendoza.barrera@gmail.com
+#+DATE:          30/06/2015
+#+DESCRIPTION:   The random forest and regression trees methods for more interpretable models
+#+KEYWORDS:      R, data science, emacs, ESS, org-mode, random forest, classification and regression trees
+#+LANGUAGE:      en
+#+OPTIONS:       H:10 num:t toc:nil \n:nil @:t ::t |:t ^:{} -:t f:t *:t <:t d:HIDDEN
+#+OPTIONS:       TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+OPTIONS:       LaTeX:dvipng
+#+INFOJS_OPT:    view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:
+#+LINK_HOME:
+#+XSLT:
+#+STYLE: <link rel="stylesheet" type="text/css" href="dft.css"/>
+
+#+LaTeX_CLASS: IEEEtran
+#+LATEX_CLASS_OPTIONS: [letterpaper, 9pt, onecolumn, twoside, technote, final]
+#+LATEX_HEADER: \usepackage{minted}
+#+LATEX_HEADER: \usepackage{makeidx}
+
+#+LATEX_HEADER: \usepackage[lining,tabular]{fbb} % so math uses tabular lining figures
+#+LATEX_HEADER: \usepackage[scaled=.95,type1]{cabin} % sans serif in style of Gill Sans
+#+LATEX_HEADER: \usepackage[varqu,varl]{zi4}% inconsolata typewriter
+#+LATEX_HEADER: \usepackage[T1]{fontenc} % LY1 also works
+#+LATEX_HEADER: \usepackage[libertine,bigdelims]{newtxmath}
+#+LATEX_HEADER: \usepackage[cal=boondoxo,bb=boondox,frak=boondox]{mathalfa}
+#+LATEX_HEADER: \useosf % change normal text to use proportional oldstyle figures
+
+#+LATEX_HEADER: \markboth{Classification and regression trees and random forest methods}%
+#+LATEX_HEADER: {Sergio-Feliciano Mendoza-Barrera}
+
+#+LATEX_HEADER: \newcommand{\degC}{$^\circ$C{}}
+
+#+STYLE: <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
+
+#+ATTR_HTML: width="500px"
+
+# -*- mode: org; -*-
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/htmlize.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/bigblow.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/hideshow.css"/>
+
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery-1.11.0.min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery-ui-1.10.2.min.js"></script>
+
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.localscroll-min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.scrollTo-1.4.3.1-min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.zclip.min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/bigblow.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/hideshow.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.min.js"></script>
+
+#+BEGIN_ABSTRACT
+Regression trees and Random forest are more interpretable methods used
+in binary (clustering) applications.
+#+END_ABSTRACT
+
+* Judge, Jury, and Classifier: An Introduction to Trees
+
+/Sources/
+
+The images in this video of the Scales of Justice, the United States
+Supreme Court Building, and the United States Supreme Court Justices
+all come from Wikimedia Commons.
+
+*Introduction*
+
+This seems like a very unconventional use of analytics, but in 2002 a
+group of political science and law academics decided to test if a
+model can do better than a group of experts at predicting the
+decisions of the Supreme Court. In this case, a very interpretable
+analytics method was used, called classification and regression
+trees.
+
+[[../graphs/AmericanLegalSystem.png]]
+
+Cases start at the district courts, where an initial decision is made
+about the case. The circuit courts hear appeals from the district
+courts, and can change the decision that was made. The Supreme Court
+is the highest level in the American legal system and makes the final
+decision on cases.
+
+[[../graphs/SupremeCourt.png]]
+
+This image shows the nine Supreme Court justices from the time period
+1994 through 2005. This was the longest period of time with the same
+set of justices in over 180 years.
+
+There have been many significant and groundbreaking decisions made by
+the Supreme Court. These are a few notable decisions that were made.
+
+[[../graphs/SCOTUS.png]]
+
+In *1942*, the Supreme Court decided on the *Wickard v. Filburn*
+case. This case recognized the power of the federal government to
+regulate economic activity.
+
+Filburn was a farmer, who was growing wheat for on-farm
+consumption. However, the US had established limits on wheat
+production, and Filburn was exceeding those limits. So even though the
+extra wheat he was producing was for his own use and he had no
+intention of selling it, he was forced to destroy it.
+
+In *1973*, the Supreme Court decided on the *Roe v. Wade* case, one of the
+most well-known cases to this day. They decided to legalize abortion,
+and by doing this, prompted a national debate that continues today
+about the legality of abortion.
+
+In *2000*, the Supreme Court actually decided the outcome of the
+presidential election. The race was so close in the state of Florida,
+that a recount of the ballots was required. But the Florida Secretary
+of State certified that President Bush was the winner before the
+recount could be completed.
+
+The case then went to the Supreme Court where it was ruled that all
+ballots needed to be recounted. But since this could not be done
+before the winner had to be declared, President Bush won the state of
+Florida, and thus, the presidency.
+
+A very recent case from *2012* dealt with the *Patient Protection and
+Affordable Care Act*, commonly called ObamaCare, which requires most
+Americans to have health insurance. The Supreme Court upheld this
+requirement.
+
+[[../graphs/PredictingSCOTUS.png]]
+
+Since non-profits, voters, and anybody interested in long-term
+planning can benefit from knowing the outcomes of the Supreme Court
+cases before they happen, legal academics and political scientists
+regularly make predictions of Supreme Court decisions from detailed
+studies of the cases and individual justices.
+
+They wanted to see if an analytical model could outperform the
+expertise and intuition of a large group of experts. Martin used a
+method called classification and regression trees, or CART. In this
+case, the outcome is binary.
+
+[[../graphs/PredictingSCOTUS02.png]]
+
+** Quick Question (1 point possible)
+
+How much data do you think Andrew Martin should use to build his
+model?
+
+*** Answer
+
+- [X] Information from all cases with the same set of justices as
+  those he is trying to predict. Data from cases where the justices
+  were different might just add noise to our problem.
+
+- [ ] Only information from the most recent year. Since the justices
+  change every year, only this information would be useful.
+
+*Explanation*
+
+Andrew Martin should use all data from the cases with the same set of
+justices. The justices do not change every year, and typically you
+want to use as much data as you have available.
+
+** Video 2: CART
+
+To predict the outcomes of the Supreme Court, Martin used cases from
+1994 through 2001. He chose this period of time because the Supreme
+Court was composed of the same nine justices that were justices when
+he made his predictions in 2002.
+
+[[../graphs/DataSCOTUS.png]]
+
+This was a very rare data set, since as I mentioned earlier, this was
+the longest period of time with the same set of justices in over 180
+years. This allowed Martin to use a larger data set then might have
+been available if he was doing this experiment at a different time.
+
+[[../graphs/VariablesSCOTUS.png]]
+
+- The *circuit court of origin* is the circuit or lower court where the
+  case came from. There are 13 different circuit courts in the United
+  States. The 1st through 11th and Washington, DC courts are defined
+  by region. And the federal court is defined by the subject matter of
+  the case.
+
+- The *issue area of the case* gives each case a category, like civil
+  rights or federal taxation.
+
+- The *type of petitioner and type of respondent* define two parties
+  in the case. Some examples are the United States, an employer, or an
+  employee.
+
+- The *ideological direction of the lower court decision* describes
+  whether the lower court made what was considered a liberal or a
+  conservative decision.
+
+- The last variable indicates *whether or not the petitioner argued
+  that a law or practice was unconstitutional*.
+
+To collect this data, Martin and his colleagues read through all of
+the cases and coded the information. Some of it, like the circuit
+court, is straightforward. But other information required a judgment
+call, like the ideological direction of the lower court.
+
+*** Logistic regression interpretation issues
+
+Now that we have our data and variables, we are ready to predict the
+decisions of Justice Stevens.
+
+[[../graphs/LRStevens.png]]
+
+We can use logistic regression, and we get a model where some of the
+most significant variables are:
+
+whether or not the case is from the 2nd circuit court, with a
+coefficient of 1.66; whether or not the case is from the 4th circuit
+court, with a coefficient of 2.82; and whether or not the lower court
+decision was liberal, with a coefficient of (negative) -1.22.
+
+While this tells us that the case being from the 2nd or 4th circuit
+courts is predictive of Justice Stevens reversing the case, and the
+lower court decision being liberal is predictive of Justice Stevens
+affirming the case, it's difficult to understand which factors are
+more important due to things like the scales of the variables, and the
+possibility of multicollinearity.
+
+It's also difficult to quickly evaluate what the prediction would be
+for a new case. So instead of logistic regression, Martin and his
+colleagues used a method called *classification and regression trees*,
+or *CART*.
+
+*** CART
+
+[[../graphs/CARTDef.png]]
+
+This method builds what is called a tree by splitting on the values of
+the independent variables. To predict the outcome for a new
+observation or case, you can follow the splits in the tree and at the
+end, you predict the most frequent outcome in the training set that
+followed the same path.
+
+Some advantages of CART are that it does not assume a linear model,
+like logistic regression or linear regression, and it's a very
+interpretable model.
+
+*** Example
+
+[[../graphs/CARTexample.png]]
+
+This plot shows sample data for two independent variables, x and y,
+and each data point is colored by the outcome variable, red or gray.
+
+CART tries to split this data into subsets so that each subset is as
+pure or homogeneous as possible. The first three splits that CART
+would create are shown here. *Then the standard prediction made by a
+CART model is just the majority in each subset*.
+
+If a new observation fell into one of these two subsets (RED), then we
+would predict red, since the majority of the observations in those
+subsets are red.
+
+However, if a new observation fell into one of these two subsets
+(GRAY), we would predict gray, since the majority of the observations
+in those two subsets are gray.
+
+[[../graphs/CARTtreeExample.png]]
+
+A CART model is represented by what we call a tree. The tree for the
+splits we just generated is shown on the right. The first split tests
+whether the variable x is less than 60.
+
+If yes, the model says to predict red, and if no, the model moves on
+to the next split. Then, the second split checks whether or not the
+variable y is less than 20.
+
+If no, the model says to predict gray, but if yes, the model moves on
+to the next split. The third split checks whether or not the variable
+x is less than 85.
+
+If yes, then the model says to predict red, and if no, the model says
+to predict gray. There are a couple things to keep in mind when
+reading trees.
+
+*Important*
+
+There are a couple things to keep in mind when reading trees. In this
+tree, and for the trees we'll generate in R, a yes response is always
+to the left and a no response is always to the right. Also, make sure
+you always start at the top of the tree. The x less than 85 split only
+counts for observations for which x is greater than 60 and y is less
+than 20.
+
+** Quick Question (2 points possible)
+
+Suppose that you have the following CART tree:
+
+[[../graphs/QQ2_SupremeCourt.png]]
+
+*** Question a
+
+How many splits are in this tree?
+
+**** Answer
+
+*3 splits*.
+
+*** Question b
+
+For which data observations should we predict "Red", according to this
+tree? Select all that apply.
+
+**** Answer
+
+- [X] If X is less than 60, and Y is any value.
+
+- [ ] If X is greater than or equal to 60, and Y is greater than or
+  equal to 20.
+
+- [ ] If X is greater than or equal to 85, and Y is less than 20.
+
+- [X] If X is greater than or equal to 60 and less than 85, and Y is
+  less than 20.
+
+*Explanation*
+
+- This tree has three splits.
+
+- The first split says to predict "Red" if X is less than 60,
+  regardless of the value of Y.
+
+- Otherwise, we move to the second split. The second split says to
+  check the value of Y
+
+    + if it is greater than or equal to 20, predict "Gray".
+
+- Otherwise, we move to the third split. This split checks the value
+  of X again.
+
+    + If X is less than 85 (and greater than or equal to 60 by
+       the first split) and Y is less than 20, then we predict
+       "Red". Otherwise, we predict "Gray".
+
+** Video 3: Splitting and Predictions
+
+[[../graphs/NumberSplitsCART.png]]
+
+In R, this is called the *minbucket* parameter, for the minimum number
+of observations in each bucket or subset.
+
+The smaller minbucket is, the more splits will be generated. But if
+it's too small, overfitting will occur. This means that CART will fit
+the training set almost perfectly. But this is bad because then the
+model will probably not perform well on test set data or new data.
+
+On the other hand, if the minbucket parameter is too large, the model
+will be too simple and the accuracy will be poor.
+
+*We will learn about a nice method for selecting the stopping
+ parameter*.
+
+[[../graphs/PredictionsCART.png]]
+
+In the Supreme Court case, we'll be classifying observations as either
+affirm or reverse. Instead of just taking the majority outcome to be
+the prediction, we can compute the percentage of data in a subset of
+each type of outcome.
+
+As an example, if we have a subset with 10 affirms and two reverses,
+then 87% of the data is affirm. Then, just like in logistic
+regression, we can use a threshold value to obtain our prediction.
+
+For this example, we would predict affirm with a threshold of 0.5
+since the majority is affirm. But if we increase that threshold to
+0.9, we would predict reverse for this example.
+
+Then by varying the threshold value, we can compute an ROC curve and
+compute an AUC value to evaluate our model.
+
+[[../graphs/ROC-CART.png]]
+
+**  Quick Question (1 point possible)
+
+Suppose you have a subset of 20 observations, where 14 have outcome A
+and 6 have outcome B. What proportion of observations have outcome A?

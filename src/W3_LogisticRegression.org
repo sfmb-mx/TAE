@@ -547,22 +547,22 @@ In this part we can download the data
 
 #+RESULTS:
 #+begin_example
- [1] "AnonymityPoll.csv"       "BoeingStock.csv"
- [3] "CPSData.csv"             "CocaColaStock.csv"
- [5] "CountryCodes.csv"        "FluTest.csv"
- [7] "FluTrain.csv"            "GEStock.csv"
- [9] "IBMStock.csv"            "MetroAreaCodes.csv"
-[11] "NBA_test.csv"            "NBA_train.csv"
-[13] "PollingData.csv"         "PollingData_Imputed.csv"
-[15] "ProcterGambleStock.csv"  "README.md"
-[17] "USDA.csv"                "WHO.csv"
-[19] "WHO_Europe.csv"          "baseball.csv"
-[21] "climate_change.csv"      "framingham.csv"
-[23] "loans.csv"               "loans_imputed.csv"
-[25] "mvtWeek1.csv"            "parole.csv"
-[27] "pisa2009test.csv"        "pisa2009train.csv"
-[29] "quality.csv"             "songs.csv"
-[31] "wine.csv"                "wine_test.csv"
+ [1] "AnonymityPoll.csv"       "baseball.csv"
+ [3] "BoeingStock.csv"         "climate_change.csv"
+ [5] "CocaColaStock.csv"       "CountryCodes.csv"
+ [7] "CPSData.csv"             "FluTest.csv"
+ [9] "FluTrain.csv"            "framingham.csv"
+[11] "GEStock.csv"             "IBMStock.csv"
+[13] "loans_imputed.csv"       "loans.csv"
+[15] "MetroAreaCodes.csv"      "mvtWeek1.csv"
+[17] "NBA_test.csv"            "NBA_train.csv"
+[19] "parole.csv"              "pisa2009test.csv"
+[21] "pisa2009train.csv"       "PollingData_Imputed.csv"
+[23] "PollingData.csv"         "ProcterGambleStock.csv"
+[25] "quality.csv"             "README.md"
+[27] "songs.csv"               "USDA.csv"
+[29] "WHO_Europe.csv"          "WHO.csv"
+[31] "wine_test.csv"           "wine.csv"
 #+end_example
 
 *** Load the data set
@@ -790,7 +790,7 @@ Coefficients:
 OfficeVisits  0.08212    0.03055   2.688  0.00718 **
 Narcotics     0.07630    0.03205   2.381  0.01728 *
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
@@ -911,7 +911,7 @@ Coefficients:
 StartedOnCombinationTRUE  1.95230    1.22342   1.596 0.110541
 ProviderCount             0.03366    0.01983   1.697 0.089706 .
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
@@ -1291,12 +1291,21 @@ want on the x and y-axes.
 #+end_src
 
 #+RESULTS:
-:
-:  :: Install package only once
-:
-:  :: Prediction function
-:
-:  :: Performance function
+#+begin_example
+
+ :: Install package only once
+Loading required package: gplots
+
+Attaching package: ‘gplots’
+
+The following object is masked from ‘package:stats’:
+
+    lowess
+
+ :: Prediction function
+
+ :: Performance function
+#+end_example
 
 #+BEGIN_SRC R :var basename="ThresholdLabelsPlot" :session :results none silent :exports none
   filename <- paste("../graphs/", basename, ".png", sep = "")
@@ -1819,22 +1828,22 @@ In this part we can download the data
 
 #+RESULTS:
 #+begin_example
- [1] "AnonymityPoll.csv"       "BoeingStock.csv"
- [3] "CPSData.csv"             "CocaColaStock.csv"
- [5] "CountryCodes.csv"        "FluTest.csv"
- [7] "FluTrain.csv"            "GEStock.csv"
- [9] "IBMStock.csv"            "MetroAreaCodes.csv"
-[11] "NBA_test.csv"            "NBA_train.csv"
-[13] "PollingData.csv"         "PollingData_Imputed.csv"
-[15] "ProcterGambleStock.csv"  "README.md"
-[17] "USDA.csv"                "WHO.csv"
-[19] "WHO_Europe.csv"          "baseball.csv"
-[21] "climate_change.csv"      "framingham.csv"
-[23] "loans.csv"               "loans_imputed.csv"
-[25] "mvtWeek1.csv"            "parole.csv"
-[27] "pisa2009test.csv"        "pisa2009train.csv"
-[29] "quality.csv"             "songs.csv"
-[31] "wine.csv"                "wine_test.csv"
+ [1] "AnonymityPoll.csv"       "baseball.csv"
+ [3] "BoeingStock.csv"         "climate_change.csv"
+ [5] "CocaColaStock.csv"       "CountryCodes.csv"
+ [7] "CPSData.csv"             "FluTest.csv"
+ [9] "FluTrain.csv"            "framingham.csv"
+[11] "GEStock.csv"             "IBMStock.csv"
+[13] "loans_imputed.csv"       "loans.csv"
+[15] "MetroAreaCodes.csv"      "mvtWeek1.csv"
+[17] "NBA_test.csv"            "NBA_train.csv"
+[19] "parole.csv"              "pisa2009test.csv"
+[21] "pisa2009train.csv"       "PollingData_Imputed.csv"
+[23] "PollingData.csv"         "ProcterGambleStock.csv"
+[25] "quality.csv"             "README.md"
+[27] "songs.csv"               "USDA.csv"
+[29] "WHO_Europe.csv"          "WHO.csv"
+[31] "wine_test.csv"           "wine.csv"
 #+end_example
 
 *** Load the data set
@@ -1985,7 +1994,7 @@ BMI              0.010723   0.016157   0.664  0.50689
 heartRate       -0.008099   0.005313  -1.524  0.12739
 glucose          0.008935   0.002836   3.150  0.00163 **
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
@@ -2485,22 +2494,22 @@ In this part we can download the data
 
 #+RESULTS:
 #+begin_example
- [1] "AnonymityPoll.csv"       "BoeingStock.csv"
- [3] "CPSData.csv"             "CocaColaStock.csv"
- [5] "CountryCodes.csv"        "FluTest.csv"
- [7] "FluTrain.csv"            "GEStock.csv"
- [9] "IBMStock.csv"            "MetroAreaCodes.csv"
-[11] "NBA_test.csv"            "NBA_train.csv"
-[13] "PollingData.csv"         "PollingData_Imputed.csv"
-[15] "ProcterGambleStock.csv"  "README.md"
-[17] "USDA.csv"                "WHO.csv"
-[19] "WHO_Europe.csv"          "baseball.csv"
-[21] "climate_change.csv"      "framingham.csv"
-[23] "loans.csv"               "loans_imputed.csv"
-[25] "mvtWeek1.csv"            "parole.csv"
-[27] "pisa2009test.csv"        "pisa2009train.csv"
-[29] "quality.csv"             "songs.csv"
-[31] "wine.csv"                "wine_test.csv"
+ [1] "AnonymityPoll.csv"       "baseball.csv"
+ [3] "BoeingStock.csv"         "climate_change.csv"
+ [5] "CocaColaStock.csv"       "CountryCodes.csv"
+ [7] "CPSData.csv"             "FluTest.csv"
+ [9] "FluTrain.csv"            "framingham.csv"
+[11] "GEStock.csv"             "IBMStock.csv"
+[13] "loans_imputed.csv"       "loans.csv"
+[15] "MetroAreaCodes.csv"      "mvtWeek1.csv"
+[17] "NBA_test.csv"            "NBA_train.csv"
+[19] "parole.csv"              "pisa2009test.csv"
+[21] "pisa2009train.csv"       "PollingData_Imputed.csv"
+[23] "PollingData.csv"         "ProcterGambleStock.csv"
+[25] "quality.csv"             "README.md"
+[27] "songs.csv"               "USDA.csv"
+[29] "WHO_Europe.csv"          "WHO.csv"
+[31] "wine_test.csv"           "wine.csv"
 #+end_example
 
 *** Load the data set
@@ -2764,22 +2773,22 @@ In this part we can download the data
 
 #+RESULTS:
 #+begin_example
- [1] "AnonymityPoll.csv"       "BoeingStock.csv"
- [3] "CPSData.csv"             "CocaColaStock.csv"
- [5] "CountryCodes.csv"        "FluTest.csv"
- [7] "FluTrain.csv"            "GEStock.csv"
- [9] "IBMStock.csv"            "MetroAreaCodes.csv"
-[11] "NBA_test.csv"            "NBA_train.csv"
-[13] "PollingData.csv"         "PollingData_Imputed.csv"
-[15] "ProcterGambleStock.csv"  "README.md"
-[17] "USDA.csv"                "WHO.csv"
-[19] "WHO_Europe.csv"          "baseball.csv"
-[21] "climate_change.csv"      "framingham.csv"
-[23] "loans.csv"               "loans_imputed.csv"
-[25] "mvtWeek1.csv"            "parole.csv"
-[27] "pisa2009test.csv"        "pisa2009train.csv"
-[29] "quality.csv"             "songs.csv"
-[31] "wine.csv"                "wine_test.csv"
+ [1] "AnonymityPoll.csv"       "baseball.csv"
+ [3] "BoeingStock.csv"         "climate_change.csv"
+ [5] "CocaColaStock.csv"       "CountryCodes.csv"
+ [7] "CPSData.csv"             "FluTest.csv"
+ [9] "FluTrain.csv"            "framingham.csv"
+[11] "GEStock.csv"             "IBMStock.csv"
+[13] "loans_imputed.csv"       "loans.csv"
+[15] "MetroAreaCodes.csv"      "mvtWeek1.csv"
+[17] "NBA_test.csv"            "NBA_train.csv"
+[19] "parole.csv"              "pisa2009test.csv"
+[21] "pisa2009train.csv"       "PollingData_Imputed.csv"
+[23] "PollingData.csv"         "ProcterGambleStock.csv"
+[25] "quality.csv"             "README.md"
+[27] "songs.csv"               "USDA.csv"
+[29] "WHO_Europe.csv"          "WHO.csv"
+[31] "wine_test.csv"           "wine.csv"
 #+end_example
 
 *** Load the data set
@@ -3076,7 +3085,7 @@ Coefficients:
 (Intercept)   -6.146      1.977  -3.108 0.001882 **
 PropR         11.390      3.153   3.613 0.000303 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
@@ -3173,7 +3182,7 @@ Coefficients:
 SurveyUSA     0.3309     0.2226   1.487   0.1371
 DiffCount     0.6619     0.3663   1.807   0.0708 .
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
