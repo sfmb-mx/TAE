@@ -1,0 +1,73 @@
+baseball = readcsv("../data/baseball.csv")
+print("org_babel_julia_eoe")
+Pkg.add("DataFrames")
+Pkg.update()
+Pkg.add("RDatasets")
+using DataArrays, DataFrames
+baseball = readcsv("../data/baseball.csv")
+print("org_babel_julia_eoe")
+using DataArrays, DataFrames
+baseball = readcsv("../data/baseball.csv")
+print("org_babel_julia_eoe")
+head(baseball)
+print("org_babel_julia_eoe")
+using DataArrays, DataFrames
+baseball = readcsv("../data/baseball.csv")
+baseball = DataFrame(baseball)
+print("org_babel_julia_eoe")
+using DataFrames
+baseball = readcsv("../data/baseball.csv")
+baseball = DataFrame(baseball)
+print("org_babel_julia_eoe")
+using DataFrames
+baseball = readtable("../data/baseball.csv");
+print("org_babel_julia_eoe")
+using DataFrames
+baseball = readtable("../data/baseball.csv");
+head(baseball)
+print("org_babel_julia_eoe")
+using DataFrames
+baseball = readtable("../data/baseball.csv");
+head(baseball)
+nrow(baseball)
+print("org_babel_julia_eoe")
+using DataFrames
+baseball = readtable("../data/baseball.csv");
+nrow(baseball)
+print("org_babel_julia_eoe")
+using DataFrames
+baseball = readtable("../data/baseball.csv");
+println("\n :: The number of team/year pairs:")
+nrow(baseball)
+print("org_babel_julia_eoe")
+using DataFrames
+baseball = readtable("../data/baseball.csv");
+println(" :: The number of team/year pairs:")
+nrow(baseball)
+print("org_babel_julia_eoe")
+println(" :: The number of team/year pairs:")
+nrow(baseball)
+print("org_babel_julia_eoe")
+println(" :: Loading the data set in Julia:")
+using DataFrames
+baseball = readtable("../data/baseball.csv");
+print("org_babel_julia_eoe")
+println(" :: The number of team/year pairs (J):")
+nrow(baseball)
+print("org_babel_julia_eoe")
+println(" :: Detecting the missing Years in the dataset (J):")
+showln(x) = (show(x); println())
+showln(by(baseball, :Year, df -> size(df, 1)))
+print("org_babel_julia_eoe")
+test
+showln(baseball[baseball[:Playoffs] .== 1, :])
+print("org_babel_julia_eoe")
+nro(baseball[baseball[:Playoffs] .== 1, :])
+print("org_babel_julia_eoe")
+nrow(baseball[baseball[:Playoffs] .== 1, :])
+print("org_babel_julia_eoe")
+println(" :: Number of observations in the new DF (J):")
+nrow(baseball[baseball[:Playoffs] .== 1, :])
+print("org_babel_julia_eoe")
+q()
+quit()

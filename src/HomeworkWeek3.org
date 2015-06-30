@@ -3957,3 +3957,295 @@ The breakdown of whether each of the selected loans was fully paid can
 be computed with
 
 ~table(selectedLoans$not.fully.paid)~
+
+* Predicting the baseball world series champion (OPTIONAL) [3/4]
+
+*IMPORTANT NOTE*: This problem is optional, and will not count towards
+your grade. We have created this problem to give you extra practice
+with the topics covered in this unit.
+
+Last week, in the Moneyball lecture, we discussed how regular season
+performance is not strongly correlated with winning the World Series
+in baseball. In this homework question, we'll use the same data to
+investigate how well we can predict the World Series winner at the
+beginning of the playoffs.
+
+To begin, load the dataset [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/baseball.csv][baseball.csv]] into R using the read.csv
+function, and call the data frame "baseball". This is the same data
+file we used during the Moneyball lecture, and the data comes from
+[[http://www.baseball-reference.com][Baseball-Reference.com]].
+
+As a reminder, this dataset contains data concerning a baseball team's
+performance in a given year. It has the following variables:
+
+- *Team*: A code for the name of the team
+
+- *League*: The Major League Baseball league the team belongs to,
+  either AL (American League) or NL (National League)
+
+- *Year*: The year of the corresponding record
+
+- *RS*: The number of runs scored by the team in that year
+
+- *RA*: The number of runs allowed by the team in that year
+
+- *W*: The number of regular season wins by the team in that year
+
+- *OBP*: The on-base percentage of the team in that year
+
+- *SLG*: The slugging percentage of the team in that year
+
+- *BA*: The batting average of the team in that year
+
+- *Playoffs*: Whether the team made the playoffs in that year (1 for
+  yes, 0 for no)
+
+- *RankSeason*: Among the playoff teams in that year, the ranking of
+  their regular season records (1 is best)
+
+- *RankPlayoffs*: Among the playoff teams in that year, how well they
+  fared in the playoffs. The team winning the World Series gets a
+  RankPlayoffs of 1.
+
+- *G*: The number of games a team played in that year
+
+- *OOBP*: The team's opponents' on-base percentage in that year
+
+- *OSLG*: The team's opponents' slugging percentage in that year
+
+*** Download the data sets
+
+In this part we can download the data
+
+#+BEGIN_SRC R :session :results output :exports all
+  library(parallel)
+
+  if(!file.exists("../data")) {
+          dir.create("../data")
+  }
+
+  fileUrl <- "https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/baseball.csv"
+
+  fileName <- "baseball.csv"
+
+  dataPath <- "../data"
+
+  filePath <- paste(dataPath, fileName, sep = "/")
+
+  if(!file.exists(filePath)) {
+          download.file(fileUrl, destfile = filePath, method = "curl")
+  }
+
+  list.files("../data")
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+ [1] "AnonymityPoll.csv"       "BoeingStock.csv"
+ [3] "CPSData.csv"             "CocaColaStock.csv"
+ [5] "CountryCodes.csv"        "FluTest.csv"
+ [7] "FluTrain.csv"            "GEStock.csv"
+ [9] "IBMStock.csv"            "MetroAreaCodes.csv"
+[11] "NBA_test.csv"            "NBA_train.csv"
+[13] "PollingData.csv"         "PollingData_Imputed.csv"
+[15] "ProcterGambleStock.csv"  "README.md"
+[17] "USDA.csv"                "WHO.csv"
+[19] "WHO_Europe.csv"          "baseball.csv"
+[21] "climate_change.csv"      "framingham.csv"
+[23] "loans.csv"               "loans_imputed.csv"
+[25] "mvtWeek1.csv"            "parole.csv"
+[27] "pisa2009test.csv"        "pisa2009train.csv"
+[29] "quality.csv"             "songs.csv"
+[31] "wine.csv"                "wine_test.csv"
+#+end_example
+
+*** Load the data set (R)
+
+In this specific case we will try to make the analysis with two
+programs en parallel, *R* as our strong statistical base line and
+*Julia* as our new develop framework.
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: Loading data into their data frames.")
+  baseball <- read.table("../data/baseball.csv", sep = ",", header = TRUE)
+
+  str(baseball)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+
+ :: Loading data into their data frames.
+'data.frame':	1232 obs. of  15 variables:
+ $ Team        : Factor w/ 39 levels "ANA","ARI","ATL",..: 2 3 4 5 7 8 9 10 11 12 ...
+ $ League      : Factor w/ 2 levels "AL","NL": 2 2 1 1 2 1 2 1 2 1 ...
+ $ Year        : int  2012 2012 2012 2012 2012 2012 2012 2012 2012 2012 ...
+ $ RS          : int  734 700 712 734 613 748 669 667 758 726 ...
+ $ RA          : int  688 600 705 806 759 676 588 845 890 670 ...
+ $ W           : int  81 94 93 69 61 85 97 68 64 88 ...
+ $ OBP         : num  0.328 0.32 0.311 0.315 0.302 0.318 0.315 0.324 0.33 0.335 ...
+ $ SLG         : num  0.418 0.389 0.417 0.415 0.378 0.422 0.411 0.381 0.436 0.422 ...
+ $ BA          : num  0.259 0.247 0.247 0.26 0.24 0.255 0.251 0.251 0.274 0.268 ...
+ $ Playoffs    : int  0 1 1 0 0 0 1 0 0 1 ...
+ $ RankSeason  : int  NA 4 5 NA NA NA 2 NA NA 6 ...
+ $ RankPlayoffs: int  NA 5 4 NA NA NA 4 NA NA 2 ...
+ $ G           : int  162 162 162 162 162 162 162 162 162 162 ...
+ $ OOBP        : num  0.317 0.306 0.315 0.331 0.335 0.319 0.305 0.336 0.357 0.314 ...
+ $ OSLG        : num  0.415 0.378 0.403 0.428 0.424 0.405 0.39 0.43 0.47 0.402 ...
+#+end_example
+
+*** Load the data set (Julia)
+
+#+begin_src julia :session :results output :exports all
+  println(" :: Loading the data set in Julia:")
+  using DataFrames
+  baseball = readtable("../data/baseball.csv");
+#+end_src
+
+#+RESULTS:
+:  :: Loading the data set in Julia:
+:
+
+** DONE Problem 1.1 - Limiting to Teams Making the Playoffs
+CLOSED: [2015-06-29 Mon 21:30]
+
+Each row in the baseball dataset represents a team in a particular
+year.
+
+How many team/year pairs are there in the whole dataset?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Number of team-year pairs in the data set (R):")
+  nrow(baseball)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Number of team-year pairs in the data set (R):
+: [1] 1232
+
+#+begin_src julia :session :results output :exports all
+  println(" :: The number of team/year pairs (J):")
+  nrow(baseball)
+#+end_src
+
+#+RESULTS:
+:  :: The number of team/year pairs (J):
+: 1232
+
+*** Answer
+
+*Explanation*
+
+You can read the dataset into R by using the following command:
+
+~baseball = read.csv("baseball.csv")~
+
+Then ~nrow(baseball)~ or ~str(baseball)~ both show that there are 1232
+team/year pairs.
+
+** DONE Problem 1.2 - Limiting to Teams Making the Playoffs
+CLOSED: [2015-06-29 Mon 21:30]
+
+Though the dataset contains data from 1962 until 2012, we removed
+several years with shorter-than-usual seasons. Using the table()
+function, identify the total number of years included in this
+dataset.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Detecting the missing Years in the dataset (R):")
+  length(table(baseball$Year))
+#+end_src
+
+#+RESULTS:
+:
+:  :: Detecting the missing Years in the dataset (R):
+: [1] 47
+
+#+begin_src julia :session :results output :exports all
+  println(" :: Detecting the missing Years in the dataset (J):")
+  showln(x) = (show(x); println())
+  showln(by(baseball, :Year, df -> size(df, 1)))
+#+end_src
+
+#+RESULTS:
+#+begin_example
+ :: Detecting the missing Years in the dataset (J):
+showln (generic function with 1 method)
+47x2 DataFrame
+| Row | Year | x1 |
+|-----|------|----|
+| 1   | 1962 | 20 |
+| 2   | 1963 | 20 |
+| 3   | 1964 | 20 |
+| 4   | 1965 | 20 |
+| 5   | 1966 | 20 |
+| 6   | 1967 | 20 |
+| 7   | 1968 | 20 |
+| 8   | 1969 | 24 |
+⋮
+| 39  | 2004 | 30 |
+| 40  | 2005 | 30 |
+| 41  | 2006 | 30 |
+| 42  | 2007 | 30 |
+| 43  | 2008 | 30 |
+| 44  | 2009 | 30 |
+| 45  | 2010 | 30 |
+| 46  | 2011 | 30 |
+| 47  | 2012 | 30 |
+#+end_example
+
+*** Answer
+
+*Explanation*
+
+~table(baseball$Year)~ contains 47 years (1972, 1981, 1994, and 1995 are
+missing). You can count the number of years in the table, or the
+command ~length(table(baseball$Year))~ directly provides the answer.
+
+** DONE Problem 1.3 - Limiting to Teams Making the Playoffs
+CLOSED: [2015-06-29 Mon 21:51]
+
+Because we're only analyzing teams that made the playoffs, use the
+subset() function to replace baseball with a data frame limited to
+teams that made the playoffs (so your subsetted data frame should
+still be called "baseball"). How many team/year pairs are included in
+the new dataset?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Subsetting the original baseball DF with the playoffs DF (R):")
+  baseball <- subset(baseball, baseball$Playoffs == 1)
+
+  writeLines("\n :: Number of observations in the new DF (R):")
+  nrow(baseball)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Subsetting the original baseball DF with the playoffs DF (R):
+:
+:  :: Number of observations in the new DF (R):
+: [1] 244
+
+#+begin_src julia :session :results output :exports all
+  println(" :: Number of observations in the new DF (J):")
+  nrow(baseball[baseball[:Playoffs] .== 1, :])
+#+end_src
+
+#+RESULTS:
+:  :: Number of observations in the new DF (J):
+: 244
+
+*** Answer
+
+*Explanation*
+
+~baseball = subset(baseball, Playoffs == 1)~ limits the dataset, and the
+~nrow()~ or ~str()~ functions can be used to identify that 244 team/year
+pairs remain.
+
+** TODO Problem 1.4 - Limiting to Teams Making the Playoffs
+
+Through the years, different numbers of teams have been invited to the
+playoffs. Which of the following has been the number of teams making
+the playoffs in some season? Select all that apply.
