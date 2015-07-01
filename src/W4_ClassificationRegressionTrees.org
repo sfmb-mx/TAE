@@ -476,22 +476,22 @@ In this part we can download the data
 
 #+RESULTS:
 #+begin_example
- [1] "AnonymityPoll.csv"       "baseball.csv"
- [3] "BoeingStock.csv"         "climate_change.csv"
- [5] "CocaColaStock.csv"       "CountryCodes.csv"
- [7] "CPSData.csv"             "FluTest.csv"
- [9] "FluTrain.csv"            "framingham.csv"
-[11] "GEStock.csv"             "IBMStock.csv"
-[13] "loans.csv"               "loans_imputed.csv"
-[15] "MetroAreaCodes.csv"      "mvtWeek1.csv"
-[17] "NBA_test.csv"            "NBA_train.csv"
-[19] "parole.csv"              "pisa2009test.csv"
-[21] "pisa2009train.csv"       "PollingData.csv"
-[23] "PollingData_Imputed.csv" "ProcterGambleStock.csv"
-[25] "quality.csv"             "README.md"
-[27] "songs.csv"               "stevens.csv"
-[29] "USDA.csv"                "WHO.csv"
-[31] "WHO_Europe.csv"          "wine.csv"
+ [1] "AnonymityPoll.csv"       "BoeingStock.csv"
+ [3] "CPSData.csv"             "CocaColaStock.csv"
+ [5] "CountryCodes.csv"        "FluTest.csv"
+ [7] "FluTrain.csv"            "GEStock.csv"
+ [9] "IBMStock.csv"            "MetroAreaCodes.csv"
+[11] "NBA_test.csv"            "NBA_train.csv"
+[13] "PollingData.csv"         "PollingData_Imputed.csv"
+[15] "ProcterGambleStock.csv"  "README.md"
+[17] "USDA.csv"                "WHO.csv"
+[19] "WHO_Europe.csv"          "baseball.csv"
+[21] "climate_change.csv"      "framingham.csv"
+[23] "loans.csv"               "loans_imputed.csv"
+[25] "mvtWeek1.csv"            "parole.csv"
+[27] "pisa2009test.csv"        "pisa2009train.csv"
+[29] "quality.csv"             "songs.csv"
+[31] "stevens.csv"             "wine.csv"
 [33] "wine_test.csv"
 #+end_example
 
@@ -589,11 +589,15 @@ Now, we're ready to build our *CART* model. First we need to install and
 load the ~rpart~ package and the ~rpart~ plotting package.
 
 #+begin_src R :session :results output :exports all
-  writeLines("\n :: Install rpart package only once:")
-  # Install rpart library
-  ## install.packages("rpart")
+  writeLines("\n :: Install new package: rpart ...")
+  ## install.packages('rpart', repos='http://cran.rstudio.com/')
+
+  ## writeLines("\n :: Install new package: rpart.plot ...")
+  ## install.packages('rpart.plot', repos='http://cran.rstudio.com/')
+  writeLines("\n :: NOTE: Please comment after install once...")
+
+  writeLines("\n :: Loading rpart and rpart.plot...")
   library(rpart)
-  ## install.packages("rpart.plot")
   library(rpart.plot)
 
   writeLines("\n :: rpart and r.part.plot libraries loaded...")
@@ -601,7 +605,11 @@ load the ~rpart~ package and the ~rpart~ plotting package.
 
 #+RESULTS:
 :
-:  :: Install rpart package only once:
+:  :: Install new package: rpart ...
+:
+:  :: NOTE: Please comment after install once...
+:
+:  :: Loading rpart and rpart.plot...
 :
 :  :: rpart and r.part.plot libraries loaded...
 
@@ -708,15 +716,24 @@ CART model using the ROCR package.
 #+end_src
 
 #+RESULTS:
-:
-:  :: ROC curve:
-:            0         1
-: 1  0.3035714 0.6964286
-: 3  0.3035714 0.6964286
-: 4  0.4000000 0.6000000
-: 6  0.4000000 0.6000000
-: 8  0.4000000 0.6000000
-: 21 0.3035714 0.6964286
+#+begin_example
+
+ :: ROC curve:
+Loading required package: gplots
+
+Attaching package: 'gplots'
+
+The following object is masked from 'package:stats':
+
+    lowess
+           0         1
+1  0.3035714 0.6964286
+3  0.3035714 0.6964286
+4  0.4000000 0.6000000
+6  0.4000000 0.6000000
+8  0.4000000 0.6000000
+21 0.3035714 0.6964286
+#+end_example
 
 *PredictROC*
 
@@ -754,6 +771,8 @@ on the x and y-axes of our ROC curve.
 
 ** Quick Question (3 points possible)
 
+*** Question a
+
 Compute the AUC of the CART model from the previous video, using the
 following command in your R console:
 
@@ -770,3 +789,137 @@ following command in your R console:
 What is the AUC?
 
 *The AUC for the CART = 0.6927105*.
+
+*** Question b
+
+Now, recall that in Video 4, our tree had 7 splits. Let's see how this
+changes if we change the value of minbucket.
+
+First build a CART model that is similar to the one we built in Video
+4, except change the minbucket parameter to 5. Plot the tree.
+
+#+begin_src R :session :results output :exports all
+  StevensTree2 <- rpart(Reverse ~ Circuit + Issue + Petitioner +
+              Respondent + LowerCourt + Unconst, data =
+              Train, method = "class", minbucket = 5)
+
+  writeLines("\n :: CART model 2 DONE...")
+#+end_src
+
+#+RESULTS:
+:
+:  :: CART model 2 DONE...
+
+#+BEGIN_SRC R :var basename="CARTcourtModel2" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  prp(StevensTree2)
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION: CART court model with a minbucket of 5.
+#+NAME:   fig:CARTcourtModel2
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/CARTcourtModel2.png]]
+
+How many splits does the tree have?
+
+**** Answer
+
+*The tree have 16 splits*.
+
+*** Question c
+
+Now build a CART model that is similar to the one we built in Video 4,
+except change the minbucket parameter to 100. Plot the tree.
+
+#+begin_src R :session :results output :exports all
+  StevensTree3 <- rpart(Reverse ~ Circuit + Issue + Petitioner +
+              Respondent + LowerCourt + Unconst, data =
+              Train, method = "class", minbucket = 100)
+
+  writeLines("\n :: CART model 3 DONE...")
+#+end_src
+
+#+RESULTS:
+: null device
+:           1
+:
+:  :: CART model 3 DONE...
+
+#+BEGIN_SRC R :var basename="CARTcourtModel3" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  prp(StevensTree3)
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION: CART court model with a minbucket of 5.
+#+NAME:   fig:CARTcourtModel3
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/CARTcourtModel3.png]]
+
+
+How many splits does the tree have?
+
+**** Answer
+
+*This tree have only 1 split*.
+
+** Video 5: Random Forests
+
+Important Note: In this video, we install the package
+*randomForest*. If you get an installation warning that says:
+
+"Warning: cannot remove prior installation of packages
+'randomForest'", please try quitting and re-starting R.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Install new package: randomForest ...")
+  ## install.packages('randomForest', repos='http://cran.rstudio.com/')
+  writeLines("\n :: NOTE: Please comment after install once...")
+
+  library(randomForest)
+  writeLines("\n :: Library randomForest loaded...")
+#+end_src
+
+#+RESULTS:
+:
+:  :: Install new package: randomForest ...
+:
+:  :: NOTE: Please comment after install once...
+:
+:  :: Library randomForest loaded...
+
+We'll introduce a method that is similar to CART called random
+forests. This method was designed to improve the prediction accuracy
+of CART and works by building a large number of CART
+trees. Unfortunately, this makes the method less interpretable than
+CART, so often you need to decide if you value the interpretability or
+the increase in accuracy more.
+
+To make a prediction for a new observation, each tree in the forest
+votes on the outcome and we pick the outcome that receives the
+majority of the votes.
+
+[[../graphs/RandomForest.png]]
+
+So how does random forests build many CART trees?
+
+Random forests only allows each tree to split on a random subset of
+the available independent variables, and each tree is built from what
+we call a bagged or bootstrapped sample of the data. This just means
+that the data used as the training data for each tree is selected
+randomly with replacement.
