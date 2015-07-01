@@ -382,3 +382,391 @@ compute an AUC value to evaluate our model.
 
 Suppose you have a subset of 20 observations, where 14 have outcome A
 and 6 have outcome B. What proportion of observations have outcome A?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Proportion of observations of A:")
+  A <- 14; B <- 6;
+  A / (A + B)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Proportion of observations of A:
+: [1] 0.7
+
+*** Answer
+
+*Explanation*
+
+The fraction of observations that have outcome A is
+
+$$
+\frac{14}{14 + 6} = 0.7.
+$$
+
+** Quick Question (3 points possible)
+
+The following questions ask about the subset of 20 observations from
+the previous question.
+
+*** Question
+
+If we set the threshold to 0.25 when computing predictions of outcome
+A, will we predict A or B for these observations?
+
+**** Answer
+
+- [X] A
+- [ ] B
+
+*** Question
+
+If we set the threshold to 0.5 when computing predictions of outcome
+A, will we predict A or B for these observations?
+
+**** Answer
+
+- [X] A
+- [ ] B
+
+*** Question
+
+If we set the threshold to 0.75 when computing predictions of outcome
+A, will we predict A or B for these observations?
+
+**** Answer
+
+- [ ] A
+- [X] B
+
+** Video 4: CART in R
+
+In the next few videos, we'll be using the dataset [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/stevens.csv][stevens.csv]] to
+build trees in R. Please download the dataset to follow along. This
+data comes from the [[http://wusct.wustl.edu/data.php][Supreme Court Forecasting Project]] website.
+
+An R script file with all of the R commands used in this lecture can
+be downloaded [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/Unit4_SupremeCourt.R][here]].
+
+*** Download the data sets
+
+In this part we can download the data
+
+#+BEGIN_SRC R :session :results output :exports all
+  library(parallel)
+
+  if(!file.exists("../data")) {
+          dir.create("../data")
+  }
+
+  fileUrl <- "https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/stevens.csv"
+
+  fileName <- "stevens.csv"
+
+  dataPath <- "../data"
+
+  filePath <- paste(dataPath, fileName, sep = "/")
+
+  if(!file.exists(filePath)) {
+          download.file(fileUrl, destfile = filePath, method = "curl")
+  }
+
+  list.files("../data")
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+ [1] "AnonymityPoll.csv"       "baseball.csv"
+ [3] "BoeingStock.csv"         "climate_change.csv"
+ [5] "CocaColaStock.csv"       "CountryCodes.csv"
+ [7] "CPSData.csv"             "FluTest.csv"
+ [9] "FluTrain.csv"            "framingham.csv"
+[11] "GEStock.csv"             "IBMStock.csv"
+[13] "loans.csv"               "loans_imputed.csv"
+[15] "MetroAreaCodes.csv"      "mvtWeek1.csv"
+[17] "NBA_test.csv"            "NBA_train.csv"
+[19] "parole.csv"              "pisa2009test.csv"
+[21] "pisa2009train.csv"       "PollingData.csv"
+[23] "PollingData_Imputed.csv" "ProcterGambleStock.csv"
+[25] "quality.csv"             "README.md"
+[27] "songs.csv"               "stevens.csv"
+[29] "USDA.csv"                "WHO.csv"
+[31] "WHO_Europe.csv"          "wine.csv"
+[33] "wine_test.csv"
+#+end_example
+
+*** Load the data set
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("    Loading data into their data frames.")
+  stevens <- read.table("../data/stevens.csv", sep = ",", header = TRUE)
+
+  str(stevens)
+  summary(stevens)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+    Loading data into their data frames.
+'data.frame':	566 obs. of  9 variables:
+ $ Docket    : Factor w/ 566 levels "00-1011","00-1045",..: 63 69 70 145 97 181 242 289 334 436 ...
+ $ Term      : int  1994 1994 1994 1994 1995 1995 1996 1997 1997 1999 ...
+ $ Circuit   : Factor w/ 13 levels "10th","11th",..: 4 11 7 3 9 11 13 11 12 2 ...
+ $ Issue     : Factor w/ 11 levels "Attorneys","CivilRights",..: 5 5 5 5 9 5 5 5 5 3 ...
+ $ Petitioner: Factor w/ 12 levels "AMERICAN.INDIAN",..: 2 2 2 2 2 2 2 2 2 2 ...
+ $ Respondent: Factor w/ 12 levels "AMERICAN.INDIAN",..: 2 2 2 2 2 2 2 2 2 2 ...
+ $ LowerCourt: Factor w/ 2 levels "conser","liberal": 2 2 2 1 1 1 1 1 1 1 ...
+ $ Unconst   : int  0 0 0 0 0 1 0 1 0 0 ...
+ $ Reverse   : int  1 1 1 1 1 0 1 1 1 1 ...
+     Docket         Term         Circuit                  Issue
+ 00-1011:  1   Min.   :1994   9th    :122   CriminalProcedure:132
+ 00-1045:  1   1st Qu.:1995   5th    : 53   JudicialPower    :102
+ 00-1072:  1   Median :1997   11th   : 49   EconomicActivity : 98
+ 00-1073:  1   Mean   :1997   7th    : 47   CivilRights      : 74
+ 00-1089:  1   3rd Qu.:1999   4th    : 46   DueProcess       : 43
+ 00-121 :  1   Max.   :2001   8th    : 44   FirstAmendment   : 39
+ (Other):560                  (Other):205   (Other)          : 78
+               Petitioner               Respondent    LowerCourt
+ OTHER              :175   OTHER             :177   conser :293
+ CRIMINAL.DEFENDENT : 89   BUSINESS          : 80   liberal:273
+ BUSINESS           : 79   US                : 69
+ STATE              : 48   CRIMINAL.DEFENDENT: 58
+ US                 : 48   STATE             : 56
+ GOVERNMENT.OFFICIAL: 38   EMPLOYEE          : 28
+ (Other)            : 89   (Other)           : 98
+    Unconst          Reverse
+ Min.   :0.0000   Min.   :0.0000
+ 1st Qu.:0.0000   1st Qu.:0.0000
+ Median :0.0000   Median :1.0000
+ Mean   :0.2473   Mean   :0.5459
+ 3rd Qu.:0.0000   3rd Qu.:1.0000
+ Max.   :1.0000   Max.   :1.0000
+#+end_example
+
+Now, let's take a look at our data using the ~str~ function. We have
+566 observations, or Supreme Court cases, and nine different
+variables.
+
+*Docket* is just a unique identifier for each case, and *Term* is the
+year of the case. Then we have our six independent variables: the *Circuit*
+court of origin, the *Issue* area of the case, the type of
+*Petitioner*, the type of *Respondent*, the lower court *LowerCourt*
+direction, and whether or not the petitioner argued that a law or
+practice was unconstitutional *Unconst*. The last variable is our
+dependent variable, whether or not Justice Stevens voted to *reverse*
+the case: 1 for reverse, and 0 for affirm.
+
+Now before building models, we need to split our data into a training
+set and a testing set.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Split the data:")
+  library(caTools)
+  set.seed(3000)
+
+  spl <- sample.split(stevens$Reverse, SplitRatio = 0.7)
+  Train <- subset(stevens, spl == TRUE)
+  Test <- subset(stevens, spl == FALSE)
+
+  writeLines("\n :: Dimensions of the training set:")
+  dim(Train)
+
+  writeLines("\n :: Dimensions of the testing set:")
+  dim(Test)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Split the data:
+:
+:  :: Dimensions of the training set:
+: [1] 396   9
+:
+:  :: Dimensions of the testing set:
+: [1] 170   9
+
+Now, we're ready to build our *CART* model. First we need to install and
+load the ~rpart~ package and the ~rpart~ plotting package.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Install rpart package only once:")
+  # Install rpart library
+  ## install.packages("rpart")
+  library(rpart)
+  ## install.packages("rpart.plot")
+  library(rpart.plot)
+
+  writeLines("\n :: rpart and r.part.plot libraries loaded...")
+#+end_src
+
+#+RESULTS:
+:
+:  :: Install rpart package only once:
+:
+:  :: rpart and r.part.plot libraries loaded...
+
+*** Building the CART model
+
+Now we can create our CART model using the rpart function.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: CART model DONE...")
+  StevensTree <- rpart(Reverse ~ Circuit + Issue + Petitioner +
+              Respondent + LowerCourt + Unconst, data =
+              Train, method = "class", minbucket = 25)
+#+end_src
+
+#+RESULTS:
+:
+:  :: CART model DONE...
+
+#+BEGIN_SRC R :var basename="CARTcourtModel" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  prp(StevensTree)
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION: CART model for the Stevens prediction.
+#+NAME:   fig:CARTcourtModel
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/CARTcourtModel.png]]
+
+The last argument we'll give is ~minbucket = 25~. This limits the tree
+so that it doesn't overfit to our training set. We selected a value of
+25, but we could pick a smaller or larger value.
+
+If you're not sure what the abbreviations are, you could create a
+table of the variable to see all of the possible values.
+
+*** Making predictions in the testing set
+
+Comparing this to a logistic regression model, we can see that it's
+very interpretable. A CART tree is a series of decision rules which
+can easily be explained. Now let's see how well our CART model does at
+making predictions for the test set.
+
+And we'll add a third argument here, which is ~type = "class"~. We
+need to give this argument when making predictions for our CART model
+if we want the majority class predictions. This is like using a
+threshold of $0.5$.
+
+We'll see in a few minutes how we can leave this argument out and
+still get probabilities from our CART model.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Make predictions:")
+  PredictCART <- predict(StevensTree, newdata = Test, type = "class")
+  table(Test$Reverse, PredictCART)
+
+  writeLines("\n :: Overall accuracy:")
+  (41+71)/(41+36+22+71)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Make predictions:
+:    PredictCART
+:      0  1
+:   0 41 36
+:   1 22 71
+:
+:  :: Overall accuracy:
+: [1] 0.6588235
+
+Now let's compute the accuracy of our model by building a confusion
+matrix. So we'll use the table function, and first give the true
+outcome values-- ~Test$Reverse~, and then our predictions,
+~PredictCART~.
+
+So the accuracy of our CART model is $0.659$.
+
+If you were to build a logistic regression model, you would get an
+accuracy of 0.665 and a baseline model that always predicts Reverse,
+the most common outcome, has an accuracy of 0.547. So our CART model
+significantly beats the baseline and is competitive with logistic
+regression.
+
+Lastly, to evaluate our model, let's generate an ROC curve for our
+CART model using the ROCR package.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: ROC curve:")
+  library(ROCR)
+
+  PredictROC <- predict(StevensTree, newdata = Test)
+  head(PredictROC)
+
+  pred <- prediction(PredictROC[,2], Test$Reverse)
+  perf <- performance(pred, "tpr", "fpr")
+#+end_src
+
+#+RESULTS:
+:
+:  :: ROC curve:
+:            0         1
+: 1  0.3035714 0.6964286
+: 3  0.3035714 0.6964286
+: 4  0.4000000 0.6000000
+: 6  0.4000000 0.6000000
+: 8  0.4000000 0.6000000
+: 21 0.3035714 0.6964286
+
+*PredictROC*
+
+For each observation in the test set, it gives two numbers which can
+be thought of as the probability of outcome 0 and the probability of
+outcome 1. More concretely, each test set observation is classified
+into a subset, or bucket, of our CART tree.
+
+These numbers give the percentage of training set data in that subset
+with outcome 0 and the percentage of data in the training set in that
+subset with outcome 1.
+
+Now we need to use the performance function, where the first argument
+is the outcome of the prediction function, and then the next two
+arguments are true positive rate and false positive rate, what we want
+on the x and y-axes of our ROC curve.
+
+#+BEGIN_SRC R :var basename="ROCtestingStevens" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  plot(perf)
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION: The ROC curve for the justice Stevens.
+#+NAME:   fig:ROCtestingStevens
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/ROCtestingStevens.png]]
+
+** Quick Question (3 points possible)
+
+Compute the AUC of the CART model from the previous video, using the
+following command in your R console:
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: The AUC for the CART:")
+  as.numeric(performance(pred, "auc")@y.values)
+#+end_src
+
+#+RESULTS:
+:
+:  :: The AUC for the CART:
+: [1] 0.6927105
+
+What is the AUC?
+
+*The AUC for the CART = 0.6927105*.
