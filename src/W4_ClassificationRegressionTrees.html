@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Week 4. Classification and Regression Trees</title>
-<!-- 2015-06-30 Tue 08:13 -->
+<!-- 2015-07-02 Thu 09:23 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Sergio-Feliciano Mendoza-Barrera" />
@@ -146,6 +146,48 @@ for the JavaScript code in this tag.
    if(elem.cacheClassTarget)
      target.className = elem.cacheClassTarget;
  }
+/*]]>*///-->
+</script>
+<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js"></script>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+    MathJax.Hub.Config({
+        // Only one of the two following lines, depending on user settings
+        // First allows browser-native MathML display, second forces HTML/CSS
+        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
+                     "TeX/noUndefined.js"],
+        tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
+            skipTags: ["script","noscript","style","textarea","pre","code"],
+            ignoreClass: "tex2jax_ignore",
+            processEscapes: false,
+            processEnvironments: true,
+            preview: "TeX"
+        },
+        showProcessingMessages: true,
+        displayAlign: "center",
+        displayIndent: "2em",
+
+        "HTML-CSS": {
+             scale: 100,
+             availableFonts: ["STIX","TeX"],
+             preferredFont: "TeX",
+             webFont: "TeX",
+             imageFont: "TeX",
+             showMathMenu: true,
+        },
+        MMLorHTML: {
+             prefer: {
+                 MSIE:    "MML",
+                 Firefox: "MML",
+                 Opera:   "HTML",
+                 other:   "HTML"
+             }
+        }
+    });
 /*]]>*///-->
 </script>
 </head>
@@ -293,12 +335,1957 @@ case, the outcome is binary.
 </p>
 </div>
 </div>
+
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Quick Question (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+How much data do you think Andrew Martin should use to build his
+model?
+</p>
+</div>
+
+<div id="outline-container-sec-1-1-1" class="outline-4">
+<h4 id="sec-1-1-1"><span class="section-number-4">1.1.1</span> Answer</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<ul class="org-ul">
+<li><code>[X]</code> Information from all cases with the same set of justices as
+those he is trying to predict. Data from cases where the justices
+were different might just add noise to our problem.
+</li>
+
+<li><code>[&#xa0;]</code> Only information from the most recent year. Since the justices
+change every year, only this information would be useful.
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+Andrew Martin should use all data from the cases with the same set of
+justices. The justices do not change every year, and typically you
+want to use as much data as you have available.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Video 2: CART</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+To predict the outcomes of the Supreme Court, Martin used cases from
+1994 through 2001. He chose this period of time because the Supreme
+Court was composed of the same nine justices that were justices when
+he made his predictions in 2002.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/DataSCOTUS.png" alt="DataSCOTUS.png" />
+</p>
+</div>
+
+<p>
+This was a very rare data set, since as I mentioned earlier, this was
+the longest period of time with the same set of justices in over 180
+years. This allowed Martin to use a larger data set then might have
+been available if he was doing this experiment at a different time.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VariablesSCOTUS.png" alt="VariablesSCOTUS.png" />
+</p>
+</div>
+
+<ul class="org-ul">
+<li>The <b>circuit court of origin</b> is the circuit or lower court where the
+case came from. There are 13 different circuit courts in the United
+States. The 1st through 11th and Washington, DC courts are defined
+by region. And the federal court is defined by the subject matter of
+the case.
+</li>
+
+<li>The <b>issue area of the case</b> gives each case a category, like civil
+rights or federal taxation.
+</li>
+
+<li>The <b>type of petitioner and type of respondent</b> define two parties
+in the case. Some examples are the United States, an employer, or an
+employee.
+</li>
+
+<li>The <b>ideological direction of the lower court decision</b> describes
+whether the lower court made what was considered a liberal or a
+conservative decision.
+</li>
+
+<li>The last variable indicates <b>whether or not the petitioner argued
+that a law or practice was unconstitutional</b>.
+</li>
+</ul>
+
+<p>
+To collect this data, Martin and his colleagues read through all of
+the cases and coded the information. Some of it, like the circuit
+court, is straightforward. But other information required a judgment
+call, like the ideological direction of the lower court.
+</p>
+</div>
+
+<div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1"><span class="section-number-4">1.2.1</span> Logistic regression interpretation issues</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<p>
+Now that we have our data and variables, we are ready to predict the
+decisions of Justice Stevens.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LRStevens.png" alt="LRStevens.png" />
+</p>
+</div>
+
+<p>
+We can use logistic regression, and we get a model where some of the
+most significant variables are:
+</p>
+
+<p>
+whether or not the case is from the 2nd circuit court, with a
+coefficient of 1.66; whether or not the case is from the 4th circuit
+court, with a coefficient of 2.82; and whether or not the lower court
+decision was liberal, with a coefficient of (negative) -1.22.
+</p>
+
+<p>
+While this tells us that the case being from the 2nd or 4th circuit
+courts is predictive of Justice Stevens reversing the case, and the
+lower court decision being liberal is predictive of Justice Stevens
+affirming the case, it's difficult to understand which factors are
+more important due to things like the scales of the variables, and the
+possibility of multicollinearity.
+</p>
+
+<p>
+It's also difficult to quickly evaluate what the prediction would be
+for a new case. So instead of logistic regression, Martin and his
+colleagues used a method called <b>classification and regression trees</b>,
+or <b>CART</b>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2-2" class="outline-4">
+<h4 id="sec-1-2-2"><span class="section-number-4">1.2.2</span> CART</h4>
+<div class="outline-text-4" id="text-1-2-2">
+
+<div class="figure">
+<p><img src="../graphs/CARTDef.png" alt="CARTDef.png" />
+</p>
+</div>
+
+<p>
+This method builds what is called a tree by splitting on the values of
+the independent variables. To predict the outcome for a new
+observation or case, you can follow the splits in the tree and at the
+end, you predict the most frequent outcome in the training set that
+followed the same path.
+</p>
+
+<p>
+Some advantages of CART are that it does not assume a linear model,
+like logistic regression or linear regression, and it's a very
+interpretable model.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2-3" class="outline-4">
+<h4 id="sec-1-2-3"><span class="section-number-4">1.2.3</span> Example</h4>
+<div class="outline-text-4" id="text-1-2-3">
+
+<div class="figure">
+<p><img src="../graphs/CARTexample.png" alt="CARTexample.png" />
+</p>
+</div>
+
+<p>
+This plot shows sample data for two independent variables, x and y,
+and each data point is colored by the outcome variable, red or gray.
+</p>
+
+<p>
+CART tries to split this data into subsets so that each subset is as
+pure or homogeneous as possible. The first three splits that CART
+would create are shown here. <b>Then the standard prediction made by a
+CART model is just the majority in each subset</b>.
+</p>
+
+<p>
+If a new observation fell into one of these two subsets (RED), then we
+would predict red, since the majority of the observations in those
+subsets are red.
+</p>
+
+<p>
+However, if a new observation fell into one of these two subsets
+(GRAY), we would predict gray, since the majority of the observations
+in those two subsets are gray.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/CARTtreeExample.png" alt="CARTtreeExample.png" />
+</p>
+</div>
+
+<p>
+A CART model is represented by what we call a tree. The tree for the
+splits we just generated is shown on the right. The first split tests
+whether the variable x is less than 60.
+</p>
+
+<p>
+If yes, the model says to predict red, and if no, the model moves on
+to the next split. Then, the second split checks whether or not the
+variable y is less than 20.
+</p>
+
+<p>
+If no, the model says to predict gray, but if yes, the model moves on
+to the next split. The third split checks whether or not the variable
+x is less than 85.
+</p>
+
+<p>
+If yes, then the model says to predict red, and if no, the model says
+to predict gray. There are a couple things to keep in mind when
+reading trees.
+</p>
+
+<p>
+<b>Important</b>
+</p>
+
+<p>
+There are a couple things to keep in mind when reading trees. In this
+tree, and for the trees we'll generate in R, a yes response is always
+to the left and a no response is always to the right. Also, make sure
+you always start at the top of the tree. The x less than 85 split only
+counts for observations for which x is greater than 60 and y is less
+than 20.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Quick Question (2 points possible)</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+Suppose that you have the following CART tree:
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/QQ2_SupremeCourt.png" alt="QQ2_SupremeCourt.png" />
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1"><span class="section-number-4">1.3.1</span> Question a</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<p>
+How many splits are in this tree?
+</p>
+</div>
+
+<div id="outline-container-sec-1-3-1-1" class="outline-5">
+<h5 id="sec-1-3-1-1"><span class="section-number-5">1.3.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-1-3-1-1">
+<p>
+<b>3 splits</b>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3-2" class="outline-4">
+<h4 id="sec-1-3-2"><span class="section-number-4">1.3.2</span> Question b</h4>
+<div class="outline-text-4" id="text-1-3-2">
+<p>
+For which data observations should we predict "Red", according to this
+tree? Select all that apply.
+</p>
+</div>
+
+<div id="outline-container-sec-1-3-2-1" class="outline-5">
+<h5 id="sec-1-3-2-1"><span class="section-number-5">1.3.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-1-3-2-1">
+<ul class="org-ul">
+<li><code>[X]</code> If X is less than 60, and Y is any value.
+</li>
+
+<li><code>[&#xa0;]</code> If X is greater than or equal to 60, and Y is greater than or
+equal to 20.
+</li>
+
+<li><code>[&#xa0;]</code> If X is greater than or equal to 85, and Y is less than 20.
+</li>
+
+<li><code>[X]</code> If X is greater than or equal to 60 and less than 85, and Y is
+less than 20.
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<ul class="org-ul">
+<li>This tree has three splits.
+</li>
+
+<li>The first split says to predict "Red" if X is less than 60,
+regardless of the value of Y.
+</li>
+
+<li>Otherwise, we move to the second split. The second split says to
+check the value of Y
+
+<ul class="org-ul">
+<li>if it is greater than or equal to 20, predict "Gray".
+</li>
+</ul>
+</li>
+
+<li>Otherwise, we move to the third split. This split checks the value
+of X again.
+
+<ul class="org-ul">
+<li>If X is less than 85 (and greater than or equal to 60 by
+the first split) and Y is less than 20, then we predict
+"Red". Otherwise, we predict "Gray".
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> Video 3: Splitting and Predictions</h3>
+<div class="outline-text-3" id="text-1-4">
+
+<div class="figure">
+<p><img src="../graphs/NumberSplitsCART.png" alt="NumberSplitsCART.png" />
+</p>
+</div>
+
+<p>
+In R, this is called the <b>minbucket</b> parameter, for the minimum number
+of observations in each bucket or subset.
+</p>
+
+<p>
+The smaller minbucket is, the more splits will be generated. But if
+it's too small, overfitting will occur. This means that CART will fit
+the training set almost perfectly. But this is bad because then the
+model will probably not perform well on test set data or new data.
+</p>
+
+<p>
+On the other hand, if the minbucket parameter is too large, the model
+will be too simple and the accuracy will be poor.
+</p>
+
+<p>
+<b>We will learn about a nice method for selecting the stopping
+ parameter</b>.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PredictionsCART.png" alt="PredictionsCART.png" />
+</p>
+</div>
+
+<p>
+In the Supreme Court case, we'll be classifying observations as either
+affirm or reverse. Instead of just taking the majority outcome to be
+the prediction, we can compute the percentage of data in a subset of
+each type of outcome.
+</p>
+
+<p>
+As an example, if we have a subset with 10 affirms and two reverses,
+then 87% of the data is affirm. Then, just like in logistic
+regression, we can use a threshold value to obtain our prediction.
+</p>
+
+<p>
+For this example, we would predict affirm with a threshold of 0.5
+since the majority is affirm. But if we increase that threshold to
+0.9, we would predict reverse for this example.
+</p>
+
+<p>
+Then by varying the threshold value, we can compute an ROC curve and
+compute an AUC value to evaluate our model.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/ROC-CART.png" alt="ROC-CART.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5"><span class="section-number-3">1.5</span> Quick Question (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-5">
+<p>
+Suppose you have a subset of 20 observations, where 14 have outcome A
+and 6 have outcome B. What proportion of observations have outcome A?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Proportion of observations of A:"</span>)
+A <span style="color: #db7093;">&lt;-</span> 14; B <span style="color: #db7093;">&lt;-</span> 6;
+A / (A + B)
+</pre>
+</div>
+
+<pre class="example">
+ :: Proportion of observations of A:
+[1] 0.7
+</pre>
+</div>
+
+<div id="outline-container-sec-1-5-1" class="outline-4">
+<h4 id="sec-1-5-1"><span class="section-number-4">1.5.1</span> Answer</h4>
+<div class="outline-text-4" id="text-1-5-1">
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+The fraction of observations that have outcome A is
+</p>
+
+<p>
+$$
+\frac{14}{14 + 6} = 0.7.
+$$
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6"><span class="section-number-3">1.6</span> Quick Question (3 points possible)</h3>
+<div class="outline-text-3" id="text-1-6">
+<p>
+The following questions ask about the subset of 20 observations from
+the previous question.
+</p>
+</div>
+
+<div id="outline-container-sec-1-6-1" class="outline-4">
+<h4 id="sec-1-6-1"><span class="section-number-4">1.6.1</span> Question</h4>
+<div class="outline-text-4" id="text-1-6-1">
+<p>
+If we set the threshold to 0.25 when computing predictions of outcome
+A, will we predict A or B for these observations?
+</p>
+</div>
+
+<div id="outline-container-sec-1-6-1-1" class="outline-5">
+<h5 id="sec-1-6-1-1"><span class="section-number-5">1.6.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-1-6-1-1">
+<ul class="org-ul">
+<li><code>[X]</code> A
+</li>
+<li><code>[&#xa0;]</code> B
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-6-2" class="outline-4">
+<h4 id="sec-1-6-2"><span class="section-number-4">1.6.2</span> Question</h4>
+<div class="outline-text-4" id="text-1-6-2">
+<p>
+If we set the threshold to 0.5 when computing predictions of outcome
+A, will we predict A or B for these observations?
+</p>
+</div>
+
+<div id="outline-container-sec-1-6-2-1" class="outline-5">
+<h5 id="sec-1-6-2-1"><span class="section-number-5">1.6.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-1-6-2-1">
+<ul class="org-ul">
+<li><code>[X]</code> A
+</li>
+<li><code>[&#xa0;]</code> B
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-6-3" class="outline-4">
+<h4 id="sec-1-6-3"><span class="section-number-4">1.6.3</span> Question</h4>
+<div class="outline-text-4" id="text-1-6-3">
+<p>
+If we set the threshold to 0.75 when computing predictions of outcome
+A, will we predict A or B for these observations?
+</p>
+</div>
+
+<div id="outline-container-sec-1-6-3-1" class="outline-5">
+<h5 id="sec-1-6-3-1"><span class="section-number-5">1.6.3.1</span> Answer</h5>
+<div class="outline-text-5" id="text-1-6-3-1">
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> A
+</li>
+<li><code>[X]</code> B
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7"><span class="section-number-3">1.7</span> Video 4: CART in R</h3>
+<div class="outline-text-3" id="text-1-7">
+<p>
+In the next few videos, we'll be using the dataset <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/stevens.csv">stevens.csv</a> to
+build trees in R. Please download the dataset to follow along. This
+data comes from the <a href="http://wusct.wustl.edu/data.php">Supreme Court Forecasting Project</a> website.
+</p>
+
+<p>
+An R script file with all of the R commands used in this lecture can
+be downloaded <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/Unit4_SupremeCourt.R">here</a>.
+</p>
+</div>
+
+<div id="outline-container-sec-1-7-1" class="outline-4">
+<h4 id="sec-1-7-1"><span class="section-number-4">1.7.1</span> Download the data sets</h4>
+<div class="outline-text-4" id="text-1-7-1">
+<p>
+In this part we can download the data
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R"><span style="color: #db7093;">library</span>(parallel)
+
+<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #fffacd;">"../data"</span>)) {
+        dir.create(<span style="color: #fffacd;">"../data"</span>)
+}
+
+fileUrl <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/stevens.csv"</span>
+
+fileName <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"stevens.csv"</span>
+
+dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"../data"</span>
+
+filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #fffacd;">"/"</span>)
+
+<span style="color: #4682b4;">if</span>(!file.exists(filePath)) {
+        download.file(fileUrl, destfile = filePath, method = <span style="color: #fffacd;">"curl"</span>)
+}
+
+list.files(<span style="color: #fffacd;">"../data"</span>)
+</pre>
+</div>
+
+<pre class="example">
+ [1] "AnonymityPoll.csv"       "BoeingStock.csv"
+ [3] "CPSData.csv"             "CocaColaStock.csv"
+ [5] "CountryCodes.csv"        "FluTest.csv"
+ [7] "FluTrain.csv"            "GEStock.csv"
+ [9] "IBMStock.csv"            "MetroAreaCodes.csv"
+[11] "NBA_test.csv"            "NBA_train.csv"
+[13] "PollingData.csv"         "PollingData_Imputed.csv"
+[15] "ProcterGambleStock.csv"  "README.md"
+[17] "USDA.csv"                "WHO.csv"
+[19] "WHO_Europe.csv"          "baseball.csv"
+[21] "climate_change.csv"      "framingham.csv"
+[23] "loans.csv"               "loans_imputed.csv"
+[25] "mvtWeek1.csv"            "parole.csv"
+[27] "pisa2009test.csv"        "pisa2009train.csv"
+[29] "quality.csv"             "songs.csv"
+[31] "stevens.csv"             "wine.csv"
+[33] "wine_test.csv"
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-1-7-2" class="outline-4">
+<h4 id="sec-1-7-2"><span class="section-number-4">1.7.2</span> Load the data set</h4>
+<div class="outline-text-4" id="text-1-7-2">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"    Loading data into their data frames."</span>)
+stevens <span style="color: #db7093;">&lt;-</span> read.table(<span style="color: #fffacd;">"../data/stevens.csv"</span>, sep = <span style="color: #fffacd;">","</span>, header = <span style="color: #3cb371;">TRUE</span>)
+
+str(stevens)
+summary(stevens)
+</pre>
+</div>
+
+<pre class="example">
+    Loading data into their data frames.
+'data.frame':	566 obs. of  9 variables:
+ $ Docket    : Factor w/ 566 levels "00-1011","00-1045",..: 63 69 70 145 97 181 242 289 334 436 ...
+ $ Term      : int  1994 1994 1994 1994 1995 1995 1996 1997 1997 1999 ...
+ $ Circuit   : Factor w/ 13 levels "10th","11th",..: 4 11 7 3 9 11 13 11 12 2 ...
+ $ Issue     : Factor w/ 11 levels "Attorneys","CivilRights",..: 5 5 5 5 9 5 5 5 5 3 ...
+ $ Petitioner: Factor w/ 12 levels "AMERICAN.INDIAN",..: 2 2 2 2 2 2 2 2 2 2 ...
+ $ Respondent: Factor w/ 12 levels "AMERICAN.INDIAN",..: 2 2 2 2 2 2 2 2 2 2 ...
+ $ LowerCourt: Factor w/ 2 levels "conser","liberal": 2 2 2 1 1 1 1 1 1 1 ...
+ $ Unconst   : int  0 0 0 0 0 1 0 1 0 0 ...
+ $ Reverse   : int  1 1 1 1 1 0 1 1 1 1 ...
+     Docket         Term         Circuit                  Issue
+ 00-1011:  1   Min.   :1994   9th    :122   CriminalProcedure:132
+ 00-1045:  1   1st Qu.:1995   5th    : 53   JudicialPower    :102
+ 00-1072:  1   Median :1997   11th   : 49   EconomicActivity : 98
+ 00-1073:  1   Mean   :1997   7th    : 47   CivilRights      : 74
+ 00-1089:  1   3rd Qu.:1999   4th    : 46   DueProcess       : 43
+ 00-121 :  1   Max.   :2001   8th    : 44   FirstAmendment   : 39
+ (Other):560                  (Other):205   (Other)          : 78
+               Petitioner               Respondent    LowerCourt
+ OTHER              :175   OTHER             :177   conser :293
+ CRIMINAL.DEFENDENT : 89   BUSINESS          : 80   liberal:273
+ BUSINESS           : 79   US                : 69
+ STATE              : 48   CRIMINAL.DEFENDENT: 58
+ US                 : 48   STATE             : 56
+ GOVERNMENT.OFFICIAL: 38   EMPLOYEE          : 28
+ (Other)            : 89   (Other)           : 98
+    Unconst          Reverse
+ Min.   :0.0000   Min.   :0.0000
+ 1st Qu.:0.0000   1st Qu.:0.0000
+ Median :0.0000   Median :1.0000
+ Mean   :0.2473   Mean   :0.5459
+ 3rd Qu.:0.0000   3rd Qu.:1.0000
+ Max.   :1.0000   Max.   :1.0000
+</pre>
+
+<p>
+Now, let's take a look at our data using the <code>str</code> function. We have
+566 observations, or Supreme Court cases, and nine different
+variables.
+</p>
+
+<p>
+<b>Docket</b> is just a unique identifier for each case, and <b>Term</b> is the
+year of the case. Then we have our six independent variables: the <b>Circuit</b>
+court of origin, the <b>Issue</b> area of the case, the type of
+<b>Petitioner</b>, the type of <b>Respondent</b>, the lower court <b>LowerCourt</b>
+direction, and whether or not the petitioner argued that a law or
+practice was unconstitutional <b>Unconst</b>. The last variable is our
+dependent variable, whether or not Justice Stevens voted to <b>reverse</b>
+the case: 1 for reverse, and 0 for affirm.
+</p>
+
+<p>
+Now before building models, we need to split our data into a training
+set and a testing set.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Split the data:"</span>)
+<span style="color: #db7093;">library</span>(caTools)
+set.seed(3000)
+
+spl <span style="color: #db7093;">&lt;-</span> sample.split(stevens$Reverse, SplitRatio = 0.7)
+Train <span style="color: #db7093;">&lt;-</span> subset(stevens, spl == <span style="color: #3cb371;">TRUE</span>)
+Test <span style="color: #db7093;">&lt;-</span> subset(stevens, spl == <span style="color: #3cb371;">FALSE</span>)
+
+writeLines(<span style="color: #fffacd;">"\n :: Dimensions of the training set:"</span>)
+dim(Train)
+
+writeLines(<span style="color: #fffacd;">"\n :: Dimensions of the testing set:"</span>)
+dim(Test)
+</pre>
+</div>
+
+<pre class="example">
+ :: Split the data:
+
+ :: Dimensions of the training set:
+[1] 396   9
+
+ :: Dimensions of the testing set:
+[1] 170   9
+</pre>
+
+<p>
+Now, we're ready to build our <b>CART</b> model. First we need to install and
+load the <code>rpart</code> package and the <code>rpart</code> plotting package.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Install new package: rpart ..."</span>)
+<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">install.packages('rpart', repos='http://cran.rstudio.com/')</span>
+
+<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">writeLines("\n :: Install new package: rpart.plot ...")</span>
+<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">install.packages('rpart.plot', repos='http://cran.rstudio.com/')</span>
+writeLines(<span style="color: #fffacd;">"\n :: NOTE: Please comment after install once..."</span>)
+
+writeLines(<span style="color: #fffacd;">"\n :: Loading rpart and rpart.plot..."</span>)
+<span style="color: #db7093;">library</span>(rpart)
+<span style="color: #db7093;">library</span>(rpart.plot)
+
+writeLines(<span style="color: #fffacd;">"\n :: rpart and r.part.plot libraries loaded..."</span>)
+</pre>
+</div>
+
+<pre class="example">
+:: Install new package: rpart ...
+
+:: NOTE: Please comment after install once...
+
+:: Loading rpart and rpart.plot...
+
+:: rpart and r.part.plot libraries loaded...
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-1-7-3" class="outline-4">
+<h4 id="sec-1-7-3"><span class="section-number-4">1.7.3</span> Building the CART model</h4>
+<div class="outline-text-4" id="text-1-7-3">
+<p>
+Now we can create our CART model using the rpart function.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: CART model DONE..."</span>)
+StevensTree <span style="color: #db7093;">&lt;-</span> rpart(Reverse ~ Circuit + Issue + Petitioner +
+            Respondent + LowerCourt + Unconst, data =
+            Train, method = <span style="color: #fffacd;">"class"</span>, minbucket = 25)
+</pre>
+</div>
+
+<pre class="example">
+:: CART model DONE...
+</pre>
+
+
+<div id="fig:CARTcourtModel" class="figure">
+<p><img src="../graphs/CARTcourtModel.png" alt="CARTcourtModel.png" />
+</p>
+<p><span class="figure-number">Figure 16:</span> CART model for the Stevens prediction.</p>
+</div>
+
+<p>
+The last argument we'll give is <code>minbucket = 25</code>. This limits the tree
+so that it doesn't overfit to our training set. We selected a value of
+25, but we could pick a smaller or larger value.
+</p>
+
+<p>
+If you're not sure what the abbreviations are, you could create a
+table of the variable to see all of the possible values.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-7-4" class="outline-4">
+<h4 id="sec-1-7-4"><span class="section-number-4">1.7.4</span> Making predictions in the testing set</h4>
+<div class="outline-text-4" id="text-1-7-4">
+<p>
+Comparing this to a logistic regression model, we can see that it's
+very interpretable. A CART tree is a series of decision rules which
+can easily be explained. Now let's see how well our CART model does at
+making predictions for the test set.
+</p>
+
+<p>
+And we'll add a third argument here, which is ~type = "class"~. We
+need to give this argument when making predictions for our CART model
+if we want the majority class predictions. This is like using a
+threshold of \(0.5\).
+</p>
+
+<p>
+We'll see in a few minutes how we can leave this argument out and
+still get probabilities from our CART model.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Make predictions:"</span>)
+PredictCART <span style="color: #db7093;">&lt;-</span> predict(StevensTree, newdata = Test, type = <span style="color: #fffacd;">"class"</span>)
+table(Test$Reverse, PredictCART)
+
+writeLines(<span style="color: #fffacd;">"\n :: Overall accuracy:"</span>)
+(41+71)/(41+36+22+71)
+</pre>
+</div>
+
+<pre class="example">
+ :: Make predictions:
+   PredictCART
+     0  1
+  0 41 36
+  1 22 71
+
+ :: Overall accuracy:
+[1] 0.6588235
+</pre>
+
+<p>
+Now let's compute the accuracy of our model by building a confusion
+matrix. So we'll use the table function, and first give the true
+outcome values&#x2013; <code>Test$Reverse</code>, and then our predictions,
+<code>PredictCART</code>.
+</p>
+
+<p>
+So the accuracy of our CART model is \(0.659\).
+</p>
+
+<p>
+If you were to build a logistic regression model, you would get an
+accuracy of 0.665 and a baseline model that always predicts Reverse,
+the most common outcome, has an accuracy of 0.547. So our CART model
+significantly beats the baseline and is competitive with logistic
+regression.
+</p>
+
+<p>
+Lastly, to evaluate our model, let's generate an ROC curve for our
+CART model using the ROCR package.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: ROC curve:"</span>)
+<span style="color: #db7093;">library</span>(ROCR)
+
+PredictROC <span style="color: #db7093;">&lt;-</span> predict(StevensTree, newdata = Test)
+head(PredictROC)
+
+pred <span style="color: #db7093;">&lt;-</span> prediction(PredictROC[,2], Test$Reverse)
+perf <span style="color: #db7093;">&lt;-</span> performance(pred, <span style="color: #fffacd;">"tpr"</span>, <span style="color: #fffacd;">"fpr"</span>)
+</pre>
+</div>
+
+<pre class="example">
+ :: ROC curve:
+           0         1
+1  0.3035714 0.6964286
+3  0.3035714 0.6964286
+4  0.4000000 0.6000000
+6  0.4000000 0.6000000
+8  0.4000000 0.6000000
+21 0.3035714 0.6964286
+</pre>
+
+<p>
+<b>PredictROC</b>
+</p>
+
+<p>
+For each observation in the test set, it gives two numbers which can
+be thought of as the probability of outcome 0 and the probability of
+outcome 1. More concretely, each test set observation is classified
+into a subset, or bucket, of our CART tree.
+</p>
+
+<p>
+These numbers give the percentage of training set data in that subset
+with outcome 0 and the percentage of data in the training set in that
+subset with outcome 1.
+</p>
+
+<p>
+Now we need to use the performance function, where the first argument
+is the outcome of the prediction function, and then the next two
+arguments are true positive rate and false positive rate, what we want
+on the x and y-axes of our ROC curve.
+</p>
+
+
+<div id="fig:ROCtestingStevens" class="figure">
+<p><img src="../graphs/ROCtestingStevens.png" alt="ROCtestingStevens.png" />
+</p>
+<p><span class="figure-number">Figure 17:</span> The ROC curve for the justice Stevens.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-8" class="outline-3">
+<h3 id="sec-1-8"><span class="section-number-3">1.8</span> Quick Question (3 points possible)</h3>
+<div class="outline-text-3" id="text-1-8">
+</div><div id="outline-container-sec-1-8-1" class="outline-4">
+<h4 id="sec-1-8-1"><span class="section-number-4">1.8.1</span> Question a</h4>
+<div class="outline-text-4" id="text-1-8-1">
+<p>
+Compute the AUC of the CART model from the previous video, using the
+following command in your R console:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: The AUC for the CART:"</span>)
+as.numeric(performance(pred, <span style="color: #fffacd;">"auc"</span>)@y.values)
+</pre>
+</div>
+
+<pre class="example">
+ :: The AUC for the CART:
+[1] 0.6927105
+</pre>
+
+<p>
+What is the AUC?
+</p>
+
+<p>
+<b>The AUC for the CART = 0.6927105</b>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-8-2" class="outline-4">
+<h4 id="sec-1-8-2"><span class="section-number-4">1.8.2</span> Question b</h4>
+<div class="outline-text-4" id="text-1-8-2">
+<p>
+Now, recall that in Video 4, our tree had 7 splits. Let's see how this
+changes if we change the value of minbucket.
+</p>
+
+<p>
+First build a CART model that is similar to the one we built in Video
+4, except change the minbucket parameter to 5. Plot the tree.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">StevensTree2 <span style="color: #db7093;">&lt;-</span> rpart(Reverse ~ Circuit + Issue + Petitioner +
+            Respondent + LowerCourt + Unconst, data =
+            Train, method = <span style="color: #fffacd;">"class"</span>, minbucket = 5)
+
+writeLines(<span style="color: #fffacd;">"\n :: CART model 2 DONE..."</span>)
+</pre>
+</div>
+
+<pre class="example">
+:: CART model 2 DONE...
+</pre>
+
+
+<div id="fig:CARTcourtModel2" class="figure">
+<p><img src="../graphs/CARTcourtModel2.png" alt="CARTcourtModel2.png" />
+</p>
+<p><span class="figure-number">Figure 18:</span> CART court model with a minbucket of 5.</p>
+</div>
+
+<p>
+How many splits does the tree have?
+</p>
+</div>
+
+<div id="outline-container-sec-1-8-2-1" class="outline-5">
+<h5 id="sec-1-8-2-1"><span class="section-number-5">1.8.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-1-8-2-1">
+<p>
+<b>The tree have 16 splits</b>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-8-3" class="outline-4">
+<h4 id="sec-1-8-3"><span class="section-number-4">1.8.3</span> Question c</h4>
+<div class="outline-text-4" id="text-1-8-3">
+<p>
+Now build a CART model that is similar to the one we built in Video 4,
+except change the minbucket parameter to 100. Plot the tree.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">StevensTree3 <span style="color: #db7093;">&lt;-</span> rpart(Reverse ~ Circuit + Issue + Petitioner +
+            Respondent + LowerCourt + Unconst, data =
+            Train, method = <span style="color: #fffacd;">"class"</span>, minbucket = 100)
+
+writeLines(<span style="color: #fffacd;">"\n :: CART model 3 DONE..."</span>)
+</pre>
+</div>
+
+<pre class="example">
+:: CART model 3 DONE...
+</pre>
+
+
+<div id="fig:CARTcourtModel3" class="figure">
+<p><img src="../graphs/CARTcourtModel3.png" alt="CARTcourtModel3.png" />
+</p>
+<p><span class="figure-number">Figure 19:</span> CART court model with a minbucket of 5.</p>
+</div>
+
+
+<p>
+How many splits does the tree have?
+</p>
+</div>
+
+<div id="outline-container-sec-1-8-3-1" class="outline-5">
+<h5 id="sec-1-8-3-1"><span class="section-number-5">1.8.3.1</span> Answer</h5>
+<div class="outline-text-5" id="text-1-8-3-1">
+<p>
+<b>This tree have only 1 split</b>.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-9" class="outline-3">
+<h3 id="sec-1-9"><span class="section-number-3">1.9</span> Video 5: Random Forests</h3>
+<div class="outline-text-3" id="text-1-9">
+<p>
+Important Note: In this video, we install the package
+<b>randomForest</b>. If you get an installation warning that says:
+</p>
+
+<p>
+"Warning: cannot remove prior installation of packages
+'randomForest'", please try quitting and re-starting R.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Install new package: randomForest ..."</span>)
+<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">install.packages('randomForest', repos='http://cran.rstudio.com/')</span>
+writeLines(<span style="color: #fffacd;">"\n :: NOTE: Please comment after install once..."</span>)
+
+<span style="color: #db7093;">library</span>(randomForest)
+writeLines(<span style="color: #fffacd;">"\n :: Library randomForest loaded..."</span>)
+</pre>
+</div>
+
+<pre class="example">
+:: Install new package: randomForest ...
+
+:: NOTE: Please comment after install once...
+
+:: Library randomForest loaded...
+</pre>
+
+<p>
+We'll introduce a method that is similar to CART called random
+forests. This method was designed to improve the prediction accuracy
+of CART and works by building a large number of CART
+trees. Unfortunately, this makes the method less interpretable than
+CART, so often you need to decide if you value the interpretability or
+the increase in accuracy more.
+</p>
+
+<p>
+To make a prediction for a new observation, each tree in the forest
+votes on the outcome and we pick the outcome that receives the
+majority of the votes.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/RandomForest.png" alt="RandomForest.png" />
+</p>
+</div>
+
+<p>
+So how does random forests build many CART trees?
+</p>
+
+<p>
+Random forests only allows each tree to split on a random subset of
+the available independent variables, and each tree is built from what
+we call a bagged or bootstrapped sample of the data. This just means
+that the data used as the training data for each tree is selected
+randomly with replacement.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/BuildingManyTrees.png" alt="BuildingManyTrees.png" />
+</p>
+</div>
+
+<p>
+Suppose we have five data points in our training set. We'll call them
+1, 2, 3, 4, and 5. For the first tree, we'll randomly pick five data
+points randomly sampled with replacement.
+</p>
+
+<p>
+So the data could be 2, 4, 5, 2, and 1. Each time we pick one of the
+five data points regardless of whether or not it's been selected
+already. These would be the five data points we would use when
+constructing the first CART tree.
+</p>
+
+<p>
+Then we repeat this process for the second tree. This time the data
+set might be 3, 5, 1, 5, and 2. And we would use this data when
+building the second CART tree. Then we would repeat this process for
+each additional tree we want to create.
+</p>
+
+<p>
+So <b>since each tree sees a different set of variables</b> and a different
+set of data, we get what's called a <b>forest</b> of many different
+trees. Just like CART, <b>random forests</b> has some parameter values that
+need to be selected. The first is the minimum number of observations
+in a subset, or the minbucket parameter from CART.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/RFParameters.png" alt="RFParameters.png" />
+</p>
+</div>
+
+<p>
+When we create a random forest in R, this will be called <b>nodesize</b>. A
+<b>smaller value of nodesize</b>, which <b>leads to bigger trees</b>, may take
+longer in R. Random forests is much more computationally intensive
+than CART. The second parameter is the number of trees to build, which
+is called <b>ntree</b> in R. This should not be set too small, but the larger
+it is the longer it will take. A couple hundred trees is typically
+plenty. A nice thing about random forests is that it's not as
+sensitive to the parameter values as CART is.
+</p>
+
+<p>
+For random forests, as long as the selection is reasonable, it's OK.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Build random forest model:"</span>)
+StevensForest <span style="color: #db7093;">&lt;-</span> randomForest(Reverse ~ Circuit + Issue + Petitioner +
+                                      Respondent + LowerCourt +
+                              Unconst, data = Train, ntree = 200,
+                              nodesize = 25 )
+summary(StevensForest)
+</pre>
+</div>
+
+<pre class="example">
+ :: Build random forest model:
+ Warning message:
+In randomForest.default(m, y, ...) :
+  The response has five or fewer unique values.  Are you sure you want to do regression?
+                Length Class  Mode
+call              5    -none- call
+type              1    -none- character
+predicted       396    -none- numeric
+mse             200    -none- numeric
+rsq             200    -none- numeric
+oob.times       396    -none- numeric
+importance        6    -none- numeric
+importanceSD      0    -none- NULL
+localImportance   0    -none- NULL
+proximity         0    -none- NULL
+ntree             1    -none- numeric
+mtry              1    -none- numeric
+forest           11    -none- list
+coefs             0    -none- NULL
+y               396    -none- numeric
+test              0    -none- NULL
+inbag             0    -none- NULL
+terms             3    terms  call
+</pre>
+
+<p>
+You should see an interesting warning message here. In CART, we added
+the argument ~method = "class"~, so that it was clear that we're doing
+a classification problem. As I mentioned earlier, trees can also be
+used for regression problems, which you'll see in the recitation.
+</p>
+
+<p>
+The randomForest function does not have a method argument. So when we
+<b>want to do a classification problem</b>, we need to make sure <b>outcome
+is a factor</b>. Let's convert the variable Reverse to a factor variable in
+both our training and our testing sets.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Converting outcome to factor..."</span>)
+Train$Reverse <span style="color: #db7093;">&lt;-</span> as.factor(Train$Reverse)
+Test$Reverse <span style="color: #db7093;">&lt;-</span> as.factor(Test$Reverse)
+</pre>
+</div>
+
+<pre class="example">
+:: Converting outcome to factor...
+</pre>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Try again to build the RF model:"</span>)
+StevensForest <span style="color: #db7093;">&lt;-</span> randomForest(Reverse ~ Circuit + Issue + Petitioner +
+                                      Respondent + LowerCourt +
+                              Unconst, data = Train, ntree = 200,
+                              nodesize = 25 )
+summary(StevensForest)
+</pre>
+</div>
+
+<pre class="example">
+ :: Try again to build the RF model:
+                Length Class  Mode
+call              5    -none- call
+type              1    -none- character
+predicted       396    factor numeric
+err.rate        600    -none- numeric
+confusion         6    -none- numeric
+votes           792    matrix numeric
+oob.times       396    -none- numeric
+classes           2    -none- character
+importance        6    -none- numeric
+importanceSD      0    -none- NULL
+localImportance   0    -none- NULL
+proximity         0    -none- NULL
+ntree             1    -none- numeric
+mtry              1    -none- numeric
+forest           14    -none- list
+y               396    factor numeric
+test              0    -none- NULL
+inbag             0    -none- NULL
+terms             3    terms  call
+</pre>
+
+<p>
+Let's compute predictions on our test set.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Make predictions in the test set:"</span>)
+PredictForest <span style="color: #db7093;">&lt;-</span> predict(StevensForest, newdata = Test)
+
+writeLines(<span style="color: #fffacd;">"\n :: Build the confusion matrix (random component in RF):"</span>)
+table(Test$Reverse, PredictForest)
+
+writeLines(<span style="color: #fffacd;">"\n :: Calculate the overall accuracy:"</span>)
+(40 + 74) / (40 + 37 + 19 + 74)
+</pre>
+</div>
+
+<pre class="example">
+ :: Make predictions in the test set:
+
+ :: Build the confusion matrix (random component in RF):
+   PredictForest
+     0  1
+  0 40 37
+  1 19 74
+
+ :: Calculate the overall accuracy:
+[1] 0.6705882
+</pre>
+
+<p>
+So the accuracy of our Random Forest model is about \(67\%\). Recall that
+our logistic regression model had an accuracy of \(66.5\%\) and our CART
+model had an accuracy of \(65.9\%\).
+</p>
+
+<p>
+So our random forest model improved our accuracy a little bit over
+CART. Sometimes you'll see a smaller improvement in accuracy and
+sometimes you'll see that random forests can significantly improve in
+accuracy over CART.
+</p>
+
+<p>
+Keep in mind that Random Forests has a random component. You may have
+gotten a different confusion matrix than me because there's a random
+component to this method.
+</p>
+
+<p>
+Keep in mind that Random Forests has a random component. You may have
+gotten a different confusion matrix than the instructor because
+there's a random component to this method.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-10" class="outline-3">
+<h3 id="sec-1-10"><span class="section-number-3">1.10</span> QUICK QUESTION  (2 points possible)</h3>
+<div class="outline-text-3" id="text-1-10">
+<p>
+<b>IMPORTANT NOTE</b>: When creating random forest models, you might still
+get different answers from the ones you see here even if you set the
+random seed. This has to do with different operating systems and the
+random forest implementation.
+</p>
+
+<p>
+Let's see what happens if we set the seed to two different values and
+create two different random forest models.
+</p>
+
+<p>
+First, set the seed to 100, and the re-build the random forest model,
+exactly like we did in the previous video (Video 5). Then make
+predictions on the test set.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Try again to build the RF model:"</span>)
+set.seed(100)
+StevensForest2 <span style="color: #db7093;">&lt;-</span> randomForest(Reverse ~ Circuit + Issue + Petitioner +
+                                      Respondent + LowerCourt +
+                              Unconst, data = Train, ntree = 200,
+                              nodesize = 25 )
+
+writeLines(<span style="color: #fffacd;">"\n :: Make predictions in the test set:"</span>)
+PredictForest2 <span style="color: #db7093;">&lt;-</span> predict(StevensForest2, newdata = Test)
+
+writeLines(<span style="color: #fffacd;">"\n :: Build the confusion matrix (random component in RF):"</span>)
+table(Test$Reverse, PredictForest2)
+
+writeLines(<span style="color: #fffacd;">"\n :: Calculate the overall accuracy:"</span>)
+(43 + 74) / (43 + 34 + 19 + 74)
+</pre>
+</div>
+
+<pre class="example">
+ :: Try again to build the RF model:
+
+ :: Make predictions in the test set:
+
+ :: Build the confusion matrix (random component in RF):
+   PredictForest2
+     0  1
+  0 43 34
+  1 19 74
+
+ :: Calculate the overall accuracy:
+[1] 0.6882353
+</pre>
+</div>
+
+<div id="outline-container-sec-1-10-1" class="outline-4">
+<h4 id="sec-1-10-1"><span class="section-number-4">1.10.1</span> Question a</h4>
+<div class="outline-text-4" id="text-1-10-1">
+<p>
+What is the accuracy of the model on the test set?
+</p>
+</div>
+
+<div id="outline-container-sec-1-10-1-1" class="outline-5">
+<h5 id="sec-1-10-1-1"><span class="section-number-5">1.10.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-1-10-1-1">
+<p>
+0.6882353
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-10-2" class="outline-4">
+<h4 id="sec-1-10-2"><span class="section-number-4">1.10.2</span> Question b</h4>
+<div class="outline-text-4" id="text-1-10-2">
+<p>
+Now, set the seed to 200, and then re-build the random forest model,
+exactly like we did in the previous video (Video 5). Then make
+predictions on the test set. What is the accuracy of this model on the
+test set?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Try again to build the RF model:"</span>)
+set.seed(200)
+StevensForest3 <span style="color: #db7093;">&lt;-</span> randomForest(Reverse ~ Circuit + Issue + Petitioner +
+                                      Respondent + LowerCourt +
+                              Unconst, data = Train, ntree = 200,
+                              nodesize = 25 )
+
+writeLines(<span style="color: #fffacd;">"\n :: Make predictions in the test set:"</span>)
+PredictForest3 <span style="color: #db7093;">&lt;-</span> predict(StevensForest3, newdata = Test)
+
+writeLines(<span style="color: #fffacd;">"\n :: Build the confusion matrix (random component in RF):"</span>)
+table(Test$Reverse, PredictForest3)
+
+writeLines(<span style="color: #fffacd;">"\n :: Calculate the overall accuracy:"</span>)
+(44 + 76) / (44 + 33 + 17 + 76)
+</pre>
+</div>
+
+<pre class="example">
+ :: Try again to build the RF model:
+
+ :: Make predictions in the test set:
+
+ :: Build the confusion matrix (random component in RF):
+   PredictForest3
+     0  1
+  0 44 33
+  1 17 76
+
+ :: Calculate the overall accuracy:
+[1] 0.7058824
+</pre>
+</div>
+
+<div id="outline-container-sec-1-10-2-1" class="outline-5">
+<h5 id="sec-1-10-2-1"><span class="section-number-5">1.10.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-1-10-2-1">
+<p>
+0.7058824
+</p>
+
+<p>
+<b>EXPLANATION</b>
+</p>
+
+<p>
+You can create the models and compute the accurracies with the
+following commands in R:
+</p>
+
+<p>
+<code>set.seed(100)</code>
+</p>
+
+<p>
+<code>StevensForest = randomForest(Reverse ~ Circuit + Issue + Petitioner +</code>
+</p>
+
+<p>
+<code>Respondent + LowerCourt + Unconst, data = Train, ntree=200, nodesize=25)</code>
+</p>
+
+<p>
+<code>PredictForest = predict(StevensForest, newdata = Test)</code>
+</p>
+
+<p>
+<code>table(Test$Reverse, PredictForest)</code>
+</p>
+
+<p>
+and then repeat it, but with set.seed(200) first.
+</p>
+
+<p>
+As we see here, the <b>random component</b> of the random forest method
+<b>can change the accuracy</b>. The accuracy for a more stable dataset will not
+change very much, but a noisy dataset can be significantly affected by
+the random samples.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-11" class="outline-3">
+<h3 id="sec-1-11"><span class="section-number-3">1.11</span> VIDEO 6: Cross-Validation</h3>
+<div class="outline-text-3" id="text-1-11">
+<p>
+<b>IMPORTANT NOTE ABOUT THIS VIDEO</b>
+</p>
+
+<p>
+In this video, we install and load two new packages so that we can
+perform cross-validation: "caret", and "e1071". You may need to
+additionally install and load the following packages for
+cross-validation to work on your computer: "class" and "ggplot2". If
+you receive an error message after trying to load caret and e1071,
+please try installing and loading these two additional packages.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Install new package: Caret and e1071 ..."</span>)
+<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">install.packages(c("caret", "e1071"), repos='http://cran.rstudio.com/')</span>
+writeLines(<span style="color: #fffacd;">"\n :: NOTE: Please comment after install once..."</span>)
+
+<span style="color: #db7093;">library</span>(caret)
+<span style="color: #db7093;">library</span>(e1071)
+writeLines(<span style="color: #fffacd;">"\n :: Library Caret and e1071 loaded..."</span>)
+</pre>
+</div>
+
+<pre class="example">
+:: Install new package: Caret and e1071 ...
+
+:: NOTE: Please comment after install once...
+
+:: Library Caret and e1071 loaded...
+</pre>
+
+
+<div class="figure">
+<p><img src="../graphs/ParameterSelectionCART.png" alt="ParameterSelectionCART.png" />
+</p>
+</div>
+
+<p>
+if minbucket is too small, over-fitting might occur. But if minbucket
+is too large, the model might be too simple. So how should we set this
+parameter value?
+</p>
+
+<p>
+We could select the value that gives the best testing set accuracy,
+but this isn't right. The idea of the testing set is to measure model
+performance on data the model has never seen before.
+</p>
+
+<p>
+By picking the value of <b>minbucket</b> to get the best test set
+performance, the testing set was implicitly used to generate the
+model.
+</p>
+
+<p>
+Instead, we'll use a method called <b>K-fold Cross Validation</b>, which is
+one way to properly select the parameter value.
+</p>
+
+<p>
+This method works by going through the following steps:
+</p>
+</div>
+
+<div id="outline-container-sec-1-11-1" class="outline-4">
+<h4 id="sec-1-11-1"><span class="section-number-4">1.11.1</span> First</h4>
+<div class="outline-text-4" id="text-1-11-1">
+<p>
+We split the training set into k equally sized subsets, or folds. In
+this example, k equals 5.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/K-FoldCrossValidation.png" alt="K-FoldCrossValidation.png" />
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="../graphs/K-FoldCrossValidation02.png" alt="K-FoldCrossValidation02.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-11-2" class="outline-4">
+<h4 id="sec-1-11-2"><span class="section-number-4">1.11.2</span> Second</h4>
+<div class="outline-text-4" id="text-1-11-2">
+<p>
+Then we select \(k - 1\), or four folds, to estimate the model, and
+compute predictions on the remaining one fold, which is often referred
+to as the validation set. We build a model and make predictions for
+each possible parameter value we're considering.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/K-FoldCrossValidation03.png" alt="K-FoldCrossValidation03.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-11-3" class="outline-4">
+<h4 id="sec-1-11-3"><span class="section-number-4">1.11.3</span> Third</h4>
+<div class="outline-text-4" id="text-1-11-3">
+<p>
+Then we repeat this for each of the other folds, or pieces of our
+training set. So we would build a model using folds 1, 2, 3, and 5 to
+make predictions on fold 4.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/K-FoldCrossValidation04.png" alt="K-FoldCrossValidation04.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-11-4" class="outline-4">
+<h4 id="sec-1-11-4"><span class="section-number-4">1.11.4</span> Fourth</h4>
+<div class="outline-text-4" id="text-1-11-4">
+<p>
+And then we would build a model using folds 1, 2, 4, and 5 to make
+predictions on fold 3, etc.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/K-FoldCrossValidation05.png" alt="K-FoldCrossValidation05.png" />
+</p>
+</div>
+
+<p>
+So ultimately, cross validation builds many models, one for each fold
+and possible parameter value.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-11-5" class="outline-4">
+<h4 id="sec-1-11-5"><span class="section-number-4">1.11.5</span> Output K-Fold Cross Validation</h4>
+<div class="outline-text-4" id="text-1-11-5">
+<p>
+This plot shows the possible parameter values on the x-axis, and the
+accuracy of the model on the y-axis. This line shows the accuracy of
+our model on fold 1. We can also compute the accuracy of the model
+using each of the other folds as the validation sets.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/OutputK-FoldCrossValidation.png" alt="OutputK-FoldCrossValidation.png" />
+</p>
+</div>
+
+<p>
+We then average the accuracy over the k folds to determine the final
+parameter value that we want to use. Typically, the behavior looks
+like this&#x2013; if the parameter value is too small, then the accuracy is
+lower, because the model is probably over-fit to the training set.
+</p>
+
+<p>
+But if the parameter value is too large, then the accuracy is also
+lower, because the model is too simple. In this case, we would pick a
+parameter value around six, because it leads to the maximum average
+accuracy over all parameter values.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/OutputK-FoldCrossValidation02.png" alt="OutputK-FoldCrossValidation02.png" />
+</p>
+</div>
+
+<p>
+So far, we've used the parameter <b>minbucket</b> to limit our tree in
+R. <b>When we use cross validation in R</b>, we'll use a parameter called
+<b>cp</b> instead.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/CP-parameter.png" alt="CP-parameter.png" />
+</p>
+</div>
+
+<p>
+<b>A smaller cp value leads to a bigger tree</b>, so a smaller cp value might
+<b>over-fit</b> the model to the training set. But a <b>cp value that's too
+large</b> might build a model that's too simple.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-11-6" class="outline-4">
+<h4 id="sec-1-11-6"><span class="section-number-4">1.11.6</span> Cross validation in R for the example of RF</h4>
+<div class="outline-text-4" id="text-1-11-6">
+<p>
+First, we need to define how many folds we want. We can do this using
+the <code>trainControl</code> function. So we'll say <code>numFolds = trainControl</code>, and
+then in parentheses, <code>(method = "cv")</code>, for cross validation, and then
+<code>number = 10</code>, for 10 folds.
+</p>
+
+<p>
+Then we need to pick the possible values for our <code>cp</code> parameter, using
+the <code>expand.grid</code> function. So we'll call it <code>cpGrid</code>, and then use
+<code>expand.grid</code>, where the only argument is <code>.cp = seq(0.01, 0.5, 0.01)</code>. This
+will define our <code>cp</code> parameters to test as numbers from 0.01 to 0.5, in
+increments of 0.01.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Define cross-validation experiment:"</span>)
+numFolds <span style="color: #db7093;">&lt;-</span> trainControl( method = <span style="color: #fffacd;">"cv"</span>, number = 10 )
+cpGrid <span style="color: #db7093;">&lt;-</span> expand.grid(.cp = seq(0.01, 0.5, 0.01))
+</pre>
+</div>
+
+<pre class="example">
+:: Define cross-validation experiment:
+</pre>
+
+<p>
+Now, we're ready to perform cross validation. We'll do this using the
+train function, where the first argument is similar to that when we're
+building models.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Perform the cross validation:"</span>)
+train(Reverse ~ Circuit + Issue + Petitioner + Respondent + LowerCourt
+      + Unconst, data = Train, method = <span style="color: #fffacd;">"rpart"</span>, trControl = numFolds,
+      tuneGrid = cpGrid)
+</pre>
+</div>
+
+<pre class="example">
+ :: Perform the cross validation:
+ CART
+
+396 samples
+  8 predictor
+  2 classes: '0', '1'
+
+No pre-processing
+Resampling: Cross-Validated (10 fold)
+
+Summary of sample sizes: 357, 356, 357, 356, 357, 356, ...
+
+Resampling results across tuning parameters:
+
+  cp    Accuracy   Kappa        Accuracy SD  Kappa SD
+  0.01  0.6433974  0.267916905  0.081763121  0.16808126
+  0.02  0.6359615  0.248964339  0.067658798  0.14237916
+  0.03  0.6208974  0.225208239  0.068926868  0.14482911
+  0.04  0.6333974  0.258053232  0.072912702  0.15300304
+  0.05  0.6436538  0.283134471  0.064841503  0.13050800
+  0.06  0.6436538  0.283134471  0.064841503  0.13050800
+  0.07  0.6436538  0.283134471  0.064841503  0.13050800
+  0.08  0.6436538  0.283134471  0.064841503  0.13050800
+  0.09  0.6436538  0.283134471  0.064841503  0.13050800
+  0.10  0.6436538  0.283134471  0.064841503  0.13050800
+  0.11  0.6436538  0.283134471  0.064841503  0.13050800
+  0.12  0.6436538  0.283134471  0.064841503  0.13050800
+  0.13  0.6436538  0.283134471  0.064841503  0.13050800
+  0.14  0.6436538  0.283134471  0.064841503  0.13050800
+  0.15  0.6436538  0.283134471  0.064841503  0.13050800
+  0.16  0.6436538  0.283134471  0.064841503  0.13050800
+  0.17  0.6436538  0.283134471  0.064841503  0.13050800
+  0.18  0.6436538  0.283134471  0.064841503  0.13050800
+  0.19  0.6436538  0.283134471  0.064841503  0.13050800
+  0.20  0.6061538  0.188881247  0.050982207  0.13051644
+  0.21  0.5808333  0.122201772  0.042577112  0.12398113
+  0.22  0.5605769  0.063162246  0.026979405  0.09019812
+  0.23  0.5479487  0.021739130  0.007861390  0.04659079
+  0.24  0.5453846  0.009090909  0.005958436  0.02874798
+  0.25  0.5453846  0.000000000  0.005958436  0.00000000
+  0.26  0.5453846  0.000000000  0.005958436  0.00000000
+  0.27  0.5453846  0.000000000  0.005958436  0.00000000
+  0.28  0.5453846  0.000000000  0.005958436  0.00000000
+  0.29  0.5453846  0.000000000  0.005958436  0.00000000
+  0.30  0.5453846  0.000000000  0.005958436  0.00000000
+  0.31  0.5453846  0.000000000  0.005958436  0.00000000
+  0.32  0.5453846  0.000000000  0.005958436  0.00000000
+  0.33  0.5453846  0.000000000  0.005958436  0.00000000
+  0.34  0.5453846  0.000000000  0.005958436  0.00000000
+  0.35  0.5453846  0.000000000  0.005958436  0.00000000
+  0.36  0.5453846  0.000000000  0.005958436  0.00000000
+  0.37  0.5453846  0.000000000  0.005958436  0.00000000
+  0.38  0.5453846  0.000000000  0.005958436  0.00000000
+  0.39  0.5453846  0.000000000  0.005958436  0.00000000
+  0.40  0.5453846  0.000000000  0.005958436  0.00000000
+  0.41  0.5453846  0.000000000  0.005958436  0.00000000
+  0.42  0.5453846  0.000000000  0.005958436  0.00000000
+  0.43  0.5453846  0.000000000  0.005958436  0.00000000
+  0.44  0.5453846  0.000000000  0.005958436  0.00000000
+  0.45  0.5453846  0.000000000  0.005958436  0.00000000
+  0.46  0.5453846  0.000000000  0.005958436  0.00000000
+  0.47  0.5453846  0.000000000  0.005958436  0.00000000
+  0.48  0.5453846  0.000000000  0.005958436  0.00000000
+  0.49  0.5453846  0.000000000  0.005958436  0.00000000
+  0.50  0.5453846  0.000000000  0.005958436  0.00000000
+
+Accuracy was used to select the optimal model using  the largest value.
+The final value used for the model was cp = 0.19.
+</pre>
+
+<p>
+This is the cp value we want to use in our CART model. So now let's
+create a new CART model with this value of cp, instead of the
+minbucket parameter.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Create a new CART model:"</span>)
+StevensTreeCV <span style="color: #db7093;">&lt;-</span> rpart(Reverse ~ Circuit + Issue + Petitioner +
+                               Respondent + LowerCourt + Unconst, data
+                       = Train, method=<span style="color: #fffacd;">"class"</span>, cp = 0.19)
+</pre>
+</div>
+
+<pre class="example">
+:: Create a new CART model:
+</pre>
+
+<p>
+We'll call this model <b>StevensTreeCV</b>, and we'll use the rpart
+function, like we did earlier, to predict Reverse using all of our
+independent variables: Circuit, Issue, Petitioner, Respondent,
+LowerCourt, and Unconst.
+</p>
+
+<p>
+Our data set here is <b>Train</b>, and then we want method = "class",
+since we're building a classification tree, and cp = 0.18.
+</p>
+
+<p>
+Let's make predictions on our test set using this model.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Make predictions:"</span>)
+PredictCV <span style="color: #db7093;">&lt;-</span> predict(StevensTreeCV, newdata = Test, type = <span style="color: #fffacd;">"class"</span>)
+
+table(Test$Reverse, PredictCV)
+writeLines(<span style="color: #fffacd;">"\n :: Calculate the overall accuracy:"</span>)
+(59 + 64)/(59 + 18 + 29 + 64)
+</pre>
+</div>
+
+<pre class="example">
+ :: Make predictions:
+   PredictCV
+     0  1
+  0 59 18
+  1 29 64
+
+ :: Calculate the overall accuracy:
+[1] 0.7235294
+</pre>
+
+<p>
+Remember that the accuracy of our previous CART model was
+\(0.659\). Cross validation helps us make sure we're selecting a good
+parameter value, and often this will significantly increase the
+accuracy.
+</p>
+
+<p>
+If we had already happened to select a good parameter value, then the
+accuracy might not of increased that much. But by using cross
+validation, we can be sure that we're selecting a smart parameter
+value.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-12" class="outline-3">
+<h3 id="sec-1-12"><span class="section-number-3">1.12</span> QUICK QUESTION  (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-12">
+<p>
+Plot the tree that we created using cross-validation. How many splits
+does it have?
+</p>
+
+
+<div id="fig:CARTcourtModelCV" class="figure">
+<p><img src="../graphs/CARTcourtModelCV.png" alt="CARTcourtModelCV.png" />
+</p>
+<p><span class="figure-number">Figure 32:</span> CART model for the Stevens prediction with Cross Validation.</p>
+</div>
+
+<p>
+<b>EXPLANATION</b>
+</p>
+
+<p>
+If you follow the R commands from the previous video, you can plot the
+tree with <code>prp(StevensTreeCV)</code>.
+</p>
+
+<p>
+The tree with the best accuracy only has one split! When we were
+picking different minbucket parameters before, it seemed like this
+tree was probably not doing a good job of fitting the data. However,
+this tree with one split gives us the best out-of-sample
+accuracy. This reminds us that sometimes the simplest models are the
+best!
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-13" class="outline-3">
+<h3 id="sec-1-13"><span class="section-number-3">1.13</span> Video 7: The Model V. The Experts</h3>
+<div class="outline-text-3" id="text-1-13">
+
+<div class="figure">
+<p><img src="../graphs/Martin_sModel.png" alt="Martin_sModel.png" />
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="../graphs/OConnor.png" alt="OConnor.png" />
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="../graphs/Souter.png" alt="Souter.png" />
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="../graphs/TheExperts.png" alt="TheExperts.png" />
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="../graphs/CARTResults.png" alt="CARTResults.png" />
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="../graphs/CARTAnalyticsEdge.png" alt="CARTAnalyticsEdge.png" />
+</p>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="date">Date: 30/06/2015</p>
 <p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
-<p class="date">Created: 2015-06-30 Tue 08:13</p>
+<p class="date">Created: 2015-07-02 Thu 09:23</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
