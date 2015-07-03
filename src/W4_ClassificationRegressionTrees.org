@@ -716,15 +716,24 @@ CART model using the ROCR package.
 #+end_src
 
 #+RESULTS:
-:
-:  :: ROC curve:
-:            0         1
-: 1  0.3035714 0.6964286
-: 3  0.3035714 0.6964286
-: 4  0.4000000 0.6000000
-: 6  0.4000000 0.6000000
-: 8  0.4000000 0.6000000
-: 21 0.3035714 0.6964286
+#+begin_example
+
+ :: ROC curve:
+Loading required package: gplots
+
+Attaching package: 'gplots'
+
+The following object is masked from 'package:stats':
+
+    lowess
+           0         1
+1  0.3035714 0.6964286
+3  0.3035714 0.6964286
+4  0.4000000 0.6000000
+6  0.4000000 0.6000000
+8  0.4000000 0.6000000
+21 0.3035714 0.6964286
+#+end_example
 
 *PredictROC*
 
@@ -889,6 +898,8 @@ Important Note: In this video, we install the package
 :  :: Install new package: randomForest ...
 :
 :  :: NOTE: Please comment after install once...
+: randomForest 4.6-10
+: Type rfNews() to see new features/changes/bug fixes.
 :
 :  :: Library randomForest loaded...
 
@@ -1236,6 +1247,8 @@ please try installing and loading these two additional packages.
 :  :: Install new package: Caret and e1071 ...
 :
 :  :: NOTE: Please comment after install once...
+: Loading required package: lattice
+: Loading required package: ggplot2
 :
 :  :: Library Caret and e1071 loaded...
 
@@ -1372,35 +1385,35 @@ building models.
 No pre-processing
 Resampling: Cross-Validated (10 fold)
 
-Summary of sample sizes: 357, 356, 357, 356, 357, 356, ...
+Summary of sample sizes: 357, 356, 357, 356, 356, 356, ...
 
 Resampling results across tuning parameters:
 
   cp    Accuracy   Kappa        Accuracy SD  Kappa SD
-  0.01  0.6433974  0.267916905  0.081763121  0.16808126
-  0.02  0.6359615  0.248964339  0.067658798  0.14237916
-  0.03  0.6208974  0.225208239  0.068926868  0.14482911
-  0.04  0.6333974  0.258053232  0.072912702  0.15300304
-  0.05  0.6436538  0.283134471  0.064841503  0.13050800
-  0.06  0.6436538  0.283134471  0.064841503  0.13050800
-  0.07  0.6436538  0.283134471  0.064841503  0.13050800
-  0.08  0.6436538  0.283134471  0.064841503  0.13050800
-  0.09  0.6436538  0.283134471  0.064841503  0.13050800
-  0.10  0.6436538  0.283134471  0.064841503  0.13050800
-  0.11  0.6436538  0.283134471  0.064841503  0.13050800
-  0.12  0.6436538  0.283134471  0.064841503  0.13050800
-  0.13  0.6436538  0.283134471  0.064841503  0.13050800
-  0.14  0.6436538  0.283134471  0.064841503  0.13050800
-  0.15  0.6436538  0.283134471  0.064841503  0.13050800
-  0.16  0.6436538  0.283134471  0.064841503  0.13050800
-  0.17  0.6436538  0.283134471  0.064841503  0.13050800
-  0.18  0.6436538  0.283134471  0.064841503  0.13050800
-  0.19  0.6436538  0.283134471  0.064841503  0.13050800
-  0.20  0.6061538  0.188881247  0.050982207  0.13051644
-  0.21  0.5808333  0.122201772  0.042577112  0.12398113
-  0.22  0.5605769  0.063162246  0.026979405  0.09019812
-  0.23  0.5479487  0.021739130  0.007861390  0.04659079
-  0.24  0.5453846  0.009090909  0.005958436  0.02874798
+  0.01  0.6365385  0.252522710  0.045831216  0.10138314
+  0.02  0.6337179  0.248281522  0.061267954  0.12752003
+  0.03  0.6314103  0.251796733  0.053552823  0.11468412
+  0.04  0.6314103  0.253786180  0.053552823  0.11438075
+  0.05  0.6440385  0.282995035  0.062472910  0.13104160
+  0.06  0.6440385  0.282995035  0.062472910  0.13104160
+  0.07  0.6440385  0.282995035  0.062472910  0.13104160
+  0.08  0.6440385  0.282995035  0.062472910  0.13104160
+  0.09  0.6440385  0.282995035  0.062472910  0.13104160
+  0.10  0.6440385  0.282995035  0.062472910  0.13104160
+  0.11  0.6440385  0.282995035  0.062472910  0.13104160
+  0.12  0.6440385  0.282995035  0.062472910  0.13104160
+  0.13  0.6440385  0.282995035  0.062472910  0.13104160
+  0.14  0.6440385  0.282995035  0.062472910  0.13104160
+  0.15  0.6440385  0.282995035  0.062472910  0.13104160
+  0.16  0.6440385  0.282995035  0.062472910  0.13104160
+  0.17  0.6440385  0.282995035  0.062472910  0.13104160
+  0.18  0.6440385  0.282995035  0.062472910  0.13104160
+  0.19  0.6440385  0.282995035  0.062472910  0.13104160
+  0.20  0.6085897  0.193703966  0.058244587  0.14192310
+  0.21  0.5807692  0.121202966  0.046444754  0.12714614
+  0.22  0.5605128  0.062732119  0.032700267  0.09526381
+  0.23  0.5428846  0.003553299  0.008506582  0.01123652
+  0.24  0.5428846  0.003553299  0.008506582  0.01123652
   0.25  0.5453846  0.000000000  0.005958436  0.00000000
   0.26  0.5453846  0.000000000  0.005958436  0.00000000
   0.27  0.5453846  0.000000000  0.005958436  0.00000000
@@ -1524,14 +1537,150 @@ best!
 
 ** Video 7: The Model V. The Experts
 
+Can a CART model actually predict Supreme Court case outcomes better
+than a group of experts? Martin and his colleagues used 628 previous
+Supreme Court cases between 1994 and 2001 to build their model. They
+made predictions for the 68 cases that would be decided in October,
+2002, before the term started.
+
 [[../graphs/Martin_sModel.png]]
+
+Their model had two stages of CART trees. The first stage involved
+making predictions using two CART trees. One to predict a unanimous
+liberal decision and one to predict a unanimous conservative decision.
+
+If the trees gave conflicting responses or both predicted no, then
+they moved on to the next stage. It turns out that about 50% of
+Supreme Court cases result in a unanimous decision, so this was a nice
+first step to detect the easier cases.
+
+The second stage consisted of predicting the decision of each
+individual justice, and then use the majority decision of all nine
+justices as a final prediction for the case.
+
+Here's a different tree, this one for Justice O'Connor. The first
+split is whether or not the lower court decision is liberal. If yes,
+then we predict that she will reverse the case. This makes sense
+because Justice O'Connor is generally viewed as a conservative judge.
+
+On the other hand, if the lower court decision is conservative, we
+check for the circuit court of origin. We predict that she will affirm
+the case. If it's not one of these courts, we move on to the next
+split. The remaining two splits are for the respondent and the primary
+issue.
 
 [[../graphs/OConnor.png]]
 
+Here's another tree, this one for Justice Souter. This shows an
+unusual property of the CART trees that Martin and his colleagues
+developed. They use predictions for some trees as independent
+variables for other trees.
+
+In this tree, the first split is whether or not Justice Ginsburg's
+predicted decision is liberal. So we have to run Justice Ginsburg's
+CART tree first, see what the prediction is, and then use that as
+input for Justice Souter's tree.
+
 [[../graphs/Souter.png]]
+
+If Justice Ginsburg's predicted decision is liberal and the lower
+court decision is liberal, then we predict that Justice Souter will
+affirm the case. But if the lower court decision is conservative, then
+we predict that Justice Souter will reverse the case.
+
+On the other side of the tree, if Justice Ginsburg's predicted
+decision is conservative, but the lower court decision is liberal,
+then we predict that Justice Souter will reverse the case. But if the
+lower court decision is conservative, then we predict that Justice
+Souter will affirm the case.
+
+In summary, if we predict that Justice Ginsburg will make a liberal
+decision, then Justice Souter will probably make a liberal decision
+too.
+
+But if we predict that Justice Ginsburg will make a conservative
+decision, then we predict that Justice Souter will probably make a
+conservative decision too.
 
 [[../graphs/TheExperts.png]]
 
+So this was really a dream team of experts. Additionally, the experts
+were only asked to predict within their area of expertise. So not all
+experts predicted all cases, but there was more than one expert making
+predictions for each case.
+
+For the 68 cases in October 2002, the predictions were made, and at
+the end of the month the results were computed.
+
 [[../graphs/CARTResults.png]]
 
+For predicting the overall decision that was made by the Supreme
+Court, the models had an accuracy of 75%, while the experts only had
+an accuracy of 59%. So the models had a significant edge over the
+experts in predicting the overall case outcomes.
+
+However, when the predictions were run for individual justices, the
+model and the experts performed very similarly.
+
+For some justices, the model performed better, and for some justices,
+the experts performed better.
+
 [[../graphs/CARTAnalyticsEdge.png]]
+
+We saw in this lecture that a model that predicts overall Supreme
+Court decisions is both more accurate than experts and can be run much
+faster than experts can make their predictions.
+
+The CART models that we built were based on very high level components
+of the cases, compared to the experts who can process much more
+detailed and complex information.
+
+This example really shows the edge that analytics can provide in
+traditionally qualitative applications.
+
+* Keeping an Eye on Healthcare Costs: The D2Hawkeye Story
+
+** Video 1: The Story of D2Hawkeye
+
+This is a story of D2Hawkeye, a medical data mining company located in
+Waltham, Massachusetts.
+
+[[../graphs/D2Hawkeye.png]]
+
+It grew very fast and was sold to Verisk Analytics in 2009. The
+overall process that D2Hawkeye uses is as follows.
+
+It starts with medical claims that consist of diagnoses, procedures,
+and drugs. These medical claims are then processed via process of
+aggregation, cleaning, and normalization. This data then enters secure
+databases on which predictive models are applied.
+
+The output of predictive models are specific reports that give insight
+to the various questions that D2Hawkeye aspires to answer.
+
+[[../graphs/D2Hawkeye02.png]]
+
+The company tries to improve health care case
+management. Specifically, it tries to identify high-risk patients,
+work with patients to manage treatment and associated costs, and
+arrange specialist care.
+
+[[../graphs/HealthcareCaseManagement.png]]
+
+The overall goal of D2Hawkeye is to improve the quality of cost
+predictions.
+
+*D2Hawkeye had many different types of clients*.
+
+[[../graphs/D2HEImpact.png]]
+
+
+To analyze the data, the company used what we call a pre-analytics
+approach. This was based on the human judgment of physicians who
+manually analyze patient histories and developed medical rules.
+
+Of course, this involved human judgment, utilized a limited set of
+data, it was often costly, and somewhat inefficient. The key question
+we analyze in this lecture is *Can we use analytics instead?*
+
+[[../graphs/Pre-AnalyticsApproach.png]]
