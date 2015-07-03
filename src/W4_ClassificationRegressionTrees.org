@@ -476,22 +476,22 @@ In this part we can download the data
 
 #+RESULTS:
 #+begin_example
- [1] "AnonymityPoll.csv"       "BoeingStock.csv"
- [3] "CPSData.csv"             "CocaColaStock.csv"
- [5] "CountryCodes.csv"        "FluTest.csv"
- [7] "FluTrain.csv"            "GEStock.csv"
- [9] "IBMStock.csv"            "MetroAreaCodes.csv"
-[11] "NBA_test.csv"            "NBA_train.csv"
-[13] "PollingData.csv"         "PollingData_Imputed.csv"
-[15] "ProcterGambleStock.csv"  "README.md"
-[17] "USDA.csv"                "WHO.csv"
-[19] "WHO_Europe.csv"          "baseball.csv"
-[21] "climate_change.csv"      "framingham.csv"
-[23] "loans.csv"               "loans_imputed.csv"
-[25] "mvtWeek1.csv"            "parole.csv"
-[27] "pisa2009test.csv"        "pisa2009train.csv"
-[29] "quality.csv"             "songs.csv"
-[31] "stevens.csv"             "wine.csv"
+ [1] "AnonymityPoll.csv"       "baseball.csv"
+ [3] "BoeingStock.csv"         "climate_change.csv"
+ [5] "CocaColaStock.csv"       "CountryCodes.csv"
+ [7] "CPSData.csv"             "FluTest.csv"
+ [9] "FluTrain.csv"            "framingham.csv"
+[11] "GEStock.csv"             "IBMStock.csv"
+[13] "loans.csv"               "loans_imputed.csv"
+[15] "MetroAreaCodes.csv"      "mvtWeek1.csv"
+[17] "NBA_test.csv"            "NBA_train.csv"
+[19] "parole.csv"              "pisa2009test.csv"
+[21] "pisa2009train.csv"       "PollingData.csv"
+[23] "PollingData_Imputed.csv" "ProcterGambleStock.csv"
+[25] "quality.csv"             "README.md"
+[27] "songs.csv"               "stevens.csv"
+[29] "USDA.csv"                "WHO.csv"
+[31] "WHO_Europe.csv"          "wine.csv"
 [33] "wine_test.csv"
 #+end_example
 
@@ -716,24 +716,15 @@ CART model using the ROCR package.
 #+end_src
 
 #+RESULTS:
-#+begin_example
-
- :: ROC curve:
-Loading required package: gplots
-
-Attaching package: 'gplots'
-
-The following object is masked from 'package:stats':
-
-    lowess
-           0         1
-1  0.3035714 0.6964286
-3  0.3035714 0.6964286
-4  0.4000000 0.6000000
-6  0.4000000 0.6000000
-8  0.4000000 0.6000000
-21 0.3035714 0.6964286
-#+end_example
+:
+:  :: ROC curve:
+:            0         1
+: 1  0.3035714 0.6964286
+: 3  0.3035714 0.6964286
+: 4  0.4000000 0.6000000
+: 6  0.4000000 0.6000000
+: 8  0.4000000 0.6000000
+: 21 0.3035714 0.6964286
 
 *PredictROC*
 
@@ -898,8 +889,6 @@ Important Note: In this video, we install the package
 :  :: Install new package: randomForest ...
 :
 :  :: NOTE: Please comment after install once...
-: randomForest 4.6-10
-: Type rfNews() to see new features/changes/bug fixes.
 :
 :  :: Library randomForest loaded...
 
@@ -1247,8 +1236,6 @@ please try installing and loading these two additional packages.
 :  :: Install new package: Caret and e1071 ...
 :
 :  :: NOTE: Please comment after install once...
-: Loading required package: lattice
-: Loading required package: ggplot2
 :
 :  :: Library Caret and e1071 loaded...
 
@@ -1379,41 +1366,41 @@ building models.
  CART
 
 396 samples
-  8 predictor
+  8 predictors
   2 classes: '0', '1'
 
 No pre-processing
 Resampling: Cross-Validated (10 fold)
 
-Summary of sample sizes: 357, 356, 357, 356, 356, 356, ...
+Summary of sample sizes: 357, 356, 357, 356, 357, 356, ...
 
 Resampling results across tuning parameters:
 
   cp    Accuracy   Kappa        Accuracy SD  Kappa SD
-  0.01  0.6365385  0.252522710  0.045831216  0.10138314
-  0.02  0.6337179  0.248281522  0.061267954  0.12752003
-  0.03  0.6314103  0.251796733  0.053552823  0.11468412
-  0.04  0.6314103  0.253786180  0.053552823  0.11438075
-  0.05  0.6440385  0.282995035  0.062472910  0.13104160
-  0.06  0.6440385  0.282995035  0.062472910  0.13104160
-  0.07  0.6440385  0.282995035  0.062472910  0.13104160
-  0.08  0.6440385  0.282995035  0.062472910  0.13104160
-  0.09  0.6440385  0.282995035  0.062472910  0.13104160
-  0.10  0.6440385  0.282995035  0.062472910  0.13104160
-  0.11  0.6440385  0.282995035  0.062472910  0.13104160
-  0.12  0.6440385  0.282995035  0.062472910  0.13104160
-  0.13  0.6440385  0.282995035  0.062472910  0.13104160
-  0.14  0.6440385  0.282995035  0.062472910  0.13104160
-  0.15  0.6440385  0.282995035  0.062472910  0.13104160
-  0.16  0.6440385  0.282995035  0.062472910  0.13104160
-  0.17  0.6440385  0.282995035  0.062472910  0.13104160
-  0.18  0.6440385  0.282995035  0.062472910  0.13104160
-  0.19  0.6440385  0.282995035  0.062472910  0.13104160
-  0.20  0.6085897  0.193703966  0.058244587  0.14192310
-  0.21  0.5807692  0.121202966  0.046444754  0.12714614
-  0.22  0.5605128  0.062732119  0.032700267  0.09526381
-  0.23  0.5428846  0.003553299  0.008506582  0.01123652
-  0.24  0.5428846  0.003553299  0.008506582  0.01123652
+  0.01  0.6433974  0.267916905  0.081763121  0.16808126
+  0.02  0.6359615  0.248964339  0.067658798  0.14237916
+  0.03  0.6208974  0.225208239  0.068926868  0.14482911
+  0.04  0.6333974  0.258053232  0.072912702  0.15300304
+  0.05  0.6436538  0.283134471  0.064841503  0.13050800
+  0.06  0.6436538  0.283134471  0.064841503  0.13050800
+  0.07  0.6436538  0.283134471  0.064841503  0.13050800
+  0.08  0.6436538  0.283134471  0.064841503  0.13050800
+  0.09  0.6436538  0.283134471  0.064841503  0.13050800
+  0.10  0.6436538  0.283134471  0.064841503  0.13050800
+  0.11  0.6436538  0.283134471  0.064841503  0.13050800
+  0.12  0.6436538  0.283134471  0.064841503  0.13050800
+  0.13  0.6436538  0.283134471  0.064841503  0.13050800
+  0.14  0.6436538  0.283134471  0.064841503  0.13050800
+  0.15  0.6436538  0.283134471  0.064841503  0.13050800
+  0.16  0.6436538  0.283134471  0.064841503  0.13050800
+  0.17  0.6436538  0.283134471  0.064841503  0.13050800
+  0.18  0.6436538  0.283134471  0.064841503  0.13050800
+  0.19  0.6436538  0.283134471  0.064841503  0.13050800
+  0.20  0.6061538  0.188881247  0.050982207  0.13051644
+  0.21  0.5808333  0.122201772  0.042577112  0.12398113
+  0.22  0.5605769  0.063162246  0.026979405  0.09019812
+  0.23  0.5479487  0.021739130  0.007861390  0.04659079
+  0.24  0.5453846  0.009090909  0.005958436  0.02874798
   0.25  0.5453846  0.000000000  0.005958436  0.00000000
   0.26  0.5453846  0.000000000  0.005958436  0.00000000
   0.27  0.5453846  0.000000000  0.005958436  0.00000000
@@ -1684,3 +1671,5 @@ data, it was often costly, and somewhat inefficient. The key question
 we analyze in this lecture is *Can we use analytics instead?*
 
 [[../graphs/Pre-AnalyticsApproach.png]]
+
+** Temp
