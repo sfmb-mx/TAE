@@ -1672,4 +1672,249 @@ we analyze in this lecture is *Can we use analytics instead?*
 
 [[../graphs/Pre-AnalyticsApproach.png]]
 
-** Temp
+** Video 2: Claims Data
+
+Let us discuss data sources in the health care industry. Hospitals in
+southern Massachusetts versus California might use different
+technologies and different platforms.
+
+Finally there are strong privacy laws, HIPAA, around health care data
+sharing.
+
+[[../graphs/DataSources.png]]
+
+Claims data is a major source. Claims data are requests for
+reimbursement submitted to insurance companies or state-provided
+insurance from doctors, hospitals and pharmacies.
+
+Another source of data is the eligibility information for
+employees. And finally demographic information: gender and age.
+
+[[../graphs/DataSources02.png]]
+
+Let me give you some examples on claims data. So this shows six
+different claims. Let's consider this one.
+
+So this is the provider's name. The corresponding diagnostic
+code. This is about upper respiratory disorders. This is another code
+associated with the diagnosis. This is the scientific term for the
+diagnosis. The specific code again. This was an office visit, and it's
+an established patient. The date.
+
+And the amount of money that was claimed by the physician. Others
+claims are similar.
+
+[[../graphs/D2HE-ClaimsData.png]]
+
+As we see, the claims data is a rich, structured data source. It is
+very high dimensional. For example, claims involving diagnosis involve
+thousands of different codes.
+
+Similarly with drugs, where there are tens of thousands, and
+procedures.
+
+However, this collection of data does not capture all aspects of a
+person's treatment or health. Many things must be inferred. Unlike
+electronic medical records, we do not know the results of a test, only
+that the test was administered.
+
+For example, we do not know the results of a blood test, but we do
+know that the blood test was administered.
+
+[[../graphs/D2HE-ClaimsData02.png]]
+
+The specific exercise we are going to see in this lecture is an
+analytics approach to building models starting with 2.4 million people
+over a three year span.
+
+The observation period was 2001 to 2003. This is where this data is
+coming from. And then out of sample, we make predictions for the
+period of 2003 and 2004.
+
+This was in the early years of D2Hawkeye. Out of the 2.4 million
+people, we included only people with data for at least 10 months in
+both periods, both in the observation period and the results period.
+
+This decreased the data to 400,000 people.
+
+[[../graphs/D2HE-ClaimsData03.png]]
+
+** Quick Question (1 point possible)
+
+A common problem in analytics is that you have some data available,
+but it's not the ideal dataset. This is the case for this problem,
+where we only have claims data. Which of the following pieces of
+information would we ideally like to have in our dataset, but are not
+included in claims data? (Select all that apply.)
+
+*** Download the data sets
+
+In this part we can download the data
+
+#+BEGIN_SRC R :session :results output :exports all
+  library(parallel)
+
+  if(!file.exists("../data")) {
+          dir.create("../data")
+  }
+
+  fileUrl <- "https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/ClaimsData.csv.zip"
+
+  fileName <- "ClaimsData.csv.zip"
+
+  dataPath <- "../data"
+
+  filePath <- paste(dataPath, fileName, sep = "/")
+
+  if(!file.exists(filePath)) {
+          download.file(fileUrl, destfile = filePath, method = "curl")
+  }
+
+  list.files("../data")
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+ [1] "AnonymityPoll.csv"       "BoeingStock.csv"
+ [3] "CPSData.csv"             "ClaimsData.csv"
+ [5] "ClaimsData.csv.zip"      "CocaColaStock.csv"
+ [7] "CountryCodes.csv"        "FluTest.csv"
+ [9] "FluTrain.csv"            "GEStock.csv"
+[11] "IBMStock.csv"            "MetroAreaCodes.csv"
+[13] "NBA_test.csv"            "NBA_train.csv"
+[15] "PollingData.csv"         "PollingData_Imputed.csv"
+[17] "ProcterGambleStock.csv"  "README.md"
+[19] "USDA.csv"                "WHO.csv"
+[21] "WHO_Europe.csv"          "baseball.csv"
+[23] "climate_change.csv"      "framingham.csv"
+[25] "loans.csv"               "loans_imputed.csv"
+[27] "mvtWeek1.csv"            "parole.csv"
+[29] "pisa2009test.csv"        "pisa2009train.csv"
+[31] "quality.csv"             "songs.csv"
+[33] "stevens.csv"             "wine.csv"
+[35] "wine_test.csv"
+#+end_example
+
+*** Load the data set
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("    Loading data into their data frames.")
+  ClaimsData <- read.table("../data/ClaimsData.csv", sep = ",", header = TRUE)
+
+  str(ClaimsData)
+  summary(ClaimsData)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+    Loading data into their data frames.
+'data.frame':	458005 obs. of  16 variables:
+ $ age              : int  85 59 67 52 67 68 75 70 67 67 ...
+ $ alzheimers       : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ arthritis        : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ cancer           : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ copd             : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ depression       : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ diabetes         : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ heart.failure    : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ ihd              : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ kidney           : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ osteoporosis     : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ stroke           : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ reimbursement2008: int  0 0 0 0 0 0 0 0 0 0 ...
+ $ bucket2008       : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ reimbursement2009: int  0 0 0 0 0 0 0 0 0 0 ...
+ $ bucket2009       : int  1 1 1 1 1 1 1 1 1 1 ...
+      age           alzheimers       arthritis          cancer
+ Min.   : 26.00   Min.   :0.0000   Min.   :0.0000   Min.   :0.00000
+ 1st Qu.: 67.00   1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.00000
+ Median : 73.00   Median :0.0000   Median :0.0000   Median :0.00000
+ Mean   : 72.63   Mean   :0.1922   Mean   :0.1543   Mean   :0.06411
+ 3rd Qu.: 81.00   3rd Qu.:0.0000   3rd Qu.:0.0000   3rd Qu.:0.00000
+ Max.   :100.00   Max.   :1.0000   Max.   :1.0000   Max.   :1.00000
+      copd          depression        diabetes      heart.failure
+ Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :0.0000
+ 1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.0000
+ Median :0.0000   Median :0.0000   Median :0.0000   Median :0.0000
+ Mean   :0.1361   Mean   :0.2131   Mean   :0.3805   Mean   :0.2847
+ 3rd Qu.:0.0000   3rd Qu.:0.0000   3rd Qu.:1.0000   3rd Qu.:1.0000
+ Max.   :1.0000   Max.   :1.0000   Max.   :1.0000   Max.   :1.0000
+      ihd             kidney        osteoporosis       stroke
+ Min.   :0.0000   Min.   :0.0000   Min.   :0.000   Min.   :0.00000
+ 1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.000   1st Qu.:0.00000
+ Median :0.0000   Median :0.0000   Median :0.000   Median :0.00000
+ Mean   :0.4201   Mean   :0.1612   Mean   :0.174   Mean   :0.04479
+ 3rd Qu.:1.0000   3rd Qu.:0.0000   3rd Qu.:0.000   3rd Qu.:0.00000
+ Max.   :1.0000   Max.   :1.0000   Max.   :1.000   Max.   :1.00000
+ reimbursement2008   bucket2008    reimbursement2009   bucket2009
+ Min.   :     0    Min.   :1.000   Min.   :     0    Min.   :1.000
+ 1st Qu.:     0    1st Qu.:1.000   1st Qu.:   130    1st Qu.:1.000
+ Median :   950    Median :1.000   Median :  1540    Median :1.000
+ Mean   :  4005    Mean   :1.437   Mean   :  4277    Mean   :1.522
+ 3rd Qu.:  3110    3rd Qu.:2.000   3rd Qu.:  4220    3rd Qu.:2.000
+ Max.   :221640    Max.   :5.000   Max.   :189930    Max.   :5.000
+#+end_example
+
+**** Answer
+
+- [X] Blood test results
+
+- [ ] Drugs prescribed to the patient
+
+- [X] Physical exam results (weight, height, blood pressure, etc.)
+
+*Explanation*
+
+In claims data, we have drugs prescribed to the patient, but we don't
+have blood test results or physical exam results.
+
+
+[[../graphs/D2HE-ClaimsData04.png]]
+
+
+
+[[../graphs/D2HE-Variables.png]]
+
+
+
+[[../graphs/D2HE-Variables02.png]]
+
+
+
+[[../graphs/D2HE-CostVariables.png]]
+
+
+
+[[../graphs/D2HE-MInterpretation.png]]
+
+
+
+[[../graphs/D2HE-ErrorMeasures.png]]
+
+
+
+[[../graphs/D2HE-PenaltyError.png]]
+
+
+[[../graphs/D2HE-Baseline.png]]
+
+
+[[../graphs/D2HE-MultiClass Classification.png]]
+
+
+[[../graphs/D2HE-ImportantFactors.png]]
+
+
+[[../graphs/D2HE-SecondaryFactors.png]]
+
+
+[[../graphs/D2HE-ExampleBuck5.png]]
+
+
+[[../graphs/D2HE-Results.png]]
+
+
+[[../graphs/D2HE-Insights.png]]
+
+
+[[../graphs/D2HE-AnalyticsEdge.png]]
