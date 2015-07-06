@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Week 4. Classification and Regression Trees</title>
-<!-- 2015-07-02 Thu 09:23 -->
+<!-- 2015-07-05 Sun 16:56 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Sergio-Feliciano Mendoza-Barrera" />
@@ -916,22 +916,23 @@ list.files(<span style="color: #fffacd;">"../data"</span>)
 
 <pre class="example">
  [1] "AnonymityPoll.csv"       "BoeingStock.csv"
- [3] "CPSData.csv"             "CocaColaStock.csv"
- [5] "CountryCodes.csv"        "FluTest.csv"
- [7] "FluTrain.csv"            "GEStock.csv"
- [9] "IBMStock.csv"            "MetroAreaCodes.csv"
-[11] "NBA_test.csv"            "NBA_train.csv"
-[13] "PollingData.csv"         "PollingData_Imputed.csv"
-[15] "ProcterGambleStock.csv"  "README.md"
-[17] "USDA.csv"                "WHO.csv"
-[19] "WHO_Europe.csv"          "baseball.csv"
-[21] "climate_change.csv"      "framingham.csv"
-[23] "loans.csv"               "loans_imputed.csv"
-[25] "mvtWeek1.csv"            "parole.csv"
-[27] "pisa2009test.csv"        "pisa2009train.csv"
-[29] "quality.csv"             "songs.csv"
-[31] "stevens.csv"             "wine.csv"
-[33] "wine_test.csv"
+ [3] "CPSData.csv"             "ClaimsData.csv"
+ [5] "ClaimsData.csv.zip"      "CocaColaStock.csv"
+ [7] "CountryCodes.csv"        "FluTest.csv"
+ [9] "FluTrain.csv"            "GEStock.csv"
+[11] "IBMStock.csv"            "MetroAreaCodes.csv"
+[13] "NBA_test.csv"            "NBA_train.csv"
+[15] "PollingData.csv"         "PollingData_Imputed.csv"
+[17] "ProcterGambleStock.csv"  "README.md"
+[19] "USDA.csv"                "WHO.csv"
+[21] "WHO_Europe.csv"          "baseball.csv"
+[23] "climate_change.csv"      "framingham.csv"
+[25] "loans.csv"               "loans_imputed.csv"
+[27] "mvtWeek1.csv"            "parole.csv"
+[29] "pisa2009test.csv"        "pisa2009train.csv"
+[31] "quality.csv"             "songs.csv"
+[33] "stevens.csv"             "wine.csv"
+[35] "wine_test.csv"
 </pre>
 </div>
 </div>
@@ -1193,6 +1194,13 @@ perf <span style="color: #db7093;">&lt;-</span> performance(pred, <span style="c
 
 <pre class="example">
  :: ROC curve:
+Loading required package: gplots
+
+Attaching package: 'gplots'
+
+The following object is masked from 'package:stats':
+
+    lowess
            0         1
 1  0.3035714 0.6964286
 3  0.3035714 0.6964286
@@ -1389,11 +1397,13 @@ writeLines(<span style="color: #fffacd;">"\n :: Library randomForest loaded..."<
 </div>
 
 <pre class="example">
-:: Install new package: randomForest ...
+ :: Install new package: randomForest ...
 
-:: NOTE: Please comment after install once...
+ :: NOTE: Please comment after install once...
+randomForest 4.6-10
+Type rfNews() to see new features/changes/bug fixes.
 
-:: Library randomForest loaded...
+ :: Library randomForest loaded...
 </pre>
 
 <p>
@@ -1840,11 +1850,13 @@ writeLines(<span style="color: #fffacd;">"\n :: Library Caret and e1071 loaded..
 </div>
 
 <pre class="example">
-:: Install new package: Caret and e1071 ...
+ :: Install new package: Caret and e1071 ...
 
-:: NOTE: Please comment after install once...
+ :: NOTE: Please comment after install once...
+Loading required package: lattice
+Loading required package: ggplot2
 
-:: Library Caret and e1071 loaded...
+ :: Library Caret and e1071 loaded...
 </pre>
 
 
@@ -2071,35 +2083,35 @@ train(Reverse ~ Circuit + Issue + Petitioner + Respondent + LowerCourt
 No pre-processing
 Resampling: Cross-Validated (10 fold)
 
-Summary of sample sizes: 357, 356, 357, 356, 357, 356, ...
+Summary of sample sizes: 357, 356, 357, 356, 356, 356, ...
 
 Resampling results across tuning parameters:
 
   cp    Accuracy   Kappa        Accuracy SD  Kappa SD
-  0.01  0.6433974  0.267916905  0.081763121  0.16808126
-  0.02  0.6359615  0.248964339  0.067658798  0.14237916
-  0.03  0.6208974  0.225208239  0.068926868  0.14482911
-  0.04  0.6333974  0.258053232  0.072912702  0.15300304
-  0.05  0.6436538  0.283134471  0.064841503  0.13050800
-  0.06  0.6436538  0.283134471  0.064841503  0.13050800
-  0.07  0.6436538  0.283134471  0.064841503  0.13050800
-  0.08  0.6436538  0.283134471  0.064841503  0.13050800
-  0.09  0.6436538  0.283134471  0.064841503  0.13050800
-  0.10  0.6436538  0.283134471  0.064841503  0.13050800
-  0.11  0.6436538  0.283134471  0.064841503  0.13050800
-  0.12  0.6436538  0.283134471  0.064841503  0.13050800
-  0.13  0.6436538  0.283134471  0.064841503  0.13050800
-  0.14  0.6436538  0.283134471  0.064841503  0.13050800
-  0.15  0.6436538  0.283134471  0.064841503  0.13050800
-  0.16  0.6436538  0.283134471  0.064841503  0.13050800
-  0.17  0.6436538  0.283134471  0.064841503  0.13050800
-  0.18  0.6436538  0.283134471  0.064841503  0.13050800
-  0.19  0.6436538  0.283134471  0.064841503  0.13050800
-  0.20  0.6061538  0.188881247  0.050982207  0.13051644
-  0.21  0.5808333  0.122201772  0.042577112  0.12398113
-  0.22  0.5605769  0.063162246  0.026979405  0.09019812
-  0.23  0.5479487  0.021739130  0.007861390  0.04659079
-  0.24  0.5453846  0.009090909  0.005958436  0.02874798
+  0.01  0.6365385  0.252522710  0.045831216  0.10138314
+  0.02  0.6337179  0.248281522  0.061267954  0.12752003
+  0.03  0.6314103  0.251796733  0.053552823  0.11468412
+  0.04  0.6314103  0.253786180  0.053552823  0.11438075
+  0.05  0.6440385  0.282995035  0.062472910  0.13104160
+  0.06  0.6440385  0.282995035  0.062472910  0.13104160
+  0.07  0.6440385  0.282995035  0.062472910  0.13104160
+  0.08  0.6440385  0.282995035  0.062472910  0.13104160
+  0.09  0.6440385  0.282995035  0.062472910  0.13104160
+  0.10  0.6440385  0.282995035  0.062472910  0.13104160
+  0.11  0.6440385  0.282995035  0.062472910  0.13104160
+  0.12  0.6440385  0.282995035  0.062472910  0.13104160
+  0.13  0.6440385  0.282995035  0.062472910  0.13104160
+  0.14  0.6440385  0.282995035  0.062472910  0.13104160
+  0.15  0.6440385  0.282995035  0.062472910  0.13104160
+  0.16  0.6440385  0.282995035  0.062472910  0.13104160
+  0.17  0.6440385  0.282995035  0.062472910  0.13104160
+  0.18  0.6440385  0.282995035  0.062472910  0.13104160
+  0.19  0.6440385  0.282995035  0.062472910  0.13104160
+  0.20  0.6085897  0.193703966  0.058244587  0.14192310
+  0.21  0.5807692  0.121202966  0.046444754  0.12714614
+  0.22  0.5605128  0.062732119  0.032700267  0.09526381
+  0.23  0.5428846  0.003553299  0.008506582  0.01123652
+  0.24  0.5428846  0.003553299  0.008506582  0.01123652
   0.25  0.5453846  0.000000000  0.005958436  0.00000000
   0.26  0.5453846  0.000000000  0.005958436  0.00000000
   0.27  0.5453846  0.000000000  0.005958436  0.00000000
@@ -2243,11 +2255,53 @@ best!
 <div id="outline-container-sec-1-13" class="outline-3">
 <h3 id="sec-1-13"><span class="section-number-3">1.13</span> Video 7: The Model V. The Experts</h3>
 <div class="outline-text-3" id="text-1-13">
+<p>
+Can a CART model actually predict Supreme Court case outcomes better
+than a group of experts? Martin and his colleagues used 628 previous
+Supreme Court cases between 1994 and 2001 to build their model. They
+made predictions for the 68 cases that would be decided in October,
+2002, before the term started.
+</p>
+
 
 <div class="figure">
 <p><img src="../graphs/Martin_sModel.png" alt="Martin_sModel.png" />
 </p>
 </div>
+
+<p>
+Their model had two stages of CART trees. The first stage involved
+making predictions using two CART trees. One to predict a unanimous
+liberal decision and one to predict a unanimous conservative decision.
+</p>
+
+<p>
+If the trees gave conflicting responses or both predicted no, then
+they moved on to the next stage. It turns out that about 50% of
+Supreme Court cases result in a unanimous decision, so this was a nice
+first step to detect the easier cases.
+</p>
+
+<p>
+The second stage consisted of predicting the decision of each
+individual justice, and then use the majority decision of all nine
+justices as a final prediction for the case.
+</p>
+
+<p>
+Here's a different tree, this one for Justice O'Connor. The first
+split is whether or not the lower court decision is liberal. If yes,
+then we predict that she will reverse the case. This makes sense
+because Justice O'Connor is generally viewed as a conservative judge.
+</p>
+
+<p>
+On the other hand, if the lower court decision is conservative, we
+check for the circuit court of origin. We predict that she will affirm
+the case. If it's not one of these courts, we move on to the next
+split. The remaining two splits are for the respondent and the primary
+issue.
+</p>
 
 
 <div class="figure">
@@ -2255,11 +2309,52 @@ best!
 </p>
 </div>
 
+<p>
+Here's another tree, this one for Justice Souter. This shows an
+unusual property of the CART trees that Martin and his colleagues
+developed. They use predictions for some trees as independent
+variables for other trees.
+</p>
+
+<p>
+In this tree, the first split is whether or not Justice Ginsburg's
+predicted decision is liberal. So we have to run Justice Ginsburg's
+CART tree first, see what the prediction is, and then use that as
+input for Justice Souter's tree.
+</p>
+
 
 <div class="figure">
 <p><img src="../graphs/Souter.png" alt="Souter.png" />
 </p>
 </div>
+
+<p>
+If Justice Ginsburg's predicted decision is liberal and the lower
+court decision is liberal, then we predict that Justice Souter will
+affirm the case. But if the lower court decision is conservative, then
+we predict that Justice Souter will reverse the case.
+</p>
+
+<p>
+On the other side of the tree, if Justice Ginsburg's predicted
+decision is conservative, but the lower court decision is liberal,
+then we predict that Justice Souter will reverse the case. But if the
+lower court decision is conservative, then we predict that Justice
+Souter will affirm the case.
+</p>
+
+<p>
+In summary, if we predict that Justice Ginsburg will make a liberal
+decision, then Justice Souter will probably make a liberal decision
+too.
+</p>
+
+<p>
+But if we predict that Justice Ginsburg will make a conservative
+decision, then we predict that Justice Souter will probably make a
+conservative decision too.
+</p>
 
 
 <div class="figure">
@@ -2267,16 +2362,986 @@ best!
 </p>
 </div>
 
+<p>
+So this was really a dream team of experts. Additionally, the experts
+were only asked to predict within their area of expertise. So not all
+experts predicted all cases, but there was more than one expert making
+predictions for each case.
+</p>
+
+<p>
+For the 68 cases in October 2002, the predictions were made, and at
+the end of the month the results were computed.
+</p>
+
 
 <div class="figure">
 <p><img src="../graphs/CARTResults.png" alt="CARTResults.png" />
 </p>
 </div>
 
+<p>
+For predicting the overall decision that was made by the Supreme
+Court, the models had an accuracy of 75%, while the experts only had
+an accuracy of 59%. So the models had a significant edge over the
+experts in predicting the overall case outcomes.
+</p>
+
+<p>
+However, when the predictions were run for individual justices, the
+model and the experts performed very similarly.
+</p>
+
+<p>
+For some justices, the model performed better, and for some justices,
+the experts performed better.
+</p>
+
 
 <div class="figure">
 <p><img src="../graphs/CARTAnalyticsEdge.png" alt="CARTAnalyticsEdge.png" />
 </p>
+</div>
+
+<p>
+We saw in this lecture that a model that predicts overall Supreme
+Court decisions is both more accurate than experts and can be run much
+faster than experts can make their predictions.
+</p>
+
+<p>
+The CART models that we built were based on very high level components
+of the cases, compared to the experts who can process much more
+detailed and complex information.
+</p>
+
+<p>
+This example really shows the edge that analytics can provide in
+traditionally qualitative applications.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Keeping an Eye on Healthcare Costs: The D2Hawkeye Story</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> Video 1: The Story of D2Hawkeye</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+This is a story of D2Hawkeye, a medical data mining company located in
+Waltham, Massachusetts.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/D2Hawkeye.png" alt="D2Hawkeye.png" />
+</p>
+</div>
+
+<p>
+It grew very fast and was sold to Verisk Analytics in 2009. The
+overall process that D2Hawkeye uses is as follows.
+</p>
+
+<p>
+It starts with medical claims that consist of diagnoses, procedures,
+and drugs. These medical claims are then processed via process of
+aggregation, cleaning, and normalization. This data then enters secure
+databases on which predictive models are applied.
+</p>
+
+<p>
+The output of predictive models are specific reports that give insight
+to the various questions that D2Hawkeye aspires to answer.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/D2Hawkeye02.png" alt="D2Hawkeye02.png" />
+</p>
+</div>
+
+<p>
+The company tries to improve health care case
+management. Specifically, it tries to identify high-risk patients,
+work with patients to manage treatment and associated costs, and
+arrange specialist care.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/HealthcareCaseManagement.png" alt="HealthcareCaseManagement.png" />
+</p>
+</div>
+
+<p>
+The overall goal of D2Hawkeye is to improve the quality of cost
+predictions.
+</p>
+
+<p>
+<b>D2Hawkeye had many different types of clients</b>.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/D2HEImpact.png" alt="D2HEImpact.png" />
+</p>
+</div>
+
+
+<p>
+To analyze the data, the company used what we call a pre-analytics
+approach. This was based on the human judgment of physicians who
+manually analyze patient histories and developed medical rules.
+</p>
+
+<p>
+Of course, this involved human judgment, utilized a limited set of
+data, it was often costly, and somewhat inefficient. The key question
+we analyze in this lecture is <b>Can we use analytics instead?</b>
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/Pre-AnalyticsApproach.png" alt="Pre-AnalyticsApproach.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> Video 2: Claims Data</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+Let us discuss data sources in the health care industry. Hospitals in
+southern Massachusetts versus California might use different
+technologies and different platforms.
+</p>
+
+<p>
+Finally there are strong privacy laws, HIPAA, around health care data
+sharing.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/DataSources.png" alt="DataSources.png" />
+</p>
+</div>
+
+<p>
+Claims data is a major source. Claims data are requests for
+reimbursement submitted to insurance companies or state-provided
+insurance from doctors, hospitals and pharmacies.
+</p>
+
+<p>
+Another source of data is the eligibility information for
+employees. And finally demographic information: gender and age.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/DataSources02.png" alt="DataSources02.png" />
+</p>
+</div>
+
+<p>
+Let me give you some examples on claims data. So this shows six
+different claims. Let's consider this one.
+</p>
+
+<p>
+So this is the provider's name. The corresponding diagnostic
+code. This is about upper respiratory disorders. This is another code
+associated with the diagnosis. This is the scientific term for the
+diagnosis. The specific code again. This was an office visit, and it's
+an established patient. The date.
+</p>
+
+<p>
+And the amount of money that was claimed by the physician. Others
+claims are similar.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/D2HE-ClaimsData.png" alt="D2HE-ClaimsData.png" />
+</p>
+</div>
+
+<p>
+As we see, the claims data is a rich, structured data source. It is
+very high dimensional. For example, claims involving diagnosis involve
+thousands of different codes.
+</p>
+
+<p>
+Similarly with drugs, where there are tens of thousands, and
+procedures.
+</p>
+
+<p>
+However, this collection of data does not capture all aspects of a
+person's treatment or health. Many things must be inferred. Unlike
+electronic medical records, we do not know the results of a test, only
+that the test was administered.
+</p>
+
+<p>
+For example, we do not know the results of a blood test, but we do
+know that the blood test was administered.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/D2HE-ClaimsData02.png" alt="D2HE-ClaimsData02.png" />
+</p>
+</div>
+
+<p>
+The specific exercise we are going to see in this lecture is an
+analytics approach to building models starting with 2.4 million people
+over a three year span.
+</p>
+
+<p>
+The observation period was 2001 to 2003. This is where this data is
+coming from. And then out of sample, we make predictions for the
+period of 2003 and 2004.
+</p>
+
+<p>
+This was in the early years of D2Hawkeye. Out of the 2.4 million
+people, we included only people with data for at least 10 months in
+both periods, both in the observation period and the results period.
+</p>
+
+<p>
+This decreased the data to 400,000 people.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/D2HE-ClaimsData03.png" alt="D2HE-ClaimsData03.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> Quick Question (1 point possible)</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+A common problem in analytics is that you have some data available,
+but it's not the ideal dataset. This is the case for this problem,
+where we only have claims data. Which of the following pieces of
+information would we ideally like to have in our dataset, but are not
+included in claims data? (Select all that apply.)
+</p>
+</div>
+
+<div id="outline-container-sec-2-3-1" class="outline-4">
+<h4 id="sec-2-3-1"><span class="section-number-4">2.3.1</span> Download the data sets</h4>
+<div class="outline-text-4" id="text-2-3-1">
+<p>
+In this part we can download the data
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R"><span style="color: #db7093;">library</span>(parallel)
+
+<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #fffacd;">"../data"</span>)) {
+        dir.create(<span style="color: #fffacd;">"../data"</span>)
+}
+
+fileUrl <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/ClaimsData.csv.zip"</span>
+
+fileName <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"ClaimsData.csv.zip"</span>
+
+dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"../data"</span>
+
+filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #fffacd;">"/"</span>)
+
+<span style="color: #4682b4;">if</span>(!file.exists(filePath)) {
+        download.file(fileUrl, destfile = filePath, method = <span style="color: #fffacd;">"curl"</span>)
+}
+
+list.files(<span style="color: #fffacd;">"../data"</span>)
+</pre>
+</div>
+
+<pre class="example">
+ [1] "AnonymityPoll.csv"       "BoeingStock.csv"
+ [3] "CPSData.csv"             "ClaimsData.csv"
+ [5] "ClaimsData.csv.zip"      "CocaColaStock.csv"
+ [7] "CountryCodes.csv"        "FluTest.csv"
+ [9] "FluTrain.csv"            "GEStock.csv"
+[11] "IBMStock.csv"            "MetroAreaCodes.csv"
+[13] "NBA_test.csv"            "NBA_train.csv"
+[15] "PollingData.csv"         "PollingData_Imputed.csv"
+[17] "ProcterGambleStock.csv"  "README.md"
+[19] "USDA.csv"                "WHO.csv"
+[21] "WHO_Europe.csv"          "baseball.csv"
+[23] "climate_change.csv"      "framingham.csv"
+[25] "loans.csv"               "loans_imputed.csv"
+[27] "mvtWeek1.csv"            "parole.csv"
+[29] "pisa2009test.csv"        "pisa2009train.csv"
+[31] "quality.csv"             "songs.csv"
+[33] "stevens.csv"             "wine.csv"
+[35] "wine_test.csv"
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-2-3-2" class="outline-4">
+<h4 id="sec-2-3-2"><span class="section-number-4">2.3.2</span> Load the data set</h4>
+<div class="outline-text-4" id="text-2-3-2">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"    Loading data into their data frames."</span>)
+ClaimsData <span style="color: #db7093;">&lt;-</span> read.table(<span style="color: #fffacd;">"../data/ClaimsData.csv"</span>, sep = <span style="color: #fffacd;">","</span>, header = <span style="color: #3cb371;">TRUE</span>)
+
+str(ClaimsData)
+summary(ClaimsData)
+</pre>
+</div>
+
+<pre class="example">
+    Loading data into their data frames.
+'data.frame':	458005 obs. of  16 variables:
+ $ age              : int  85 59 67 52 67 68 75 70 67 67 ...
+ $ alzheimers       : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ arthritis        : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ cancer           : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ copd             : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ depression       : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ diabetes         : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ heart.failure    : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ ihd              : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ kidney           : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ osteoporosis     : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ stroke           : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ reimbursement2008: int  0 0 0 0 0 0 0 0 0 0 ...
+ $ bucket2008       : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ reimbursement2009: int  0 0 0 0 0 0 0 0 0 0 ...
+ $ bucket2009       : int  1 1 1 1 1 1 1 1 1 1 ...
+      age           alzheimers       arthritis          cancer
+ Min.   : 26.00   Min.   :0.0000   Min.   :0.0000   Min.   :0.00000
+ 1st Qu.: 67.00   1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.00000
+ Median : 73.00   Median :0.0000   Median :0.0000   Median :0.00000
+ Mean   : 72.63   Mean   :0.1922   Mean   :0.1543   Mean   :0.06411
+ 3rd Qu.: 81.00   3rd Qu.:0.0000   3rd Qu.:0.0000   3rd Qu.:0.00000
+ Max.   :100.00   Max.   :1.0000   Max.   :1.0000   Max.   :1.00000
+      copd          depression        diabetes      heart.failure
+ Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :0.0000
+ 1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.0000
+ Median :0.0000   Median :0.0000   Median :0.0000   Median :0.0000
+ Mean   :0.1361   Mean   :0.2131   Mean   :0.3805   Mean   :0.2847
+ 3rd Qu.:0.0000   3rd Qu.:0.0000   3rd Qu.:1.0000   3rd Qu.:1.0000
+ Max.   :1.0000   Max.   :1.0000   Max.   :1.0000   Max.   :1.0000
+      ihd             kidney        osteoporosis       stroke
+ Min.   :0.0000   Min.   :0.0000   Min.   :0.000   Min.   :0.00000
+ 1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.000   1st Qu.:0.00000
+ Median :0.0000   Median :0.0000   Median :0.000   Median :0.00000
+ Mean   :0.4201   Mean   :0.1612   Mean   :0.174   Mean   :0.04479
+ 3rd Qu.:1.0000   3rd Qu.:0.0000   3rd Qu.:0.000   3rd Qu.:0.00000
+ Max.   :1.0000   Max.   :1.0000   Max.   :1.000   Max.   :1.00000
+ reimbursement2008   bucket2008    reimbursement2009   bucket2009
+ Min.   :     0    Min.   :1.000   Min.   :     0    Min.   :1.000
+ 1st Qu.:     0    1st Qu.:1.000   1st Qu.:   130    1st Qu.:1.000
+ Median :   950    Median :1.000   Median :  1540    Median :1.000
+ Mean   :  4005    Mean   :1.437   Mean   :  4277    Mean   :1.522
+ 3rd Qu.:  3110    3rd Qu.:2.000   3rd Qu.:  4220    3rd Qu.:2.000
+ Max.   :221640    Max.   :5.000   Max.   :189930    Max.   :5.000
+</pre>
+</div>
+
+<div id="outline-container-sec-2-3-2-1" class="outline-5">
+<h5 id="sec-2-3-2-1"><span class="section-number-5">2.3.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-2-3-2-1">
+<ul class="org-ul">
+<li><code>[X]</code> Blood test results
+</li>
+
+<li><code>[&#xa0;]</code> Drugs prescribed to the patient
+</li>
+
+<li><code>[X]</code> Physical exam results (weight, height, blood pressure, etc.)
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+In claims data, we have drugs prescribed to the patient, but we don't
+have blood test results or physical exam results.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-4" class="outline-3">
+<h3 id="sec-2-4"><span class="section-number-3">2.4</span> Video 3: The Variables</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+To build an analytics model, let us discuss the variables we
+used. First, we used the 13,000 diagnoses. It's for the codes for
+diagnosis that claims data utilize.
+</p>
+
+<p>
+There were also 22,000 different codes for procedures and 45,000 codes
+for prescription drugs. To work with this massive amount of variables,
+we aggregated the variables as follows.
+</p>
+
+<p>
+Out of the 13,000 diagnoses, we defined 217 diagnosis groups. Out of
+the 20,000 procedures, we aggregated the data to develop 213 procedure
+groups. And, finally, from 45,000 prescription drugs, we developed 189
+therapeutic groups.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/D2HE-ClaimsData04.png" alt="D2HE-ClaimsData04.png" />
+</p>
+</div>
+
+<p>
+To illustrate an example of how we infer further information from the
+data, the graph here shows on the horizontal axis, time, and on the
+vertical axis, costs in thousands of dollars.
+</p>
+
+<p>
+So patient one is a patient who, on a monthly basis, has costs on the
+order of $10,000 to $15,000, a fairly significant cost but fairly
+constant in time. Patient two has also an annual cost of a similar
+size to patient one.
+</p>
+
+<p>
+But in all but the third month, the costs are almost $0. Whereas in
+the third month, it cost about $70,000. In fact, this is additional
+data we defined indicating whether the patient has a chronic or an
+acute condition.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/D2HE-Variables.png" alt="D2HE-Variables.png" />
+</p>
+</div>
+
+<p>
+In addition to the initial variables, the 217 procedure groups, and
+189 drugs, and so forth, we also defined in collaboration with medical
+doctors, 269 medically-defined rules.
+</p>
+
+<p>
+For example, the first type of rule indicates the interaction between
+various illnesses. For example, obesity and depression. Then new
+variables regarding interaction between diagnosis and age. For
+example, more than 65 years old and coronary artery disease.
+</p>
+
+<p>
+Noncompliance with treatment. For example, non-fulfillment of a
+particular drug order. And, finally, illness severity. For example,
+severe depression as opposed to regular depression.
+</p>
+
+<p>
+And the last set of variables involve demographic information like
+gender and age.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/D2HE-Variables02.png" alt="D2HE-Variables02.png" />
+</p>
+</div>
+
+<p>
+An important aspect of the variables are the variables related to
+cost. So rather than using costs directly, we bucketed costs and
+considered everyone in the group equally.
+</p>
+
+<p>
+So we defined five buckets. So the buckets were partitioned in such a
+way so that 20% of all costs is in bucket five, 20% is in bucket four,
+and so forth. So the partitions were from 0 to 3,000, from 3,000 to
+8,000, from 8,000 to 19,000, from 19,000 to 55,000, and above 55,000.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/D2HE-CostVariables00.png" alt="D2HE-CostVariables00.png" />
+</p>
+</div>
+
+<p>
+The number of patients that were below 3,000 was&#x2013; 78% of the patients
+had costs below 3,000. Just to remind you, we created a bucket so that
+the total cost in each bucket was 20% of the total. But the number of
+patients in bucket one, for example, is very high (78%).
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/D2HE-CostVariables.png" alt="D2HE-CostVariables.png" />
+</p>
+</div>
+
+<p>
+Let us interpret the buckets medically. So this shows the various
+levels of risk. Bucket one consists of patients that have rather low
+risk. Bucket two has what is called emerging risk. In bucket three,
+moderate level of risk. Bucket four, high risk. And bucket five, very
+high risk.
+</p>
+
+<p>
+So from a medical perspective, buckets two and three, the medical and
+the moderate risk patients, are candidates for wellness
+programs. Whereas bucket four, the high risk patients, are candidates
+for disease management programs. And finally bucket five, the very
+high risk patients, are candidates for case management.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/D2HE-MInterpretation.png" alt="D2HE-MInterpretation.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-5" class="outline-3">
+<h3 id="sec-2-5"><span class="section-number-3">2.5</span> Quick Question (1 point possible)</h3>
+<div class="outline-text-3" id="text-2-5">
+<p>
+While we don't have all of the data we would ideally like to have in
+this problem (like test results), we can define new variables using
+the data we do have. Which of the following were new variables defined
+to help predict healthcare cost? Select all that apply.
+</p>
+
+<ul class="org-ul">
+<li><code>[X]</code> Variables to capture chronic conditions
+</li>
+
+<li><code>[X]</code> Noncompliance to treatment
+</li>
+
+<li><code>[X]</code> Illness severity
+</li>
+
+<li><code>[X]</code> Interactions between illnesses
+</li>
+</ul>
+</div>
+
+<div id="outline-container-sec-2-5-1" class="outline-4">
+<h4 id="sec-2-5-1"><span class="section-number-4">2.5.1</span> Answer</h4>
+<div class="outline-text-4" id="text-2-5-1">
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+All of these variables were defined using the claims data to improve
+cost predictions. This shows how the intuition of experts can be used
+to define new variables and improve the model.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-6" class="outline-3">
+<h3 id="sec-2-6"><span class="section-number-3">2.6</span> Video 4: Error Measures</h3>
+<div class="outline-text-3" id="text-2-6">
+<p>
+Let us introduce the error measures we used in building the analytics
+models.
+</p>
+
+<p>
+Next measure, the so-called <b>penalty error</b>, is motivated by the fact
+that if you classify a very high-risk patient as a low-risk patient,
+this is more costly than the reverse, namely classifying a low-risk
+patient as a very high-risk patient. Motivated by this, we developed a
+penalty error.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/D2HE-ErrorMeasures.png" alt="D2HE-ErrorMeasures.png" />
+</p>
+</div>
+
+<p>
+And the idea is to use asymmetric penalties. The graph here&#x2013; shows a
+matrix&#x2013; where this is the outcome and this is the forecast.
+</p>
+
+<p>
+For example, whenever we classify a low-risk patient as high-risk, we
+pay a penalty of 2, which is a difference of 3 minus 1, the difference
+in the error. But inversely, when you classify a bucket 3 patient as
+bucket 1 patient, this is double.
+</p>
+
+<p>
+The cost&#x2013; the penalty&#x2013; is double the amount. So you observe that the
+off diagonal penalties are double the corresponding penalties in the
+lower diagonal.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/D2HE-PenaltyError.png" alt="D2HE-PenaltyError.png" />
+</p>
+</div>
+
+<p>
+To judge the quality of the analytics models we developed, we compare
+it with a baseline. And the baseline is to simply predict that the
+cost in the next "period" will be the cost in the current period.
+</p>
+
+<p>
+We have observed that as far as identification of buckets is
+concerned, the accuracy was \(75\%\). So namely, whenever we predict that
+the risk is bucket 3&#x2013; indeed it is bucket 3&#x2013; this happens \(75\%\) of
+the time, and the penalty error&#x2013; the average penalty error of the
+baseline&#x2013; was \(0.56\).
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/D2HE-Baseline.png" alt="D2HE-Baseline.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-7" class="outline-3">
+<h3 id="sec-2-7"><span class="section-number-3">2.7</span> Quick Question (2 points possible)</h3>
+<div class="outline-text-3" id="text-2-7">
+<p>
+The image below shows the penalty error matrix that we discussed in
+the previous video.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/QQ4_PenaltyError.png" alt="QQ4_PenaltyError.png" />
+</p>
+</div>
+
+<p>
+We can interpret this matrix as follows. Suppose the actual outcome
+for an observation is 3, and we predict 2. We find 3 on the top of the
+matrix, and go down to the second row (since we forecasted 2). The
+penalty error for this mistake is 2. If for another observation we
+predict (forecast) 4, but the actual outcome is 1, that is a penalty
+error of 3.
+</p>
+</div>
+
+<div id="outline-container-sec-2-7-1" class="outline-4">
+<h4 id="sec-2-7-1"><span class="section-number-4">2.7.1</span> Question a</h4>
+<div class="outline-text-4" id="text-2-7-1">
+<p>
+What is the worst mistake we can make, according to the penalty error
+matrix?
+</p>
+</div>
+
+<div id="outline-container-sec-2-7-1-1" class="outline-5">
+<h5 id="sec-2-7-1-1"><span class="section-number-5">2.7.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-2-7-1-1">
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> We predict 5 (very high cost), but the actual outcome is 1 (very
+low cost).
+</li>
+
+<li><code>[X]</code> We predict 1 (very low cost), but the actual outcome is 5 (very
+high cost).
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+The highest cost is 8, which occurs when the forecast is 1 (very low
+cost), but the actual cost is 5 (very high cost). It would be much
+worse for us to ignore an actual high cost observation than to
+accidentally predict high cost for someone who turns out to be low
+cost.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-7-2" class="outline-4">
+<h4 id="sec-2-7-2"><span class="section-number-4">2.7.2</span> Question b</h4>
+<div class="outline-text-4" id="text-2-7-2">
+<p>
+What are the "best" types of mistakes we can make, according to the
+penalty error matrix?
+</p>
+</div>
+
+<div id="outline-container-sec-2-7-2-1" class="outline-5">
+<h5 id="sec-2-7-2-1"><span class="section-number-5">2.7.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-2-7-2-1">
+<ul class="org-ul">
+<li><code>[X]</code> Mistakes where we predict one cost bucket HIGHER than the actual
+outcome.
+</li>
+
+<li><code>[&#xa0;]</code> Mistakes where we predict one cost bucket LOWER than the actual
+outcome.
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+We are happier with mistakes where we predict one cost bucket higher
+than the actual outcome, since this just means we are being a little
+overly cautious.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-8" class="outline-3">
+<h3 id="sec-2-8"><span class="section-number-3">2.8</span> Video 5: CART to Predict Cost</h3>
+<div class="outline-text-3" id="text-2-8">
+<p>
+Let us introduce the method we used for predicting the bucket
+number. It is called&#x2013; it is a method called classification and
+regression trees.
+</p>
+
+<p>
+In this case, we use multi-class classification. There are five
+classes, buckets one to five. To give you an example, let us consider
+patients that have two types of diagnosis:
+</p>
+
+<ul class="org-ul">
+<li>coronary artery disease and diabetes.
+</li>
+
+<li>So if a patient does not have a coronary artery disease, we'd
+classify the patient as bucket one.
+</li>
+
+<li>If it has coronary artery disease, then we check whether the person
+has diabetes or doesn't have diabetes.
+
+<ul class="org-ul">
+<li>If it has diabetes, then it's bucket five, very high risk.
+</li>
+
+<li>And if it doesn't have diabetes, but given it has coronary
+artery disease, it is classified as bucket three.
+</li>
+</ul>
+</li>
+</ul>
+
+
+<div class="figure">
+<p><img src="../graphs/D2HE-MultiClass Classification.png" alt="D2HE-MultiClass Classification.png" />
+</p>
+</div>
+
+<p>
+So this is an example in which we only have two diagnoses and we will
+state how the method works.
+</p>
+
+<p>
+In the application of Hawkeye, the most important factors were related
+to cost in the beginning. So in the beginning, the classification tree
+involved divisions based on cost.
+</p>
+
+<p>
+For example,
+</p>
+
+<ul class="org-ul">
+<li>if the patient had paid less than $4,000&#x2013; so this is bucket one
+classification
+</li>
+
+<li>if it paid more than $4,000, then we further investigate whether the
+patient pays less than $40,000 or more than $40,000 and so forth.
+</li>
+</ul>
+
+
+<div class="figure">
+<p><img src="../graphs/D2HE-ImportantFactors.png" alt="D2HE-ImportantFactors.png" />
+</p>
+</div>
+
+<p>
+As the tree grows, then the secondary factor is utilized later in the
+classification tree involve various chronic illnesses and some of the
+medical rules we discussed earlier.
+</p>
+
+<p>
+For example,
+</p>
+
+<ul class="org-ul">
+<li>whether or not the patient has asthma and depression or not (Q146).
+</li>
+
+<li>If it has asthma and depression, then it's bucket five.
+</li>
+
+<li>If it doesn't, then we consider a particular indicator indicating
+hylan injection, which is an indication of a possible knee
+replacement or arthroscopy. So if this indicator is equal to 1, then
+it's bucket three.
+</li>
+
+<li>If it's indicator is equal to 0, it's not present, then it's bucket
+one.
+</li>
+</ul>
+
+<p>
+So let us give some examples of bucket five.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/D2HE-SecondaryFactors.png" alt="D2HE-SecondaryFactors.png" />
+</p>
+</div>
+
+<p>
+So let us give some examples of bucket five.
+</p>
+
+<ul class="org-ul">
+<li>So an example is as follows. The patient is under 35 years old, he
+has between 3,300 and 3,900 in claims, coronary artery disease as a
+diagnosis, but no office visits in the last year.
+</li>
+
+<li>Another example of a category of a patient that is classified as
+bucket five are claims between $3,900 and $43,000 with at least
+$8,000 paid in the last 12 months, $4,300 in pharmacy claims, and
+acute cost profile and cancer diagnosis.
+</li>
+
+<li>And another final example is more than $58,000 in claims, but at
+least $50,000 paid in the last 12 months, but not an acute profile.
+</li>
+</ul>
+
+<p>
+Classification trees have the major advantage as being interpretable
+by the physicians who observe them and judge them.
+</p>
+
+<p>
+In other words, people were able to identify these cases as
+reasonable. In other words, the human intuition agreed with the output
+of the analytics model.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/D2HE-ExampleBuck5.png" alt="D2HE-ExampleBuck5.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-9" class="outline-3">
+<h3 id="sec-2-9"><span class="section-number-3">2.9</span> Quick Question (1 point possible)</h3>
+<div class="outline-text-3" id="text-2-9">
+<p>
+What were the most important factors in the CART trees to predict
+cost?
+</p>
+</div>
+
+<div id="outline-container-sec-2-9-1" class="outline-4">
+<h4 id="sec-2-9-1"><span class="section-number-4">2.9.1</span> Answer</h4>
+<div class="outline-text-4" id="text-2-9-1">
+<ul class="org-ul">
+<li><code>[X]</code> Cost ranges from the previous year
+</li>
+
+<li><code>[&#xa0;]</code> Risk factors
+</li>
+
+<li><code>[&#xa0;]</code> Chronic conditions
+</li>
+
+<li><code>[&#xa0;]</code> Number of office visits last year
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+The most important variables in a CART tree are at the top of the
+tree - in this case, they are the cost ranges from the previous year.
+</p>
+
+
+
+
+<div class="figure">
+<p><img src="../graphs/D2HE-Results.png" alt="D2HE-Results.png" />
+</p>
+</div>
+
+
+
+<div class="figure">
+<p><img src="../graphs/D2HE-Insights.png" alt="D2HE-Insights.png" />
+</p>
+</div>
+
+
+
+<div class="figure">
+<p><img src="../graphs/D2HE-AnalyticsEdge.png" alt="D2HE-AnalyticsEdge.png" />
+</p>
+</div>
 </div>
 </div>
 </div>
@@ -2285,7 +3350,7 @@ best!
 <div id="postamble" class="status">
 <p class="date">Date: 30/06/2015</p>
 <p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
-<p class="date">Created: 2015-07-02 Thu 09:23</p>
+<p class="date">Created: 2015-07-05 Sun 16:56</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

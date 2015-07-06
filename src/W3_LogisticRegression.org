@@ -2022,7 +2022,7 @@ Now, let's use this model to make predictions on our test set.
 
 #+begin_src R :session :results output :exports all
   writeLines("\n :: Predictions on the test set")
-  predictTest <- predict(framinghamLog, type="response", newdata=test)
+  predictTest <- predict(framinghamLog, type = "response", newdata = test)
 
   writeLines("\n :: Confusion matrix with threshold of 0.5")
   table(test$TenYearCHD, predictTest > 0.5)

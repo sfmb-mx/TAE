@@ -476,23 +476,24 @@ In this part we can download the data
 
 #+RESULTS:
 #+begin_example
- [1] "AnonymityPoll.csv"       "baseball.csv"
- [3] "BoeingStock.csv"         "climate_change.csv"
- [5] "CocaColaStock.csv"       "CountryCodes.csv"
- [7] "CPSData.csv"             "FluTest.csv"
- [9] "FluTrain.csv"            "framingham.csv"
-[11] "GEStock.csv"             "IBMStock.csv"
-[13] "loans.csv"               "loans_imputed.csv"
-[15] "MetroAreaCodes.csv"      "mvtWeek1.csv"
-[17] "NBA_test.csv"            "NBA_train.csv"
-[19] "parole.csv"              "pisa2009test.csv"
-[21] "pisa2009train.csv"       "PollingData.csv"
-[23] "PollingData_Imputed.csv" "ProcterGambleStock.csv"
-[25] "quality.csv"             "README.md"
-[27] "songs.csv"               "stevens.csv"
-[29] "USDA.csv"                "WHO.csv"
-[31] "WHO_Europe.csv"          "wine.csv"
-[33] "wine_test.csv"
+ [1] "AnonymityPoll.csv"       "BoeingStock.csv"
+ [3] "CPSData.csv"             "ClaimsData.csv"
+ [5] "ClaimsData.csv.zip"      "CocaColaStock.csv"
+ [7] "CountryCodes.csv"        "FluTest.csv"
+ [9] "FluTrain.csv"            "GEStock.csv"
+[11] "IBMStock.csv"            "MetroAreaCodes.csv"
+[13] "NBA_test.csv"            "NBA_train.csv"
+[15] "PollingData.csv"         "PollingData_Imputed.csv"
+[17] "ProcterGambleStock.csv"  "README.md"
+[19] "USDA.csv"                "WHO.csv"
+[21] "WHO_Europe.csv"          "baseball.csv"
+[23] "climate_change.csv"      "framingham.csv"
+[25] "loans.csv"               "loans_imputed.csv"
+[27] "mvtWeek1.csv"            "parole.csv"
+[29] "pisa2009test.csv"        "pisa2009train.csv"
+[31] "quality.csv"             "songs.csv"
+[33] "stevens.csv"             "wine.csv"
+[35] "wine_test.csv"
 #+end_example
 
 *** Load the data set
@@ -716,15 +717,24 @@ CART model using the ROCR package.
 #+end_src
 
 #+RESULTS:
-:
-:  :: ROC curve:
-:            0         1
-: 1  0.3035714 0.6964286
-: 3  0.3035714 0.6964286
-: 4  0.4000000 0.6000000
-: 6  0.4000000 0.6000000
-: 8  0.4000000 0.6000000
-: 21 0.3035714 0.6964286
+#+begin_example
+
+ :: ROC curve:
+Loading required package: gplots
+
+Attaching package: 'gplots'
+
+The following object is masked from 'package:stats':
+
+    lowess
+           0         1
+1  0.3035714 0.6964286
+3  0.3035714 0.6964286
+4  0.4000000 0.6000000
+6  0.4000000 0.6000000
+8  0.4000000 0.6000000
+21 0.3035714 0.6964286
+#+end_example
 
 *PredictROC*
 
@@ -889,6 +899,8 @@ Important Note: In this video, we install the package
 :  :: Install new package: randomForest ...
 :
 :  :: NOTE: Please comment after install once...
+: randomForest 4.6-10
+: Type rfNews() to see new features/changes/bug fixes.
 :
 :  :: Library randomForest loaded...
 
@@ -1236,6 +1248,8 @@ please try installing and loading these two additional packages.
 :  :: Install new package: Caret and e1071 ...
 :
 :  :: NOTE: Please comment after install once...
+: Loading required package: lattice
+: Loading required package: ggplot2
 :
 :  :: Library Caret and e1071 loaded...
 
@@ -1366,41 +1380,41 @@ building models.
  CART
 
 396 samples
-  8 predictors
+  8 predictor
   2 classes: '0', '1'
 
 No pre-processing
 Resampling: Cross-Validated (10 fold)
 
-Summary of sample sizes: 357, 356, 357, 356, 357, 356, ...
+Summary of sample sizes: 357, 356, 357, 356, 356, 356, ...
 
 Resampling results across tuning parameters:
 
   cp    Accuracy   Kappa        Accuracy SD  Kappa SD
-  0.01  0.6433974  0.267916905  0.081763121  0.16808126
-  0.02  0.6359615  0.248964339  0.067658798  0.14237916
-  0.03  0.6208974  0.225208239  0.068926868  0.14482911
-  0.04  0.6333974  0.258053232  0.072912702  0.15300304
-  0.05  0.6436538  0.283134471  0.064841503  0.13050800
-  0.06  0.6436538  0.283134471  0.064841503  0.13050800
-  0.07  0.6436538  0.283134471  0.064841503  0.13050800
-  0.08  0.6436538  0.283134471  0.064841503  0.13050800
-  0.09  0.6436538  0.283134471  0.064841503  0.13050800
-  0.10  0.6436538  0.283134471  0.064841503  0.13050800
-  0.11  0.6436538  0.283134471  0.064841503  0.13050800
-  0.12  0.6436538  0.283134471  0.064841503  0.13050800
-  0.13  0.6436538  0.283134471  0.064841503  0.13050800
-  0.14  0.6436538  0.283134471  0.064841503  0.13050800
-  0.15  0.6436538  0.283134471  0.064841503  0.13050800
-  0.16  0.6436538  0.283134471  0.064841503  0.13050800
-  0.17  0.6436538  0.283134471  0.064841503  0.13050800
-  0.18  0.6436538  0.283134471  0.064841503  0.13050800
-  0.19  0.6436538  0.283134471  0.064841503  0.13050800
-  0.20  0.6061538  0.188881247  0.050982207  0.13051644
-  0.21  0.5808333  0.122201772  0.042577112  0.12398113
-  0.22  0.5605769  0.063162246  0.026979405  0.09019812
-  0.23  0.5479487  0.021739130  0.007861390  0.04659079
-  0.24  0.5453846  0.009090909  0.005958436  0.02874798
+  0.01  0.6365385  0.252522710  0.045831216  0.10138314
+  0.02  0.6337179  0.248281522  0.061267954  0.12752003
+  0.03  0.6314103  0.251796733  0.053552823  0.11468412
+  0.04  0.6314103  0.253786180  0.053552823  0.11438075
+  0.05  0.6440385  0.282995035  0.062472910  0.13104160
+  0.06  0.6440385  0.282995035  0.062472910  0.13104160
+  0.07  0.6440385  0.282995035  0.062472910  0.13104160
+  0.08  0.6440385  0.282995035  0.062472910  0.13104160
+  0.09  0.6440385  0.282995035  0.062472910  0.13104160
+  0.10  0.6440385  0.282995035  0.062472910  0.13104160
+  0.11  0.6440385  0.282995035  0.062472910  0.13104160
+  0.12  0.6440385  0.282995035  0.062472910  0.13104160
+  0.13  0.6440385  0.282995035  0.062472910  0.13104160
+  0.14  0.6440385  0.282995035  0.062472910  0.13104160
+  0.15  0.6440385  0.282995035  0.062472910  0.13104160
+  0.16  0.6440385  0.282995035  0.062472910  0.13104160
+  0.17  0.6440385  0.282995035  0.062472910  0.13104160
+  0.18  0.6440385  0.282995035  0.062472910  0.13104160
+  0.19  0.6440385  0.282995035  0.062472910  0.13104160
+  0.20  0.6085897  0.193703966  0.058244587  0.14192310
+  0.21  0.5807692  0.121202966  0.046444754  0.12714614
+  0.22  0.5605128  0.062732119  0.032700267  0.09526381
+  0.23  0.5428846  0.003553299  0.008506582  0.01123652
+  0.24  0.5428846  0.003553299  0.008506582  0.01123652
   0.25  0.5453846  0.000000000  0.005958436  0.00000000
   0.26  0.5453846  0.000000000  0.005958436  0.00000000
   0.27  0.5453846  0.000000000  0.005958436  0.00000000
@@ -1775,6 +1789,8 @@ In this part we can download the data
 
 #+RESULTS:
 #+begin_example
+ null device
+          1
  [1] "AnonymityPoll.csv"       "BoeingStock.csv"
  [3] "CPSData.csv"             "ClaimsData.csv"
  [5] "ClaimsData.csv.zip"      "CocaColaStock.csv"
@@ -1799,15 +1815,369 @@ In this part we can download the data
 
 #+BEGIN_SRC R :session :results output :exports all
   writeLines("    Loading data into their data frames.")
-  ClaimsData <- read.table("../data/ClaimsData.csv", sep = ",", header = TRUE)
-
-  str(ClaimsData)
-  summary(ClaimsData)
+  Claims <- read.table("../data/ClaimsData.csv", sep = ",", header = TRUE)
 #+END_SRC
 
 #+RESULTS:
+:     Loading data into their data frames.
+
+**** Answer
+
+- [X] Blood test results
+
+- [ ] Drugs prescribed to the patient
+
+- [X] Physical exam results (weight, height, blood pressure, etc.)
+
+*Explanation*
+
+In claims data, we have drugs prescribed to the patient, but we don't
+have blood test results or physical exam results.
+
+** Video 3: The Variables
+
+To build an analytics model, let us discuss the variables we
+used. First, we used the 13,000 diagnoses. It's for the codes for
+diagnosis that claims data utilize.
+
+There were also 22,000 different codes for procedures and 45,000 codes
+for prescription drugs. To work with this massive amount of variables,
+we aggregated the variables as follows.
+
+Out of the 13,000 diagnoses, we defined 217 diagnosis groups. Out of
+the 20,000 procedures, we aggregated the data to develop 213 procedure
+groups. And, finally, from 45,000 prescription drugs, we developed 189
+therapeutic groups.
+
+[[../graphs/D2HE-ClaimsData04.png]]
+
+To illustrate an example of how we infer further information from the
+data, the graph here shows on the horizontal axis, time, and on the
+vertical axis, costs in thousands of dollars.
+
+So patient one is a patient who, on a monthly basis, has costs on the
+order of $10,000 to $15,000, a fairly significant cost but fairly
+constant in time. Patient two has also an annual cost of a similar
+size to patient one.
+
+But in all but the third month, the costs are almost $0. Whereas in
+the third month, it cost about $70,000. In fact, this is additional
+data we defined indicating whether the patient has a chronic or an
+acute condition.
+
+[[../graphs/D2HE-Variables.png]]
+
+In addition to the initial variables, the 217 procedure groups, and
+189 drugs, and so forth, we also defined in collaboration with medical
+doctors, 269 medically-defined rules.
+
+For example, the first type of rule indicates the interaction between
+various illnesses. For example, obesity and depression. Then new
+variables regarding interaction between diagnosis and age. For
+example, more than 65 years old and coronary artery disease.
+
+Noncompliance with treatment. For example, non-fulfillment of a
+particular drug order. And, finally, illness severity. For example,
+severe depression as opposed to regular depression.
+
+And the last set of variables involve demographic information like
+gender and age.
+
+[[../graphs/D2HE-Variables02.png]]
+
+An important aspect of the variables are the variables related to
+cost. So rather than using costs directly, we bucketed costs and
+considered everyone in the group equally.
+
+So we defined five buckets. So the buckets were partitioned in such a
+way so that 20% of all costs is in bucket five, 20% is in bucket four,
+and so forth. So the partitions were from 0 to 3,000, from 3,000 to
+8,000, from 8,000 to 19,000, from 19,000 to 55,000, and above 55,000.
+
+[[../graphs/D2HE-CostVariables00.png]]
+
+The number of patients that were below 3,000 was-- 78% of the patients
+had costs below 3,000. Just to remind you, we created a bucket so that
+the total cost in each bucket was 20% of the total. But the number of
+patients in bucket one, for example, is very high (78%).
+
+[[../graphs/D2HE-CostVariables.png]]
+
+Let us interpret the buckets medically. So this shows the various
+levels of risk. Bucket one consists of patients that have rather low
+risk. Bucket two has what is called emerging risk. In bucket three,
+moderate level of risk. Bucket four, high risk. And bucket five, very
+high risk.
+
+So from a medical perspective, buckets two and three, the medical and
+the moderate risk patients, are candidates for wellness
+programs. Whereas bucket four, the high risk patients, are candidates
+for disease management programs. And finally bucket five, the very
+high risk patients, are candidates for case management.
+
+[[../graphs/D2HE-MInterpretation.png]]
+
+** Quick Question (1 point possible)
+
+While we don't have all of the data we would ideally like to have in
+this problem (like test results), we can define new variables using
+the data we do have. Which of the following were new variables defined
+to help predict healthcare cost? Select all that apply.
+
+- [X] Variables to capture chronic conditions
+
+- [X] Noncompliance to treatment
+
+- [X] Illness severity
+
+- [X] Interactions between illnesses
+
+*** Answer
+
+*Explanation*
+
+All of these variables were defined using the claims data to improve
+cost predictions. This shows how the intuition of experts can be used
+to define new variables and improve the model.
+
+** Video 4: Error Measures
+
+Let us introduce the error measures we used in building the analytics
+models.
+
+Next measure, the so-called *penalty error*, is motivated by the fact
+that if you classify a very high-risk patient as a low-risk patient,
+this is more costly than the reverse, namely classifying a low-risk
+patient as a very high-risk patient. Motivated by this, we developed a
+penalty error.
+
+[[../graphs/D2HE-ErrorMeasures.png]]
+
+And the idea is to use asymmetric penalties. The graph here-- shows a
+matrix-- where this is the outcome and this is the forecast.
+
+For example, whenever we classify a low-risk patient as high-risk, we
+pay a penalty of 2, which is a difference of 3 minus 1, the difference
+in the error. But inversely, when you classify a bucket 3 patient as
+bucket 1 patient, this is double.
+
+The cost-- the penalty-- is double the amount. So you observe that the
+off diagonal penalties are double the corresponding penalties in the
+lower diagonal.
+
+[[../graphs/D2HE-PenaltyError.png]]
+
+To judge the quality of the analytics models we developed, we compare
+it with a baseline. And the baseline is to simply predict that the
+cost in the next "period" will be the cost in the current period.
+
+We have observed that as far as identification of buckets is
+concerned, the accuracy was $75\%$. So namely, whenever we predict that
+the risk is bucket 3-- indeed it is bucket 3-- this happens $75\%$ of
+the time, and the penalty error-- the average penalty error of the
+baseline-- was $0.56$.
+
+[[../graphs/D2HE-Baseline.png]]
+
+** Quick Question (2 points possible)
+
+The image below shows the penalty error matrix that we discussed in
+the previous video.
+
+[[../graphs/QQ4_PenaltyError.png]]
+
+We can interpret this matrix as follows. Suppose the actual outcome
+for an observation is 3, and we predict 2. We find 3 on the top of the
+matrix, and go down to the second row (since we forecasted 2). The
+penalty error for this mistake is 2. If for another observation we
+predict (forecast) 4, but the actual outcome is 1, that is a penalty
+error of 3.
+
+*** Question a
+
+What is the worst mistake we can make, according to the penalty error
+matrix?
+
+**** Answer
+
+- [ ] We predict 5 (very high cost), but the actual outcome is 1 (very
+  low cost).
+
+- [X] We predict 1 (very low cost), but the actual outcome is 5 (very
+  high cost).
+
+*Explanation*
+
+The highest cost is 8, which occurs when the forecast is 1 (very low
+cost), but the actual cost is 5 (very high cost). It would be much
+worse for us to ignore an actual high cost observation than to
+accidentally predict high cost for someone who turns out to be low
+cost.
+
+*** Question b
+
+What are the "best" types of mistakes we can make, according to the
+penalty error matrix?
+
+**** Answer
+
+- [X] Mistakes where we predict one cost bucket HIGHER than the actual
+  outcome.
+
+- [ ] Mistakes where we predict one cost bucket LOWER than the actual
+  outcome.
+
+*Explanation*
+
+We are happier with mistakes where we predict one cost bucket higher
+than the actual outcome, since this just means we are being a little
+overly cautious.
+
+** Video 5: CART to Predict Cost
+
+Let us introduce the method we used for predicting the bucket
+number. It is called-- it is a method called classification and
+regression trees.
+
+In this case, we use multi-class classification. There are five
+classes, buckets one to five. To give you an example, let us consider
+patients that have two types of diagnosis:
+
+- coronary artery disease and diabetes.
+
+- So if a patient does not have a coronary artery disease, we'd
+  classify the patient as bucket one.
+
+- If it has coronary artery disease, then we check whether the person
+  has diabetes or doesn't have diabetes.
+
+    + If it has diabetes, then it's bucket five, very high risk.
+
+    + And if it doesn't have diabetes, but given it has coronary
+      artery disease, it is classified as bucket three.
+
+[[../graphs/D2HE-MultiClass Classification.png]]
+
+So this is an example in which we only have two diagnoses and we will
+state how the method works.
+
+In the application of Hawkeye, the most important factors were related
+to cost in the beginning. So in the beginning, the classification tree
+involved divisions based on cost.
+
+For example,
+
+- if the patient had paid less than $4,000-- so this is bucket one
+  classification
+
+- if it paid more than $4,000, then we further investigate whether the
+  patient pays less than $40,000 or more than $40,000 and so forth.
+
+[[../graphs/D2HE-ImportantFactors.png]]
+
+As the tree grows, then the secondary factor is utilized later in the
+classification tree involve various chronic illnesses and some of the
+medical rules we discussed earlier.
+
+For example,
+
+- whether or not the patient has asthma and depression or not (Q146).
+
+- If it has asthma and depression, then it's bucket five.
+
+- If it doesn't, then we consider a particular indicator indicating
+  hylan injection, which is an indication of a possible knee
+  replacement or arthroscopy. So if this indicator is equal to 1, then
+  it's bucket three.
+
+- If it's indicator is equal to 0, it's not present, then it's bucket
+  one.
+
+So let us give some examples of bucket five.
+
+[[../graphs/D2HE-SecondaryFactors.png]]
+
+So let us give some examples of bucket five.
+
+- So an example is as follows. The patient is under 35 years old, he
+  has between 3,300 and 3,900 in claims, coronary artery disease as a
+  diagnosis, but no office visits in the last year.
+
+- Another example of a category of a patient that is classified as
+  bucket five are claims between $3,900 and $43,000 with at least
+  $8,000 paid in the last 12 months, $4,300 in pharmacy claims, and
+  acute cost profile and cancer diagnosis.
+
+- And another final example is more than $58,000 in claims, but at
+  least $50,000 paid in the last 12 months, but not an acute profile.
+
+Classification trees have the major advantage as being interpretable
+by the physicians who observe them and judge them.
+
+In other words, people were able to identify these cases as
+reasonable. In other words, the human intuition agreed with the output
+of the analytics model.
+
+[[../graphs/D2HE-ExampleBuck5.png]]
+
+** Quick Question (1 point possible)
+
+What were the most important factors in the CART trees to predict
+cost?
+
+*** Answer
+
+- [X] Cost ranges from the previous year
+
+- [ ] Risk factors
+
+- [ ] Chronic conditions
+
+- [ ] Number of office visits last year
+
+*Explanation*
+
+The most important variables in a CART tree are at the top of the
+tree - in this case, they are the cost ranges from the previous year.
+
+** Video 6: Claims Data in R
+
+In the next few videos, we'll be using the dataset
+[[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/ClaimsData.csv.zip][ClaimsData.csv.zip]]. Please download the dataset to follow along. Note
+that this file is in ZIP format due to its large size. You will need to
+decompress (or unzip) the file before loading it into R.
+
+This data comes from the [[http://www.cms.gov/Research-Statistics-Data-and-Systems/Downloadable-Public-Use-Files/SynPUFs/DE_Syn_PUF.html][DE-SynPUF dataset]], published by the United
+States Centers for Medicare and Medicaid Services (CMS).
+
+An R script file with all of the R commands used in this lecture can
+be downloaded [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/Unit4_D2Hawkeye.R][here]].
+
+We'll be using a data set published by the United States Centers for
+Medicare and Medicaid Services to practice creating CART models to
+predict health care cost. We unfortunately can't use the D2Hawkeye
+data due to privacy issues.
+
+The data set we'll be using instead, ClaimsData.csv, is structured to
+represent a sample of patients in the Medicare program, which provides
+health insurance to Americans aged 65 and older, as well as some
+younger people with certain medical conditions.
+
+To protect the privacy of patients represented in this publicly
+available data set, a number of steps are performed to anonymize the
+data. So we would need to retrain the models we develop in this
+lecture on de-anonymized data if we wanted to apply our models in the
+real world.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: The summary of the claims data set:")
+  str(Claims)
+#+end_src
+
+#+RESULTS:
 #+begin_example
-    Loading data into their data frames.
+
+ :: The summary of the claims data set:
 'data.frame':	458005 obs. of  16 variables:
  $ age              : int  85 59 67 52 67 68 75 70 67 67 ...
  $ alzheimers       : int  0 0 0 0 0 0 0 0 0 0 ...
@@ -1825,96 +2195,744 @@ In this part we can download the data
  $ bucket2008       : int  1 1 1 1 1 1 1 1 1 1 ...
  $ reimbursement2009: int  0 0 0 0 0 0 0 0 0 0 ...
  $ bucket2009       : int  1 1 1 1 1 1 1 1 1 1 ...
-      age           alzheimers       arthritis          cancer
- Min.   : 26.00   Min.   :0.0000   Min.   :0.0000   Min.   :0.00000
- 1st Qu.: 67.00   1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.00000
- Median : 73.00   Median :0.0000   Median :0.0000   Median :0.00000
- Mean   : 72.63   Mean   :0.1922   Mean   :0.1543   Mean   :0.06411
- 3rd Qu.: 81.00   3rd Qu.:0.0000   3rd Qu.:0.0000   3rd Qu.:0.00000
- Max.   :100.00   Max.   :1.0000   Max.   :1.0000   Max.   :1.00000
-      copd          depression        diabetes      heart.failure
- Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :0.0000
- 1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.0000
- Median :0.0000   Median :0.0000   Median :0.0000   Median :0.0000
- Mean   :0.1361   Mean   :0.2131   Mean   :0.3805   Mean   :0.2847
- 3rd Qu.:0.0000   3rd Qu.:0.0000   3rd Qu.:1.0000   3rd Qu.:1.0000
- Max.   :1.0000   Max.   :1.0000   Max.   :1.0000   Max.   :1.0000
-      ihd             kidney        osteoporosis       stroke
- Min.   :0.0000   Min.   :0.0000   Min.   :0.000   Min.   :0.00000
- 1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.000   1st Qu.:0.00000
- Median :0.0000   Median :0.0000   Median :0.000   Median :0.00000
- Mean   :0.4201   Mean   :0.1612   Mean   :0.174   Mean   :0.04479
- 3rd Qu.:1.0000   3rd Qu.:0.0000   3rd Qu.:0.000   3rd Qu.:0.00000
- Max.   :1.0000   Max.   :1.0000   Max.   :1.000   Max.   :1.00000
- reimbursement2008   bucket2008    reimbursement2009   bucket2009
- Min.   :     0    Min.   :1.000   Min.   :     0    Min.   :1.000
- 1st Qu.:     0    1st Qu.:1.000   1st Qu.:   130    1st Qu.:1.000
- Median :   950    Median :1.000   Median :  1540    Median :1.000
- Mean   :  4005    Mean   :1.437   Mean   :  4277    Mean   :1.522
- 3rd Qu.:  3110    3rd Qu.:2.000   3rd Qu.:  4220    3rd Qu.:2.000
- Max.   :221640    Max.   :5.000   Max.   :189930    Max.   :5.000
 #+end_example
+
+The observations represent a $1\%$ random sample of Medicare
+beneficiaries, limited to those still alive at the end of 2008.
+
+Our independent variables are from 2008, and we will be predicting
+cost in 2009. Our independent variables are the patient's age in years
+at the end of 2008, and then several binary variables indicating
+whether or not the patient had diagnosis codes for a particular
+disease or related disorder in 2008: alzheimers, arthritis, cancer,
+chronic obstructive pulmonary disease, or copd, depression, diabetes,
+heart.failure, ischemic heart disease, or ihd, kidney disease,
+osteoporosis, and stroke.
+
+Each of these variables will take value $1$ if the patient had a
+diagnosis code for the particular disease and value $0$ otherwise.
+
+*Reimbursement2008* is the total amount of Medicare reimbursements for
+this patient in 2008. And *reimbursement2009* is the total value of all
+Medicare reimbursements for the patient in 2009. *bucket2008* is the
+cost bucket the patient fell into in 2008, and *bucket2009* is the cost
+bucket the patient fell into in 2009.
+
+These cost buckets are defined using the thresholds determined by
+D2Hawkeye.
+
+So the first cost bucket contains patients with costs less than
+$3,000, the second cost bucket contains patients with costs between
+$3,000 and $8,000, and so on.
+
+We can verify that the number of patients in each cost bucket has the
+same structure as what we saw for D2Hawkeye by computing the
+percentage of patients in each cost bucket.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Percentage of patients in each cost bucket:")
+  table(Claims$bucket2009)/nrow(Claims)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Percentage of patients in each cost bucket:
+:
+:           1           2           3           4           5
+: 0.671267781 0.190170413 0.089466272 0.043324855 0.005770679
+
+The first cost bucket has almost 70% of the patients. The second cost
+bucket has about 20% of the patients. And the remaining 10% are split
+between the final three cost buckets.
+
+*So the vast majority of patients in this data set have low cost*.
+
+Our goal will be to predict the cost bucket the patient fell into in
+2009 using a CART model.
+
+But before we build our model, we need to split our data into a
+training set and a testing set.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Split the data...")
+  library(caTools)
+  set.seed(88)
+
+  spl <- sample.split(Claims$bucket2009, SplitRatio = 0.6)
+  ClaimsTrain <- subset(Claims, spl==TRUE)
+  ClaimsTest <- subset(Claims, spl==FALSE)
+
+  writeLines("\n :: Dimensions of the training set:")
+  dim(ClaimsTrain)
+
+  writeLines("\n :: Dimensions of the testing set:")
+  dim(ClaimsTest)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Split the data...
+:
+:  :: Dimensions of the training set:
+: [1] 274803     16
+:
+:  :: Dimensions of the testing set:
+: [1] 183202     16
+
+** Quick Question (2 points possible)
+
+*** Question
+
+What is the average age of patients in the training set, *ClaimsTrain*?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: The average age of the training set is:")
+  mean(ClaimsTrain$age)
+#+end_src
+
+#+RESULTS:
+:
+:  :: The average age of the training set is:
+: [1] 72.63773
 
 **** Answer
 
-- [X] Blood test results
+The average age of the training set is:
+72.63773
 
-- [ ] Drugs prescribed to the patient
+*** Question
 
-- [X] Physical exam results (weight, height, blood pressure, etc.)
+What proportion of people in the training set (ClaimsTrain) had at
+least one diagnosis code for diabetes?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: The proportion of patients that have equal or more than a diabetes code:")
+  nrow(ClaimsTrain[ClaimsTrain$diabetes == 1, ]) / nrow(ClaimsTrain)
+#+end_src
+
+#+RESULTS:
+:
+:  :: The proportion of patients that have equal or more than a diabetes code:
+: [1] 0.3808983
+
+**** Answer
+
+The proportion of patients that have equal or more than a diabetes code:
+0.3808983
 
 *Explanation*
 
-In claims data, we have drugs prescribed to the patient, but we don't
-have blood test results or physical exam results.
+Both of these answers can be found by looking at
+summary(ClaimsTrain). The mean age should be listed under the age
+variable, and since diabetes is a binary variable, the mean value of
+diabetes gives the proportion of people with at least one diagnosis
+code for diabetes.
 
+Alternatively, you could use the mean, table, and nrow functions:
 
-[[../graphs/D2HE-ClaimsData04.png]]
+~mean(ClaimsTrain$age)~
 
+~table(ClaimsTrain$diabetes)/nrow(ClaimsTrain)~
 
+** Video 7: Baseline Method and Penalty Matrix
 
-[[../graphs/D2HE-Variables.png]]
+Let's now see how the baseline method used by D2Hawkeye would perform
+on this data set. The baseline method would predict that the cost
+bucket for a patient in 2009 will be the same as it was in 2008.
 
+So let's create a classification matrix to compute the accuracy for
+the baseline method on the test set.
 
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Baseline method:")
+  table(ClaimsTest$bucket2009, ClaimsTest$bucket2008)
 
-[[../graphs/D2HE-Variables02.png]]
+  writeLines("\n :: Baseline accuracy:")
+  (110138 + 10721 + 2774 + 1539 + 104)/nrow(ClaimsTest)
+#+end_src
 
+#+RESULTS:
+#+begin_example
 
+ :: Baseline method:
 
-[[../graphs/D2HE-CostVariables.png]]
+         1      2      3      4      5
+  1 110138   7787   3427   1452    174
+  2  16000  10721   4629   2931    559
+  3   7006   4629   2774   1621    360
+  4   2688   1943   1415   1539    352
+  5    293    191    160    309    104
 
+ :: Baseline accuracy:
+[1] 0.6838135
+#+end_example
 
+The accuracy is the sum of the diagonal, the observations that were
+classified correctly, divided by the total number of observations in
+our test set.
 
-[[../graphs/D2HE-MInterpretation.png]]
+So the accuracy of the baseline method is $0.68$. Now how about the
+penalty error?
 
+To compute this, we need to first create a penalty matrix in R. Keep
+in mind that we'll put the actual outcomes on the left, and the
+predicted outcomes on the top.
 
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Penalty Matrix:")
+  PenaltyMatrix <- matrix(c(0, 1, 2, 3, 4, 2, 0, 1, 2, 3, 4, 2, 0, 1, 2,
+                           6, 4, 2, 0, 1, 8, 6, 4, 2, 0), byrow = TRUE,
+                         nrow = 5)
+  PenaltyMatrix
+#+end_src
 
-[[../graphs/D2HE-ErrorMeasures.png]]
+#+RESULTS:
+:
+:  :: Penalty Matrix:
+:      [,1] [,2] [,3] [,4] [,5]
+: [1,]    0    1    2    3    4
+: [2,]    2    0    1    2    3
+: [3,]    4    2    0    1    2
+: [4,]    6    4    2    0    1
+: [5,]    8    6    4    2    0
 
+The actual outcomes are on the left, and the predicted outcomes are on
+the top. So as we saw in the slides, the worst outcomes are when we
+predict a low cost bucket, but the actual outcome is a high cost
+bucket.
 
+We still give ourselves a penalty when we predict a high cost bucket
+and it's actually a low cost bucket, but it's not as bad.
 
-[[../graphs/D2HE-PenaltyError.png]]
+So now to compute the penalty error of the baseline method, we can
+multiply our classification matrix by the penalty matrix.
 
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Penalty Error of Baseline Method:")
+  as.matrix(table(ClaimsTest$bucket2009, ClaimsTest$bucket2008))*PenaltyMatrix
+#+end_src
 
-[[../graphs/D2HE-Baseline.png]]
+#+RESULTS:
+:
+:  :: Penalty Error of Baseline Method:
+:
+:         1     2     3     4     5
+:   1     0  7787  6854  4356   696
+:   2 32000     0  4629  5862  1677
+:   3 28024  9258     0  1621   720
+:   4 16128  7772  2830     0   352
+:   5  2344  1146   640   618     0
 
+So what this does is it takes each number in the classification matrix
+and multiplies it by the corresponding number in the penalty matrix.
 
-[[../graphs/D2HE-MultiClass Classification.png]]
+So now to compute the *penalty error*, we just need to sum it up and
+divide by the number of observations in our test set.
 
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Overall accuracy of the baseline model:")
+  sum(as.matrix(table(ClaimsTest$bucket2009, ClaimsTest$bucket2008))*PenaltyMatrix)/nrow(ClaimsTest)
+#+end_src
 
-[[../graphs/D2HE-ImportantFactors.png]]
+#+RESULTS:
+:
+:  :: Overall accuracy of the baseline model:
+: [1] 0.7386055
 
+Our goal will be to create a CART model that has an *accuracy higher*
+than $68\%$ and a *penalty error* lower than $0.74$.
 
-[[../graphs/D2HE-SecondaryFactors.png]]
+** Quick Question (2 points possible)
 
+Suppose that instead of the baseline method discussed in the previous
+video, we used the baseline method of predicting the most frequent
+outcome for all observations. This new baseline method would predict
+cost bucket 1 for everyone.
 
-[[../graphs/D2HE-ExampleBuck5.png]]
+*** Question a
 
+What would the accuracy of this baseline method be on the test set?
+
+**** Answer
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: The baseline accuracy is:")
+  table(ClaimsTest$bucket2009)[1] / nrow(ClaimsTest)
+#+end_src
+
+#+RESULTS:
+:
+:  :: The baseline accuracy is:
+:       1
+: 0.67127
+
+*** Question b
+
+What would the penalty error of this baseline method be on the test
+set?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Penalty Matrix:")
+  PenaltyMatrix2 <- c(0, 2, 4, 6, 8)
+  PenaltyMatrix2
+
+  writeLines("\n :: The penalty error for the Naive Baseline model:")
+  sum(as.matrix(table(ClaimsTest$bucket2009)) * PenaltyMatrix2) / nrow(ClaimsTest)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Penalty Matrix:
+: [1] 0 2 4 6 8
+:
+:  :: The penalty error for the Naive Baseline model:
+: [1] 1.044301
+
+*Explanation*
+
+To compute the accuracy, you can create a table of the variable
+ClaimsTest$bucket2009:
+
+~table(ClaimsTest$bucket2009)~
+
+According to the table output, this baseline method would get 122978
+observations correct, and all other observations wrong. So the
+accuracy of this baseline method is
+
+~122978/nrow(ClaimsTest) = 0.67127~.
+
+For the penalty error, since this baseline method predicts 1 for all
+observations, it would have a penalty error of:
+
+~(0*122978 + 2*34840 + 4*16390 + 6*7937 + 8*1057)/nrow(ClaimsTest) = 1.044301~
+
+** Video 8: Predicting Healthcare Costs in R
+
+We'll build a CART model to predict healthcare cost.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Load necessary libraries...")
+  library(rpart)
+  library(rpart.plot)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Load necessary libraries...
+
+Now, let's build our CART model.
+
+We'll call it *ClaimsTree*. And we'll use the *rpart* function to
+predict *bucket2009*, using as independent variables: age, arthritis,
+alzheimers, cancer, copd, depression, diabetes, heart.failure, ihd,
+kidney, osteoporosis, and stroke. We'll also use bucket2008 and
+reimbursement2008.
+
+The data set we'll use to build our model is *ClaimsTrain*. And then
+we'll add the arguments, method = "class", since we have a
+classification problem here, and cp = 0.00005.
+
+Note that even though we have a multi-class classification problem
+here, we build our tree in the same way as a binary classification
+problem.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: CART model:")
+  ClaimsTree <- rpart(bucket2009 ~ age + alzheimers + arthritis + cancer +
+                      copd + depression + diabetes + heart.failure +
+                                ihd + kidney + osteoporosis + stroke +
+                                bucket2008 + reimbursement2008,
+                      data = ClaimsTrain, method = "class", cp = 0.00005)
+#+end_src
+
+#+RESULTS:
+:
+:  :: CART model:
+: Warning message:
+: labs do not fit even at cex 0.15, there may be some overplotting
+
+The cp value we're using here was selected through cross-validation on
+the training set. We won't perform the cross-validation here, because
+it takes a significant amount of time on a data set of this size.
+
+Remember that we have almost 275,000 observations in our training
+set.
+
+But keep in mind that the R commands needed for cross-validation here
+are the same as those used in the previous lecture on predicting
+Supreme Court decisions.
+
+#+BEGIN_SRC R :var basename="ClaimsCartModel" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  prp(ClaimsTree)
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION: CART model for the Quality Health Care Analysis
+#+NAME:   fig:ClaimsCartModel
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/ClaimsCartModel.png]]
+
+It might take a while to load, because we have a huge tree here. This
+makes sense for a few reasons. One is the large number of observations
+in our training set.
+
+Another is that we have a five-class classification problem, so the
+classification is more complex than a binary classification case, like
+the one we saw in the previous lecture.
+
+The trees used by D2Hawkeye were also very large CART trees. While
+this hurts the interpretability of the model, it's still possible to
+describe each of the buckets of the tree according to the splits.
+
+We'll call our predictions PredictTest, where we'll use the predict
+function for our model.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Make predictions:")
+  PredictTest <- predict(ClaimsTree, newdata = ClaimsTest, type = "class")
+
+  writeLines("\n :: Building the confusion matrix for the testing set:")
+  table(ClaimsTest$bucket2009, PredictTest)
+
+  writeLines("\n :: Calculate the overall accuracy for the testing set:")
+  (114141 + 16102 + 118 + 201 + 0)/nrow(ClaimsTest)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Make predictions:
+
+ :: Building the confusion matrix for the testing set:
+   PredictTest
+         1      2      3      4      5
+  1 114141   8610    124    103      0
+  2  18409  16102    187    142      0
+  3   8027   8146    118     99      0
+  4   3099   4584     53    201      0
+  5    351    657      4     45      0
+
+ :: Calculate the overall accuracy for the testing set:
+[1] 0.7126669
+#+end_example
+
+So the accuracy of our model is 0.713.
+
+For the penalty error, we can use our penalty matrix like we did in
+the previous video.
+
+#+begin_src R :session :results output :exports all
+  as.matrix(table(ClaimsTest$bucket2009, PredictTest))*PenaltyMatrix
+
+  writeLines("\n :: The testing set penalty error:")
+  sum(as.matrix(table(ClaimsTest$bucket2009, PredictTest))*PenaltyMatrix)/nrow(ClaimsTest)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+   PredictTest
+        1     2     3     4     5
+  1     0  8610   248   309     0
+  2 36818     0   187   284     0
+  3 32108 16292     0    99     0
+  4 18594 18336   106     0     0
+  5  2808  3942    16    90     0
+
+ :: The testing set penalty error:
+[1] 0.7578902
+#+end_example
+
+So our penalty error is $0.758$. In the previous video, we saw that our
+baseline method had an accuracy of $68\%$ and a penalty error of $0.74$. So
+while we increased the accuracy, the penalty error also went up. Why?
+
+By default, rpart will try to maximize the overall accuracy, and every
+type of error is seen as having a penalty of one.
+
+Our CART model predicts 3, 4, and 5 so rarely because there are very
+few observations in these classes. So we don't really expect this
+model to do better on the penalty error than the baseline method.
+
+So how can we fix this? The rpart function allows us to specify a
+parameter called *loss*. This is the penalty matrix we want to use
+when building our model.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: New CART model with loss matrix:")
+  ClaimsTree <- rpart(bucket2009 ~ age + alzheimers + arthritis + cancer +
+                     copd + depression + diabetes + heart.failure +
+                               ihd + kidney + osteoporosis + stroke +
+                               bucket2008 + reimbursement2008,
+                     data = ClaimsTrain, method = "class", cp = 0.00005,
+                     parms = list(loss = PenaltyMatrix))
+#+end_src
+
+#+RESULTS:
+:
+:  :: New CART model with loss matrix:
+
+So while our model is being built, let's think about what we expect to
+happen. If the rpart function knows that we'll be giving a higher
+penalty to some types of errors over others, it might choose different
+splits when building the model to minimize the worst types of errors.
+
+We'll probably get a lower overall accuracy with this new model. But
+hopefully, the penalty error will be much lower too.
+
+So now that our model is done, let's regenerate our test set
+predictions.
+
+#+begin_src R :session :results output :exports all
+  # Redo predictions and penalty error
+  PredictTest <- predict(ClaimsTree, newdata = ClaimsTest, type = "class")
+
+  writeLines("\n :: The classification matrix is:")
+  table(ClaimsTest$bucket2009, PredictTest)
+
+  writeLines("\n :: The overall accuracy is:")
+  (94310 + 18942 + 4692 + 636 + 2)/nrow(ClaimsTest)
+
+  writeLines("\n :: The penalty error is:")
+  sum(as.matrix(table(ClaimsTest$bucket2009, PredictTest))*PenaltyMatrix)/nrow(ClaimsTest)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: The classification matrix is:
+   PredictTest
+        1     2     3     4     5
+  1 94310 25295  3087   286     0
+  2  7176 18942  8079   643     0
+  3  3590  7706  4692   401     1
+  4  1304  3193  2803   636     1
+  5   135   356   408   156     2
+
+ :: The overall accuracy is:
+[1] 0.6472746
+
+ :: The penalty error is:
+[1] 0.6418161
+#+end_example
+
+Our accuracy is now lower than the baseline method, but our penalty
+error is also much lower. Note that we have significantly fewer
+independent variables than D2Hawkeye had.
+
+Note that we have significantly fewer independent variables than
+D2Hawkeye had. If we had the hundreds of codes and risk factors
+available to D2Hawkeye, we would hopefully do even better.
+
+** Quick Question (1 point possible)
+
+In the previous video, we constructed two CART models. The first CART
+model, without the loss matrix, predicted bucket 1 for $78.6\%$ of the
+observations in the test set. Did the second CART model, with the loss
+matrix, predict bucket 1 for more or fewer of the observations, and
+why?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: The penalty matrix:")
+  PenaltyMatrix
+#+end_src
+
+#+RESULTS:
+:
+:  :: The penalty matrix:
+:      [,1] [,2] [,3] [,4] [,5]
+: [1,]    0    1    2    3    4
+: [2,]    2    0    1    2    3
+: [3,]    4    2    0    1    2
+: [4,]    6    4    2    0    1
+: [5,]    8    6    4    2    0
+
+- [ ] According to the penalty matrix, some of the worst types of
+  errors are to not predict bucket 1 when the actual cost bucket is
+  bucket 1. Therefore, the model with the penalty matrix predicted
+  bucket 1 more frequently.
+
+- [ ] According to the penalty matrix, some of the worst types of
+  errors are to predict bucket 1 when the actual cost bucket is
+  higher. Therefore, the model with the penalty matrix predicted
+  bucket 1 more frequently.
+
+- [ ] According to the penalty matrix, some of the worst types of
+  errors are to not predict bucket 1 when the actual cost bucket is
+  bucket 1. Therefore, the model with the penalty matrix predicted
+  bucket 1 less frequently.
+
+- [X] According to the penalty matrix, some of the worst types of
+  errors are to predict bucket 1 when the actual cost bucket is
+  higher. Therefore, the model with the penalty matrix predicted
+  bucket 1 less frequently.
+
+*Explanation*
+
+If you look at the classification matrix for the second CART model, we
+predicted bucket 1 less frequently. This is because, according to the
+penalty matrix, some of the worst types of errors are to predict
+bucket 1 when the actual cost bucket is higher.
+
+** Video 9: Results
+
+We will discuss the results of the classification tree model. So we
+first observe that the overall accuracy of the method regarding the
+percentage that it accurately predicts is $80\%$, compared to $75\%$
+of the baseline.
+
+But notice that this is done in an interesting way. For bucket one
+patients, the two models are equivalent. But of course this suggests
+the idea that healthy people stay healthy, which is the idea of the
+baseline model.
+
+The cost repeats is valid in the data.
 
 [[../graphs/D2HE-Results.png]]
 
+But then for buckets two to five, notice that the accuracy increases
+substantially from 31% to 60%-- it doubles-- from 21% to 53%-- more
+than doubles-- and from 19% to 39%-- doubles.
+
+There's an improvement from 23% to 30%, not as big as before, but
+there is indeed an improvement for bucket five. But notice the
+improvement on the penalty from 0.56 to 0.52 overall.
+
+A small improvement in bucket one, but a significant improvement as we
+increase on the buckets. For example, here for bucket five, the
+penalty error decreases from 1.88 to 1.01, a substantial improvement.
+
+[[../graphs/D2HE-Results02.png]]
+
+So we observed that there's a substantial improvement over the
+baseline, especially as we go down on buckets. It doubles the accuracy
+over the baseline in some cases. And so we have seen there's a smaller
+accuracy improvement in bucket five, but there's a much lower penalty
+in the prediction for bucket five.
 
 [[../graphs/D2HE-Insights.png]]
 
+So what is the edge of the analytics provided to D2Hawkeye?
+
+First and foremost, there was a substantial improvement in the
+company's ability to identify patients who need more
+attention. Another advantage was related to the fact that the model
+was in fact interpretable by physicians.
+
+So the physicians were able to improve the model by identifying new
+variables and refining existing variables. That really led to further
+improvements. Finally, and quite importantly, the analytics gave the
+company an edge over the competition using-- that the competition used
+last century methods.
+
+And the use of machine learning methods-- in this case, classification
+trees-- provided an edge that also helped Hawkeye when it was sold to
+Verisk Analytics in 2009.
 
 [[../graphs/D2HE-AnalyticsEdge.png]]
+
+* Video 1: Boston Housing Data (Recitation)
+
+In real estate, there is a famous saying that the most important thing
+is location, location, location. In this recitation, we will be
+looking at regression trees, and applying them to data related to
+house prices and locations.
+
+Boston is the capital of the state of Massachusetts, USA.
+
+[[../graphs/HD-Location.png]]
+
+Some interesting data in the history of Boston.
+
+[[../graphs/HD-Boston.png]]
+
+Here is a shot of Boston from above. In the middle of the picture, we
+have the Charles River. I'm talking to you from my office at MIT. My
+office is here. This is MIT here. MIT lies in the city of Cambridge,
+which is north of the river, and south of the river is Boston city,
+itself.
+
+In this recitation, we will be talking about Boston in a sense of the
+greater Boston area.
+
+However, if we look at the housing in Boston right now, we can see
+that it is very dense. Over the greater Boston area, the nature of the
+housing varies widely.
+
+[[../graphs/HD-Boston02.png]]
+
+This data comes from a paper, "Hedonic Housing Prices and the Demand
+for Clean Air," which has been cited more than 1,000 times.
+
+This paper was written on a relationship between house prices and
+clean air in the late 1970s by David Harrison of Harvard and Daniel
+Rubinfeld of the University of Michigan.
+
+The data set is widely used to evaluate algorithms of a nature we
+discuss in this class.
+
+[[../graphs/HD-HousingData.png]]
+
+We mostly discuss classification trees with the output as a factor or
+a category. Trees can also be used for regression tasks. The output at
+each leaf of a tree is no longer a category, but a number.
+
+Just like classification trees, regression trees can capture
+non-linearities that linear regression can't.
+
+[[../graphs/RinCART.png]]
+
+*So what does that mean?*
+
+Well, with classification trees we report the average outcome at each
+leaf of our tree. For example, if the outcome is true 15 times, and
+false 5 times, the value at that leaf of a tree would be
+
+$$
+\frac{15}{(15 + 5)} = 0.75.
+$$
+
+Now, if we use the default threshold of 0.5, we would say the value at
+this leaf is true. With regression trees, we now have continuous
+variables.
+
+[[../graphs/HD-RegressionTrees.png]]
+
+
+[[../graphs/HD-Example.png]]
+
+
+[[../graphs/HD-HousingData02.png]]
+
+
+[[../graphs/HD-UnderstandingData.png]]
+
+
+[[../graphs/HD-UnderstandingData02.png]]
+
+
+[[../graphs/HD-UnderstandingData03.png]]
+
+
+
+[[../graphs/HD-CPparameter.png]]
+
+
+
+[[../graphs/HD-CPparameter02.png]]
+
+
+[[../graphs/HD-CPparameter03.png]]
+
+
+[[../graphs/HD-CPparameter04.png]]
+
+
+[[../graphs/HD-CPparameter05.png]]
