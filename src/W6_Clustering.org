@@ -1,0 +1,117 @@
+#+TITLE:         Unit 6 - Clustering
+#+AUTHOR:        Sergio-Feliciano Mendoza-Barrera
+#+DRAWERS:       sfmb
+#+EMAIL:         smendoza.barrera@gmail.com
+#+DATE:          14/07/2015
+#+DESCRIPTION:   Clustering methods in Machine Learning
+#+KEYWORDS:      R, data science, emacs, ESS, org-mode, machine learning, clustering
+#+LANGUAGE:      en
+#+OPTIONS:       H:10 num:t toc:nil \n:nil @:t ::t |:t ^:{} -:t f:t *:t <:t d:HIDDEN
+#+OPTIONS:       TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+OPTIONS:       LaTeX:dvipng
+#+INFOJS_OPT:    view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:
+#+LINK_HOME:
+#+XSLT:
+#+STYLE: <link rel="stylesheet" type="text/css" href="dft.css"/>
+
+#+LaTeX_CLASS: IEEEtran
+#+LATEX_CLASS_OPTIONS: [letterpaper, 9pt, onecolumn, twoside, technote, final]
+#+LATEX_HEADER: \usepackage{minted}
+#+LATEX_HEADER: \usepackage{makeidx}
+
+#+LATEX_HEADER: \usepackage[lining,tabular]{fbb} % so math uses tabular lining figures
+#+LATEX_HEADER: \usepackage[scaled=.95,type1]{cabin} % sans serif in style of Gill Sans
+#+LATEX_HEADER: \usepackage[varqu,varl]{zi4}% inconsolata typewriter
+#+LATEX_HEADER: \usepackage[T1]{fontenc} % LY1 also works
+#+LATEX_HEADER: \usepackage[libertine,bigdelims]{newtxmath}
+#+LATEX_HEADER: \usepackage[cal=boondoxo,bb=boondox,frak=boondox]{mathalfa}
+#+LATEX_HEADER: \useosf % change normal text to use proportional oldstyle figures
+
+#+LATEX_HEADER: \markboth{Unit - Clustering. July 2015.}%
+#+LATEX_HEADER: {Sergio-Feliciano Mendoza-Barrera}
+
+#+LATEX_HEADER: \newcommand{\degC}{$^\circ$C{}}
+
+#+STYLE: <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
+
+#+ATTR_HTML: width="500px"
+
+# -*- mode: org; -*-
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/htmlize.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/bigblow.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/hideshow.css"/>
+
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery-1.11.0.min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery-ui-1.10.2.min.js"></script>
+
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.localscroll-min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.scrollTo-1.4.3.1-min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.zclip.min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/bigblow.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/hideshow.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.min.js"></script>
+
+#+BEGIN_ABSTRACT
+This document concentrate the work of clustering in the TEA course.
+#+END_ABSTRACT
+
+* Introduction
+
+This week we'll discuss how analytics can be used to make
+recommendations for movies and for health. In the first lecture, we
+discuss how Netflix offered the million dollar prize to improve their
+movie recommendation system.
+
+In the second lecture, we discuss how health care claims data can be
+used to predict the occurrence of a heart attack Through these
+examples, we'll discuss the method of clustering, which is used to
+find similarities and patterns in data.
+
+* Recommendations Worth a Million: An Introduction to Clustering
+
+[[../graphs/Netflix.png]]
+
+What is Netflix?
+
+Netflix was willing to pay over one million dollars for the best user
+rating algorithm, which shows how critical the recommendation system
+is to their business.
+
+We will discuss how recommendation systems work. Let's start by
+thinking about the data. When predicting user ratings, what data could
+be useful? There are two main types of data that we could use. The
+first is that for every movie in Netflix's database, we have a ranking
+from all users who have ranked that movie. The second is that we know
+facts about the movie itself-- the actors in the movie, the director,
+the genre classifications of the movie, the year it was released,
+etc.
+
+[[../graphs/Netflix02.png]]
+
+
+
+[[../graphs/NetflixPrize.png]]
+
+
+[[../graphs/NetflixPrize02.png]]
+
+
+[[../graphs/NF-InitialResults.png]]
+
+
+[[../graphs/NF-Progress.png]]
+
+
+[[../graphs/NF-Progress02.png]]
+
+
+[[../graphs/NF-LastCall.png]]
+
+
+[[../graphs/NF-PredictingBestUserRatings.png]]
+
+
+[[../graphs/NF-CollaborativeFiltering.png]]

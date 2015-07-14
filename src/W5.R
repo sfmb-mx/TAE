@@ -1,0 +1,322 @@
+library(tm)
+library(SnowballC)
+library(caTools)
+library(rpart)
+library(rpart.plot)
+library(randomForest)
+library(ROCR)
+
+## QQs
+
+tweets <- read.csv("../data/tweets.csv", stringsAsFactors=FALSE)
+str(tweets)
+
+tweets$Negative <- as.factor(tweets$Avg <= -1)
+table(tweets$Negative)
+182 / (999 + 182)
+
+corpus <- Corpus(VectorSource(tweets$Tweet))
+corpus
+corpus[[1]]
+
+corpus <- tm_map(corpus, tolower)
+corpus[[1]]
+
+corpus <- tm_map(corpus, PlainTextDocument)
+corpus <- tm_map(corpus, removePunctuation)
+corpus <- tm_map(corpus, removeWords, c("apple", stopwords("english")))
+corpus[[1]]
+
+corpus <- tm_map(corpus, stemDocument)
+corpus[[1]]
+
+frequencies <- DocumentTermMatrix(corpus)
+frequencies
+inspect(frequencies[1000:1005, 505:515])
+
+findFreqTerms(frequencies, lowfreq=20)
+sparse <- removeSparseTerms(frequencies, 0.995)
+sparse
+
+tweetsSparse <- as.data.frame(as.matrix(sparse))
+colnames(tweetsSparse) <- make.names(colnames(tweetsSparse))
+colnames(tweetsSparse)
+
+tweetsSparse$Negative = tweets$Negative
+set.seed(123)
+splt = sample.split(tweetsSparse$Negative, SplitRatio=0.7)
+trainSparse = tweetsSparse[splt,]
+testSparse = tweetsSparse[!splt,]
+
+findFreqTerms(frequencies, lowfreq=100)
+
+tweetCART <- rpart(Negative ~ ., data=trainSparse, method="class")
+prp(tweetCART)
+
+## Accuracy in the CART Model
+predictCART <- predict(tweetCART, testSparse, type="class")
+c = table(testSparse$Negative, predictCART)
+(c[1,1]+c[2,2])/nrow(testSparse)
+
+## Accuracy in the baseline model
+table(testSparse$Negative)
+300 / (300 + 55)
+
+## Random Forest model
+set.seed(123)
+tweetRF <- randomForest(Negative ~ ., data=trainSparse, method="class")
+predictRF <- predict(tweetRF, testSparse, type="class")
+c = table(testSparse$Negative, predictRF)
+(c[1,1]+c[2,2])/nrow(testSparse)
+## Not so much improvement over the CART Model
+
+tweetLog <- glm(Negative ~ ., data=trainSparse, family="binomial")
+predictions <- predict(tweetLog, newdata=testSparse, type="response")
+c <- table(testSparse$Negative, predictions>0.5)
+(c[1,1]+c[2,2])/nrow(testSparse)
+
+## Assignment 1
+
+wiki <- read.csv("../data/wiki.csv", stringsAsFactors=FALSE)
+wiki$Vandal = as.factor(wiki$Vandal)
+table(wiki$Vandal)
+
+corpusAdded <- Corpus(VectorSource(wiki$Added))
+corpusAdded <- tm_map(corpusAdded, PlainTextDocument)
+corpusAdded <- tm_map(corpusAdded, removeWords, stopwords("english"))
+corpusAdded <- tm_map(corpusAdded, stemDocument)
+dtmAdded <- DocumentTermMatrix(corpusAdded)
+dtmAdded
+
+sparseAdded <- removeSparseTerms(dtmAdded, 0.997)
+sparseAdded
+
+wordsAdded <- as.data.frame(as.matrix(sparseAdded))
+colnames(wordsAdded) <- paste("A", colnames(wordsAdded))
+corpusRemoved <- Corpus(VectorSource(wiki$Removed))
+corpusRemoved <- tm_map(corpusRemoved, PlainTextDocument)
+corpusRemoved <- tm_map(corpusRemoved, removeWords, stopwords("english"))
+corpusRemoved <- tm_map(corpusRemoved, stemDocument)
+dtmRemoved <- DocumentTermMatrix(corpusRemoved)
+sparseRemoved <- removeSparseTerms(dtmRemoved, 0.997)
+wordsRemoved <- as.data.frame(as.matrix(sparseRemoved))
+colnames(wordsRemoved) <- paste("R", colnames(wordsRemoved))
+ncol(wordsRemoved)
+
+wikiWords <- cbind(wordsAdded, wordsRemoved) 
+wikiWords$Vandal <- wiki$Vandal
+set.seed(123)
+splt <- sample.split(wikiWords$Vandal, SplitRatio=0.7)
+trainWiki <- wikiWords[splt,]
+testWiki <- wikiWords[!splt,]
+table(testWiki$Vandal)[1]/nrow(testWiki)
+
+wikiRT <- rpart(Vandal ~., data=trainWiki, method="class")
+pRT <- predict(wikiRT, testWiki, type="class")
+ctRT <- table(testWiki$Vandal, pRT)
+(ctRT[1,1]+ctRT[2,2])/nrow(testWiki)
+
+prp(wikiRT)
+
+wikiWords2 <- wikiWords 
+wikiWords2$HTTP <- ifelse(grepl("http",wiki$Added,fixed=TRUE), 1, 0)
+table(wikiWords2$HTTP)
+
+wikiTrain2 <- subset(wikiWords2, splt)
+wikiTest2 <- subset(wikiWords2, !splt)
+wikiRT2 <- rpart(Vandal ~., data=wikiTrain2, method="class")
+pRT2 <- predict(wikiRT2, wikiTest2, type="class")
+ctRT2 <- table(wikiTest2$Vandal, pRT2)
+(ctRT2[1,1]+ctRT2[2,2])/nrow(wikiTest2)
+
+wikiWords2$NumWordsAdded <- rowSums(as.matrix(dtmAdded))
+wikiWords2$NumWordsRemoved <- rowSums(as.matrix(dtmRemoved))
+mean(wikiWords2$NumWordsAdded)
+
+wikiTrain2b <- subset(wikiWords2, splt)
+wikiTest2b <- subset(wikiWords2, !splt)
+wikiRT2b <- rpart(Vandal ~., data=wikiTrain2b, method="class")
+pRT2b <- predict(wikiRT2b, wikiTest2b, type="class")
+ctRT2b <- table(wikiTest2b$Vandal, pRT2b)
+(ctRT2b[1,1]+ctRT2b[2,2])/nrow(wikiTest2b)
+
+wikiWords3 <- wikiWords2
+wikiWords3$Minor <- wiki$Minor
+wikiWords3$Loggedin <- wiki$Loggedin
+wikiTrain3 <- subset(wikiWords3, splt)
+wikiTest3 <- subset(wikiWords3, !splt)
+wikiRT3 <- rpart(Vandal ~., data=wikiTrain3, method="class")
+pRT3 <- predict(wikiRT3, wikiTest3, type="class")
+ctRT3 <- table(wikiTest3$Vandal, pRT3)
+(ctRT3[1,1]+ctRT3[2,2])/nrow(wikiTest3)
+
+prp(wikiRT3)
+
+## Assignment 2
+
+trials <- read.csv("../data/clinical_trial.csv", stringsAsFactors=FALSE)
+str(trials)
+max(nchar(trials$abstract))
+
+sum(nchar(trials$abstract)==0)
+
+trials$title[which.min(nchar(trials$title))]
+
+corpusTitle <- Corpus(VectorSource(trials$title))
+corpusTitle <- tm_map(corpusTitle, tolower)
+corpusTitle <- tm_map(corpusTitle, PlainTextDocument)
+corpusTitle <- tm_map(corpusTitle, removePunctuation)
+corpusTitle <- tm_map(corpusTitle, removeWords, stopwords("english"))
+corpusTitle <- tm_map(corpusTitle, stemDocument)
+dtmTitle <- DocumentTermMatrix(corpusTitle)
+dtmTitle <- removeSparseTerms(dtmTitle, 0.95)
+dtmTitle <- as.data.frame(as.matrix(dtmTitle))
+corpusAbstract <- Corpus(VectorSource(trials$abstract))
+corpusAbstract <- tm_map(corpusAbstract, tolower)
+corpusAbstract <- tm_map(corpusAbstract, PlainTextDocument)
+corpusAbstract <- tm_map(corpusAbstract, removePunctuation)
+corpusAbstract <- tm_map(corpusAbstract, removeWords, stopwords("english"))
+corpusAbstract <- tm_map(corpusAbstract, stemDocument)
+dtmAbstract <- DocumentTermMatrix(corpusAbstract)
+dtmAbstract <- removeSparseTerms(dtmAbstract, 0.95)
+dtmAbstract <- as.data.frame(as.matrix(dtmAbstract))
+ncol(dtmTitle)
+ncol(dtmAbstract)
+
+which.max(colSums(dtmAbstract))
+
+colnames(dtmTitle) <- paste0("T", colnames(dtmTitle))
+colnames(dtmAbstract) <- paste0("A", colnames(dtmAbstract))
+
+dtm <- cbind(dtmTitle, dtmAbstract)
+dtm$trial <- trials$trial
+ncol(dtm)
+
+set.seed(144)
+splt <- sample.split(dtm$trial, SplitRatio=0.7)
+train <- dtm[splt,]
+test <- dtm[!splt,]
+table(train$trial)
+table(test$trial)[1]/nrow(test)
+
+trialCART <- rpart(trial ~ ., data=train, method="class")
+prp(trialCART)
+
+ptrialCART <- predict(trialCART, train)[,2]
+max(ptrialCART)
+
+ct <- table(train$trial, ptrialCART>=0.5)
+(ct[1,1]+ct[2,2])/nrow(train)
+ct[2,2]/(ct[2,1]+ct[2,2])
+ct[1,1]/(ct[1,1]+ct[1,2])
+
+ptrialCART2 <- predict(trialCART, test)[,2]
+ct <- table(test$trial, ptrialCART2>=0.5)
+(ct[1,1]+ct[2,2])/nrow(test)
+
+pred <- prediction(ptrialCART2, test$trial)
+perf <- performance(pred, "tpr", "fpr")
+plot(perf)
+as.numeric(performance(pred, "auc")@y.values)
+
+## Assignment 3
+emails <- read.csv("../data/emails.csv", stringsAsFactors=FALSE)
+nrow(emails)
+
+table(emails$spam)
+
+max(nchar(emails$text))
+
+which.min(nchar(emails$text))
+
+corpus <- Corpus(VectorSource(emails$text))
+corpus <- tm_map(corpus, tolower)
+corpus <- tm_map(corpus, PlainTextDocument)
+corpus <- tm_map(corpus, removePunctuation)
+corpus <- tm_map(corpus, removeWords, stopwords("english"))
+corpus <- tm_map(corpus, stemDocument)
+dtm <- DocumentTermMatrix(corpus)
+dtm
+
+spdtm <- removeSparseTerms(dtm, 0.95)
+spdtm
+
+emailsSparse  <- as.data.frame(as.matrix(spdtm))
+colnames(emailsSparse) <- make.names(colnames(emailsSparse))
+which.max(colSums(emailsSparse))
+
+emailsSparse$spam <- emails$spam
+sum(colSums(emailsSparse[emailsSparse$spam==0,names(emailsSparse) !="spam"])>=5000)
+
+sum(colSums(emailsSparse[emailsSparse$spam==1,names(emailsSparse) !="spam"])>=1000)
+
+emailsSparse$spam <- as.factor(emailsSparse$spam)
+set.seed(123)
+splt <- sample.split(emailsSparse$spam, 0.7)
+train <- emailsSparse[splt,]
+test <- emailsSparse[!splt,]
+spamLog <- glm(spam ~ ., data=train, family="binomial")
+spamCART <- rpart(spam ~ ., data=train, method="class")
+set.seed(123)
+spamRF <- randomForest(spam ~ ., data=train, method="class")
+predLog <- predict(spamLog, train, type="response")
+predCART <- predict(spamCART, train)[,2]
+predRF <- predict(spamRF, train, type="prob")[,2]
+sum(predLog<0.00001)
+sum(predLog>0.99999)
+sum(predLog>=0.00001 & predLog<=0.99999)
+
+summary(spamLog)
+
+prp(spamCART)
+
+ct <- table(train$spam, predLog>=0.5)
+(ct[1,1]+ct[2,2])/nrow(train)
+
+pred <- prediction(predLog, train$spam)
+perf <- performance(pred, "tpr", "fpr")
+plot(perf)
+as.numeric(performance(pred, "auc")@y.values)
+
+ct <- table(train$spam, predCART>=0.5)
+(ct[1,1]+ct[2,2])/nrow(train)
+
+pred <- prediction(predCART, train$spam)
+perf <- performance(pred, "tpr", "fpr")
+plot(perf)
+as.numeric(performance(pred, "auc")@y.values)
+
+ct <- table(train$spam, predRF>=0.5)
+(ct[1,1]+ct[2,2])/nrow(train)
+
+pred <- prediction(predRF, train$spam)
+perf <- performance(pred, "tpr", "fpr")
+plot(perf)
+as.numeric(performance(pred, "auc")@y.values)
+
+predLog <- predict(spamLog, test, type="response")
+predCART <- predict(spamCART, test)[,2]
+predRF <- predict(spamRF, test, type="prob")[,2]
+ct <- table(test$spam, predLog>=0.5)
+(ct[1,1]+ct[2,2])/nrow(test)
+
+pred <- prediction(predLog, test$spam)
+perf <- performance(pred, "tpr", "fpr")
+plot(perf)
+as.numeric(performance(pred, "auc")@y.values)
+
+ct <- table(test$spam, predCART>=0.5)
+(ct[1,1]+ct[2,2])/nrow(test)
+
+pred <- prediction(predCART, test$spam)
+perf <- performance(pred, "tpr", "fpr")
+plot(perf)
+as.numeric(performance(pred, "auc")@y.values)
+
+ct <- table(test$spam, predRF>=0.5)
+(ct[1,1]+ct[2,2])/nrow(test)
+
+pred <- prediction(predRF, test$spam)
+perf <- performance(pred, "tpr", "fpr")
+plot(perf)
+as.numeric(performance(pred, "auc")@y.values)

@@ -2838,7 +2838,9 @@ Verisk Analytics in 2009.
 
 [[../graphs/D2HE-AnalyticsEdge.png]]
 
-* Video 1: Boston Housing Data (Recitation)
+* Location, Location, Location: Regression Trees for Housing Data (Recitation)
+
+** Video 1: Boston Housing Data
 
 In real estate, there is a famous saying that the most important thing
 is location, location, location. In this recitation, we will be
@@ -2900,25 +2902,762 @@ $$
 $$
 
 Now, if we use the default threshold of 0.5, we would say the value at
-this leaf is true. With regression trees, we now have continuous
+this leaf is *true*. With regression trees, we now have continuous
 variables.
+
+With regression trees, we now have continuous variables. So instead
+of-- we report the average of the values at that leaf. So suppose we
+had the values 3, 4, and 5 at one of the leaves of our trees.
+
+Well, we just take the average of these numbers, which is 4, and that
+is what we report.
 
 [[../graphs/HD-RegressionTrees.png]]
 
+That might be a bit confusing so let's look at a picture. Here is some
+fake data that I made up in R. We see x on the x-axis and y on the
+y-axis. y is our variable we are trying to predict using x. So if we
+fit a linear regression to this data set, we obtain the following
+line (red simple line).
+
+As you can see, linear regression does not do very well on this data
+set. However, we can notice that the data lies in three different
+groups. If we draw these lines here, we see x is either less than 10,
+between 10 and 20, or greater then 20, and there is very different
+behavior in each group.
+
+Regression trees can fit that kind of thing exactly. So the splits
+would be x is less than or equal to 10, take the average of those
+values. x is between 10 and 20, take the average of those values. x is
+between 20 and 30, take the average of those values. We see that
+regression trees can fit some kinds of data very well that linear
+regression completely fails on.
+
+Of course, in reality nothing is ever so nice and simple, but it gives
+us some idea why we might be interested in regression trees.
 
 [[../graphs/HD-Example.png]]
 
+We will explore the data set with the aid of trees. We will compare
+linear regression with regression trees. We will discuss what the cp
+parameter means that we brought up when we did cross-validation in the
+lecture, and we will apply cross-validation to regression trees.
 
 [[../graphs/HD-HousingData02.png]]
 
+** Video 2: The Data
+
+In this recitation, Iain will be using the dataset [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/boston.csv][boston.csv]] to
+predict housing prices in Boston. Please download this dataset to
+follow along in this recitation. This data comes from the
+[[http://archive.ics.uci.edu/ml/datasets/Housing][UCI Machine Learning Repository]].
+
+An R script file with all of the R commands used in this recitation
+can be downloaded [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/Unit4_Recitation.R][here]].
+
+Before we jump into R, let's understand the data. Each entry of this
+data set corresponds to a census tract, a statistical division of the
+area that is used by researchers to break down towns and cities. As a
+result, there will usually be multiple census tracts per town.
 
 [[../graphs/HD-UnderstandingData.png]]
 
+Next set of variables in the variable dictionary:
 
 [[../graphs/HD-UnderstandingData02.png]]
 
+Some of the variables are demographic and other are around the
+location it self.
 
 [[../graphs/HD-UnderstandingData03.png]]
+
+*** Download the data sets
+
+In this part we can download the data
+
+#+BEGIN_SRC R :session :results output :exports all
+  library(parallel)
+
+  if(!file.exists("../data")) {
+          dir.create("../data")
+  }
+
+  fileUrl <- "https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/boston.csv"
+
+  fileName <- "boston.csv"
+
+  dataPath <- "../data"
+
+  filePath <- paste(dataPath, fileName, sep = "/")
+
+  if(!file.exists(filePath)) {
+          download.file(fileUrl, destfile = filePath, method = "curl")
+  }
+
+  list.files("../data")
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+ [1] "AnonymityPoll.csv"       "BoeingStock.csv"
+ [3] "CPSData.csv"             "ClaimsData.csv"
+ [5] "ClaimsData.csv.zip"      "CocaColaStock.csv"
+ [7] "CountryCodes.csv"        "FluTest.csv"
+ [9] "FluTrain.csv"            "GEStock.csv"
+[11] "IBMStock.csv"            "MetroAreaCodes.csv"
+[13] "NBA_test.csv"            "NBA_train.csv"
+[15] "PollingData.csv"         "PollingData_Imputed.csv"
+[17] "ProcterGambleStock.csv"  "README.md"
+[19] "USDA.csv"                "WHO.csv"
+[21] "WHO_Europe.csv"          "baseball.csv"
+[23] "boston.csv"              "climate_change.csv"
+[25] "framingham.csv"          "gerber.csv"
+[27] "loans.csv"               "loans_imputed.csv"
+[29] "mvtWeek1.csv"            "parole.csv"
+[31] "pisa2009test.csv"        "pisa2009train.csv"
+[33] "quality.csv"             "songs.csv"
+[35] "stevens.csv"             "wine.csv"
+[37] "wine_test.csv"
+#+end_example
+
+*** Load the data set
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("    Loading data into their data frames.")
+  boston <- read.table("../data/boston.csv", sep = ",", header = TRUE)
+
+  str(boston)
+  summary(boston)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+    Loading data into their data frames.
+'data.frame':	506 obs. of  16 variables:
+ $ TOWN   : Factor w/ 92 levels "Arlington","Ashland",..: 54 77 77 46 46 46 69 69 69 69 ...
+ $ TRACT  : int  2011 2021 2022 2031 2032 2033 2041 2042 2043 2044 ...
+ $ LON    : num  -71 -71 -70.9 -70.9 -70.9 ...
+ $ LAT    : num  42.3 42.3 42.3 42.3 42.3 ...
+ $ MEDV   : num  24 21.6 34.7 33.4 36.2 28.7 22.9 22.1 16.5 18.9 ...
+ $ CRIM   : num  0.00632 0.02731 0.02729 0.03237 0.06905 ...
+ $ ZN     : num  18 0 0 0 0 0 12.5 12.5 12.5 12.5 ...
+ $ INDUS  : num  2.31 7.07 7.07 2.18 2.18 2.18 7.87 7.87 7.87 7.87 ...
+ $ CHAS   : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ NOX    : num  0.538 0.469 0.469 0.458 0.458 0.458 0.524 0.524 0.524 0.524 ...
+ $ RM     : num  6.58 6.42 7.18 7 7.15 ...
+ $ AGE    : num  65.2 78.9 61.1 45.8 54.2 58.7 66.6 96.1 100 85.9 ...
+ $ DIS    : num  4.09 4.97 4.97 6.06 6.06 ...
+ $ RAD    : int  1 2 2 3 3 3 5 5 5 5 ...
+ $ TAX    : int  296 242 242 222 222 222 311 311 311 311 ...
+ $ PTRATIO: num  15.3 17.8 17.8 18.7 18.7 18.7 15.2 15.2 15.2 15.2 ...
+                TOWN         TRACT           LON              LAT
+ Cambridge        : 30   Min.   :   1   Min.   :-71.29   Min.   :42.03
+ Boston Savin Hill: 23   1st Qu.:1303   1st Qu.:-71.09   1st Qu.:42.18
+ Lynn             : 22   Median :3394   Median :-71.05   Median :42.22
+ Boston Roxbury   : 19   Mean   :2700   Mean   :-71.06   Mean   :42.22
+ Newton           : 18   3rd Qu.:3740   3rd Qu.:-71.02   3rd Qu.:42.25
+ Somerville       : 15   Max.   :5082   Max.   :-70.81   Max.   :42.38
+ (Other)          :379
+      MEDV            CRIM                ZN             INDUS
+ Min.   : 5.00   Min.   : 0.00632   Min.   :  0.00   Min.   : 0.46
+ 1st Qu.:17.02   1st Qu.: 0.08204   1st Qu.:  0.00   1st Qu.: 5.19
+ Median :21.20   Median : 0.25651   Median :  0.00   Median : 9.69
+ Mean   :22.53   Mean   : 3.61352   Mean   : 11.36   Mean   :11.14
+ 3rd Qu.:25.00   3rd Qu.: 3.67708   3rd Qu.: 12.50   3rd Qu.:18.10
+ Max.   :50.00   Max.   :88.97620   Max.   :100.00   Max.   :27.74
+
+      CHAS              NOX               RM             AGE
+ Min.   :0.00000   Min.   :0.3850   Min.   :3.561   Min.   :  2.90
+ 1st Qu.:0.00000   1st Qu.:0.4490   1st Qu.:5.886   1st Qu.: 45.02
+ Median :0.00000   Median :0.5380   Median :6.208   Median : 77.50
+ Mean   :0.06917   Mean   :0.5547   Mean   :6.285   Mean   : 68.57
+ 3rd Qu.:0.00000   3rd Qu.:0.6240   3rd Qu.:6.623   3rd Qu.: 94.08
+ Max.   :1.00000   Max.   :0.8710   Max.   :8.780   Max.   :100.00
+
+      DIS              RAD              TAX           PTRATIO
+ Min.   : 1.130   Min.   : 1.000   Min.   :187.0   Min.   :12.60
+ 1st Qu.: 2.100   1st Qu.: 4.000   1st Qu.:279.0   1st Qu.:17.40
+ Median : 3.207   Median : 5.000   Median :330.0   Median :19.05
+ Mean   : 3.795   Mean   : 9.549   Mean   :408.2   Mean   :18.46
+ 3rd Qu.: 5.188   3rd Qu.:24.000   3rd Qu.:666.0   3rd Qu.:20.20
+ Max.   :12.127   Max.   :24.000   Max.   :711.0   Max.   :22.00
+#+end_example
+
+If we look at the structure of the Boston data set, we can see all the
+variables we talked about before. There are $506$ observations
+corresponding to $506$ census tracts in the Greater Boston area.
+
+We are interested in *building a model* initially of *how prices vary* by
+*location across a region*. So let's first see how the points are laid
+out. Using the plot commands, we can plot the latitude and longitude
+of each of our census tracts.
+
+#+BEGIN_SRC R :var basename="PositionsCensusTracts" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  plot(boston$LON, boston$LAT)
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION: Latitude and longitude of the census tracts.
+#+NAME:    fig:PositionsCensusTracts
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/PositionsCensusTracts.png]]
+
+This picture might be a little bit meaningless to you if you're not
+familiar with the Massachusetts-Boston area, but I can tell you that
+the dense central core of points corresponds to Boston city, Cambridge
+city, and other close urban cities.
+
+Still, let's try and relate it back to that picture we saw in the
+first video, where I showed you the river and where MIT was.
+
+So we want to show all the points that lie along the *Charles River* in
+a different color. We have a variable, *CHAS*, that tells us if a point
+is on the Charles River or not.
+
+#+BEGIN_SRC R :var basename="CHASRiverLocation" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+
+  # Plot observations
+  plot(boston$LON, boston$LAT)
+  # Tracts alongside the Charles River
+  points(boston$LON[boston$CHAS==1], boston$LAT[boston$CHAS==1], col="blue", pch=19)
+
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  Adding census tracts along Charles River
+#+NAME:     fig:CHASRiverLocation
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/CHASRiverLocation.png]]
+
+But maybe it's still a little bit confusing, and you'd like to know
+where MIT is in this picture. So we can do that too. I looked up which
+census tract MIT is in, and it's census tract 3531.
+
+So let's plot that. We add another point, the longitude of MIT, which
+is in tract 3531, and the latitude of MIT, which is in census
+tract 3531. I'm going to plot this one in red, so we can tell it apart
+from the other Charles River dots.
+
+#+BEGIN_SRC R :var basename="MITcensusLocation" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+
+  plot(boston$LON, boston$LAT)
+
+  points(boston$LON[boston$CHAS == 1], boston$LAT[boston$CHAS == 1], col
+         = "blue", pch = 19)
+
+  ## Plot MIT
+  points(boston$LON[boston$TRACT == 3531], boston$LAT[boston$TRACT ==
+                                3531], col = "red", pch = 19)
+
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  Plotting the MIT census tract
+#+NAME:     fig:MITcensusLocation
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/MITcensusLocation.png]]
+
+*What other things can we do?* Well, this data set was originally
+constructed to investigate questions about how air pollution affects
+prices. So the air pollution variable is this NOX variable.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Polution summary:")
+  summary(boston$NOX)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Polution summary:
+:    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+:  0.3850  0.4490  0.5380  0.5547  0.6240  0.8710
+
+Let's have a look at a distribution of *NOX*. ~boston$NOX~. So we see
+that the minimum value is $0.385$, the maximum value is $0.87$ and the
+median and the mean are about $0.53$, $0.55$. So let's just use the
+value of $0.55$, as it's kind of in the middle.
+
+And we'll look at just the census tracts that have above-average
+pollution.
+
+#+BEGIN_SRC R :var basename="PollutionPlotBoston" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+
+  ## Plot observations
+  plot(boston$LON, boston$LAT)
+
+  ## Tracts alongside the Charles River
+  points(boston$LON[boston$CHAS==1], boston$LAT[boston$CHAS==1], col="blue", pch=19)
+
+  ## Plot polution
+  points(boston$LON[boston$NOX>=0.55], boston$LAT[boston$NOX>=0.55], col="green", pch=20)
+
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  Pollution in Boston city
+#+NAME:     fig:PollutionPlotBoston
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/PollutionPlotBoston.png]]
+
+So those are all the points that have got above-average
+pollution. Looks like my office is right in the middle. Now it kind of
+makes sense, though, because that's the dense urban core of Boston. If
+you think of anywhere where pollution would be, you'd think it'd be
+where the most cars and the most people are. So that's kind of
+interesting.
+
+We should probably look at how prices vary over the area as well.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: The Boston prices summary:")
+  summary(boston$MEDV)
+#+end_src
+
+#+RESULTS:
+:
+:  :: The Boston prices summary:
+:    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+:    5.00   17.02   21.20   22.53   25.00   50.00
+
+We see that the minimum price -- and remember the units are thousands
+of dollars, so the median value of owner-occupied homes in thousands
+of dollars -- so the minimum is around five, the maximum is
+around $50$.
+
+So let's plot again only the above-average price points.
+
+#+BEGIN_SRC R :var basename="BostonPricesLocations" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+
+  # Plot prices
+  plot(boston$LON, boston$LAT)
+  points(boston$LON[boston$MEDV >= 21.2], boston$LAT[boston$MEDV >=
+                                          21.2], col = "red", pch = 20)
+
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  Locations in Boston respect to prices
+#+NAME:     fig:BostonPricesLocations
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/BostonPricesLocations.png]]
+
+So what we see now are all the census tracts with above-average
+housing prices. As you can see, it's definitely not simple. The census
+tracts of above-average and below-average are mixed in between each
+other.
+
+But there are some patterns. For example, look at that dense black bit
+in the middle. That corresponds to most of the city of Boston,
+especially the southern parts of the city. Also, on the Cambridge side
+of the river, there's a big chunk there of dots that are black, that
+are not red, that are also presumably below average.
+
+So there's definitely some structure to it, but it's certainly not
+simple in relation to latitude and longitude at least.
+
+*** Video 3: Geographical Predictions
+
+So, we saw in the previous video that the house prices were
+distributed over the area in an interesting way, certainly not the
+kind of linear way. And we wouldn't necessarily expect linear
+regression to do very well at predicting house price, just given
+latitude and longitude.
+
+We can kind of develop that intuition more by plotting the
+relationship between latitude and house prices-- which doesn't look
+very linear-- or the longitude and the house prices, which also looks
+pretty nonlinear. So, we'll try fitting a linear regression anyway.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Linear Regression using LAT and LON:")
+  latlonlm <- lm(MEDV ~ LAT + LON, data = boston)
+  summary(latlonlm)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Linear Regression using LAT and LON:
+
+Call:
+lm(formula = MEDV ~ LAT + LON, data = boston)
+
+Residuals:
+    Min      1Q  Median      3Q     Max
+-16.460  -5.590  -1.299   3.695  28.129
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)
+(Intercept) -3178.472    484.937  -6.554 1.39e-10 ***
+LAT             8.046      6.327   1.272    0.204
+LON           -40.268      5.184  -7.768 4.50e-14 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 8.693 on 503 degrees of freedom
+Multiple R-squared:  0.1072,	Adjusted R-squared:  0.1036
+F-statistic: 30.19 on 2 and 503 DF,  p-value: 4.159e-13
+#+end_example
+
+If we take a look at our linear regression, we see the R-squared is
+around 0.1, which is not great. The latitude is not significant, which
+means the north-south differences aren't going to be really used at
+all.
+
+Longitude is significant, and it's negative. Which we can interpret
+as, as we go towards the ocean-- as we go towards the east-- house
+prices decrease linearly.
+
+This make sense because the poor correlation between the Latitude and
+Longitude coordinates vs. price.
+
+#+BEGIN_SRC R :var basename="LatitudeVsPricePlot" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  plot(boston$LAT, boston$MEDV)
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  Latitude vs. Price plot.
+#+NAME:     fig:LatitudeVsPricePlot
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/LatitudeVsPricePlot.png]]
+
+Now we can plot the Longitude vs. Price and see if we have any
+relationship between these variables.
+
+#+BEGIN_SRC R :var basename="LongitudeVsPricePlot" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  plot(boston$LON, boston$MEDV)
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  Longitude vs. Price correlation
+#+NAME:     fig:LongitudeVsPricePlot
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/LongitudeVsPricePlot.png]]
+
+We can't see a clear relationship between these variables, and the
+linear regression model is quite poor.
+
+So let's see how this linear regression model looks on a plot. So
+let's plot the census tracts again.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: The Longitude and Latitude fitted values are:")
+  summary(latlonlm$fitted.values)
+#+end_src
+
+#+RESULTS:
+:
+:  :: The Longitude and Latitude fitted values are:
+:    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+:   11.34   21.08   22.34   22.53   23.93   31.44
+
+What does the linear regression model think is above median.
+
+We have ~latlonlm$fitted.values~ and this is what the linear regression
+model predicts for each of the $506$ census tracts.
+
+we're interested in seeing how the linear regression matches up with
+the truth. So it'd be ideal if we could plot the linear regression
+blue dots on top of the red dots, in some way that we can still see
+the red dots.
+
+#+BEGIN_SRC R :var basename="PositionCoordinatesVsPriceModel" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  # Visualize regression output
+  plot(boston$LON, boston$LAT)
+  points(boston$LON[boston$MEDV>=21.2], boston$LAT[boston$MEDV>=21.2], col="red", pch=20)
+
+  points(boston$LON[latlonlm$fitted.values >= 21.2], boston$LAT[latlonlm$fitted.values >= 21.2], col="blue", pch="$")
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  Position vs. Price in our linear model
+#+NAME:     fig:PositionCoordinatesVsPriceModel
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/PositionCoordinatesVsPriceModel.png]]
+
+So, the linear regression model has plotted a dollar sign for every
+time it thinks the census tract is above median value. And you can see
+that, indeed, it's almost as-- you can see the sharp line that the
+linear regression defines.
+
+And how it's pretty much vertical, because remember before, the
+latitude variable was not very significant in the regression.
+
+So that's interesting and pretty wrong. One thing that really stands
+out is how it says Boston is mostly above median. Even knowing-- we
+saw it right from the start-- there's a big non-red spot, right in the
+middle of Boston, where the house prices were below the median.
+
+So the linear regression model isn't really doing a good job. And it's
+completely ignored everything to the right side of the picture.
+
+** Video 4: Regression Trees
+
+In this video, Iain shows a different way to plot a CART tree - by
+using the plot and text functions instead of the prp function. This is
+just another way to visualize the CART tree, and shows the tree in a
+slightly different way. Both are valid options for plotting your CART
+trees.
+
+Let's see how regression trees do. We'll first load the rpart library
+and also load the rpart plotting library. We build a regression tree
+in the same way we would build a classification tree, using the rpart
+command. We predict MEDV as a function of latitude and longitude,
+using the boston dataset.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Load CART packages:")
+  library(rpart)
+  library(rpart.plot)
+
+  writeLines("\n :: CART model:")
+  latlontree <- rpart(MEDV ~ LAT + LON, data = boston)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Load CART packages:
+:
+:  :: CART model:
+
+If we now plot the tree using the prp command, which is defined in
+rpart.plot, we can see it makes a lot of splits and is a little bit
+hard to interpret.
+
+#+BEGIN_SRC R :var basename="CARTBostonLocationModel" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  prp(latlontree)
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  CART plot of the Boston prices vs. position.
+#+NAME:     fig:CARTBostonLocationModel
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/CARTBostonLocationModel.png]]
+
+But the important thing is to look at the leaves. In a classification
+tree, the leaves would be the classification we assign that these
+splits would apply to.
+
+But in regression trees, we instead predict the number. That number is
+the average of the median house prices in that bucket or leaf.
+
+So let's see what that means in practice. So we'll plot again the
+latitude of the points. And we'll again plot the points with above
+median prices.
+
+#+BEGIN_SRC R :var basename="VisualizeOutput" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  # Visualize output
+  plot(boston$LON, boston$LAT)
+  points(boston$LON[boston$MEDV>=21.2], boston$LAT[boston$MEDV>=21.2], col="red", pch=20)
+
+  fittedvalues <- predict(latlontree)
+  points(boston$LON[fittedvalues>21.2], boston$LAT[fittedvalues>=21.2], col="blue", pch="$")
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  Visualizing the output.
+#+NAME:     fig:VisualizeOutput
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/VisualizeOutput.png]]
+
+Now we see that we've done a much better job than linear regression
+was able to do. We've correctly left the low value area in Boston and
+below out, and we've correctly managed to classify some of those
+points in the bottom right and top right.
+
+We're still making mistakes, but we're able to make a nonlinear
+prediction on latitude and longitude. So that's interesting, but the
+tree was very complicated. So maybe it's drastically overfitting.
+
+*Can we get most of this effect with a much simpler tree?*
+
+/We can. We would just change the minbucket size./
+
+#+BEGIN_SRC R :var basename="PriceVsPositionWIncreasedMinbucket" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  # Simplify tree by increasing minbucket
+  latlontree <- rpart(MEDV ~ LAT + LON, data = boston, minbucket = 50)
+  plot(latlontree)
+  text(latlontree)
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  Increasing minbucket to simplify the CART.
+#+NAME:     fig:PriceVsPositionWIncreasedMinbucket
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/PriceVsPositionWIncreasedMinbucket.png]]
+
+Or using the ~prp~ commmand:
+
+#+BEGIN_SRC R :var basename="PriceVsPositionWIncreasedMinbucket02" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  prp(latlontree)
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  Same CART with increased minbucket and prp command.
+#+NAME:     fig:PriceVsPositionWIncreasedMinbucket02
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/PriceVsPositionWIncreasedMinbucket02.png]]
+
+And we see we have far fewer splits, and it's far more
+interpretable. The first split says if the longitude is greater than
+or equal to negative 71.07-- so if you're on the right side of the
+picture. So the left-hand branch is on the left-hand side of the
+picture and the right-hand-- So the left-hand side of the tree
+corresponds to the right-hand side of the map.
+
+And the right side of the tree corresponds to the left side of the
+map. That's a little bit of a mouthful. Let's see what it means
+visually.
+
+#+BEGIN_SRC R :var basename="CART2ModelBoston" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  # Visualize Output
+  plot(boston$LON,boston$LAT)
+  abline(v=-71.07)
+  abline(h=42.21)
+  abline(h=42.17)
+  points(boston$LON[boston$MEDV>=21.2], boston$LAT[boston$MEDV>=21.2], col="red", pch=20)
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  Price vs. position in the simple model
+#+NAME:     fig:CART2ModelBoston
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/CART2ModelBoston.png]]
+
+We'll focus on the lowest price prediction, which is in the bottom
+left corner of the tree, right down at the bottom left after all those
+splits. So that's where we want to get to. So let's plot again the
+points.
+
+Plot a vertical line. The next split down towards that bottom left
+corner was a horizontal line at $42.21$. So I put that in. That's
+interesting.
+
+So that line corresponds pretty much to where the Charles River was
+from before. The final split you need to get to that bottom left
+corner I was pointing out is $42.17$.
+
+The final split you need to get to that bottom left corner I was
+pointing out is 42.17. It was above this line. And now that's
+interesting. If we look at the right side of the middle of the three
+rectangles on the right side, that is the bucket we were predicting.
+
+We've correctly shown how the regression tree carves out that
+rectangle in the bottom of Boston and says that is a low value area.
+
+It's shown us something that regression trees can do that we would
+never expect linear regression to be able to do.
+
+So the question we're going to answer in the next video is given that
+regression trees can do these fancy things with latitude and
+longitude, is it actually going to help us to be able to build a
+predictive model, predicting house prices?
+
+** Video 5: Putting it all Together
 
 
 
