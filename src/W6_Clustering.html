@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Unit 6 - Clustering</title>
-<!-- 2015-07-16 Thu 19:20 -->
+<!-- 2015-07-17 Fri 12:00 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Sergio-Feliciano Mendoza-Barrera" />
@@ -228,11 +228,11 @@ find similarities and patterns in data.
 <p><img src="../graphs/Netflix.png" alt="Netflix.png" />
 </p>
 </div>
+</div>
 
-<p>
-What is Netflix?
-</p>
-
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> What is Netflix?</h3>
+<div class="outline-text-3" id="text-2-1">
 
 <div class="figure">
 <p><img src="../graphs/Netflix02.png" alt="Netflix02.png" />
@@ -453,19 +453,20 @@ efficient and accurate. In the next video, we'll see how we can do
 content filtering by using a method called clustering.
 </p>
 </div>
+</div>
 
-<div id="outline-container-sec-2-1" class="outline-3">
-<h3 id="sec-2-1"><span class="section-number-3">2.1</span> Quick Question (2/2 points)</h3>
-<div class="outline-text-3" id="text-2-1">
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> Quick Question (2/2 points)</h3>
+<div class="outline-text-3" id="text-2-2">
 <p>
 Let's consider a recommendation system on Amazon.com, an online retail
 site.
 </p>
 </div>
 
-<div id="outline-container-sec-2-1-1" class="outline-4">
-<h4 id="sec-2-1-1"><span class="section-number-4">2.1.1</span> Question a</h4>
-<div class="outline-text-4" id="text-2-1-1">
+<div id="outline-container-sec-2-2-1" class="outline-4">
+<h4 id="sec-2-2-1"><span class="section-number-4">2.2.1</span> Question a</h4>
+<div class="outline-text-4" id="text-2-2-1">
 <p>
 If Amazon.com constructs a recommendation system for books, and would
 like to use the same exact algorithm for shoes, what type would it
@@ -473,9 +474,9 @@ have to be?
 </p>
 </div>
 
-<div id="outline-container-sec-2-1-1-1" class="outline-5">
-<h5 id="sec-2-1-1-1"><span class="section-number-5">2.1.1.1</span> Answer</h5>
-<div class="outline-text-5" id="text-2-1-1-1">
+<div id="outline-container-sec-2-2-1-1" class="outline-5">
+<h5 id="sec-2-2-1-1"><span class="section-number-5">2.2.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-2-2-1-1">
 <p>
 Collaborative Filtering.
 </p>
@@ -483,9 +484,9 @@ Collaborative Filtering.
 </div>
 </div>
 
-<div id="outline-container-sec-2-1-2" class="outline-4">
-<h4 id="sec-2-1-2"><span class="section-number-4">2.1.2</span> Question b</h4>
-<div class="outline-text-4" id="text-2-1-2">
+<div id="outline-container-sec-2-2-2" class="outline-4">
+<h4 id="sec-2-2-2"><span class="section-number-4">2.2.2</span> Question b</h4>
+<div class="outline-text-4" id="text-2-2-2">
 <p>
 If Amazon.com would like to suggest books to users based on the
 previous books they have purchased, what type of recommendation system
@@ -493,9 +494,9 @@ would it be?
 </p>
 </div>
 
-<div id="outline-container-sec-2-1-2-1" class="outline-5">
-<h5 id="sec-2-1-2-1"><span class="section-number-5">2.1.2.1</span> Answer</h5>
-<div class="outline-text-5" id="text-2-1-2-1">
+<div id="outline-container-sec-2-2-2-1" class="outline-5">
+<h5 id="sec-2-2-2-1"><span class="section-number-5">2.2.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-2-2-2-1">
 <p>
 Content Filtering.
 </p>
@@ -515,9 +516,9 @@ filtering since other users are not involved.
 </div>
 </div>
 
-<div id="outline-container-sec-2-2" class="outline-3">
-<h3 id="sec-2-2"><span class="section-number-3">2.2</span> Video 3: Movie Data and Clustering</h3>
-<div class="outline-text-3" id="text-2-2">
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> Video 3: Movie Data and Clustering</h3>
+<div class="outline-text-3" id="text-2-3">
 <p>
 We will be using data from <b>MovieLens</b> to explain clustering and
 perform content filtering.
@@ -617,9 +618,9 @@ distance between points.
 </div>
 </div>
 
-<div id="outline-container-sec-2-3" class="outline-3">
-<h3 id="sec-2-3"><span class="section-number-3">2.3</span> Quick Question (1 point possible)</h3>
-<div class="outline-text-3" id="text-2-3">
+<div id="outline-container-sec-2-4" class="outline-3">
+<h3 id="sec-2-4"><span class="section-number-3">2.4</span> Quick Question (1 point possible)</h3>
+<div class="outline-text-3" id="text-2-4">
 <p>
 In the previous video, we discussed how clustering is used to split
 the data into similar groups. Which of the following tasks do you
@@ -627,9 +628,9 @@ think are appropriate for clustering? Select all that apply.
 </p>
 </div>
 
-<div id="outline-container-sec-2-3-1" class="outline-4">
-<h4 id="sec-2-3-1"><span class="section-number-4">2.3.1</span> Answer <code>[2/3]</code></h4>
-<div class="outline-text-4" id="text-2-3-1">
+<div id="outline-container-sec-2-4-1" class="outline-4">
+<h4 id="sec-2-4-1"><span class="section-number-4">2.4.1</span> Answer <code>[2/3]</code></h4>
+<div class="outline-text-4" id="text-2-4-1">
 <ul class="org-ul">
 <li><code>[X]</code> Dividing search results on Google into categories based on the
 topic.
@@ -656,9 +657,9 @@ probably wouldn't help us predict the winner of the World Series.
 </div>
 </div>
 
-<div id="outline-container-sec-2-4" class="outline-3">
-<h3 id="sec-2-4"><span class="section-number-3">2.4</span> Video 4: Computing Distances</h3>
-<div class="outline-text-3" id="text-2-4">
+<div id="outline-container-sec-2-5" class="outline-3">
+<h3 id="sec-2-5"><span class="section-number-3">2.5</span> Video 4: Computing Distances</h3>
+<div class="outline-text-3" id="text-2-5">
 <p>
 <b>So how does clustering work?</b> The first step in clustering is to
 define the distance between two data points. The most popular way to
@@ -851,9 +852,9 @@ about a specific clustering algorithm: <b>hierarchical clustering</b>.
 </div>
 </div>
 
-<div id="outline-container-sec-2-5" class="outline-3">
-<h3 id="sec-2-5"><span class="section-number-3">2.5</span> Quick Question (1 point possible)</h3>
-<div class="outline-text-3" id="text-2-5">
+<div id="outline-container-sec-2-6" class="outline-3">
+<h3 id="sec-2-6"><span class="section-number-3">2.6</span> Quick Question (1 point possible)</h3>
+<div class="outline-text-3" id="text-2-6">
 <p>
 The movie "The Godfather" is in the genres action, crime, and drama,
 and is defined by the vector: (0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0)
@@ -885,9 +886,9 @@ d
 </pre>
 </div>
 
-<div id="outline-container-sec-2-5-1" class="outline-4">
-<h4 id="sec-2-5-1"><span class="section-number-4">2.5.1</span> Answer</h4>
-<div class="outline-text-4" id="text-2-5-1">
+<div id="outline-container-sec-2-6-1" class="outline-4">
+<h4 id="sec-2-6-1"><span class="section-number-4">2.6.1</span> Answer</h4>
+<div class="outline-text-4" id="text-2-6-1">
 <p>
 <b>Explanation</b>
 </p>
@@ -899,12 +900,1496 @@ difference of 1 in two genres - crime and romance.
 </div>
 </div>
 </div>
+
+<div id="outline-container-sec-2-7" class="outline-3">
+<h3 id="sec-2-7"><span class="section-number-3">2.7</span> Video 5: Hierarchical Clustering</h3>
+<div class="outline-text-3" id="text-2-7">
+<p>
+In hierarchical clustering, the clusters are formed by each data point
+starting in its own cluster. As a small example, suppose we have five
+data points. Each data point is labeled as belonging in its own
+cluster. So this data point is in the red cluster, this one's in the
+blue cluster, this one's in the purple cluster, this one's in the
+green cluster, and this one's in the yellow cluster.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/NF-Hierarchical.png" alt="NF-Hierarchical.png" />
+</p>
+</div>
+
+<p>
+Then hierarchical clustering combines the two nearest clusters into
+one cluster. We'll use Euclidean and Centroid distances to decide
+which two clusters are the closest. In our example, the green and
+yellow clusters are closest together.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/NF-Hierarchical02.png" alt="NF-Hierarchical02.png" />
+</p>
+</div>
+
+<p>
+So we would combine these two clusters into one cluster. So now the
+green cluster has two points, and the yellow cluster is gone.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/NF-Hierarchical03.png" alt="NF-Hierarchical03.png" />
+</p>
+</div>
+
+<p>
+Now this process repeats. We again find the two nearest clusters,
+which this time are the green cluster and the purple cluster, and we
+combine them into one cluster.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/NF-Hierarchical04.png" alt="NF-Hierarchical04.png" />
+</p>
+</div>
+
+<p>
+Now the green cluster has three points, and the purple cluster is
+gone.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/NF-Hierarchical05.png" alt="NF-Hierarchical05.png" />
+</p>
+</div>
+
+<p>
+Now the two nearest clusters are the red and blue clusters. So we
+would combine these two clusters into one cluster, the red cluster.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/NF-Hierarchical06.png" alt="NF-Hierarchical06.png" />
+</p>
+</div>
+
+<p>
+So now we have just two clusters, the red one and the green one.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/NF-Hierarchical07.png" alt="NF-Hierarchical07.png" />
+</p>
+</div>
+
+<p>
+So now the final step is to combine these two clusters into one
+cluster.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/NF-Hierarchical08.png" alt="NF-Hierarchical08.png" />
+</p>
+</div>
+
+<p>
+So at the end of hierarchical clustering, all of our data points are
+in a single cluster.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/NF-Hierarchical09.png" alt="NF-Hierarchical09.png" />
+</p>
+</div>
+
+<p>
+The hierarchical cluster process can be displayed through what's
+called a <b>dendrogram</b>. The data points are listed along the bottom, and
+the lines show how the clusters were combined. The height of the lines
+represents how far apart the clusters were when they were combined.
+</p>
+
+<p>
+So points 1 and 4 were pretty close together when they were
+combined. But when we combined the two clusters at the end, they were
+significantly farther apart. We can use a dendrogram to decide how
+many clusters we want for our final clustering model.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/NF-DisplayClusterProcess.png" alt="NF-DisplayClusterProcess.png" />
+</p>
+</div>
+
+<p>
+This dendrogram shows the clustering process with ten data points. The
+easiest way to pick the number of clusters you want is to draw a
+horizontal line across the dendrogram.
+</p>
+
+<p>
+The number of vertical lines that line crosses is the number of
+clusters there will be. In this case, our line crosses two vertical
+lines, meaning that we will have two clusters&#x2013; one cluster with
+points 5, 2, and 7, and one cluster with the remaining points.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/NF-SelectClusters.png" alt="NF-SelectClusters.png" />
+</p>
+</div>
+
+<p>
+The farthest this horizontal line can move up and down in the
+dendrogram without hitting one of the horizontal lines of the
+dendrogram, the better that choice of the number of clusters is.
+</p>
+
+<p>
+If we instead selected three clusters, this line can't move as far up
+and down without hitting horizontal lines in the dendrogram. This
+probably means that the <b>two cluster choice is better</b>.
+</p>
+
+<p>
+But when picking the number of clusters, <b>you should also consider how
+many clusters make sense</b> for the particular <b>application you're
+working with</b>.
+</p>
+
+<p>
+After selecting the number of clusters you want, you should analyze
+your clusters to see <b>if they're meaningful</b>.
+</p>
+
+<p>
+You can also check to see if the clusters have a feature in common
+that was not used in the clustering, like an outcome variable. This
+often indicates that your clusters might help improve a predictive
+model.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/NF-MeaningfulClusters.png" alt="NF-MeaningfulClusters.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-8" class="outline-3">
+<h3 id="sec-2-8"><span class="section-number-3">2.8</span> Quick Question (2 points possible)</h3>
+<div class="outline-text-3" id="text-2-8">
+<p>
+Suppose you are running the Hierarchical clustering algorithm with 212
+observations.
+</p>
+</div>
+
+<div id="outline-container-sec-2-8-1" class="outline-4">
+<h4 id="sec-2-8-1"><span class="section-number-4">2.8.1</span> Question a</h4>
+<div class="outline-text-4" id="text-2-8-1">
+<p>
+How many clusters will there be at the start of the algorithm?
+</p>
+</div>
+
+<div id="outline-container-sec-2-8-1-1" class="outline-5">
+<h5 id="sec-2-8-1-1"><span class="section-number-5">2.8.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-2-8-1-1">
+<p>
+212
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-8-2" class="outline-4">
+<h4 id="sec-2-8-2"><span class="section-number-4">2.8.2</span> Question b</h4>
+<div class="outline-text-4" id="text-2-8-2">
+<p>
+How many clusters will there be at the end of the algorithm?
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-8-3" class="outline-4">
+<h4 id="sec-2-8-3"><span class="section-number-4">2.8.3</span> Answer</h4>
+<div class="outline-text-4" id="text-2-8-3">
+<p>
+1
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+The Hierarchical clustering algorithm always starts with each data
+point in its own cluster, and ends with all data points in the same
+cluster. So there will be 212 clusters at the beginning of the
+algorithm, and 1 cluster at the end of the algorithm.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-9" class="outline-3">
+<h3 id="sec-2-9"><span class="section-number-3">2.9</span> Video 6: Getting the Data</h3>
+<div class="outline-text-3" id="text-2-9">
+<p>
+We'll be downloading our dataset from the MovieLens website. Please
+open the following link in a new window or tab of your browser to
+access the <a href="http://files.grouplens.org/datasets/movielens/ml-100k/u.item">data</a>:
+</p>
+
+<p>
+This video will show you how to load the data into R.
+</p>
+
+<p>
+An R script file with all of the commands used in this Lecture can be
+downloaded <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/Unit6_Netflix.R">here</a>.
+</p>
+
+<p>
+IMPORTANT NOTE: We'll be using a text editor in this video to get the
+data into R. If you are on a Mac and are using TextEdit, the default
+file type is .rtf, so you will need to change the file type to txt. To
+do this, just go to Format &#x2013;&gt; Make Plain Text, and the file will
+re-save as a txt file. Alternatively, depending on your operating
+system and web browser, you might just be able to save the file
+directly from the browser as a txt file.
+</p>
+</div>
+
+<div id="outline-container-sec-2-9-1" class="outline-4">
+<h4 id="sec-2-9-1"><span class="section-number-4">2.9.1</span> Download the data sets</h4>
+<div class="outline-text-4" id="text-2-9-1">
+<p>
+In this part we can download the data
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R"><span style="color: #db7093;">library</span>(parallel)
+
+<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #fffacd;">"../data"</span>)) {
+        dir.create(<span style="color: #fffacd;">"../data"</span>)
+}
+
+fileUrl <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"http://files.grouplens.org/datasets/movielens/ml-100k/u.item"</span>
+
+fileName <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"movieLens.txt"</span>
+
+dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"../data"</span>
+
+filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #fffacd;">"/"</span>)
+
+<span style="color: #4682b4;">if</span>(!file.exists(filePath)) {
+        download.file(fileUrl, destfile = filePath, method = <span style="color: #fffacd;">"curl"</span>)
+}
+
+list.files(<span style="color: #fffacd;">"../data"</span>)
+</pre>
+</div>
+
+<pre class="example">
+ [1] "AnonymityPoll.csv"       "baseball.csv"
+ [3] "BoeingStock.csv"         "boston.csv"
+ [5] "ClaimsData.csv"          "ClaimsData.csv.zip"
+ [7] "climate_change.csv"      "clinical_trial.csv"
+ [9] "ClusterMeans.ods"        "CocaColaStock.csv"
+[11] "CountryCodes.csv"        "CPSData.csv"
+[13] "emails.csv"              "energy_bids.csv"
+[15] "FluTest.csv"             "FluTrain.csv"
+[17] "framingham.csv"          "gerber.csv"
+[19] "GEStock.csv"             "IBMStock.csv"
+[21] "loans_imputed.csv"       "loans.csv"
+[23] "MetroAreaCodes.csv"      "movieLens.txt"
+[25] "mvtWeek1.csv"            "NBA_test.csv"
+[27] "NBA_train.csv"           "parole.csv"
+[29] "pisa2009test.csv"        "pisa2009train.csv"
+[31] "PollingData_Imputed.csv" "PollingData.csv"
+[33] "ProcterGambleStock.csv"  "quality.csv"
+[35] "README.md"               "songs.csv"
+[37] "stevens.csv"             "stopwords.txt"
+[39] "tweets.csv"              "USDA.csv"
+[41] "WHO_Europe.csv"          "WHO.csv"
+[43] "wiki.csv"                "wine_test.csv"
+[45] "wine.csv"
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-2-9-2" class="outline-4">
+<h4 id="sec-2-9-2"><span class="section-number-4">2.9.2</span> Load the data set</h4>
+<div class="outline-text-4" id="text-2-9-2">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"    Loading data into their data frames."</span>)
+movies <span style="color: #db7093;">&lt;-</span> read.table(<span style="color: #fffacd;">"../data/movieLens.txt"</span>, header = <span style="color: #3cb371;">FALSE</span>,
+                     sep = <span style="color: #fffacd;">"|"</span>, quote = <span style="color: #fffacd;">"\""</span>)
+str(movies)
+</pre>
+</div>
+
+<pre class="example">
+    Loading data into their data frames.
+'data.frame':	1682 obs. of  24 variables:
+ $ V1 : int  1 2 3 4 5 6 7 8 9 10 ...
+ $ V2 : Factor w/ 1664 levels "'Til There Was You (1997)",..: 1525 618 555 594 344 1318 1545 111 391 1240 ...
+ $ V3 : Factor w/ 241 levels "","01-Aug-1997",..: 71 71 71 71 71 71 71 71 71 182 ...
+ $ V4 : logi  NA NA NA NA NA NA ...
+ $ V5 : Factor w/ 1661 levels "","http://us.imdb.com/M/title-exact?%22Langoliers,%20The%22%20(1995)%20(mini)",..: 1430 564 504 542 309 1661 1452 102 356 1182 ...
+ $ V6 : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ V7 : int  0 1 0 1 0 0 0 0 0 0 ...
+ $ V8 : int  0 1 0 0 0 0 0 0 0 0 ...
+ $ V9 : int  1 0 0 0 0 0 0 0 0 0 ...
+ $ V10: int  1 0 0 0 0 0 0 1 0 0 ...
+ $ V11: int  1 0 0 1 0 0 0 1 0 0 ...
+ $ V12: int  0 0 0 0 1 0 0 0 0 0 ...
+ $ V13: int  0 0 0 0 0 0 0 0 0 0 ...
+ $ V14: int  0 0 0 1 1 1 1 1 1 1 ...
+ $ V15: int  0 0 0 0 0 0 0 0 0 0 ...
+ $ V16: int  0 0 0 0 0 0 0 0 0 0 ...
+ $ V17: int  0 0 0 0 0 0 0 0 0 0 ...
+ $ V18: int  0 0 0 0 0 0 0 0 0 0 ...
+ $ V19: int  0 0 0 0 0 0 0 0 0 0 ...
+ $ V20: int  0 0 0 0 0 0 0 0 0 0 ...
+ $ V21: int  0 0 0 0 0 0 1 0 0 0 ...
+ $ V22: int  0 1 1 0 1 0 0 0 0 0 ...
+ $ V23: int  0 0 0 0 0 0 0 0 0 1 ...
+ $ V24: int  0 0 0 0 0 0 0 0 0 0 ...
+</pre>
+
+<p>
+We need one more argument, which is quote="\"". Close the parentheses,
+and hit Enter. That last argument just made sure that our text was
+read in properly.
+</p>
+
+<p>
+Let's take a look at the structure of our data using the <code>str</code>
+function. We have 1,682 observations of 24 different variables.
+</p>
+
+<p>
+Since our variables didn't have names, header equaled false, R just
+labeled them with V1, V2, V3, etc.
+</p>
+
+<p>
+But from the Movie Lens documentation, we know what these variables
+are. So we'll go ahead and add in the column names ourselves.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Add column names:"</span>)
+colnames(movies) = c(<span style="color: #fffacd;">"ID"</span>, <span style="color: #fffacd;">"Title"</span>, <span style="color: #fffacd;">"ReleaseDate"</span>, <span style="color: #fffacd;">"VideoReleaseDate"</span>,
+                     <span style="color: #fffacd;">"IMDB"</span>, <span style="color: #fffacd;">"Unknown"</span>, <span style="color: #fffacd;">"Action"</span>, <span style="color: #fffacd;">"Adventure"</span>,
+                     <span style="color: #fffacd;">"Animation"</span>, <span style="color: #fffacd;">"Childrens"</span>, <span style="color: #fffacd;">"Comedy"</span>, <span style="color: #fffacd;">"Crime"</span>,
+                     <span style="color: #fffacd;">"Documentary"</span>, <span style="color: #fffacd;">"Drama"</span>, <span style="color: #fffacd;">"Fantasy"</span>, <span style="color: #fffacd;">"FilmNoir"</span>,
+                     <span style="color: #fffacd;">"Horror"</span>, <span style="color: #fffacd;">"Musical"</span>, <span style="color: #fffacd;">"Mystery"</span>, <span style="color: #fffacd;">"Romance"</span>,
+                     <span style="color: #fffacd;">"SciFi"</span>, <span style="color: #fffacd;">"Thriller"</span>, <span style="color: #fffacd;">"War"</span>, <span style="color: #fffacd;">"Western"</span>)
+
+names(movies)
+</pre>
+</div>
+
+<pre class="example">
+ :: Add column names:
+ [1] "ID"               "Title"            "ReleaseDate"      "VideoReleaseDate"
+ [5] "IMDB"             "Unknown"          "Action"           "Adventure"
+ [9] "Animation"        "Childrens"        "Comedy"           "Crime"
+[13] "Documentary"      "Drama"            "Fantasy"          "FilmNoir"
+[17] "Horror"           "Musical"          "Mystery"          "Romance"
+[21] "SciFi"            "Thriller"         "War"              "Western"
+</pre>
+
+<p>
+We won't be using the ID, release date, video release date, or IMDB
+variables, so let's go ahead and remove them.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Remove unnecessary variables:"</span>)
+movies$ID = <span style="color: #3cb371;">NULL</span>
+movies$ReleaseDate = <span style="color: #3cb371;">NULL</span>
+movies$VideoReleaseDate = <span style="color: #3cb371;">NULL</span>
+movies$IMDB = <span style="color: #3cb371;">NULL</span>
+
+names(movies)
+</pre>
+</div>
+
+<pre class="example">
+ :: Remove unnecessary variables:
+ [1] "Title"       "Unknown"     "Action"      "Adventure"   "Animation"
+ [6] "Childrens"   "Comedy"      "Crime"       "Documentary" "Drama"
+[11] "Fantasy"     "FilmNoir"    "Horror"      "Musical"     "Mystery"
+[16] "Romance"     "SciFi"       "Thriller"    "War"         "Western"
+</pre>
+
+<p>
+And there are a few duplicate entries in our data set, so we'll go
+ahead and remove them with the <code>unique</code> function.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Remove duplicates:"</span>)
+movies = unique(movies)
+
+writeLines(<span style="color: #fffacd;">"\n :: Take a look at our data again:"</span>)
+str(movies)
+</pre>
+</div>
+
+<pre class="example">
+ :: Remove duplicates:
+
+ :: Take a look at our data again:
+'data.frame':	1664 obs. of  20 variables:
+ $ Title      : Factor w/ 1664 levels "'Til There Was You (1997)",..: 1525 618 555 594 344 1318 1545 111 391 1240 ...
+ $ Unknown    : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ Action     : int  0 1 0 1 0 0 0 0 0 0 ...
+ $ Adventure  : int  0 1 0 0 0 0 0 0 0 0 ...
+ $ Animation  : int  1 0 0 0 0 0 0 0 0 0 ...
+ $ Childrens  : int  1 0 0 0 0 0 0 1 0 0 ...
+ $ Comedy     : int  1 0 0 1 0 0 0 1 0 0 ...
+ $ Crime      : int  0 0 0 0 1 0 0 0 0 0 ...
+ $ Documentary: int  0 0 0 0 0 0 0 0 0 0 ...
+ $ Drama      : int  0 0 0 1 1 1 1 1 1 1 ...
+ $ Fantasy    : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ FilmNoir   : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ Horror     : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ Musical    : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ Mystery    : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ Romance    : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ SciFi      : int  0 0 0 0 0 0 1 0 0 0 ...
+ $ Thriller   : int  0 1 1 0 1 0 0 0 0 0 ...
+ $ War        : int  0 0 0 0 0 0 0 0 0 1 ...
+ $ Western    : int  0 0 0 0 0 0 0 0 0 0 ...
+</pre>
+
+<p>
+Let's take a look at our data one more time. Now, we have 1,664
+observations, a few less than before, and 20 variables&#x2013; the title of
+the movie, the unknown genre label, and then the 18 other genre
+labels.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-10" class="outline-3">
+<h3 id="sec-2-10"><span class="section-number-3">2.10</span> Quick Question (3 points possible)</h3>
+<div class="outline-text-3" id="text-2-10">
+<p>
+Using the table function in R, please answer the following questions
+about the dataset <b>movies</b>.
+</p>
+</div>
+
+<div id="outline-container-sec-2-10-1" class="outline-4">
+<h4 id="sec-2-10-1"><span class="section-number-4">2.10.1</span> Question a</h4>
+<div class="outline-text-4" id="text-2-10-1">
+<p>
+How many movies are classified as comedies?
+</p>
+</div>
+
+<div id="outline-container-sec-2-10-1-1" class="outline-5">
+<h5 id="sec-2-10-1-1"><span class="section-number-5">2.10.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-2-10-1-1">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Number of movies classified as comedy:"</span>)
+nrow(subset(movies, movies$Comedy == 1))
+</pre>
+</div>
+
+<pre class="example">
+ :: Number of movies classified as comedy:
+[1] 502
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-10-2" class="outline-4">
+<h4 id="sec-2-10-2"><span class="section-number-4">2.10.2</span> Question b</h4>
+<div class="outline-text-4" id="text-2-10-2">
+<p>
+How many movies are classified as westerns?
+</p>
+</div>
+
+<div id="outline-container-sec-2-10-2-1" class="outline-5">
+<h5 id="sec-2-10-2-1"><span class="section-number-5">2.10.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-2-10-2-1">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Number of movies classified as Western:"</span>)
+nrow(subset(movies, movies$Western == 1))
+</pre>
+</div>
+
+<pre class="example">
+ :: Number of movies classified as Western:
+[1] 27
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-10-3" class="outline-4">
+<h4 id="sec-2-10-3"><span class="section-number-4">2.10.3</span> Question c</h4>
+<div class="outline-text-4" id="text-2-10-3">
+<p>
+How many movies are classified as romance AND drama?
+</p>
+</div>
+
+<div id="outline-container-sec-2-10-3-1" class="outline-5">
+<h5 id="sec-2-10-3-1"><span class="section-number-5">2.10.3.1</span> Answer</h5>
+<div class="outline-text-5" id="text-2-10-3-1">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Number of movies classified as Romance and Drama:"</span>)
+nrow(subset(movies, movies$Romance == 1 &amp; movies$Drama == 1))
+
+writeLines(<span style="color: #fffacd;">"\n :: Other way to answer this question:"</span>)
+nrow(movies[movies$Romance == 1 &amp; movies$Drama == 1, ])
+</pre>
+</div>
+
+<pre class="example">
+ :: Number of movies classified as Romance and Drama:
+[1] 97
+
+ :: Other way to answer this question:
+[1] 97
+</pre>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+You can answer these questions by using the following commands:
+</p>
+
+<p>
+<code>table(movies$Comedy)</code>
+</p>
+
+<p>
+<code>table(movies$Western)</code>
+</p>
+
+<p>
+<code>table(movies$Romance, movies$Drama)</code>
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-11" class="outline-3">
+<h3 id="sec-2-11"><span class="section-number-3">2.11</span> Video 7: Hierarchical Clustering in R</h3>
+<div class="outline-text-3" id="text-2-11">
+<p>
+<b>Important Note</b>
+</p>
+
+<p>
+In this video, we use the "ward" method to do hierarchical
+clustering. This method was recently renamed in R to "ward.D". If you
+are following along in R while watching the video, you will need to
+use the following command when doing the hierarchical clustering
+("ward" is replaced with "ward.D"):
+</p>
+
+<p>
+<code>clusterMovies = hclust(distances, method = "ward.D")</code>
+</p>
+
+<p>
+We'll use hierarchical clustering to cluster the movies in the Movie
+Lens data set by genre. After we make our clusters, we'll see how they
+can be used to make recommendations.
+</p>
+
+<p>
+There are two steps to hierarchical clustering. First we have to
+compute the distances between all data points, and then we need to
+cluster the points.
+</p>
+
+<p>
+To compute the distances we can use the <code>dist</code> function. We only want to
+cluster our movies on the genre variable, not on the title variable,
+so we'll cluster on columns two through 20.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Compute distances..."</span>)
+distances <span style="color: #db7093;">&lt;-</span> dist(movies[2:20], method = <span style="color: #fffacd;">"euclidean"</span>)
+</pre>
+</div>
+
+<pre class="example">
+:: Compute distances...
+</pre>
+
+<p>
+Now let's cluster our movies using the <code>hclust</code> function for
+hierarchical clustering.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Hierarchical clustering..."</span>)
+clusterMovies <span style="color: #db7093;">&lt;-</span> hclust(distances, method = <span style="color: #fffacd;">"ward.D"</span>)
+</pre>
+</div>
+
+<pre class="example">
+:: Hierarchical clustering...
+</pre>
+
+<p>
+The second argument is ~method="ward"~. The ward method cares about
+the distance between clusters using centroid distance, and also the
+variance in each of the clusters.
+</p>
+
+<p>
+Now let's plot the dendrogram of our clustering algorithm:
+</p>
+
+
+<div id="fig:MoviesDendrogram" class="figure">
+<p><img src="../graphs/MoviesDendrogram.png" alt="MoviesDendrogram.png" />
+</p>
+<p><span class="figure-number">Figure 37:</span> Movies dendrogram of clustering method</p>
+</div>
+
+<p>
+This dendrogram might look a little strange. We have all this black
+along the bottom. Remember that the dendrogram lists all of the data
+points along the bottom. But when there are over 1,000 data points
+it's impossible to read.
+</p>
+
+<p>
+We'll see later how to assign our clusters to groups so that we can
+analyze which data points are in which cluster.
+</p>
+
+<p>
+So looking at this dendrogram, <b>how many clusters would you pick?</b> It
+looks like maybe three or four clusters would be a good choice
+according to the dendrogram, but let's keep our application in mind,
+too.
+</p>
+
+<p>
+We probably want more than two, three, or even four clusters of movies
+to make recommendations to users.
+</p>
+
+<p>
+It looks like there's a nice spot down here where there's 10
+clusters. This is probably better for our application. We could select
+even more clusters if we want to have very specific genre groups.
+</p>
+
+<p>
+If you want a lot of clusters it's hard to pick the right number from
+the dendrogram. You need to use your understanding of the problem to
+pick the number of clusters. Let's stick with 10 clusters for now,
+combining what we learned from the dendrogram with our understanding
+of the problem.
+</p>
+
+<p>
+We can label each of the data points according to what cluster it
+belongs to using the cutree function.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Assign points to clusters..."</span>)
+clusterGroups <span style="color: #db7093;">&lt;-</span> cutree(clusterMovies, k = 10)
+</pre>
+</div>
+
+<pre class="example">
+:: Assign points to clusters...
+</pre>
+
+<p>
+Now let's figure out what the clusters are like. We'll use the tapply
+function to compute the percentage of movies in each genre and
+cluster.
+</p>
+
+<p>
+So let's type tapply, and then give as the first argument,
+movies$Action&#x2013; we'll start with the action genre&#x2013; and then
+clusterGroups, and then mean.
+</p>
+
+<p>
+<b>So what does this do?</b>
+</p>
+
+<p>
+It divides our data points into the 10 clusters and then computes the
+average value of the action variable for each cluster. Remember that
+the action variable is a binary variable with value 0 or 1.
+</p>
+
+<p>
+So by computing the average of this variable we're computing the
+percentage of movies in that cluster that belong in that genre.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">tapply(movies$Action, clusterGroups, mean)
+tapply(movies$Romance, clusterGroups, mean)
+</pre>
+</div>
+
+<pre class="example">
+        1         2         3         4         5         6         7         8
+0.1784512 0.7839196 0.1238532 0.0000000 0.0000000 0.1015625 0.0000000 0.0000000
+        9        10
+0.0000000 0.0000000
+         1          2          3          4          5          6          7
+0.10437710 0.04522613 0.03669725 0.00000000 0.00000000 1.00000000 1.00000000
+         8          9         10
+0.00000000 0.00000000 0.00000000
+</pre>
+
+<p>
+So we can see here that in cluster 2, about \(78\%\) of the movies have the
+action genre label, whereas in cluster 4 none of the movies are
+labeled as action movies.
+</p>
+
+<p>
+Let's try this again, but this time let's look at the <b>romance</b>
+genre. Here we can see that all of the movies in clusters six and
+seven are labeled as romance movies, whereas only \(4\%\) of the movies
+in cluster two are labeled as romance movies.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="right" />
+
+<col  class="right" />
+
+<col  class="right" />
+
+<col  class="right" />
+
+<col  class="right" />
+
+<col  class="right" />
+
+<col  class="right" />
+
+<col  class="right" />
+
+<col  class="right" />
+
+<col  class="right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Cluster 1</th>
+<th scope="col" class="right">Cluster 2</th>
+<th scope="col" class="right">Cluster 3</th>
+<th scope="col" class="right">Cluster 4</th>
+<th scope="col" class="right">Cluster 5</th>
+<th scope="col" class="right">Cluster 6</th>
+<th scope="col" class="right">Cluster 7</th>
+<th scope="col" class="right">Cluster 8</th>
+<th scope="col" class="right">Cluster 9</th>
+<th scope="col" class="right">Cluster 10</th>
+<th scope="col" class="right">&#xa0;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">Action</td>
+<td class="right">0.18</td>
+<td class="right">0.78</td>
+<td class="right">0.12</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.10</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+</tr>
+
+<tr>
+<td class="left">Adventure</td>
+<td class="right">0.19</td>
+<td class="right">0.35</td>
+<td class="right">0.04</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+</tr>
+
+<tr>
+<td class="left">Animation</td>
+<td class="right">0.13</td>
+<td class="right">0.01</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+</tr>
+
+<tr>
+<td class="left">Childrens</td>
+<td class="right">0.39</td>
+<td class="right">0.01</td>
+<td class="right">0.01</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+</tr>
+
+<tr>
+<td class="left">Comedy</td>
+<td class="right">0.36</td>
+<td class="right">0.07</td>
+<td class="right">0.06</td>
+<td class="right">0.00</td>
+<td class="right">1.00</td>
+<td class="right">0.11</td>
+<td class="right">1.00</td>
+<td class="right">0.02</td>
+<td class="right">1.00</td>
+<td class="right">0.16</td>
+</tr>
+
+<tr>
+<td class="left">Crime</td>
+<td class="right">0.03</td>
+<td class="right">0.01</td>
+<td class="right">0.41</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.05</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+</tr>
+
+<tr>
+<td class="left">Documentary</td>
+<td class="right">0.01</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">1.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+</tr>
+
+<tr>
+<td class="left">Drama</td>
+<td class="right">0.31</td>
+<td class="right">0.11</td>
+<td class="right">0.38</td>
+<td class="right">1.00</td>
+<td class="right">0.00</td>
+<td class="right">0.66</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">1.00</td>
+<td class="right">0.00</td>
+</tr>
+
+<tr>
+<td class="left">Fantasy</td>
+<td class="right">0.07</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+</tr>
+
+<tr>
+<td class="left">Film Noir</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.11</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.01</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+</tr>
+
+<tr>
+<td class="left">Horror</td>
+<td class="right">0.02</td>
+<td class="right">0.08</td>
+<td class="right">0.02</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.02</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">1.00</td>
+</tr>
+
+<tr>
+<td class="left">Musical</td>
+<td class="right">0.19</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+</tr>
+
+<tr>
+<td class="left">Mystery</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.28</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+</tr>
+
+<tr>
+<td class="left">Romance</td>
+<td class="right">0.10</td>
+<td class="right">0.05</td>
+<td class="right">0.04</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">1.00</td>
+<td class="right">1.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+</tr>
+
+<tr>
+<td class="left">Sci-Fi</td>
+<td class="right">0.07</td>
+<td class="right">0.35</td>
+<td class="right">0.04</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+</tr>
+
+<tr>
+<td class="left">Thriller</td>
+<td class="right">0.04</td>
+<td class="right">0.38</td>
+<td class="right">0.61</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.14</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.16</td>
+</tr>
+
+<tr>
+<td class="left">War</td>
+<td class="right">0.23</td>
+<td class="right">0.02</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.02</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+</tr>
+
+<tr>
+<td class="left">Western</td>
+<td class="right">0.09</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+<td class="right">0.00</td>
+</tr>
+
+<tr>
+<td class="left">Misc</td>
+<td class="right">Action-Adventure-SciFi</td>
+<td class="right">Crime-Mystery-Thriller</td>
+<td class="right">Drama</td>
+<td class="right">Comedy</td>
+<td class="right">Romance</td>
+<td class="right">Romantic Comedies</td>
+<td class="right">Documentary</td>
+<td class="right">Dramatic Comedies</td>
+<td class="right">Horror</td>
+<td class="right">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+
+
+<div class="figure">
+<p><img src="../graphs/MoviesClustering.png" alt="MoviesClustering.png" />
+</p>
+</div>
+
+<p>
+Knowing common movie genres, these clusters seem to make a lot of
+sense.
+</p>
+
+<p>
+<b>Let's see how these clusters could be used in a recommendation system.</b>
+</p>
+
+<p>
+Remember that Amy liked the movie Men in Black. Let's figure out what
+cluster Men in Black is in.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Id of the movie:"</span>)
+subset(movies, Title == <span style="color: #fffacd;">"Men in Black (1997)"</span>)
+
+writeLines(<span style="color: #fffacd;">"\n :: Find which cluster Men in Black is in:"</span>)
+clusterGroups[257]
+</pre>
+</div>
+
+<pre class="example">
+ :: Id of the movie:
+                  Title Unknown Action Adventure Animation Childrens Comedy
+257 Men in Black (1997)       0      1         1         0         0      1
+    Crime Documentary Drama Fantasy FilmNoir Horror Musical Mystery Romance
+257     0           0     0       0        0      0       0       0       0
+    SciFi Thriller War Western
+257     1        0   0       0
+
+ :: Find which cluster Men in Black is in:
+257
+  2
+</pre>
+
+<p>
+I knew that this is the title of Men in Black because I looked it up
+in our data set. So it looks like Men in Black is the 257th row in our
+data. So which cluster did the 257th movie go into?
+</p>
+
+<p>
+It looks like Men in Black went into cluster 2. That make sense since
+we just saw that <b>cluster 2 is the action, adventure, sci-fi cluster</b>.
+</p>
+
+<p>
+So let's create a new data set with just the movies from cluster two.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Create a new data set with just the movies from cluster 2:"</span>)
+cluster2 <span style="color: #db7093;">&lt;-</span> subset(movies, clusterGroups == 2)
+
+writeLines(<span style="color: #fffacd;">"\n :: Look at the first 10 titles in this cluster:"</span>)
+cluster2$Title[1:10]
+</pre>
+</div>
+
+<pre class="example">
+ :: Create a new data set with just the movies from cluster 2:
+
+ :: Look at the first 10 titles in this cluster:
+ [1] GoldenEye (1995)
+ [2] Bad Boys (1995)
+ [3] Apollo 13 (1995)
+ [4] Net, The (1995)
+ [5] Natural Born Killers (1994)
+ [6] Outbreak (1995)
+ [7] Stargate (1994)
+ [8] Fugitive, The (1993)
+ [9] Jurassic Park (1993)
+[10] Robert A. Heinlein's The Puppet Masters (1994)
+1664 Levels: 'Til There Was You (1997) ...
+</pre>
+
+<p>
+So it looks like good movies to recommend to Amy, according to our
+clustering algorithm, would be movies like Apollo 13 and Jurassic
+Park.
+</p>
+
+<p>
+In this video we saw how clustering can be applied to create a movie
+recommendation system.
+</p>
+</div>
+
+<div id="outline-container-sec-2-11-1" class="outline-4">
+<h4 id="sec-2-11-1"><span class="section-number-4">2.11.1</span> An Advanced Approach to Finding Cluster Centroids</h4>
+<div class="outline-text-4" id="text-2-11-1">
+<p>
+In this video, we explain how you can find the cluster centroids by
+using the function <b>tapply</b> for each variable in the dataset. While
+this approach works and is familiar to us, it can be a little tedious
+when there are a lot of variables.
+</p>
+
+<p>
+An alternative approach is to use the colMeans function. With this
+approach, you only have one command for each cluster instead of one
+command for each variable. If you run the following command in your R
+console, you can get all of the column (variable) means for cluster 1:
+</p>
+
+<p>
+<code>colMeans(subset(movies[2:20], clusterGroups == 1))</code>
+</p>
+
+<p>
+You can repeat this for each cluster by changing the <b>clusterGroups</b>
+number. However, if you also have a lot of clusters, this approach is
+not that much more efficient than just using the tapply function.
+</p>
+
+<p>
+A more advanced approach uses the <code>split</code> and <code>lapply</code> functions. The
+following command will split the data into subsets based on the
+clusters:
+</p>
+
+<p>
+<code>spl = split(movies[2:20], clusterGroups)</code>
+</p>
+
+<p>
+Then you can use spl to access the different clusters, because
+</p>
+
+<p>
+<code>spl[ [1] ]</code>
+</p>
+
+<p>
+is the same as
+</p>
+
+<p>
+<code>subset(movies[2:20], clusterGroups == 1)</code>
+</p>
+
+<p>
+so <code>colMeans(spl[ [1] ])</code> will output the centroid of cluster 1. But
+an even easier approach uses the lapply function. The following
+command will output the cluster centroids for all clusters:
+</p>
+
+<p>
+<code>lapply(spl, colMeans)</code>
+</p>
+
+<p>
+The lapply function runs the second argument (colMeans) on each
+element of the first argument (each cluster subset in spl). So instead
+of using 19 tapply commands, or 10 colMeans commands, we can output
+our centroids with just two commands: one to define spl, and then the
+<code>lapply</code> command.
+</p>
+
+<p>
+Note that if you have a variable called "split" in your current R
+session, you will need to remove it with rm(split) so that you can use
+the split function.
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-2-12" class="outline-3">
+<h3 id="sec-2-12"><span class="section-number-3">2.12</span> Quick Question (1 point possible)</h3>
+<div class="outline-text-3" id="text-2-12">
+<p>
+Run the <code>cutree</code> function again to create the cluster groups, but this
+time pick <code>k = 2</code> clusters. It turns out that the algorithm groups all
+of the movies that only belong to one specific genre in one cluster
+(cluster 2), and puts all of the other movies in the other cluster
+(cluster 1).
+</p>
+
+<p>
+What is the genre that all of the movies in cluster 2 belong to?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Assign points to clusters..."</span>)
+clusterGroups2 <span style="color: #db7093;">&lt;-</span> cutree(clusterMovies, k = 2)
+
+spl = split(movies[2:20], clusterGroups2)
+
+writeLines(<span style="color: #fffacd;">"\n :: Percentage of movies in each cluster:"</span>)
+lapply(spl, colMeans)
+</pre>
+</div>
+
+<pre class="example">
+ :: Assign points to clusters...
+
+ :: Percentage of movies in each cluster:
+$`1`
+    Unknown      Action   Adventure   Animation   Childrens      Comedy
+0.001545595 0.192426584 0.102782071 0.032457496 0.092735703 0.387944359
+      Crime Documentary       Drama     Fantasy    FilmNoir      Horror
+0.082689335 0.038639876 0.267387944 0.017001546 0.018547141 0.069551777
+    Musical     Mystery     Romance       SciFi    Thriller         War
+0.043276662 0.046367852 0.188562597 0.077279753 0.191653787 0.054868624
+    Western
+0.020865533
+
+$`2`
+    Unknown      Action   Adventure   Animation   Childrens      Comedy
+          0           0           0           0           0           0
+      Crime Documentary       Drama     Fantasy    FilmNoir      Horror
+          0           0           1           0           0           0
+    Musical     Mystery     Romance       SciFi    Thriller         War
+          0           0           0           0           0           0
+    Western
+          0
+</pre>
+</div>
+
+<div id="outline-container-sec-2-12-1" class="outline-4">
+<h4 id="sec-2-12-1"><span class="section-number-4">2.12.1</span> Answer</h4>
+<div class="outline-text-4" id="text-2-12-1">
+<p>
+Drama
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+You can redo the cluster grouping with just two clusters by running
+the following command:
+</p>
+
+<p>
+<code>clusterGroups = cutree(clusterMovies, k = 2)</code>
+</p>
+
+<p>
+Then, by using the tapply function just like we did in the video, you
+can see the average value in each genre and cluster. It turns out that
+all of the movies in the second cluster belong to the drama genre.
+</p>
+
+<p>
+Alternatively, you can use colMeans or lapply as explained below
+Video 7.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-13" class="outline-3">
+<h3 id="sec-2-13"><span class="section-number-3">2.13</span> Video 8: The Analytics Edge of Recommendation Systems</h3>
+<div class="outline-text-3" id="text-2-13">
+<p>
+Recommendation systems are used in many different areas other than
+movies.
+</p>
+
+<p>
+Jeff Bezos, the CEO of Amazon, said that, "If I have 3 million
+customers on the web, I should have 3 million stores on the web."
+</p>
+
+<p>
+The internet allows for mass personalization, and recommendation
+systems are a key part of that. Recommendation systems build models
+about users' preferences to personalize the user experience.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/RecommendationSystems-MassPersonalization.png" alt="RecommendationSystems-MassPersonalization.png" />
+</p>
+</div>
+
+<p>
+Recommendation systems are a cornerstone of these top
+businesses. Social networking sites, like Facebook, music streaming
+sites, like Pandora, and retail companies, like Amazon, all provide
+recommendation systems for their users.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/RS-Cornerstone.png" alt="RS-Cornerstone.png" />
+</p>
+</div>
+
+<p>
+Both collaborative filtering and content filtering are used in
+practice. Collaborative filtering is used by companies like Amazon,
+Facebook, and Google News. Content filtering is used by companies like
+Pandora, Rotten Tomatoes, and See This Next. And Netflix uses both
+collaborative filtering and content filtering.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/RS-MethodUsed.png" alt="RS-MethodUsed.png" />
+</p>
+</div>
+
+<p>
+So now let's go back to the Netflix prize.
+</p>
+
+<p>
+To really test the algorithms, Netflix tested them on a private test
+set that the teams had never seen before. This is the true test of
+predictive ability.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/NF-NetflixPrize.png" alt="NF-NetflixPrize.png" />
+</p>
+</div>
+
+<p>
+On September 18, 2009, Netflix announced that the winning team was
+Bellkor's Pragmatic Chaos. They won the competition and the $1 million
+grand prize.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/NF-Winners.png" alt="NF-Winners.png" />
+</p>
+</div>
+
+<p>
+Recommendation systems provide a significant edge to many
+companies. In today's digital age, businesses often have hundreds of
+thousands of items to offer their customers, whether they're movies,
+songs , or people they might know on Facebook.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/TEA-RecommendationSystems.png" alt="TEA-RecommendationSystems.png" />
+</p>
+</div>
+
+<p>
+Excellent recommendation systems can make or break these
+businesses. Clustering algorithms, which are tailored to find similar
+customers or similar items, form the backbone of many of these
+recommendation systems.
+</p>
+
+<p>
+Clustering also has many other interesting applications. In the next
+lecture, we'll see how clustering can be used to improve the
+predictive ability of classification methods.
+</p>
+</div>
+</div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="date">Date: 14/07/2015</p>
 <p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
-<p class="date">Created: 2015-07-16 Thu 19:20</p>
+<p class="date">Created: 2015-07-17 Fri 12:00</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

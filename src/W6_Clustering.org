@@ -460,3 +460,829 @@ The distance between these two movies is $\sqrt{2}$. They have a
 difference of 1 in two genres - crime and romance.
 
 ** Video 5: Hierarchical Clustering
+
+In hierarchical clustering, the clusters are formed by each data point
+starting in its own cluster. As a small example, suppose we have five
+data points. Each data point is labeled as belonging in its own
+cluster. So this data point is in the red cluster, this one's in the
+blue cluster, this one's in the purple cluster, this one's in the
+green cluster, and this one's in the yellow cluster.
+
+[[../graphs/NF-Hierarchical.png]]
+
+Then hierarchical clustering combines the two nearest clusters into
+one cluster. We'll use Euclidean and Centroid distances to decide
+which two clusters are the closest. In our example, the green and
+yellow clusters are closest together.
+
+[[../graphs/NF-Hierarchical02.png]]
+
+So we would combine these two clusters into one cluster. So now the
+green cluster has two points, and the yellow cluster is gone.
+
+[[../graphs/NF-Hierarchical03.png]]
+
+Now this process repeats. We again find the two nearest clusters,
+which this time are the green cluster and the purple cluster, and we
+combine them into one cluster.
+
+[[../graphs/NF-Hierarchical04.png]]
+
+Now the green cluster has three points, and the purple cluster is
+gone.
+
+[[../graphs/NF-Hierarchical05.png]]
+
+Now the two nearest clusters are the red and blue clusters. So we
+would combine these two clusters into one cluster, the red cluster.
+
+[[../graphs/NF-Hierarchical06.png]]
+
+So now we have just two clusters, the red one and the green one.
+
+[[../graphs/NF-Hierarchical07.png]]
+
+So now the final step is to combine these two clusters into one
+cluster.
+
+[[../graphs/NF-Hierarchical08.png]]
+
+So at the end of hierarchical clustering, all of our data points are
+in a single cluster.
+
+[[../graphs/NF-Hierarchical09.png]]
+
+The hierarchical cluster process can be displayed through what's
+called a *dendrogram*. The data points are listed along the bottom, and
+the lines show how the clusters were combined. The height of the lines
+represents how far apart the clusters were when they were combined.
+
+So points 1 and 4 were pretty close together when they were
+combined. But when we combined the two clusters at the end, they were
+significantly farther apart. We can use a dendrogram to decide how
+many clusters we want for our final clustering model.
+
+[[../graphs/NF-DisplayClusterProcess.png]]
+
+This dendrogram shows the clustering process with ten data points. The
+easiest way to pick the number of clusters you want is to draw a
+horizontal line across the dendrogram.
+
+The number of vertical lines that line crosses is the number of
+clusters there will be. In this case, our line crosses two vertical
+lines, meaning that we will have two clusters-- one cluster with
+points 5, 2, and 7, and one cluster with the remaining points.
+
+[[../graphs/NF-SelectClusters.png]]
+
+The farthest this horizontal line can move up and down in the
+dendrogram without hitting one of the horizontal lines of the
+dendrogram, the better that choice of the number of clusters is.
+
+If we instead selected three clusters, this line can't move as far up
+and down without hitting horizontal lines in the dendrogram. This
+probably means that the *two cluster choice is better*.
+
+But when picking the number of clusters, *you should also consider how
+many clusters make sense* for the particular *application you're
+working with*.
+
+After selecting the number of clusters you want, you should analyze
+your clusters to see *if they're meaningful*.
+
+You can also check to see if the clusters have a feature in common
+that was not used in the clustering, like an outcome variable. This
+often indicates that your clusters might help improve a predictive
+model.
+
+[[../graphs/NF-MeaningfulClusters.png]]
+
+** Quick Question (2 points possible)
+
+Suppose you are running the Hierarchical clustering algorithm with 212
+observations.
+
+*** Question a
+
+How many clusters will there be at the start of the algorithm?
+
+**** Answer
+
+212
+
+*** Question b
+
+How many clusters will there be at the end of the algorithm?
+
+*** Answer
+
+1
+
+*Explanation*
+
+The Hierarchical clustering algorithm always starts with each data
+point in its own cluster, and ends with all data points in the same
+cluster. So there will be 212 clusters at the beginning of the
+algorithm, and 1 cluster at the end of the algorithm.
+
+** Video 6: Getting the Data
+
+We'll be downloading our dataset from the MovieLens website. Please
+open the following link in a new window or tab of your browser to
+access the [[http://files.grouplens.org/datasets/movielens/ml-100k/u.item][data]]:
+
+This video will show you how to load the data into R.
+
+An R script file with all of the commands used in this Lecture can be
+downloaded [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/Unit6_Netflix.R][here]].
+
+IMPORTANT NOTE: We'll be using a text editor in this video to get the
+data into R. If you are on a Mac and are using TextEdit, the default
+file type is .rtf, so you will need to change the file type to txt. To
+do this, just go to Format --> Make Plain Text, and the file will
+re-save as a txt file. Alternatively, depending on your operating
+system and web browser, you might just be able to save the file
+directly from the browser as a txt file.
+
+*** Download the data sets
+
+In this part we can download the data
+
+#+BEGIN_SRC R :session :results output :exports all
+  library(parallel)
+
+  if(!file.exists("../data")) {
+          dir.create("../data")
+  }
+
+  fileUrl <- "http://files.grouplens.org/datasets/movielens/ml-100k/u.item"
+
+  fileName <- "movieLens.txt"
+
+  dataPath <- "../data"
+
+  filePath <- paste(dataPath, fileName, sep = "/")
+
+  if(!file.exists(filePath)) {
+          download.file(fileUrl, destfile = filePath, method = "curl")
+  }
+
+  list.files("../data")
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+ [1] "AnonymityPoll.csv"       "baseball.csv"
+ [3] "BoeingStock.csv"         "boston.csv"
+ [5] "ClaimsData.csv"          "ClaimsData.csv.zip"
+ [7] "climate_change.csv"      "clinical_trial.csv"
+ [9] "ClusterMeans.ods"        "CocaColaStock.csv"
+[11] "CountryCodes.csv"        "CPSData.csv"
+[13] "emails.csv"              "energy_bids.csv"
+[15] "FluTest.csv"             "FluTrain.csv"
+[17] "framingham.csv"          "gerber.csv"
+[19] "GEStock.csv"             "IBMStock.csv"
+[21] "loans_imputed.csv"       "loans.csv"
+[23] "MetroAreaCodes.csv"      "movieLens.txt"
+[25] "mvtWeek1.csv"            "NBA_test.csv"
+[27] "NBA_train.csv"           "parole.csv"
+[29] "pisa2009test.csv"        "pisa2009train.csv"
+[31] "PollingData_Imputed.csv" "PollingData.csv"
+[33] "ProcterGambleStock.csv"  "quality.csv"
+[35] "README.md"               "songs.csv"
+[37] "stevens.csv"             "stopwords.txt"
+[39] "tweets.csv"              "USDA.csv"
+[41] "WHO_Europe.csv"          "WHO.csv"
+[43] "wiki.csv"                "wine_test.csv"
+[45] "wine.csv"
+#+end_example
+
+*** Load the data set
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("    Loading data into their data frames.")
+  movies <- read.table("../data/movieLens.txt", header = FALSE,
+                       sep = "|", quote = "\"")
+  str(movies)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+    Loading data into their data frames.
+'data.frame':	1682 obs. of  24 variables:
+ $ V1 : int  1 2 3 4 5 6 7 8 9 10 ...
+ $ V2 : Factor w/ 1664 levels "'Til There Was You (1997)",..: 1525 618 555 594 344 1318 1545 111 391 1240 ...
+ $ V3 : Factor w/ 241 levels "","01-Aug-1997",..: 71 71 71 71 71 71 71 71 71 182 ...
+ $ V4 : logi  NA NA NA NA NA NA ...
+ $ V5 : Factor w/ 1661 levels "","http://us.imdb.com/M/title-exact?%22Langoliers,%20The%22%20(1995)%20(mini)",..: 1430 564 504 542 309 1661 1452 102 356 1182 ...
+ $ V6 : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ V7 : int  0 1 0 1 0 0 0 0 0 0 ...
+ $ V8 : int  0 1 0 0 0 0 0 0 0 0 ...
+ $ V9 : int  1 0 0 0 0 0 0 0 0 0 ...
+ $ V10: int  1 0 0 0 0 0 0 1 0 0 ...
+ $ V11: int  1 0 0 1 0 0 0 1 0 0 ...
+ $ V12: int  0 0 0 0 1 0 0 0 0 0 ...
+ $ V13: int  0 0 0 0 0 0 0 0 0 0 ...
+ $ V14: int  0 0 0 1 1 1 1 1 1 1 ...
+ $ V15: int  0 0 0 0 0 0 0 0 0 0 ...
+ $ V16: int  0 0 0 0 0 0 0 0 0 0 ...
+ $ V17: int  0 0 0 0 0 0 0 0 0 0 ...
+ $ V18: int  0 0 0 0 0 0 0 0 0 0 ...
+ $ V19: int  0 0 0 0 0 0 0 0 0 0 ...
+ $ V20: int  0 0 0 0 0 0 0 0 0 0 ...
+ $ V21: int  0 0 0 0 0 0 1 0 0 0 ...
+ $ V22: int  0 1 1 0 1 0 0 0 0 0 ...
+ $ V23: int  0 0 0 0 0 0 0 0 0 1 ...
+ $ V24: int  0 0 0 0 0 0 0 0 0 0 ...
+#+end_example
+
+We need one more argument, which is quote="\"". Close the parentheses,
+and hit Enter. That last argument just made sure that our text was
+read in properly.
+
+Let's take a look at the structure of our data using the ~str~
+function. We have 1,682 observations of 24 different variables.
+
+Since our variables didn't have names, header equaled false, R just
+labeled them with V1, V2, V3, etc.
+
+But from the Movie Lens documentation, we know what these variables
+are. So we'll go ahead and add in the column names ourselves.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Add column names:")
+  colnames(movies) = c("ID", "Title", "ReleaseDate", "VideoReleaseDate",
+                       "IMDB", "Unknown", "Action", "Adventure",
+                       "Animation", "Childrens", "Comedy", "Crime",
+                       "Documentary", "Drama", "Fantasy", "FilmNoir",
+                       "Horror", "Musical", "Mystery", "Romance",
+                       "SciFi", "Thriller", "War", "Western")
+
+  names(movies)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Add column names:
+:  [1] "ID"               "Title"            "ReleaseDate"      "VideoReleaseDate"
+:  [5] "IMDB"             "Unknown"          "Action"           "Adventure"
+:  [9] "Animation"        "Childrens"        "Comedy"           "Crime"
+: [13] "Documentary"      "Drama"            "Fantasy"          "FilmNoir"
+: [17] "Horror"           "Musical"          "Mystery"          "Romance"
+: [21] "SciFi"            "Thriller"         "War"              "Western"
+
+We won't be using the ID, release date, video release date, or IMDB
+variables, so let's go ahead and remove them.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Remove unnecessary variables:")
+  movies$ID = NULL
+  movies$ReleaseDate = NULL
+  movies$VideoReleaseDate = NULL
+  movies$IMDB = NULL
+
+  names(movies)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Remove unnecessary variables:
+:  [1] "Title"       "Unknown"     "Action"      "Adventure"   "Animation"
+:  [6] "Childrens"   "Comedy"      "Crime"       "Documentary" "Drama"
+: [11] "Fantasy"     "FilmNoir"    "Horror"      "Musical"     "Mystery"
+: [16] "Romance"     "SciFi"       "Thriller"    "War"         "Western"
+
+And there are a few duplicate entries in our data set, so we'll go
+ahead and remove them with the ~unique~ function.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Remove duplicates:")
+  movies = unique(movies)
+
+  writeLines("\n :: Take a look at our data again:")
+  str(movies)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Remove duplicates:
+
+ :: Take a look at our data again:
+'data.frame':	1664 obs. of  20 variables:
+ $ Title      : Factor w/ 1664 levels "'Til There Was You (1997)",..: 1525 618 555 594 344 1318 1545 111 391 1240 ...
+ $ Unknown    : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ Action     : int  0 1 0 1 0 0 0 0 0 0 ...
+ $ Adventure  : int  0 1 0 0 0 0 0 0 0 0 ...
+ $ Animation  : int  1 0 0 0 0 0 0 0 0 0 ...
+ $ Childrens  : int  1 0 0 0 0 0 0 1 0 0 ...
+ $ Comedy     : int  1 0 0 1 0 0 0 1 0 0 ...
+ $ Crime      : int  0 0 0 0 1 0 0 0 0 0 ...
+ $ Documentary: int  0 0 0 0 0 0 0 0 0 0 ...
+ $ Drama      : int  0 0 0 1 1 1 1 1 1 1 ...
+ $ Fantasy    : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ FilmNoir   : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ Horror     : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ Musical    : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ Mystery    : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ Romance    : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ SciFi      : int  0 0 0 0 0 0 1 0 0 0 ...
+ $ Thriller   : int  0 1 1 0 1 0 0 0 0 0 ...
+ $ War        : int  0 0 0 0 0 0 0 0 0 1 ...
+ $ Western    : int  0 0 0 0 0 0 0 0 0 0 ...
+#+end_example
+
+Let's take a look at our data one more time. Now, we have 1,664
+observations, a few less than before, and 20 variables-- the title of
+the movie, the unknown genre label, and then the 18 other genre
+labels.
+
+** Quick Question (3 points possible)
+
+Using the table function in R, please answer the following questions
+about the dataset *movies*.
+
+*** Question a
+
+How many movies are classified as comedies?
+
+**** Answer
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Number of movies classified as comedy:")
+  nrow(subset(movies, movies$Comedy == 1))
+#+end_src
+
+#+RESULTS:
+:
+:  :: Number of movies classified as comedy:
+: [1] 502
+
+*** Question b
+
+How many movies are classified as westerns?
+
+**** Answer
+
+#+begin_src R :session :results output :exports all
+    writeLines("\n :: Number of movies classified as Western:")
+    nrow(subset(movies, movies$Western == 1))
+#+end_src
+
+#+RESULTS:
+:
+:  :: Number of movies classified as Western:
+: [1] 27
+
+*** Question c
+
+How many movies are classified as romance AND drama?
+
+**** Answer
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Number of movies classified as Romance and Drama:")
+  nrow(subset(movies, movies$Romance == 1 & movies$Drama == 1))
+
+  writeLines("\n :: Other way to answer this question:")
+  nrow(movies[movies$Romance == 1 & movies$Drama == 1, ])
+#+end_src
+
+#+RESULTS:
+:
+:  :: Number of movies classified as Romance and Drama:
+: [1] 97
+:
+:  :: Other way to answer this question:
+: [1] 97
+
+*Explanation*
+
+You can answer these questions by using the following commands:
+
+~table(movies$Comedy)~
+
+~table(movies$Western)~
+
+~table(movies$Romance, movies$Drama)~
+
+** Video 7: Hierarchical Clustering in R
+
+*Important Note*
+
+In this video, we use the "ward" method to do hierarchical
+clustering. This method was recently renamed in R to "ward.D". If you
+are following along in R while watching the video, you will need to
+use the following command when doing the hierarchical clustering
+("ward" is replaced with "ward.D"):
+
+~clusterMovies = hclust(distances, method = "ward.D")~
+
+We'll use hierarchical clustering to cluster the movies in the Movie
+Lens data set by genre. After we make our clusters, we'll see how they
+can be used to make recommendations.
+
+There are two steps to hierarchical clustering. First we have to
+compute the distances between all data points, and then we need to
+cluster the points.
+
+To compute the distances we can use the ~dist~ function. We only want to
+cluster our movies on the genre variable, not on the title variable,
+so we'll cluster on columns two through 20.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Compute distances...")
+  distances <- dist(movies[2:20], method = "euclidean")
+#+end_src
+
+#+RESULTS:
+:
+:  :: Compute distances...
+
+Now let's cluster our movies using the ~hclust~ function for
+hierarchical clustering.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Hierarchical clustering...")
+  clusterMovies <- hclust(distances, method = "ward.D")
+#+end_src
+
+#+RESULTS:
+:
+:  :: Hierarchical clustering...
+
+The second argument is ~method="ward"~. The ward method cares about
+the distance between clusters using centroid distance, and also the
+variance in each of the clusters.
+
+Now let's plot the dendrogram of our clustering algorithm:
+
+#+BEGIN_SRC R :var basename="MoviesDendrogram" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  # Plot the dendrogram
+  plot(clusterMovies)
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  Movies dendrogram of clustering method
+#+NAME:     fig:MoviesDendrogram
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/MoviesDendrogram.png]]
+
+This dendrogram might look a little strange. We have all this black
+along the bottom. Remember that the dendrogram lists all of the data
+points along the bottom. But when there are over 1,000 data points
+it's impossible to read.
+
+We'll see later how to assign our clusters to groups so that we can
+analyze which data points are in which cluster.
+
+So looking at this dendrogram, *how many clusters would you pick?* It
+looks like maybe three or four clusters would be a good choice
+according to the dendrogram, but let's keep our application in mind,
+too.
+
+We probably want more than two, three, or even four clusters of movies
+to make recommendations to users.
+
+It looks like there's a nice spot down here where there's 10
+clusters. This is probably better for our application. We could select
+even more clusters if we want to have very specific genre groups.
+
+If you want a lot of clusters it's hard to pick the right number from
+the dendrogram. You need to use your understanding of the problem to
+pick the number of clusters. Let's stick with 10 clusters for now,
+combining what we learned from the dendrogram with our understanding
+of the problem.
+
+We can label each of the data points according to what cluster it
+belongs to using the cutree function.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Assign points to clusters...")
+  clusterGroups <- cutree(clusterMovies, k = 10)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Assign points to clusters...
+
+Now let's figure out what the clusters are like. We'll use the tapply
+function to compute the percentage of movies in each genre and
+cluster.
+
+So let's type tapply, and then give as the first argument,
+movies$Action-- we'll start with the action genre-- and then
+clusterGroups, and then mean.
+
+*So what does this do?*
+
+It divides our data points into the 10 clusters and then computes the
+average value of the action variable for each cluster. Remember that
+the action variable is a binary variable with value 0 or 1.
+
+So by computing the average of this variable we're computing the
+percentage of movies in that cluster that belong in that genre.
+
+#+begin_src R :session :results output :exports all
+  tapply(movies$Action, clusterGroups, mean)
+  tapply(movies$Romance, clusterGroups, mean)
+#+end_src
+
+#+RESULTS:
+:         1         2         3         4         5         6         7         8
+: 0.1784512 0.7839196 0.1238532 0.0000000 0.0000000 0.1015625 0.0000000 0.0000000
+:         9        10
+: 0.0000000 0.0000000
+:          1          2          3          4          5          6          7
+: 0.10437710 0.04522613 0.03669725 0.00000000 0.00000000 1.00000000 1.00000000
+:          8          9         10
+: 0.00000000 0.00000000 0.00000000
+
+So we can see here that in cluster 2, about $78\%$ of the movies have the
+action genre label, whereas in cluster 4 none of the movies are
+labeled as action movies.
+
+Let's try this again, but this time let's look at the *romance*
+genre. Here we can see that all of the movies in clusters six and
+seven are labeled as romance movies, whereas only $4\%$ of the movies
+in cluster two are labeled as romance movies.
+
+| Cluster 1   |              Cluster 2 |              Cluster 3 | Cluster 4 | Cluster 5 | Cluster 6 |         Cluster 7 |   Cluster 8 |         Cluster 9 | Cluster 10 |      |
+|-------------+------------------------+------------------------+-----------+-----------+-----------+-------------------+-------------+-------------------+------------+------|
+| Action      |                   0.18 |                   0.78 |      0.12 |      0.00 |      0.00 |              0.10 |        0.00 |              0.00 |       0.00 | 0.00 |
+| Adventure   |                   0.19 |                   0.35 |      0.04 |      0.00 |      0.00 |              0.00 |        0.00 |              0.00 |       0.00 | 0.00 |
+| Animation   |                   0.13 |                   0.01 |      0.00 |      0.00 |      0.00 |              0.00 |        0.00 |              0.00 |       0.00 | 0.00 |
+| Childrens   |                   0.39 |                   0.01 |      0.01 |      0.00 |      0.00 |              0.00 |        0.00 |              0.00 |       0.00 | 0.00 |
+| Comedy      |                   0.36 |                   0.07 |      0.06 |      0.00 |      1.00 |              0.11 |        1.00 |              0.02 |       1.00 | 0.16 |
+| Crime       |                   0.03 |                   0.01 |      0.41 |      0.00 |      0.00 |              0.05 |        0.00 |              0.00 |       0.00 | 0.00 |
+| Documentary |                   0.01 |                   0.00 |      0.00 |      0.00 |      0.00 |              0.00 |        0.00 |              1.00 |       0.00 | 0.00 |
+| Drama       |                   0.31 |                   0.11 |      0.38 |      1.00 |      0.00 |              0.66 |        0.00 |              0.00 |       1.00 | 0.00 |
+| Fantasy     |                   0.07 |                   0.00 |      0.00 |      0.00 |      0.00 |              0.00 |        0.00 |              0.00 |       0.00 | 0.00 |
+| Film Noir   |                   0.00 |                   0.00 |      0.11 |      0.00 |      0.00 |              0.01 |        0.00 |              0.00 |       0.00 | 0.00 |
+| Horror      |                   0.02 |                   0.08 |      0.02 |      0.00 |      0.00 |              0.02 |        0.00 |              0.00 |       0.00 | 1.00 |
+| Musical     |                   0.19 |                   0.00 |      0.00 |      0.00 |      0.00 |              0.00 |        0.00 |              0.00 |       0.00 | 0.00 |
+| Mystery     |                   0.00 |                   0.00 |      0.28 |      0.00 |      0.00 |              0.00 |        0.00 |              0.00 |       0.00 | 0.00 |
+| Romance     |                   0.10 |                   0.05 |      0.04 |      0.00 |      0.00 |              1.00 |        1.00 |              0.00 |       0.00 | 0.00 |
+| Sci-Fi      |                   0.07 |                   0.35 |      0.04 |      0.00 |      0.00 |              0.00 |        0.00 |              0.00 |       0.00 | 0.00 |
+| Thriller    |                   0.04 |                   0.38 |      0.61 |      0.00 |      0.00 |              0.14 |        0.00 |              0.00 |       0.00 | 0.16 |
+| War         |                   0.23 |                   0.02 |      0.00 |      0.00 |      0.00 |              0.00 |        0.00 |              0.02 |       0.00 | 0.00 |
+| Western     |                   0.09 |                   0.00 |      0.00 |      0.00 |      0.00 |              0.00 |        0.00 |              0.00 |       0.00 | 0.00 |
+| Misc        | Action-Adventure-SciFi | Crime-Mystery-Thriller |     Drama |    Comedy |   Romance | Romantic Comedies | Documentary | Dramatic Comedies |     Horror |      |
+
+[[../graphs/MoviesClustering.png]]
+
+Knowing common movie genres, these clusters seem to make a lot of
+sense.
+
+*Let's see how these clusters could be used in a recommendation system.*
+
+Remember that Amy liked the movie Men in Black. Let's figure out what
+cluster Men in Black is in.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Id of the movie:")
+  subset(movies, Title == "Men in Black (1997)")
+
+  writeLines("\n :: Find which cluster Men in Black is in:")
+  clusterGroups[257]
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Id of the movie:
+                  Title Unknown Action Adventure Animation Childrens Comedy
+257 Men in Black (1997)       0      1         1         0         0      1
+    Crime Documentary Drama Fantasy FilmNoir Horror Musical Mystery Romance
+257     0           0     0       0        0      0       0       0       0
+    SciFi Thriller War Western
+257     1        0   0       0
+
+ :: Find which cluster Men in Black is in:
+257
+  2
+#+end_example
+
+I knew that this is the title of Men in Black because I looked it up
+in our data set. So it looks like Men in Black is the 257th row in our
+data. So which cluster did the 257th movie go into?
+
+It looks like Men in Black went into cluster 2. That make sense since
+we just saw that *cluster 2 is the action, adventure, sci-fi cluster*.
+
+So let's create a new data set with just the movies from cluster two.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Create a new data set with just the movies from cluster 2:")
+  cluster2 <- subset(movies, clusterGroups == 2)
+
+  writeLines("\n :: Look at the first 10 titles in this cluster:")
+  cluster2$Title[1:10]
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Create a new data set with just the movies from cluster 2:
+
+ :: Look at the first 10 titles in this cluster:
+ [1] GoldenEye (1995)
+ [2] Bad Boys (1995)
+ [3] Apollo 13 (1995)
+ [4] Net, The (1995)
+ [5] Natural Born Killers (1994)
+ [6] Outbreak (1995)
+ [7] Stargate (1994)
+ [8] Fugitive, The (1993)
+ [9] Jurassic Park (1993)
+[10] Robert A. Heinlein's The Puppet Masters (1994)
+1664 Levels: 'Til There Was You (1997) ...
+#+end_example
+
+So it looks like good movies to recommend to Amy, according to our
+clustering algorithm, would be movies like Apollo 13 and Jurassic
+Park.
+
+In this video we saw how clustering can be applied to create a movie
+recommendation system.
+
+*** An Advanced Approach to Finding Cluster Centroids
+
+In this video, we explain how you can find the cluster centroids by
+using the function *tapply* for each variable in the dataset. While
+this approach works and is familiar to us, it can be a little tedious
+when there are a lot of variables.
+
+An alternative approach is to use the colMeans function. With this
+approach, you only have one command for each cluster instead of one
+command for each variable. If you run the following command in your R
+console, you can get all of the column (variable) means for cluster 1:
+
+~colMeans(subset(movies[2:20], clusterGroups == 1))~
+
+You can repeat this for each cluster by changing the *clusterGroups*
+number. However, if you also have a lot of clusters, this approach is
+not that much more efficient than just using the tapply function.
+
+A more advanced approach uses the ~split~ and ~lapply~ functions. The
+following command will split the data into subsets based on the
+clusters:
+
+~spl = split(movies[2:20], clusterGroups)~
+
+Then you can use spl to access the different clusters, because
+
+~spl[ [1] ]~
+
+is the same as
+
+~subset(movies[2:20], clusterGroups == 1)~
+
+so ~colMeans(spl[ [1] ])~ will output the centroid of cluster 1. But
+an even easier approach uses the lapply function. The following
+command will output the cluster centroids for all clusters:
+
+~lapply(spl, colMeans)~
+
+The lapply function runs the second argument (colMeans) on each
+element of the first argument (each cluster subset in spl). So instead
+of using 19 tapply commands, or 10 colMeans commands, we can output
+our centroids with just two commands: one to define spl, and then the
+~lapply~ command.
+
+Note that if you have a variable called "split" in your current R
+session, you will need to remove it with rm(split) so that you can use
+the split function.
+
+
+** Quick Question (1 point possible)
+
+Run the ~cutree~ function again to create the cluster groups, but this
+time pick ~k = 2~ clusters. It turns out that the algorithm groups all
+of the movies that only belong to one specific genre in one cluster
+(cluster 2), and puts all of the other movies in the other cluster
+(cluster 1).
+
+What is the genre that all of the movies in cluster 2 belong to?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Assign points to clusters...")
+  clusterGroups2 <- cutree(clusterMovies, k = 2)
+
+  spl = split(movies[2:20], clusterGroups2)
+
+  writeLines("\n :: Percentage of movies in each cluster:")
+  lapply(spl, colMeans)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Assign points to clusters...
+
+ :: Percentage of movies in each cluster:
+$`1`
+    Unknown      Action   Adventure   Animation   Childrens      Comedy
+0.001545595 0.192426584 0.102782071 0.032457496 0.092735703 0.387944359
+      Crime Documentary       Drama     Fantasy    FilmNoir      Horror
+0.082689335 0.038639876 0.267387944 0.017001546 0.018547141 0.069551777
+    Musical     Mystery     Romance       SciFi    Thriller         War
+0.043276662 0.046367852 0.188562597 0.077279753 0.191653787 0.054868624
+    Western
+0.020865533
+
+$`2`
+    Unknown      Action   Adventure   Animation   Childrens      Comedy
+          0           0           0           0           0           0
+      Crime Documentary       Drama     Fantasy    FilmNoir      Horror
+          0           0           1           0           0           0
+    Musical     Mystery     Romance       SciFi    Thriller         War
+          0           0           0           0           0           0
+    Western
+          0
+#+end_example
+
+*** Answer
+
+Drama
+
+*Explanation*
+
+You can redo the cluster grouping with just two clusters by running
+the following command:
+
+~clusterGroups = cutree(clusterMovies, k = 2)~
+
+Then, by using the tapply function just like we did in the video, you
+can see the average value in each genre and cluster. It turns out that
+all of the movies in the second cluster belong to the drama genre.
+
+Alternatively, you can use colMeans or lapply as explained below
+Video 7.
+
+** Video 8: The Analytics Edge of Recommendation Systems
+
+Recommendation systems are used in many different areas other than
+movies.
+
+Jeff Bezos, the CEO of Amazon, said that, "If I have 3 million
+customers on the web, I should have 3 million stores on the web."
+
+The internet allows for mass personalization, and recommendation
+systems are a key part of that. Recommendation systems build models
+about users' preferences to personalize the user experience.
+
+[[../graphs/RecommendationSystems-MassPersonalization.png]]
+
+Recommendation systems are a cornerstone of these top
+businesses. Social networking sites, like Facebook, music streaming
+sites, like Pandora, and retail companies, like Amazon, all provide
+recommendation systems for their users.
+
+[[../graphs/RS-Cornerstone.png]]
+
+Both collaborative filtering and content filtering are used in
+practice. Collaborative filtering is used by companies like Amazon,
+Facebook, and Google News. Content filtering is used by companies like
+Pandora, Rotten Tomatoes, and See This Next. And Netflix uses both
+collaborative filtering and content filtering.
+
+[[../graphs/RS-MethodUsed.png]]
+
+So now let's go back to the Netflix prize.
+
+To really test the algorithms, Netflix tested them on a private test
+set that the teams had never seen before. This is the true test of
+predictive ability.
+
+[[../graphs/NF-NetflixPrize.png]]
+
+On September 18, 2009, Netflix announced that the winning team was
+Bellkor's Pragmatic Chaos. They won the competition and the $1 million
+grand prize.
+
+[[../graphs/NF-Winners.png]]
+
+Recommendation systems provide a significant edge to many
+companies. In today's digital age, businesses often have hundreds of
+thousands of items to offer their customers, whether they're movies,
+songs , or people they might know on Facebook.
+
+[[../graphs/TEA-RecommendationSystems.png]]
+
+Excellent recommendation systems can make or break these
+businesses. Clustering algorithms, which are tailored to find similar
+customers or similar items, form the backbone of many of these
+recommendation systems.
+
+Clustering also has many other interesting applications. In the next
+lecture, we'll see how clustering can be used to improve the
+predictive ability of classification methods.
