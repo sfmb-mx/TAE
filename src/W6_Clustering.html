@@ -1,0 +1,912 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Unit 6 - Clustering</title>
+<!-- 2015-07-16 Thu 19:20 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="Sergio-Feliciano Mendoza-Barrera" />
+<meta  name="description" content="Clustering methods in Machine Learning"
+ />
+<meta  name="keywords" content="R, data science, emacs, ESS, org-mode, machine learning, clustering" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/bigblow.css"/>
+<link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/hideshow.css"/>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery-ui-1.10.2.min.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.localscroll-min.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.scrollTo-1.4.3.1-min.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.zclip.min.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/bigblow.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/hideshow.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js"></script>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+    MathJax.Hub.Config({
+        // Only one of the two following lines, depending on user settings
+        // First allows browser-native MathML display, second forces HTML/CSS
+        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
+                     "TeX/noUndefined.js"],
+        tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
+            skipTags: ["script","noscript","style","textarea","pre","code"],
+            ignoreClass: "tex2jax_ignore",
+            processEscapes: false,
+            processEnvironments: true,
+            preview: "TeX"
+        },
+        showProcessingMessages: true,
+        displayAlign: "center",
+        displayIndent: "2em",
+
+        "HTML-CSS": {
+             scale: 100,
+             availableFonts: ["STIX","TeX"],
+             preferredFont: "TeX",
+             webFont: "TeX",
+             imageFont: "TeX",
+             showMathMenu: true,
+        },
+        MMLorHTML: {
+             prefer: {
+                 MSIE:    "MML",
+                 Firefox: "MML",
+                 Opera:   "HTML",
+                 other:   "HTML"
+             }
+        }
+    });
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Unit 6 - Clustering</h1>
+<div class="abstract">
+<p>
+This document concentrate the work of clustering in the TEA course.
+</p>
+
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+This week we'll discuss how analytics can be used to make
+recommendations for movies and for health. In the first lecture, we
+discuss how Netflix offered the million dollar prize to improve their
+movie recommendation system.
+</p>
+
+<p>
+In the second lecture, we discuss how health care claims data can be
+used to predict the occurrence of a heart attack Through these
+examples, we'll discuss the method of clustering, which is used to
+find similarities and patterns in data.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Recommendations Worth a Million: An Introduction to Clustering</h2>
+<div class="outline-text-2" id="text-2">
+
+<div class="figure">
+<p><img src="../graphs/Netflix.png" alt="Netflix.png" />
+</p>
+</div>
+
+<p>
+What is Netflix?
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/Netflix02.png" alt="Netflix02.png" />
+</p>
+</div>
+
+<p>
+The recommendation systems in the Netflix business permit to the
+executives take some decisions about the tendencies of the market. The
+operating people is able to decide what kind of movies are potentially
+more interesting to their customers.
+</p>
+
+<p>
+Have a movie theater for each customer. In order to manage the big
+volume of customers, Netflix needs an automated recommendation
+system. This system allow the company to select and propose the best
+titles for an specific customer.
+</p>
+
+<p>
+The initial algorithm proposed could be improved, then the Netflix
+price was open in order to develop a better algorithm.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/NetflixPrize.png" alt="NetflixPrize.png" />
+</p>
+</div>
+
+<p>
+The contest rules:
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/NetflixPrize02.png" alt="NetflixPrize02.png" />
+</p>
+</div>
+
+<p>
+Some initial and early results.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/NF-InitialResults.png" alt="NF-InitialResults.png" />
+</p>
+</div>
+
+<p>
+Then the history of the contest.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/NF-Progress.png" alt="NF-Progress.png" />
+</p>
+</div>
+
+<p>
+One of the best teams.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/NF-Progress02.png" alt="NF-Progress02.png" />
+</p>
+</div>
+
+<p>
+The winner!
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/NF-LastCall.png" alt="NF-LastCall.png" />
+</p>
+</div>
+
+<p>
+Netflix was willing to pay over one million dollars for the best user
+rating algorithm, which shows how critical the recommendation system
+is to their business.
+</p>
+
+<p>
+We will discuss how recommendation systems work. Let's start by
+thinking about the data. When predicting user ratings, what data could
+be useful? There are two main types of data that we could use. The
+first is that for every movie in Netflix's database, we have a ranking
+from all users who have ranked that movie. The second is that we know
+facts about the movie itself&#x2013; the actors in the movie, the director,
+the genre classifications of the movie, the year it was released,
+etc.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/NF-PredictingBestUserRatings.png" alt="NF-PredictingBestUserRatings.png" />
+</p>
+</div>
+
+<p>
+As an example, suppose we have the following user ratings for four
+users and four movies.
+</p>
+
+<p>
+The ratings are on a one to five scale, where one is the lowest rating
+and five is the highest rating. The blank entries mean that the user
+has not rated the movie. We could suggest to Carl that he watch Men in
+Black, since Amy rated it highly. She gave it a rating of five, and
+<b>Amy and Carl seem to have similar ratings for the other movies</b>.
+</p>
+
+<p>
+This technique of using other user's ratings to make predictions is
+called collaborative filtering.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/NF-CollaborativeFiltering.png" alt="NF-CollaborativeFiltering.png" />
+</p>
+</div>
+
+<p>
+Note that we're not using any information about the movie itself here,
+just the similarity between users.
+</p>
+
+<p>
+We saw in the table that Amy liked Men in Black. She gave it a rating
+of five. We know that this movie was directed by Barry Sonnenfeld, is
+classified in the genres of action, adventure, sci-fi, and comedy, and
+it stars actor Will Smith. Based on this information, we could make
+recommendations to Amy.
+</p>
+
+<p>
+We could recommend to Amy another movie by the same director, Barry
+Sonnenfeld's movie, Get Shorty. We can instead recommend the movie
+Jurassic Park, which is also classified in the genres of action,
+adventure, and sci-fi. Or we could recommend to Amy another movie
+starring Will Smith&#x2013; Hitch.
+</p>
+
+<p>
+Note that we're not using the ratings of other users at all here, just
+information about the movie. This technique is called content
+filtering.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/NF-ContentFiltering.png" alt="NF-ContentFiltering.png" />
+</p>
+</div>
+
+<p>
+There are strengths and weaknesses to both types of recommendation
+systems.
+</p>
+
+<p>
+Collaborative filtering can accurately suggest complex items without
+understanding the nature of the items. It didn't matter at all that
+our items were movies in the collaborative filtering example.
+</p>
+
+<p>
+We were just comparing user ratings. However, this requires a lot of
+data about the user to make accurate recommendations. Also, when there
+are millions of items, it needs a lot of computing power to compute
+the user similarities.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/NF-StrengthsWeaknesses.png" alt="NF-StrengthsWeaknesses.png" />
+</p>
+</div>
+
+<p>
+On the other hand, content filtering requires very little data to get
+started. But the major weakness of content filtering is that it can be
+limited in scope.
+</p>
+
+<p>
+You're only recommending similar things to what the user has already
+liked. So the recommendations are often not surprising or particularly
+insightful.
+</p>
+
+<p>
+Netflix actually uses what's called a hybrid recommendation
+system. They use both collaborative and content filtering.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/NF-HybridRecommendationSystems.png" alt="NF-HybridRecommendationSystems.png" />
+</p>
+</div>
+
+<p>
+If we were only doing collaborative filtering, one of them would have
+had to have seen it before. And if we were only doing content
+filtering, we would only be recommending to one user at a time.
+</p>
+
+<p>
+So by combining the two methods, the algorithm can be much more
+efficient and accurate. In the next video, we'll see how we can do
+content filtering by using a method called clustering.
+</p>
+</div>
+
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> Quick Question (2/2 points)</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+Let's consider a recommendation system on Amazon.com, an online retail
+site.
+</p>
+</div>
+
+<div id="outline-container-sec-2-1-1" class="outline-4">
+<h4 id="sec-2-1-1"><span class="section-number-4">2.1.1</span> Question a</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<p>
+If Amazon.com constructs a recommendation system for books, and would
+like to use the same exact algorithm for shoes, what type would it
+have to be?
+</p>
+</div>
+
+<div id="outline-container-sec-2-1-1-1" class="outline-5">
+<h5 id="sec-2-1-1-1"><span class="section-number-5">2.1.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-2-1-1-1">
+<p>
+Collaborative Filtering.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-1-2" class="outline-4">
+<h4 id="sec-2-1-2"><span class="section-number-4">2.1.2</span> Question b</h4>
+<div class="outline-text-4" id="text-2-1-2">
+<p>
+If Amazon.com would like to suggest books to users based on the
+previous books they have purchased, what type of recommendation system
+would it be?
+</p>
+</div>
+
+<div id="outline-container-sec-2-1-2-1" class="outline-5">
+<h5 id="sec-2-1-2-1"><span class="section-number-5">2.1.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-2-1-2-1">
+<p>
+Content Filtering.
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+In the first case, the recommendation system would have to be
+collaborative filtering, since it can't use information about the
+items. In the second case, the recommendation system would be content
+filtering since other users are not involved.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> Video 3: Movie Data and Clustering</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+We will be using data from <b>MovieLens</b> to explain clustering and
+perform content filtering.
+</p>
+
+<p>
+<b>Movielens.org</b> is a movie recommendation website run by the GroupLens
+research lab at the University of Minnesota. They collect user
+preferences about movies and do collaborative filtering to make
+recommendations to users, based on the similarities between users.
+</p>
+
+<p>
+We'll use their movie database to do content filtering using a
+technique called clustering.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/MovieLens-Data.png" alt="MovieLens-Data.png" />
+</p>
+</div>
+
+<p>
+First, let's discuss what data we have. Movies in the MovieLens data
+set are categorized as belonging to different genres.
+</p>
+
+<p>
+There are 18 different genres as well as an unknown category. The
+genres include crime, musical, mystery, and children's. Each movie may
+belong to many different genres. So a movie could be classified as
+drama, adventure, and sci-fi.
+</p>
+
+<p>
+The question we want to answer is, can we systematically find groups
+of movies with similar sets of genres? To answer this question, we'll
+use a method called clustering.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/MovieLens-ItemDataset.png" alt="MovieLens-ItemDataset.png" />
+</p>
+</div>
+
+<p>
+To answer this question, we'll use a method called
+clustering. Clustering is different from the other analytics methods
+we've covered so far. It's called an unsupervised learning
+method. This means that we're just trying to segment the data into
+similar groups, instead of trying to predict an outcome. In this image
+on the slide, based on the locations of points, we've divided them
+into three clusters&#x2013; a blue cluster, a red cluster, and a yellow
+cluster.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/ML-WhyClustering.png" alt="ML-WhyClustering.png" />
+</p>
+</div>
+
+<p>
+This is the goal of clustering&#x2013; to put each data point into a group
+with similar values in the data. A clustering algorithm does not
+predict anything. However, clustering can be used to improve
+predictive methods.
+</p>
+
+<p>
+You can cluster the data into similar groups and then build a
+predictive model for each group. This can often improve the accuracy
+of predictive methods. But as a warning, be careful not to over-fit
+your model to the training set. This works best for large data sets.
+</p>
+
+<p>
+There are many different algorithms for clustering. They differ in
+what makes a cluster and how the clusters are found.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/ML-ClusteringMethods.png" alt="ML-ClusteringMethods.png" />
+</p>
+</div>
+
+<p>
+You'll learn how to create clusters using either method in R. There
+are other clustering methods also, but hierarchical and K-means are
+two of the most popular methods. To cluster data points, we need to
+compute how similar the points are. This is done by computing the
+distance between points.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> Quick Question (1 point possible)</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+In the previous video, we discussed how clustering is used to split
+the data into similar groups. Which of the following tasks do you
+think are appropriate for clustering? Select all that apply.
+</p>
+</div>
+
+<div id="outline-container-sec-2-3-1" class="outline-4">
+<h4 id="sec-2-3-1"><span class="section-number-4">2.3.1</span> Answer <code>[2/3]</code></h4>
+<div class="outline-text-4" id="text-2-3-1">
+<ul class="org-ul">
+<li><code>[X]</code> Dividing search results on Google into categories based on the
+topic.
+</li>
+
+<li><code>[X]</code> Grouping players into different "types" of basketball players
+that make it to the NBA.
+</li>
+
+<li><code>[&#xa0;]</code> Predicting the winner of the Major League Baseball World
+Series.
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+The first two options are appropriate tasks for clustering. Clustering
+probably wouldn't help us predict the winner of the World Series.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-4" class="outline-3">
+<h3 id="sec-2-4"><span class="section-number-3">2.4</span> Video 4: Computing Distances</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+<b>So how does clustering work?</b> The first step in clustering is to
+define the distance between two data points. The most popular way to
+compute the distance is what's called Euclidean distance. This is the
+standard way to compute distance that you might have seen before.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/ML-Distance.png" alt="ML-Distance.png" />
+</p>
+</div>
+
+<p>
+The distance between the two points, which we'll call dij, is equal to
+the square root of the difference between the two points in the first
+component, squared, plus the difference between the two points in the
+second component, squared, all the way up to the difference between
+the two points in the k-th component, squared, where k here is the
+number of attributes or independent variables.
+</p>
+
+<p>
+Let's see how this works by looking at an example. In our movie lens
+dataset, we have binary vectors for each movie, classifying that movie
+into genres. The movie Toy Story is categorized as an animation,
+comedy, and children's movie.
+</p>
+
+<p>
+So the data for Toy Story has a 1 in the spot for these three genres
+and a 0 everywhere else.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/ML-DistanceExample.png" alt="ML-DistanceExample.png" />
+</p>
+</div>
+
+<p>
+The movie Batman Forever is categorized as an action, adventure,
+comedy, and crime movie. So Batman Forever has a 1 in the spot for
+these four genres and a 0 everywhere else.
+</p>
+
+<p>
+So given these two data observations, let's compute the distance
+between them.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/ML-DistanceExample02.png" alt="ML-DistanceExample02.png" />
+</p>
+</div>
+
+<p>
+In addition to Euclidean distance, there are many other popular
+distance metrics that could be used. One is called Manhattan distance,
+where the distance is computed to be the sum of the absolute values
+instead of the sum of squares.
+</p>
+
+<p>
+Another is called maximum coordinate distance, where we only consider
+the measurement for which the data points deviate the most.
+</p>
+
+<p>
+Another important distance that we have to calculate for clustering is
+the distance between clusters, when a cluster is a group of data
+points.
+</p>
+
+<p>
+We just discussed how to compute the distance between two individual
+points, but how do we compute the distance between groups of points?
+</p>
+
+<p>
+One way of doing this is by using what's called the <b>minimum
+distance</b>. This defines the <b>distance between clusters</b> as the
+distance between the two data points in the clusters that are closest
+together.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/NF-DistanceBetweenClusters.png" alt="NF-DistanceBetweenClusters.png" />
+</p>
+</div>
+
+<p>
+For example, we would define the distance between the yellow and red
+clusters by computing the Euclidean distance between these two
+(marked) points.
+</p>
+
+<p>
+The other points in the clusters could be really far away, but it
+doesn't matter if we use minimum distance. The only thing we care
+about is how close together the closest points are.
+</p>
+
+<p>
+Alternatively, we could use maximum distance. This one computes the
+distance between the two clusters as the distance between the two
+points that are the farthest apart.
+</p>
+
+<p>
+So for example, we would compute the distance between the yellow and
+red clusters by looking at these two points. Here, it doesn't matter
+how close together the other points are. All we care about is how
+close together the furthest points are.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/NF-DistanceBetweenClusters02.png" alt="NF-DistanceBetweenClusters02.png" />
+</p>
+</div>
+
+<p>
+The most common distance metric between clusters is called centroid
+distance. And this is what we'll use. It defines the distance between
+clusters by computing the centroid of the clusters.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/NF-DistanceBetweenClusters03.png" alt="NF-DistanceBetweenClusters03.png" />
+</p>
+</div>
+
+<p>
+The centroid is just the data point that takes the average of all data
+points in each component. This takes all data points in each cluster
+into account and can be thought of as the middle data point.
+</p>
+
+<p>
+In our example, the centroids between yellow and red are here, and we
+would compute the distance between the clusters by computing the
+Euclidean distance between those two points.
+</p>
+
+<p>
+When we are computing distances, it's highly influenced by the scale
+of the variables.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/NF-NormalizeData.png" alt="NF-NormalizeData.png" />
+</p>
+</div>
+
+<p>
+As an example, suppose you're computing the distance between two data
+points, where one variable is the revenue of a company in thousands of
+dollars, and another is the age of the company in years. The revenue
+variable would really dominate in the distance calculation.
+</p>
+
+<p>
+The differences between the data points for revenue would be in the
+thousands. Whereas the differences between the year variable would
+probably be less than 10.
+</p>
+
+<p>
+To handle this, it's <b>customary to normalize the data first</b>. We can
+normalize by subtracting the mean of the data and dividing by the
+standard deviation.
+</p>
+
+<p>
+In our movie data set, all of our genre variables are on the same
+scale. So we don't have to worry about normalizing. But if we wanted
+to add a variable, like box office revenue, we would need to normalize
+so that this variable didn't dominate all of the others.
+</p>
+
+<p>
+Now that we've defined how we'll compute the distances, we'll talk
+about a specific clustering algorithm: <b>hierarchical clustering</b>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-5" class="outline-3">
+<h3 id="sec-2-5"><span class="section-number-3">2.5</span> Quick Question (1 point possible)</h3>
+<div class="outline-text-3" id="text-2-5">
+<p>
+The movie "The Godfather" is in the genres action, crime, and drama,
+and is defined by the vector: (0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0)
+</p>
+
+<p>
+The movie "Titanic" is in the genres action, drama, and romance, and
+is defined by the vector: (0,1,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0)
+</p>
+
+<p>
+What is the distance between "The Godfather" and "Titanic", using
+euclidean distance?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Euclidean distance:"</span>)
+v1 <span style="color: #db7093;">&lt;-</span> c(0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0)
+v2 <span style="color: #db7093;">&lt;-</span> c(0,1,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0)
+d <span style="color: #db7093;">&lt;-</span> sqrt(sum((v1 - v2)^2))
+d
+</pre>
+</div>
+
+<pre class="example">
+ :: Euclidean distance:
+[1] 1.414214
+</pre>
+</div>
+
+<div id="outline-container-sec-2-5-1" class="outline-4">
+<h4 id="sec-2-5-1"><span class="section-number-4">2.5.1</span> Answer</h4>
+<div class="outline-text-4" id="text-2-5-1">
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+The distance between these two movies is \(\sqrt{2}\). They have a
+difference of 1 in two genres - crime and romance.
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 14/07/2015</p>
+<p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
+<p class="date">Created: 2015-07-16 Thu 19:20</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

@@ -74,7 +74,44 @@ find similarities and patterns in data.
 
 [[../graphs/Netflix.png]]
 
-What is Netflix?
+** What is Netflix?
+
+[[../graphs/Netflix02.png]]
+
+The recommendation systems in the Netflix business permit to the
+executives take some decisions about the tendencies of the market. The
+operating people is able to decide what kind of movies are potentially
+more interesting to their customers.
+
+Have a movie theater for each customer. In order to manage the big
+volume of customers, Netflix needs an automated recommendation
+system. This system allow the company to select and propose the best
+titles for an specific customer.
+
+The initial algorithm proposed could be improved, then the Netflix
+price was open in order to develop a better algorithm.
+
+[[../graphs/NetflixPrize.png]]
+
+The contest rules:
+
+[[../graphs/NetflixPrize02.png]]
+
+Some initial and early results.
+
+[[../graphs/NF-InitialResults.png]]
+
+Then the history of the contest.
+
+[[../graphs/NF-Progress.png]]
+
+One of the best teams.
+
+[[../graphs/NF-Progress02.png]]
+
+The winner!
+
+[[../graphs/NF-LastCall.png]]
 
 Netflix was willing to pay over one million dollars for the best user
 rating algorithm, which shows how critical the recommendation system
@@ -89,29 +126,337 @@ facts about the movie itself-- the actors in the movie, the director,
 the genre classifications of the movie, the year it was released,
 etc.
 
-[[../graphs/Netflix02.png]]
-
-
-
-[[../graphs/NetflixPrize.png]]
-
-
-[[../graphs/NetflixPrize02.png]]
-
-
-[[../graphs/NF-InitialResults.png]]
-
-
-[[../graphs/NF-Progress.png]]
-
-
-[[../graphs/NF-Progress02.png]]
-
-
-[[../graphs/NF-LastCall.png]]
-
-
 [[../graphs/NF-PredictingBestUserRatings.png]]
 
+As an example, suppose we have the following user ratings for four
+users and four movies.
+
+The ratings are on a one to five scale, where one is the lowest rating
+and five is the highest rating. The blank entries mean that the user
+has not rated the movie. We could suggest to Carl that he watch Men in
+Black, since Amy rated it highly. She gave it a rating of five, and
+*Amy and Carl seem to have similar ratings for the other movies*.
+
+This technique of using other user's ratings to make predictions is
+called collaborative filtering.
 
 [[../graphs/NF-CollaborativeFiltering.png]]
+
+Note that we're not using any information about the movie itself here,
+just the similarity between users.
+
+We saw in the table that Amy liked Men in Black. She gave it a rating
+of five. We know that this movie was directed by Barry Sonnenfeld, is
+classified in the genres of action, adventure, sci-fi, and comedy, and
+it stars actor Will Smith. Based on this information, we could make
+recommendations to Amy.
+
+We could recommend to Amy another movie by the same director, Barry
+Sonnenfeld's movie, Get Shorty. We can instead recommend the movie
+Jurassic Park, which is also classified in the genres of action,
+adventure, and sci-fi. Or we could recommend to Amy another movie
+starring Will Smith-- Hitch.
+
+Note that we're not using the ratings of other users at all here, just
+information about the movie. This technique is called content
+filtering.
+
+[[../graphs/NF-ContentFiltering.png]]
+
+There are strengths and weaknesses to both types of recommendation
+systems.
+
+Collaborative filtering can accurately suggest complex items without
+understanding the nature of the items. It didn't matter at all that
+our items were movies in the collaborative filtering example.
+
+We were just comparing user ratings. However, this requires a lot of
+data about the user to make accurate recommendations. Also, when there
+are millions of items, it needs a lot of computing power to compute
+the user similarities.
+
+[[../graphs/NF-StrengthsWeaknesses.png]]
+
+On the other hand, content filtering requires very little data to get
+started. But the major weakness of content filtering is that it can be
+limited in scope.
+
+You're only recommending similar things to what the user has already
+liked. So the recommendations are often not surprising or particularly
+insightful.
+
+Netflix actually uses what's called a hybrid recommendation
+system. They use both collaborative and content filtering.
+
+[[../graphs/NF-HybridRecommendationSystems.png]]
+
+If we were only doing collaborative filtering, one of them would have
+had to have seen it before. And if we were only doing content
+filtering, we would only be recommending to one user at a time.
+
+So by combining the two methods, the algorithm can be much more
+efficient and accurate. In the next video, we'll see how we can do
+content filtering by using a method called clustering.
+
+** Quick Question (2/2 points)
+
+Let's consider a recommendation system on Amazon.com, an online retail
+site.
+
+*** Question a
+If Amazon.com constructs a recommendation system for books, and would
+like to use the same exact algorithm for shoes, what type would it
+have to be?
+
+**** Answer
+
+Collaborative Filtering.
+
+*** Question b
+
+If Amazon.com would like to suggest books to users based on the
+previous books they have purchased, what type of recommendation system
+would it be?
+
+**** Answer
+
+Content Filtering.
+
+*Explanation*
+
+In the first case, the recommendation system would have to be
+collaborative filtering, since it can't use information about the
+items. In the second case, the recommendation system would be content
+filtering since other users are not involved.
+
+** Video 3: Movie Data and Clustering
+
+We will be using data from *MovieLens* to explain clustering and
+perform content filtering.
+
+*Movielens.org* is a movie recommendation website run by the GroupLens
+research lab at the University of Minnesota. They collect user
+preferences about movies and do collaborative filtering to make
+recommendations to users, based on the similarities between users.
+
+We'll use their movie database to do content filtering using a
+technique called clustering.
+
+[[../graphs/MovieLens-Data.png]]
+
+First, let's discuss what data we have. Movies in the MovieLens data
+set are categorized as belonging to different genres.
+
+There are 18 different genres as well as an unknown category. The
+genres include crime, musical, mystery, and children's. Each movie may
+belong to many different genres. So a movie could be classified as
+drama, adventure, and sci-fi.
+
+The question we want to answer is, can we systematically find groups
+of movies with similar sets of genres? To answer this question, we'll
+use a method called clustering.
+
+[[../graphs/MovieLens-ItemDataset.png]]
+
+To answer this question, we'll use a method called
+clustering. Clustering is different from the other analytics methods
+we've covered so far. It's called an unsupervised learning
+method. This means that we're just trying to segment the data into
+similar groups, instead of trying to predict an outcome. In this image
+on the slide, based on the locations of points, we've divided them
+into three clusters-- a blue cluster, a red cluster, and a yellow
+cluster.
+
+[[../graphs/ML-WhyClustering.png]]
+
+This is the goal of clustering-- to put each data point into a group
+with similar values in the data. A clustering algorithm does not
+predict anything. However, clustering can be used to improve
+predictive methods.
+
+You can cluster the data into similar groups and then build a
+predictive model for each group. This can often improve the accuracy
+of predictive methods. But as a warning, be careful not to over-fit
+your model to the training set. This works best for large data sets.
+
+There are many different algorithms for clustering. They differ in
+what makes a cluster and how the clusters are found.
+
+[[../graphs/ML-ClusteringMethods.png]]
+
+You'll learn how to create clusters using either method in R. There
+are other clustering methods also, but hierarchical and K-means are
+two of the most popular methods. To cluster data points, we need to
+compute how similar the points are. This is done by computing the
+distance between points.
+
+** Quick Question (1 point possible)
+
+In the previous video, we discussed how clustering is used to split
+the data into similar groups. Which of the following tasks do you
+think are appropriate for clustering? Select all that apply.
+
+*** Answer [2/3]
+
+- [X] Dividing search results on Google into categories based on the
+  topic.
+
+- [X] Grouping players into different "types" of basketball players
+  that make it to the NBA.
+
+- [ ] Predicting the winner of the Major League Baseball World
+  Series.
+
+*Explanation*
+
+The first two options are appropriate tasks for clustering. Clustering
+probably wouldn't help us predict the winner of the World Series.
+
+** Video 4: Computing Distances
+
+*So how does clustering work?* The first step in clustering is to
+define the distance between two data points. The most popular way to
+compute the distance is what's called Euclidean distance. This is the
+standard way to compute distance that you might have seen before.
+
+[[../graphs/ML-Distance.png]]
+
+The distance between the two points, which we'll call dij, is equal to
+the square root of the difference between the two points in the first
+component, squared, plus the difference between the two points in the
+second component, squared, all the way up to the difference between
+the two points in the k-th component, squared, where k here is the
+number of attributes or independent variables.
+
+Let's see how this works by looking at an example. In our movie lens
+dataset, we have binary vectors for each movie, classifying that movie
+into genres. The movie Toy Story is categorized as an animation,
+comedy, and children's movie.
+
+So the data for Toy Story has a 1 in the spot for these three genres
+and a 0 everywhere else.
+
+[[../graphs/ML-DistanceExample.png]]
+
+The movie Batman Forever is categorized as an action, adventure,
+comedy, and crime movie. So Batman Forever has a 1 in the spot for
+these four genres and a 0 everywhere else.
+
+So given these two data observations, let's compute the distance
+between them.
+
+[[../graphs/ML-DistanceExample02.png]]
+
+In addition to Euclidean distance, there are many other popular
+distance metrics that could be used. One is called Manhattan distance,
+where the distance is computed to be the sum of the absolute values
+instead of the sum of squares.
+
+Another is called maximum coordinate distance, where we only consider
+the measurement for which the data points deviate the most.
+
+Another important distance that we have to calculate for clustering is
+the distance between clusters, when a cluster is a group of data
+points.
+
+We just discussed how to compute the distance between two individual
+points, but how do we compute the distance between groups of points?
+
+One way of doing this is by using what's called the *minimum
+distance*. This defines the *distance between clusters* as the
+distance between the two data points in the clusters that are closest
+together.
+
+[[../graphs/NF-DistanceBetweenClusters.png]]
+
+For example, we would define the distance between the yellow and red
+clusters by computing the Euclidean distance between these two
+(marked) points.
+
+The other points in the clusters could be really far away, but it
+doesn't matter if we use minimum distance. The only thing we care
+about is how close together the closest points are.
+
+Alternatively, we could use maximum distance. This one computes the
+distance between the two clusters as the distance between the two
+points that are the farthest apart.
+
+So for example, we would compute the distance between the yellow and
+red clusters by looking at these two points. Here, it doesn't matter
+how close together the other points are. All we care about is how
+close together the furthest points are.
+
+[[../graphs/NF-DistanceBetweenClusters02.png]]
+
+The most common distance metric between clusters is called centroid
+distance. And this is what we'll use. It defines the distance between
+clusters by computing the centroid of the clusters.
+
+[[../graphs/NF-DistanceBetweenClusters03.png]]
+
+The centroid is just the data point that takes the average of all data
+points in each component. This takes all data points in each cluster
+into account and can be thought of as the middle data point.
+
+In our example, the centroids between yellow and red are here, and we
+would compute the distance between the clusters by computing the
+Euclidean distance between those two points.
+
+When we are computing distances, it's highly influenced by the scale
+of the variables.
+
+[[../graphs/NF-NormalizeData.png]]
+
+As an example, suppose you're computing the distance between two data
+points, where one variable is the revenue of a company in thousands of
+dollars, and another is the age of the company in years. The revenue
+variable would really dominate in the distance calculation.
+
+The differences between the data points for revenue would be in the
+thousands. Whereas the differences between the year variable would
+probably be less than 10.
+
+To handle this, it's *customary to normalize the data first*. We can
+normalize by subtracting the mean of the data and dividing by the
+standard deviation.
+
+In our movie data set, all of our genre variables are on the same
+scale. So we don't have to worry about normalizing. But if we wanted
+to add a variable, like box office revenue, we would need to normalize
+so that this variable didn't dominate all of the others.
+
+Now that we've defined how we'll compute the distances, we'll talk
+about a specific clustering algorithm: *hierarchical clustering*.
+
+** Quick Question (1 point possible)
+
+The movie "The Godfather" is in the genres action, crime, and drama,
+and is defined by the vector: (0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0)
+
+The movie "Titanic" is in the genres action, drama, and romance, and
+is defined by the vector: (0,1,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0)
+
+What is the distance between "The Godfather" and "Titanic", using
+euclidean distance?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Euclidean distance:")
+  v1 <- c(0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0)
+  v2 <- c(0,1,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0)
+  d <- sqrt(sum((v1 - v2)^2))
+  d
+#+end_src
+
+#+RESULTS:
+:
+:  :: Euclidean distance:
+: [1] 1.414214
+
+*** Answer
+
+*Explanation*
+
+The distance between these two movies is $\sqrt{2}$. They have a
+difference of 1 in two genres - crime and romance.
+
+** Video 5: Hierarchical Clustering
