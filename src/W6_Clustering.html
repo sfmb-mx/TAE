@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Unit 6 - Clustering</title>
-<!-- 2015-07-17 Fri 12:00 -->
+<!-- 2015-07-18 Sat 09:24 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Sergio-Feliciano Mendoza-Barrera" />
@@ -2385,11 +2385,815 @@ predictive ability of classification methods.
 </div>
 </div>
 </div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Predictive Diagnosis: Discovering Patterns for Disease Detection</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> Video 1: Heart Attacks</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+We discuss the idea of predictive analytics in medicine. Specifically,
+we introduce the idea of using clustering methods for better
+predicting heart attacks.
+</p>
+
+<p>
+Heart attacks are a common complication of coronary heart disease,
+resulting from the interruption of blood supply to part of the
+heart. Heart attack is the number one cause of death for both men and
+women in the United States. About one in every four deaths is due to
+heart attack.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PredictiveDiagnosis.png" alt="PredictiveDiagnosis.png" />
+</p>
+</div>
+
+<p>
+A 2012 report from the American Heart Association estimates about
+715,000 Americans have a heart attack every year. To put this number
+into perspective, this means that every 20 seconds, a person has a
+heart attack in the United States.
+</p>
+
+<p>
+It is also equivalent of September the 11th repeating itself every 24
+hours, 365 days a year.
+</p>
+
+<p>
+Nearly half of these attacks occur without prior warning signs. In
+fact, 250,000 Americans die of sudden cardiac death yearly, which
+means 680 people every day die of sudden cardiac death.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PD-HeartAttacks.png" alt="PD-HeartAttacks.png" />
+</p>
+</div>
+
+<p>
+A heart attack has well-known symptoms: chest pain, shortness of
+breath, upper body pain, nausea.  The nature of heart attacks,
+however, makes it hard to predict, prevent, and even diagnose. Here
+are some statistics.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PD-HeartAttacks02.png" alt="PD-HeartAttacks02.png" />
+</p>
+</div>
+
+<p>
+<b>How can analytics help?</b> The key to helping patients is to understand
+the clinical characteristics of patients in whom heart attacks was
+missed.
+</p>
+
+<p>
+We need to better understand the patterns in a patient's diagnostic
+history that link to heart attack and to predicting whether a patient
+is at risk for a heart attack.
+</p>
+
+<p>
+We'll see, how analytics helps to understand patterns of heart attacks
+and to provide good predictions that in turn lead to improved
+monitoring and taking action early and effectively.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PD-AnalyticsHelpsMonitoring.png" alt="PD-AnalyticsHelpsMonitoring.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> Quick Question (1/1 point)</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+In this class, we've learned many different methods for predicting
+outcomes. Which of the following methods is designed to be used to
+predict an outcome like whether or not someone will experience a heart
+attack? Select all that apply.
+</p>
+</div>
+
+<div id="outline-container-sec-3-2-1" class="outline-4">
+<h4 id="sec-3-2-1"><span class="section-number-4">3.2.1</span> Answer <code>[3/4]</code></h4>
+<div class="outline-text-4" id="text-3-2-1">
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> Linear Regression
+</li>
+<li><code>[X]</code> Logistic Regression
+</li>
+<li><code>[X]</code> CART
+</li>
+<li><code>[X]</code> Random Forest
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+<b>Logistic Regression</b>, <b>CART</b>, and <b>Random Forest</b> are all designed to
+be used to predict whether or not someone has a heart attack, since
+this is a classification problem. Linear regression would be
+appropriate for a problem with a continuous outcome, such as the
+amount of time until someone has a heart attack. In this lecture,
+we'll use random forest, but the other methods could be used too.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3"><span class="section-number-3">3.3</span> Video 2: The Data</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+Claims data offers an expansive view of the patient's health
+history. Specifically, claims data include information on
+demographics, medical history, and medications. They offer insights
+regarding a patient's risk. And as I will demonstrate, may reveal
+indicative signals and patterns.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PD-ClaimsData.png" alt="PD-ClaimsData.png" />
+</p>
+</div>
+
+<p>
+We concentrated on members with the following attributes. These
+selections yield patients with a high risk of heart attack, and a
+reasonably rich medical history with continuous coverage.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PD-ClaimsData02.png" alt="PD-ClaimsData02.png" />
+</p>
+</div>
+
+<p>
+Let us discuss how we aggregated this data. The resulting data sets
+includes about 20 million health insurance entries, including
+individual, medical, and pharmaceutical records.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PD-DataAggregation.png" alt="PD-DataAggregation.png" />
+</p>
+</div>
+
+<p>
+Let us discuss how we view the data over time. It is important in this
+study to view the medical records chronologically, and to represent a
+patient's diagnosis profile over time.
+</p>
+
+<p>
+So we record the cost and number of medical claims and hospital visits
+by a diagnosis. All the observations we have span over five years of
+data. They were split into 21 periods, each 90 days in length.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PD-DiagnosticHistory.png" alt="PD-DiagnosticHistory.png" />
+</p>
+</div>
+
+<p>
+What was the target variable we were trying to predict? The target
+prediction variable is the occurrence of a heart attack. We define
+this from a combination of several claims. Namely, diagnosis of a
+heart attack, alongside a trip to the emergency room, followed by
+subsequent hospitalization.
+</p>
+
+<p>
+We define this from a combination of several claims. Namely, diagnosis
+of a heart attack, alongside a trip to the emergency room, followed by
+subsequent hospitalization. Only considering heart attack diagnosis
+that are associated with a visit to the emergency room, and following
+hospitalization helps ensure that the target outcome is in fact a
+heart attack event.
+</p>
+
+<p>
+The target variable is binary. It is denoted by plus 1 or minus 1 for
+the occurrence or non-occurrence of a heart attack in the targeted
+period of 90 days.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PD-TargetVariable.png" alt="PD-TargetVariable.png" />
+</p>
+</div>
+
+<p>
+<b>How is the data organized?</b> There were 147 variables.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PD-DatasetCompilation.png" alt="PD-DatasetCompilation.png" />
+</p>
+</div>
+
+<p>
+<b>Cost of medical care</b> is a good summary of a person's health. In our
+database, the total cost of medical care in the three 90 day periods
+preceding the heart attack target event ranged from $0 to $636,000 and
+approximately 70% of the overall cost was generated by only 11% of the
+population.
+</p>
+
+<p>
+This means that the highest patients with high medical expenses are a
+very small proportion of the data, and could skew our final results.
+</p>
+
+<p>
+According to the American Medical Association, only 10% of individuals
+have projected medical expenses of approximately $10,000 or greater
+per year, which is more than four times greater than the average
+projected medical expenses of $2,400 per year.
+</p>
+
+<p>
+To lessen the effects of these high-cost outliers, we divided the data
+into different cost buckets, based on the findings of the American
+Medical Association.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PD-CostBucketPartitioning.png" alt="PD-CostBucketPartitioning.png" />
+</p>
+</div>
+
+<p>
+We did not want to have too many cost bins because the size of the
+data set. The table in the slide gives a summary of the cost bucket
+partitions. Patients with expenses over $10,000 in the nine month
+period were allocated to cost bucket 3.
+</p>
+
+<p>
+Patients with less than $2,000 in expenses were allocated to cost
+bucket 1. And the remaining patients with costs between $2,000 and
+$10,000 to cost bucket 2.
+</p>
+
+<p>
+Please note that the majority of patients, 4,400 out of 6,500, or
+67.5% of all patients fell into the first bucket of low expenses.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-4" class="outline-3">
+<h3 id="sec-3-4"><span class="section-number-3">3.4</span> Quick Question (2 points possible)</h3>
+<div class="outline-text-3" id="text-3-4">
+<p>
+In the previous video, we discussed how we split the data into three
+groups, or buckets, according to cost.
+</p>
+</div>
+
+<div id="outline-container-sec-3-4-1" class="outline-4">
+<h4 id="sec-3-4-1"><span class="section-number-4">3.4.1</span> Question a</h4>
+<div class="outline-text-4" id="text-3-4-1">
+<p>
+Which bucket has the most data, in terms of number of patients?
+</p>
+</div>
+
+<div id="outline-container-sec-3-4-1-1" class="outline-5">
+<h5 id="sec-3-4-1-1"><span class="section-number-5">3.4.1.1</span> Answer <code>[1/3]</code></h5>
+<div class="outline-text-5" id="text-3-4-1-1">
+<ul class="org-ul">
+<li><code>[X]</code> Cost Bucket 1
+</li>
+<li><code>[&#xa0;]</code> Cost Bucket 2
+</li>
+<li><code>[&#xa0;]</code> Cost Bucket 3
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-4-2" class="outline-4">
+<h4 id="sec-3-4-2"><span class="section-number-4">3.4.2</span> Question b</h4>
+<div class="outline-text-4" id="text-3-4-2">
+<p>
+Which bucket probably has the densest data, in terms of number of
+claims per person?
+</p>
+</div>
+
+<div id="outline-container-sec-3-4-2-1" class="outline-5">
+<h5 id="sec-3-4-2-1"><span class="section-number-5">3.4.2.1</span> Answer <code>[1/3]</code></h5>
+<div class="outline-text-5" id="text-3-4-2-1">
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> Cost Bucket 1
+</li>
+<li><code>[&#xa0;]</code> Cost Bucket 2
+</li>
+<li><code>[X]</code> Cost Bucket 3
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+Cost Bucket 1 contains the most patients (see slide 7 of the previous
+video), and Cost Bucket 3 probably has the densest data, since these
+are the patients with the highest cost in terms of claims.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-5" class="outline-3">
+<h3 id="sec-3-5"><span class="section-number-3">3.5</span> Video 3: Predicting Heart Attacks using Clustering</h3>
+<div class="outline-text-3" id="text-3-5">
+<p>
+Let us discuss the performance of a benchmark algorithm. The Random
+Forest algorithm is known for its attractive property of detecting
+variable interactions and excellent performance as a learning
+algorithm. For this reason, we're selecting the Random Forest
+algorithm as a benchmark&#x2013; initially, we randomly partitioned the full
+data set into two separate parts, where the split was 50-50, and the
+partitioning was done evenly within each cost bin.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PD-PredictingHeartAttacks.png" alt="PD-PredictingHeartAttacks.png" />
+</p>
+</div>
+
+<p>
+The first part, the training set, was used to develop the method. The
+second part, the test set, was used to evaluate the model's
+performance. The table in this slide reports the accuracy of the
+Random Forest algorithm on each of the three buckets.
+</p>
+
+<p>
+Let us now introduce the idea of clustering. Patients in each bucket
+may have different characteristics. For this reason, we create
+clusters for each cost bucket and make predictions for each cluster
+using the Random Forest algorithm.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PD-IncorporatingClustering.png" alt="PD-IncorporatingClustering.png" />
+</p>
+</div>
+
+<p>
+For this reason, we create clusters for each cost bucket and make
+predictions for each cluster using the Random Forest algorithm.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PD-IncorporatingClustering02.png" alt="PD-IncorporatingClustering02.png" />
+</p>
+</div>
+
+<p>
+<b>Clustering</b> is mostly used in the absence of a target variable to
+search for relationships among input variables or to organize data
+into meaningful groups.
+</p>
+
+<p>
+In this study, although the target variable is well-defined as a heart
+attack or not a heart attack, there are many different trajectories
+that are associated with the target.
+</p>
+
+<p>
+There's not one set pattern of health or diagnostic combination that
+leads a person to heart attack. Instead, we'll show that there are
+many different dynamic health patterns and time series diagnostic
+relations preceding a heart attack.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PD-ClusteringCostBuckets.png" alt="PD-ClusteringCostBuckets.png" />
+</p>
+</div>
+
+<p>
+The clustering methods we used were spectral clustering and k-means
+clustering. We focus, in the lecture, on the k-means clustering. The
+broad description of the algorithm is as follows.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PD-ClusteringCostBuckets02.png" alt="PD-ClusteringCostBuckets02.png" />
+</p>
+</div>
+
+<p>
+Let us illustrate the k-means algorithm in action. We specify the
+desired number of clusters k. In this case, we use <code>k = 2</code>.
+</p>
+
+<p>
+We then randomly assign each data point to a cluster.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PD-k-MeansClustering.png" alt="PD-k-MeansClustering.png" />
+</p>
+</div>
+
+<p>
+Randomly assign each data point to a cluster:
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PD-k-MeansClustering02.png" alt="PD-k-MeansClustering02.png" />
+</p>
+</div>
+
+<p>
+In this case, we have the three points in red, and the two points in
+black.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PD-k-MeansClustering03.png" alt="PD-k-MeansClustering03.png" />
+</p>
+</div>
+
+<p>
+We then compute the cluster centroids, of the points showed.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PD-k-MeansClustering04.png" alt="PD-k-MeansClustering04.png" />
+</p>
+</div>
+
+<p>
+When we compute the cluster centroids, indicated by the red x and the
+grey x. We re-assign each point to the closest cluster centroid.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PD-k-MeansClustering05.png" alt="PD-k-MeansClustering05.png" />
+</p>
+</div>
+
+<p>
+and now you observe that this point changes from a red to a gray.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PD-k-MeansClustering06.png" alt="PD-k-MeansClustering06.png" />
+</p>
+</div>
+
+<p>
+We re-compute the cluster centroids, and we repeat the previous steps,
+4 and 5 until no improvement is made. You can see the initial
+centroids:
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PD-k-MeansClustering07.png" alt="PD-k-MeansClustering07.png" />
+</p>
+</div>
+
+<p>
+And now the new calculated centroids. We observe that, in this case,
+the k-means clustering is done, and this is our final clustering.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PD-k-MeansClustering08.png" alt="PD-k-MeansClustering08.png" />
+</p>
+</div>
+
+<p>
+Let us discuss some practical considerations.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PD-PracticalConsiderations.png" alt="PD-PracticalConsiderations.png" />
+</p>
+</div>
+
+<p>
+<b>So how do we measure performance?</b> After we construct the clusters in
+the training set, we assign new observations to clusters by proximity
+to the centroid of each cluster.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PD-RandomForestWithClustering.png" alt="PD-RandomForestWithClustering.png" />
+</p>
+</div>
+
+<p>
+We measure performance by recording the average performance rate in
+each cluster.
+</p>
+
+<p>
+Let us now discuss the performance of the clustering methods. We
+perform clustering on each bucket using k=10 clusters.
+</p>
+
+<p>
+In the table we record the average prediction rate of each cost
+bucket. We observe a very visible improvement when we use clustering&#x2013;
+from 49% to 64%, from 56% to 73%, from 58% to 78%.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PD-PredictingHeartAttacks02.png" alt="PD-PredictingHeartAttacks02.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-6" class="outline-3">
+<h3 id="sec-3-6"><span class="section-number-3">3.6</span> Quick Question (1 point possible)</h3>
+<div class="outline-text-3" id="text-3-6">
+<p>
+K-means clustering differs from Hierarchical clustering in a couple
+important ways. Which of the following statements is true?
+</p>
+</div>
+
+<div id="outline-container-sec-3-6-1" class="outline-4">
+<h4 id="sec-3-6-1"><span class="section-number-4">3.6.1</span> Answer <code>[1/2]</code></h4>
+<div class="outline-text-4" id="text-3-6-1">
+<ul class="org-ul">
+<li><code>[X]</code> In k-means clustering, you have to pick the number of clusters
+you want before you run the algorithm.
+</li>
+
+<li><code>[&#xa0;]</code> In k-means clustering, you can pick the number of clusters you
+want after the algorithm is done, just like in Hierarchical
+clustering.
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+In k-means clustering, you have to pick the number of clusters before
+you run the algorithm, but the computational effort needed is much
+less than that for hierarchical clustering (we'll see this in more
+detail during the recitation).
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-7" class="outline-3">
+<h3 id="sec-3-7"><span class="section-number-3">3.7</span> Video 4: Understanding Cluster Patterns</h3>
+<div class="outline-text-3" id="text-3-7">
+<p>
+Let us see what we learned about the patterns that emerge. We will
+show that the clusters are interpretable and reveal unique patterns of
+diagnostic history among the population.
+</p>
+
+<p>
+We selected six patterns to present in this lecture&#x2013; Cluster 1, 6,
+and 7, in Cost Bucket 2, and Clusters 4, 5, and 10, in Cost Bucket 3.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PD-UnderstandingClusterPatterns.png" alt="PD-UnderstandingClusterPatterns.png" />
+</p>
+</div>
+
+<p>
+The first pattern shows the occurrence of chest pain three months
+before the heart attack. Note that the red dots depict the visits per
+diagnosis for patients in Cluster 1&#x2013; this is, we think, Bucket 2&#x2013;
+and the blue dots depict the visits per diagnosis for patients in
+Bucket 2 throughout.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PD-OccurrenceOfChestPain.png" alt="PD-OccurrenceOfChestPain.png" />
+</p>
+</div>
+
+<p>
+Note the very significant increase for visits related to chest pains
+three months before the event. About 17, three months before for the
+red patients, and about 1 and 1/2 visits for the blue patients.
+</p>
+
+<p>
+The next pattern reveals an increasing occurrence of chronic
+obstructive pulmonary disease, COPD, for short. Patients from Cluster
+7 in Bucket 2 have regular doctor visits for COPD.
+</p>
+
+<p>
+Note that nine months before, we have 4 and 1/2 visits (red) versus
+0.5 (blue) visits. Six months before, we have almost 7 visits versus
+1/2 a visit, and three months before, we have 9 visits versus 1/2 a
+visit for COPD, so <b>a clear increasing pattern</b>.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PD-COPD.png" alt="PD-COPD.png" />
+</p>
+</div>
+
+<p>
+The next pattern shows gradually increasing occurrence of anemia. The
+red line shows the patients in Cluster 4 increasingly visit the doctor
+for anemia from nine months on before the event.
+</p>
+
+<p>
+Nine months before, members have an average of 9 visits to the doctor
+for anemia. This increases to an average of 11 visits six months
+before the event, and then an average of 15 visits three months before
+the event, a <b>clear increasing pattern</b>.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PD-Anemia.png" alt="PD-Anemia.png" />
+</p>
+</div>
+
+<p>
+The final pattern shows the occurrence of diabetes as a pattern for
+heart attacks. It is well known that both types 1 and 2 diabetes are
+associated with accelerated atherosclerosis, one of the main causes of
+myocardial infarction&#x2013; heart attacks, that is.
+</p>
+
+<p>
+Well known diagnoses associated with heart attacks, such as diabetes,
+hypertension, and hyperlipidemia, characterize many of the patterns of
+the consistency of care throughout all of the cost buckets and
+clustering models.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PD-Diabetes.png" alt="PD-Diabetes.png" />
+</p>
+</div>
+
+<p>
+You observe a difference, here, of the number of visits for diabetes
+for the population that had the event versus the average population.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-8" class="outline-3">
+<h3 id="sec-3-8"><span class="section-number-3">3.8</span> Quick Question (1 point possible)</h3>
+<div class="outline-text-3" id="text-3-8">
+<p>
+As we saw in the previous video, the clusters can be used to find
+interesting patterns of health in addition to being used to improve
+predictive models. By changing the number of clusters, you can find
+more general or more specific patterns.
+</p>
+
+<p>
+If you wanted to find more unusual patterns shared by a small number
+of people, would you increase or decrease the number of clusters?
+</p>
+</div>
+
+<div id="outline-container-sec-3-8-1" class="outline-4">
+<h4 id="sec-3-8-1"><span class="section-number-4">3.8.1</span> Answer <code>[1/2]</code></h4>
+<div class="outline-text-4" id="text-3-8-1">
+<ul class="org-ul">
+<li><code>[X]</code> Increase
+</li>
+<li><code>[&#xa0;]</code> Decrease
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+If you wanted to find more unusual patterns, you would increase the
+number of clusters since the clusters would become smaller and more
+patterns would probably emerge.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-9" class="outline-3">
+<h3 id="sec-3-9"><span class="section-number-3">3.9</span> Video 5: The Analytics Edge</h3>
+<div class="outline-text-3" id="text-3-9">
+<p>
+What is the impact of clustering?
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PD-ImpactOfClustering.png" alt="PD-ImpactOfClustering.png" />
+</p>
+</div>
+
+<p>
+The approach shows that using analytics for early heart failure
+detection through pattern recognition can lead to interesting new
+insights.
+</p>
+
+<p>
+The findings here are reinforced by results from our research. IBM,
+Sutter Health, and Geisinger Health Systems partnered in 2009 to
+research analytics tools in view of early detection.
+</p>
+
+<p>
+<b>Important insights</b>
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/PD-AnalyticsForEarlyDetection.png" alt="PD-AnalyticsForEarlyDetection.png" />
+</p>
+</div>
+
+<p>
+Steve Steinhubl, a cardiologist from Geisinger, wrote, "our early
+research showed the signs and symptoms of heart failure in patients
+are often documented years before diagnosis.
+</p>
+
+<p>
+The pattern of documentation can offer clinically useful signals for
+early detection of this deadly disease."
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Seeing the Big Picture: Segmenting Images to Create Data (Recitation)</h2>
+</div>
 </div>
 <div id="postamble" class="status">
 <p class="date">Date: 14/07/2015</p>
 <p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
-<p class="date">Created: 2015-07-17 Fri 12:00</p>
+<p class="date">Created: 2015-07-18 Sat 09:24</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

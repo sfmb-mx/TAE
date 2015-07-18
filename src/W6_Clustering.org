@@ -1286,3 +1286,437 @@ recommendation systems.
 Clustering also has many other interesting applications. In the next
 lecture, we'll see how clustering can be used to improve the
 predictive ability of classification methods.
+
+* Predictive Diagnosis: Discovering Patterns for Disease Detection
+
+** Video 1: Heart Attacks
+
+We discuss the idea of predictive analytics in medicine. Specifically,
+we introduce the idea of using clustering methods for better
+predicting heart attacks.
+
+Heart attacks are a common complication of coronary heart disease,
+resulting from the interruption of blood supply to part of the
+heart. Heart attack is the number one cause of death for both men and
+women in the United States. About one in every four deaths is due to
+heart attack.
+
+[[../graphs/PredictiveDiagnosis.png]]
+
+A 2012 report from the American Heart Association estimates about
+715,000 Americans have a heart attack every year. To put this number
+into perspective, this means that every 20 seconds, a person has a
+heart attack in the United States.
+
+It is also equivalent of September the 11th repeating itself every 24
+hours, 365 days a year.
+
+Nearly half of these attacks occur without prior warning signs. In
+fact, 250,000 Americans die of sudden cardiac death yearly, which
+means 680 people every day die of sudden cardiac death.
+
+[[../graphs/PD-HeartAttacks.png]]
+
+A heart attack has well-known symptoms: chest pain, shortness of
+breath, upper body pain, nausea.  The nature of heart attacks,
+however, makes it hard to predict, prevent, and even diagnose. Here
+are some statistics.
+
+[[../graphs/PD-HeartAttacks02.png]]
+
+*How can analytics help?* The key to helping patients is to understand
+the clinical characteristics of patients in whom heart attacks was
+missed.
+
+We need to better understand the patterns in a patient's diagnostic
+history that link to heart attack and to predicting whether a patient
+is at risk for a heart attack.
+
+We'll see, how analytics helps to understand patterns of heart attacks
+and to provide good predictions that in turn lead to improved
+monitoring and taking action early and effectively.
+
+[[../graphs/PD-AnalyticsHelpsMonitoring.png]]
+
+** Quick Question (1/1 point)
+
+In this class, we've learned many different methods for predicting
+outcomes. Which of the following methods is designed to be used to
+predict an outcome like whether or not someone will experience a heart
+attack? Select all that apply.
+
+*** Answer [3/4]
+
+- [ ] Linear Regression
+- [X] Logistic Regression
+- [X] CART
+- [X] Random Forest
+
+*Explanation*
+
+*Logistic Regression*, *CART*, and *Random Forest* are all designed to
+be used to predict whether or not someone has a heart attack, since
+this is a classification problem. Linear regression would be
+appropriate for a problem with a continuous outcome, such as the
+amount of time until someone has a heart attack. In this lecture,
+we'll use random forest, but the other methods could be used too.
+
+** Video 2: The Data
+
+Claims data offers an expansive view of the patient's health
+history. Specifically, claims data include information on
+demographics, medical history, and medications. They offer insights
+regarding a patient's risk. And as I will demonstrate, may reveal
+indicative signals and patterns.
+
+[[../graphs/PD-ClaimsData.png]]
+
+We concentrated on members with the following attributes. These
+selections yield patients with a high risk of heart attack, and a
+reasonably rich medical history with continuous coverage.
+
+[[../graphs/PD-ClaimsData02.png]]
+
+Let us discuss how we aggregated this data. The resulting data sets
+includes about 20 million health insurance entries, including
+individual, medical, and pharmaceutical records.
+
+[[../graphs/PD-DataAggregation.png]]
+
+Let us discuss how we view the data over time. It is important in this
+study to view the medical records chronologically, and to represent a
+patient's diagnosis profile over time.
+
+So we record the cost and number of medical claims and hospital visits
+by a diagnosis. All the observations we have span over five years of
+data. They were split into 21 periods, each 90 days in length.
+
+[[../graphs/PD-DiagnosticHistory.png]]
+
+What was the target variable we were trying to predict? The target
+prediction variable is the occurrence of a heart attack. We define
+this from a combination of several claims. Namely, diagnosis of a
+heart attack, alongside a trip to the emergency room, followed by
+subsequent hospitalization.
+
+We define this from a combination of several claims. Namely, diagnosis
+of a heart attack, alongside a trip to the emergency room, followed by
+subsequent hospitalization. Only considering heart attack diagnosis
+that are associated with a visit to the emergency room, and following
+hospitalization helps ensure that the target outcome is in fact a
+heart attack event.
+
+The target variable is binary. It is denoted by plus 1 or minus 1 for
+the occurrence or non-occurrence of a heart attack in the targeted
+period of 90 days.
+
+[[../graphs/PD-TargetVariable.png]]
+
+*How is the data organized?* There were 147 variables.
+
+[[../graphs/PD-DatasetCompilation.png]]
+
+*Cost of medical care* is a good summary of a person's health. In our
+database, the total cost of medical care in the three 90 day periods
+preceding the heart attack target event ranged from $0 to $636,000 and
+approximately 70% of the overall cost was generated by only 11% of the
+population.
+
+This means that the highest patients with high medical expenses are a
+very small proportion of the data, and could skew our final results.
+
+According to the American Medical Association, only 10% of individuals
+have projected medical expenses of approximately $10,000 or greater
+per year, which is more than four times greater than the average
+projected medical expenses of $2,400 per year.
+
+To lessen the effects of these high-cost outliers, we divided the data
+into different cost buckets, based on the findings of the American
+Medical Association.
+
+[[../graphs/PD-CostBucketPartitioning.png]]
+
+We did not want to have too many cost bins because the size of the
+data set. The table in the slide gives a summary of the cost bucket
+partitions. Patients with expenses over $10,000 in the nine month
+period were allocated to cost bucket 3.
+
+Patients with less than $2,000 in expenses were allocated to cost
+bucket 1. And the remaining patients with costs between $2,000 and
+$10,000 to cost bucket 2.
+
+Please note that the majority of patients, 4,400 out of 6,500, or
+67.5% of all patients fell into the first bucket of low expenses.
+
+** Quick Question (2 points possible)
+
+In the previous video, we discussed how we split the data into three
+groups, or buckets, according to cost.
+
+*** Question a
+
+Which bucket has the most data, in terms of number of patients?
+
+**** Answer [1/3]
+
+- [X] Cost Bucket 1
+- [ ] Cost Bucket 2
+- [ ] Cost Bucket 3
+
+*** Question b
+
+Which bucket probably has the densest data, in terms of number of
+claims per person?
+
+**** Answer [1/3]
+
+- [ ] Cost Bucket 1
+- [ ] Cost Bucket 2
+- [X] Cost Bucket 3
+
+*Explanation*
+
+Cost Bucket 1 contains the most patients (see slide 7 of the previous
+video), and Cost Bucket 3 probably has the densest data, since these
+are the patients with the highest cost in terms of claims.
+
+** Video 3: Predicting Heart Attacks using Clustering
+
+Let us discuss the performance of a benchmark algorithm. The Random
+Forest algorithm is known for its attractive property of detecting
+variable interactions and excellent performance as a learning
+algorithm. For this reason, we're selecting the Random Forest
+algorithm as a benchmark-- initially, we randomly partitioned the full
+data set into two separate parts, where the split was 50-50, and the
+partitioning was done evenly within each cost bin.
+
+[[../graphs/PD-PredictingHeartAttacks.png]]
+
+The first part, the training set, was used to develop the method. The
+second part, the test set, was used to evaluate the model's
+performance. The table in this slide reports the accuracy of the
+Random Forest algorithm on each of the three buckets.
+
+Let us now introduce the idea of clustering. Patients in each bucket
+may have different characteristics. For this reason, we create
+clusters for each cost bucket and make predictions for each cluster
+using the Random Forest algorithm.
+
+[[../graphs/PD-IncorporatingClustering.png]]
+
+For this reason, we create clusters for each cost bucket and make
+predictions for each cluster using the Random Forest algorithm.
+
+[[../graphs/PD-IncorporatingClustering02.png]]
+
+*Clustering* is mostly used in the absence of a target variable to
+search for relationships among input variables or to organize data
+into meaningful groups.
+
+In this study, although the target variable is well-defined as a heart
+attack or not a heart attack, there are many different trajectories
+that are associated with the target.
+
+There's not one set pattern of health or diagnostic combination that
+leads a person to heart attack. Instead, we'll show that there are
+many different dynamic health patterns and time series diagnostic
+relations preceding a heart attack.
+
+[[../graphs/PD-ClusteringCostBuckets.png]]
+
+The clustering methods we used were spectral clustering and k-means
+clustering. We focus, in the lecture, on the k-means clustering. The
+broad description of the algorithm is as follows.
+
+[[../graphs/PD-ClusteringCostBuckets02.png]]
+
+Let us illustrate the k-means algorithm in action. We specify the
+desired number of clusters k. In this case, we use ~k = 2~.
+
+We then randomly assign each data point to a cluster.
+
+[[../graphs/PD-k-MeansClustering.png]]
+
+Randomly assign each data point to a cluster:
+
+[[../graphs/PD-k-MeansClustering02.png]]
+
+In this case, we have the three points in red, and the two points in
+black.
+
+[[../graphs/PD-k-MeansClustering03.png]]
+
+We then compute the cluster centroids, of the points showed.
+
+[[../graphs/PD-k-MeansClustering04.png]]
+
+When we compute the cluster centroids, indicated by the red x and the
+grey x. We re-assign each point to the closest cluster centroid.
+
+[[../graphs/PD-k-MeansClustering05.png]]
+
+and now you observe that this point changes from a red to a gray.
+
+[[../graphs/PD-k-MeansClustering06.png]]
+
+We re-compute the cluster centroids, and we repeat the previous steps,
+4 and 5 until no improvement is made. You can see the initial
+centroids:
+
+[[../graphs/PD-k-MeansClustering07.png]]
+
+And now the new calculated centroids. We observe that, in this case,
+the k-means clustering is done, and this is our final clustering.
+
+[[../graphs/PD-k-MeansClustering08.png]]
+
+Let us discuss some practical considerations.
+
+[[../graphs/PD-PracticalConsiderations.png]]
+
+*So how do we measure performance?* After we construct the clusters in
+the training set, we assign new observations to clusters by proximity
+to the centroid of each cluster.
+
+[[../graphs/PD-RandomForestWithClustering.png]]
+
+We measure performance by recording the average performance rate in
+each cluster.
+
+Let us now discuss the performance of the clustering methods. We
+perform clustering on each bucket using k=10 clusters.
+
+In the table we record the average prediction rate of each cost
+bucket. We observe a very visible improvement when we use clustering--
+from 49% to 64%, from 56% to 73%, from 58% to 78%.
+
+[[../graphs/PD-PredictingHeartAttacks02.png]]
+
+** Quick Question (1 point possible)
+
+K-means clustering differs from Hierarchical clustering in a couple
+important ways. Which of the following statements is true?
+
+*** Answer [1/2]
+
+- [X] In k-means clustering, you have to pick the number of clusters
+  you want before you run the algorithm.
+
+- [ ] In k-means clustering, you can pick the number of clusters you
+  want after the algorithm is done, just like in Hierarchical
+  clustering.
+
+*Explanation*
+
+In k-means clustering, you have to pick the number of clusters before
+you run the algorithm, but the computational effort needed is much
+less than that for hierarchical clustering (we'll see this in more
+detail during the recitation).
+
+** Video 4: Understanding Cluster Patterns
+
+Let us see what we learned about the patterns that emerge. We will
+show that the clusters are interpretable and reveal unique patterns of
+diagnostic history among the population.
+
+We selected six patterns to present in this lecture-- Cluster 1, 6,
+and 7, in Cost Bucket 2, and Clusters 4, 5, and 10, in Cost Bucket 3.
+
+[[../graphs/PD-UnderstandingClusterPatterns.png]]
+
+The first pattern shows the occurrence of chest pain three months
+before the heart attack. Note that the red dots depict the visits per
+diagnosis for patients in Cluster 1-- this is, we think, Bucket 2--
+and the blue dots depict the visits per diagnosis for patients in
+Bucket 2 throughout.
+
+[[../graphs/PD-OccurrenceOfChestPain.png]]
+
+Note the very significant increase for visits related to chest pains
+three months before the event. About 17, three months before for the
+red patients, and about 1 and 1/2 visits for the blue patients.
+
+The next pattern reveals an increasing occurrence of chronic
+obstructive pulmonary disease, COPD, for short. Patients from Cluster
+7 in Bucket 2 have regular doctor visits for COPD.
+
+Note that nine months before, we have 4 and 1/2 visits (red) versus
+0.5 (blue) visits. Six months before, we have almost 7 visits versus
+1/2 a visit, and three months before, we have 9 visits versus 1/2 a
+visit for COPD, so *a clear increasing pattern*.
+
+[[../graphs/PD-COPD.png]]
+
+The next pattern shows gradually increasing occurrence of anemia. The
+red line shows the patients in Cluster 4 increasingly visit the doctor
+for anemia from nine months on before the event.
+
+Nine months before, members have an average of 9 visits to the doctor
+for anemia. This increases to an average of 11 visits six months
+before the event, and then an average of 15 visits three months before
+the event, a *clear increasing pattern*.
+
+[[../graphs/PD-Anemia.png]]
+
+The final pattern shows the occurrence of diabetes as a pattern for
+heart attacks. It is well known that both types 1 and 2 diabetes are
+associated with accelerated atherosclerosis, one of the main causes of
+myocardial infarction-- heart attacks, that is.
+
+Well known diagnoses associated with heart attacks, such as diabetes,
+hypertension, and hyperlipidemia, characterize many of the patterns of
+the consistency of care throughout all of the cost buckets and
+clustering models.
+
+[[../graphs/PD-Diabetes.png]]
+
+You observe a difference, here, of the number of visits for diabetes
+for the population that had the event versus the average population.
+
+** Quick Question (1 point possible)
+
+As we saw in the previous video, the clusters can be used to find
+interesting patterns of health in addition to being used to improve
+predictive models. By changing the number of clusters, you can find
+more general or more specific patterns.
+
+If you wanted to find more unusual patterns shared by a small number
+of people, would you increase or decrease the number of clusters?
+
+*** Answer [1/2]
+
+- [X] Increase
+- [ ] Decrease
+
+*Explanation*
+
+If you wanted to find more unusual patterns, you would increase the
+number of clusters since the clusters would become smaller and more
+patterns would probably emerge.
+
+** Video 5: The Analytics Edge
+
+What is the impact of clustering?
+
+[[../graphs/PD-ImpactOfClustering.png]]
+
+The approach shows that using analytics for early heart failure
+detection through pattern recognition can lead to interesting new
+insights.
+
+The findings here are reinforced by results from our research. IBM,
+Sutter Health, and Geisinger Health Systems partnered in 2009 to
+research analytics tools in view of early detection.
+
+*Important insights*
+
+[[../graphs/PD-AnalyticsForEarlyDetection.png]]
+
+Steve Steinhubl, a cardiologist from Geisinger, wrote, "our early
+research showed the signs and symptoms of heart failure in patients
+are often documented years before diagnosis.
+
+The pattern of documentation can offer clinically useful signals for
+early detection of this deadly disease."
+
+* Seeing the Big Picture: Segmenting Images to Create Data (Recitation)
