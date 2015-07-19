@@ -50,16 +50,16 @@ image(flowerMatrix,axes=FALSE,col=grey(seq(0,1,length=256)))
 
 # Let's try this with an MRI image of the brain
 
-healthy = read.csv("healthy.csv", header=FALSE)
-healthyMatrix = as.matrix(healthy)
+healthy <- read.csv("../data/healthy.csv", header=FALSE)
+healthyMatrix <- as.matrix(healthy)
 str(healthyMatrix)
 
 # Plot image
 image(healthyMatrix,axes=FALSE,col=grey(seq(0,1,length=256)))
 
 # Hierarchial clustering
-healthyVector = as.vector(healthyMatrix)
-distance = dist(healthyVector, method = "euclidean")
+healthyVector <- as.vector(healthyMatrix)
+## distance <- dist(healthyVector, method = "euclidean")  # Memory error
 
 # We have an error - why?
 str(healthyVector)
@@ -73,15 +73,15 @@ k = 5
 
 # Run k-means
 set.seed(1)
-KMC = kmeans(healthyVector, centers = k, iter.max = 1000)
+KMC <- kmeans(healthyVector, centers = k, iter.max = 1000)
 str(KMC)
 
 # Extract clusters
-healthyClusters = KMC$cluster
+healthyClusters <- KMC$cluster
 KMC$centers[2]
 
 # Plot the image with the clusters
-dim(healthyClusters) = c(nrow(healthyMatrix), ncol(healthyMatrix))
+dim(healthyClusters) <- c(nrow(healthyMatrix), ncol(healthyMatrix))
 
 image(healthyClusters, axes = FALSE, col=rainbow(k))
 
@@ -91,16 +91,19 @@ image(healthyClusters, axes = FALSE, col=rainbow(k))
 
 # Apply to a test image
  
-tumor = read.csv("tumor.csv", header=FALSE)
-tumorMatrix = as.matrix(tumor)
-tumorVector = as.vector(tumorMatrix)
+tumor <- read.csv("../data/tumor.csv", header=FALSE)
+tumorMatrix <- as.matrix(tumor)
+tumorVector <- as.vector(tumorMatrix)
+
+## Plot test image
+image(tumorMatrix,axes=FALSE,col=grey(seq(0,1,length=256)))
 
 # Apply clusters from before to new image, using the flexclust package
-install.packages("flexclust")
+## install.packages("flexclust")
 library(flexclust)
 
-KMC.kcca = as.kcca(KMC, healthyVector)
-tumorClusters = predict(KMC.kcca, newdata = tumorVector)
+KMC.kcca <- as.kcca(KMC, healthyVector)
+tumorClusters <- predict(KMC.kcca, newdata = tumorVector)
 
 # Visualize the clusters
 dim(tumorClusters) = c(nrow(tumorMatrix), ncol(tumorMatrix))

@@ -639,22 +639,23 @@ In this part we can download the data
  [9] "ClusterMeans.ods"        "CocaColaStock.csv"
 [11] "CountryCodes.csv"        "CPSData.csv"
 [13] "emails.csv"              "energy_bids.csv"
-[15] "FluTest.csv"             "FluTrain.csv"
-[17] "framingham.csv"          "gerber.csv"
-[19] "GEStock.csv"             "IBMStock.csv"
-[21] "loans_imputed.csv"       "loans.csv"
-[23] "MetroAreaCodes.csv"      "movieLens.txt"
-[25] "mvtWeek1.csv"            "NBA_test.csv"
-[27] "NBA_train.csv"           "parole.csv"
-[29] "pisa2009test.csv"        "pisa2009train.csv"
-[31] "PollingData_Imputed.csv" "PollingData.csv"
-[33] "ProcterGambleStock.csv"  "quality.csv"
-[35] "README.md"               "songs.csv"
-[37] "stevens.csv"             "stopwords.txt"
-[39] "tweets.csv"              "USDA.csv"
-[41] "WHO_Europe.csv"          "WHO.csv"
-[43] "wiki.csv"                "wine_test.csv"
-[45] "wine.csv"
+[15] "flower.csv"              "FluTest.csv"
+[17] "FluTrain.csv"            "framingham.csv"
+[19] "gerber.csv"              "GEStock.csv"
+[21] "healthy.csv"             "IBMStock.csv"
+[23] "loans_imputed.csv"       "loans.csv"
+[25] "MetroAreaCodes.csv"      "movieLens.txt"
+[27] "mvtWeek1.csv"            "NBA_test.csv"
+[29] "NBA_train.csv"           "parole.csv"
+[31] "pisa2009test.csv"        "pisa2009train.csv"
+[33] "PollingData_Imputed.csv" "PollingData.csv"
+[35] "ProcterGambleStock.csv"  "quality.csv"
+[37] "README.md"               "songs.csv"
+[39] "stevens.csv"             "stopwords.txt"
+[41] "tumor.csv"               "tweets.csv"
+[43] "USDA.csv"                "WHO_Europe.csv"
+[45] "WHO.csv"                 "wiki.csv"
+[47] "wine_test.csv"           "wine.csv"
 #+end_example
 
 *** Load the data set
@@ -1720,3 +1721,1357 @@ The pattern of documentation can offer clinically useful signals for
 early detection of this deadly disease."
 
 * Seeing the Big Picture: Segmenting Images to Create Data (Recitation)
+
+** Welcome to Recitation 6
+
+We will review hierarchical and k-means clustering techniques and
+apply them to segment gray scale images-- in particular, MRI brain
+images.
+
+Then we will conclude by overviewing all the analytics tools we have
+seen so far in this class to prepare for the class competition.
+
+[[../graphs/BP-SeeingBigPicture.png]]
+
+** Video 1: Image Segmentation
+
+We will see how to apply clustering techniques to segment images, with
+the main application being geared towards medical image segmentation.
+
+At the end of this recitation, you will get a head start on how to
+cluster an MRI brain image by tissue substances and locate
+pathological anatomies.
+
+Image segmentation is the process of partitioning digital images into
+regions, or segments, that share the same visual characteristics, such
+as color, intensity, or texture.
+
+The segments should also be meaningful, as in they should correspond
+to particular surfaces, objects, or even parts of an object. Think of
+having an image of a water pond, a mountain chain in the backdrop, and
+the sky.
+
+[[../graphs/BP-ImageSegmentation.png]]
+
+Segmenting this image should ideally detect the three different
+objects and assign their corresponding pixels to three different
+regions. In few words, the goal of image segmentation is to modify the
+representation of an image from pixel data into something meaningful
+to us and easier to analyze.
+
+Image segmentation has a wide applicability. A major practical
+application is in the field of medical imaging, where image segments
+often correspond to different tissues, organs, pathologies, or tumors.
+
+Image segmentation helps locate these geometrically complex objects
+and measure their volume.
+
+Another application is detecting instances of semantic objects such as
+humans, buildings, and others. The two major domains that have seen
+much attention recently include face and pedestrian detection.
+
+The main uses of facial detection, for instance, include the
+development of the auto-focus in digital cameras and face recognition
+commonly used in video surveillance.
+
+[[../graphs/BP-Applications.png]]
+
+Other important applications are fingerprint and iris recognition. For
+instance, fingerprint recognition tries to identify print patterns,
+including aggregate characteristics of ridges and minutiae points.
+
+Various methods have been proposed to segment images. Clustering
+methods are used to group the points into clusters according to their
+characteristic features, for instance, intensity values.
+
+These clusters are then mapped back to the original spatial domain to
+produce a segmentation of the image.
+
+Another technique is edge detection, which is based on detecting
+discontinuities or boundaries. For instance, in a gray-scale image, a
+boundary would correspond to an abrupt change in the gray level.
+
+[[../graphs/BP-VariousMethods.png]]
+
+Instead of finding boundaries of regions in the image, there are other
+techniques called region growing methods, which start dividing the
+image into small regions. Then, they sequentially merge these regions
+together if they are sufficiently similar.
+
+In particular, we will review hierarchical and k-means clustering
+techniques and how to use them in R. We will restrict ourselves to
+gray-scale images. Our first example is a low-resolution flower image
+whose pixel intensity information is given the data set ~flower.csv~.
+
+[[../graphs/BP-ClusteringReview.png]]
+
+Our second and major example involves two *weighted MRI images of the
+brain*. One image corresponds to a healthy patient, and the other one
+corresponds to a patient with a tumor called *oligodendroglioma*. The
+pixel intensity information of these two images are given in the data
+sets healthy and ~tumor.csv~.
+
+The last video will compare the use, pros, and cons of all the
+analytics tools that we have seen so far. I hope that this will help
+you synthesize all that you've learned to give you an edge in the
+class competition.
+
+** Video 2: Clustering Pixels
+
+In this Recitation, we'll be using the following data files:
+[[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/flower.csv][flower.csv]], [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/healthy.csv][healthy.csv]], and [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/tumor.csv][tumor.csv]]. Please download these files to
+your computer to following along.
+
+An R script file with all of the commands used in this Recitation can
+be downloaded [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/Unit6_Recitation.R][here]].
+
+*** Download the data sets
+
+In this part we can download the data
+
+#+BEGIN_SRC R :session :results output :exports all
+  library(parallel)
+
+  if(!file.exists("../data")) {
+          dir.create("../data")
+  }
+
+  fileUrl <-
+          c("https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/flower.csv",
+"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/healthy.csv",
+"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/tumor.csv")
+
+  fileName <- c("flower.csv", "healthy.csv", "tumor.csv")
+
+  dataPath <- "../data"
+
+  for(i in 1:3) {
+          filePath <- paste(dataPath, fileName[i], sep = "/")
+
+          if(!file.exists(filePath)) {
+                  download.file(fileUrl[i], destfile = filePath, method = "curl")
+          }
+  }
+  list.files("../data")
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+ [1] "AnonymityPoll.csv"       "baseball.csv"
+ [3] "BoeingStock.csv"         "boston.csv"
+ [5] "ClaimsData.csv"          "ClaimsData.csv.zip"
+ [7] "climate_change.csv"      "clinical_trial.csv"
+ [9] "ClusterMeans.ods"        "CocaColaStock.csv"
+[11] "CountryCodes.csv"        "CPSData.csv"
+[13] "emails.csv"              "energy_bids.csv"
+[15] "flower.csv"              "FluTest.csv"
+[17] "FluTrain.csv"            "framingham.csv"
+[19] "gerber.csv"              "GEStock.csv"
+[21] "healthy.csv"             "IBMStock.csv"
+[23] "loans_imputed.csv"       "loans.csv"
+[25] "MetroAreaCodes.csv"      "movieLens.txt"
+[27] "mvtWeek1.csv"            "NBA_test.csv"
+[29] "NBA_train.csv"           "parole.csv"
+[31] "pisa2009test.csv"        "pisa2009train.csv"
+[33] "PollingData_Imputed.csv" "PollingData.csv"
+[35] "ProcterGambleStock.csv"  "quality.csv"
+[37] "README.md"               "songs.csv"
+[39] "stevens.csv"             "stopwords.txt"
+[41] "tumor.csv"               "tweets.csv"
+[43] "USDA.csv"                "WHO_Europe.csv"
+[45] "WHO.csv"                 "wiki.csv"
+[47] "wine_test.csv"           "wine.csv"
+#+end_example
+
+** Video 2: Clustering Pixels
+
+Let us try to understand the format of the data handed to us in the
+CSV files. *Grayscale* images are represented as a matrix of pixel
+intensity values that range from zero to one. The intensity value zero
+corresponds to the absence of color, or black, and the value one
+corresponds to white. For 8 bits per pixel images, we have 256 color
+levels ranging from zero to one.
+
+For instance, if we have the following grayscale image, the pixel
+information can be translated to a matrix of values between zero and
+one. It is exactly this matrix that we are given in our datasets.
+
+In other words, the datasets contain a table of values between zero
+and one. And the number of columns corresponds to the width of the
+image, whereas the number of rows corresponds to the height of the
+image.
+
+In this example, the resolution is 7 by 7 pixels. We have to be
+careful when reading the dataset in R. We need to make sure that R
+reads in the matrix appropriately.
+
+[[../graphs/BP-GrayscaleImages.png]]
+
+Until now in this class, our datasets were structured in a way where
+the rows refer to observations and the columns refer to variables. But
+this is not the case for the intensity matrix. So keep in mind that we
+need to do some maneuvering to make sure that R recognizes the data as
+a matrix.
+
+*Grayscale* image segmentation can be done by clustering pixels
+according to their intensity values. So we can think of our clustering
+algorithm as trying to divide the spectrum of intensity values from
+zero to one into intervals, or clusters.
+
+For instance, the red cluster corresponds to the darkest shades, and
+the green cluster to the lightest. Now, what should the input be to
+the clustering algorithm?
+
+[[../graphs/BP-GrayscaleImages02.png]]
+
+Well, our observations should be all of the 7 by 7 intensity
+values. Hence, we should have 49 observations. And we only have one
+variable, which is the pixel intensity value.
+
+So in other words, the input to the clustering algorithm should be a
+vector containing 49 elements, or intensity values. But what we have
+is a 7 by 7 matrix. A crucial step before feeding the intensity values
+to the clustering algorithm is *morphing our data*.
+
+We should modify the matrix structure and lump all the intensity
+values into a single vector. We will see that we can do this in R
+using the as.vector function. Now, once we have the vector, we can
+simply feed it into the clustering algorithm and assign each element
+in the vector to a cluster.
+
+Let us first use hierarchical clustering since we are familiar with
+it. The first step is to calculate the distance matrix, which computes
+the pairwise distances among the elements of the intensity vector.
+
+*How many such distances do we need to calculate?* Well, for each
+element in the intensity vector, we need to calculate its distance
+from the other 48 elements.
+
+So this makes 48 calculations per element. And we have 49 such
+elements in the intensity vector. In total, we should compute 49 times
+48 pairwise distances. But due to symmetry, we really need to
+calculate half of them. So the number of pairwise distance
+calculations is actually $\frac{(49*48)}{2}$.
+
+In general, if we call the size of the intensity vector $n$, then we
+need to compute $\frac{n*(n-1)}{2}$ pairwise distances and store them
+in the distance matrix.
+
+Now we should be ready to go to R.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Reading the flower dataset:")
+  flower <- read.csv("../data/flower.csv", header = FALSE)
+  str(flower)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Reading the flower dataset:
+'data.frame':	50 obs. of  50 variables:
+ $ V1 : num  0.0991 0.0991 0.1034 0.1034 0.1034 ...
+ $ V2 : num  0.112 0.108 0.112 0.116 0.108 ...
+ $ V3 : num  0.134 0.116 0.121 0.116 0.112 ...
+ $ V4 : num  0.138 0.138 0.121 0.121 0.112 ...
+ $ V5 : num  0.138 0.134 0.125 0.116 0.112 ...
+ $ V6 : num  0.138 0.129 0.121 0.108 0.112 ...
+ $ V7 : num  0.129 0.116 0.103 0.108 0.112 ...
+ $ V8 : num  0.116 0.103 0.103 0.103 0.116 ...
+ $ V9 : num  0.1121 0.0991 0.1078 0.1121 0.1164 ...
+ $ V10: num  0.121 0.108 0.112 0.116 0.125 ...
+ $ V11: num  0.134 0.125 0.129 0.134 0.129 ...
+ $ V12: num  0.147 0.134 0.138 0.129 0.138 ...
+ $ V13: num  0.000862 0.146552 0.142241 0.142241 0.133621 ...
+ $ V14: num  0.000862 0.000862 0.142241 0.133621 0.12931 ...
+ $ V15: num  0.142 0.142 0.134 0.121 0.116 ...
+ $ V16: num  0.125 0.125 0.116 0.108 0.108 ...
+ $ V17: num  0.1121 0.1164 0.1078 0.0991 0.0991 ...
+ $ V18: num  0.108 0.112 0.108 0.108 0.108 ...
+ $ V19: num  0.121 0.129 0.125 0.116 0.116 ...
+ $ V20: num  0.138 0.129 0.125 0.116 0.116 ...
+ $ V21: num  0.138 0.134 0.121 0.125 0.125 ...
+ $ V22: num  0.134 0.129 0.125 0.121 0.103 ...
+ $ V23: num  0.125 0.1207 0.1164 0.1164 0.0819 ...
+ $ V24: num  0.1034 0.1034 0.0991 0.0991 0.1034 ...
+ $ V25: num  0.0948 0.0905 0.0905 0.1034 0.125 ...
+ $ V26: num  0.0862 0.0862 0.0991 0.125 0.1422 ...
+ $ V27: num  0.086207 0.086207 0.103448 0.12931 0.000862 ...
+ $ V28: num  0.0991 0.1078 0.1164 0.1293 0.1466 ...
+ $ V29: num  0.116 0.134 0.134 0.121 0.142 ...
+ $ V30: num  0.121 0.138 0.142 0.129 0.138 ...
+ $ V31: num  0.121 0.134 0.142 0.134 0.129 ...
+ $ V32: num  0.116 0.134 0.129 0.116 0.112 ...
+ $ V33: num  0.108 0.112 0.116 0.108 0.108 ...
+ $ V34: num  0.1078 0.1078 0.1034 0.0991 0.1034 ...
+ $ V35: num  0.1078 0.1034 0.0991 0.0991 0.0991 ...
+ $ V36: num  0.1078 0.1034 0.1034 0.0905 0.0862 ...
+ $ V37: num  0.1078 0.1078 0.1034 0.0819 0.0733 ...
+ $ V38: num  0.0948 0.0991 0.0776 0.069 0.0733 ...
+ $ V39: num  0.0733 0.056 0.0474 0.0474 0.056 ...
+ $ V40: num  0.0474 0.0388 0.0431 0.0474 0.0603 ...
+ $ V41: num  0.0345 0.0345 0.0388 0.0474 0.0647 ...
+ $ V42: num  0.0259 0.0259 0.0345 0.0431 0.056 ...
+ $ V43: num  0.0259 0.0259 0.0388 0.0517 0.0603 ...
+ $ V44: num  0.0302 0.0302 0.0345 0.0517 0.0603 ...
+ $ V45: num  0.0259 0.0259 0.0259 0.0388 0.0474 ...
+ $ V46: num  0.0259 0.0172 0.0172 0.0259 0.0345 ...
+ $ V47: num  0.01724 0.01724 0.00862 0.02155 0.02586 ...
+ $ V48: num  0.0216 0.0129 0.0129 0.0172 0.0302 ...
+ $ V49: num  0.0216 0.0216 0.0216 0.0345 0.0603 ...
+ $ V50: num  0.0302 0.0345 0.0388 0.0603 0.0776 ...
+#+end_example
+
+Note that the default in R assumes that the first row in the dataset
+is the header. So if we didn't specify that we have no headers in this
+case, we would have lost the information from the first row of the
+pixel intensity matrix.
+
+We realize that the way the data is stored does not reflect that this
+is a matrix of intensity values. Actually, R treats the rows as
+observations and the columns as variables.
+
+Let's try to change the data type to a matrix by using the as.matrix
+function.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Change the data type to matrix:")
+  flowerMatrix <- as.matrix(flower)
+  str(flowerMatrix)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Change the data type to matrix:
+:  num [1:50, 1:50] 0.0991 0.0991 0.1034 0.1034 0.1034 ...
+:  - attr(*, "dimnames")=List of 2
+:   ..$ : NULL
+:   ..$ : chr [1:50] "V1" "V2" "V3" "V4" ...
+
+And now if we look at the structure of the flower matrix, we realize
+that we have 50 rows and 50 columns. What this suggests is that the
+resolution of the image is 50 pixels in width and 50 pixels in
+height. This is actually a very, very small picture.
+
+I am very curious to see how this image looks like, but lets hold off
+now and do our clustering first. We do not want to be influenced by
+how the image looks like in our decision of the numbers of clusters we
+want to pick.
+
+To perform any type of clustering, we saw earlier that we would need
+to convert the matrix of pixel intensities to a vector that contains
+all the intensity values ranging from zero to one.
+
+And the clustering algorithm divides the intensity spectrum, the
+interval zero to one, into these joint clusters or intervals.
+
+So let us define the vector ~flowerVector~, and then now we're going to
+use the function as.vector, which takes as an input the
+~flowerMatrix~.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Turn matrix into a vector:")
+  flowerVector <- as.vector(flowerMatrix)
+  head(str(flowerVector))
+#+end_src
+
+#+RESULTS:
+:
+:  :: Turn matrix into a vector:
+:  num [1:2500] 0.0991 0.0991 0.1034 0.1034 0.1034 ...
+: NULL
+
+And now if we look at the structure of the ~flowerVector~, we realize
+that we have 2,500 numerical values, which range between zero and
+one. And this totally makes sense because this reflects the 50 times
+50 intensity values that we had in our matrix.
+
+Now you might be wondering why we can't immediately convert the data
+frame flower to a vector. Let's try to do this.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Turn matrix into a vector:")
+  flowerVector2 <- as.vector(flower)
+  head(str(flowerVector2))
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Turn matrix into a vector:
+'data.frame':	50 obs. of  50 variables:
+ $ V1 : num  0.0991 0.0991 0.1034 0.1034 0.1034 ...
+ $ V2 : num  0.112 0.108 0.112 0.116 0.108 ...
+ $ V3 : num  0.134 0.116 0.121 0.116 0.112 ...
+ $ V4 : num  0.138 0.138 0.121 0.121 0.112 ...
+ $ V5 : num  0.138 0.134 0.125 0.116 0.112 ...
+ $ V6 : num  0.138 0.129 0.121 0.108 0.112 ...
+ $ V7 : num  0.129 0.116 0.103 0.108 0.112 ...
+ $ V8 : num  0.116 0.103 0.103 0.103 0.116 ...
+ $ V9 : num  0.1121 0.0991 0.1078 0.1121 0.1164 ...
+ $ V10: num  0.121 0.108 0.112 0.116 0.125 ...
+ $ V11: num  0.134 0.125 0.129 0.134 0.129 ...
+ $ V12: num  0.147 0.134 0.138 0.129 0.138 ...
+ $ V13: num  0.000862 0.146552 0.142241 0.142241 0.133621 ...
+ $ V14: num  0.000862 0.000862 0.142241 0.133621 0.12931 ...
+ $ V15: num  0.142 0.142 0.134 0.121 0.116 ...
+ $ V16: num  0.125 0.125 0.116 0.108 0.108 ...
+ $ V17: num  0.1121 0.1164 0.1078 0.0991 0.0991 ...
+ $ V18: num  0.108 0.112 0.108 0.108 0.108 ...
+ $ V19: num  0.121 0.129 0.125 0.116 0.116 ...
+ $ V20: num  0.138 0.129 0.125 0.116 0.116 ...
+ $ V21: num  0.138 0.134 0.121 0.125 0.125 ...
+ $ V22: num  0.134 0.129 0.125 0.121 0.103 ...
+ $ V23: num  0.125 0.1207 0.1164 0.1164 0.0819 ...
+ $ V24: num  0.1034 0.1034 0.0991 0.0991 0.1034 ...
+ $ V25: num  0.0948 0.0905 0.0905 0.1034 0.125 ...
+ $ V26: num  0.0862 0.0862 0.0991 0.125 0.1422 ...
+ $ V27: num  0.086207 0.086207 0.103448 0.12931 0.000862 ...
+ $ V28: num  0.0991 0.1078 0.1164 0.1293 0.1466 ...
+ $ V29: num  0.116 0.134 0.134 0.121 0.142 ...
+ $ V30: num  0.121 0.138 0.142 0.129 0.138 ...
+ $ V31: num  0.121 0.134 0.142 0.134 0.129 ...
+ $ V32: num  0.116 0.134 0.129 0.116 0.112 ...
+ $ V33: num  0.108 0.112 0.116 0.108 0.108 ...
+ $ V34: num  0.1078 0.1078 0.1034 0.0991 0.1034 ...
+ $ V35: num  0.1078 0.1034 0.0991 0.0991 0.0991 ...
+ $ V36: num  0.1078 0.1034 0.1034 0.0905 0.0862 ...
+ $ V37: num  0.1078 0.1078 0.1034 0.0819 0.0733 ...
+ $ V38: num  0.0948 0.0991 0.0776 0.069 0.0733 ...
+ $ V39: num  0.0733 0.056 0.0474 0.0474 0.056 ...
+ $ V40: num  0.0474 0.0388 0.0431 0.0474 0.0603 ...
+ $ V41: num  0.0345 0.0345 0.0388 0.0474 0.0647 ...
+ $ V42: num  0.0259 0.0259 0.0345 0.0431 0.056 ...
+ $ V43: num  0.0259 0.0259 0.0388 0.0517 0.0603 ...
+ $ V44: num  0.0302 0.0302 0.0345 0.0517 0.0603 ...
+ $ V45: num  0.0259 0.0259 0.0259 0.0388 0.0474 ...
+ $ V46: num  0.0259 0.0172 0.0172 0.0259 0.0345 ...
+ $ V47: num  0.01724 0.01724 0.00862 0.02155 0.02586 ...
+ $ V48: num  0.0216 0.0129 0.0129 0.0172 0.0302 ...
+ $ V49: num  0.0216 0.0216 0.0216 0.0345 0.0603 ...
+ $ V50: num  0.0302 0.0345 0.0388 0.0603 0.0776 ...
+NULL
+#+end_example
+
+And now let's look at its structure. It seems that R reads it exactly
+like the flower data frame and sees it as 50 observations and 50
+variables.
+
+So converting the data to a matrix and then to the vector is a crucial
+step. Now we should be ready to start our hierarchical clustering. The
+first step is to create the distance matrix, as you already know,
+which in this case computes the difference between every two intensity
+values in our flower vector.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Compute distances...")
+  distance <- dist(flowerVector, method = "euclidean")
+#+end_src
+
+#+RESULTS:
+:
+:  :: Compute distances...
+
+Now that we have the distance, next we will be computing the
+hierarchical clusters.
+
+** Video 3: Hierarchical Clustering
+
+We found the distance matrix, which computes the pairwise distances
+between all the intensity values in the flower vector. Now we can
+cluster the intensity values using hierarchical clustering.
+
+As a reminder, the Ward’s method is a minimum variance method, which
+tries to find compact and spherical clusters. We can think about it as
+trying to minimize the variance within each cluster and the distance
+among clusters.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Hierarchical clustering...")
+  clusterIntensity <- hclust(distance, method = "ward.D")
+#+end_src
+
+#+RESULTS:
+:
+:  :: Hierarchical clustering...
+
+Now we can plot the cluster dendrogram.
+
+#+BEGIN_SRC R :var basename="FlowerDendrogram" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  # Plot the dendrogram
+  plot(clusterIntensity)
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  Flower dendrogram
+#+NAME:     fig:FlowerDendrogram
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/FlowerDendrogram.png]]
+
+Let's have here a little aside or a quick reminder about how to read a
+dendrogram and make sense of it. Let us first consider this toy
+dendrogram example. The lowest row of nodes represent the data or the
+individual observations, and the remaining nodes represent the
+clusters. The vertical lines depict the distance between two nodes or
+clusters. The taller the line, the more dissimilar the clusters are.
+
+For instance, cluster D-E-F is closer to cluster B-C-D-E-F than
+cluster B-C is. And this is well depicted by the height of the lines
+connecting each of clusters B-C and D-E-F to their parent node.
+
+[[../graphs/BP-DendrogramExample.png]]
+
+Now cutting the dendrogram at a given level yields a certain
+partitioning of the data. For instance, if we cut the tree between
+levels two and three, we obtain four clusters, A, B-C, D-E, and F.
+
+[[../graphs/BP-DendrogramExample02.png]]
+
+If we cut the dendrogram between levels three and four, then we obtain
+three clusters, A, B-C, and D-E-F. And if we were to cut the
+dendrogram between levels four and five, then we obtain two clusters,
+A and B-C-D-E-F.
+
+*What to choose, two, three, or four clusters?* Well, the smaller the
+number of clusters, the coarser the clustering is. But at the same
+time, having many clusters may be too much of a stretch.
+
+*We should always have this trade-off in mind.* Now the distance
+information between clusters can guide our choice of the number of
+clusters. A good partition belongs to a cut that has a good enough
+room to move up and down.
+
+For instance, the cut between levels two and three can go up until it
+reaches cluster D-E-F. The cut between levels three and four has more
+room to move until it reaches the cluster B-C-D-E-F. And the cut
+between levels four and five has the least room.
+
+[[../graphs/BP-DendrogramExample03.png]]
+
+So it seems like choosing three clusters is reasonable in this
+case. Going back to our dendrogram, it seems that having two clusters
+or three clusters is reasonable in our case. We can actually visualize
+the cuts by plotting rectangles around the clusters on this tree.
+
+To do so, we can use the ~rect.hclust~ function, which takes as an input
+clusterIntensity, which is our tree. And then we can specify the
+number of clusters that we want. So let's set ~k = 3~.
+
+#+BEGIN_SRC R :var basename="FlowerDendrogram02" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  writeLines("\n :: Select 3 clusters:")
+  plot(clusterIntensity)
+  rect.hclust(clusterIntensity, k = 3, border = "red")
+  flowerClusters <- cutree(clusterIntensity, k = 3)
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  Cluster selection in the Dendrogram
+#+NAME:     fig:FlowerDendrogram02
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/FlowerDendrogram02.png]]
+
+The input would be ~clusterIntensity~. And then we have to specify ~k=3~,
+because we would like to have three clusters. Now let us output the
+~flowerClusters~ variable to see how it looks. So ~flowerClusters~.
+
+[[../graphs/BP-FlowerDendrogram.png]]
+
+And we see that ~flowerClusters~ is actually a vector that assigns each
+intensity value in the flower vector to a cluster. It actually has the
+same length, which is 2,500, and has values 1, 2, and 3, which
+correspond to each cluster.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Summary of the flowerClusters vector:")
+  str(flowerClusters)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Summary of the flowerClusters vector:
+:  int [1:2500] 1 1 1 1 1 1 1 1 1 1 ...
+
+To find the mean intensity value of each of our clusters:
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Find mean intensity values:")
+  tapply(flowerVector, flowerClusters, mean)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Find mean intensity values:
+:          1          2          3
+: 0.08574315 0.50826255 0.93147713
+
+What we obtain is that the first cluster has a mean intensity value of
+0.08, which is closest to zero, and this means that it corresponds to
+the darkest shape in our image.  And then the third cluster here,
+which is closest to 1, corresponds to the fairest shade.
+
+And now the fun part. Let us see how the image was segmented. To
+output an image, we can use the image function in R, which takes a
+matrix as an input. But the variable ~flowerClusters~, as we just saw,
+is a vector.
+
+So we need to convert it into a matrix. We can do this by setting the
+dimension of this variable by using the dimension function.
+
+#+BEGIN_SRC R :var basename="SegmentedImageCluster" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  writeLines("\n :: Plot the image and the clusters:")
+  dim(flowerClusters) <- c(50,50)
+  image(flowerClusters, axes = FALSE)
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  Segmented flower image using clusters.
+#+NAME:     fig:SegmentedImageCluster
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/SegmentedImageCluster.png]]
+
+The darkest shade corresponds to the background, and this is actually
+associated with the first cluster. The one in the middle is the core
+of the flower, and this is cluster 2.
+
+And then the petals correspond to cluster 3, which has the fairest
+shade in our image. Let us now check how the original image looked.
+
+Let's go back to the console and then maximize it here. So let's go
+back to our image function, but now this time the input is the flower
+matrix. And then let's keep the axis as false. But now, how about we
+add an additional argument regarding the color scheme? Let's make it
+grayscale.
+
+So we're going to take the color, and it's going to take the function
+gray. And the input to this function is a sequence of values that goes
+from 0 to 1, which actually is from black to white.
+
+And then we have to also specify its length, and that's specified as
+256, because this corresponds to the convention for grayscale.
+
+#+BEGIN_SRC R :var basename="FlowerOriginalImage" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  # Original image
+  image(flowerMatrix,axes=FALSE,col=grey(seq(0,1,length=256)))
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  Original image.
+#+NAME:     fig:FlowerOriginalImage
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/FlowerOriginalImage.png]]
+
+Now we can see our original grayscale image here. You can see that it
+has a very, very low resolution. But in our next video, we will try to
+segment an MRI image of the brain that has a much, much higher
+resolution.
+
+** Video 4: MRI Image
+
+We will try to segment an MRI brain image of a healthy patient using
+hierarchical clustering. And remember that this healthy data set
+consists of a matrix of intensity values, so let's set the header to
+false.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Let's try this with an MRI image of the brain:")
+
+  healthy <- read.csv("../data/healthy.csv", header = FALSE)
+  healthyMatrix <- as.matrix(healthy)
+  str(healthyMatrix)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Let's try this with an MRI image of the brain:
+:  num [1:566, 1:646] 0.00427 0.00855 0.01282 0.01282 0.01282 ...
+:  - attr(*, "dimnames")=List of 2
+:   ..$ : NULL
+:   ..$ : chr [1:646] "V1" "V2" "V3" "V4" ...
+
+And then we realize that we have 566 by 646 pixel resolution for our
+image.  So this MRI image is considerably larger than the little
+flower image that we saw, and we worked with in the previous section.
+
+To see the MRI image, we can use the image function:
+
+#+BEGIN_SRC R :var basename="RMIoriginalImage" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  # Plot image
+  image(healthyMatrix, axes = FALSE, col = grey(seq(0, 1, length = 256)))
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  RMI original image
+#+NAME:     fig:RMIoriginalImage
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/RMIoriginalImage.png]]
+
+We see that what we have is the T2-weighted MRI imaging of a top
+section of the brain. And it shows different substances, such as the
+gray matter, the white matter, and the cerebrospinal fluid.
+
+Now let us see if we can isolate these substances via hierarchical
+clustering. We first need to convert the healthy matrix to a vector,
+and let's call it ~healthyVector~.
+
+We first need to convert the healthy matrix to a vector:
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Hierarchial clustering (Memory error)")
+  healthyVector <- as.vector(healthyMatrix)
+  ## distance = dist(healthyVector, method = "euclidean")
+
+  writeLines("\n :: Search for memory alternative, run on Ithaca!")
+#+end_src
+
+#+RESULTS:
+:
+:  :: Hierarchial clustering (Memory error)
+:
+:  :: Search for memory alternative, run on Ithaca!
+
+R gives us an error that seems to tell us that our vector is huge, and
+R cannot allocate enough memory.
+
+Well let us see how big is our vector. So we're going to go and use
+the structure function over the healthy vector, and let's see what we
+obtain.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: We have an error - why?")
+  str(healthyVector)
+#+end_src
+
+#+RESULTS:
+:
+:  :: We have an error - why?
+:  num [1:365636] 0.00427 0.00855 0.01282 0.01282 0.01282 ...
+
+The healthy vector has 365,636 elements. Let's call this number n.
+
+#+begin_src R :session :results output :exports all
+  n <- 365636
+
+  writeLines("\n :: The number of calculations:")
+  (n*(n - 1)) / 2
+#+end_src
+
+#+RESULTS:
+:
+:  :: The number of calculations:
+: [1] 66844659430
+
+Of course R would complain. It's 67 billion values that we're asking R
+to store in a matrix. The bad news now is that we cannot use
+hierarchical clustering.
+
+Lets try another clustering method is k-means. Let us review it first,
+and see if it could work on our high resolution image. The k-means
+clustering algorithm aims at partitioning the data into k clusters, in
+a way that each data point belongs to the cluster whose mean is the
+nearest to it.
+
+[[../graphs/BP-k-MeansClustering.png]]
+
+Let's go over the algorithm step-by-step. In this example we have five
+data points. The first step is to specify the number of clusters. And
+suppose we wish to find two clusters, so set ~k = 2~.
+
+[[../graphs/PD-k-MeansClustering02.png]]
+
+Then we start by randomly grouping the data into two clusters. For
+instance, three points in the red cluster, and the remaining two
+points in the grey cluster.
+
+[[../graphs/PD-k-MeansClustering03.png]]
+
+Here we see the two remainder black points grouped in the gray
+cluster:
+
+[[../graphs/PD-k-MeansClustering04.png]]
+
+The next step is to compute the cluster means or centroids. Let's
+first compute the mean of the red cluster, and then the mean of the
+grey cluster is simply the midpoint.
+
+[[../graphs/PD-k-MeansClustering05.png]]
+
+Now remember that the k-means clustering algorithm tries to cluster
+points according to the nearest mean. But this red point over here
+seems to be closer to the mean of the grey cluster, then to the mean
+of the red cluster to which it was assigned in the previous step.
+
+So intuitively, the next step in the k-means algorithm is to re-assign
+the data points to the closest cluster mean. As a result, now this red
+point should be in the grey cluster.
+
+[[../graphs/PD-k-MeansClustering06.png]]
+
+Now that we moved one point from the red cluster over to the grey
+cluster, we need to update the means. This is exactly the next step in
+the k-means algorithm.
+
+[[../graphs/PD-k-MeansClustering07.png]]
+
+So let's recompute the mean of the red cluster, and then re-compute
+the mean of the grey cluster.
+
+[[../graphs/PD-k-MeansClustering08.png]]
+
+Now we go back to Step 4. Is there any point here that seems to be
+cluster to a cluster mean that it does not belong to? If so, we need
+to re-assign it to the other cluster.
+
+However, in this case, all points are closest to their cluster mean,
+so the algorithm is done, and we can stop.
+
+** Video 5: K-Means Clustering
+
+*SCREE plots*
+
+While dendrograms can be used to select the final number of clusters
+for Hierarchical Clustering, we can't use dendrograms for k-means
+clustering. However, there are several other ways that the number of
+clusters can be selected. One common way to select the number of
+clusters is by using a scree plot, which works for any clustering
+algorithm.
+
+A standard scree plot has the number of clusters on the x-axis, and
+the sum of the within-cluster sum of squares on the y-axis. The
+within-cluster sum of squares for a cluster is the sum, across all
+points in the cluster, of the squared distance between each point and
+the centroid of the cluster.  We ideally want very small
+within-cluster sum of squares, since this means that the points are
+all very close to their centroid.
+
+To create the scree plot, the clustering algorithm is run with a range
+of values for the number of clusters. For each number of clusters, the
+within-cluster sum of squares can easily be extracted when using
+k-means clustering. For example, suppose that we want to cluster the
+MRI image from this video into two clusters. We can first run the
+k-means algorithm with two clusters:
+
+~KMC2 = kmeans(healthyVector, centers = 2, iter.max = 1000)~
+
+Then, the within-cluster sum of squares is just an element of ~KMC2~:
+
+~KMC2$withinss~
+
+This gives a vector of the within-cluster sum of squares for each
+cluster (in this case, there should be two numbers).
+
+Now suppose we want to determine the best number of clusters for this
+dataset. We would first repeat the kmeans function call above with
+centers = 3, centers = 4, etc. to create KMC3, KMC4, and so on. Then,
+we could generate the following plot:
+
+~NumClusters = seq(2,10,1)~
+
+~SumWithinss = c(sum(KMC2$withinss), sum(KMC3$withinss), sum(KMC4$withinss), sum(KMC5$withinss), sum(KMC6$withinss), sum(KMC7$withinss), sum(KMC8$withinss), sum(KMC9$withinss), sum(KMC10$withinss))~
+
+~plot(NumClusters, SumWithinss, type="b")~
+
+The plot looks like this (the type="b" argument just told the plot
+command to give us points and lines):
+
+[[../graphs/ScreePlot.jpg]]
+
+To determine the best number of clusters using this plot, we want to
+look for a bend, or elbow, in the plot. This means that we want to
+find the number of clusters for which increasing the number of
+clusters further does not significantly help to reduce the
+within-cluster sum of squares. For this particular dataset, it looks
+like 4 or 5 clusters is a good choice. Beyond 5, increasing the number
+of clusters does not really reduce the within-cluster sum of squares
+too much.
+
+Note: You may have noticed it took a lot of typing to generate
+SumWithinss; this is because we limited ourselves to R functions we've
+learned so far in the course. In fact, R has powerful functions for
+repeating tasks with a different input (in this case running kmeans
+with different cluster sizes). For instance, we could generate
+SumWithinss with:
+
+~SumWithinss = sapply(2:10, function(x) sum(kmeans(healthyVector, centers=x, iter.max=1000)$withinss))~
+
+We won't be teaching more advanced R functions like sapply in this
+course, but if you're interested you could read more [[http://www.r-bloggers.com/using-apply-sapply-lapply-in-r/][here]].
+
+*RECALL*
+
+Recall from our last video that it was impossible for us to use
+hierarchical clustering because of the high resolution of our image.
+
+The first step in k-means clustering involves specifying the number of
+clusters, k. *But how do we select k?* Well, our clusters would ideally
+assign each point in the image to a tissue class or a particular
+substance, for instance, grey matter or white matter, and so on.
+
+And these substances are known to the medical community. So setting
+the number of clusters depends on exactly what you're trying to
+extract from the image.
+
+For the sake of our example, let's set the number of clusters here, k,
+to five. And since the k-means clustering algorithm starts by randomly
+assigning points to clusters, we should set the seed, so that we all
+obtain the same clusters.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Specify number of clusters k = 5...")
+  k <- 5
+
+  writeLines("\n :: Run k-means...")
+  set.seed(1)
+  KMC <- kmeans(healthyVector, centers = k, iter.max = 1000)
+  str(KMC)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Specify number of clusters k = 5...
+
+ :: Run k-means...
+ ..$ : chr [1:5] "1" "2" "3" "4" ...
+  .. ..$ : NULL
+ $ totss       : num 5775
+ $ withinss    : num [1:5] 96.6 47.2 39.2 57.5 62.3
+ $ tot.withinss: num 303
+ $ betweenss   : num 5472
+ $ size        : int [1:5] 20556 101085 133162 31555 79278
+ $ iter        : int 2
+ $ ifault      : int 0
+ - attr(*, "class")= chr "kmeans"
+#+end_example
+
+And then finally, since the k-means is an iterative method that could
+take very long to converge, we need to set a maximum number of
+iterations. And we can do this by typing iter.max, and give it, for
+instance, the value 1,000.
+
+The k-means algorithm is actually quite fast, even though we have a
+high resolution image. Now to see the result of the k-means clustering
+algorithm, we can output the structure of the KMC variable.
+
+The first, and most important, piece of information that we get, is
+the cluster vector. Which assigns each intensity value in the healthy
+vector to a cluster. In this case, it will be giving them values 1
+through 5, since we have 5 clusters.
+
+Now recall that to output the segmented image, we need to extract this
+vector. The way to do this is by using the dollar notation.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Extract clusters:")
+  healthyClusters <- KMC$cluster
+#+end_src
+
+#+RESULTS:
+:
+:  :: Extract clusters:
+
+Now how can we obtain the mean intensity value within each of our 5
+clusters? In hierarchical clustering, we needed to do some manual
+work, and use the tapply function to extract this information. In this
+case, we have the answers ready, under the vector centers.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Extract clusters centers intensities:")
+  KMC$centers
+#+end_src
+
+#+RESULTS:
+:
+:  :: Extract clusters centers intensities:
+:         [,1]
+: 1 0.48177191
+: 2 0.10619450
+: 3 0.01961886
+: 4 0.30942825
+: 5 0.18420578
+
+In fact, for instance, the mean intensity value of the first cluster
+is 0.48, and the mean intensity value of the last cluster is 0.18.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Extract cluster 2 center intensity:")
+  KMC$centers[2]
+#+end_src
+
+#+RESULTS:
+:
+:  :: Extract cluster 2 center intensity:
+: [1] 0.1061945
+
+For instance, ~KMC$centers[2]~. This should give us the mean intensity
+value of the second cluster, which is $0.1$. And indeed, this is what we
+obtain.
+
+Before we move on, I would like to point your attention to one last
+interesting piece of information that we can get here. And that is the
+size of the cluster.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Extract clusters sizes:")
+  KMC$size
+#+end_src
+
+#+RESULTS:
+:
+:  :: Extract clusters sizes:
+: [1]  20556 101085 133162  31555  79278
+
+For instance, the largest cluster that we have is the third one, which
+combines $133000$ values in it. And interestingly, it's the one that
+has the smallest mean intensity value, which means that it corresponds
+to the darkest shade in our image.
+
+Actually, if we look at all the mean intensity values, we can see that
+they are all less than $0.5$. So they're all pretty close to $0$. And
+this means that our images is pretty dark. If we look at our image
+again, it's indeed very dark. And we have very few points that are
+actually white.
+
+Now the exciting part. Let us output the segmented image and see what
+we get. Recall that we first need to convert the vector healthy
+clusters to a matrix.
+
+To do this, we will use the dimension function, that takes as an input
+the ~healthyClusters~ vector. And now we're going to turn it into a
+matrix. So we have to specify using the combine function, the number
+of rows, and the number of columns that we want.
+
+We should make sure that it corresponds to the same size as the
+healthy matrix. And since we've forgot the number of rows and the
+number columns in the healthy matrix, we can simply use the ~nrow~ and
+~ncol~ function to get them.
+
+So the first input right now would be ~nrow~ of ~healthyMatrix~. And
+then the second input would be the number of columns of the healthy
+matrix.
+
+And then let's be creative and use a fancy color scheme. We're going
+to invoke for color here, the rainbow palette in R. And the rainbow
+palette, or the function rainbow, takes as an input the number of
+colors that we want. In this case, the number of colors would
+correspond to the number of clusters. So the input would be ~k~.
+
+#+BEGIN_SRC R :var basename="RMIprocessedImage" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  # Plot the image with the clusters
+  dim(healthyClusters) = c(nrow(healthyMatrix), ncol(healthyMatrix))
+
+  image(healthyClusters, axes = FALSE, col=rainbow(k))
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  RMI result image after k-means clustering
+#+NAME:     fig:RMIprocessedImage
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/RMIprocessedImage.png]]
+
+We see that k-means algorithm was able to segment the image in 5
+different clusters. More refinement maybe needs to be made to our
+clustering algorithm to appropriately capture all the anatomical
+structures. But this seems like a good starting point.
+
+The question now is, can we use the clusters, or the classes, found by
+our k-means algorithm on the healthy MRI image to identify tumors in
+another MRI image of a *sick patient*?
+
+** Video 6: Detecting Tumors
+
+In the previous section we identified clusters, or tissue substances,
+in a healthy brain image. It would be really helpful if we can use
+these clusters to automatically detect tumors in MRI images of sick
+patients.
+
+The ~tumor.csv~ file corresponds to an MRI brain image of a patient
+with *oligodendroglioma*, a tumor that commonly occurs in the front
+lobe of the brain.
+
+Since brain biopsy is the only definite diagnosis of this tumor, MRI
+guidance is key in determining its location and geometry.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Apply to a test image. Loading the test data...")
+
+  tumor <- read.csv("../data/tumor.csv", header = FALSE)
+  tumorMatrix <- as.matrix(tumor)
+  tumorMatrix <- t(tumorMatrix)[,nrow(tumorMatrix):1]
+  tumorVector <- as.vector(tumorMatrix)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Apply to a test image. Loading the test data...
+
+Now, we will not run the k-means algorithm again on the tumor
+vector. Instead, we will apply the k-means clustering results that we
+found using the healthy brain image on the tumor vector.
+
+In other words, we treat the *healthy vector as training set* and the
+*tumor vector as a testing set*.
+
+To do this, we first need to install a new package that is called
+~flexclust~.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Install new package: flexclust ...")
+  ## install.packages('flexclust', repos='http://cran.rstudio.com/')
+  writeLines("\n :: NOTE: Please comment after install once...")
+
+  library(flexclust)
+  writeLines("\n :: Library flexclust loaded...")
+#+end_src
+
+#+RESULTS:
+:
+:  :: Install new package: flexclust ...
+:
+:  :: NOTE: Please comment after install once...
+:
+:  :: Library flexclust loaded...
+
+The ~flexclust~ package contains the object class ~KCCA~, which stands
+for K-Centroids Cluster Analysis.  We need to convert the information
+from the clustering algorithm to an object of the class ~KCCA~.
+
+And this conversion is needed before we can use the predict function
+on the test set ~tumorVector~.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Apply clusters from before to new image, using the flexclust package...")
+  KMC.kcca <- as.kcca(KMC, healthyVector)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Apply clusters from before to new image, using the flexclust package...
+
+We can cluster the pixels in the ~tumorVector~ using the predict
+function.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Clustering with the testing data...")
+  tumorClusters <- predict(KMC.kcca, newdata = tumorVector)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Clustering with the testing data...
+
+And now, the tumorClusters is a vector that assigns a value 1 through
+5 to each of the intensity values in the tumorVector, as predicted by
+the k-means algorithm.
+
+To output the segmented image, we first need to convert the tumor
+clusters to a matrix.
+
+#+BEGIN_SRC R :var basename="RMISegmentedImage" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  # Visualize the clusters
+  dim(tumorClusters) = c(nrow(tumorMatrix), ncol(tumorMatrix))
+
+  image(tumorClusters, axes = FALSE, col=rainbow(k))
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  RMI segmented image
+#+NAME:     fig:RMISegmentedImage
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/RMISegmentedImage.png]]
+
+Oh, and yes, we do! It is this abnormal substance here that is
+highlighted in *red* that was not present in the healthy MRI image. So
+we were successfully able to identify, more or less, the geometry of
+the malignant structure.
+
+We see that we did a good job capturing the major tissue substances of
+the brain. The grey matter is highlighted in purple and the white
+matter in yellow. For the sick patient, the substance highlighted in
+*red* is the oligodendroglioma tumor.
+
+Now we can see the original test image to compare:
+
+#+BEGIN_SRC R :var basename="RMIOriginalTestingImage" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  ## Plot test image
+  image(tumorMatrix, axes = FALSE, col = grey(seq(0, 1, length = 256)))
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  RMI original testing image
+#+NAME:     fig:RMIOriginalTestingImage
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/RMIOriginalTestingImage.png]]
+
+We see that we did a good job capturing the major tissue substances of
+the brain. The grey matter is highlighted in purple and the white
+matter in yellow.
+
+For the sick patient, the substance highlighted in blue is the
+oligodendroglioma tumor (video and slides colors).
+
+[[../graphs/BP-SegmentedMRIimages.png]]
+
+Notice that we do not see substantial blue regions in the healthy
+brain image, apart from the region around the eyes. Actually, looking
+at the eyes regions, we notice that the two images were not taken
+precisely at the same section of the brain.
+
+This might explain some differences in shapes between the two images.
+
+Let's see how the images look like originally. We see that the tumor
+region has a lighter color intensity, which is very similar to the
+region around the eyes in the healthy brain image. This might explain
+highlighting this region in blue.
+
+[[../graphs/BP-T2WeightedMRIimages.png]]
+
+Of course, we cannot claim that we did a wonderful job obtaining the
+exact geometries of all the tissue substances, but we are definitely
+on the right track. In fact, to do so, we need to use more advanced
+algorithms and fine-tune our clustering technique.
+
+MRI image segmentation is an ongoing field of research. While k-means
+clustering is a good starting point, more advanced techniques have
+been proposed in the literature, such as the modified fuzzy k-means
+clustering method.
+
+Also, if you are interested, R has packages that are specialized for
+analyzing medical images.
+
+[[../graphs/BP-MRIimageSegmentation.png]]
+
+Now, if we had MRI axial images taken at different sections of the
+brain, we could segment each image and capture the geometries of the
+substances at different levels. Then, by interpolating between the
+segmented images, we can estimate the missing slices, and we can then
+obtain a 3D reconstruction of the anatomy of the brain from 2D MRI
+cross-sections.
+
+[[../graphs/BP-3DReconstruction.png]]
+
+In fact, 3D reconstruction is particularly important in the medical
+field for diagnosis, surgical planning, and biological research
+purposes. I hope that this recitation gave you a flavor of this
+fascinating field of image segmentation.
+
+** Video 7: Comparing Methods
+
+We will compare all the different methods we have seen so far in this
+course and review what they are used for, their benefits, and
+limitations.
+
+Linear regression is used to predict a continuous outcome. If we have
+a nonlinear relationship, we need to add variables to our analysis.
+
+[[../graphs/BP-Comparison.png]]
+
+Logistic regression is used to predict a categorical outcome. We
+mainly focused on binary outcomes, like yes or no, sell or buy, accept
+or reject, and so on.
+
+We have seen it applied to predict the quality of care, good or bad;
+the winner of the US presidential election, Republican or Democrat;
+parole violation and loan payment, yes or no.
+
+In the trees week we learned CART, which is used to predict a
+categorical outcome, with possibly more than two categories, like
+quality rating, from one to five, and three decisions, say, buy, sell,
+or hold.
+
+It can also predict a continuous outcome, such as salary or price. We
+have seen it applied to predict life expectancy, earnings from census
+data, and letter recognition.
+
+The power of CART lies in the fact that it can handle nonlinear
+relationships between variables. The tree representation makes it easy
+to visualize and interpret the results.
+
+[[../graphs/BP-Comparison02.png]]
+
+Random forest is also used to predict categorical outcomes or
+continuous outcomes. Its benefit over CART is that it can improve the
+prediction accuracy.
+
+This week, we learned hierarchical clustering, which is used to find
+similar groups. An important aspect of clustering data into smaller
+groups is that we can improve our prediction accuracy by applying our
+predictive methods, like logistic regression for instance, on each
+cluster.
+
+[[../graphs/BP-Comparison03.png]]
+
+*Hierarchical clustering* is an attractive technique, because we do
+ not need to select the number of clusters before running the
+ algorithm.
+
+An alternative method is k-means clustering, which works well on data
+sets of any size. However, k-means requires selecting the number of
+clusters before running the algorithm.
+
+This may not be a limitation if we have an intuition of the number of
+clusters we want to look at, as in the medical image segmentation
+example.
