@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Unit 6 - Clustering</title>
-<!-- 2015-07-19 Sun 08:03 -->
+<!-- 2015-07-22 Wed 08:03 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Sergio-Feliciano Mendoza-Barrera" />
@@ -872,7 +872,7 @@ euclidean distance?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Euclidean distance:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Euclidean distance:"</span>)
 v1 <span style="color: #db7093;">&lt;-</span> c(0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0)
 v2 <span style="color: #db7093;">&lt;-</span> c(0,1,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0)
 d <span style="color: #db7093;">&lt;-</span> sqrt(sum((v1 - v2)^2))
@@ -1183,51 +1183,54 @@ In this part we can download the data
 
 <pre class="src src-R"><span style="color: #db7093;">library</span>(parallel)
 
-<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #fffacd;">"../data"</span>)) {
-        dir.create(<span style="color: #fffacd;">"../data"</span>)
+<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #ff6a6a;">"../data"</span>)) {
+        dir.create(<span style="color: #ff6a6a;">"../data"</span>)
 }
 
-fileUrl <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"http://files.grouplens.org/datasets/movielens/ml-100k/u.item"</span>
+fileUrl <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"http://files.grouplens.org/datasets/movielens/ml-100k/u.item"</span>
 
-fileName <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"movieLens.txt"</span>
+fileName <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"movieLens.txt"</span>
 
-dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"../data"</span>
+dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"../data"</span>
 
-filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #fffacd;">"/"</span>)
+filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #ff6a6a;">"/"</span>)
 
 <span style="color: #4682b4;">if</span>(!file.exists(filePath)) {
-        download.file(fileUrl, destfile = filePath, method = <span style="color: #fffacd;">"curl"</span>)
+        download.file(fileUrl, destfile = filePath, method = <span style="color: #ff6a6a;">"curl"</span>)
 }
 
-list.files(<span style="color: #fffacd;">"../data"</span>)
+list.files(<span style="color: #ff6a6a;">"../data"</span>)
 </pre>
 </div>
 
 <pre class="example">
- [1] "AnonymityPoll.csv"       "baseball.csv"
- [3] "BoeingStock.csv"         "boston.csv"
- [5] "ClaimsData.csv"          "ClaimsData.csv.zip"
- [7] "climate_change.csv"      "clinical_trial.csv"
- [9] "ClusterMeans.ods"        "CocaColaStock.csv"
-[11] "CountryCodes.csv"        "CPSData.csv"
-[13] "emails.csv"              "energy_bids.csv"
-[15] "flower.csv"              "FluTest.csv"
-[17] "FluTrain.csv"            "framingham.csv"
-[19] "gerber.csv"              "GEStock.csv"
-[21] "healthy.csv"             "IBMStock.csv"
-[23] "loans_imputed.csv"       "loans.csv"
-[25] "MetroAreaCodes.csv"      "movieLens.txt"
-[27] "mvtWeek1.csv"            "NBA_test.csv"
-[29] "NBA_train.csv"           "parole.csv"
-[31] "pisa2009test.csv"        "pisa2009train.csv"
-[33] "PollingData_Imputed.csv" "PollingData.csv"
-[35] "ProcterGambleStock.csv"  "quality.csv"
-[37] "README.md"               "songs.csv"
-[39] "stevens.csv"             "stopwords.txt"
-[41] "tumor.csv"               "tweets.csv"
-[43] "USDA.csv"                "WHO_Europe.csv"
-[45] "WHO.csv"                 "wiki.csv"
-[47] "wine_test.csv"           "wine.csv"
+ [1] "AirlinesCluster.csv"     "AnonymityPoll.csv"
+ [3] "baseball.csv"            "BoeingStock.csv"
+ [5] "boston.csv"              "ClaimsData.csv"
+ [7] "ClaimsData.csv.zip"      "climate_change.csv"
+ [9] "clinical_trial.csv"      "ClusterMeans.ods"
+[11] "CocaColaStock.csv"       "CountryCodes.csv"
+[13] "CPSData.csv"             "dailykos.csv"
+[15] "eBayiPadTest.csv"        "eBayiPadTrain.csv"
+[17] "emails.csv"              "energy_bids.csv"
+[19] "flower.csv"              "FluTest.csv"
+[21] "FluTrain.csv"            "framingham.csv"
+[23] "gerber.csv"              "GEStock.csv"
+[25] "healthy.csv"             "IBMStock.csv"
+[27] "loans_imputed.csv"       "loans.csv"
+[29] "MetroAreaCodes.csv"      "movieLens.txt"
+[31] "mvtWeek1.csv"            "NBA_test.csv"
+[33] "NBA_train.csv"           "parole.csv"
+[35] "pisa2009test.csv"        "pisa2009train.csv"
+[37] "PollingData_Imputed.csv" "PollingData.csv"
+[39] "ProcterGambleStock.csv"  "quality.csv"
+[41] "README.md"               "SampleSubmission.csv"
+[43] "songs.csv"               "stevens.csv"
+[45] "StocksCluster.csv"       "stopwords.txt"
+[47] "tumor.csv"               "tweets.csv"
+[49] "USDA.csv"                "WHO_Europe.csv"
+[51] "WHO.csv"                 "wiki.csv"
+[53] "wine_test.csv"           "wine.csv"
 </pre>
 </div>
 </div>
@@ -1237,9 +1240,9 @@ list.files(<span style="color: #fffacd;">"../data"</span>)
 <div class="outline-text-4" id="text-2-9-2">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"    Loading data into their data frames."</span>)
-movies <span style="color: #db7093;">&lt;-</span> read.table(<span style="color: #fffacd;">"../data/movieLens.txt"</span>, header = <span style="color: #3cb371;">FALSE</span>,
-                     sep = <span style="color: #fffacd;">"|"</span>, quote = <span style="color: #fffacd;">"\""</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"    Loading data into their data frames."</span>)
+movies <span style="color: #db7093;">&lt;-</span> read.table(<span style="color: #ff6a6a;">"../data/movieLens.txt"</span>, header = <span style="color: #3cb371;">FALSE</span>,
+                     sep = <span style="color: #ff6a6a;">"|"</span>, quote = <span style="color: #ff6a6a;">"\""</span>)
 str(movies)
 </pre>
 </div>
@@ -1296,13 +1299,13 @@ are. So we'll go ahead and add in the column names ourselves.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Add column names:"</span>)
-colnames(movies) = c(<span style="color: #fffacd;">"ID"</span>, <span style="color: #fffacd;">"Title"</span>, <span style="color: #fffacd;">"ReleaseDate"</span>, <span style="color: #fffacd;">"VideoReleaseDate"</span>,
-                     <span style="color: #fffacd;">"IMDB"</span>, <span style="color: #fffacd;">"Unknown"</span>, <span style="color: #fffacd;">"Action"</span>, <span style="color: #fffacd;">"Adventure"</span>,
-                     <span style="color: #fffacd;">"Animation"</span>, <span style="color: #fffacd;">"Childrens"</span>, <span style="color: #fffacd;">"Comedy"</span>, <span style="color: #fffacd;">"Crime"</span>,
-                     <span style="color: #fffacd;">"Documentary"</span>, <span style="color: #fffacd;">"Drama"</span>, <span style="color: #fffacd;">"Fantasy"</span>, <span style="color: #fffacd;">"FilmNoir"</span>,
-                     <span style="color: #fffacd;">"Horror"</span>, <span style="color: #fffacd;">"Musical"</span>, <span style="color: #fffacd;">"Mystery"</span>, <span style="color: #fffacd;">"Romance"</span>,
-                     <span style="color: #fffacd;">"SciFi"</span>, <span style="color: #fffacd;">"Thriller"</span>, <span style="color: #fffacd;">"War"</span>, <span style="color: #fffacd;">"Western"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Add column names:"</span>)
+colnames(movies) = c(<span style="color: #ff6a6a;">"ID"</span>, <span style="color: #ff6a6a;">"Title"</span>, <span style="color: #ff6a6a;">"ReleaseDate"</span>, <span style="color: #ff6a6a;">"VideoReleaseDate"</span>,
+                     <span style="color: #ff6a6a;">"IMDB"</span>, <span style="color: #ff6a6a;">"Unknown"</span>, <span style="color: #ff6a6a;">"Action"</span>, <span style="color: #ff6a6a;">"Adventure"</span>,
+                     <span style="color: #ff6a6a;">"Animation"</span>, <span style="color: #ff6a6a;">"Childrens"</span>, <span style="color: #ff6a6a;">"Comedy"</span>, <span style="color: #ff6a6a;">"Crime"</span>,
+                     <span style="color: #ff6a6a;">"Documentary"</span>, <span style="color: #ff6a6a;">"Drama"</span>, <span style="color: #ff6a6a;">"Fantasy"</span>, <span style="color: #ff6a6a;">"FilmNoir"</span>,
+                     <span style="color: #ff6a6a;">"Horror"</span>, <span style="color: #ff6a6a;">"Musical"</span>, <span style="color: #ff6a6a;">"Mystery"</span>, <span style="color: #ff6a6a;">"Romance"</span>,
+                     <span style="color: #ff6a6a;">"SciFi"</span>, <span style="color: #ff6a6a;">"Thriller"</span>, <span style="color: #ff6a6a;">"War"</span>, <span style="color: #ff6a6a;">"Western"</span>)
 
 names(movies)
 </pre>
@@ -1325,7 +1328,7 @@ variables, so let's go ahead and remove them.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Remove unnecessary variables:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Remove unnecessary variables:"</span>)
 movies$ID = <span style="color: #3cb371;">NULL</span>
 movies$ReleaseDate = <span style="color: #3cb371;">NULL</span>
 movies$VideoReleaseDate = <span style="color: #3cb371;">NULL</span>
@@ -1350,10 +1353,10 @@ ahead and remove them with the <code>unique</code> function.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Remove duplicates:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Remove duplicates:"</span>)
 movies = unique(movies)
 
-writeLines(<span style="color: #fffacd;">"\n :: Take a look at our data again:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Take a look at our data again:"</span>)
 str(movies)
 </pre>
 </div>
@@ -1417,7 +1420,7 @@ How many movies are classified as comedies?
 <div class="outline-text-5" id="text-2-10-1-1">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Number of movies classified as comedy:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Number of movies classified as comedy:"</span>)
 nrow(subset(movies, movies$Comedy == 1))
 </pre>
 </div>
@@ -1443,7 +1446,7 @@ How many movies are classified as westerns?
 <div class="outline-text-5" id="text-2-10-2-1">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Number of movies classified as Western:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Number of movies classified as Western:"</span>)
 nrow(subset(movies, movies$Western == 1))
 </pre>
 </div>
@@ -1469,10 +1472,10 @@ How many movies are classified as romance AND drama?
 <div class="outline-text-5" id="text-2-10-3-1">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Number of movies classified as Romance and Drama:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Number of movies classified as Romance and Drama:"</span>)
 nrow(subset(movies, movies$Romance == 1 &amp; movies$Drama == 1))
 
-writeLines(<span style="color: #fffacd;">"\n :: Other way to answer this question:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Other way to answer this question:"</span>)
 nrow(movies[movies$Romance == 1 &amp; movies$Drama == 1, ])
 </pre>
 </div>
@@ -1548,8 +1551,8 @@ so we'll cluster on columns two through 20.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Compute distances..."</span>)
-distances <span style="color: #db7093;">&lt;-</span> dist(movies[2:20], method = <span style="color: #fffacd;">"euclidean"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Compute distances..."</span>)
+distances <span style="color: #db7093;">&lt;-</span> dist(movies[2:20], method = <span style="color: #ff6a6a;">"euclidean"</span>)
 </pre>
 </div>
 
@@ -1564,8 +1567,8 @@ hierarchical clustering.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Hierarchical clustering..."</span>)
-clusterMovies <span style="color: #db7093;">&lt;-</span> hclust(distances, method = <span style="color: #fffacd;">"ward.D"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Hierarchical clustering..."</span>)
+clusterMovies <span style="color: #db7093;">&lt;-</span> hclust(distances, method = <span style="color: #ff6a6a;">"ward.D"</span>)
 </pre>
 </div>
 
@@ -1635,7 +1638,7 @@ belongs to using the cutree function.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Assign points to clusters..."</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Assign points to clusters..."</span>)
 clusterGroups <span style="color: #db7093;">&lt;-</span> cutree(clusterMovies, k = 10)
 </pre>
 </div>
@@ -2034,10 +2037,10 @@ cluster Men in Black is in.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Id of the movie:"</span>)
-subset(movies, Title == <span style="color: #fffacd;">"Men in Black (1997)"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Id of the movie:"</span>)
+subset(movies, Title == <span style="color: #ff6a6a;">"Men in Black (1997)"</span>)
 
-writeLines(<span style="color: #fffacd;">"\n :: Find which cluster Men in Black is in:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Find which cluster Men in Black is in:"</span>)
 clusterGroups[257]
 </pre>
 </div>
@@ -2073,10 +2076,10 @@ So let's create a new data set with just the movies from cluster two.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Create a new data set with just the movies from cluster 2:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Create a new data set with just the movies from cluster 2:"</span>)
 cluster2 <span style="color: #db7093;">&lt;-</span> subset(movies, clusterGroups == 2)
 
-writeLines(<span style="color: #fffacd;">"\n :: Look at the first 10 titles in this cluster:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Look at the first 10 titles in this cluster:"</span>)
 cluster2$Title[1:10]
 </pre>
 </div>
@@ -2208,12 +2211,12 @@ What is the genre that all of the movies in cluster 2 belong to?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Assign points to clusters..."</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Assign points to clusters..."</span>)
 clusterGroups2 <span style="color: #db7093;">&lt;-</span> cutree(clusterMovies, k = 2)
 
 spl = split(movies[2:20], clusterGroups2)
 
-writeLines(<span style="color: #fffacd;">"\n :: Percentage of movies in each cluster:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Percentage of movies in each cluster:"</span>)
 lapply(spl, colMeans)
 </pre>
 </div>
@@ -3374,55 +3377,58 @@ In this part we can download the data
 
 <pre class="src src-R">  <span style="color: #db7093;">library</span>(parallel)
 
-  <span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #fffacd;">"../data"</span>)) {
-          dir.create(<span style="color: #fffacd;">"../data"</span>)
+  <span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #ff6a6a;">"../data"</span>)) {
+          dir.create(<span style="color: #ff6a6a;">"../data"</span>)
   }
 
   fileUrl <span style="color: #db7093;">&lt;-</span>
-          c(<span style="color: #fffacd;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/flower.csv"</span>,
-<span style="color: #fffacd;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/healthy.csv"</span>,
-<span style="color: #fffacd;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/tumor.csv"</span>)
+          c(<span style="color: #ff6a6a;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/flower.csv"</span>,
+<span style="color: #ff6a6a;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/healthy.csv"</span>,
+<span style="color: #ff6a6a;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/tumor.csv"</span>)
 
-  fileName <span style="color: #db7093;">&lt;-</span> c(<span style="color: #fffacd;">"flower.csv"</span>, <span style="color: #fffacd;">"healthy.csv"</span>, <span style="color: #fffacd;">"tumor.csv"</span>)
+  fileName <span style="color: #db7093;">&lt;-</span> c(<span style="color: #ff6a6a;">"flower.csv"</span>, <span style="color: #ff6a6a;">"healthy.csv"</span>, <span style="color: #ff6a6a;">"tumor.csv"</span>)
 
-  dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"../data"</span>
+  dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"../data"</span>
 
   <span style="color: #4682b4;">for</span>(i <span style="color: #4682b4;">in</span> 1:3) {
-          filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName[i], sep = <span style="color: #fffacd;">"/"</span>)
+          filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName[i], sep = <span style="color: #ff6a6a;">"/"</span>)
 
           <span style="color: #4682b4;">if</span>(!file.exists(filePath)) {
-                  download.file(fileUrl[i], destfile = filePath, method = <span style="color: #fffacd;">"curl"</span>)
+                  download.file(fileUrl[i], destfile = filePath, method = <span style="color: #ff6a6a;">"curl"</span>)
           }
   }
-  list.files(<span style="color: #fffacd;">"../data"</span>)
+  list.files(<span style="color: #ff6a6a;">"../data"</span>)
 </pre>
 </div>
 
 <pre class="example">
- [1] "AnonymityPoll.csv"       "baseball.csv"
- [3] "BoeingStock.csv"         "boston.csv"
- [5] "ClaimsData.csv"          "ClaimsData.csv.zip"
- [7] "climate_change.csv"      "clinical_trial.csv"
- [9] "ClusterMeans.ods"        "CocaColaStock.csv"
-[11] "CountryCodes.csv"        "CPSData.csv"
-[13] "emails.csv"              "energy_bids.csv"
-[15] "flower.csv"              "FluTest.csv"
-[17] "FluTrain.csv"            "framingham.csv"
-[19] "gerber.csv"              "GEStock.csv"
-[21] "healthy.csv"             "IBMStock.csv"
-[23] "loans_imputed.csv"       "loans.csv"
-[25] "MetroAreaCodes.csv"      "movieLens.txt"
-[27] "mvtWeek1.csv"            "NBA_test.csv"
-[29] "NBA_train.csv"           "parole.csv"
-[31] "pisa2009test.csv"        "pisa2009train.csv"
-[33] "PollingData_Imputed.csv" "PollingData.csv"
-[35] "ProcterGambleStock.csv"  "quality.csv"
-[37] "README.md"               "songs.csv"
-[39] "stevens.csv"             "stopwords.txt"
-[41] "tumor.csv"               "tweets.csv"
-[43] "USDA.csv"                "WHO_Europe.csv"
-[45] "WHO.csv"                 "wiki.csv"
-[47] "wine_test.csv"           "wine.csv"
+ [1] "AirlinesCluster.csv"     "AnonymityPoll.csv"
+ [3] "baseball.csv"            "BoeingStock.csv"
+ [5] "boston.csv"              "ClaimsData.csv"
+ [7] "ClaimsData.csv.zip"      "climate_change.csv"
+ [9] "clinical_trial.csv"      "ClusterMeans.ods"
+[11] "CocaColaStock.csv"       "CountryCodes.csv"
+[13] "CPSData.csv"             "dailykos.csv"
+[15] "eBayiPadTest.csv"        "eBayiPadTrain.csv"
+[17] "emails.csv"              "energy_bids.csv"
+[19] "flower.csv"              "FluTest.csv"
+[21] "FluTrain.csv"            "framingham.csv"
+[23] "gerber.csv"              "GEStock.csv"
+[25] "healthy.csv"             "IBMStock.csv"
+[27] "loans_imputed.csv"       "loans.csv"
+[29] "MetroAreaCodes.csv"      "movieLens.txt"
+[31] "mvtWeek1.csv"            "NBA_test.csv"
+[33] "NBA_train.csv"           "parole.csv"
+[35] "pisa2009test.csv"        "pisa2009train.csv"
+[37] "PollingData_Imputed.csv" "PollingData.csv"
+[39] "ProcterGambleStock.csv"  "quality.csv"
+[41] "README.md"               "SampleSubmission.csv"
+[43] "songs.csv"               "stevens.csv"
+[45] "StocksCluster.csv"       "stopwords.txt"
+[47] "tumor.csv"               "tweets.csv"
+[49] "USDA.csv"                "WHO_Europe.csv"
+[51] "WHO.csv"                 "wiki.csv"
+[53] "wine_test.csv"           "wine.csv"
 </pre>
 </div>
 </div>
@@ -3545,8 +3551,8 @@ Now we should be ready to go to R.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Reading the flower dataset:"</span>)
-flower <span style="color: #db7093;">&lt;-</span> read.csv(<span style="color: #fffacd;">"../data/flower.csv"</span>, header = <span style="color: #3cb371;">FALSE</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Reading the flower dataset:"</span>)
+flower <span style="color: #db7093;">&lt;-</span> read.csv(<span style="color: #ff6a6a;">"../data/flower.csv"</span>, header = <span style="color: #3cb371;">FALSE</span>)
 str(flower)
 </pre>
 </div>
@@ -3626,7 +3632,7 @@ function.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Change the data type to matrix:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Change the data type to matrix:"</span>)
 flowerMatrix <span style="color: #db7093;">&lt;-</span> as.matrix(flower)
 str(flowerMatrix)
 </pre>
@@ -3673,7 +3679,7 @@ use the function as.vector, which takes as an input the
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Turn matrix into a vector:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Turn matrix into a vector:"</span>)
 flowerVector <span style="color: #db7093;">&lt;-</span> as.vector(flowerMatrix)
 head(str(flowerVector))
 </pre>
@@ -3699,7 +3705,7 @@ frame flower to a vector. Let's try to do this.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Turn matrix into a vector:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Turn matrix into a vector:"</span>)
 flowerVector2 <span style="color: #db7093;">&lt;-</span> as.vector(flower)
 head(str(flowerVector2))
 </pre>
@@ -3777,8 +3783,8 @@ values in our flower vector.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Compute distances..."</span>)
-distance <span style="color: #db7093;">&lt;-</span> dist(flowerVector, method = <span style="color: #fffacd;">"euclidean"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Compute distances..."</span>)
+distance <span style="color: #db7093;">&lt;-</span> dist(flowerVector, method = <span style="color: #ff6a6a;">"euclidean"</span>)
 </pre>
 </div>
 
@@ -3811,8 +3817,8 @@ among clusters.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Hierarchical clustering..."</span>)
-clusterIntensity <span style="color: #db7093;">&lt;-</span> hclust(distance, method = <span style="color: #fffacd;">"ward.D"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Hierarchical clustering..."</span>)
+clusterIntensity <span style="color: #db7093;">&lt;-</span> hclust(distance, method = <span style="color: #ff6a6a;">"ward.D"</span>)
 </pre>
 </div>
 
@@ -3938,7 +3944,7 @@ correspond to each cluster.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Summary of the flowerClusters vector:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Summary of the flowerClusters vector:"</span>)
 str(flowerClusters)
 </pre>
 </div>
@@ -3954,7 +3960,7 @@ To find the mean intensity value of each of our clusters:
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Find mean intensity values:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Find mean intensity values:"</span>)
 tapply(flowerVector, flowerClusters, mean)
 </pre>
 </div>
@@ -4049,9 +4055,9 @@ false.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Let's try this with an MRI image of the brain:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Let's try this with an MRI image of the brain:"</span>)
 
-healthy <span style="color: #db7093;">&lt;-</span> read.csv(<span style="color: #fffacd;">"../data/healthy.csv"</span>, header = <span style="color: #3cb371;">FALSE</span>)
+healthy <span style="color: #db7093;">&lt;-</span> read.csv(<span style="color: #ff6a6a;">"../data/healthy.csv"</span>, header = <span style="color: #3cb371;">FALSE</span>)
 healthyMatrix <span style="color: #db7093;">&lt;-</span> as.matrix(healthy)
 str(healthyMatrix)
 </pre>
@@ -4100,11 +4106,11 @@ We first need to convert the healthy matrix to a vector:
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Hierarchial clustering (Memory error)"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Hierarchial clustering (Memory error)"</span>)
 healthyVector <span style="color: #db7093;">&lt;-</span> as.vector(healthyMatrix)
 <span style="color: #9932cc;">## </span><span style="color: #ba55d3;">distance = dist(healthyVector, method = "euclidean")</span>
 
-writeLines(<span style="color: #fffacd;">"\n :: Search for memory alternative, run on Ithaca!"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Search for memory alternative, run on Ithaca!"</span>)
 </pre>
 </div>
 
@@ -4127,7 +4133,7 @@ obtain.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: We have an error - why?"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: We have an error - why?"</span>)
 str(healthyVector)
 </pre>
 </div>
@@ -4145,7 +4151,7 @@ The healthy vector has 365,636 elements. Let's call this number n.
 
 <pre class="src src-R">n <span style="color: #db7093;">&lt;-</span> 365636
 
-writeLines(<span style="color: #fffacd;">"\n :: The number of calculations:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: The number of calculations:"</span>)
 (n*(n - 1)) / 2
 </pre>
 </div>
@@ -4419,10 +4425,10 @@ obtain the same clusters.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Specify number of clusters k = 5..."</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Specify number of clusters k = 5..."</span>)
 k <span style="color: #db7093;">&lt;-</span> 5
 
-writeLines(<span style="color: #fffacd;">"\n :: Run k-means..."</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Run k-means..."</span>)
 set.seed(1)
 KMC <span style="color: #db7093;">&lt;-</span> kmeans(healthyVector, centers = k, iter.max = 1000)
 str(KMC)
@@ -4472,7 +4478,7 @@ vector. The way to do this is by using the dollar notation.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Extract clusters:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Extract clusters:"</span>)
 healthyClusters <span style="color: #db7093;">&lt;-</span> KMC$cluster
 </pre>
 </div>
@@ -4490,7 +4496,7 @@ case, we have the answers ready, under the vector centers.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Extract clusters centers intensities:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Extract clusters centers intensities:"</span>)
 KMC$centers
 </pre>
 </div>
@@ -4512,7 +4518,7 @@ is 0.48, and the mean intensity value of the last cluster is 0.18.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Extract cluster 2 center intensity:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Extract cluster 2 center intensity:"</span>)
 KMC$centers[2]
 </pre>
 </div>
@@ -4536,7 +4542,7 @@ size of the cluster.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Extract clusters sizes:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Extract clusters sizes:"</span>)
 KMC$size
 </pre>
 </div>
@@ -4640,9 +4646,9 @@ guidance is key in determining its location and geometry.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Apply to a test image. Loading the test data..."</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Apply to a test image. Loading the test data..."</span>)
 
-tumor <span style="color: #db7093;">&lt;-</span> read.csv(<span style="color: #fffacd;">"../data/tumor.csv"</span>, header = <span style="color: #3cb371;">FALSE</span>)
+tumor <span style="color: #db7093;">&lt;-</span> read.csv(<span style="color: #ff6a6a;">"../data/tumor.csv"</span>, header = <span style="color: #3cb371;">FALSE</span>)
 tumorMatrix <span style="color: #db7093;">&lt;-</span> as.matrix(tumor)
 tumorMatrix <span style="color: #db7093;">&lt;-</span> t(tumorMatrix)[,nrow(tumorMatrix):1]
 tumorVector <span style="color: #db7093;">&lt;-</span> as.vector(tumorMatrix)
@@ -4671,21 +4677,25 @@ To do this, we first need to install a new package that is called
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Install new package: flexclust ..."</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Install new package: flexclust ..."</span>)
 <span style="color: #9932cc;">## </span><span style="color: #ba55d3;">install.packages('flexclust', repos='http://cran.rstudio.com/')</span>
-writeLines(<span style="color: #fffacd;">"\n :: NOTE: Please comment after install once..."</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: NOTE: Please comment after install once..."</span>)
 
 <span style="color: #db7093;">library</span>(flexclust)
-writeLines(<span style="color: #fffacd;">"\n :: Library flexclust loaded..."</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Library flexclust loaded..."</span>)
 </pre>
 </div>
 
 <pre class="example">
-:: Install new package: flexclust ...
+ :: Install new package: flexclust ...
 
-:: NOTE: Please comment after install once...
+ :: NOTE: Please comment after install once...
+Loading required package: grid
+Loading required package: lattice
+Loading required package: modeltools
+Loading required package: stats4
 
-:: Library flexclust loaded...
+ :: Library flexclust loaded...
 </pre>
 
 <p>
@@ -4701,7 +4711,7 @@ on the test set <code>tumorVector</code>.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Apply clusters from before to new image, using the flexclust package..."</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Apply clusters from before to new image, using the flexclust package..."</span>)
 KMC.kcca <span style="color: #db7093;">&lt;-</span> as.kcca(KMC, healthyVector)
 </pre>
 </div>
@@ -4717,7 +4727,7 @@ function.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Clustering with the testing data..."</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Clustering with the testing data..."</span>)
 tumorClusters <span style="color: #db7093;">&lt;-</span> predict(KMC.kcca, newdata = tumorVector)
 </pre>
 </div>
@@ -4960,7 +4970,7 @@ example.
 <div id="postamble" class="status">
 <p class="date">Date: 14/07/2015</p>
 <p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
-<p class="date">Created: 2015-07-19 Sun 08:03</p>
+<p class="date">Created: 2015-07-22 Wed 08:03</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

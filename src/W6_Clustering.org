@@ -632,30 +632,33 @@ In this part we can download the data
 
 #+RESULTS:
 #+begin_example
- [1] "AnonymityPoll.csv"       "baseball.csv"
- [3] "BoeingStock.csv"         "boston.csv"
- [5] "ClaimsData.csv"          "ClaimsData.csv.zip"
- [7] "climate_change.csv"      "clinical_trial.csv"
- [9] "ClusterMeans.ods"        "CocaColaStock.csv"
-[11] "CountryCodes.csv"        "CPSData.csv"
-[13] "emails.csv"              "energy_bids.csv"
-[15] "flower.csv"              "FluTest.csv"
-[17] "FluTrain.csv"            "framingham.csv"
-[19] "gerber.csv"              "GEStock.csv"
-[21] "healthy.csv"             "IBMStock.csv"
-[23] "loans_imputed.csv"       "loans.csv"
-[25] "MetroAreaCodes.csv"      "movieLens.txt"
-[27] "mvtWeek1.csv"            "NBA_test.csv"
-[29] "NBA_train.csv"           "parole.csv"
-[31] "pisa2009test.csv"        "pisa2009train.csv"
-[33] "PollingData_Imputed.csv" "PollingData.csv"
-[35] "ProcterGambleStock.csv"  "quality.csv"
-[37] "README.md"               "songs.csv"
-[39] "stevens.csv"             "stopwords.txt"
-[41] "tumor.csv"               "tweets.csv"
-[43] "USDA.csv"                "WHO_Europe.csv"
-[45] "WHO.csv"                 "wiki.csv"
-[47] "wine_test.csv"           "wine.csv"
+ [1] "AirlinesCluster.csv"     "AnonymityPoll.csv"
+ [3] "baseball.csv"            "BoeingStock.csv"
+ [5] "boston.csv"              "ClaimsData.csv"
+ [7] "ClaimsData.csv.zip"      "climate_change.csv"
+ [9] "clinical_trial.csv"      "ClusterMeans.ods"
+[11] "CocaColaStock.csv"       "CountryCodes.csv"
+[13] "CPSData.csv"             "dailykos.csv"
+[15] "eBayiPadTest.csv"        "eBayiPadTrain.csv"
+[17] "emails.csv"              "energy_bids.csv"
+[19] "flower.csv"              "FluTest.csv"
+[21] "FluTrain.csv"            "framingham.csv"
+[23] "gerber.csv"              "GEStock.csv"
+[25] "healthy.csv"             "IBMStock.csv"
+[27] "loans_imputed.csv"       "loans.csv"
+[29] "MetroAreaCodes.csv"      "movieLens.txt"
+[31] "mvtWeek1.csv"            "NBA_test.csv"
+[33] "NBA_train.csv"           "parole.csv"
+[35] "pisa2009test.csv"        "pisa2009train.csv"
+[37] "PollingData_Imputed.csv" "PollingData.csv"
+[39] "ProcterGambleStock.csv"  "quality.csv"
+[41] "README.md"               "SampleSubmission.csv"
+[43] "songs.csv"               "stevens.csv"
+[45] "StocksCluster.csv"       "stopwords.txt"
+[47] "tumor.csv"               "tweets.csv"
+[49] "USDA.csv"                "WHO_Europe.csv"
+[51] "WHO.csv"                 "wiki.csv"
+[53] "wine_test.csv"           "wine.csv"
 #+end_example
 
 *** Load the data set
@@ -1857,30 +1860,33 @@ In this part we can download the data
 
 #+RESULTS:
 #+begin_example
- [1] "AnonymityPoll.csv"       "baseball.csv"
- [3] "BoeingStock.csv"         "boston.csv"
- [5] "ClaimsData.csv"          "ClaimsData.csv.zip"
- [7] "climate_change.csv"      "clinical_trial.csv"
- [9] "ClusterMeans.ods"        "CocaColaStock.csv"
-[11] "CountryCodes.csv"        "CPSData.csv"
-[13] "emails.csv"              "energy_bids.csv"
-[15] "flower.csv"              "FluTest.csv"
-[17] "FluTrain.csv"            "framingham.csv"
-[19] "gerber.csv"              "GEStock.csv"
-[21] "healthy.csv"             "IBMStock.csv"
-[23] "loans_imputed.csv"       "loans.csv"
-[25] "MetroAreaCodes.csv"      "movieLens.txt"
-[27] "mvtWeek1.csv"            "NBA_test.csv"
-[29] "NBA_train.csv"           "parole.csv"
-[31] "pisa2009test.csv"        "pisa2009train.csv"
-[33] "PollingData_Imputed.csv" "PollingData.csv"
-[35] "ProcterGambleStock.csv"  "quality.csv"
-[37] "README.md"               "songs.csv"
-[39] "stevens.csv"             "stopwords.txt"
-[41] "tumor.csv"               "tweets.csv"
-[43] "USDA.csv"                "WHO_Europe.csv"
-[45] "WHO.csv"                 "wiki.csv"
-[47] "wine_test.csv"           "wine.csv"
+ [1] "AirlinesCluster.csv"     "AnonymityPoll.csv"
+ [3] "baseball.csv"            "BoeingStock.csv"
+ [5] "boston.csv"              "ClaimsData.csv"
+ [7] "ClaimsData.csv.zip"      "climate_change.csv"
+ [9] "clinical_trial.csv"      "ClusterMeans.ods"
+[11] "CocaColaStock.csv"       "CountryCodes.csv"
+[13] "CPSData.csv"             "dailykos.csv"
+[15] "eBayiPadTest.csv"        "eBayiPadTrain.csv"
+[17] "emails.csv"              "energy_bids.csv"
+[19] "flower.csv"              "FluTest.csv"
+[21] "FluTrain.csv"            "framingham.csv"
+[23] "gerber.csv"              "GEStock.csv"
+[25] "healthy.csv"             "IBMStock.csv"
+[27] "loans_imputed.csv"       "loans.csv"
+[29] "MetroAreaCodes.csv"      "movieLens.txt"
+[31] "mvtWeek1.csv"            "NBA_test.csv"
+[33] "NBA_train.csv"           "parole.csv"
+[35] "pisa2009test.csv"        "pisa2009train.csv"
+[37] "PollingData_Imputed.csv" "PollingData.csv"
+[39] "ProcterGambleStock.csv"  "quality.csv"
+[41] "README.md"               "SampleSubmission.csv"
+[43] "songs.csv"               "stevens.csv"
+[45] "StocksCluster.csv"       "stopwords.txt"
+[47] "tumor.csv"               "tweets.csv"
+[49] "USDA.csv"                "WHO_Europe.csv"
+[51] "WHO.csv"                 "wiki.csv"
+[53] "wine_test.csv"           "wine.csv"
 #+end_example
 
 ** Video 2: Clustering Pixels
@@ -2872,12 +2878,18 @@ To do this, we first need to install a new package that is called
 #+end_src
 
 #+RESULTS:
-:
-:  :: Install new package: flexclust ...
-:
-:  :: NOTE: Please comment after install once...
-:
-:  :: Library flexclust loaded...
+#+begin_example
+
+ :: Install new package: flexclust ...
+
+ :: NOTE: Please comment after install once...
+Loading required package: grid
+Loading required package: lattice
+Loading required package: modeltools
+Loading required package: stats4
+
+ :: Library flexclust loaded...
+#+end_example
 
 The ~flexclust~ package contains the object class ~KCCA~, which stands
 for K-Centroids Cluster Analysis.  We need to convert the information

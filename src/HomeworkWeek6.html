@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Assignment 6. The Analytics Edge</title>
-<!-- 2015-07-20 Mon 17:43 -->
+<!-- 2015-07-22 Wed 08:02 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Sergio-Feliciano Mendoza-Barrera" />
@@ -326,48 +326,50 @@ In this part we can download the data
 
 <pre class="src src-R"><span style="color: #db7093;">library</span>(parallel)
 
-<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #fffacd;">"../data"</span>)) {
-        dir.create(<span style="color: #fffacd;">"../data"</span>)
+<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #ff6a6a;">"../data"</span>)) {
+        dir.create(<span style="color: #ff6a6a;">"../data"</span>)
 }
 
-fileUrl <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/dailykos.csv"</span>
-fileName <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"dailykos.csv"</span>
-dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"../data"</span>
+fileUrl <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/dailykos.csv"</span>
+fileName <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"dailykos.csv"</span>
+dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"../data"</span>
 
-filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #fffacd;">"/"</span>)
+filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #ff6a6a;">"/"</span>)
 <span style="color: #4682b4;">if</span>(!file.exists(filePath)) {
-        download.file(fileUrl, destfile = filePath, method = <span style="color: #fffacd;">"curl"</span>)
+        download.file(fileUrl, destfile = filePath, method = <span style="color: #ff6a6a;">"curl"</span>)
 }
-list.files(<span style="color: #fffacd;">"../data"</span>)
+list.files(<span style="color: #ff6a6a;">"../data"</span>)
 </pre>
 </div>
 
 <pre class="example">
- [1] "AnonymityPoll.csv"       "BoeingStock.csv"
- [3] "CPSData.csv"             "ClaimsData.csv"
- [5] "ClaimsData.csv.zip"      "ClusterMeans.ods"
- [7] "CocaColaStock.csv"       "CountryCodes.csv"
- [9] "FluTest.csv"             "FluTrain.csv"
-[11] "GEStock.csv"             "IBMStock.csv"
-[13] "MetroAreaCodes.csv"      "NBA_test.csv"
-[15] "NBA_train.csv"           "PollingData.csv"
-[17] "PollingData_Imputed.csv" "ProcterGambleStock.csv"
-[19] "README.md"               "USDA.csv"
-[21] "WHO.csv"                 "WHO_Europe.csv"
-[23] "baseball.csv"            "boston.csv"
-[25] "climate_change.csv"      "clinical_trial.csv"
-[27] "dailykos.csv"            "emails.csv"
-[29] "energy_bids.csv"         "flower.csv"
-[31] "framingham.csv"          "gerber.csv"
-[33] "healthy.csv"             "loans.csv"
-[35] "loans_imputed.csv"       "movieLens.txt"
-[37] "mvtWeek1.csv"            "parole.csv"
-[39] "pisa2009test.csv"        "pisa2009train.csv"
-[41] "quality.csv"             "songs.csv"
-[43] "stevens.csv"             "stopwords.txt"
-[45] "tumor.csv"               "tweets.csv"
-[47] "wiki.csv"                "wine.csv"
-[49] "wine_test.csv"
+ [1] "AirlinesCluster.csv"     "AnonymityPoll.csv"
+ [3] "baseball.csv"            "BoeingStock.csv"
+ [5] "boston.csv"              "ClaimsData.csv"
+ [7] "ClaimsData.csv.zip"      "climate_change.csv"
+ [9] "clinical_trial.csv"      "ClusterMeans.ods"
+[11] "CocaColaStock.csv"       "CountryCodes.csv"
+[13] "CPSData.csv"             "dailykos.csv"
+[15] "eBayiPadTest.csv"        "eBayiPadTrain.csv"
+[17] "emails.csv"              "energy_bids.csv"
+[19] "flower.csv"              "FluTest.csv"
+[21] "FluTrain.csv"            "framingham.csv"
+[23] "gerber.csv"              "GEStock.csv"
+[25] "healthy.csv"             "IBMStock.csv"
+[27] "loans_imputed.csv"       "loans.csv"
+[29] "MetroAreaCodes.csv"      "movieLens.txt"
+[31] "mvtWeek1.csv"            "NBA_test.csv"
+[33] "NBA_train.csv"           "parole.csv"
+[35] "pisa2009test.csv"        "pisa2009train.csv"
+[37] "PollingData_Imputed.csv" "PollingData.csv"
+[39] "ProcterGambleStock.csv"  "quality.csv"
+[41] "README.md"               "SampleSubmission.csv"
+[43] "songs.csv"               "stevens.csv"
+[45] "StocksCluster.csv"       "stopwords.txt"
+[47] "tumor.csv"               "tweets.csv"
+[49] "USDA.csv"                "WHO_Europe.csv"
+[51] "WHO.csv"                 "wiki.csv"
+[53] "wine_test.csv"           "wine.csv"
 </pre>
 </div>
 </div>
@@ -377,8 +379,8 @@ list.files(<span style="color: #fffacd;">"../data"</span>)
 <div class="outline-text-4" id="text-1-1-2">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"    Loading data set into their data frame..."</span>)
-dailykos <span style="color: #db7093;">&lt;-</span> read.table(<span style="color: #fffacd;">"../data/dailykos.csv"</span>, sep = <span style="color: #fffacd;">","</span>, header = <span style="color: #3cb371;">TRUE</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"    Loading data set into their data frame..."</span>)
+dailykos <span style="color: #db7093;">&lt;-</span> read.table(<span style="color: #ff6a6a;">"../data/dailykos.csv"</span>, sep = <span style="color: #ff6a6a;">","</span>, header = <span style="color: #3cb371;">TRUE</span>)
 </pre>
 </div>
 
@@ -394,11 +396,11 @@ of the variables.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Compute distances..."</span>)
-kosDist <span style="color: #db7093;">&lt;-</span> dist(dailykos, method = <span style="color: #fffacd;">"euclidean"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Compute distances..."</span>)
+kosDist <span style="color: #db7093;">&lt;-</span> dist(dailykos, method = <span style="color: #ff6a6a;">"euclidean"</span>)
 
-writeLines(<span style="color: #fffacd;">"\n :: Hierarchical clustering..."</span>)
-kosHierClust <span style="color: #db7093;">&lt;-</span> hclust(kosDist, method = <span style="color: #fffacd;">"ward.D"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Hierarchical clustering..."</span>)
+kosHierClust <span style="color: #db7093;">&lt;-</span> hclust(kosDist, method = <span style="color: #ff6a6a;">"ward.D"</span>)
 </pre>
 </div>
 
@@ -420,17 +422,17 @@ all that apply.
 <div class="outline-text-4" id="text-1-1-3">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Dimensions of the kosDist matrix:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Dimensions of the kosDist matrix:"</span>)
 dim(kosDist)
 
-writeLines(<span style="color: #fffacd;">"\n :: Summary of the kosDist matrix:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Summary of the kosDist matrix:"</span>)
 min(kosDist)
 
-writeLines(<span style="color: #fffacd;">"\n :: Dimensions of distance vector:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Dimensions of distance vector:"</span>)
 n <span style="color: #db7093;">&lt;-</span> length(kosDist)
 n
 
-writeLines(<span style="color: #fffacd;">"\n :: The number of calculations:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: The number of calculations:"</span>)
 (n*(n - 1)) / 2
 </pre>
 </div>
@@ -620,7 +622,7 @@ containing the observations from one of the clusters.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Subsetting in 7 clusters..."</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Subsetting in 7 clusters..."</span>)
 clusterGroups <span style="color: #db7093;">&lt;-</span> cutree(kosHierClust, k <span style="color: #db7093;">&lt;-</span> 7)
 
 hcluster1 <span style="color: #db7093;">&lt;-</span> subset(dailykos, clusterGroups==1)
@@ -658,7 +660,7 @@ How many observations are in cluster 3?
 <div class="outline-text-5" id="text-1-4-1-1">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: The cluster 3 dimensions:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: The cluster 3 dimensions:"</span>)
 dim(hcluster3)
 </pre>
 </div>
@@ -676,7 +678,7 @@ dim(hcluster3)
 <div class="outline-text-4" id="text-1-4-2">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Number of observations by cluster:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Number of observations by cluster:"</span>)
 c(nrow(hcluster1), nrow(hcluster2), nrow(hcluster3), nrow(hcluster4),
   nrow(hcluster5), nrow(hcluster6), nrow(hcluster7))
 </pre>
@@ -763,7 +765,7 @@ should be replaced with the name of your first cluster subset):
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: The top 6 words in each cluster:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: The top 6 words in each cluster:"</span>)
 tail(sort(colMeans(hcluster1)))
 </pre>
 </div>
@@ -819,25 +821,25 @@ other clusters, and answer the following questions.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Most frequent word for cluster 1:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Most frequent word for cluster 1:"</span>)
 tail(sort(colMeans(hcluster1)))
 
-writeLines(<span style="color: #fffacd;">"\n :: Most frequent word for cluster 2:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Most frequent word for cluster 2:"</span>)
 tail(sort(colMeans(hcluster2)))
 
-writeLines(<span style="color: #fffacd;">"\n :: Most frequent word for cluster 3:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Most frequent word for cluster 3:"</span>)
 tail(sort(colMeans(hcluster3)))
 
-writeLines(<span style="color: #fffacd;">"\n :: Most frequent word for cluster 4:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Most frequent word for cluster 4:"</span>)
 tail(sort(colMeans(hcluster4)))
 
-writeLines(<span style="color: #fffacd;">"\n :: Most frequent word for cluster 5:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Most frequent word for cluster 5:"</span>)
 tail(sort(colMeans(hcluster5)))
 
-writeLines(<span style="color: #fffacd;">"\n :: Most frequent word for cluster 6:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Most frequent word for cluster 6:"</span>)
 tail(sort(colMeans(hcluster6)))
 
-writeLines(<span style="color: #fffacd;">"\n :: Most frequent word for cluster 7:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Most frequent word for cluster 7:"</span>)
 tail(sort(colMeans(hcluster7)))
 </pre>
 </div>
@@ -1201,7 +1203,7 @@ in the previous problem, for each of the k-means clusters.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Subsetting each cluster content..."</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Subsetting each cluster content..."</span>)
 kcluster1 <span style="color: #db7093;">&lt;-</span> subset(dailykos, kosCluster==1)
 kcluster2 <span style="color: #db7093;">&lt;-</span> subset(dailykos, kosCluster==2)
 kcluster3 <span style="color: #db7093;">&lt;-</span> subset(dailykos, kosCluster==3)
@@ -1231,25 +1233,25 @@ Now we can obtain the six most frequent words in each cluster
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Most frequent word for cluster 1:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Most frequent word for cluster 1:"</span>)
 tail(sort(colMeans(kcluster1)))
 
-writeLines(<span style="color: #fffacd;">"\n :: Most frequent word for cluster 2:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Most frequent word for cluster 2:"</span>)
 tail(sort(colMeans(kcluster2)))
 
-writeLines(<span style="color: #fffacd;">"\n :: Most frequent word for cluster 3:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Most frequent word for cluster 3:"</span>)
 tail(sort(colMeans(kcluster3)))
 
-writeLines(<span style="color: #fffacd;">"\n :: Most frequent word for cluster 4:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Most frequent word for cluster 4:"</span>)
 tail(sort(colMeans(kcluster4)))
 
-writeLines(<span style="color: #fffacd;">"\n :: Most frequent word for cluster 5:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Most frequent word for cluster 5:"</span>)
 tail(sort(colMeans(kcluster5)))
 
-writeLines(<span style="color: #fffacd;">"\n :: Most frequent word for cluster 6:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Most frequent word for cluster 6:"</span>)
 tail(sort(colMeans(kcluster6)))
 
-writeLines(<span style="color: #fffacd;">"\n :: Most frequent word for cluster 7:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Most frequent word for cluster 7:"</span>)
 tail(sort(colMeans(kcluster7)))
 </pre>
 </div>
@@ -1685,51 +1687,50 @@ In this part we can download the data
 
 <pre class="src src-R"><span style="color: #db7093;">library</span>(parallel)
 
-<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #fffacd;">"../data"</span>)) {
-        dir.create(<span style="color: #fffacd;">"../data"</span>)
+<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #ff6a6a;">"../data"</span>)) {
+        dir.create(<span style="color: #ff6a6a;">"../data"</span>)
 }
 
-fileUrl <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/AirlinesCluster.csv"</span>
-fileName <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"AirlinesCluster.csv"</span>
-dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"../data"</span>
+fileUrl <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/AirlinesCluster.csv"</span>
+fileName <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"AirlinesCluster.csv"</span>
+dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"../data"</span>
 
-filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #fffacd;">"/"</span>)
+filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #ff6a6a;">"/"</span>)
 <span style="color: #4682b4;">if</span>(!file.exists(filePath)) {
-        download.file(fileUrl, destfile = filePath, method = <span style="color: #fffacd;">"curl"</span>)
+        download.file(fileUrl, destfile = filePath, method = <span style="color: #ff6a6a;">"curl"</span>)
 }
-list.files(<span style="color: #fffacd;">"../data"</span>)
+list.files(<span style="color: #ff6a6a;">"../data"</span>)
 </pre>
 </div>
 
 <pre class="example">
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0100   99k  100   99k    0     0  50601      0  0:00:02  0:00:02 --:--:-- 50628
  [1] "AirlinesCluster.csv"     "AnonymityPoll.csv"
- [3] "BoeingStock.csv"         "CPSData.csv"
- [5] "ClaimsData.csv"          "ClaimsData.csv.zip"
- [7] "ClusterMeans.ods"        "CocaColaStock.csv"
- [9] "CountryCodes.csv"        "FluTest.csv"
-[11] "FluTrain.csv"            "GEStock.csv"
-[13] "IBMStock.csv"            "MetroAreaCodes.csv"
-[15] "NBA_test.csv"            "NBA_train.csv"
-[17] "PollingData.csv"         "PollingData_Imputed.csv"
-[19] "ProcterGambleStock.csv"  "README.md"
-[21] "USDA.csv"                "WHO.csv"
-[23] "WHO_Europe.csv"          "baseball.csv"
-[25] "boston.csv"              "climate_change.csv"
-[27] "clinical_trial.csv"      "dailykos.csv"
-[29] "emails.csv"              "energy_bids.csv"
-[31] "flower.csv"              "framingham.csv"
-[33] "gerber.csv"              "healthy.csv"
-[35] "loans.csv"               "loans_imputed.csv"
-[37] "movieLens.txt"           "mvtWeek1.csv"
-[39] "parole.csv"              "pisa2009test.csv"
-[41] "pisa2009train.csv"       "quality.csv"
+ [3] "baseball.csv"            "BoeingStock.csv"
+ [5] "boston.csv"              "ClaimsData.csv"
+ [7] "ClaimsData.csv.zip"      "climate_change.csv"
+ [9] "clinical_trial.csv"      "ClusterMeans.ods"
+[11] "CocaColaStock.csv"       "CountryCodes.csv"
+[13] "CPSData.csv"             "dailykos.csv"
+[15] "eBayiPadTest.csv"        "eBayiPadTrain.csv"
+[17] "emails.csv"              "energy_bids.csv"
+[19] "flower.csv"              "FluTest.csv"
+[21] "FluTrain.csv"            "framingham.csv"
+[23] "gerber.csv"              "GEStock.csv"
+[25] "healthy.csv"             "IBMStock.csv"
+[27] "loans_imputed.csv"       "loans.csv"
+[29] "MetroAreaCodes.csv"      "movieLens.txt"
+[31] "mvtWeek1.csv"            "NBA_test.csv"
+[33] "NBA_train.csv"           "parole.csv"
+[35] "pisa2009test.csv"        "pisa2009train.csv"
+[37] "PollingData_Imputed.csv" "PollingData.csv"
+[39] "ProcterGambleStock.csv"  "quality.csv"
+[41] "README.md"               "SampleSubmission.csv"
 [43] "songs.csv"               "stevens.csv"
-[45] "stopwords.txt"           "tumor.csv"
-[47] "tweets.csv"              "wiki.csv"
-[49] "wine.csv"                "wine_test.csv"
+[45] "StocksCluster.csv"       "stopwords.txt"
+[47] "tumor.csv"               "tweets.csv"
+[49] "USDA.csv"                "WHO_Europe.csv"
+[51] "WHO.csv"                 "wiki.csv"
+[53] "wine_test.csv"           "wine.csv"
 </pre>
 </div>
 </div>
@@ -1739,8 +1740,8 @@ list.files(<span style="color: #fffacd;">"../data"</span>)
 <div class="outline-text-4" id="text-2-1-2">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"    Loading data set into their data frame..."</span>)
-airlines <span style="color: #db7093;">&lt;-</span> read.table(<span style="color: #fffacd;">"../data/AirlinesCluster.csv"</span>, sep = <span style="color: #fffacd;">","</span>,
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"    Loading data set into their data frame..."</span>)
+airlines <span style="color: #db7093;">&lt;-</span> read.table(<span style="color: #ff6a6a;">"../data/AirlinesCluster.csv"</span>, sep = <span style="color: #ff6a6a;">","</span>,
                        header = <span style="color: #3cb371;">TRUE</span>)
 summary(airlines)
 </pre>
@@ -1910,21 +1911,23 @@ but if not, go ahead and install it with
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Install new package: caret ..."</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Install new package: caret ..."</span>)
 <span style="color: #9932cc;">## </span><span style="color: #ba55d3;">install.packages('caret', repos='http://cran.rstudio.com/')</span>
-writeLines(<span style="color: #fffacd;">"\n :: NOTE: Please comment after install once..."</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: NOTE: Please comment after install once..."</span>)
 
 <span style="color: #db7093;">library</span>(caret)
-writeLines(<span style="color: #fffacd;">"\n :: Library caret loaded..."</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Library caret loaded..."</span>)
 </pre>
 </div>
 
 <pre class="example">
-:: Install new package: caret ...
+ :: Install new package: caret ...
 
-:: NOTE: Please comment after install once...
+ :: NOTE: Please comment after install once...
+Loading required package: lattice
+Loading required package: ggplot2
 
-:: Library caret loaded...
+ :: Library caret loaded...
 </pre>
 
 <p>
@@ -1942,12 +1945,12 @@ deviation 1 by using the sd() function.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Preprocessing the data..."</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Preprocessing the data..."</span>)
 preproc <span style="color: #db7093;">&lt;-</span> preProcess(airlines)
 airlinesNorm <span style="color: #db7093;">&lt;-</span> predict(preproc, airlines)
 summary(airlinesNorm)
 
-writeLines(<span style="color: #fffacd;">"\n :: Standard deviation of each variable:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Standard deviation of each variable:"</span>)
 sd(airlinesNorm$Balance)
 sd(airlinesNorm$BonusMiles)
 sd(airlinesNorm$BonusTrans)
@@ -1956,10 +1959,10 @@ sd(airlinesNorm$FlightMiles)
 sd(airlinesNorm$FlightTrans)
 sd(airlinesNorm$QualMiles)
 
-writeLines(<span style="color: #fffacd;">"\n :: Maximum value in the variable:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Maximum value in the variable:"</span>)
 data.frame(x=sort(sapply(airlinesNorm, max)))
 
-writeLines(<span style="color: #fffacd;">"\n :: Minimum value in the variable:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Minimum value in the variable:"</span>)
 data.frame(x=sort(sapply(airlinesNorm, min)))
 </pre>
 </div>
@@ -2109,9 +2112,9 @@ observations for hierarchical clustering.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Clustering with the hierarchial method..."</span>)
-airDist <span style="color: #db7093;">&lt;-</span> dist(airlinesNorm, method = <span style="color: #fffacd;">"euclidean"</span>)
-airHclust <span style="color: #db7093;">&lt;-</span> hclust(airDist, method = <span style="color: #fffacd;">"ward.D"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Clustering with the hierarchial method..."</span>)
+airDist <span style="color: #db7093;">&lt;-</span> dist(airlinesNorm, method = <span style="color: #ff6a6a;">"euclidean"</span>)
+airHclust <span style="color: #db7093;">&lt;-</span> hclust(airDist, method = <span style="color: #ff6a6a;">"ward.D"</span>)
 </pre>
 </div>
 
@@ -2192,6 +2195,8 @@ table(clusterGroups)
 </div>
 
 <pre class="example">
+ null device
+          1
 clusterGroups
    1    2    3    4    5
  776  519  494  868 1342
@@ -2333,7 +2338,7 @@ before you can use the split function.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Other way to calculate the same:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Other way to calculate the same:"</span>)
 lapply(split(airlines, clusterGroups), colMeans)
 </pre>
 </div>
@@ -3065,10 +3070,10 @@ names(out2) = names(airlines)
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Centroids of hierarchial clustering:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Centroids of hierarchial clustering:"</span>)
 out
 
-writeLines(<span style="color: #fffacd;">"\n :: Centroids of k-means clustering:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Centroids of k-means clustering:"</span>)
 out2
 </pre>
 </div>
@@ -3275,49 +3280,50 @@ In this part we can download the data
 
 <pre class="src src-R"><span style="color: #db7093;">library</span>(parallel)
 
-<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #fffacd;">"../data"</span>)) {
-        dir.create(<span style="color: #fffacd;">"../data"</span>)
+<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #ff6a6a;">"../data"</span>)) {
+        dir.create(<span style="color: #ff6a6a;">"../data"</span>)
 }
 
-fileUrl <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/StocksCluster.csv"</span>
-fileName <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"StocksCluster.csv"</span>
-dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"../data"</span>
+fileUrl <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/StocksCluster.csv"</span>
+fileName <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"StocksCluster.csv"</span>
+dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"../data"</span>
 
-filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #fffacd;">"/"</span>)
+filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #ff6a6a;">"/"</span>)
 <span style="color: #4682b4;">if</span>(!file.exists(filePath)) {
-        download.file(fileUrl, destfile = filePath, method = <span style="color: #fffacd;">"curl"</span>)
+        download.file(fileUrl, destfile = filePath, method = <span style="color: #ff6a6a;">"curl"</span>)
 }
-list.files(<span style="color: #fffacd;">"../data/"</span>)
+list.files(<span style="color: #ff6a6a;">"../data/"</span>)
 </pre>
 </div>
 
 <pre class="example">
  [1] "AirlinesCluster.csv"     "AnonymityPoll.csv"
- [3] "BoeingStock.csv"         "CPSData.csv"
- [5] "ClaimsData.csv"          "ClaimsData.csv.zip"
- [7] "ClusterMeans.ods"        "CocaColaStock.csv"
- [9] "CountryCodes.csv"        "FluTest.csv"
-[11] "FluTrain.csv"            "GEStock.csv"
-[13] "IBMStock.csv"            "MetroAreaCodes.csv"
-[15] "NBA_test.csv"            "NBA_train.csv"
-[17] "PollingData.csv"         "PollingData_Imputed.csv"
-[19] "ProcterGambleStock.csv"  "README.md"
-[21] "StocksCluster.csv"       "USDA.csv"
-[23] "WHO.csv"                 "WHO_Europe.csv"
-[25] "baseball.csv"            "boston.csv"
-[27] "climate_change.csv"      "clinical_trial.csv"
-[29] "dailykos.csv"            "emails.csv"
-[31] "energy_bids.csv"         "flower.csv"
-[33] "framingham.csv"          "gerber.csv"
-[35] "healthy.csv"             "loans.csv"
-[37] "loans_imputed.csv"       "movieLens.txt"
-[39] "mvtWeek1.csv"            "parole.csv"
-[41] "pisa2009test.csv"        "pisa2009train.csv"
-[43] "quality.csv"             "songs.csv"
-[45] "stevens.csv"             "stopwords.txt"
+ [3] "baseball.csv"            "BoeingStock.csv"
+ [5] "boston.csv"              "ClaimsData.csv"
+ [7] "ClaimsData.csv.zip"      "climate_change.csv"
+ [9] "clinical_trial.csv"      "ClusterMeans.ods"
+[11] "CocaColaStock.csv"       "CountryCodes.csv"
+[13] "CPSData.csv"             "dailykos.csv"
+[15] "eBayiPadTest.csv"        "eBayiPadTrain.csv"
+[17] "emails.csv"              "energy_bids.csv"
+[19] "flower.csv"              "FluTest.csv"
+[21] "FluTrain.csv"            "framingham.csv"
+[23] "gerber.csv"              "GEStock.csv"
+[25] "healthy.csv"             "IBMStock.csv"
+[27] "loans_imputed.csv"       "loans.csv"
+[29] "MetroAreaCodes.csv"      "movieLens.txt"
+[31] "mvtWeek1.csv"            "NBA_test.csv"
+[33] "NBA_train.csv"           "parole.csv"
+[35] "pisa2009test.csv"        "pisa2009train.csv"
+[37] "PollingData_Imputed.csv" "PollingData.csv"
+[39] "ProcterGambleStock.csv"  "quality.csv"
+[41] "README.md"               "SampleSubmission.csv"
+[43] "songs.csv"               "stevens.csv"
+[45] "StocksCluster.csv"       "stopwords.txt"
 [47] "tumor.csv"               "tweets.csv"
-[49] "wiki.csv"                "wine.csv"
-[51] "wine_test.csv"
+[49] "USDA.csv"                "WHO_Europe.csv"
+[51] "WHO.csv"                 "wiki.csv"
+[53] "wine_test.csv"           "wine.csv"
 </pre>
 </div>
 </div>
@@ -3327,8 +3333,8 @@ list.files(<span style="color: #fffacd;">"../data/"</span>)
 <div class="outline-text-4" id="text-3-1-2">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"    Loading data set into their data frame..."</span>)
-stocks <span style="color: #db7093;">&lt;-</span> read.table(<span style="color: #fffacd;">"../data/StocksCluster.csv"</span>, sep = <span style="color: #fffacd;">","</span>, header = <span style="color: #3cb371;">TRUE</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"    Loading data set into their data frame..."</span>)
+stocks <span style="color: #db7093;">&lt;-</span> read.table(<span style="color: #ff6a6a;">"../data/StocksCluster.csv"</span>, sep = <span style="color: #ff6a6a;">","</span>, header = <span style="color: #3cb371;">TRUE</span>)
 </pre>
 </div>
 
@@ -3347,7 +3353,7 @@ How many observations are in the dataset?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Number of observations in the stock dataframe:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Number of observations in the stock dataframe:"</span>)
 nrow(stocks)
 </pre>
 </div>
@@ -3403,10 +3409,10 @@ What proportion of the observations have positive returns in December?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Proportion of positive returns in December:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Proportion of positive returns in December:"</span>)
 nrow(subset(stocks, stocks$PositiveDec == 1)) / nrow(stocks)
 
-writeLines(<span style="color: #fffacd;">"\n :: Other way to calculate the proportion:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Other way to calculate the proportion:"</span>)
 prop.table(table(stocks$PositiveDec&gt;0))
 </pre>
 </div>
@@ -3439,12 +3445,12 @@ ReturnJuly, ReturnAug, ReturnSep, ReturnOct, and ReturnNov.
 <div class="outline-text-4" id="text-3-3-1">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Install new package: corrplot ..."</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Install new package: corrplot ..."</span>)
 <span style="color: #9932cc;">## </span><span style="color: #ba55d3;">install.packages('corrplot', repos='http://cran.rstudio.com/')</span>
-writeLines(<span style="color: #fffacd;">"\n :: NOTE: Please comment after install once..."</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: NOTE: Please comment after install once..."</span>)
 
 <span style="color: #db7093;">library</span>(corrplot)
-writeLines(<span style="color: #fffacd;">"\n :: Library corrplot loaded..."</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Library corrplot loaded..."</span>)
 </pre>
 </div>
 
@@ -3470,6 +3476,8 @@ writeLines(<span style="color: #fffacd;">"\n :: Library corrplot loaded..."</spa
 </div>
 
 <pre class="example">
+ null device
+          1
  [1] 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000
  [8] 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 0.1916728 0.1916728
 [15] 0.1913519 0.1913519 0.1699945 0.1699945 0.1559833 0.1559833
@@ -3477,7 +3485,7 @@ writeLines(<span style="color: #fffacd;">"\n :: Library corrplot loaded..."</spa
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Correlation between stocks features:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Correlation between stocks features:"</span>)
 cor(stocks)
 </pre>
 </div>
@@ -3552,7 +3560,7 @@ return across all observations in the dataset?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Means by feature:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Means by feature:"</span>)
 sort(colMeans(stocks[1:11]), decreasing = <span style="color: #3cb371;">TRUE</span>)
 </pre>
 </div>
@@ -3625,7 +3633,7 @@ the data in the testing set:
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Initial logistic regression model..."</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Initial logistic regression model..."</span>)
 <span style="color: #db7093;">library</span>(caTools)
 set.seed(144)
 spl <span style="color: #db7093;">&lt;-</span> sample.split(stocks$PositiveDec, SplitRatio = 0.7)
@@ -3647,8 +3655,8 @@ family=binomial to your glm command.
 
 <div class="org-src-container">
 
-<pre class="src src-R">StocksModel <span style="color: #db7093;">&lt;-</span> glm(PositiveDec  ~ ., stocksTrain, family = <span style="color: #fffacd;">"binomial"</span>)
-StocksModelPred <span style="color: #db7093;">&lt;-</span> predict(StocksModel, stocksTrain, type = <span style="color: #fffacd;">"response"</span>)
+<pre class="src src-R">StocksModel <span style="color: #db7093;">&lt;-</span> glm(PositiveDec  ~ ., stocksTrain, family = <span style="color: #ff6a6a;">"binomial"</span>)
+StocksModelPred <span style="color: #db7093;">&lt;-</span> predict(StocksModel, stocksTrain, type = <span style="color: #ff6a6a;">"response"</span>)
 ct <span style="color: #db7093;">&lt;-</span> table(stocksTrain$PositiveDec, StocksModelPred &gt;= 0.5)
 (ct[1, 1] + ct[2, 2])/ nrow(stocksTrain)
 </pre>
@@ -3722,10 +3730,10 @@ accuracy of the model on the test, again using a threshold of 0.5?
 
 <div class="org-src-container">
 
-<pre class="src src-R">StocksModelPredTest <span style="color: #db7093;">&lt;-</span> predict(StocksModel, stocksTest, type = <span style="color: #fffacd;">"response"</span>)
+<pre class="src src-R">StocksModelPredTest <span style="color: #db7093;">&lt;-</span> predict(StocksModel, stocksTest, type = <span style="color: #ff6a6a;">"response"</span>)
 ct = table(stocksTest$PositiveDec, StocksModelPredTest &gt;= 0.5)
 
-writeLines(<span style="color: #fffacd;">"\n :: The overall accuracy un the testing set is:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: The overall accuracy un the testing set is:"</span>)
 (ct[1, 1] + ct[2, 2]) / nrow(stocksTest)
 </pre>
 </div>
@@ -3748,7 +3756,7 @@ predicts the most common outcome (PositiveDec = 1)?
 <div class="org-src-container">
 
 <pre class="src src-R">sort(table(stocksTrain$PositiveDec))
-writeLines(<span style="color: #fffacd;">"\n :: The baseline accuracy in the testing set:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: The baseline accuracy in the testing set:"</span>)
 sum(stocksTest$PositiveDec == 1) / nrow(stocksTest)
 </pre>
 </div>
@@ -3797,7 +3805,7 @@ remove the dependent variable using the following commands:
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Cleaning the outcome feature for clustering purposes..."</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Cleaning the outcome feature for clustering purposes..."</span>)
 limitedTrain <span style="color: #db7093;">&lt;-</span> stocksTrain
 limitedTrain$PositiveDec = <span style="color: #3cb371;">NULL</span>
 
@@ -3880,7 +3888,7 @@ preProcess function:
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Preprocessing to normalization purposes.."</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Preprocessing to normalization purposes.."</span>)
 <span style="color: #db7093;">library</span>(caret)
 preproc <span style="color: #db7093;">&lt;-</span> preProcess(limitedTrain)
 normTrain <span style="color: #db7093;">&lt;-</span> predict(preproc, limitedTrain)
@@ -3906,7 +3914,7 @@ What is the mean of the ReturnJan variable in normTrain?
 <div class="outline-text-5" id="text-3-9-1-1">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: The mean of the ReturnJan feature in the training set:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: The mean of the ReturnJan feature in the training set:"</span>)
 mean(normTrain$ReturnJan)
 </pre>
 </div>
@@ -3932,7 +3940,7 @@ What is the mean of the ReturnJan variable in normTest?
 <div class="outline-text-5" id="text-3-9-2-1">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: The mean of the ReturnJan feature in the testing set:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: The mean of the ReturnJan feature in the testing set:"</span>)
 mean(normTest$ReturnJan)
 </pre>
 </div>
@@ -4079,7 +4087,7 @@ km.kcca <span style="color: #db7093;">&lt;-</span> as.kcca(km, normTrain)
 clusterTrain <span style="color: #db7093;">&lt;-</span> predict(km.kcca)
 clusterTest <span style="color: #db7093;">&lt;-</span> predict(km.kcca, newdata=normTest)
 
-writeLines(<span style="color: #fffacd;">"\n :: The number of observations in the cluster 2 of the testing set:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: The number of observations in the cluster 2 of the testing set:"</span>)
 table(clusterTest)
 </pre>
 </div>
@@ -4213,9 +4221,9 @@ and <code>StocksModel3</code> should be trained on <code>stocksTrain3</code>.
 
 <div class="org-src-container">
 
-<pre class="src src-R">StocksModel1 <span style="color: #db7093;">&lt;-</span> glm(PositiveDec ~ ., stocksTrain1, family = <span style="color: #fffacd;">"binomial"</span>)
-StocksModel2 <span style="color: #db7093;">&lt;-</span> glm(PositiveDec ~ ., stocksTrain2, family = <span style="color: #fffacd;">"binomial"</span>)
-StocksModel3 <span style="color: #db7093;">&lt;-</span> glm(PositiveDec ~ ., stocksTrain3, family = <span style="color: #fffacd;">"binomial"</span>)
+<pre class="src src-R">StocksModel1 <span style="color: #db7093;">&lt;-</span> glm(PositiveDec ~ ., stocksTrain1, family = <span style="color: #ff6a6a;">"binomial"</span>)
+StocksModel2 <span style="color: #db7093;">&lt;-</span> glm(PositiveDec ~ ., stocksTrain2, family = <span style="color: #ff6a6a;">"binomial"</span>)
+StocksModel3 <span style="color: #db7093;">&lt;-</span> glm(PositiveDec ~ ., stocksTrain3, family = <span style="color: #ff6a6a;">"binomial"</span>)
 sort( (StocksModel1$coef &gt; 0 | StocksModel2$coef &gt; 0 |
        StocksModel3$coef &gt; 0) &amp; (StocksModel1$coef &lt; 0 |
                                StocksModel2$coef &lt; 0 |
@@ -4313,20 +4321,20 @@ predictions called <code>PredictTest2</code> on the data frame
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Predicting in the testing set..."</span>)
-PredictTest1 <span style="color: #db7093;">&lt;-</span> predict(StocksModel1, stocksTest1, type=<span style="color: #fffacd;">"response"</span>)
-PredictTest2 <span style="color: #db7093;">&lt;-</span> predict(StocksModel2, stocksTest2, type=<span style="color: #fffacd;">"response"</span>)
-PredictTest3 <span style="color: #db7093;">&lt;-</span> predict(StocksModel3, stocksTest3, type=<span style="color: #fffacd;">"response"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Predicting in the testing set..."</span>)
+PredictTest1 <span style="color: #db7093;">&lt;-</span> predict(StocksModel1, stocksTest1, type=<span style="color: #ff6a6a;">"response"</span>)
+PredictTest2 <span style="color: #db7093;">&lt;-</span> predict(StocksModel2, stocksTest2, type=<span style="color: #ff6a6a;">"response"</span>)
+PredictTest3 <span style="color: #db7093;">&lt;-</span> predict(StocksModel3, stocksTest3, type=<span style="color: #ff6a6a;">"response"</span>)
 
-writeLines(<span style="color: #fffacd;">"\n :: Overall accuracy for each model 1:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Overall accuracy for each model 1:"</span>)
 ct1 <span style="color: #db7093;">&lt;-</span> table(stocksTest1$PositiveDec, PredictTest1&gt;=0.5)
 (ct1[1,1]+ct1[2,2])/nrow(stocksTest1)
 
-writeLines(<span style="color: #fffacd;">"\n :: Overall accuracy for each model 2:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Overall accuracy for each model 2:"</span>)
 ct2 <span style="color: #db7093;">&lt;-</span> table(stocksTest2$PositiveDec, PredictTest2&gt;=0.5)
 (ct2[1,1]+ct2[2,2])/nrow(stocksTest2)
 
-writeLines(<span style="color: #fffacd;">"\n :: Overall accuracy for each model 3:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Overall accuracy for each model 3:"</span>)
 ct3 <span style="color: #db7093;">&lt;-</span> table(stocksTest3$PositiveDec, PredictTest3&gt;=0.5)
 (ct3[1,1]+ct3[2,2])/nrow(stocksTest3)
 </pre>
@@ -4498,7 +4506,7 @@ approach, again using a threshold of 0.5?
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: The overall test-set accuracy of the cluster-then-predict approach:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: The overall test-set accuracy of the cluster-then-predict approach:"</span>)
 
 AllPredictions <span style="color: #db7093;">&lt;-</span> c(PredictTest1, PredictTest2, PredictTest3)
 
@@ -4557,7 +4565,7 @@ $$
 <div id="postamble" class="status">
 <p class="date">Date: 19/07/2015</p>
 <p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
-<p class="date">Created: 2015-07-20 Mon 17:43</p>
+<p class="date">Created: 2015-07-22 Wed 08:02</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

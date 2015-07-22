@@ -123,31 +123,33 @@ In this part we can download the data
 
 #+RESULTS:
 #+begin_example
- [1] "AnonymityPoll.csv"       "BoeingStock.csv"
- [3] "CPSData.csv"             "ClaimsData.csv"
- [5] "ClaimsData.csv.zip"      "ClusterMeans.ods"
- [7] "CocaColaStock.csv"       "CountryCodes.csv"
- [9] "FluTest.csv"             "FluTrain.csv"
-[11] "GEStock.csv"             "IBMStock.csv"
-[13] "MetroAreaCodes.csv"      "NBA_test.csv"
-[15] "NBA_train.csv"           "PollingData.csv"
-[17] "PollingData_Imputed.csv" "ProcterGambleStock.csv"
-[19] "README.md"               "USDA.csv"
-[21] "WHO.csv"                 "WHO_Europe.csv"
-[23] "baseball.csv"            "boston.csv"
-[25] "climate_change.csv"      "clinical_trial.csv"
-[27] "dailykos.csv"            "emails.csv"
-[29] "energy_bids.csv"         "flower.csv"
-[31] "framingham.csv"          "gerber.csv"
-[33] "healthy.csv"             "loans.csv"
-[35] "loans_imputed.csv"       "movieLens.txt"
-[37] "mvtWeek1.csv"            "parole.csv"
-[39] "pisa2009test.csv"        "pisa2009train.csv"
-[41] "quality.csv"             "songs.csv"
-[43] "stevens.csv"             "stopwords.txt"
-[45] "tumor.csv"               "tweets.csv"
-[47] "wiki.csv"                "wine.csv"
-[49] "wine_test.csv"
+ [1] "AirlinesCluster.csv"     "AnonymityPoll.csv"
+ [3] "baseball.csv"            "BoeingStock.csv"
+ [5] "boston.csv"              "ClaimsData.csv"
+ [7] "ClaimsData.csv.zip"      "climate_change.csv"
+ [9] "clinical_trial.csv"      "ClusterMeans.ods"
+[11] "CocaColaStock.csv"       "CountryCodes.csv"
+[13] "CPSData.csv"             "dailykos.csv"
+[15] "eBayiPadTest.csv"        "eBayiPadTrain.csv"
+[17] "emails.csv"              "energy_bids.csv"
+[19] "flower.csv"              "FluTest.csv"
+[21] "FluTrain.csv"            "framingham.csv"
+[23] "gerber.csv"              "GEStock.csv"
+[25] "healthy.csv"             "IBMStock.csv"
+[27] "loans_imputed.csv"       "loans.csv"
+[29] "MetroAreaCodes.csv"      "movieLens.txt"
+[31] "mvtWeek1.csv"            "NBA_test.csv"
+[33] "NBA_train.csv"           "parole.csv"
+[35] "pisa2009test.csv"        "pisa2009train.csv"
+[37] "PollingData_Imputed.csv" "PollingData.csv"
+[39] "ProcterGambleStock.csv"  "quality.csv"
+[41] "README.md"               "SampleSubmission.csv"
+[43] "songs.csv"               "stevens.csv"
+[45] "StocksCluster.csv"       "stopwords.txt"
+[47] "tumor.csv"               "tweets.csv"
+[49] "USDA.csv"                "WHO_Europe.csv"
+[51] "WHO.csv"                 "wiki.csv"
+[53] "wine_test.csv"           "wine.csv"
 #+end_example
 
 *** Load the data set
@@ -1028,34 +1030,33 @@ In this part we can download the data
 
 #+RESULTS:
 #+begin_example
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0100   99k  100   99k    0     0  50601      0  0:00:02  0:00:02 --:--:-- 50628
  [1] "AirlinesCluster.csv"     "AnonymityPoll.csv"
- [3] "BoeingStock.csv"         "CPSData.csv"
- [5] "ClaimsData.csv"          "ClaimsData.csv.zip"
- [7] "ClusterMeans.ods"        "CocaColaStock.csv"
- [9] "CountryCodes.csv"        "FluTest.csv"
-[11] "FluTrain.csv"            "GEStock.csv"
-[13] "IBMStock.csv"            "MetroAreaCodes.csv"
-[15] "NBA_test.csv"            "NBA_train.csv"
-[17] "PollingData.csv"         "PollingData_Imputed.csv"
-[19] "ProcterGambleStock.csv"  "README.md"
-[21] "USDA.csv"                "WHO.csv"
-[23] "WHO_Europe.csv"          "baseball.csv"
-[25] "boston.csv"              "climate_change.csv"
-[27] "clinical_trial.csv"      "dailykos.csv"
-[29] "emails.csv"              "energy_bids.csv"
-[31] "flower.csv"              "framingham.csv"
-[33] "gerber.csv"              "healthy.csv"
-[35] "loans.csv"               "loans_imputed.csv"
-[37] "movieLens.txt"           "mvtWeek1.csv"
-[39] "parole.csv"              "pisa2009test.csv"
-[41] "pisa2009train.csv"       "quality.csv"
+ [3] "baseball.csv"            "BoeingStock.csv"
+ [5] "boston.csv"              "ClaimsData.csv"
+ [7] "ClaimsData.csv.zip"      "climate_change.csv"
+ [9] "clinical_trial.csv"      "ClusterMeans.ods"
+[11] "CocaColaStock.csv"       "CountryCodes.csv"
+[13] "CPSData.csv"             "dailykos.csv"
+[15] "eBayiPadTest.csv"        "eBayiPadTrain.csv"
+[17] "emails.csv"              "energy_bids.csv"
+[19] "flower.csv"              "FluTest.csv"
+[21] "FluTrain.csv"            "framingham.csv"
+[23] "gerber.csv"              "GEStock.csv"
+[25] "healthy.csv"             "IBMStock.csv"
+[27] "loans_imputed.csv"       "loans.csv"
+[29] "MetroAreaCodes.csv"      "movieLens.txt"
+[31] "mvtWeek1.csv"            "NBA_test.csv"
+[33] "NBA_train.csv"           "parole.csv"
+[35] "pisa2009test.csv"        "pisa2009train.csv"
+[37] "PollingData_Imputed.csv" "PollingData.csv"
+[39] "ProcterGambleStock.csv"  "quality.csv"
+[41] "README.md"               "SampleSubmission.csv"
 [43] "songs.csv"               "stevens.csv"
-[45] "stopwords.txt"           "tumor.csv"
-[47] "tweets.csv"              "wiki.csv"
-[49] "wine.csv"                "wine_test.csv"
+[45] "StocksCluster.csv"       "stopwords.txt"
+[47] "tumor.csv"               "tweets.csv"
+[49] "USDA.csv"                "WHO_Europe.csv"
+[51] "WHO.csv"                 "wiki.csv"
+[53] "wine_test.csv"           "wine.csv"
 #+end_example
 
 *** Load the data set
@@ -1179,6 +1180,8 @@ but if not, go ahead and install it with
 :  :: Install new package: caret ...
 :
 :  :: NOTE: Please comment after install once...
+: Loading required package: lattice
+: Loading required package: ggplot2
 :
 :  :: Library caret loaded...
 
@@ -1379,6 +1382,8 @@ function.
 #+end_src
 
 #+RESULTS:
+:  null device
+:           1
 : clusterGroups
 :    1    2    3    4    5
 :  776  519  494  868 1342
@@ -2112,31 +2117,32 @@ In this part we can download the data
 #+RESULTS:
 #+begin_example
  [1] "AirlinesCluster.csv"     "AnonymityPoll.csv"
- [3] "BoeingStock.csv"         "CPSData.csv"
- [5] "ClaimsData.csv"          "ClaimsData.csv.zip"
- [7] "ClusterMeans.ods"        "CocaColaStock.csv"
- [9] "CountryCodes.csv"        "FluTest.csv"
-[11] "FluTrain.csv"            "GEStock.csv"
-[13] "IBMStock.csv"            "MetroAreaCodes.csv"
-[15] "NBA_test.csv"            "NBA_train.csv"
-[17] "PollingData.csv"         "PollingData_Imputed.csv"
-[19] "ProcterGambleStock.csv"  "README.md"
-[21] "StocksCluster.csv"       "USDA.csv"
-[23] "WHO.csv"                 "WHO_Europe.csv"
-[25] "baseball.csv"            "boston.csv"
-[27] "climate_change.csv"      "clinical_trial.csv"
-[29] "dailykos.csv"            "emails.csv"
-[31] "energy_bids.csv"         "flower.csv"
-[33] "framingham.csv"          "gerber.csv"
-[35] "healthy.csv"             "loans.csv"
-[37] "loans_imputed.csv"       "movieLens.txt"
-[39] "mvtWeek1.csv"            "parole.csv"
-[41] "pisa2009test.csv"        "pisa2009train.csv"
-[43] "quality.csv"             "songs.csv"
-[45] "stevens.csv"             "stopwords.txt"
+ [3] "baseball.csv"            "BoeingStock.csv"
+ [5] "boston.csv"              "ClaimsData.csv"
+ [7] "ClaimsData.csv.zip"      "climate_change.csv"
+ [9] "clinical_trial.csv"      "ClusterMeans.ods"
+[11] "CocaColaStock.csv"       "CountryCodes.csv"
+[13] "CPSData.csv"             "dailykos.csv"
+[15] "eBayiPadTest.csv"        "eBayiPadTrain.csv"
+[17] "emails.csv"              "energy_bids.csv"
+[19] "flower.csv"              "FluTest.csv"
+[21] "FluTrain.csv"            "framingham.csv"
+[23] "gerber.csv"              "GEStock.csv"
+[25] "healthy.csv"             "IBMStock.csv"
+[27] "loans_imputed.csv"       "loans.csv"
+[29] "MetroAreaCodes.csv"      "movieLens.txt"
+[31] "mvtWeek1.csv"            "NBA_test.csv"
+[33] "NBA_train.csv"           "parole.csv"
+[35] "pisa2009test.csv"        "pisa2009train.csv"
+[37] "PollingData_Imputed.csv" "PollingData.csv"
+[39] "ProcterGambleStock.csv"  "quality.csv"
+[41] "README.md"               "SampleSubmission.csv"
+[43] "songs.csv"               "stevens.csv"
+[45] "StocksCluster.csv"       "stopwords.txt"
 [47] "tumor.csv"               "tweets.csv"
-[49] "wiki.csv"                "wine.csv"
-[51] "wine_test.csv"
+[49] "USDA.csv"                "WHO_Europe.csv"
+[51] "WHO.csv"                 "wiki.csv"
+[53] "wine_test.csv"           "wine.csv"
 #+end_example
 
 *** Load the data set
@@ -2255,6 +2261,8 @@ ReturnJuly, ReturnAug, ReturnSep, ReturnOct, and ReturnNov.
 #+end_src
 
 #+RESULTS:
+:  null device
+:           1
 :  [1] 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000
 :  [8] 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 0.1916728 0.1916728
 : [15] 0.1913519 0.1913519 0.1699945 0.1699945 0.1559833 0.1559833
