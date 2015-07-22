@@ -1,0 +1,1496 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Unit 7 Visualization</title>
+<!-- 2015-07-22 Wed 12:01 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="Sergio-Feliciano Mendoza-Barrera" />
+<meta  name="description" content="Visualization tools in R"
+ />
+<meta  name="keywords" content="R, data science, emacs, ESS, org-mode, visualization" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/readtheorg/js/readtheorg.js"></script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js"></script>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+    MathJax.Hub.Config({
+        // Only one of the two following lines, depending on user settings
+        // First allows browser-native MathML display, second forces HTML/CSS
+        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
+                     "TeX/noUndefined.js"],
+        tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
+            skipTags: ["script","noscript","style","textarea","pre","code"],
+            ignoreClass: "tex2jax_ignore",
+            processEscapes: false,
+            processEnvironments: true,
+            preview: "TeX"
+        },
+        showProcessingMessages: true,
+        displayAlign: "center",
+        displayIndent: "2em",
+
+        "HTML-CSS": {
+             scale: 100,
+             availableFonts: ["STIX","TeX"],
+             preferredFont: "TeX",
+             webFont: "TeX",
+             imageFont: "TeX",
+             showMathMenu: true,
+        },
+        MMLorHTML: {
+             prefer: {
+                 MSIE:    "MML",
+                 Firefox: "MML",
+                 Opera:   "HTML",
+                 other:   "HTML"
+             }
+        }
+    });
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Unit 7 Visualization</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. Visualizing the World: An Introduction to Visualization</a>
+<ul>
+<li><a href="#sec-1-1">1.1. Video 1: The Power of Visualizations</a></li>
+<li><a href="#sec-1-2">1.2. Quick Question (1 point possible)</a></li>
+<li><a href="#sec-1-3">1.3. Video 2: The World Health Organization (WHO)</a></li>
+<li><a href="#sec-1-4">1.4. Quick Question (1 point possible)</a></li>
+<li><a href="#sec-1-5">1.5. Video 3: What is Data Visualization?</a></li>
+<li><a href="#sec-1-6">1.6. Quick Question (4/4 points)</a></li>
+<li><a href="#sec-1-7">1.7. Video 4: Basic Scatterplots Using ggplot</a></li>
+<li><a href="#sec-1-8">1.8. Quick Question (1 point possible)</a></li>
+<li><a href="#sec-1-9">1.9. Video 5: Advanced Scatter plots Using ggplot</a></li>
+<li><a href="#sec-1-10">1.10. Quick Question (1 point possible)</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="abstract">
+<p>
+Unit 7, Visualization tools in R, part of the Analytics Edge course.
+</p>
+
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Visualizing the World: An Introduction to Visualization</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+This week, we'll be discussing the power of visualizations for
+understanding worldwide trends and for using analytics to stop
+crime. In the first lecture, we'll use data from the World Health
+Organization to create visualizations that help us understand and
+communicate global health trends.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-VisualizingTheWorld.png" alt="VIS-VisualizingTheWorld.png" />
+</p>
+</div>
+
+<p>
+In the second lecture, we'll discuss predictive policing, and how
+police departments across the country are using data and analytics to
+improve decision making.
+</p>
+</div>
+
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Video 1: The Power of Visualizations</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+We'll discuss the idea of using visualization to better understand
+data and to provide insights on the problem we're addressing.
+</p>
+
+<p>
+<b>Why visualization?</b>
+</p>
+
+<p>
+People often say that a picture is like a thousand words. In the same
+spirit, John Tukey, a major statistician at Princeton, wrote that "the
+picture-examining eye is the best finder we have of the wholly
+unanticipated."
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-WhyVisualization.png" alt="VIS-WhyVisualization.png" />
+</p>
+</div>
+
+<p>
+Visualization is further useful for initial data exploration, for
+interpreting models, and for communicating results effectively.
+</p>
+
+<p>
+Let us give some examples of different modes of visualization that
+illustrate these points. The figure shows the miles per gallon of a
+car as a function of the car's weight. The figure clearly illustrates
+that as the weight of the car increases, the miles per gallon
+decrease.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-InitialExploration.png" alt="VIS-InitialExploration.png" />
+</p>
+</div>
+
+<p>
+The same graph, but now colors of the points signify the number of
+cylinders in the car: four for red, six for green, and eight in blue.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-ExploreFurther.png" alt="VIS-ExploreFurther.png" />
+</p>
+</div>
+
+<p>
+On the same data, we now plot a regression line that captures the
+intuition that as the weight of the car increases, the miles per
+gallon decrease.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-RegressionLine.png" alt="VIS-RegressionLine.png" />
+</p>
+</div>
+
+<p>
+In this plot, we'll visualize burglaries in the city of Houston by
+combining data and geographical location in a map.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-GeographicalData.png" alt="VIS-GeographicalData.png" />
+</p>
+</div>
+
+<p>
+This plot illustrates, using a heat map, the usage of rented bicycles
+from the Hubway company. The horizontal axis is the hour of the day,
+and the vertical axis the day of the week, starting on Sunday. The
+heat map shows that the usage increases during the morning and night
+rush hours on weekdays.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-ShowRelationships.png" alt="VIS-ShowRelationships.png" />
+</p>
+</div>
+
+<p>
+The next plot helps us visualize histograms of different categories
+using the Hubway data.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-ExploreCategories.png" alt="VIS-ExploreCategories.png" />
+</p>
+</div>
+
+<p>
+This plot shows US unemployment by state. The lighter colors
+corresponding to smaller unemployment, and the darker colors
+corresponding to larger unemployment rates.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-MapAccording2Data.png" alt="VIS-MapAccording2Data.png" />
+</p>
+</div>
+
+<p>
+The plan this week is to create all of these visualizations. We'll see
+how visualizations can be used to better understand data, communicate
+information more effectively, show the results of analytical models.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-Power.png" alt="VIS-Power.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Quick Question (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+Normally, a scatterplot only allows us to visualize two dimensions -
+one on the x-axis, and one on the y-axis. In the previous video we
+were able to show a third dimension on the scatterplot using what
+attribute?
+</p>
+</div>
+
+<div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1"><span class="section-number-4">1.2.1</span> Answer</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<ul class="org-ul">
+<li><code>[X]</code> Color Color - correct
+</li>
+<li><code>[&#xa0;]</code> Shape
+</li>
+<li><code>[&#xa0;]</code> Location
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+On slide 3, we show the scatterplot from slide 2, but with the number
+of cylinders shown by the color of the points. This allows us to
+visualize a third dimension of our data.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Video 2: The World Health Organization (WHO)</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+The World Health Organization, WHO for short, is the authority for
+health within the United Nations system.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-WHO.png" alt="VIS-WHO.png" />
+</p>
+</div>
+
+<p>
+WHO communicates information about global health in order to inform
+citizens, donors, policymakers, and organizations around the world.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-WorldHealthReport.png" alt="VIS-WorldHealthReport.png" />
+</p>
+</div>
+
+<p>
+Their primary publication is <b>World Health Report</b>. Each issue focuses
+on a specific aspect of global health, and includes statistics and
+experts' assessments.
+</p>
+
+<p>
+WHO also maintains an open, online repository of global health
+data. WHO provides some data visualizations, which helps them
+communicate more effectively with the public. As an example, the graph
+shows the World Energy Consumption during 2001 to 2003.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-OnlineDataRepository.png" alt="VIS-OnlineDataRepository.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> Quick Question (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+Why is it particularly helpful for WHO to provide data visualizations?
+Select all that apply.
+</p>
+</div>
+
+<div id="outline-container-sec-1-4-1" class="outline-4">
+<h4 id="sec-1-4-1"><span class="section-number-4">1.4.1</span> Answer</h4>
+<div class="outline-text-4" id="text-1-4-1">
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> There is no other way to display information shown in
+visualizations like the Energy Consumption one.
+</li>
+
+<li><code>[X]</code> When communicating information to the general public, a
+visualization like the Energy Consumption one is much easier to
+absorb than a table of numbers would be.
+</li>
+
+<li><code>[X]</code> Visualizations can easily be used by policymakers and others who
+wish to present data from WHO.
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+While there are other ways to display the data given in many
+visualizations (like tables), visualizations help to better
+communicate data to the public and can easily be used by others in
+presentations.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5"><span class="section-number-3">1.5</span> Video 3: What is Data Visualization?</h3>
+<div class="outline-text-3" id="text-1-5">
+<p>
+We will discuss the meaning of data visualization, and why it's often
+useful to visualize your data to discover hidden trends and
+properties.
+</p>
+
+<p>
+Data visualization is defined as a mapping of data properties to
+visual properties.
+</p>
+
+<p>
+Data properties are usually numerical or categorical, like the mean of
+a variable, the maximum value of a variable, or the number of
+observations with a certain property.
+</p>
+
+<p>
+Visual properties can be \((x,y)\) coordinates to plot points on a
+graph, colors to assign labels, sizes, shapes, heights, etc. Both
+types of properties are used to better understand the data, but in
+different ways.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-WhatsIsDataVisualization.png" alt="VIS-WhatsIsDataVisualization.png" />
+</p>
+</div>
+
+<p>
+To motivate the need for data visualization, let's look at a famous
+example called Anscombe's Quartet. Each of these tables corresponds to
+a different data set. We have four data sets, each with two variables,
+\(x\) and \(y\).
+</p>
+
+<p>
+Just looking at the tables of data, it's hard to notice anything
+special about it. It turns out that the mean and variance of the \(x\)
+variable is the same for all four data sets, the mean and variance of
+the \(y\) variable is the same for all four data sets, and the correlation
+between \(x\) and \(y\), as well as the regression equation to predict \(y\) from
+\(x\), is the exact same for all four data sets.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-AnscombeQ.png" alt="VIS-AnscombeQ.png" />
+</p>
+</div>
+
+<p>
+So just by looking at data properties, we might conclude that these
+data sets are very similar. But if we plot the four data sets, they're
+very different.
+</p>
+
+<p>
+These plots show the four data sets, with the x variable on the
+x-axis, and the y variable on the y-axis. Visually, these data sets
+look very different. But without visualizing them, we might not have
+noticed this.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-AnscombeQ02.png" alt="VIS-AnscombeQ02.png" />
+</p>
+</div>
+
+<p>
+This is one example of why visualizing data can be very important.
+</p>
+
+<p>
+We'll use the <b>ggplot2</b> package in R to create data visualizations. This
+package was created by Hadley Wickham, who described ggplot as "a
+plotting system for R based on the grammar of graphics, which tries to
+take the good parts of base and lattice graphics and none of the bad
+parts.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-ggplot.png" alt="VIS-ggplot.png" />
+</p>
+</div>
+
+<p>
+So what do we gain from using ggplot over just making plots using the
+basic R functions, or what's referred to as base R?
+</p>
+
+<p>
+Well, in base R, each mapping of data properties to visual properties
+is its own special case. When we create a scatter plot, or a box plot,
+or a histogram, we have to use a completely different function.
+</p>
+
+<p>
+It's challenging to create any sophisticated visualizations. It's also
+difficult to add elements to existing plots.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-BaseVSggplot.png" alt="VIS-BaseVSggplot.png" />
+</p>
+</div>
+
+<p>
+But in ggplot, the mapping of data properties to visual properties is
+done by just adding layers to the plot. This makes it much easier to
+create sophisticated plots and to add to existing plots.
+</p>
+
+<p>
+So what is the grammar of graphics that ggplot is based on? All ggplot
+graphics consist of three elements. The first is data, in a data
+frame. The second is an aesthetic mapping, which describes how
+variables in the data frame are mapped to graphical attributes.
+</p>
+
+<p>
+This is where we'll define which variables are on the x- and y-axes,
+whether or not points should be colored or shaped by certain
+attributes, etc.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-GrammarOfGraphics.png" alt="VIS-GrammarOfGraphics.png" />
+</p>
+</div>
+
+<p>
+The third element is which geometric objects we want to determine how
+the data values are rendered graphically. This is where we indicate if
+the plot should have points, lines, bars, boxes, etc.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6"><span class="section-number-3">1.6</span> Quick Question (4/4 points)</h3>
+<div class="outline-text-3" id="text-1-6">
+<p>
+In this quick question, we'll be asking you questions about the
+following three plots, that we saw in Video 1. We'll refer to them as
+the "Scatterplot", the "Histogram", and the "US Map".
+</p>
+
+<p>
+The Scatterplot:
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/Scatterplot_Week8.jpg.png" alt="Scatterplot_Week8.jpg.png" />
+</p>
+</div>
+
+<p>
+The Histogram:
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/Histogram_Week8.jpg.png" alt="Histogram_Week8.jpg.png" />
+</p>
+</div>
+
+<p>
+The US Map:
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/USmap_Week8.jpg.png" alt="USmap_Week8.jpg.png" />
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-6-1" class="outline-4">
+<h4 id="sec-1-6-1"><span class="section-number-4">1.6.1</span> Question a</h4>
+<div class="outline-text-4" id="text-1-6-1">
+<p>
+In the Scatterplot, what are the geometric objects?
+</p>
+
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> Bars
+</li>
+<li><code>[X]</code> Points Points - correct
+</li>
+<li><code>[&#xa0;]</code> Lines
+</li>
+<li><code>[&#xa0;]</code> Polygons
+</li>
+<li><code>[&#xa0;]</code> Boxes
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-6-2" class="outline-4">
+<h4 id="sec-1-6-2"><span class="section-number-4">1.6.2</span> Question</h4>
+<div class="outline-text-4" id="text-1-6-2">
+<p>
+In the Histogram, what are the geometric objects?
+</p>
+</div>
+
+<div id="outline-container-sec-1-6-2-1" class="outline-5">
+<h5 id="sec-1-6-2-1"><span class="section-number-5">1.6.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-1-6-2-1">
+<ul class="org-ul">
+<li><code>[X]</code> Bars Bars - correct
+</li>
+<li><code>[&#xa0;]</code> Points
+</li>
+<li><code>[&#xa0;]</code> Lines
+</li>
+<li><code>[&#xa0;]</code> Polygons
+</li>
+<li><code>[&#xa0;]</code> Boxes
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-6-3" class="outline-4">
+<h4 id="sec-1-6-3"><span class="section-number-4">1.6.3</span> Question</h4>
+<div class="outline-text-4" id="text-1-6-3">
+<p>
+In the US Map, what are the geometric objects?
+</p>
+</div>
+
+<div id="outline-container-sec-1-6-3-1" class="outline-5">
+<h5 id="sec-1-6-3-1"><span class="section-number-5">1.6.3.1</span> Answer</h5>
+<div class="outline-text-5" id="text-1-6-3-1">
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> Bars
+</li>
+<li><code>[&#xa0;]</code> Points
+</li>
+<li><code>[&#xa0;]</code> Lines
+</li>
+<li><code>[X]</code> Polygons Polygons - correct
+</li>
+<li><code>[&#xa0;]</code> Boxes
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-6-4" class="outline-4">
+<h4 id="sec-1-6-4"><span class="section-number-4">1.6.4</span> Question</h4>
+<div class="outline-text-4" id="text-1-6-4">
+<p>
+All three of these plots defined a particular aesthetic property. What
+is it?
+</p>
+</div>
+
+<div id="outline-container-sec-1-6-4-1" class="outline-5">
+<h5 id="sec-1-6-4-1"><span class="section-number-5">1.6.4.1</span> Answer</h5>
+<div class="outline-text-5" id="text-1-6-4-1">
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> The x-axis label.
+</li>
+<li><code>[&#xa0;]</code> The y-axis label.
+</li>
+<li><code>[&#xa0;]</code> Different shapes for different types of observations.
+</li>
+<li><code>[X]</code> Colors. Colors. - correct
+</li>
+<li><code>[&#xa0;]</code> A legend.
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+The geometric objects for the Scatterplot are points, for the
+Histogram are bars, and for the US Map are polygons (the states). All
+three plots defined colors in the plot.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7"><span class="section-number-3">1.7</span> Video 4: Basic Scatterplots Using ggplot</h3>
+<div class="outline-text-3" id="text-1-7">
+<p>
+In the rest of this lecture, we'll be using the data file
+<a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/WHO.csv">WHO.csv</a>. Please download this file to your computer, and save it to a
+location that you will remember. This data comes from the
+<a href="http://apps.who.int/gho/data/node.main">Global Health Observatory Data Repository</a>.
+</p>
+
+<p>
+An R script file with all of the commands used in this lecture can be
+downloaded <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/Unit7_WHO.R">here</a>.
+</p>
+
+<p>
+Let's start by reading in our data. We'll be using the same data set
+we used during week one, WHO.csv.
+</p>
+</div>
+
+<div id="outline-container-sec-1-7-1" class="outline-4">
+<h4 id="sec-1-7-1"><span class="section-number-4">1.7.1</span> Download the data sets</h4>
+<div class="outline-text-4" id="text-1-7-1">
+<p>
+In this part we can download the data
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R"><span style="color: #db7093;">library</span>(parallel)
+
+<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #ff6a6a;">"../data"</span>)) {
+        dir.create(<span style="color: #ff6a6a;">"../data"</span>)
+}
+
+fileUrl <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/WHO.csv"</span>
+fileName <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"WHOu7.csv"</span>
+dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"../data"</span>
+
+filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #ff6a6a;">"/"</span>)
+
+<span style="color: #4682b4;">if</span>(!file.exists(filePath)) {
+        download.file(fileUrl, destfile = filePath, method = <span style="color: #ff6a6a;">"curl"</span>)
+}
+
+list.files(<span style="color: #ff6a6a;">"../data"</span>)
+</pre>
+</div>
+
+<pre class="example">
+ [1] "AirlinesCluster.csv"     "AnonymityPoll.csv"
+ [3] "baseball.csv"            "BoeingStock.csv"
+ [5] "boston.csv"              "ClaimsData.csv"
+ [7] "ClaimsData.csv.zip"      "climate_change.csv"
+ [9] "clinical_trial.csv"      "ClusterMeans.ods"
+[11] "CocaColaStock.csv"       "CountryCodes.csv"
+[13] "CPSData.csv"             "dailykos.csv"
+[15] "eBayiPadTest.csv"        "eBayiPadTrain.csv"
+[17] "emails.csv"              "energy_bids.csv"
+[19] "flower.csv"              "FluTest.csv"
+[21] "FluTrain.csv"            "framingham.csv"
+[23] "gerber.csv"              "GEStock.csv"
+[25] "healthy.csv"             "IBMStock.csv"
+[27] "loans_imputed.csv"       "loans.csv"
+[29] "MetroAreaCodes.csv"      "movieLens.txt"
+[31] "mvtWeek1.csv"            "NBA_test.csv"
+[33] "NBA_train.csv"           "parole.csv"
+[35] "pisa2009test.csv"        "pisa2009train.csv"
+[37] "PollingData_Imputed.csv" "PollingData.csv"
+[39] "ProcterGambleStock.csv"  "quality.csv"
+[41] "README.md"               "SampleSubmission.csv"
+[43] "songs.csv"               "stevens.csv"
+[45] "StocksCluster.csv"       "stopwords.txt"
+[47] "tumor.csv"               "tweets.csv"
+[49] "USDA.csv"                "WHO_Europe.csv"
+[51] "WHO.csv"                 "WHOu7.csv"
+[53] "wiki.csv"                "wine_test.csv"
+[55] "wine.csv"
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-1-7-2" class="outline-4">
+<h4 id="sec-1-7-2"><span class="section-number-4">1.7.2</span> Load the data set</h4>
+<div class="outline-text-4" id="text-1-7-2">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Loading data into their data frame."</span>)
+WHO <span style="color: #db7093;">&lt;-</span> read.csv(<span style="color: #ff6a6a;">"../data/WHOu7.csv"</span>)
+str(WHO)
+</pre>
+</div>
+
+<pre class="example">
+ :: Loading data into their data frame.
+'data.frame':	194 obs. of  13 variables:
+ $ Country                      : Factor w/ 194 levels "Afghanistan",..: 1 2 3 4 5 6 7 8 9 10 ...
+ $ Region                       : Factor w/ 6 levels "Africa","Americas",..: 3 4 1 4 1 2 2 4 6 4 ...
+ $ Population                   : int  29825 3162 38482 78 20821 89 41087 2969 23050 8464 ...
+ $ Under15                      : num  47.4 21.3 27.4 15.2 47.6 ...
+ $ Over60                       : num  3.82 14.93 7.17 22.86 3.84 ...
+ $ FertilityRate                : num  5.4 1.75 2.83 NA 6.1 2.12 2.2 1.74 1.89 1.44 ...
+ $ LifeExpectancy               : int  60 74 73 82 51 75 76 71 82 81 ...
+ $ ChildMortality               : num  98.5 16.7 20 3.2 163.5 ...
+ $ CellularSubscribers          : num  54.3 96.4 99 75.5 48.4 ...
+ $ LiteracyRate                 : num  NA NA NA NA 70.1 99 97.8 99.6 NA NA ...
+ $ GNI                          : num  1140 8820 8310 NA 5230 ...
+ $ PrimarySchoolEnrollmentMale  : num  NA NA 98.2 78.4 93.1 91.1 NA NA 96.9 NA ...
+ $ PrimarySchoolEnrollmentFemale: num  NA NA 96.4 79.4 78.2 84.5 NA NA 97.5 NA ...
+</pre>
+
+<p>
+We can see that we have 194 observations, or countries, and 13
+different variables&#x2013; the name of the country, the region the
+country's in, the population in thousands, the percentage of the
+population under 15 or over 60, the fertility rate or average number
+of children per woman, the life expectancy in years, the child
+mortality rate, which is the number of children who die by age five
+per 1,000 births, the number of cellular subscribers per 100
+population, the literacy rate among adults older than 15, the gross
+national income per capita, the percentage of male children enrolled
+in primary school, and the percentage of female children enrolled in
+primary school.
+</p>
+
+<p>
+In week one, the very first plot we made in R was a scatterplot of
+fertility rate versus gross national income. Let's make this plot
+again, just like we did in week one.
+</p>
+
+
+<div id="fig:WHOw1Plot" class="figure">
+<p><img src="../graphs/WHOw1Plot.png" alt="WHOw1Plot.png" />
+</p>
+<p><span class="figure-number">Figure 23:</span> WHO plot from week 1</p>
+</div>
+
+<p>
+This plot shows us that a higher fertility rate is correlated with a
+lower income. Now, let's redo this scatter plot, but this time using
+ggplot.
+</p>
+
+<p>
+We'll see how ggplot can be used to make more visually
+appealing and complex scatter plots.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Install new package: ggplot2 ..."</span>)
+<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">install.packages('ggplot2', repos='http://cran.rstudio.com/')</span>
+writeLines(<span style="color: #ff6a6a;">"\n :: NOTE: Please comment after install once..."</span>)
+
+<span style="color: #db7093;">library</span>(ggplot2)
+writeLines(<span style="color: #ff6a6a;">"\n :: Library ggplot2 loaded..."</span>)
+</pre>
+</div>
+
+<pre class="example">
+:: Install new package: ggplot2 ...
+
+:: NOTE: Please comment after install once...
+
+:: Library ggplot2 loaded...
+</pre>
+
+<p>
+Now, remember we need at least three things to create a plot using
+ggplot&#x2013; data, an aesthetic mapping of variables in the data frame to
+visual output, and a geometric object. So first, let's create the
+ggplot object with the data and the aesthetic mapping.
+</p>
+
+<p>
+We'll save it to the variable scatter plot, and then use the ggplot
+function, where the first argument is the name of our data set, WHO,
+which specifies the data to use, and the second argument is the
+aesthetic mapping, <code>aes</code>.
+</p>
+
+
+<div id="fig:WHOggplotExample" class="figure">
+<p><img src="../graphs/WHOggplotExample.png" alt="WHOggplotExample.png" />
+</p>
+<p><span class="figure-number">Figure 24:</span> WHO scatter plot with ggplot</p>
+</div>
+
+<p>
+Now, we need to tell ggplot what geometric objects to put in the
+plot. We could use bars, lines, points, or something else. This is a
+big difference between ggplot and regular plotting in R. You can build
+different types of graphs by using the same ggplot object.
+</p>
+
+<p>
+There's no need to learn one function for bar graphs, a completely
+different function for line graphs, etc. So first, let's just create a
+straightforward scatter plot. So the geometry we want to add is
+points. We can do this by typing the name of our ggplot object,
+scatter plot, and then adding the function, geom_point().
+</p>
+
+<p>
+You should see a new plot in the Graphics window that looks similar to
+our original plot, but there are already a few nice improvements. One
+is that we don't have the data set name with a dollar  sign in front
+of the label on each axis, just the variable name.
+</p>
+
+<p>
+Another is that we have these nice grid lines in the background and
+solid points that pop out from the background.
+</p>
+
+<p>
+We could have made a line graph just as easily by changing point to
+line.
+</p>
+
+<p>
+In addition to specifying that the geometry we want is points, we can
+add other options, like the color, shape, and size of the
+points. Let's redo our plot with blue triangles instead of circles. In
+the empty parentheses for <code>geom_point</code>, we're going to specify some
+properties of the points.
+</p>
+
+<p>
+<code>scatterplot + geom_point(color = "blue", size = 3, shape = 17)</code>
+</p>
+
+<p>
+Change <code>blue</code> to <code>darkred</code>, and change shape to 8. Now, you should see
+dark red stars. There are many different colors and shapes that you
+can specify. We've provided some information in the text below this
+video.
+</p>
+
+<p>
+Now, let's save our plot to a file. We can do this by first saving our
+plot to a variable.
+</p>
+
+<p>
+<code>fertilityGNIplot = scatterplot +</code>
+<code>geom_point(colour = "blue", size = 3, shape = 17) +
+~ggtitle("Fertility Rate vs. Gross National Income")</code>
+</p>
+
+<p>
+This will save our scatter plot to the variable,
+<code>fertilityGNIplot</code>. Now, let's create a file we want to save our plot
+to. We can do that with the <code>pdf</code> function.
+</p>
+
+<p>
+<code>pdf("MyPlot.pdf")</code>
+</p>
+
+<p>
+<code>print(fertilityGNIplot)</code>
+</p>
+
+<p>
+<code>dev.off()</code>
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-7-3" class="outline-4">
+<h4 id="sec-1-7-3"><span class="section-number-4">1.7.3</span> Colors and shapes in R</h4>
+<div class="outline-text-4" id="text-1-7-3">
+<p>
+If you want to see all of the available colors in R, type in your R
+console:
+</p>
+
+<p>
+<code>colors()</code>
+</p>
+
+<p>
+All of the available shapes are described in the following image:
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/Shapes.jpg.png" alt="Shapes.jpg.png" />
+</p>
+</div>
+
+<p>
+The number 0 corresponds to an empty square, the number 6 corresponds
+to an upside down triangle, etc.
+</p>
+
+<p>
+Source: This image comes from <a href="http://www.cookbook-r.com/Graphs/Shapes_and_line_types/">Cookbook for R</a>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-8" class="outline-3">
+<h3 id="sec-1-8"><span class="section-number-3">1.8</span> Quick Question (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-8">
+</div><div id="outline-container-sec-1-8-1" class="outline-4">
+<h4 id="sec-1-8-1"><span class="section-number-4">1.8.1</span> Question</h4>
+<div class="outline-text-4" id="text-1-8-1">
+<p>
+In R, change the shape of your points to the number 15. What shape are
+the points now?
+</p>
+</div>
+
+<div id="outline-container-sec-1-8-1-1" class="outline-5">
+<h5 id="sec-1-8-1-1"><span class="section-number-5">1.8.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-1-8-1-1">
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> Circles
+</li>
+<li><code>[&#xa0;]</code> Diamonds
+</li>
+<li><code>[&#xa0;]</code> Crosses
+</li>
+<li><code>[X]</code> Squares
+</li>
+<li><code>[&#xa0;]</code> Stars
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+If you type:
+</p>
+
+<p>
+<code>scatterplot + geom_point(shape = 15)</code>
+</p>
+
+<p>
+where scatterplot is the plot we created in the previous video, you
+can see that the points are squares.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-9" class="outline-3">
+<h3 id="sec-1-9"><span class="section-number-3">1.9</span> Video 5: Advanced Scatter plots Using ggplot</h3>
+<div class="outline-text-3" id="text-1-9">
+<p>
+Now, let's color the points by region instead. This time, we want to
+add a color option to our aesthetic, since we're assigning a variable
+in our data set to the colors.
+</p>
+
+
+<div id="fig:WHObyRegion" class="figure">
+<p><img src="../graphs/WHObyRegion.png" alt="WHObyRegion.png" />
+</p>
+<p><span class="figure-number">Figure 26:</span> Scatter plot of WHO by region</p>
+</div>
+
+<p>
+Now, in our plot, we should see that each point is colored
+corresponding to the region that country belongs in. So the countries
+in Africa are colored red, the countries in the Americas are colored
+gold, the countries in the Eastern Mediterranean are colored green,
+etc.
+</p>
+
+<p>
+This really helps us see something that we didn't see before. The
+points from the different regions are really located in different
+areas on the plot. Let's now instead color the points according to the
+country's life expectancy.
+</p>
+
+
+<div id="fig:WHOscatterPlotLifeExpectancy" class="figure">
+<p><img src="../graphs/WHOscatterPlotLifeExpectancy.png" alt="WHOscatterPlotLifeExpectancy.png" />
+</p>
+<p><span class="figure-number">Figure 27:</span> Who scatter plot by life expectancy</p>
+</div>
+
+<p>
+Now, we should see that each point is colored according to the life
+expectancy in that country. Notice that before, we were coloring by a
+factor variable, Region.
+</p>
+
+<p>
+So we had exactly seven different colors corresponding to the seven
+different regions. Here, we're coloring by LifeExpectancy instead,
+which is a numerical variable, so we get a gradient of colors, like
+this.
+</p>
+
+<p>
+Lighter blue corresponds to a higher life expectancy, and darker blue
+corresponds to a lower life expectancy.
+</p>
+
+<p>
+Suppose we were interested in seeing whether the fertility rate of a
+country was a good predictor of the percentage of the population
+under 15. Intuitively, we would expect these variables to be highly
+correlated. But before trying any statistical models, let's explore
+our data with a plot.
+</p>
+
+
+<div id="fig:WHOFertilityRateVSPopUnder15" class="figure">
+<p><img src="../graphs/WHOFertilityRateVSPopUnder15.png" alt="WHOFertilityRateVSPopUnder15.png" />
+</p>
+<p><span class="figure-number">Figure 28:</span> WHO fertility rate vs. population under 15</p>
+</div>
+
+<p>
+This is really interesting. It looks like the variables are certainly
+correlated, but as the fertility rate increases, the variable,
+<code>Under15</code> starts increasing less.
+</p>
+
+<p>
+So this doesn't really look like a linear relationship. But we suspect
+that a log transformation of <code>FertilityRate</code> will be better. Let's
+give it a shot.
+</p>
+
+
+<div id="fig:WHOlogFertilityRateVSUnder15" class="figure">
+<p><img src="../graphs/WHOlogFertilityRateVSUnder15.png" alt="WHOlogFertilityRateVSUnder15.png" />
+</p>
+<p><span class="figure-number">Figure 29:</span> WHO scatter plot of the logarithm of fertility rate vs under 15</p>
+</div>
+
+<p>
+Let's try building in a simple linear regression model to predict the
+percentage of the population under 15, using the log of the fertility
+rate.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Simple linear regression model to predict the percentage\n of the population under 15, using the log of the fertility rate:"</span>)
+mod <span style="color: #db7093;">&lt;-</span> lm(Under15 ~ log(FertilityRate), data = WHO)
+summary(mod)
+</pre>
+</div>
+
+<pre class="example">
+ :: Simple linear regression model to predict the percentage
+ of the population under 15, using the log of the fertility rate:
+
+Call:
+lm(formula = Under15 ~ log(FertilityRate), data = WHO)
+
+Residuals:
+     Min       1Q   Median       3Q      Max
+-10.3131  -1.7742   0.0446   1.7440   7.7174
+
+Coefficients:
+                   Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)          7.6540     0.4478   17.09   &lt;2e-16 ***
+log(FertilityRate)  22.0547     0.4175   52.82   &lt;2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 2.65 on 181 degrees of freedom
+  (11 observations deleted due to missingness)
+Multiple R-squared:  0.9391,	Adjusted R-squared:  0.9387
+F-statistic:  2790 on 1 and 181 DF,  p-value: &lt; 2.2e-16
+</pre>
+
+<p>
+Let's look at the summary of our model. It looks like the log of
+<code>FertilityRate</code> is indeed a great predictor of <code>Under15</code>. The variable
+is highly significant, and our <code>R-squared</code> is \(0.9391\).
+</p>
+
+<p>
+Visualization was a great way for us to realize that the log
+transformation would be better. If we instead had just used the
+<code>FertilityRate</code>, the R-squared would have been \(0.87\). That's a pretty
+significant decrease in <code>R-squared</code>.
+</p>
+
+<p>
+So now, let's add this regression line to our plot. This is pretty
+easy in ggplot. We just have to add another layer.
+</p>
+
+
+<div id="fig:WHOfetilityRvsUnder15LRmodel" class="figure">
+<p><img src="../graphs/WHOfetilityRvsUnder15LRmodel.png" alt="WHOfetilityRvsUnder15LRmodel.png" />
+</p>
+<p><span class="figure-number">Figure 30:</span> WHO scatter plot of the fertility rate vs. under 15 with a linear regression model</p>
+</div>
+
+<p>
+Now, you should see a blue line going through the data. This is our
+regression line. By default, ggplot will draw a \(95\%\) confidence
+interval shaded around the line.
+</p>
+
+<p>
+We can change this by specifying options within the statistics layer.
+</p>
+
+<p>
+This will give a \(99\%\) confidence interval.
+</p>
+
+
+<div id="fig:WHOFertilityRatevsUnder15LM99" class="figure">
+<p><img src="../graphs/WHOFertilityRatevsUnder15LM99.png" alt="WHOFertilityRatevsUnder15LM99.png" />
+</p>
+<p><span class="figure-number">Figure 31:</span> WHO scatter plot of fertility rate vs under 15 with regression model with 99%</p>
+</div>
+
+<p>
+We could instead take away the confidence interval altogether by
+deleting
+</p>
+
+<p>
+<code>level = 0.99</code>
+</p>
+
+<p>
+and typing
+</p>
+
+<p>
+<code>se = FALSE</code>
+</p>
+
+<p>
+Now, we just have the regression line in blue.
+</p>
+
+
+<div id="fig:WHOFertilityRVsUnder15WlmOnly" class="figure">
+<p><img src="../graphs/WHOFertilityRVsUnder15WlmOnly.png" alt="WHOFertilityRVsUnder15WlmOnly.png" />
+</p>
+<p><span class="figure-number">Figure 32:</span> WHO Fertility rate vs. Under 15 with LM only</p>
+</div>
+
+<p>
+We could also change the color of the regression line
+by typing as an option
+</p>
+
+<p>
+~color = "orange"~
+</p>
+
+
+<div id="fig:WHOFerRateVsUnder15WlmOrange" class="figure">
+<p><img src="../graphs/WHOFerRateVsUnder15WlmOrange.png" alt="WHOFerRateVsUnder15WlmOrange.png" />
+</p>
+<p><span class="figure-number">Figure 33:</span> WHO Fertility rate vs Under 15 with regression model in orange</p>
+</div>
+
+<p>
+Now, we have an orange linear regression line. As we've seen in this
+lecture, scatter plots are great for exploring data. However, there
+are many other ways to represent data visually, such as box plots,
+line charts, histograms, heat maps, and geographic maps.
+</p>
+
+<p>
+In some cases, it may be better to choose one of these other ways of
+visualizing your data.
+</p>
+
+<p>
+Luckily, ggplot makes it easy to go from one type of visualization to
+another, simply by adding the appropriate layer to the plot.
+</p>
+
+<p>
+<b>So what is the edge of visualizations?</b>
+</p>
+
+<p>
+The WHO data that we used here is used by citizens, policymakers, and
+organizations around the world.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-TAE.png" alt="VIS-TAE.png" />
+</p>
+</div>
+
+<p>
+Visualizing the data facilitates the understanding of global health
+trends at a glance.
+</p>
+
+<p>
+By using ggplot in R, we're able to visualize data for exploration,
+modeling, and sharing analytics results.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-10" class="outline-3">
+<h3 id="sec-1-10"><span class="section-number-3">1.10</span> Quick Question (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-10">
+<p>
+Create the fertility rate versus population under 15 plot again:
+</p>
+
+<p>
+<code>ggplot(WHO, aes(x = FertilityRate, y = Under15)) + geom_point()</code>
+</p>
+
+<p>
+Now, color the points by the Region variable.
+</p>
+
+<p>
+Note: You can add <code>scale_color_brewer(palette="Dark2")</code> to your plot
+if you are having a hard time distinguishing the colors (this color
+palette is often better if you are colorblind). To use this option,
+you should just add <code>scale_color_brewer(palette="Dark2")</code> to your
+plotting command right after <code>geom_point()</code>. To find out more about
+using ggplot in a colorblind-friendly way, please see this website.
+</p>
+
+
+<div id="fig:WHOFertRvsUnder15NewPalette" class="figure">
+<p><img src="../graphs/WHOFertRvsUnder15NewPalette.png" alt="WHOFertRvsUnder15NewPalette.png" />
+</p>
+<p><span class="figure-number">Figure 35:</span> Using a new palette to improve the readability of the plot</p>
+</div>
+
+<p>
+One region in particular has a lot of countries with a very low
+fertility rate and a very low percentage of the population
+under 15. Which region is it?
+</p>
+
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> Africa
+</li>
+<li><code>[&#xa0;]</code> Americas
+</li>
+<li><code>[&#xa0;]</code> Eastern Mediterranean
+</li>
+<li><code>[X]</code> Europe
+</li>
+<li><code>[&#xa0;]</code> South-East Asia
+</li>
+<li><code>[&#xa0;]</code> Western Pacific
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+You can color the points by region if you adjust the command to the
+following:
+</p>
+
+<p>
+<code>ggplot(WHO, aes(x = FertilityRate, y = Under15, color=Region)) + geom_point()</code>
+</p>
+
+<p>
+Most of the countries in Europe have a very low fertility rate and a
+very low percentage of the population under 15.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 22/07/2015</p>
+<p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
+<p class="date">Created: 2015-07-22 Wed 12:01</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
