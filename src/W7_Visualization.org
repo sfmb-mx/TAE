@@ -1013,3 +1013,1701 @@ following:
 
 Most of the countries in Europe have a very low fertility rate and a
 very low percentage of the population under 15.
+
+* The Analytical Policeman: Visualization for Law and Order
+
+** Video 1: Predictive Policing
+
+We will discuss how visualization can offer insights in the area of
+policing in urban environments.
+
+[[../graphs/AP.png]]
+
+The explosion of computerized data affects all parts of society,
+including policing. In the past, human judgment and experience was the
+only tool in identifying patterns in criminal behavior.
+
+[[../graphs/AP-AnalyticalPoliceman.png]]
+
+Los Angeles police worked for months to catch Manson and his
+followers. These days the LAPD is on an offensive to prevent
+crime. Its latest weapon is a computer program that can actually
+predict where crimes will happen.
+
+And justice correspondent Bob Orr has a first look at the results. In
+the Foothill Division north of downtown Los Angeles, police are
+patrolling the largely working-class neighborhoods with specially
+marked maps. The small red squares are hot spots, where computers
+project property crimes are most likely.
+
+It's called predictive policing. A program which Captain Sean
+Malinowski says puts officers on the scene before crimes occur. 65% of
+our crimes are burglary, grand theft auto, and burglary for motor
+vehicle. And that's what these boxes represent. That's a pretty small
+box, 500 feet by 500 feet. Yes, it is a small area.
+
+These crime prediction boxes come from the same kind of mathematical
+calculation used to predict earthquakes and aftershocks.
+
+[[../graphs/AP-PredictivePolicing.png]]
+
+By analyzing the times, dates, and places of recent crimes computers
+project hot spots for burglaries, break-ins, and car thefts. LA's
+Police Chief Charlie Beck says increasing police patrols inside those
+boxes denies criminals opportunity. The real measure of this is not
+how many people you catch, it's how much crime you prevent.
+
+I love catching people. It's what I live for. But, what I'd rather do
+is live in a place and work in a place where crime didn't happen.
+
+Chief Beck, a 35-year veteran and the father of two LAPD officers, has
+faced some skepticism in selling the predictive concept.
+
+- You're a street cop. -
+
+- I am. -
+
+- So somebody comes to you with a computer program that says, here
+  we're going to predict the future, we're going to tell you where
+  crime is going to occur.
+
+Aren't some of the guys on the street just going to roll their eyes
+and say, oh come on?
+
+- Well, of course.
+
+- I mean, that's the nature of human beings.
+
+I mean everybody thinks that they do their profession as well as it
+can be done already, so they don't need any help.
+
+If this old street cop can change the way that he thinks about this
+stuff, then I know that my kids can do the same.
+
+The LAPD began testing the predictive policing model here in the
+Foothill Division in November, and the early results are encouraging.
+
+The LAPD began testing the predictive policing model here in the
+Foothill Division in November, and the early results are
+encouraging. Burglaries are down 33%, and violent crime is also down
+21%.
+
+That success will allow Beck to expand the program to other parts of
+the city and leverage limited resources.
+
+- I'm not going to get more money. I'm not going to get more cops. But
+  I have to be better at using what I have, and that's what predictive
+  policing is about.
+
+It's also about driving the crime rate lower. Crime here has dropped
+nine straight years. With these small red boxes, LA is aiming
+for 10. Bob Orr, CBS News, Los Angeles. (End TV report).
+
+The Los Angeles Police Chief Charlie Beck writes, "I'm not going to
+get more money. I'm not going to get more cops.
+
+[[../graphs/AP-LAPoliceDept.png]]
+
+Let me comment on the role of analytics. The analytical tools you have
+learned in this class can be used to make these predictive policing
+models possible.
+
+However, communicating the results of these models is critical. A
+linear regression output table will not be of use to a police person
+on patrol. Visualization bridges the gap between the analytics and the
+end user.
+
+[[../graphs/AP-RoleOfAnalytics.png]]
+
+**  Quick Question (1 point possible)
+
+*** Question
+
+The Los Angeles Police Department sees the benefits of predictive
+policing as which of the following? Select all that apply.
+
+**** Answer
+
+- [X]  Allowing more intelligent officer deployment
+- [ ] Eliminating the need for police officers
+- [X] Preventing crime
+- [ ] Catching criminals
+- [X] Using resources more effectively
+
+*Explanation*
+
+According the the Los Angeles Police Department, predictive policing
+does not eliminate the need for police officers or increase the rate
+at which they catch criminals. It does, however, allow more
+intelligent officer deployment, prevents crime, and helps them use
+resources more effectively.
+
+** Video 2: Visualizing Crime Over Time
+
+We will discuss how we can create visualizations that are used in
+predictive policing models. In almost every application, before we
+even consider a predictive model, we should try to understand the
+historical data.
+
+[[../graphs/AP-UnderstandingThePast.png]]
+
+We will use data from the city of Chicago, in the United States, about
+motor vehicle thefts.
+
+[[../graphs/AP-CrimeOverTime.png]]
+
+Given this data on crimes, suppose we wanted to communicate crime
+patterns over the course of an average week. We could display daily
+crime averages using a line graph, like the one shown here, but this
+doesn't seem too useful.
+
+We can see that crime tends to be higher on Saturday, but when on
+Saturday, and where?
+
+We could replace our x-axis with the hour of the day and have a
+different line for every day of the week to understand when crime
+occurs in more detail. But this would be a jumbled mess with seven
+lines, and probably very hard to read.
+
+We could instead use no visualization at all, and instead present
+information in a table, like the one shown here. For each hour and
+day, we have the total number of crimes that occurred. This is a valid
+representation of the data, but large tables of numbers can be hard to
+read and understand.
+
+[[../graphs/AP-CrimeOverTime02.png]]
+
+*So how can we make the table more interesting and usable?* A great
+way to visualize information in a two-dimensional table is with a heat
+map.
+
+Heat maps visualize data using three attributes. Two of the attributes
+are on the x and y-axes, typically displayed horizontally and
+vertically.
+
+The third attribute is represented by shades of color. In this
+example, lower values in the third attribute correspond to colors
+closer to blue, and higher values in the third attribute correspond to
+colors closer to red.
+
+[[../graphs/AP-Heatmaps.png]]
+
+For example, the x-axis could be hours of the day, the y-axis could be
+days of the week, and the colors could correspond to the amount of
+crime.
+
+In a heat map, we can pick different color schemes based on the type
+of data to convey different messages.
+
+In crime, a yellow to red color scheme might be appropriate because it
+can highlight some of the more dangerous areas in red. Your eye is
+naturally drawn to the red areas of the plot.
+
+In other applications, both high and low values are meaningful, so
+having a more varied color scheme might be useful.
+
+And in other applications, you might only want to see cells with high
+values, so you could use a gray scale to make the cells with low
+values white.
+
+The x and y-axes in a heat map don't need to be continuous. In our
+example, we have a categorical or factor variable -- the day of the
+week. And we can even combine a heat map with a geographical map,
+which we'll discuss later in this lecture.
+
+[[../graphs/AP-Heatmaps02.png]]
+
+This type of heat map is frequently used in predictive policing to
+show crime hot spots in a city. In this lecture, we'll use Chicago
+motor vehicle theft data to explore patterns of crime, both over days
+of the week, and over hours of the day.
+
+[[../graphs/AP-AChicagoCrimeHeatmap.png]]
+
+We are interested in analyzing the total number of car thefts that
+occur in any particular hour of a day of the week over our whole data
+set.
+
+** Quick Question (1 point possible)
+
+*** Question
+
+For which of the following situations would a heat map be an
+appropriate visualization choice? Select all that apply.
+
+**** Answer
+
+- [ ] Determining if crime is higher or lower on warmer days
+- [X] Visualizing the areas on a geographical map with the most crime
+- [X] Comparing crime counts by police district and time throughout a
+  city
+- [ ] Analyzing which months of the year have the most crime on
+  average
+
+*Explanation*
+
+A heatmap would be useful for the middle two options, because they are
+trying to visualize crime counts relative to two variables. For the
+first option, you could use a basic scatterplot with time on the
+x-axis and amount of crime on the y-axis. For the last option, you
+could use a bar plot with a bar for each month and the height being
+the average amount of crime in that month.
+
+** Video 3: A Line Plot
+
+In the next few videos, we'll be using the dataset [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/mvt.csv][mvt.csv]]. Please
+download this dataset before starting this video. This data comes from
+the [[http://gis.chicagopolice.org][Chicago Police Department]].
+
+An R script file with all of the commands used in this lecture can be
+downloaded [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/Unit7_Crime.R][here]].
+
+*** Download the data sets
+
+In this part we can download the data
+
+#+BEGIN_SRC R :session :results output :exports all
+  library(parallel)
+
+  if(!file.exists("../data")) {
+          dir.create("../data")
+  }
+
+  fileUrl <- "https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/mvt.csv"
+  fileName <- "mvt.csv"
+  dataPath <- "../data"
+
+  filePath <- paste(dataPath, fileName, sep = "/")
+
+  if(!file.exists(filePath)) {
+          download.file(fileUrl, destfile = filePath, method = "curl")
+  }
+
+  list.files("../data")
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+ [1] "AirlinesCluster.csv"     "AnonymityPoll.csv"
+ [3] "baseball.csv"            "BoeingStock.csv"
+ [5] "boston.csv"              "ClaimsData.csv"
+ [7] "ClaimsData.csv.zip"      "climate_change.csv"
+ [9] "clinical_trial.csv"      "ClusterMeans.ods"
+[11] "CocaColaStock.csv"       "CountryCodes.csv"
+[13] "CPSData.csv"             "dailykos.csv"
+[15] "eBayiPadTest.csv"        "eBayiPadTrain.csv"
+[17] "emails.csv"              "energy_bids.csv"
+[19] "flower.csv"              "FluTest.csv"
+[21] "FluTrain.csv"            "framingham.csv"
+[23] "gerber.csv"              "GEStock.csv"
+[25] "healthy.csv"             "IBMStock.csv"
+[27] "loans_imputed.csv"       "loans.csv"
+[29] "MetroAreaCodes.csv"      "movieLens.txt"
+[31] "mvt.csv"                 "mvtWeek1.csv"
+[33] "NBA_test.csv"            "NBA_train.csv"
+[35] "parole.csv"              "pisa2009test.csv"
+[37] "pisa2009train.csv"       "PollingData_Imputed.csv"
+[39] "PollingData.csv"         "ProcterGambleStock.csv"
+[41] "quality.csv"             "README.md"
+[43] "SampleSubmission.csv"    "songs.csv"
+[45] "stevens.csv"             "StocksCluster.csv"
+[47] "stopwords.txt"           "tumor.csv"
+[49] "tweets.csv"              "USDA.csv"
+[51] "WHO_Europe.csv"          "WHO.csv"
+[53] "WHOu7.csv"               "wiki.csv"
+[55] "wine_test.csv"           "wine.csv"
+#+end_example
+
+*** Load the data set
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: Loading data into their data frame.")
+  mvt <- read.csv("../data/mvt.csv", stringsAsFactors=FALSE)
+  str(mvt)
+#+END_SRC
+
+#+RESULTS:
+:
+:  :: Loading data into their data frame.
+: 'data.frame':	191641 obs. of  3 variables:
+:  $ Date     : chr  "12/31/12 23:15" "12/31/12 22:00" "12/31/12 22:00" "12/31/12 22:00" ...
+:  $ Latitude : num  41.8 41.9 42 41.8 41.8 ...
+:  $ Longitude: num  -87.6 -87.7 -87.8 -87.7 -87.6 ...
+
+We will create a basic line plot to visualize crime trends. Let's
+start by reading in our data. We'll call it mvt for motor vehicle
+thefts.
+
+Let's take a look at the structure of our data using the ~str~
+function. We have over 190,000 observations of three different
+variables-- the date of the crime, and the location of the crime, in
+terms of latitude and longitude.
+
+We want to first convert the Date variable to a format that R will
+recognize so that we can extract the day of the week and the hour of
+the day.
+
+We can do this using the ~strptime~ function. So we want to replace
+our variable, Date, with the output of the ~strptime~ function.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Convert the Date variable to a format that R will recognize...")
+  mvt$Date <- strptime(mvt$Date, format = "%m/%d/%y %H:%M")
+#+end_src
+
+#+RESULTS:
+:
+:  :: Convert the Date variable to a format that R will recognize...
+
+In this format, we can extract the hour and the day of the week from
+the Date variable, and we can add these as new variables to our data
+frame. We can do this by first defining our new variable.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Extract the hour and the day of the week...")
+  mvt$Weekday <- weekdays(mvt$Date)
+  mvt$Hour <- mvt$Date$hour
+#+end_src
+
+#+RESULTS:
+:
+:  :: Extract the hour and the day of the week...
+
+Let's take a look at the structure of our data again to see what it
+looks like.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Revising the structure of the dataframe mvt:")
+  str(mvt)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Revising the structure of the dataframe mvt:
+: 'data.frame':	191641 obs. of  5 variables:
+:  $ Date     : POSIXlt, format: "2012-12-31 23:15:00" "2012-12-31 22:00:00" ...
+:  $ Latitude : num  41.8 41.9 42 41.8 41.8 ...
+:  $ Longitude: num  -87.6 -87.7 -87.8 -87.7 -87.6 ...
+:  $ Weekday  : chr  "Monday" "Monday" "Monday" "Monday" ...
+:  $ Hour     : int  23 22 22 22 21 20 20 20 19 18 ...
+
+Now, we have two more variables-- Weekday, which gives the day of the
+week, and Hour, which gives the hour of the day. Now, we're ready to
+make some line plots. Let's start by creating the line plot we saw in
+the previous video with just one line and a value  for every day of
+the week.
+
+We want to plot as that value the total number of crimes on each day
+of the week.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Need the total number of crimes on each day of the week:")
+  sort(table(mvt$Weekday), decreasing = TRUE)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Need the total number of crimes on each day of the week:
+:
+:    Friday Wednesday    Monday  Thursday  Saturday   Tuesday    Sunday
+:     29284     27416     27397     27319     27118     26791     26316
+
+This gives the total amount of crime on each day of the week. Let's
+save this table as a data frame so that we can pass it to ggplot as
+our data.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Save this table as a data frame:")
+  WeekdayCounts <- as.data.frame(table(mvt$Weekday))
+  str(WeekdayCounts)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Save this table as a data frame:
+: 'data.frame':	7 obs. of  2 variables:
+:  $ Var1: Factor w/ 7 levels "Friday","Monday",..: 1 2 3 4 5 6 7
+:  $ Freq: int  29284 27397 27118 26316 27319 26791 27416
+
+We can see that our data frame has seven observations, one for each
+day of the week, and two different variables.  The first variable,
+called Var1, gives the name of the day of the week, and the second
+variable, called Freq, for frequency, gives the total amount of crime
+on that day of the week.
+
+Now, we're ready to make our plot. First, we need to load the ggplot2
+package.
+
+#+BEGIN_SRC R :var basename="MVTCrimePlot01" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+
+  ## Load the ggplot2 library:
+  library(ggplot2)
+  ## Create our plot
+  ggplot(WeekdayCounts, aes(x = Var1, y = Freq)) + geom_line(aes(group = 1))
+
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  MVT Chicago crime plot
+#+NAME:     fig:MVTCrimePlot01
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/MVTCrimePlot01.png]]
+
+Now, we just need to add ~geom_line(aes(group=1))~. This just groups
+all of our data into one line, since we want one line in our plot.
+
+We can see that this is very close to the plot we want. We have the
+total number of crime plotted by day of the week, but our days of the
+week are a little bit out of order. We have Friday first, then Monday,
+then Saturday, then Sunday, etc.
+
+What ~ggplot~ did was it put the days of the week in alphabetical
+order. But we actually want the days of the week in chronological
+order to make this plot a bit easier to read. We can do this by making
+the ~Var1~ variable an ordered factor variable.
+
+This signals to ggplot that the ordering is meaningful. We can do this
+by using the factor function.
+
+#+BEGIN_SRC R :var basename="MVTCrimeplot02" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+    ## Make the "Var1" variable an ORDERED factor variable.
+    WeekdayCounts$Var1 <- factor(WeekdayCounts$Var1, ordered=TRUE,
+                                 levels=c("Sunday", "Monday", "Tuesday",
+                                          "Wednesday", "Thursday",
+                                          "Friday","Saturday"))
+    ## Try again:
+    ggplot(WeekdayCounts, aes(x=Var1, y=Freq)) + geom_line(aes(group=1))
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  MVT Chicago crime plot v2
+#+NAME:     fig:MVTCrimeplot02
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/MVTCrimeplot02.png]]
+
+We have the total crime by day of the week with the days of the week
+in chronological order. The last thing we'll want to do to our plot is
+just change the x- and y-axis labels, since they're not very helpful
+as they are now.
+
+#+BEGIN_SRC R :var basename="MVTCrimeplot03" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  # Change our x and y labels:
+  ggplot(WeekdayCounts, aes(x = Var1, y = Freq)) + geom_line(aes(group=1)) +
+          xlab("Day of the Week") + ylab("Total Motor Vehicle Thefts")
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  MVT Chicago crime plot v3
+#+NAME:     fig:MVTCrimeplot03
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/MVTCrimeplot03.png]]
+
+Now, this is the plot we were trying to generate with descriptive
+labels on the x- and y-axis.
+
+** Quick Question (2 points possible)
+
+Create a new line plot, like the one in Video 3, but add the argument
+~linetype = 2~. So the geom_line part of the plotting command should
+look like:
+
+~geom_line(aes(group=1), linetype=2)~
+
+#+BEGIN_SRC R :var basename="MVTCrimeplot04" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  ggplot(WeekdayCounts, aes(x = Var1, y = Freq)) +
+          geom_line(aes(group = 1), linetype=2) +
+          xlab("Day of the Week") + ylab("Total Motor Vehicle Thefts")
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  MVT Chicago crime plot v4
+#+NAME:     fig:MVTCrimeplot04
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/MVTCrimeplot04.png]]
+
+*** Question a
+
+What does this do?
+
+**** Answer
+
+- [ ] Makes the line thicker
+- [ ] Changes the color of the line to blue
+- [X] Makes the line dashed
+- [ ] Makes the line lighter in color
+
+*** Question
+
+Now, change the alpha parameter to 0.3 by replacing ~linetype = 2~
+with ~alpha = 0.3~ in the plot command. What does this do?
+
+#+BEGIN_SRC R :var basename="MVTCrimeplot05" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  ggplot(WeekdayCounts, aes(x = Var1, y = Freq)) +
+          geom_line(aes(group = 1), alpha = 0.3) +
+          xlab("Day of the Week") + ylab("Total Motor Vehicle Thefts")
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  MVT Chicago crime plot v5
+#+NAME:     fig:MVTCrimeplot05
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/MVTCrimeplot05.png]]
+
+**** Answer
+
+- [ ] Makes the line thicker
+- [ ] Changes the color of the line to blue
+- [ ] Makes the line dashed
+- [X] Makes the line lighter in color
+
+*Explanation*
+
+The linetype parameter makes the line dashed, and the alpha parameter
+makes the line lighter in color, or more transparent. The two plots
+can be generated with the following commands:
+
+~ggplot(WeekdayCounts, aes(x = Var1, y = Freq)) +~
+~geom_line(aes(group=1), linetype=2) + xlab("Day of the Week") +~
+~ylab("Total Motor Vehicle Thefts")~
+
+~ggplot(WeekdayCounts, aes(x = Var1, y = Freq)) +~
+~geom_line(aes(group=1), alpha=0.3) + xlab("Day of the Week") +~
+~ylab("Total Motor Vehicle Thefts")~
+
+** Video 4: A Heatmap
+
+we'll add the hour of the day to our line plot, and then create an
+alternative visualization using a heat map. We can do this by creating
+a line for each day of the week and making the x-axis the hour of the
+day. We first need to create a counts table for the weekday, and hour.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Create a counts table for the weekday and hour:")
+  table(mvt$Weekday, mvt$Hour)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Create a counts table for the weekday and hour:
+
+               0    1    2    3    4    5    6    7    8    9   10   11   12
+  Friday    1873  932  743  560  473  602  839 1203 1268 1286  938  822 1207
+  Monday    1900  825  712  527  415  542  772 1123 1323 1235  971  737 1129
+  Saturday  2050 1267  985  836  652  508  541  650  858 1039  946  789 1204
+  Sunday    2028 1236 1019  838  607  461  478  483  615  864  884  787 1192
+  Thursday  1856  816  696  508  400  534  799 1135 1298 1301  932  731 1093
+  Tuesday   1691  777  603  464  414  520  845 1118 1175 1174  948  786 1108
+  Wednesday 1814  790  619  469  396  561  862 1140 1329 1237  947  763 1225
+
+              13   14   15   16   17   18   19   20   21   22   23
+  Friday     857  937 1140 1165 1318 1623 1652 1736 1881 2308 1921
+  Monday     824  958 1059 1136 1252 1518 1503 1622 1815 2009 1490
+  Saturday   767  963 1086 1055 1084 1348 1390 1570 1702 2078 1750
+  Sunday     789  959 1037 1083 1160 1389 1342 1706 1696 2079 1584
+  Thursday   752  831 1044 1131 1258 1510 1537 1668 1776 2134 1579
+  Tuesday    762  908 1071 1090 1274 1553 1496 1696 1816 2044 1458
+  Wednesday  804  863 1075 1076 1289 1580 1507 1718 1748 2093 1511
+#+end_example
+
+This table gives, for each day of the week and each hour, the total
+number of motor vehicle thefts that occurred. For example, on Friday
+at 4 AM, there were 473 motor vehicle thefts, whereas on Saturday at
+midnight, there were 2,050 motor vehicle thefts. Let's save this table
+to a data frame so that we can use it in our visualizations.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Save this to a data frame:")
+  DayHourCounts <- as.data.frame(table(mvt$Weekday, mvt$Hour))
+  str(DayHourCounts)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Save this to a data frame:
+: 'data.frame':	168 obs. of  3 variables:
+:  $ Var1: Factor w/ 7 levels "Friday","Monday",..: 1 2 3 4 5 6 7 1 2 3 ...
+:  $ Var2: Factor w/ 24 levels "0","1","2","3",..: 1 1 1 1 1 1 1 2 2 2 ...
+:  $ Freq: int  1873 1900 2050 2028 1856 1691 1814 932 825 1267 ...
+
+Let's take a look at the structure of the data frame we just
+created. We can see that we have 168 observations-- one for each day
+of the week and hour pair, and three different variables.
+
+The first variable, ~Var1, gives the day of the week. The second
+variable, ~Var2~, gives the hour of the day. And the third variable,
+~Freq~ for frequency, gives the total crime count.
+
+Let's convert the second variable, ~Var2~, to actual numbers and call
+it ~Hour~, since this is the hour of the day, and it makes sense that
+it's numerical.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Convert the second variable, Var2, to numbers and call it Hour...")
+  DayHourCounts$Hour <- as.numeric(as.character(DayHourCounts$Var2))
+#+end_src
+
+#+RESULTS:
+:
+:  :: Convert the second variable, Var2, to numbers and call it Hour...
+
+This is how we convert a factor variable to a numeric variable. Now
+we're ready to create our plot. We just need to change the group to
+~Var1~, which is the day of the week.
+
+#+BEGIN_SRC R :var basename="MVTHeatCrimePlot01" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  # Create out plot:
+  ggplot(DayHourCounts, aes(x=Hour, y=Freq)) + geom_line(aes(group=Var1))
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  MVT Chicago heat plot v1
+#+NAME:     fig:MVTHeatCrimePlot01
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/MVTHeatCrimePlot01.png]]
+
+You should see a new plot show up in the graphics window. It has seven
+lines, one for each day of the week. While this is interesting, we
+can't tell which line is which day, so let's change the colors of the
+lines to correspond to the days of the week.
+
+#+BEGIN_SRC R :var basename="MVTHeatCrimePlot02" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  # Change the colors
+  ggplot(DayHourCounts, aes(x = Hour, y = Freq)) +
+          geom_line(aes(group = Var1, color = Var1), size = 2)
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  MVT heat crime plot v2
+#+NAME:     fig:MVTHeatCrimePlot02
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/MVTHeatCrimePlot02.png]]
+
+Now in our plot, each line is colored corresponding to the day of the
+week. This helps us see that on Saturday and Sunday, for example, the
+green and the teal lines, there's less motor vehicle thefts in the
+morning.
+
+Working a little with the plot:
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Separate the weekends from the weekdays...")
+  DayHourCounts$Type <- ifelse((DayHourCounts$Var1 == "Sunday") |
+                                       (DayHourCounts$Var1 ==
+                                                "Saturday"), "Weekend",
+                               "Weekday")
+#+end_src
+
+#+RESULTS:
+:
+:  :: Separate the weekends from the weekdays...
+
+#+BEGIN_SRC R :var basename="MVTHeatCrimePlot03" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  # Redo our plot, this time coloring by Type:
+  ggplot(DayHourCounts, aes(x=Hour, y=Freq)) + geom_line(aes(group=Var1,
+                                                             color=Type), size=2)
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  MVT heat plot previous v3
+#+NAME:     fig:MVTHeatCrimePlot03
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/MVTHeatCrimePlot03.png]]
+
+This configuration is little hard to read too, we can try again and
+see if is possible to improve the visualization.
+
+#+BEGIN_SRC R :var basename="MVtHeatCrimePlot04" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  # Make the lines a little transparent:
+  ggplot(DayHourCounts, aes(x=Hour, y=Freq)) +
+          geom_line(aes(group = Var1, color = Type), size = 2, alpha = 0.5)
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  MVT heat crime plot v4
+#+NAME:     fig:MVtHeatCrimePlot04
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/MVtHeatCrimePlot04.png]]
+
+While we can get some information from this plot, it's still quite
+hard to interpret. Seven lines is a lot.
+
+Let's instead visualize the same information with a heat map. To make
+a heat map, we'll use our data in our data frame
+~DayHourCounts~. First, though, we need to fix the order of the days
+so that they'll show up in chronological order instead of in
+alphabetical order.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Fix the order of the days...")
+  DayHourCounts$Var1 <- factor(DayHourCounts$Var1, ordered = TRUE,
+                               levels = c("Monday", "Tuesday",
+                                          "Wednesday", "Thursday",
+                                          "Friday", "Saturday",
+                                          "Sunday"))
+#+end_src
+
+#+RESULTS:
+:
+:  :: Fix the order of the days...
+
+Now let's make our heat map. In the aesthetic for our tiles, we want
+the fill to be equal to ~Freq~. This will define the colors of the
+rectangles in our heat map to correspond to the total crime.
+
+#+BEGIN_SRC R :var basename="MVTHeatCrimeMapR1" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  # Make a heatmap:
+  ggplot(DayHourCounts, aes(x = Hour, y = Var1)) +
+          geom_tile(aes(fill = Freq))
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  New MVT heat Chicago crime plot v1
+#+NAME:     fig:MVTHeatCrimeMapR1
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/MVTHeatCrimeMapR1.png]]
+
+*So how do we read this?* For each hour and each day of the week, we
+have a rectangle in our heat map. The color of that rectangle
+indicates the frequency, or the number of crimes that occur in that
+hour and on that day.
+
+Our legend tells us that lighter colors correspond to more crime. So
+we can see that a lot of crime happens around midnight, particularly
+on the weekends.
+
+We can change the label on the legend, and get rid of the y label to
+make our plot a little nicer.
+
+#+BEGIN_SRC R :var basename="MVTHeatCrimeMapR2" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  # Change the label on the legend, and get rid of the y-label:
+
+  ggplot(DayHourCounts, aes(x = Hour, y = Var1)) +
+          geom_tile(aes(fill = Freq)) +
+          scale_fill_gradient(name="Total MV Thefts") +
+          theme(axis.title.y = element_blank())
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  MVT Chicago's heat crime plot v2
+#+NAME:     fig:MVTHeatCrimeMapR2
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/MVTHeatCrimeMapR2.png]]
+
+We can also change the color scheme.
+
+#+BEGIN_SRC R :var basename="MVTHeatCrimeMapR3" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  # Change the color scheme
+  ggplot(DayHourCounts, aes(x = Hour, y = Var1)) +
+          geom_tile(aes(fill = Freq)) +
+          scale_fill_gradient(name="Total MV Thefts", low="white", high="red") +
+          theme(axis.title.y = element_blank())
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  MVT Chicago's heat crime plot v3
+#+NAME:     fig:MVTHeatCrimeMapR3
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/MVTHeatCrimeMapR3.png]]
+
+This is a common color scheme in policing. It shows the hot spots, or
+the places with more crime, in red. So now the most crime is shown by
+the red spots and the least crime is shown by the lighter areas.
+
+It looks like Friday night is a pretty common time for motor vehicle
+thefts. We saw something that we didn't really see in the heat map
+before.
+
+It's often useful to change the color scheme depending on whether you
+want high values or low values to pop out, and the feeling you want
+the plot to portray.
+
+** Quick Question (2 points possible)
+
+In this quick question, we'll ask you questions about the following
+plots. Plot (1) is the heat map we generated at the end of
+Video 4. Plot (2) and Plot (3) were generated by changing argument
+values of the command used to generate Plot (1).
+
+*Plot (1)*
+
+[[../graphs/Week8_Crime_QQ4_1.png]]
+
+*Plot (2)*
+
+[[../graphs/Week8_Crime_QQ4_2.png]]
+
+*Plot (3)*
+
+[[../graphs/Week8_Crime_QQ4_3.png]]
+
+
+*** Question a
+
+#+BEGIN_SRC R :var basename="MVTQQa" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+    # Change the color scheme
+    ggplot(DayHourCounts, aes(x = Var1, y = Hour)) +
+            geom_tile(aes(fill = Freq)) +
+            scale_fill_gradient(name="Total MV Thefts", low="white", high="red") +
+            theme(axis.title.y = element_blank())
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  Rotating MVT heat plot QQa
+#+NAME:     fig:MVTQQa
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/MVTQQa.png]]
+
+Which argument(s) did we change to get Plot (2)? Select all that
+apply.
+
+- [X] x
+- [X] y
+- [ ] fill
+- [ ] name
+- [ ] low
+- [ ] high
+
+*Explanation*
+
+To get Plot (2), we changed the arguments "x" and "y" (we flipped
+them). Plot (2) can be generated with the following code:
+
+~ggplot(DayHourCounts, aes(x = Var1, y = Hour)) +~
+~geom_tile(aes(fill=Freq)) + scale_fill_gradient(name="Total MV~
+~Thefts", low="white", high="red") +~
+~theme(axis.title.y=element_blank())~
+
+*** Question
+
+#+BEGIN_SRC R :var basename="MVTQQb" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+    # Change the color scheme
+    ggplot(DayHourCounts, aes(x = Hour, y = Var1)) +
+            geom_tile(aes(fill = Freq)) +
+            scale_fill_gradient(name="Total MV Thefts", low="white", high="black") +
+            theme(axis.title.y = element_blank())
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  MVT heat plot QQb
+#+NAME:     fig:MVTQQb
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/MVTQQb.png]]
+
+Which argument(s) did we change to get Plot (3)? Select all that
+apply.
+
+- [ ] x
+- [ ] y
+- [ ] fill
+- [ ] name
+- [ ] low
+- [X] high
+
+*Explanation*
+
+To get Plot (3), we changed the argument "high" to "black". Plot (3)
+can be generated with the following code:
+
+~ggplot(DayHourCounts, aes(x = Hour, y = Var1)) +~
+~geom_tile(aes(fill=Freq)) + scale_fill_gradient(name="Total MV~
+~Thefts", low="white", high="black") +~
+~theme(axis.title.y=element_blank())~
+
+** Video 5: A Geographical Hot Spot Map
+
+We will plot crime on a map of Chicago. First, we need to install and
+load two new packages, the ~maps~ package and the ~ggmap~ package.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Install new package: maps ...")
+  ## install.packages(c('maps', 'ggmap'), repos='http://cran.rstudio.com/')
+  writeLines("\n :: NOTE: Please comment after install once...")
+
+  library(maps)
+  library(ggmap)
+  writeLines("\n :: Library maps loaded...")
+#+end_src
+
+#+RESULTS:
+:
+:  :: Install new package: maps ...
+:
+:  :: NOTE: Please comment after install once...
+: Google Maps API Terms of Service: http://developers.google.com/maps/terms.
+: Please cite ggmap if you use it: see citation('ggmap') for details.
+:
+:  :: Library maps loaded...
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Load a map of Chicago into R...")
+  chicago <- get_map(location = "chicago", zoom = 11)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Load a map of Chicago into R...
+: Map from URL : http://maps.googleapis.com/maps/api/staticmap?center=chicago&zoom=11&size=640x640&scale=2&maptype=terrain&language=en-EN&sensor=false
+: Information from URL : http://maps.googleapis.com/maps/api/geocode/json?address=chicago&sensor=false
+
+#+BEGIN_SRC R :var basename="MVTChicagoMap01" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  # Look at the map
+  ggmap(chicago)
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  MVT Chicago's crime map v1
+#+NAME:     fig:MVTChicagoMap01
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/MVTChicagoMap01.png]]
+
+You should see a geographical map of the city of Chicago. Now let's
+plot the first 100 motor vehicle thefts in our data set on this map.
+
+#+BEGIN_SRC R :var basename="MVTChicagoMap02" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  # Plot the first 100 motor vehicle thefts:
+  ggmap(chicago) +
+          geom_point(data = mvt[1:100,], aes(x = Longitude, y = Latitude))
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  MVT Chicago's crime map v2
+#+NAME:     fig:MVTChicagoMap02
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/MVTChicagoMap02.png]]
+
+You should see the map of Chicago with black points marking where the
+first 100 motor vehicle thefts were. If we plotted all 190,000 motor
+vehicle thefts, we would just see a big black box, which wouldn't be
+helpful at all.
+
+We're more interested in whether or not an area has a high amount of
+crime, so let's round our latitude and longitude to two digits of
+accuracy and create a crime counts data frame for each area.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Round our latitude and longitude to 2 digits of accuracy,\nand create a crime counts data frame for each area:")
+  LatLonCounts <- as.data.frame(table(round(mvt$Longitude, 2),
+                                      round(mvt$Latitude, 2)))
+  str(LatLonCounts)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Round our latitude and longitude to 2 digits of accuracy,
+: and create a crime counts data frame for each area:
+: 'data.frame':	1638 obs. of  3 variables:
+:  $ Var1: Factor w/ 42 levels "-87.93","-87.92",..: 1 2 3 4 5 6 7 8 9 10 ...
+:  $ Var2: Factor w/ 39 levels "41.64","41.65",..: 1 1 1 1 1 1 1 1 1 1 ...
+:  $ Freq: int  0 0 0 0 0 0 0 0 0 0 ...
+
+This gives us the total crimes at every point on a grid. Let's take a
+look at our data frame using the ~str~ function. We have 1,638
+observations and three variables.
+
+The first two variables, ~Var1~ and ~Var2~, are the latitude and
+longitude coordinates, and the third variable is the number of motor
+vehicle thefts that occur in that area.
+
+Let's convert our longitude and latitude variables to numbers and call
+them ~Lat~ and ~Long~.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Convert our Longitude and Latitude variable to numbers...")
+  LatLonCounts$Long <- as.numeric(as.character(LatLonCounts$Var1))
+  LatLonCounts$Lat <- as.numeric(as.character(LatLonCounts$Var2))
+#+end_src
+
+#+RESULTS:
+:
+:  :: Convert our Longitude and Latitude variable to numbers...
+
+Now, let's plot these points on our map, making the size and color of
+the points depend on the total number of motor vehicle thefts.
+
+#+BEGIN_SRC R :var basename="MVTChicagoMap03" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  # Plot these points on our map:
+  ggmap(chicago) +
+          geom_point(data = LatLonCounts, aes(x = Long, y = Lat, color = Freq, size=Freq))
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  MVT Chicago's crime map v3
+#+NAME:     fig:MVTChicagoMap03
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/MVTChicagoMap03.png]]
+
+So we can see that the lighter and larger points correspond to more
+motor vehicle thefts. This helps us see where in Chicago more crimes
+occur. If we want to change the color scheme,
+
+#+BEGIN_SRC R :var basename="MVTChicagoMap04" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  # Change the color scheme:
+  ggmap(chicago) +
+          geom_point(data = LatLonCounts, aes(x = Long, y = Lat, color = Freq, size=Freq)) +
+          scale_colour_gradient(low="yellow", high="red")
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  MVT Chicago's crime map v4
+#+NAME:     fig:MVTChicagoMap04
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/MVTChicagoMap04.png]]
+
+you should see the same plot as before, but this time, the areas with
+more crime are closer to red and the areas with less crime are closer
+to yellow.
+
+We can also use geom_tile to make something that looks more like a
+traditional heat map.
+
+#+BEGIN_SRC R :var basename="MVTChicagoMap05" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  # We can also use the geom_tile geometry
+  ggmap(chicago) + geom_tile(data = LatLonCounts, aes(x = Long, y = Lat, alpha = Freq), fill="red")
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  MVT Chicago's crime map v5
+#+NAME:     fig:MVTChicagoMap05
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/MVTChicagoMap05.png]]
+
+We have ~alpha=Freq~. This will define how to scale the colors on the
+heat map according to the crime counts.
+
+We've created a geographical heat map, which in our case shows a
+visualization of the data, but it could also show the predictions of a
+model. Now that our heat map is loaded, let's take a look.
+
+In each area of Chicago, now that area is colored in red by the amount
+of crime there. This looks more like a map that people use for
+predictive policing.
+
+** Quick Question (1 point possible)
+
+In the previous video, our heatmap was plotting squares out in the
+water, which seems a little strange. We can fix this by removing the
+observations from our data frame that have ~Freq = 0~.
+
+Take a subset of ~LatLonCounts~, only keeping the observations for which
+~Freq > 0~, and call it ~LatLonCounts2~.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: removing the observations that have Freq = 0...")
+  str(LatLonCounts)
+  LatLonCounts2 <- subset(LatLonCounts, LatLonCounts$Freq > 0)
+
+  writeLines("\n :: The number of observations removed:")
+  nrow(LatLonCounts) - nrow(LatLonCounts2)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: removing the observations that have Freq = 0...
+'data.frame':	1638 obs. of  5 variables:
+ $ Var1: Factor w/ 42 levels "-87.93","-87.92",..: 1 2 3 4 5 6 7 8 9 10 ...
+ $ Var2: Factor w/ 39 levels "41.64","41.65",..: 1 1 1 1 1 1 1 1 1 1 ...
+ $ Freq: int  0 0 0 0 0 0 0 0 0 0 ...
+ $ Long: num  -87.9 -87.9 -87.9 -87.9 -87.9 ...
+ $ Lat : num  41.6 41.6 41.6 41.6 41.6 ...
+
+ :: The number of observations removed:
+[1] 952
+#+end_example
+
+Redo the heatmap from the end of Video 5, using ~LatLonCounts2~
+instead of ~LatLonCounts~. You should no longer see any squares out in
+the water, or in any areas where there were no motor vehicle thefts.
+
+#+BEGIN_SRC R :var basename="MVTChicagoMap06" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+    ggmap(chicago) +
+            geom_point(data = LatLonCounts2, aes(x = Long, y = Lat, color = Freq, size=Freq)) +
+            scale_colour_gradient(low="yellow", high="red")
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  MVT Chicago's crime map v6
+#+NAME:     fig:MVTChicagoMap06
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/MVTChicagoMap06.png]]
+
+*** Question
+
+How many observations did we remove?
+
+**** Answer
+
+952
+
+*Explanation*
+
+You can take a subset of LatLonCounts, only keeping the observations
+for which ~Freq > 0~ with the following command:
+
+~LatLonCounts2 = subset(LatLonCounts, Freq > 0)~
+
+Then, you can generate the new heatmap with the following command:
+
+~ggmap(chicago) +~
+~geom_tile(data=LatLonCounts2, aes(x = Long, y = Lat, alpha=Freq), fill="red")~
+4
+The number of observations in ~LatLonCounts2~ is $686, and the number of
+observations in ~LatLonCounts~ is $1638$. These numbers can be found by
+using ~nrow~ or ~str~.
+
+** Video 6: A Heatmap on the United States
+
+In this video, we'll be using the dataset [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/murders.csv][murders.csv]]. This data is
+provided by the U.S. Census Bureau and the FBI, and is described
+[[http://en.wikipedia.org/wiki/Gun_violence_in_the_United_States_by_state][here]].
+
+We will create a heat map on a map of the United States. We'll be
+using the data set murders.csv, which is data provided by the FBI
+giving the total number of murders in the United States by state.
+
+*** Download the data sets
+
+In this part we can download the data
+
+#+BEGIN_SRC R :session :results output :exports all
+  library(parallel)
+
+  if(!file.exists("../data")) {
+          dir.create("../data")
+  }
+
+  fileUrl <- "https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/murders.csv"
+  fileName <- "murders.csv"
+  dataPath <- "../data"
+
+  filePath <- paste(dataPath, fileName, sep = "/")
+
+  if(!file.exists(filePath)) {
+          download.file(fileUrl, destfile = filePath, method = "curl")
+  }
+
+  list.files("../data")
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+ [1] "AirlinesCluster.csv"     "AnonymityPoll.csv"
+ [3] "baseball.csv"            "BoeingStock.csv"
+ [5] "boston.csv"              "ClaimsData.csv"
+ [7] "ClaimsData.csv.zip"      "climate_change.csv"
+ [9] "clinical_trial.csv"      "ClusterMeans.ods"
+[11] "CocaColaStock.csv"       "CountryCodes.csv"
+[13] "CPSData.csv"             "dailykos.csv"
+[15] "eBayiPadTest.csv"        "eBayiPadTrain.csv"
+[17] "emails.csv"              "energy_bids.csv"
+[19] "flower.csv"              "FluTest.csv"
+[21] "FluTrain.csv"            "framingham.csv"
+[23] "gerber.csv"              "GEStock.csv"
+[25] "healthy.csv"             "IBMStock.csv"
+[27] "loans_imputed.csv"       "loans.csv"
+[29] "MetroAreaCodes.csv"      "movieLens.txt"
+[31] "murders.csv"             "mvt.csv"
+[33] "mvtWeek1.csv"            "NBA_test.csv"
+[35] "NBA_train.csv"           "parole.csv"
+[37] "pisa2009test.csv"        "pisa2009train.csv"
+[39] "PollingData_Imputed.csv" "PollingData.csv"
+[41] "ProcterGambleStock.csv"  "quality.csv"
+[43] "README.md"               "SampleSubmission.csv"
+[45] "songs.csv"               "stevens.csv"
+[47] "StocksCluster.csv"       "stopwords.txt"
+[49] "tumor.csv"               "tweets.csv"
+[51] "USDA.csv"                "WHO_Europe.csv"
+[53] "WHO.csv"                 "WHOu7.csv"
+[55] "wiki.csv"                "wine_test.csv"
+[57] "wine.csv"
+#+end_example
+
+*** Load the data set
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: Loading data into their data frame.")
+  murders <- read.csv("../data/murders.csv")
+  str(murders)
+#+END_SRC
+
+#+RESULTS:
+:
+:  :: Loading data into their data frame.
+: 'data.frame':	51 obs. of  6 variables:
+:  $ State            : Factor w/ 51 levels "Alabama","Alaska",..: 1 2 3 4 5 6 7 8 9 10 ...
+:  $ Population       : int  4779736 710231 6392017 2915918 37253956 5029196 3574097 897934 601723 19687653 ...
+:  $ PopulationDensity: num  94.65 1.26 57.05 56.43 244.2 ...
+:  $ Murders          : int  199 31 352 130 1811 117 131 48 131 987 ...
+:  $ GunMurders       : int  135 19 232 93 1257 65 97 38 99 669 ...
+:  $ GunOwnership     : num  0.517 0.578 0.311 0.553 0.213 0.347 0.167 0.255 0.036 0.245 ...
+
+Let's take a look at the structure of this data using the ~str~
+function. We have 51 observations for the 50 states plus Washington,
+DC, and six different variables:
+
+The name of the state, the population, the population density, the
+number of murders, the number of murders that used guns, and the rate
+of gun ownership.
+
+A map of the United States is included in R. Let's load the map and
+call it ~statesMap~.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Load the map of the US...")
+  statesMap <- map_data("state")
+  str(statesMap)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Load the map of the US...
+: 'data.frame':	15537 obs. of  6 variables:
+:  $ long     : num  -87.5 -87.5 -87.5 -87.5 -87.6 ...
+:  $ lat      : num  30.4 30.4 30.4 30.3 30.3 ...
+:  $ group    : num  1 1 1 1 1 1 1 1 1 1 ...
+:  $ order    : int  1 2 3 4 5 6 7 8 9 10 ...
+:  $ region   : chr  "alabama" "alabama" "alabama" "alabama" ...
+:  $ subregion: chr  NA NA NA NA ...
+
+Let's see what this looks like by typing in ~str(statesMap)~. This is
+just a data frame summarizing how to draw the United States. To plot
+the map, we'll use the polygons geometry of ~ggplot~.
+
+#+BEGIN_SRC R :var basename="USMurderMap01" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  # Plot the map:
+  ggplot(statesMap, aes(x = long, y = lat, group = group)) +
+          geom_polygon(fill = "white", color = "black")
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  US murder map v1
+#+NAME:     fig:USMurderMap01
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/USMurderMap01.png]]
+
+Now in your R graphics window, you should see a map of the United
+States. Before we can plot our data on this map, we need to make sure
+that the state names are the same in the ~murders~ data frame and in the
+~statesMap~ data frame.
+
+In the ~murders~ data frame, our state names are in the ~State~ variable,
+and they start with a capital letter. But in the ~statesMap~ data frame,
+our state names are in the ~region~ variable, and they're all
+lowercase.
+
+So let's create a new variable called ~region~ in our ~murders~ data
+frame to match the state name variable in the ~statesMap~ data
+frame. So we'll add to our murders data frame the variable ~region~,
+which will be equal to the lowercase version-- using the ~tolower~
+function that we used in the text analytics lectures.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Create a new variable called region with the\nlowercase names to match the statesMap...")
+  murders$region <- tolower(murders$State)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Create a new variable called region with the
+: lowercase names to match the statesMap...
+
+This will just convert the ~State~ variable to all lowercase letters
+and store it as a new variable called ~region~.
+
+Now we can join the ~statesMap~ data frame with the ~murders~ data
+frame by using the ~merge~ function, which matches rows of a data
+frame based on a shared identifier.
+
+We just defined the variable ~region~, which exists in both data
+frames.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Join the statesMap data and the murders data into one dataframe:")
+  murderMap <- merge(statesMap, murders, by = "region")
+  str(murderMap)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Join the statesMap data and the murders data into one dataframe:
+'data.frame':	15537 obs. of  12 variables:
+ $ region           : chr  "alabama" "alabama" "alabama" "alabama" ...
+ $ long             : num  -87.5 -87.5 -87.5 -87.5 -87.6 ...
+ $ lat              : num  30.4 30.4 30.4 30.3 30.3 ...
+ $ group            : num  1 1 1 1 1 1 1 1 1 1 ...
+ $ order            : int  1 2 3 4 5 6 7 8 9 10 ...
+ $ subregion        : chr  NA NA NA NA ...
+ $ State            : Factor w/ 51 levels "Alabama","Alaska",..: 1 1 1 1 1 1 1 1 1 1 ...
+ $ Population       : int  4779736 4779736 4779736 4779736 4779736 4779736 4779736 4779736 4779736 4779736 ...
+ $ PopulationDensity: num  94.7 94.7 94.7 94.7 94.7 ...
+ $ Murders          : int  199 199 199 199 199 199 199 199 199 199 ...
+ $ GunMurders       : int  135 135 135 135 135 135 135 135 135 135 ...
+ $ GunOwnership     : num  0.517 0.517 0.517 0.517 0.517 0.517 0.517 0.517 0.517 0.517 ...
+#+end_example
+
+We have the same number of observations here that we had in the
+~statesMap~ data frame, but now we have both the variables from the
+~statesMap~ data frame and the variables from the ~murders~ data
+frame, which were matched up based on the region variable.
+
+So now, let's plot the number of murders on our map of the United
+States.
+
+#+BEGIN_SRC R :var basename="USMurderMap02" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  # Plot the number of murder on our map of the United States:
+  ggplot(murderMap, aes(x = long, y = lat, group = group, fill = Murders)) +
+          geom_polygon(color = "black") +
+          scale_fill_gradient(low = "black", high = "red", guide = "legend")
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  US murder map v2
+#+NAME:     fig:USMurderMap02
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/USMurderMap02.png]]
+
+Look at your graphics window now, you should see that each of the
+states is colored by the number of murders in that state. States with
+a larger number of murders are more red. So it looks like California
+and Texas have the largest number of murders.
+
+But *is that just because they're the most populous states?* Let's
+create a map of the population of each state to check.
+
+#+BEGIN_SRC R :var basename="USPopulationMapv1" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  # Plot a map of the population:
+  ggplot(murderMap, aes(x = long, y = lat, group = group, fill = Population)) +
+          geom_polygon(color = "black") +
+          scale_fill_gradient(low = "black", high = "red", guide = "legend")
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  US population map v1
+#+NAME:     fig:USPopulationMapv1
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/USPopulationMapv1.png]]
+
+We have a population map here which looks exactly the same as our
+murders map. So we need to plot the murder rate instead of the number
+of murders to make sure we're not just plotting a population map.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Create a new variable that is the number of murders per\n\t100,000 population...")
+  murderMap$MurderRate <- murderMap$Murders / murderMap$Population * 100000
+#+end_src
+
+#+RESULTS:
+:
+:  :: Create a new variable that is the number of murders per
+: 	100,000 population...
+
+So we've created a new variable that's the number of murders per
+100,000 population.
+
+Now let's redo our plot with the fill equal to ~MurderRate~.
+
+#+BEGIN_SRC R :var basename="USMurderMap03" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  # Redo our plot with murder rate:
+  ggplot(murderMap, aes(x = long, y = lat, group = group, fill = MurderRate)) +
+          geom_polygon(color = "black") +
+          scale_fill_gradient(low = "black", high = "red", guide = "legend")
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  US murder map v3
+#+NAME:     fig:USMurderMap03
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/USMurderMap03.png]]
+
+If you look at your graphics window now, you should see that the plot
+is surprisingly maroon-looking. There aren't really any red states.
+
+*Why?*
+
+It turns out that Washington, DC is an outlier with a very high murder
+rate, but it's such a small region on the map that we can't even see
+it.
+
+So let's redo our plot, removing any observations with murder rates
+above 10, which we know will only exclude Washington, DC. Keep in mind
+that when interpreting and explaining the resulting plot, you should
+always note what you did to create it: removed Washington, DC from the
+data.
+
+#+BEGIN_SRC R :var basename="USMurderMap03" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  # Redo the plot, removing any states with murder rates above 10:
+  ggplot(murderMap, aes(x = long, y = lat, group = group, fill = MurderRate)) +
+          geom_polygon(color = "black") +
+          scale_fill_gradient(low = "black", high = "red", guide = "legend", limits = c(0,10))
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  US murder map v3 (Removing Washington DC.)
+#+NAME:     fig:USMurderMap03
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/USMurderMap03.png]]
+
+Now if you look back at your graphics window, you can see a range of
+colors on the map. In this video, we saw how we can make a heat map on
+a map of the United States, which is very useful for organizations
+like the World Health Organization or government entities who want to
+show data to the public organized by state or country.
+
+** Quick Question (1 point possible)
+
+Redo the map from Video 6, but this time fill each state with the
+variable ~GunOwnership~. This shows the percentage of people in each
+state who own a gun.
+
+#+BEGIN_SRC R :var basename="USMurderMapGunOwnership" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  # Redo our plot with murder rate:
+  ggplot(murderMap, aes(x = long, y = lat, group = group, fill = GunOwnership)) +
+          geom_polygon(color = "black") +
+          scale_fill_gradient(low = "white", high = "red", guide = "legend")
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  US murder map filled with GunOwnership variable
+#+NAME:     fig:USMurderMapGunOwnership
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/USMurderMapGunOwnership.png]]
+
+Which of the following states has the highest gun ownership rate? To
+see the state labels, take a look at the World Atlas map [[http://www.worldatlas.com/webimage/testmaps/usanames.htm][here]].
+
+[[../graphs/USNameStates.png]]
+
+*Explanation*
+
+You can generate the gun ownership plot using the following command:
+
+~ggplot(murderMap, aes(x = long, y = lat, group=group, fill =~
+~GunOwnership)) + geom_polygon(color="black") + scale_fill_gradient(low~
+~= "black", high = "red", guide="legend")~
+
+Of these five states, the one that is the most red is *Montana*.
+
+** Video 7: The Analytics Edge
+
+Let me comment on the merits of heatmaps as a way of representing data
+in the context of representing crime activity.
+
+[[../graphs/AP-EyeOnCrime.png]]
+
+*What is the edge of predictive policing?* Many police forces are
+exploiting their databases to focus finite resources on problem areas.
+
+[[../graphs/AP-PredictivePolicing02.png]]
+
+The application of analytics to data like this is new and growing,
+with companies like *PredPol* and *Palantir* leading the effort.
