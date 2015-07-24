@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Unit 7 Visualization</title>
-<!-- 2015-07-23 Thu 10:33 -->
+<!-- 2015-07-24 Fri 10:44 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Sergio-Feliciano Mendoza-Barrera" />
@@ -222,6 +222,17 @@ for the JavaScript code in this tag.
 <li><a href="#sec-2-11">2.11. Video 6: A Heatmap on the United States</a></li>
 <li><a href="#sec-2-12">2.12. Quick Question (1 point possible)</a></li>
 <li><a href="#sec-2-13">2.13. Video 7: The Analytics Edge</a></li>
+</ul>
+</li>
+<li><a href="#sec-3">3. The Good, the Bad, and the Ugly: Visualization Recitation (Recitation)</a>
+<ul>
+<li><a href="#sec-3-1">3.1. Video 1: Introduction</a></li>
+<li><a href="#sec-3-2">3.2. Video 2: Pie Charts</a></li>
+<li><a href="#sec-3-3">3.3. Video 3: Bar Charts in R</a></li>
+<li><a href="#sec-3-4">3.4. Video 4: A Better Visualization</a></li>
+<li><a href="#sec-3-5">3.5. Video 5: World Maps in R</a></li>
+<li><a href="#sec-3-6">3.6. Video 6: Scales</a></li>
+<li><a href="#sec-3-7">3.7. Video 7: Using Line Charts Instead</a></li>
 </ul>
 </li>
 </ul>
@@ -672,7 +683,7 @@ The Scatterplot:
 
 
 <div class="figure">
-<p><img src="../graphs/Scatterplot_Week8.jpg.png" alt="Scatterplot_Week8.jpg.png" />
+<p><img src="../graphs/Scatterplot_Week8.jpg" alt="Scatterplot_Week8.jpg" />
 </p>
 </div>
 
@@ -682,7 +693,7 @@ The Histogram:
 
 
 <div class="figure">
-<p><img src="../graphs/Histogram_Week8.jpg.png" alt="Histogram_Week8.jpg.png" />
+<p><img src="../graphs/Histogram_Week8.jpg" alt="Histogram_Week8.jpg" />
 </p>
 </div>
 
@@ -692,7 +703,7 @@ The US Map:
 
 
 <div class="figure">
-<p><img src="../graphs/USmap_Week8.jpg.png" alt="USmap_Week8.jpg.png" />
+<p><img src="../graphs/USmap_Week8.jpg" alt="USmap_Week8.jpg" />
 </p>
 </div>
 </div>
@@ -878,19 +889,20 @@ list.files(<span style="color: #ff6a6a;">"../data"</span>)
 [25] "healthy.csv"             "IBMStock.csv"
 [27] "loans_imputed.csv"       "loans.csv"
 [29] "MetroAreaCodes.csv"      "movieLens.txt"
-[31] "mvtWeek1.csv"            "NBA_test.csv"
-[33] "NBA_train.csv"           "parole.csv"
-[35] "pisa2009test.csv"        "pisa2009train.csv"
-[37] "PollingData_Imputed.csv" "PollingData.csv"
-[39] "ProcterGambleStock.csv"  "quality.csv"
-[41] "README.md"               "SampleSubmission.csv"
-[43] "songs.csv"               "stevens.csv"
-[45] "StocksCluster.csv"       "stopwords.txt"
-[47] "tumor.csv"               "tweets.csv"
-[49] "USDA.csv"                "WHO_Europe.csv"
-[51] "WHO.csv"                 "WHOu7.csv"
-[53] "wiki.csv"                "wine_test.csv"
-[55] "wine.csv"
+[31] "murders.csv"             "mvt.csv"
+[33] "mvtWeek1.csv"            "NBA_test.csv"
+[35] "NBA_train.csv"           "parole.csv"
+[37] "pisa2009test.csv"        "pisa2009train.csv"
+[39] "PollingData_Imputed.csv" "PollingData.csv"
+[41] "ProcterGambleStock.csv"  "quality.csv"
+[43] "README.md"               "SampleSubmission.csv"
+[45] "songs.csv"               "stevens.csv"
+[47] "StocksCluster.csv"       "stopwords.txt"
+[49] "tumor.csv"               "tweets.csv"
+[51] "USDA.csv"                "WHO_Europe.csv"
+[53] "WHO.csv"                 "WHOu7.csv"
+[55] "wiki.csv"                "wine_test.csv"
+[57] "wine.csv"
 </pre>
 </div>
 </div>
@@ -1102,7 +1114,7 @@ All of the available shapes are described in the following image:
 
 
 <div class="figure">
-<p><img src="../graphs/Shapes.jpg.png" alt="Shapes.jpg.png" />
+<p><img src="../graphs/Shapes.jpg" alt="Shapes.jpg" />
 </p>
 </div>
 
@@ -1977,19 +1989,20 @@ list.files(<span style="color: #ff6a6a;">"../data"</span>)
 [25] "healthy.csv"             "IBMStock.csv"
 [27] "loans_imputed.csv"       "loans.csv"
 [29] "MetroAreaCodes.csv"      "movieLens.txt"
-[31] "mvt.csv"                 "mvtWeek1.csv"
-[33] "NBA_test.csv"            "NBA_train.csv"
-[35] "parole.csv"              "pisa2009test.csv"
-[37] "pisa2009train.csv"       "PollingData_Imputed.csv"
-[39] "PollingData.csv"         "ProcterGambleStock.csv"
-[41] "quality.csv"             "README.md"
-[43] "SampleSubmission.csv"    "songs.csv"
-[45] "stevens.csv"             "StocksCluster.csv"
-[47] "stopwords.txt"           "tumor.csv"
-[49] "tweets.csv"              "USDA.csv"
-[51] "WHO_Europe.csv"          "WHO.csv"
-[53] "WHOu7.csv"               "wiki.csv"
-[55] "wine_test.csv"           "wine.csv"
+[31] "murders.csv"             "mvt.csv"
+[33] "mvtWeek1.csv"            "NBA_test.csv"
+[35] "NBA_train.csv"           "parole.csv"
+[37] "pisa2009test.csv"        "pisa2009train.csv"
+[39] "PollingData_Imputed.csv" "PollingData.csv"
+[41] "ProcterGambleStock.csv"  "quality.csv"
+[43] "README.md"               "SampleSubmission.csv"
+[45] "songs.csv"               "stevens.csv"
+[47] "StocksCluster.csv"       "stopwords.txt"
+[49] "tumor.csv"               "tweets.csv"
+[51] "USDA.csv"                "WHO_Europe.csv"
+[53] "WHO.csv"                 "WHOu7.csv"
+[55] "wiki.csv"                "wine_test.csv"
+[57] "wine.csv"
 </pre>
 </div>
 </div>
@@ -3408,11 +3421,1400 @@ with companies like <b>PredPol</b> and <b>Palantir</b> leading the effort.
 </div>
 </div>
 </div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> The Good, the Bad, and the Ugly: Visualization Recitation (Recitation)</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Today, we're going to be discussing examples of good and bad
+visualizations, and then discussing how to make better versions using
+our R skills. Remember, visualization is an art form, and it's
+inherently subjective.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-VisualizationRecitation.png" alt="VIS-VisualizationRecitation.png" />
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> Video 1: Introduction</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+With great power comes great responsibility. There are many ways to
+visualize the same data. You have just seen how to make quite
+attractive visualizations with ggplot2, which has good default
+settings, but judgment is still required from the user.
+</p>
+
+<p>
+For example, do I decide to vary the size of a point or do I vary the
+color of a point?
+</p>
+
+<p>
+It is worth noting at this point that Excel and other similar programs
+can also be used to make perfectly acceptable visualizations, or
+terrible ones. The tool can help, but it's ultimately up to the user
+to make decisions.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-GreatPower.png" alt="VIS-GreatPower.png" />
+</p>
+</div>
+
+<p>
+So what is the difference between a good visualization and a bad
+visualization then?
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-Difference.png" alt="VIS-Difference.png" />
+</p>
+</div>
+
+<p>
+I would argue that a good visualization clearly and accurately conveys
+the key messages in the data. A bad visualization will obfuscate the
+data either through ignorance or malice.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-WhatDoesThisMean.png" alt="VIS-WhatDoesThisMean.png" />
+</p>
+</div>
+
+<p>
+So today, we will look at a few examples of visualizations taken from
+a variety of sources. We'll discuss what is good and what is bad about
+them. Then we will switch into R to build better versions of them for
+ourselves.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-Today.png" alt="VIS-Today.png" />
+</p>
+</div>
+
+<p>
+But I want you to think for yourself in this recitation. You might not
+agree with all the points I make or my opinions about these
+visualizations. Visualization is inherently subjective and the right
+visualization will depend on the situation.
+</p>
+
+<p>
+So use your own judgment and think about what I talked about before
+with a good visualization and a bad visualization.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> Video 2: Pie Charts</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+There are a lot of visualizations in the world and we don't have time
+for them all. So let's focus on one particularly abused plot type, the
+pie chart.
+</p>
+
+<p>
+We have a specimen right here. This is a pie chart of phone
+application crashes, showing what percentage of all crashes took place
+in each mobile operating system. This data set contains information
+for all versions of Apple's iOS, which is used in the iPhone, as well
+as the various versions of Google's Android.
+</p>
+
+<p>
+There are many things wrong with this plot, but let's break down
+exactly what.
+</p>
+
+<p>
+Putting aside, for a moment, that there are far too many labels, check
+out the ordering of the labels corresponding to iOS. Two sensible ways
+of ordering iOS data might be by decreasing percentage or by version
+number.
+</p>
+
+<p>
+Instead, we start at the top with iOS 3.13, with 0%, and then jump to
+iOS 4.2.10, with 12.64%, before going back down to iOS 3.2, with 0.00%
+again. Which brings us to the number of labels. Many of the segments
+are so narrow that they can't be seen, although technically, all data
+is retained, because every segment is labeled.
+</p>
+
+<p>
+If we look at iOS, we see that there are only three major versions, 3,
+4, and 5, suggesting we can compress down the iOS segments to just
+three segments, while retaining most of the information. At the least,
+the versions that differ in the third number should be combined, and
+all data points of 0% should be removed.
+</p>
+
+<p>
+The more fundamental concern of this visualization is that it might
+really be showing the percentage of the phone market using each
+operating system, and says nothing about whether one operating system
+crashes more than the other, which is the focus of this
+visualization.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-BadVis.png" alt="VIS-BadVis.png" />
+</p>
+</div>
+
+<p>
+Our next pie chart has its own share of problems. This is a plot of
+how many shark attacks have been attributed to each type of
+shark. Firstly, the pie chart is, for some reason, plotted on a
+hemisphere, a graphical effect that adds nothing, but has the effect
+of vertically compressing the pie chart.
+</p>
+
+<p>
+Next, there is the issue of label orientation. While the caption,
+"Shark species (total/deaths)", and the label, "White shark", are
+horizontal, the rest are vertical and hard to read.
+</p>
+
+<p>
+They are in order, however, which does help. Although the "Others"
+segment is unfortunately large, which is unclear if it is due to there
+being a lot of attacks by many species, or if the species is not known
+for many attacks.
+</p>
+
+<p>
+Finally, at a glance, it is hard to distinguish the magnitude of
+differences between the orange, green, blue, and brown segments in the
+top part of the pie chart, and we must resort to the labels to
+distinguish between them. There is no meaning in the colors, they are
+arbitrary.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-BadVis02.png" alt="VIS-BadVis02.png" />
+</p>
+</div>
+
+<p>
+Finally, we'll look at a pie chart I made, of the origins of the
+international students at MIT. I made this chart with the default
+settings in Google Sheets.
+</p>
+
+<p>
+First of all, not all of the segments are labeled, so that data is
+lost, for the Middle East, Africa, Oceania, and the unknown
+regions. Second, again, we have colors that are arbitrary and almost
+close enough to be confusing. The difference between Asia and Africa's
+colors is subtle.
+</p>
+
+<p>
+And of course, the 3D-effect on the pie chart adds nothing, but does
+play a subtle trick on the eye. Due to the 3D-effect, the blue and red
+segments are actually larger looking, which at a glance, may lead the
+viewer to overestimate their size.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-BadVis03.png" alt="VIS-BadVis03.png" />
+</p>
+</div>
+
+<p>
+What we are going to do now is, switch over to R and plot this data
+more appropriately, using <code>ggplot</code>. And then we'll return to the
+slides, to discuss some more possibilities for this data.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3"><span class="section-number-3">3.3</span> Video 3: Bar Charts in R</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+In this video, we'll use the dataset <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/intl.csv">intl.csv</a>. Please download this
+dataset before starting the video. This data comes from the
+<a href="http://web.mit.edu/iso">MIT International Students Office</a>.
+</p>
+
+<p>
+An R script file with all of the commands used in this recitation can
+be downloaded <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/Unit7_Recitation.R">here</a>.
+</p>
+</div>
+
+<div id="outline-container-sec-3-3-1" class="outline-4">
+<h4 id="sec-3-3-1"><span class="section-number-4">3.3.1</span> Download the data sets</h4>
+<div class="outline-text-4" id="text-3-3-1">
+<p>
+In this part we can download the data
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R"><span style="color: #db7093;">library</span>(parallel)
+
+<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #ff6a6a;">"../data"</span>)) {
+        dir.create(<span style="color: #ff6a6a;">"../data"</span>)
+}
+
+fileUrl <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/intl.csv"</span>
+fileName <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"intl.csv"</span>
+dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"../data"</span>
+
+filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #ff6a6a;">"/"</span>)
+
+<span style="color: #4682b4;">if</span>(!file.exists(filePath)) {
+        download.file(fileUrl, destfile = filePath, method = <span style="color: #ff6a6a;">"curl"</span>)
+}
+
+writeLines(<span style="color: #ff6a6a;">"\n :: File downloaded..."</span>)
+</pre>
+</div>
+
+<pre class="example">
+:: File downloaded...
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-3-3-2" class="outline-4">
+<h4 id="sec-3-3-2"><span class="section-number-4">3.3.2</span> Load the data set</h4>
+<div class="outline-text-4" id="text-3-3-2">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Load ggplot library..."</span>)
+<span style="color: #db7093;">library</span>(ggplot2)
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Loading data into their data frame."</span>)
+<span style="color: #9932cc;"># </span><span style="color: #ba55d3;">Load our data, which lives in intl.csv</span>
+intl <span style="color: #db7093;">&lt;-</span> read.csv(<span style="color: #ff6a6a;">"../data/intl.csv"</span>)
+str(intl)
+</pre>
+</div>
+
+<pre class="example">
+ :: Load ggplot library...
+
+ :: Loading data into their data frame.
+'data.frame':   8 obs. of  2 variables:
+ $ Region       : Factor w/ 8 levels "Africa","Asia",..: 2 3 6 4 5 1 7 8
+ $ PercentOfIntl: num  0.531 0.201 0.098 0.09 0.054 0.02 0.015 0.002
+</pre>
+
+<p>
+Now, the structure of this data frame is very simple. There are two
+columns, two variables. The first one, the region, and the second one
+is the percentage of international students who came from that
+region. So making a bar plot from this data isn't too hard.
+</p>
+
+
+<div id="fig:MITStudentsBarChart01" class="figure">
+<p><img src="../graphs/MITStudentsPieChart01.png" alt="MITStudentsPieChart01.png" />
+</p>
+<p><span class="figure-number">Figure 87:</span> Bar chart of MIT international students percentages</p>
+</div>
+
+<p>
+So yes, we have a bar for each region. The values are between zero and
+one, which looks kind of strange. The labels are actually lying over
+the top of the columns, which isn't very nice, and the regions aren't
+really ordered in any way that's useful.
+</p>
+
+<p>
+They're actually ordered in alphabetical order, but I think it would
+be much more interesting to have them in descending order. So we can
+work on this.
+</p>
+
+<p>
+First of all, though, what is this ~stat = "identity"~? Well, it's
+pretty simple. Geometry bar has multiple modes of operation, and stat
+= "identity" says, use the value of the y variable as is, which is
+what we want.
+</p>
+
+<p>
+The height of the bar is the value of the y variable. Now, there are
+other modes, including one that counts the number of rows for each
+value of x, and plots that instead.
+</p>
+
+<p>
+So you can look at the documentation for <code>ggplot</code> to see the different
+options and how they work. But ~stat = "identity"~ is what we want
+right now. Now, the x-axis is out of order.
+</p>
+
+<p>
+And the reason for this is that ggplot defaults to alphabetical order
+for the x-axis. What we need to do is make Region an ordered factor
+instead of an unordered factor. We can do this with the reorder
+command and the transform command.
+</p>
+
+<p>
+So let's write this out. So we're going to transform the international
+data frame. And what we're going to do is say, Region, it's going to
+be a reordering of itself, based on decreasing order of
+<code>PercentOfIntl</code>.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Make Region an ordered factor..."</span>)
+<span style="color: #9932cc;"># </span><span style="color: #ba55d3;">We can do this with the re-order command and transform command.</span>
+intl <span style="color: #db7093;">&lt;-</span> transform(intl, Region = reorder(Region, -PercentOfIntl))
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Look at the structure:"</span>)
+str(intl)
+</pre>
+</div>
+
+<pre class="example">
+:: Make Region an ordered factor...
+
+:: Look at the structure:
+..- attr(*, "dimnames")=List of 1
+ .. .. ..$ : chr  "Africa" "Asia" "Europe" "Latin Am. &amp; Caribbean" ...
+$ PercentOfIntl: num  0.531 0.201 0.098 0.09 0.054 0.02 0.015 0.002
+</pre>
+
+<p>
+So if we look at the structure of the data frame now, we see there's
+something going on in the Region column that wasn't going before.
+</p>
+
+<p>
+And that's that ordering. So you might have also noticed that I put a
+negative sign in front of <code>PercentOfIntl</code>. So that negative sign means
+decreasing order.
+</p>
+
+<p>
+If we had left that out, it would have actually ordered them in
+increasing order. So unknown or stateless would have been first, and
+Oceania would have been second, and so on. So that's one thing fixed.
+</p>
+
+<p>
+Another thing we didn't like was that the numbers were between zero
+and one, which looks a little bit messy. So let's just simply multiply
+all the values by 100.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Make the percentages out of 100 instead of fractions..."</span>)
+intl$PercentOfIntl <span style="color: #db7093;">&lt;-</span> intl$PercentOfIntl * 100
+</pre>
+</div>
+
+<pre class="example">
+:: Make the percentages out of 100 instead of fractions...
+</pre>
+
+<p>
+And now the other things we have to fix, like the text overlying and
+the x-axis being all bunched up like that, we're going to do that in a
+new ggplot command.
+</p>
+
+<p>
+So I'm going to break it across multiple lines.
+</p>
+
+
+<div id="fig:MITpercentIntlStudentsBar02" class="figure">
+<p><img src="../graphs/MITpercentIntlStudentsBar02.png" alt="MITpercentIntlStudentsBar02.png" />
+</p>
+<p><span class="figure-number">Figure 88:</span> MIT international students percent</p>
+</div>
+
+<p>
+I'm going to say <code>vjust = -0.4</code>. And what this does is, it moves the
+labels up a little bit and off the top of the bars. You can play with
+that. So a positive value will move it down, and a negative value will
+move it up.
+</p>
+
+<p>
+Next, I'm going to set the y-axis label to be something a bit more
+sensible&#x2013; so "Percent of International Students".
+</p>
+
+<p>
+And finally, I'd like to fix up that x-axis. So I want to get rid of
+the word "Region," because it's pretty obvious these are regions. And
+I also want to rotate the text at a bit of an angle, so you can read
+it all on a plot like this. That's done with the <code>theme</code> command.
+</p>
+
+<p>
+So we've got our labels vjust-ed above the columns. The bars
+themselves are dark blue. The numbers are now between 0 and 100,
+instead of zero and one.
+</p>
+
+<p>
+We can read all the text labels. And it's generally a lot more
+readable than the pie plot or our original <code>ggplot</code>, at that. Let's go
+back to the slides now and talk about what we've just done.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-4" class="outline-3">
+<h3 id="sec-3-4"><span class="section-number-3">3.4</span> Video 4: A Better Visualization</h3>
+<div class="outline-text-3" id="text-3-4">
+<p>
+So we just made this plot in <code>ggplot2</code>. When we compare it back to the
+pie graph, the first thing I notice is that now all the data is
+visible. We haven't lost the small regions and we can read out the
+exact share that comes from Africa, Oceania, and the unknown or
+stateless column.
+</p>
+
+<p>
+I believe it is also easier to compare the relative sizes of each
+region because they're all put side by side on a similar scale.
+</p>
+
+<p>
+There's no tricks, or three dimensions, or colors to create a
+perception issue. But, I will say that something to consider is, for
+some people and some applications, being not as visually exciting is a
+negative.
+</p>
+
+<p>
+This plot, while very readable and correct, is certainly a little bit
+dull. In some applications, this is an important consideration.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-BetterVis.png" alt="VIS-BetterVis.png" />
+</p>
+</div>
+
+<p>
+Now, wouldn't it be interesting if we could plot this data on a world
+map? It would be possible, but a bit tedious to create because we need
+to determine which country lies in which region.
+</p>
+
+<p>
+Shading all countries in a region of the same color might be
+misleading though. For example, countries in Latin America will send
+students at different rates, naturally.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-OnAWorldMap.png" alt="VIS-OnAWorldMap.png" />
+</p>
+</div>
+
+<p>
+But, if we color them all the same color, it kind of gives a false
+impression. As it turns out, we actually have access to per country
+data.
+</p>
+
+<p>
+So we will plot that on a world map instead and see if it is an
+effective way of communicating where students come from to MIT.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-5" class="outline-3">
+<h3 id="sec-3-5"><span class="section-number-3">3.5</span> Video 5: World Maps in R</h3>
+<div class="outline-text-3" id="text-3-5">
+<p>
+In this video, we'll use the dataset <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/intlall.csv">intlall.csv</a>. Please download this
+dataset before starting the video. This data comes from the
+<a href="http://web.mit.edu/iso">MIT International Students Office</a>.
+</p>
+
+<p>
+So now we're going to try plotting a world map with a new data set
+that has the number of international students from each country.
+</p>
+
+<p>
+So first of all, we're going to need to use the <code>ggmap</code> package, which
+you may need to install. And we're going to load in the data set,
+which is called <code>intlall.csv</code>.
+</p>
+</div>
+
+<div id="outline-container-sec-3-5-1" class="outline-4">
+<h4 id="sec-3-5-1"><span class="section-number-4">3.5.1</span> Download the data sets</h4>
+<div class="outline-text-4" id="text-3-5-1">
+<p>
+In this part we can download the data
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R"><span style="color: #db7093;">library</span>(parallel)
+
+<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #ff6a6a;">"../data"</span>)) {
+        dir.create(<span style="color: #ff6a6a;">"../data"</span>)
+}
+
+fileUrl <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/intlall.csv"</span>
+fileName <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"intlall.csv"</span>
+dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"../data"</span>
+
+filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #ff6a6a;">"/"</span>)
+
+<span style="color: #4682b4;">if</span>(!file.exists(filePath)) {
+        download.file(fileUrl, destfile = filePath, method = <span style="color: #ff6a6a;">"curl"</span>)
+}
+
+writeLines(<span style="color: #ff6a6a;">"\n :: File downloaded..."</span>)
+</pre>
+</div>
+
+<pre class="example">
+:: File downloaded...
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-3-5-2" class="outline-4">
+<h4 id="sec-3-5-2"><span class="section-number-4">3.5.2</span> Load the data sets</h4>
+<div class="outline-text-4" id="text-3-5-2">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Load the ggmap package..."</span>)
+<span style="color: #db7093;">library</span>(ggmap)
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Load in the international student data..."</span>)
+intlall <span style="color: #db7093;">&lt;-</span> read.csv(<span style="color: #ff6a6a;">"../data/intlall.csv"</span>, stringsAsFactors = <span style="color: #3cb371;">FALSE</span>)
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Lets look at the first few rows:"</span>)
+head(intlall)
+</pre>
+</div>
+
+<pre class="example">
+ :: Load the ggmap package...
+
+ :: Load in the international student data...
+
+ :: Lets look at the first few rows:
+          Citizenship UG  G SpecialUG SpecialG ExhangeVisiting Total
+1             Albania  3  1         0        0               0     4
+2 Antigua and Barbuda NA NA        NA        1              NA     1
+3           Argentina NA 19        NA       NA              NA    19
+4             Armenia  3  2        NA       NA              NA     5
+5           Australia  6 32        NA       NA               1    39
+6             Austria NA 11        NA       NA               5    16
+</pre>
+
+<p>
+Let's look at the first few rows of <code>intlall</code>. So you see that each
+row corresponds to a country. There's a citizenship column that's the
+country name, number of undergraduates, number of graduates, special
+undergraduates and graduates, exchange or visiting, and a total
+column.
+</p>
+
+<p>
+Now there's these NAs in here, but they're not really <code>NAs</code>. They're
+just 0's. So what we're going to do is say, all these NAs should be
+0's. So in intlall, all entries that are NA, should be 0. And let's
+look at the first few rows again.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Those NAs are really 0s, and we can replace them easily..."</span>)
+intlall[is.na(intlall)] <span style="color: #db7093;">&lt;-</span> 0
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Now lets look again:"</span>)
+head(intlall)
+</pre>
+</div>
+
+<pre class="example">
+ :: Those NAs are really 0s, and we can replace them easily...
+
+ :: Now lets look again:
+          Citizenship UG  G SpecialUG SpecialG ExhangeVisiting Total
+1             Albania  3  1         0        0               0     4
+2 Antigua and Barbuda  0  0         0        1               0     1
+3           Argentina  0 19         0        0               0    19
+4             Armenia  3  2         0        0               0     5
+5           Australia  6 32         0        0               1    39
+6             Austria  0 11         0        0               5    16
+</pre>
+
+<p>
+Right, so next step is to load the world map.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Load the world map..."</span>)
+world_map <span style="color: #db7093;">&lt;-</span> map_data(<span style="color: #ff6a6a;">"world"</span>)
+str(world_map)
+</pre>
+</div>
+
+<pre class="example">
+ :: Load the world map...
+'data.frame':   25553 obs. of  6 variables:
+ $ long     : num  -133 -132 -132 -132 -130 ...
+ $ lat      : num  58.4 57.2 57 56.7 56.1 ...
+ $ group    : num  1 1 1 1 1 1 1 1 1 1 ...
+ $ order    : int  1 2 3 4 5 6 7 8 9 10 ...
+ $ region   : chr  "Canada" "Canada" "Canada" "Canada" ...
+ $ subregion: chr  NA NA NA NA ...
+</pre>
+
+<p>
+We did something similar in the lecture with the state data. So let's
+look at the structure of the world_map. So the first two columns are
+the longitude and latitude; third column is something called group &#x2013;
+that's actually a group for each country, using a different number for
+each country; order, we'll get to that later; region is just the
+country name, and subregion is sometimes used for some countries to
+describe islands and other things like that.
+</p>
+
+<p>
+So we want to shove the world_map data frame and the intlall data
+frame into one data frame, so we can use it for <code>ggplot</code>.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Lets merge intlall into world_map using the merge command..."</span>)
+world_map <span style="color: #db7093;">&lt;-</span> merge(world_map, intlall, by.x =<span style="color: #ff6a6a;">"region"</span>, by.y = <span style="color: #ff6a6a;">"Citizenship"</span>)
+str(world_map)
+</pre>
+</div>
+
+<pre class="example">
+ :: Lets merge intlall into world_map using the merge command...
+'data.frame':	13595 obs. of  12 variables:
+ $ region         : chr  "Albania" "Albania" "Albania" "Albania" ...
+ $ long           : num  19.5 21 19.4 20.7 20.3 ...
+ $ lat            : num  41.6 40.7 42 40.3 40 ...
+ $ group          : num  80 80 80 80 80 80 80 80 80 80 ...
+ $ order          : int  8496 8485 8493 8484 8483 8486 8482 8492 8481 8494 ...
+ $ subregion      : chr  NA NA NA NA ...
+ $ UG             : num  3 3 3 3 3 3 3 3 3 3 ...
+ $ G              : num  1 1 1 1 1 1 1 1 1 1 ...
+ $ SpecialUG      : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ SpecialG       : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ ExhangeVisiting: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ Total          : int  4 4 4 4 4 4 4 4 4 4 ...
+</pre>
+
+<p>
+Now, in world_map, the country name is just called <code>region</code>, as you can
+see right here. And in the <code>intlall</code>, the country name is actually
+called <code>Citizenship</code>.
+</p>
+
+<p>
+So to plot a map, we use the <code>geom_polygon</code> geometry.
+</p>
+
+
+<div id="fig:MITPercentIntStudentsMap01" class="figure">
+<p><img src="../graphs/MITPercentIntStudentsMap01.png" alt="MITPercentIntStudentsMap01.png" />
+</p>
+<p><span class="figure-number">Figure 91:</span> MIT international students percent world map v1</p>
+</div>
+
+<p>
+So that looks kind of like a world map. There's a few things going on
+here. So first of all, all the countries look like big black blobs.
+</p>
+
+<p>
+What on earth is going on, you might say. Well, sometimes the merge
+can reorder the data.
+</p>
+
+<p>
+And it turns out that what the world_map data frame really is is
+actually a list of latitude and longitude points that define the
+border of each country. So if we accidentally reorder the data frame
+they no longer make any sense.
+</p>
+
+<p>
+And as it goes from point to point, the points might be on the other
+side of the country as it defines the polygon. So, we have to reorder
+the data in the correct order.
+</p>
+
+<p>
+So this command is a little bit complicated looking, but when you
+break it down, it's not so bad.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Reorder the data..."</span>)
+world_map <span style="color: #db7093;">&lt;-</span> world_map[order(world_map$group, world_map$order),]
+</pre>
+</div>
+
+<pre class="example">
+:: Reorder the data...
+</pre>
+
+<p>
+So if we go and try plotting it again. Right, so now we have the map,
+and it looks far more reasonable.
+</p>
+
+
+<div id="fig:MITPercentIntStudentsMap02" class="figure">
+<p><img src="../graphs/MITPercentIntStudentsMap02.png" alt="MITPercentIntStudentsMap02.png" />
+</p>
+<p><span class="figure-number">Figure 92:</span> MIT international students percent map v2</p>
+</div>
+
+<p>
+Some of the countries are missing. Now of course, the USA is missing
+because MIT is in the USA, so that wouldn't be an international
+student coming from the USA.
+</p>
+
+<p>
+And some parts of Africa are missing, presumably because there are no
+students at MIT right now who are from those countries. But you'll
+also notice that Russia is missing, and a lot of countries near it, as
+well as China.
+</p>
+
+<p>
+Which is definitely not true because I have many friends at MIT who
+are from Russia and China. So, what do we do about that? The reason
+China is missing is that it has a different name in the MIT data frame
+than in the world_map data frame.
+</p>
+
+<p>
+So when we merged them, it was dropped from the data set because it
+didn't match up. So to see what it's called in the MIT data frame,
+let's just do a table.
+</p>
+
+<p>
+There's a few ways to do this, but this is pretty easy.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Lets look for China:"</span>)
+head(table(intlall$Citizenship), 20)
+</pre>
+</div>
+
+<pre class="example">
+ :: Lets look for China:
+
+                     Albania          Antigua and Barbuda
+                           1                            1
+                   Argentina                      Armenia
+                           1                            1
+                   Australia                      Austria
+                           1                            1
+                     Bahrain                   Bangladesh
+                           1                            1
+                     Belarus                      Belgium
+                           1                            1
+                     Bolivia           Bosnia-Hercegovina
+                           1                            1
+                      Brazil                     Bulgaria
+                           1                            1
+                    Cambodia                     Cameroon
+                           1                            1
+                      Canada                        Chile
+                           1                            1
+China (People's Republic Of)                     Colombia
+                           1                            1
+</pre>
+
+<p>
+OK, so we get a list of all the names. If we scroll all the way up,
+we'll see it says "China (People's Republic Of)".
+</p>
+
+<p>
+Now, in the world_map data frame, it's simply called "China". So, what
+we can do is change the MIT data frame. So let's say the citizenship
+column, the one row where it equals "China (People's Republic Of)"
+should just be "China".
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Lets fix that in the intlall dataset..."</span>)
+intlall$Citizenship[intlall$Citizenship == <span style="color: #ff6a6a;">"China (People's Republic Of)"</span>] <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"China"</span>
+</pre>
+</div>
+
+<pre class="example">
+:: Lets fix that in the intlall dataset...
+</pre>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: We'll repeat our merge and order from before..."</span>)
+world_map <span style="color: #db7093;">&lt;-</span> merge(map_data(<span style="color: #ff6a6a;">"world"</span>), intlall,
+                  by.x =<span style="color: #ff6a6a;">"region"</span>,
+                  by.y = <span style="color: #ff6a6a;">"Citizenship"</span>)
+world_map <span style="color: #db7093;">&lt;-</span> world_map[order(world_map$group, world_map$order),]
+</pre>
+</div>
+
+<pre class="example">
+:: We'll repeat our merge and order from before...
+</pre>
+
+
+<div id="fig:MITPercentIntStudentsMap03" class="figure">
+<p><img src="../graphs/MITPercentIntStudentsMap03.png" alt="MITPercentIntStudentsMap03.png" />
+</p>
+<p><span class="figure-number">Figure 93:</span> MIT international students percent map v3</p>
+</div>
+
+<p>
+So Russia is missing for similar reasons, but we won't deal with that
+now because it's a little bit annoying. But you get the idea. This is
+pretty interesting actually. So we can see that Canada, and China, and
+India supply a large number of international students to MIT.
+</p>
+
+<p>
+But it is a little bit confusing doing it on a per country basis,
+because Europe, presumably, has quite a few students at MIT.
+</p>
+
+<p>
+But because Europe is made up of many small countries, it doesn't look
+very impressive. Maybe if all the European countries were grouped
+together, it would look about the same color as Canada. But it's hard
+to tell.
+</p>
+
+<p>
+There are also other projections we can look at. So this is a Mercator
+projection. What I want to show you is an orthographic projection that
+allows you to sort of view the map in 3D, like a globe. So let's try
+that out.
+</p>
+
+
+<div id="fig:MITPercentIntStudentsMap04" class="figure">
+<p><img src="../graphs/MITPercentIntStudentsMap04.png" alt="MITPercentIntStudentsMap04.png" />
+</p>
+<p><span class="figure-number">Figure 94:</span> MIT international students percent map v4</p>
+</div>
+
+<p>
+Let's change it to orthographic projection. And I want to find, now,
+an orientation. And this is almost like thinking about where in the
+world you want to focus on.
+</p>
+
+<p>
+So this is a latitude and longitude, 20 degrees and 30 degrees. If we
+run this, we should get a map centered above North Africa.
+</p>
+
+<p>
+That's quite a nice visualization because if you want to look just at
+Africa and Europe, this is the way to go. We can still see China, and
+Canada, and South America in there, as well.
+</p>
+
+<p>
+Let's do something a little bit more personal. I want to change the
+coordinates, now, to -37 and 175. Now it's centered on my hometown of
+Auckland, New Zealand.
+</p>
+
+
+<div id="fig:MITPercentIntStudentsMap05" class="figure">
+<p><img src="../graphs/MITPercentIntStudentsMap05.png" alt="MITPercentIntStudentsMap05.png" />
+</p>
+<p><span class="figure-number">Figure 95:</span> MIT international students percent map v5</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-6" class="outline-3">
+<h3 id="sec-3-6"><span class="section-number-3">3.6</span> Video 6: Scales</h3>
+<div class="outline-text-3" id="text-3-6">
+<p>
+This first plot shows the average height of a 21-year-old male in
+centimeters. The x-axis is time, starting in 1871, and ending
+in 1975. Each person represents the height, at a different point in
+time, and the points are evenly spaced in time, so the x-axis is OK.
+</p>
+
+<p>
+The y-axis ranges from just under 160 to 180 centimeters, which isn't
+inherently bad, but does overstate the change.
+</p>
+
+<p>
+The real problem is the bars. If it was accurate, we would only really
+see the heads of the men, but instead we see their whole bodies,
+making it seem as if people have not only doubled in height, but
+they've also double in width.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-BadScales.png" alt="VIS-BadScales.png" />
+</p>
+</div>
+
+<p>
+This next plot also has issues with scale. The total range of the plot
+is 8% to 10%, although all the numbers fall in the range of 8.6% to
+9.2%. If we plotted the y-axis on a 0% to 10% scale, the conclusion
+would be that nothing is really changing at all.
+</p>
+
+<p>
+The last point in the chart is at the wrong height, and the size of
+the markers makes the relative locations hard to distinguish.
+</p>
+
+<p>
+Also notice that the gap between 9.0% and the 8.9% markers on the far
+left side, and the 8.9% and 8.8% markers, have a different gap.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-BadScales02.png" alt="VIS-BadScales02.png" />
+</p>
+</div>
+
+<p>
+This plot shows the relative breakdown of teachers by race in a
+certain teaching program. The Caucasian bar is truncated, which is a
+risky choice, but could be appropriate in some situations.
+</p>
+
+<p>
+A much bigger problem is that the scale of each blue bar is entirely
+different. For example, the Native American bar is about a third of
+the length of the African American bar, but there are more than 10
+times as many African Americans in this program as Native Americans.
+</p>
+
+<p>
+In fact, visually, this plot is completely meaningless.
+</p>
+
+<p>
+The only useful thing about it is the numbers. But even there, there
+is a bit of confusion, as Native Americans are given to one decimal
+place, but the others are rounded.
+</p>
+
+<p>
+Which when combined with the confusing scales, casts doubt on the
+correctness of the numbers.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-BadScales03.png" alt="VIS-BadScales03.png" />
+</p>
+</div>
+
+<p>
+Here is a before and after of the same data. On the left, we see the
+US military expense in the right axis, and troop count on the left
+axis. Both the line and bar plots are individually OK, but the
+combination is misleading.
+</p>
+
+<p>
+Because you have mixed two units, dollars and people, there is a false
+impression of some sort of crossover point in 1995 that does not
+exist.
+</p>
+
+<p>
+On the right is the same data presented in a different way. We now
+have troops on the x-axis, and dollars on the y-axis. The line moves
+through time now, allowing us to see when moments of change occurred,
+such as decreases in troop count, through the 90s, at the end of the
+Cold War, the increase in spending of the 2000s, and the recent
+decreases in military spending.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-TwoRightsMakeAWrong.png" alt="VIS-TwoRightsMakeAWrong.png" />
+</p>
+</div>
+
+<p>
+The final visualization I want to show you today is all about the
+different types of household. The US Census Bureau periodically
+determines how many households are comprised, for example, of married
+couples with and without children, people living alone, and so on.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-FamilyMatters.png" alt="VIS-FamilyMatters.png" />
+</p>
+</div>
+
+<p>
+First of all, I'm not saying this is a bad visualization. In fact, if
+we are interested in the relative share of each type of household in a
+particular year, it's actually pretty good.
+</p>
+
+<p>
+However, if what we're interested in is the rates of change across the
+years, this is next to useless. The key problem is that the x-axis is
+completely off. The gap between the first two columns is 10 years, but
+the gap between the last two columns is only 2 years, meaning that the
+rates are hard to read from this.
+</p>
+
+<p>
+If we're not interested in the rates of changes, but just want to
+compare two years at a time, it's not bad, but it's not easy
+either. Try comparing 1970 married without children to 2010 married
+without children, without looking at the numbers. Can you tell if it
+has grown or shrunk?
+</p>
+
+<p>
+Finally, and more generally, this chart shows relative numbers. If you
+look at absolute numbers, we might find the total number of couples
+married with children is actually constant, but the number of other
+households has increased.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/VIS-FamilyMatters02.png" alt="VIS-FamilyMatters02.png" />
+</p>
+</div>
+
+<p>
+We are now going to change into R to try plotting this data as a line
+chart.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-7" class="outline-3">
+<h3 id="sec-3-7"><span class="section-number-3">3.7</span> Video 7: Using Line Charts Instead</h3>
+<div class="outline-text-3" id="text-3-7">
+<p>
+In this video, we'll be using the dataset <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/households.csv">households.csv</a>. Please
+download this dataset before starting the video. This data comes from
+the <a href="http://www.census.gov/">U.S. Census Bureau</a>.
+</p>
+
+<p>
+We'll be using the package <code>reshape2</code> in this video. It should already
+be installed for you (it was a dependency of an earlier package), but
+if the melt function does not work properly for you in this video, go
+ahead and install and load the package with the commands:
+</p>
+
+<p>
+<code>install.packages("reshape2")</code>
+</p>
+
+<p>
+<code>library(reshape2)</code>
+</p>
+</div>
+
+<div id="outline-container-sec-3-7-1" class="outline-4">
+<h4 id="sec-3-7-1"><span class="section-number-4">3.7.1</span> Download the data set</h4>
+<div class="outline-text-4" id="text-3-7-1">
+<div class="org-src-container">
+
+<pre class="src src-R"><span style="color: #db7093;">library</span>(parallel)
+
+<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #ff6a6a;">"../data"</span>)) {
+        dir.create(<span style="color: #ff6a6a;">"../data"</span>)
+}
+
+fileUrl <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/households.csv"</span>
+fileName <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"households.csv"</span>
+dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"../data"</span>
+
+filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #ff6a6a;">"/"</span>)
+
+<span style="color: #4682b4;">if</span>(!file.exists(filePath)) {
+        download.file(fileUrl, destfile = filePath, method = <span style="color: #ff6a6a;">"curl"</span>)
+}
+
+writeLines(<span style="color: #ff6a6a;">"\n :: File downloaded..."</span>)
+</pre>
+</div>
+
+<pre class="example">
+:: File downloaded...
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-3-7-2" class="outline-4">
+<h4 id="sec-3-7-2"><span class="section-number-4">3.7.2</span> Load the data set</h4>
+<div class="outline-text-4" id="text-3-7-2">
+<p>
+First, let's make sure we have ggplot2 loaded.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: First, lets make sure we have ggplot2 loaded..."</span>)
+<span style="color: #db7093;">library</span>(ggplot2)
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Now lets load our dataframe:"</span>)
+households = read.csv(<span style="color: #ff6a6a;">"../data/households.csv"</span>)
+str(households)
+</pre>
+</div>
+
+<pre class="example">
+ :: First, lets make sure we have ggplot2 loaded...
+
+ :: Now lets load our dataframe:
+'data.frame':	8 obs. of  7 variables:
+ $ Year          : int  1970 1980 1990 1995 2000 2005 2010 2012
+ $ MarriedWChild : num  40.3 30.9 26.3 25.5 24.1 22.9 20.9 19.6
+ $ MarriedWOChild: num  30.3 29.9 29.8 28.9 28.7 28.3 28.8 29.1
+ $ OtherFamily   : num  10.6 12.9 14.8 15.6 16 16.7 17.4 17.8
+ $ MenAlone      : num  5.6 8.6 9.7 10.2 10.7 11.3 11.9 12.3
+ $ WomenAlone    : num  11.5 14 14.9 14.7 14.8 15.3 14.8 15.2
+ $ OtherNonfamily: num  1.7 3.6 4.6 5 5.7 5.6 6.2 6.1
+</pre>
+
+<p>
+If we look at the structure of households, we see that there is a year
+column and then six other columns for each of the different household
+types. So this is actually a problem for us. Given this structure of a
+data frame, what would we put in the aesthetic for our <code>ggplot</code>
+command?
+</p>
+
+<p>
+It's not obvious, to me at least, and in fact, I don't think it's
+really possible. The reason is that ggplot needs it in the form of:
+<code>year</code>, <code>group</code>, and <code>fraction</code>.
+</p>
+
+<p>
+The solution is to use the <code>melt</code> function from the reshape
+package. Melt will take a 2-dimensional data frame like ours, and
+convert it into exactly the right form we need for <code>ggplot2</code>.
+</p>
+
+<p>
+So first, let's load <code>reshape2</code>. Now, let's look at the first two
+columns of our households data frame.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Load reshape2..."</span>)
+<span style="color: #db7093;">library</span>(reshape2)
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Lets look at the first two columns of our households dataframe:"</span>)
+households[,1:2]
+</pre>
+</div>
+
+<pre class="example">
+ :: Load reshape2...
+
+ :: Lets look at the first two columns of our households dataframe:
+  Year MarriedWChild
+1 1970          40.3
+2 1980          30.9
+3 1990          26.3
+4 1995          25.5
+5 2000          24.1
+6 2005          22.9
+7 2010          20.9
+8 2012          19.6
+</pre>
+
+<p>
+So there's a <code>Year</code> and a <code>MarriedWChild</code> for each year. Now, let's
+look at the first few rows of our melted households data frame.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: First few rows of our melted households dataframe:"</span>)
+head(melt(households, id=<span style="color: #ff6a6a;">"Year"</span>))
+</pre>
+</div>
+
+<pre class="example">
+ :: First few rows of our melted households dataframe:
+  Year      variable value
+1 1970 MarriedWChild  40.3
+2 1980 MarriedWChild  30.9
+3 1990 MarriedWChild  26.3
+4 1995 MarriedWChild  25.5
+5 2000 MarriedWChild  24.1
+6 2005 MarriedWChild  22.9
+</pre>
+
+<p>
+So, basically, what's happened is that each value of MarriedWChild has
+turned into its own row in the new data frame. To make it more clear,
+perhaps, let's look at the first three columns of households.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Three few rows of our melted households dataframe:"</span>)
+households[,1:3]
+</pre>
+</div>
+
+<pre class="example">
+ :: Three few rows of our melted households dataframe:
+  Year MarriedWChild MarriedWOChild
+1 1970          40.3           30.3
+2 1980          30.9           29.9
+3 1990          26.3           29.8
+4 1995          25.5           28.9
+5 2000          24.1           28.7
+6 2005          22.9           28.3
+7 2010          20.9           28.8
+8 2012          19.6           29.1
+</pre>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: First few rows of our melted households dataframe:"</span>)
+melt(households, id=<span style="color: #ff6a6a;">"Year"</span>)[1:10,]
+</pre>
+</div>
+
+<pre class="example">
+ :: First few rows of our melted households dataframe:
+   Year       variable value
+1  1970  MarriedWChild  40.3
+2  1980  MarriedWChild  30.9
+3  1990  MarriedWChild  26.3
+4  1995  MarriedWChild  25.5
+5  2000  MarriedWChild  24.1
+6  2005  MarriedWChild  22.9
+7  2010  MarriedWChild  20.9
+8  2012  MarriedWChild  19.6
+9  1970 MarriedWOChild  30.3
+10 1980 MarriedWOChild  29.9
+</pre>
+
+<p>
+So there you can see the eight values of <code>MarriedWChild</code>, and the
+first two values of <code>MarriedWOChild</code>. So there's that 30.3 up there,
+gone down to 30.3 here, 29.9 gone to down here.
+</p>
+
+<p>
+So every value in our data frame now corresponds to a new row in our
+melted data frame, which is exactly what we need for <code>ggplot</code>.
+</p>
+
+<p>
+So let's try plotting this melted data frame.
+</p>
+
+
+<div id="fig:MeltedHouseholdsPlot01" class="figure">
+<p><img src="../graphs/MeltedHouseholdsPlot01.png" alt="MeltedHouseholdsPlot01.png" />
+</p>
+<p><span class="figure-number">Figure 102:</span> Percentage of households by types across years</p>
+</div>
+
+<p>
+Now, this is actually quite interesting when we compare it back to the
+chart we had in the slides. Now you can see just how quickly
+<code>MarriedWChild</code> is decreasing as a relative share. You can also more
+clearly see that <code>MarriedWOChild</code> is pretty much flat, and that the
+differences being made up by the other four types of households is
+steadily increasing over the years.
+</p>
+
+<p>
+So there you have it, the same data, plotted in two different
+ways. Now, I'm not saying one of these is better than the other
+one. For example, if I want to compare inside a given year, say 1970,
+it's not the most easy thing, at a glance, to see just how much of a
+total hundred percent is taken up by each.
+</p>
+
+<p>
+But if I want to see across years, it's far superior. And I can
+clearly see that the last data point is pretty much right next to the
+second to last data point, which is something that was hard to tell
+with the other visualization.
+</p>
+
+<p>
+So I hope this has made you think a little bit more about the
+different ways you can plot the same data. And hopefully improved your
+ggplot2 skills a little bit more.
+</p>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
 <p class="date">Date: 22/07/2015</p>
 <p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
-<p class="date">Created: 2015-07-23 Thu 10:33</p>
+<p class="date">Created: 2015-07-24 Fri 10:44</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

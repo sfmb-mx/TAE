@@ -294,15 +294,15 @@ the "Scatterplot", the "Histogram", and the "US Map".
 
 The Scatterplot:
 
-[[../graphs/Scatterplot_Week8.jpg.png]]
+[[../graphs/Scatterplot_Week8.jpg]]
 
 The Histogram:
 
-[[../graphs/Histogram_Week8.jpg.png]]
+[[../graphs/Histogram_Week8.jpg]]
 
 The US Map:
 
-[[../graphs/USmap_Week8.jpg.png]]
+[[../graphs/USmap_Week8.jpg]]
 
 *** Question a
 
@@ -411,19 +411,20 @@ In this part we can download the data
 [25] "healthy.csv"             "IBMStock.csv"
 [27] "loans_imputed.csv"       "loans.csv"
 [29] "MetroAreaCodes.csv"      "movieLens.txt"
-[31] "mvtWeek1.csv"            "NBA_test.csv"
-[33] "NBA_train.csv"           "parole.csv"
-[35] "pisa2009test.csv"        "pisa2009train.csv"
-[37] "PollingData_Imputed.csv" "PollingData.csv"
-[39] "ProcterGambleStock.csv"  "quality.csv"
-[41] "README.md"               "SampleSubmission.csv"
-[43] "songs.csv"               "stevens.csv"
-[45] "StocksCluster.csv"       "stopwords.txt"
-[47] "tumor.csv"               "tweets.csv"
-[49] "USDA.csv"                "WHO_Europe.csv"
-[51] "WHO.csv"                 "WHOu7.csv"
-[53] "wiki.csv"                "wine_test.csv"
-[55] "wine.csv"
+[31] "murders.csv"             "mvt.csv"
+[33] "mvtWeek1.csv"            "NBA_test.csv"
+[35] "NBA_train.csv"           "parole.csv"
+[37] "pisa2009test.csv"        "pisa2009train.csv"
+[39] "PollingData_Imputed.csv" "PollingData.csv"
+[41] "ProcterGambleStock.csv"  "quality.csv"
+[43] "README.md"               "SampleSubmission.csv"
+[45] "songs.csv"               "stevens.csv"
+[47] "StocksCluster.csv"       "stopwords.txt"
+[49] "tumor.csv"               "tweets.csv"
+[51] "USDA.csv"                "WHO_Europe.csv"
+[53] "WHO.csv"                 "WHOu7.csv"
+[55] "wiki.csv"                "wine_test.csv"
+[57] "wine.csv"
 #+end_example
 
 *** Load the data set
@@ -629,7 +630,7 @@ console:
 
 All of the available shapes are described in the following image:
 
-[[../graphs/Shapes.jpg.png]]
+[[../graphs/Shapes.jpg]]
 
 The number 0 corresponds to an empty square, the number 6 corresponds
 to an upside down triangle, etc.
@@ -1303,19 +1304,20 @@ In this part we can download the data
 [25] "healthy.csv"             "IBMStock.csv"
 [27] "loans_imputed.csv"       "loans.csv"
 [29] "MetroAreaCodes.csv"      "movieLens.txt"
-[31] "mvt.csv"                 "mvtWeek1.csv"
-[33] "NBA_test.csv"            "NBA_train.csv"
-[35] "parole.csv"              "pisa2009test.csv"
-[37] "pisa2009train.csv"       "PollingData_Imputed.csv"
-[39] "PollingData.csv"         "ProcterGambleStock.csv"
-[41] "quality.csv"             "README.md"
-[43] "SampleSubmission.csv"    "songs.csv"
-[45] "stevens.csv"             "StocksCluster.csv"
-[47] "stopwords.txt"           "tumor.csv"
-[49] "tweets.csv"              "USDA.csv"
-[51] "WHO_Europe.csv"          "WHO.csv"
-[53] "WHOu7.csv"               "wiki.csv"
-[55] "wine_test.csv"           "wine.csv"
+[31] "murders.csv"             "mvt.csv"
+[33] "mvtWeek1.csv"            "NBA_test.csv"
+[35] "NBA_train.csv"           "parole.csv"
+[37] "pisa2009test.csv"        "pisa2009train.csv"
+[39] "PollingData_Imputed.csv" "PollingData.csv"
+[41] "ProcterGambleStock.csv"  "quality.csv"
+[43] "README.md"               "SampleSubmission.csv"
+[45] "songs.csv"               "stevens.csv"
+[47] "StocksCluster.csv"       "stopwords.txt"
+[49] "tumor.csv"               "tweets.csv"
+[51] "USDA.csv"                "WHO_Europe.csv"
+[53] "WHO.csv"                 "WHOu7.csv"
+[55] "wiki.csv"                "wine_test.csv"
+[57] "wine.csv"
 #+end_example
 
 *** Load the data set
@@ -2711,3 +2713,1134 @@ exploiting their databases to focus finite resources on problem areas.
 
 The application of analytics to data like this is new and growing,
 with companies like *PredPol* and *Palantir* leading the effort.
+
+* The Good, the Bad, and the Ugly: Visualization Recitation (Recitation)
+
+Today, we're going to be discussing examples of good and bad
+visualizations, and then discussing how to make better versions using
+our R skills. Remember, visualization is an art form, and it's
+inherently subjective.
+
+[[../graphs/VIS-VisualizationRecitation.png]]
+
+** Video 1: Introduction
+
+With great power comes great responsibility. There are many ways to
+visualize the same data. You have just seen how to make quite
+attractive visualizations with ggplot2, which has good default
+settings, but judgment is still required from the user.
+
+For example, do I decide to vary the size of a point or do I vary the
+color of a point?
+
+It is worth noting at this point that Excel and other similar programs
+can also be used to make perfectly acceptable visualizations, or
+terrible ones. The tool can help, but it's ultimately up to the user
+to make decisions.
+
+[[../graphs/VIS-GreatPower.png]]
+
+So what is the difference between a good visualization and a bad
+visualization then?
+
+[[../graphs/VIS-Difference.png]]
+
+I would argue that a good visualization clearly and accurately conveys
+the key messages in the data. A bad visualization will obfuscate the
+data either through ignorance or malice.
+
+[[../graphs/VIS-WhatDoesThisMean.png]]
+
+So today, we will look at a few examples of visualizations taken from
+a variety of sources. We'll discuss what is good and what is bad about
+them. Then we will switch into R to build better versions of them for
+ourselves.
+
+[[../graphs/VIS-Today.png]]
+
+But I want you to think for yourself in this recitation. You might not
+agree with all the points I make or my opinions about these
+visualizations. Visualization is inherently subjective and the right
+visualization will depend on the situation.
+
+So use your own judgment and think about what I talked about before
+with a good visualization and a bad visualization.
+
+** Video 2: Pie Charts
+
+There are a lot of visualizations in the world and we don't have time
+for them all. So let's focus on one particularly abused plot type, the
+pie chart.
+
+We have a specimen right here. This is a pie chart of phone
+application crashes, showing what percentage of all crashes took place
+in each mobile operating system. This data set contains information
+for all versions of Apple's iOS, which is used in the iPhone, as well
+as the various versions of Google's Android.
+
+There are many things wrong with this plot, but let's break down
+exactly what.
+
+Putting aside, for a moment, that there are far too many labels, check
+out the ordering of the labels corresponding to iOS. Two sensible ways
+of ordering iOS data might be by decreasing percentage or by version
+number.
+
+Instead, we start at the top with iOS 3.13, with 0%, and then jump to
+iOS 4.2.10, with 12.64%, before going back down to iOS 3.2, with 0.00%
+again. Which brings us to the number of labels. Many of the segments
+are so narrow that they can't be seen, although technically, all data
+is retained, because every segment is labeled.
+
+If we look at iOS, we see that there are only three major versions, 3,
+4, and 5, suggesting we can compress down the iOS segments to just
+three segments, while retaining most of the information. At the least,
+the versions that differ in the third number should be combined, and
+all data points of 0% should be removed.
+
+The more fundamental concern of this visualization is that it might
+really be showing the percentage of the phone market using each
+operating system, and says nothing about whether one operating system
+crashes more than the other, which is the focus of this
+visualization.
+
+[[../graphs/VIS-BadVis.png]]
+
+Our next pie chart has its own share of problems. This is a plot of
+how many shark attacks have been attributed to each type of
+shark. Firstly, the pie chart is, for some reason, plotted on a
+hemisphere, a graphical effect that adds nothing, but has the effect
+of vertically compressing the pie chart.
+
+Next, there is the issue of label orientation. While the caption,
+"Shark species (total/deaths)", and the label, "White shark", are
+horizontal, the rest are vertical and hard to read.
+
+They are in order, however, which does help. Although the "Others"
+segment is unfortunately large, which is unclear if it is due to there
+being a lot of attacks by many species, or if the species is not known
+for many attacks.
+
+Finally, at a glance, it is hard to distinguish the magnitude of
+differences between the orange, green, blue, and brown segments in the
+top part of the pie chart, and we must resort to the labels to
+distinguish between them. There is no meaning in the colors, they are
+arbitrary.
+
+[[../graphs/VIS-BadVis02.png]]
+
+Finally, we'll look at a pie chart I made, of the origins of the
+international students at MIT. I made this chart with the default
+settings in Google Sheets.
+
+First of all, not all of the segments are labeled, so that data is
+lost, for the Middle East, Africa, Oceania, and the unknown
+regions. Second, again, we have colors that are arbitrary and almost
+close enough to be confusing. The difference between Asia and Africa's
+colors is subtle.
+
+And of course, the 3D-effect on the pie chart adds nothing, but does
+play a subtle trick on the eye. Due to the 3D-effect, the blue and red
+segments are actually larger looking, which at a glance, may lead the
+viewer to overestimate their size.
+
+[[../graphs/VIS-BadVis03.png]]
+
+What we are going to do now is, switch over to R and plot this data
+more appropriately, using ~ggplot~. And then we'll return to the
+slides, to discuss some more possibilities for this data.
+
+** Video 3: Bar Charts in R
+
+In this video, we'll use the dataset [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/intl.csv][intl.csv]]. Please download this
+dataset before starting the video. This data comes from the
+[[http://web.mit.edu/iso][MIT International Students Office]].
+
+An R script file with all of the commands used in this recitation can
+be downloaded [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/Unit7_Recitation.R][here]].
+
+*** Download the data sets
+
+In this part we can download the data
+
+#+BEGIN_SRC R :session :results output :exports all
+  library(parallel)
+
+  if(!file.exists("../data")) {
+          dir.create("../data")
+  }
+
+  fileUrl <- "https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/intl.csv"
+  fileName <- "intl.csv"
+  dataPath <- "../data"
+
+  filePath <- paste(dataPath, fileName, sep = "/")
+
+  if(!file.exists(filePath)) {
+          download.file(fileUrl, destfile = filePath, method = "curl")
+  }
+
+  writeLines("\n :: File downloaded...")
+#+END_SRC
+
+#+RESULTS:
+:
+:  :: File downloaded...
+
+*** Load the data set
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: Load ggplot library...")
+  library(ggplot2)
+
+  writeLines("\n :: Loading data into their data frame.")
+  # Load our data, which lives in intl.csv
+  intl <- read.csv("../data/intl.csv")
+  str(intl)
+#+END_SRC
+
+#+RESULTS:
+:
+:  :: Load ggplot library...
+:
+:  :: Loading data into their data frame.
+: 'data.frame':	8 obs. of  2 variables:
+:  $ Region       : Factor w/ 8 levels "Africa","Asia",..: 2 3 6 4 5 1 7 8
+:  $ PercentOfIntl: num  0.531 0.201 0.098 0.09 0.054 0.02 0.015 0.002
+
+Now, the structure of this data frame is very simple. There are two
+columns, two variables. The first one, the region, and the second one
+is the percentage of international students who came from that
+region. So making a bar plot from this data isn't too hard.
+
+#+BEGIN_SRC R :var basename="MITStudentsBarChart01" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  # We want to make a bar plot with region on the X axis
+  # and Percentage on the y-axis.
+  ggplot(intl, aes(x = Region, y = PercentOfIntl)) +
+          geom_bar(stat="identity") +
+          geom_text(aes(label=PercentOfIntl))
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  Bar chart of MIT international students percentages
+#+NAME:     fig:MITStudentsBarChart01
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/MITStudentsPieChart01.png]]
+
+So yes, we have a bar for each region. The values are between zero and
+one, which looks kind of strange. The labels are actually lying over
+the top of the columns, which isn't very nice, and the regions aren't
+really ordered in any way that's useful.
+
+They're actually ordered in alphabetical order, but I think it would
+be much more interesting to have them in descending order. So we can
+work on this.
+
+First of all, though, what is this ~stat = "identity"~? Well, it's
+pretty simple. Geometry bar has multiple modes of operation, and stat
+= "identity" says, use the value of the y variable as is, which is
+what we want.
+
+The height of the bar is the value of the y variable. Now, there are
+other modes, including one that counts the number of rows for each
+value of x, and plots that instead.
+
+So you can look at the documentation for ~ggplot~ to see the different
+options and how they work. But ~stat = "identity"~ is what we want
+right now. Now, the x-axis is out of order.
+
+And the reason for this is that ggplot defaults to alphabetical order
+for the x-axis. What we need to do is make Region an ordered factor
+instead of an unordered factor. We can do this with the reorder
+command and the transform command.
+
+So let's write this out. So we're going to transform the international
+data frame. And what we're going to do is say, Region, it's going to
+be a reordering of itself, based on decreasing order of
+~PercentOfIntl~.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Make Region an ordered factor...")
+  # We can do this with the re-order command and transform command.
+  intl <- transform(intl, Region = reorder(Region, -PercentOfIntl))
+
+  writeLines("\n :: Look at the structure:")
+  str(intl)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Make Region an ordered factor...
+:
+:  :: Look at the structure:
+:  ..- attr(*, "dimnames")=List of 1
+:   .. .. ..$ : chr  "Africa" "Asia" "Europe" "Latin Am. & Caribbean" ...
+:  $ PercentOfIntl: num  0.531 0.201 0.098 0.09 0.054 0.02 0.015 0.002
+
+So if we look at the structure of the data frame now, we see there's
+something going on in the Region column that wasn't going before.
+
+And that's that ordering. So you might have also noticed that I put a
+negative sign in front of ~PercentOfIntl~. So that negative sign means
+decreasing order.
+
+If we had left that out, it would have actually ordered them in
+increasing order. So unknown or stateless would have been first, and
+Oceania would have been second, and so on. So that's one thing fixed.
+
+Another thing we didn't like was that the numbers were between zero
+and one, which looks a little bit messy. So let's just simply multiply
+all the values by 100.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Make the percentages out of 100 instead of fractions...")
+  intl$PercentOfIntl <- intl$PercentOfIntl * 100
+#+end_src
+
+#+RESULTS:
+:
+:  :: Make the percentages out of 100 instead of fractions...
+
+And now the other things we have to fix, like the text overlying and
+the x-axis being all bunched up like that, we're going to do that in a
+new ggplot command.
+
+So I'm going to break it across multiple lines.
+
+#+BEGIN_SRC R :var basename="MITpercentIntlStudentsBar02" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  # Make the plot
+  ggplot(intl, aes(x = Region, y = PercentOfIntl)) +
+  geom_bar(stat = "identity", fill = "dark red") +
+  geom_text(aes(label = PercentOfIntl), vjust = -0.4) +
+  ylab("Percent of International Students") +
+  theme(axis.title.x = element_blank(), axis.text.x = element_text(angle
+                                                                   = 45,
+                                                                   hjust
+                                                                   = 1))
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  MIT international students percent
+#+NAME:     fig:MITpercentIntlStudentsBar02
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/MITpercentIntlStudentsBar02.png]]
+
+I'm going to say ~vjust = -0.4~. And what this does is, it moves the
+labels up a little bit and off the top of the bars. You can play with
+that. So a positive value will move it down, and a negative value will
+move it up.
+
+Next, I'm going to set the y-axis label to be something a bit more
+sensible-- so "Percent of International Students".
+
+And finally, I'd like to fix up that x-axis. So I want to get rid of
+the word "Region," because it's pretty obvious these are regions. And
+I also want to rotate the text at a bit of an angle, so you can read
+it all on a plot like this. That's done with the ~theme~ command.
+
+So we've got our labels vjust-ed above the columns. The bars
+themselves are dark blue. The numbers are now between 0 and 100,
+instead of zero and one.
+
+We can read all the text labels. And it's generally a lot more
+readable than the pie plot or our original ~ggplot~, at that. Let's go
+back to the slides now and talk about what we've just done.
+
+** Video 4: A Better Visualization
+
+So we just made this plot in ~ggplot2~. When we compare it back to the
+pie graph, the first thing I notice is that now all the data is
+visible. We haven't lost the small regions and we can read out the
+exact share that comes from Africa, Oceania, and the unknown or
+stateless column.
+
+I believe it is also easier to compare the relative sizes of each
+region because they're all put side by side on a similar scale.
+
+There's no tricks, or three dimensions, or colors to create a
+perception issue. But, I will say that something to consider is, for
+some people and some applications, being not as visually exciting is a
+negative.
+
+This plot, while very readable and correct, is certainly a little bit
+dull. In some applications, this is an important consideration.
+
+[[../graphs/VIS-BetterVis.png]]
+
+Now, wouldn't it be interesting if we could plot this data on a world
+map? It would be possible, but a bit tedious to create because we need
+to determine which country lies in which region.
+
+Shading all countries in a region of the same color might be
+misleading though. For example, countries in Latin America will send
+students at different rates, naturally.
+
+[[../graphs/VIS-OnAWorldMap.png]]
+
+But, if we color them all the same color, it kind of gives a false
+impression. As it turns out, we actually have access to per country
+data.
+
+So we will plot that on a world map instead and see if it is an
+effective way of communicating where students come from to MIT.
+
+** Video 5: World Maps in R
+
+In this video, we'll use the dataset [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/intlall.csv][intlall.csv]]. Please download this
+dataset before starting the video. This data comes from the
+[[http://web.mit.edu/iso][MIT International Students Office]].
+
+So now we're going to try plotting a world map with a new data set
+that has the number of international students from each country.
+
+So first of all, we're going to need to use the ~ggmap~ package, which
+you may need to install. And we're going to load in the data set,
+which is called ~intlall.csv~.
+
+*** Download the data sets
+
+In this part we can download the data
+
+#+BEGIN_SRC R :session :results output :exports all
+  library(parallel)
+
+  if(!file.exists("../data")) {
+          dir.create("../data")
+  }
+
+  fileUrl <- "https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/intlall.csv"
+  fileName <- "intlall.csv"
+  dataPath <- "../data"
+
+  filePath <- paste(dataPath, fileName, sep = "/")
+
+  if(!file.exists(filePath)) {
+          download.file(fileUrl, destfile = filePath, method = "curl")
+  }
+
+  writeLines("\n :: File downloaded...")
+#+END_SRC
+
+#+RESULTS:
+:
+:  :: File downloaded...
+
+*** Load the data sets
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Load the ggmap package...")
+  library(ggmap)
+
+  writeLines("\n :: Load in the international student data...")
+  intlall <- read.csv("../data/intlall.csv", stringsAsFactors = FALSE)
+
+  writeLines("\n :: Lets look at the first few rows:")
+  head(intlall)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Load the ggmap package...
+
+ :: Load in the international student data...
+
+ :: Lets look at the first few rows:
+          Citizenship UG  G SpecialUG SpecialG ExhangeVisiting Total
+1             Albania  3  1         0        0               0     4
+2 Antigua and Barbuda NA NA        NA        1              NA     1
+3           Argentina NA 19        NA       NA              NA    19
+4             Armenia  3  2        NA       NA              NA     5
+5           Australia  6 32        NA       NA               1    39
+6             Austria NA 11        NA       NA               5    16
+#+end_example
+
+Let's look at the first few rows of ~intlall~. So you see that each
+row corresponds to a country. There's a citizenship column that's the
+country name, number of undergraduates, number of graduates, special
+undergraduates and graduates, exchange or visiting, and a total
+column.
+
+Now there's these NAs in here, but they're not really ~NAs~. They're
+just 0's. So what we're going to do is say, all these NAs should be
+0's. So in intlall, all entries that are NA, should be 0. And let's
+look at the first few rows again.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Those NAs are really 0s, and we can replace them easily...")
+  intlall[is.na(intlall)] <- 0
+
+  writeLines("\n :: Now lets look again:")
+  head(intlall)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Those NAs are really 0s, and we can replace them easily...
+
+ :: Now lets look again:
+          Citizenship UG  G SpecialUG SpecialG ExhangeVisiting Total
+1             Albania  3  1         0        0               0     4
+2 Antigua and Barbuda  0  0         0        1               0     1
+3           Argentina  0 19         0        0               0    19
+4             Armenia  3  2         0        0               0     5
+5           Australia  6 32         0        0               1    39
+6             Austria  0 11         0        0               5    16
+#+end_example
+
+Right, so next step is to load the world map.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Load the world map...")
+  world_map <- map_data("world")
+  str(world_map)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Load the world map...
+: 'data.frame':	25553 obs. of  6 variables:
+:  $ long     : num  -133 -132 -132 -132 -130 ...
+:  $ lat      : num  58.4 57.2 57 56.7 56.1 ...
+:  $ group    : num  1 1 1 1 1 1 1 1 1 1 ...
+:  $ order    : int  1 2 3 4 5 6 7 8 9 10 ...
+:  $ region   : chr  "Canada" "Canada" "Canada" "Canada" ...
+:  $ subregion: chr  NA NA NA NA ...
+
+We did something similar in the lecture with the state data. So let's
+look at the structure of the world_map. So the first two columns are
+the longitude and latitude; third column is something called group --
+that's actually a group for each country, using a different number for
+each country; order, we'll get to that later; region is just the
+country name, and subregion is sometimes used for some countries to
+describe islands and other things like that.
+
+So we want to shove the world_map data frame and the intlall data
+frame into one data frame, so we can use it for ~ggplot~.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Lets merge intlall into world_map using the merge command...")
+  world_map <- merge(world_map, intlall, by.x ="region", by.y = "Citizenship")
+  str(world_map)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Lets merge intlall into world_map using the merge command...
+'data.frame':	13595 obs. of  12 variables:
+ $ region         : chr  "Albania" "Albania" "Albania" "Albania" ...
+ $ long           : num  19.5 21 19.4 20.7 20.3 ...
+ $ lat            : num  41.6 40.7 42 40.3 40 ...
+ $ group          : num  80 80 80 80 80 80 80 80 80 80 ...
+ $ order          : int  8496 8485 8493 8484 8483 8486 8482 8492 8481 8494 ...
+ $ subregion      : chr  NA NA NA NA ...
+ $ UG             : num  3 3 3 3 3 3 3 3 3 3 ...
+ $ G              : num  1 1 1 1 1 1 1 1 1 1 ...
+ $ SpecialUG      : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ SpecialG       : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ ExhangeVisiting: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ Total          : int  4 4 4 4 4 4 4 4 4 4 ...
+#+end_example
+
+Now, in world_map, the country name is just called ~region~, as you can
+see right here. And in the ~intlall~, the country name is actually
+called ~Citizenship~.
+
+So to plot a map, we use the ~geom_polygon~ geometry.
+
+#+BEGIN_SRC R :var basename="MITPercentIntStudentsMap01" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  # Plot the map
+  ggplot(world_map, aes(x = long, y = lat, group = group)) +
+          geom_polygon(fill = "white", color = "black") +
+          coord_map("mercator")
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  MIT international students percent world map v1
+#+NAME:     fig:MITPercentIntStudentsMap01
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/MITPercentIntStudentsMap01.png]]
+
+So that looks kind of like a world map. There's a few things going on
+here. So first of all, all the countries look like big black blobs.
+
+What on earth is going on, you might say. Well, sometimes the merge
+can reorder the data.
+
+And it turns out that what the world_map data frame really is is
+actually a list of latitude and longitude points that define the
+border of each country. So if we accidentally reorder the data frame
+they no longer make any sense.
+
+And as it goes from point to point, the points might be on the other
+side of the country as it defines the polygon. So, we have to reorder
+the data in the correct order.
+
+So this command is a little bit complicated looking, but when you
+break it down, it's not so bad.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Reorder the data...")
+  world_map <- world_map[order(world_map$group, world_map$order),]
+#+end_src
+
+#+RESULTS:
+:
+:  :: Reorder the data...
+
+So if we go and try plotting it again. Right, so now we have the map,
+and it looks far more reasonable.
+
+#+BEGIN_SRC R :var basename="MITPercentIntStudentsMap02" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  # Redo the plot
+  ggplot(world_map, aes(x = long, y = lat, group = group)) +
+          geom_polygon(fill = "white", color = "black") +
+          coord_map("mercator")
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  MIT international students percent map v2
+#+NAME:     fig:MITPercentIntStudentsMap02
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/MITPercentIntStudentsMap02.png]]
+
+Some of the countries are missing. Now of course, the USA is missing
+because MIT is in the USA, so that wouldn't be an international
+student coming from the USA.
+
+And some parts of Africa are missing, presumably because there are no
+students at MIT right now who are from those countries. But you'll
+also notice that Russia is missing, and a lot of countries near it, as
+well as China.
+
+Which is definitely not true because I have many friends at MIT who
+are from Russia and China. So, what do we do about that? The reason
+China is missing is that it has a different name in the MIT data frame
+than in the world_map data frame.
+
+So when we merged them, it was dropped from the data set because it
+didn't match up. So to see what it's called in the MIT data frame,
+let's just do a table.
+
+There's a few ways to do this, but this is pretty easy.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Lets look for China:")
+  head(table(intlall$Citizenship), 20)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Lets look for China:
+
+                     Albania          Antigua and Barbuda
+                           1                            1
+                   Argentina                      Armenia
+                           1                            1
+                   Australia                      Austria
+                           1                            1
+                     Bahrain                   Bangladesh
+                           1                            1
+                     Belarus                      Belgium
+                           1                            1
+                     Bolivia           Bosnia-Hercegovina
+                           1                            1
+                      Brazil                     Bulgaria
+                           1                            1
+                    Cambodia                     Cameroon
+                           1                            1
+                      Canada                        Chile
+                           1                            1
+China (People's Republic Of)                     Colombia
+                           1                            1
+#+end_example
+
+OK, so we get a list of all the names. If we scroll all the way up,
+we'll see it says "China (People's Republic Of)".
+
+Now, in the world_map data frame, it's simply called "China". So, what
+we can do is change the MIT data frame. So let's say the citizenship
+column, the one row where it equals "China (People's Republic Of)"
+should just be "China".
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Lets fix that in the intlall dataset...")
+  intlall$Citizenship[intlall$Citizenship == "China (People's Republic Of)"] <- "China"
+#+end_src
+
+#+RESULTS:
+:
+:  :: Lets fix that in the intlall dataset...
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: We'll repeat our merge and order from before...")
+  world_map <- merge(map_data("world"), intlall,
+                    by.x ="region",
+                    by.y = "Citizenship")
+  world_map <- world_map[order(world_map$group, world_map$order),]
+#+end_src
+
+#+RESULTS:
+:
+:  :: We'll repeat our merge and order from before...
+
+#+BEGIN_SRC R :var basename="MITPercentIntStudentsMap03" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  ggplot(world_map, aes(x = long, y = lat, group = group)) +
+          geom_polygon(aes(fill = Total), color = "black") +
+          coord_map("mercator")
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  MIT international students percent map v3
+#+NAME:     fig:MITPercentIntStudentsMap03
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/MITPercentIntStudentsMap03.png]]
+
+So Russia is missing for similar reasons, but we won't deal with that
+now because it's a little bit annoying. But you get the idea. This is
+pretty interesting actually. So we can see that Canada, and China, and
+India supply a large number of international students to MIT.
+
+But it is a little bit confusing doing it on a per country basis,
+because Europe, presumably, has quite a few students at MIT.
+
+But because Europe is made up of many small countries, it doesn't look
+very impressive. Maybe if all the European countries were grouped
+together, it would look about the same color as Canada. But it's hard
+to tell.
+
+There are also other projections we can look at. So this is a Mercator
+projection. What I want to show you is an orthographic projection that
+allows you to sort of view the map in 3D, like a globe. So let's try
+that out.
+
+#+BEGIN_SRC R :var basename="MITPercentIntStudentsMap04" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  ## We can try other projections - this one is visually interesting
+  ggplot(world_map, aes(x = long, y = lat, group = group)) +
+          geom_polygon(aes(fill = Total), color = "black") +
+          coord_map("ortho", orientation=c(20, 30, 0))
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  MIT international students percent map v4
+#+NAME:     fig:MITPercentIntStudentsMap04
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/MITPercentIntStudentsMap04.png]]
+
+Let's change it to orthographic projection. And I want to find, now,
+an orientation. And this is almost like thinking about where in the
+world you want to focus on.
+
+So this is a latitude and longitude, 20 degrees and 30 degrees. If we
+run this, we should get a map centered above North Africa.
+
+That's quite a nice visualization because if you want to look just at
+Africa and Europe, this is the way to go. We can still see China, and
+Canada, and South America in there, as well.
+
+Let's do something a little bit more personal. I want to change the
+coordinates, now, to -37 and 175. Now it's centered on my hometown of
+Auckland, New Zealand.
+
+#+BEGIN_SRC R :var basename="MITPercentIntStudentsMap05" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  ## We can try other projections - this one is visually interesting
+  ggplot(world_map, aes(x = long, y = lat, group = group)) +
+          geom_polygon(aes(fill = Total), color = "black") +
+          coord_map("ortho", orientation = c(-37, 175, 0))
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  MIT international students percent map v5
+#+NAME:     fig:MITPercentIntStudentsMap05
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/MITPercentIntStudentsMap05.png]]
+
+** Video 6: Scales
+
+This first plot shows the average height of a 21-year-old male in
+centimeters. The x-axis is time, starting in 1871, and ending
+in 1975. Each person represents the height, at a different point in
+time, and the points are evenly spaced in time, so the x-axis is OK.
+
+The y-axis ranges from just under 160 to 180 centimeters, which isn't
+inherently bad, but does overstate the change.
+
+The real problem is the bars. If it was accurate, we would only really
+see the heads of the men, but instead we see their whole bodies,
+making it seem as if people have not only doubled in height, but
+they've also double in width.
+
+[[../graphs/VIS-BadScales.png]]
+
+This next plot also has issues with scale. The total range of the plot
+is 8% to 10%, although all the numbers fall in the range of 8.6% to
+9.2%. If we plotted the y-axis on a 0% to 10% scale, the conclusion
+would be that nothing is really changing at all.
+
+The last point in the chart is at the wrong height, and the size of
+the markers makes the relative locations hard to distinguish.
+
+Also notice that the gap between 9.0% and the 8.9% markers on the far
+left side, and the 8.9% and 8.8% markers, have a different gap.
+
+[[../graphs/VIS-BadScales02.png]]
+
+This plot shows the relative breakdown of teachers by race in a
+certain teaching program. The Caucasian bar is truncated, which is a
+risky choice, but could be appropriate in some situations.
+
+A much bigger problem is that the scale of each blue bar is entirely
+different. For example, the Native American bar is about a third of
+the length of the African American bar, but there are more than 10
+times as many African Americans in this program as Native Americans.
+
+In fact, visually, this plot is completely meaningless.
+
+The only useful thing about it is the numbers. But even there, there
+is a bit of confusion, as Native Americans are given to one decimal
+place, but the others are rounded.
+
+Which when combined with the confusing scales, casts doubt on the
+correctness of the numbers.
+
+[[../graphs/VIS-BadScales03.png]]
+
+Here is a before and after of the same data. On the left, we see the
+US military expense in the right axis, and troop count on the left
+axis. Both the line and bar plots are individually OK, but the
+combination is misleading.
+
+Because you have mixed two units, dollars and people, there is a false
+impression of some sort of crossover point in 1995 that does not
+exist.
+
+On the right is the same data presented in a different way. We now
+have troops on the x-axis, and dollars on the y-axis. The line moves
+through time now, allowing us to see when moments of change occurred,
+such as decreases in troop count, through the 90s, at the end of the
+Cold War, the increase in spending of the 2000s, and the recent
+decreases in military spending.
+
+[[../graphs/VIS-TwoRightsMakeAWrong.png]]
+
+The final visualization I want to show you today is all about the
+different types of household. The US Census Bureau periodically
+determines how many households are comprised, for example, of married
+couples with and without children, people living alone, and so on.
+
+[[../graphs/VIS-FamilyMatters.png]]
+
+First of all, I'm not saying this is a bad visualization. In fact, if
+we are interested in the relative share of each type of household in a
+particular year, it's actually pretty good.
+
+However, if what we're interested in is the rates of change across the
+years, this is next to useless. The key problem is that the x-axis is
+completely off. The gap between the first two columns is 10 years, but
+the gap between the last two columns is only 2 years, meaning that the
+rates are hard to read from this.
+
+If we're not interested in the rates of changes, but just want to
+compare two years at a time, it's not bad, but it's not easy
+either. Try comparing 1970 married without children to 2010 married
+without children, without looking at the numbers. Can you tell if it
+has grown or shrunk?
+
+Finally, and more generally, this chart shows relative numbers. If you
+look at absolute numbers, we might find the total number of couples
+married with children is actually constant, but the number of other
+households has increased.
+
+[[../graphs/VIS-FamilyMatters02.png]]
+
+We are now going to change into R to try plotting this data as a line
+chart.
+
+** Video 7: Using Line Charts Instead
+
+In this video, we'll be using the dataset [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/households.csv][households.csv]]. Please
+download this dataset before starting the video. This data comes from
+the [[http://www.census.gov/][U.S. Census Bureau]].
+
+We'll be using the package ~reshape2~ in this video. It should already
+be installed for you (it was a dependency of an earlier package), but
+if the melt function does not work properly for you in this video, go
+ahead and install and load the package with the commands:
+
+~install.packages("reshape2")~
+
+~library(reshape2)~
+
+*** Download the data set
+
+#+BEGIN_SRC R :session :results output :exports all
+  library(parallel)
+
+  if(!file.exists("../data")) {
+          dir.create("../data")
+  }
+
+  fileUrl <- "https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/households.csv"
+  fileName <- "households.csv"
+  dataPath <- "../data"
+
+  filePath <- paste(dataPath, fileName, sep = "/")
+
+  if(!file.exists(filePath)) {
+          download.file(fileUrl, destfile = filePath, method = "curl")
+  }
+
+  writeLines("\n :: File downloaded...")
+#+END_SRC
+
+#+RESULTS:
+:
+:  :: File downloaded...
+
+*** Load the data set
+
+First, let's make sure we have ggplot2 loaded.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: First, lets make sure we have ggplot2 loaded...")
+  library(ggplot2)
+
+  writeLines("\n :: Now lets load our dataframe:")
+  households = read.csv("../data/households.csv")
+  str(households)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: First, lets make sure we have ggplot2 loaded...
+
+ :: Now lets load our dataframe:
+'data.frame':	8 obs. of  7 variables:
+ $ Year          : int  1970 1980 1990 1995 2000 2005 2010 2012
+ $ MarriedWChild : num  40.3 30.9 26.3 25.5 24.1 22.9 20.9 19.6
+ $ MarriedWOChild: num  30.3 29.9 29.8 28.9 28.7 28.3 28.8 29.1
+ $ OtherFamily   : num  10.6 12.9 14.8 15.6 16 16.7 17.4 17.8
+ $ MenAlone      : num  5.6 8.6 9.7 10.2 10.7 11.3 11.9 12.3
+ $ WomenAlone    : num  11.5 14 14.9 14.7 14.8 15.3 14.8 15.2
+ $ OtherNonfamily: num  1.7 3.6 4.6 5 5.7 5.6 6.2 6.1
+#+end_example
+
+If we look at the structure of households, we see that there is a year
+column and then six other columns for each of the different household
+types. So this is actually a problem for us. Given this structure of a
+data frame, what would we put in the aesthetic for our ~ggplot~
+command?
+
+It's not obvious, to me at least, and in fact, I don't think it's
+really possible. The reason is that ggplot needs it in the form of:
+~year~, ~group~, and ~fraction~.
+
+The solution is to use the ~melt~ function from the reshape
+package. Melt will take a 2-dimensional data frame like ours, and
+convert it into exactly the right form we need for ~ggplot2~.
+
+So first, let's load ~reshape2~. Now, let's look at the first two
+columns of our households data frame.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Load reshape2...")
+  library(reshape2)
+
+  writeLines("\n :: Lets look at the first two columns of our households dataframe:")
+  households[,1:2]
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Load reshape2...
+
+ :: Lets look at the first two columns of our households dataframe:
+  Year MarriedWChild
+1 1970          40.3
+2 1980          30.9
+3 1990          26.3
+4 1995          25.5
+5 2000          24.1
+6 2005          22.9
+7 2010          20.9
+8 2012          19.6
+#+end_example
+
+So there's a ~Year~ and a ~MarriedWChild~ for each year. Now, let's
+look at the first few rows of our melted households data frame.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: First few rows of our melted households dataframe:")
+  head(melt(households, id="Year"))
+#+end_src
+
+#+RESULTS:
+:
+:  :: First few rows of our melted households dataframe:
+:   Year      variable value
+: 1 1970 MarriedWChild  40.3
+: 2 1980 MarriedWChild  30.9
+: 3 1990 MarriedWChild  26.3
+: 4 1995 MarriedWChild  25.5
+: 5 2000 MarriedWChild  24.1
+: 6 2005 MarriedWChild  22.9
+
+So, basically, what's happened is that each value of MarriedWChild has
+turned into its own row in the new data frame. To make it more clear,
+perhaps, let's look at the first three columns of households.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Three few rows of our melted households dataframe:")
+  households[,1:3]
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Three few rows of our melted households dataframe:
+  Year MarriedWChild MarriedWOChild
+1 1970          40.3           30.3
+2 1980          30.9           29.9
+3 1990          26.3           29.8
+4 1995          25.5           28.9
+5 2000          24.1           28.7
+6 2005          22.9           28.3
+7 2010          20.9           28.8
+8 2012          19.6           29.1
+#+end_example
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: First few rows of our melted households dataframe:")
+  melt(households, id="Year")[1:10,]
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: First few rows of our melted households dataframe:
+   Year       variable value
+1  1970  MarriedWChild  40.3
+2  1980  MarriedWChild  30.9
+3  1990  MarriedWChild  26.3
+4  1995  MarriedWChild  25.5
+5  2000  MarriedWChild  24.1
+6  2005  MarriedWChild  22.9
+7  2010  MarriedWChild  20.9
+8  2012  MarriedWChild  19.6
+9  1970 MarriedWOChild  30.3
+10 1980 MarriedWOChild  29.9
+#+end_example
+
+So there you can see the eight values of ~MarriedWChild~, and the
+first two values of ~MarriedWOChild~. So there's that 30.3 up there,
+gone down to 30.3 here, 29.9 gone to down here.
+
+So every value in our data frame now corresponds to a new row in our
+melted data frame, which is exactly what we need for ~ggplot~.
+
+So let's try plotting this melted data frame.
+
+#+BEGIN_SRC R :var basename="MeltedHouseholdsPlot01" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  # Plot it
+  ggplot(melt(households, id = "Year"),
+         aes(x = Year, y = value, color = variable)) +
+          geom_line(size = 2) + geom_point(size = 5) +
+          ylab("Percentage of Households")
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  Percentage of households by types across years
+#+NAME:     fig:MeltedHouseholdsPlot01
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/MeltedHouseholdsPlot01.png]]
+
+Now, this is actually quite interesting when we compare it back to the
+chart we had in the slides. Now you can see just how quickly
+~MarriedWChild~ is decreasing as a relative share. You can also more
+clearly see that ~MarriedWOChild~ is pretty much flat, and that the
+differences being made up by the other four types of households is
+steadily increasing over the years.
+
+So there you have it, the same data, plotted in two different
+ways. Now, I'm not saying one of these is better than the other
+one. For example, if I want to compare inside a given year, say 1970,
+it's not the most easy thing, at a glance, to see just how much of a
+total hundred percent is taken up by each.
+
+But if I want to see across years, it's far superior. And I can
+clearly see that the last data point is pretty much right next to the
+second to last data point, which is something that was hard to tell
+with the other visualization.
+
+So I hope this has made you think a little bit more about the
+different ways you can plot the same data. And hopefully improved your
+ggplot2 skills a little bit more.
