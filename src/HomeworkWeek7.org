@@ -1,4 +1,4 @@
-#+TITLE:         Unit 7 Assignment. Visualization
+#+TITLE:         Assignment 7. Visualization
 #+AUTHOR:        Sergio-Feliciano Mendoza-Barrera
 #+DRAWERS:       sfmb
 #+EMAIL:         smendoza.barrera@gmail.com
@@ -734,3 +734,214 @@ the different states, take a look at the World Atlas map here.
 In our prediction map, the state of Florida is colored *red*, meaning
 that we predicted Republican. So *we incorrectly predicted this
 state*.
+
+** Problem 3.2 - Understanding the Predictions (2 points possible)
+
+*** Question a
+
+What was our predicted probability for the state of Florida?
+
+**** Answer
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: The predicted probability for Florida:")
+  head(predictionMap[predictionMap$region == "florida", ], 1)
+#+end_src
+
+#+RESULTS:
+:
+:  :: The predicted probability for Florida:
+:       region      long      lat group order subregion TestPrediction
+: 1150 florida -85.01548 30.99702     9  1462      <NA>      0.9640395
+:      TestPredictionBinary Test.State
+: 1150                    1    Florida
+
+Predicted probability: $0.9640395$
+
+*** Question b
+
+What does this imply?
+
+**** Answer
+
+- [ ] Our prediction model did a good job of correctly predicting the
+  state of Florida, and we were very confident in our prediction.
+
+- [ ] Our prediction model did a good job of correctly predicting the
+  state of Florida, but we were not very confident in the prediction.
+
+- [ ] Our prediction model did not do a very good job of correctly
+  predicting the state of Florida, but we were not very confident in
+  our prediction.
+
+- [X] Our prediction model did not do a very good job of correctly
+  predicting the state of Florida, and we were very confident in our
+  incorrect prediction.
+
+*Explanation*
+
+We predicted Republican for the state of Florida with high
+probability, meaning that we were very confident in our incorrect
+prediction! Historically, Florida is usually a close race, but our
+model doesn't know this. The model only uses polling results for the
+particular year. For Florida in 2012, Survey USA predicted a tie, but
+other polls predicted Republican, so our model predicted Republican.
+
+** Problem 4 - Parameter Settings
+
+In this part, we'll explore what the different parameter settings of
+~geom_polygon~ do. Throughout the problem, use the help page for
+~geom_polygon~, which can be accessed by ?geom_polygon. To see more
+information about a certain parameter, just type a question mark and
+then the parameter name to get the help page for that
+parameter. Experiment with different parameter settings to try and
+replicate the plots!
+
+We'll be asking questions about the following three plots:
+
+*Plot (1)*
+
+[[../graphs/ElectionForecastingMap1.png]]
+
+*Plot (2)*
+
+[[../graphs/ElectionForecastingMap2.png]]
+
+*Plot (3)*
+
+[[../graphs/ElectionForecastingMap3.png]]
+
+*** Answer
+
+Recreating *plot (1)*
+
+#+BEGIN_SRC R :var basename="RecreatingPlot01" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  ggplot(predictionMap, aes(x = long, y = lat, group = group, fill = TestPrediction)) +
+            geom_polygon(color = "black", linetype = 3) +
+            scale_fill_gradient(low = "blue", high = "red", name = "Prediction 2012")
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  Recreating plot 1
+#+NAME:     fig:RecreatingPlot01
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/RecreatingPlot01.png]]
+
+Now we will recreate the *Plot (2)*
+
+#+BEGIN_SRC R :var basename="RecreatingPlot02" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  ggplot(predictionMap, aes(x = long, y = lat, group = group, fill = TestPrediction)) +
+              geom_polygon(color = "black", size = 3) +
+              scale_fill_gradient(low = "blue", high = "red", name = "Prediction 2012")
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  Recreating the plot 2
+#+NAME:     fig:RecreatingPlot02
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/RecreatingPlot02.png]]
+
+Now let recreate the *plot (3)*
+
+#+BEGIN_SRC R :var basename="RecreatingPlot03" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+    ggplot(predictionMap, aes(x = long, y = lat, group = group, fill = TestPrediction)) +
+                geom_polygon(color = "black", alpha = 0.3) +
+                scale_fill_gradient(low = "blue", high = "red", name = "Prediction 2012")
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  Recreating the plot 3
+#+NAME:     fig:RecreatingPlot03
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/RecreatingPlot03.png]]
+
+
+** Problem 4.1 - Parameter Settings (2/2 points)
+
+Plots (1) and (2) were created by setting different parameters of
+geom_polygon to the value 3.
+
+*** Question
+
+What is the name of the parameter we set to have value 3 to create
+plot (1)?
+
+**** Answer
+
+~linetype~
+
+*** Question
+
+What is the name of the parameter we set to have value 3 to create
+plot (2)?
+
+**** Answer
+
+~size~
+
+*Explanation*
+
+The first plot can be generated by setting the parameter ~linetype=3~:
+
+~ggplot(predictionMap, aes(x = long, y = lat, group = group, fill =~
+~TestPrediction))+~
+~geom_polygon(color = "black", linetype=3) +~
+~scale_fill_gradient(low = "blue", high = "red", guide~
+~= "legend", breaks = c(0,1), labels = c("Democrat", "Republican") , name~
+~= "Prediction 2012")~
+
+The second plot can be generated by setting the parameter ~size = 3~:
+
+~ggplot(predictionMap, aes(x = long, y = lat, group = group, fill =~
+~TestPrediction))+ geom_polygon(color = "black", size=3) +~
+~scale_fill_gradient(low = "blue", high = "red", guide~
+~= "legend", breaks= c(0,1), labels = c("Democrat", "Republican"),name~
+~= "Prediction 2012")~
+
+** Problem 4.2 - Parameter Settings (1 point possible)
+
+*** Question
+
+Plot (3) was created by changing the value of a different geom_polygon
+parameter to have value 0.3. Which parameter did we use?
+
+**** Answer
+
+*alpha*
+
+*Explanation*
+
+Plot (3) can be created by changing the alpha parameter:
+
+~ggplot(predictionMap, aes(x = long, y = lat, group = group, fill =~
+~TestPrediction))+ geom_polygon(color = "black", alpha=0.3) +~
+~scale_fill_gradient(low = "blue", high = "red", guide~
+~= "legend", breaks= c(0,1), labels = c("Democrat", "Republican"),name~
+~= "Prediction 2012")~
+
+The ~alpha~ parameter controls the transparency or darkness of the
+color. A smaller value of alpha will make the colors lighter.
