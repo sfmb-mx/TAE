@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Assignment 7. Visualization</title>
-<!-- 2015-07-25 Sat 18:59 -->
+<!-- 2015-07-26 Sun 10:58 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Sergio-Feliciano Mendoza-Barrera" />
@@ -222,6 +222,25 @@ for the JavaScript code in this tag.
 <li><a href="#sec-2-9">2.9. Problem 3.2 - Coloring Vertices (2 points possible)</a></li>
 <li><a href="#sec-2-10">2.10. Problem 3.3 - Coloring Vertices (2 points possible)</a></li>
 <li><a href="#sec-2-11">2.11. Problem 4 - Other Plotting Options (2 points possible)</a></li>
+</ul>
+</li>
+<li><a href="#sec-3">3. Visualizing Text Data Using Word CLouds</a>
+<ul>
+<li><a href="#sec-3-1">3.1. Problem 1.1 - Preparing the Data (1 point possible)</a></li>
+<li><a href="#sec-3-2">3.2. Problem 1.2 - Preparing the Data (1 point possible)</a></li>
+<li><a href="#sec-3-3">3.3. Problem 2.1 - Building a Word Cloud (1 point possible)</a></li>
+<li><a href="#sec-3-4">3.4. Problem 2.2 - Building a Word Cloud (1 point possible)</a></li>
+<li><a href="#sec-3-5">3.5. Problem 2.3 - Building a Word Cloud (1 point possible)</a></li>
+<li><a href="#sec-3-6">3.6. Problem 2.4 - Building a Word Cloud (1 point possible)</a></li>
+<li><a href="#sec-3-7">3.7. Problem 3 - Size and Color</a></li>
+<li><a href="#sec-3-8">3.8. Problem 3.1 - Size and Color (1 point possible)</a></li>
+<li><a href="#sec-3-9">3.9. Problem 3.2 - Size and Color (1 point possible)</a></li>
+<li><a href="#sec-3-10">3.10. Problem 3.3 - Size and Color (1 point possible)</a></li>
+<li><a href="#sec-3-11">3.11. Problem 3.4 - Size and Color (1 point possible)</a></li>
+<li><a href="#sec-3-12">3.12. Problem 3.5 - Size and Color (1 point possible)</a></li>
+<li><a href="#sec-3-13">3.13. Problem 4.1 - Selecting a Color Palette (1 point possible)</a></li>
+<li><a href="#sec-3-14">3.14. Problem 4.2 - Selecting a Color Palette (1 point possible)</a></li>
+<li><a href="#sec-3-15">3.15. Problem 4.3 - Selecting a Color Palette (1 point possible)</a></li>
 </ul>
 </li>
 </ul>
@@ -495,7 +514,12 @@ writeLines(<span style="color: #ff6a6a;">"\n :: File downloaded..."</span>)
 </div>
 
 <pre class="example">
-:: File downloaded...
+quartz_off_screen
+                2
+ quartz_off_screen
+                2
+
+ :: File downloaded...
 </pre>
 
 <p>
@@ -1127,6 +1151,13 @@ head(predictionMap[predictionMap$region == <span style="color: #ff6a6a;">"florid
 </div>
 
 <pre class="example">
+ quartz_off_screen
+                2
+ quartz_off_screen
+                2
+ quartz_off_screen
+                2
+
  :: The predicted probability for Florida:
       region      long      lat group order subregion TestPrediction
 1150 florida -85.01548 30.99702     9  1462      &lt;NA&gt;      0.9640395
@@ -1484,6 +1515,13 @@ writeLines(<span style="color: #ff6a6a;">"\n :: Files downloaded..."</span>)
 </div>
 
 <pre class="example">
+quartz_off_screen
+               2
+quartz_off_screen
+               2
+quartz_off_screen
+               2
+
 :: Files downloaded...
 </pre>
 </div>
@@ -1832,18 +1870,18 @@ writeLines(<span style="color: #ff6a6a;">"\n :: Library igraph loaded..."</span>
 
 <div class="org-src-container">
 
-<pre class="src src-R">g1 <span style="color: #db7093;">&lt;-</span> graph.data.frame(edges, <span style="color: #3cb371;">FALSE</span>, users)
+<pre class="src src-R">g <span style="color: #db7093;">&lt;-</span> graph.data.frame(edges, <span style="color: #3cb371;">FALSE</span>, users)
 <span style="color: #9932cc;">## </span><span style="color: #ba55d3;">g2 &lt;- graph.data.frame(users, FALSE, edges)</span>
 g3 <span style="color: #db7093;">&lt;-</span> graph.data.frame(edges, <span style="color: #3cb371;">TRUE</span>, users)
 <span style="color: #9932cc;">## </span><span style="color: #ba55d3;">g4 &lt;- graph.data.frame(users, TRUE, edges)</span>
 
-writeLines(<span style="color: #ff6a6a;">"\n :: Our undirected graph g1:"</span>)
-g1
+writeLines(<span style="color: #ff6a6a;">"\n :: Our undirected graph g:"</span>)
+g
 </pre>
 </div>
 
 <pre class="example">
- :: Our undirected graph g1:
+ :: Our undirected graph g:
  attr: name (v/c), gender (v/c), school (v/c), locale (v/c)
 + edges (vertex names):
  [1] 4019--4026 4023--4031 4023--4030 4027--4032 3988--4021 3982--3986
@@ -2002,6 +2040,9 @@ table(degree(g) &gt;= 10)
 </div>
 
 <pre class="example">
+ quartz_off_screen
+                2
+
  :: Calculating the degree of users in the graph:
 4030 4023 3982 3998 4014 3994 3997 4021 4031 4004 4009 3986 3995 4000 4017 4026
   18   17   13   13   11   10   10   10   10    9    9    8    8    8    8    8
@@ -2086,6 +2127,9 @@ sort(V(g)$size, decreasing = <span style="color: #3cb371;">TRUE</span>)
 </div>
 
 <pre class="example">
+ quartz_off_screen
+                2
+
  :: The largest size assigned to a node:
  [1] 11.0 10.5  8.5  8.5  7.5  7.0  7.0  7.0  7.0  6.5  6.5  6.0  6.0  6.0  6.0
 [16]  6.0  6.0  5.5  5.5  5.5  5.0  5.0  5.0  5.0  4.5  4.5  4.5  4.5  4.0  3.5
@@ -2246,6 +2290,9 @@ V(g)$color[V(g)$school == <span style="color: #ff6a6a;">"AB"</span>] <span style
 </div>
 
 <pre class="example">
+quartz_off_screen
+               2
+
 :: Assigning black color to the nodes...
 
 :: Assigning blue color to school A...
@@ -2362,6 +2409,9 @@ V(g)$color[V(g)$locale == <span style="color: #ff6a6a;">"B"</span>] <span style=
 </div>
 
 <pre class="example">
+quartz_off_screen
+               2
+
 :: Assigning black color to the nodes...
 
 :: Assigning green color to locale A...
@@ -2492,6 +2542,9 @@ writeLines(<span style="color: #ff6a6a;">"\n :: Library rgl loaded..."</span>)
 </div>
 
 <pre class="example">
+quartz_off_screen
+               2
+
 :: Install new package: rgl ...
 
 :: NOTE: Please comment after install once...
@@ -2572,11 +2625,1245 @@ edge width 2 with the command
 </div>
 </div>
 </div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Visualizing Text Data Using Word CLouds</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Earlier in the course, we used text analytics as a predictive tool,
+using word frequencies as independent variables in our
+models. However, sometimes our goal is to understand commonly
+occurring topics in text data instead of to predict the value of some
+dependent variable. In such cases, word clouds can be a visually
+appealing way to display the most frequent words in a body of text.
+</p>
+
+<p>
+A word cloud arranges the most common words in some text, using size
+to indicate the frequency of a word. For instance, this is a word
+cloud for the complete works of Shakespeare, removing English
+<code>stopwords</code>:
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/shakespeare.png" alt="shakespeare.png" />
+</p>
+</div>
+
+<p>
+While we could generate word clouds using free generators available on
+the Internet, we will have more flexibility and control over the
+process if we do so in R. We will visualize the text of tweets about
+Apple, a dataset we used earlier in the course. As a reminder, this
+dataset (which can be downloaded from <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/tweets.csv">tweets.csv</a>) has the following
+variables:
+</p>
+
+<ul class="org-ul">
+<li><b>Tweet</b> &#x2013; the text of the tweet
+</li>
+
+<li><b>Avg</b> &#x2013; the sentiment of the tweet, as assigned by users of Amazon
+Mechanical Turk. The score ranges on a scale from -2 to 2, where 2
+means highly positive sentiment, -2 means highly negative sentiment,
+and 0 means neutral sentiment.
+</li>
+</ul>
+</div>
+
+<div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> Problem 1.1 - Preparing the Data (1 point possible)</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+Download the dataset <code>tweets.csv</code>, and load it into a data frame
+called <code>tweets</code> using the <code>read.csv()</code> function, remembering to use
+<code>stringsAsFactors = FALSE</code> when loading the data.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R"><span style="color: #db7093;">library</span>(parallel)
+
+<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #ff6a6a;">"../data"</span>)) {
+        dir.create(<span style="color: #ff6a6a;">"../data"</span>)
+}
+
+fileUrl <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/tweets.csv"</span>
+fileName <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"tweetsU7.csv"</span>
+dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"../data"</span>
+
+filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #ff6a6a;">"/"</span>)
+
+<span style="color: #4682b4;">if</span>(!file.exists(filePath)) {
+        download.file(fileUrl, destfile = filePath, method = <span style="color: #ff6a6a;">"curl"</span>)
+}
+
+writeLines(<span style="color: #ff6a6a;">"\n :: File downloaded..."</span>)
+</pre>
+</div>
+
+<pre class="example">
+quartz_off_screen
+               2
+
+:: File downloaded...
+</pre>
+
+<p>
+Load in a data frame
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Loading the dataset in a dataframe..."</span>)
+tweets <span style="color: #db7093;">&lt;-</span> read.csv(<span style="color: #ff6a6a;">"../data/tweetsU7.csv"</span>, stringsAsFactors = <span style="color: #3cb371;">FALSE</span>)
+str(tweets)
+</pre>
+</div>
+
+<pre class="example">
+ :: Loading the dataset in a dataframe...
+'data.frame':   1181 obs. of  2 variables:
+ $ Tweet: chr  "I have to say, Apple has by far the best customer care service I have ever received! @Apple @AppStore" "iOS 7 is so fricking smooth &amp; beautiful!! #ThanxApple @Apple" "LOVE U @APPLE" "Thank you @apple, loving my new iPhone 5S!!!!!  #apple #iphone5S pic.twitter.com/XmHJCU4pcb" ...
+ $ Avg  : num  2 2 1.8 1.8 1.8 1.8 1.8 1.6 1.6 1.6 ...
+</pre>
+
+<p>
+Loading some useful libraries
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R"><span style="color: #db7093;">library</span>(tm)
+<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">library(SnowballC)</span>
+<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">library(caTools)</span>
+<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">library(rpart)</span>
+<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">library(rpart.plot)</span>
+<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">library(randomForest)</span>
+<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">library(ROCR)</span>
+</pre>
+</div>
+
+<p>
+Next, perform the following pre-processing tasks (like we did in Unit
+5), noting that we don't stem the words in the document or remove
+sparse terms:
+</p>
+
+<ol class="org-ol">
+<li>Create a corpus using the Tweet variable
+</li>
+</ol>
+
+<div class="org-src-container">
+
+<pre class="src src-R">corpus <span style="color: #db7093;">&lt;-</span> Corpus(VectorSource(tweets$Tweet))
+corpus[[1]]
+</pre>
+</div>
+
+<pre class="example">
+&lt;&lt;PlainTextDocument&gt;&gt;
+Metadata:  7
+Content:  chars: 101
+</pre>
+
+<ol class="org-ol">
+<li>Convert the corpus to lowercase (don't forget to type "corpus =
+tm_map(corpus, PlainTextDocument)" in your R console right after
+this step)
+</li>
+</ol>
+
+<div class="org-src-container">
+
+<pre class="src src-R">corpus <span style="color: #db7093;">&lt;-</span> tm_map(corpus, tolower)
+corpus <span style="color: #db7093;">&lt;-</span> tm_map(corpus, PlainTextDocument)
+</pre>
+</div>
+
+<ol class="org-ol">
+<li>Remove punctuation from the corpus
+</li>
+</ol>
+
+<div class="org-src-container">
+
+<pre class="src src-R">corpus <span style="color: #db7093;">&lt;-</span> tm_map(corpus, removePunctuation)
+corpus[[1]]
+</pre>
+</div>
+
+<pre class="example">
+&lt;&lt;PlainTextDocument&gt;&gt;
+Metadata:  7
+Content:  chars: 97
+</pre>
+
+<ol class="org-ol">
+<li>Remove all English-language stopwords
+</li>
+</ol>
+
+<div class="org-src-container">
+
+<pre class="src src-R">corpus <span style="color: #db7093;">&lt;-</span> tm_map(corpus, removeWords, stopwords(<span style="color: #ff6a6a;">"english"</span>))
+</pre>
+</div>
+
+<ol class="org-ol">
+<li>Build a document-term matrix out of the corpus
+</li>
+</ol>
+
+<div class="org-src-container">
+
+<pre class="src src-R">DocTermMatrix <span style="color: #db7093;">&lt;-</span> DocumentTermMatrix(corpus)
+</pre>
+</div>
+
+<ol class="org-ol">
+<li>Convert the document-term matrix to a data frame called allTweets
+</li>
+</ol>
+
+<div class="org-src-container">
+
+<pre class="src src-R">allTweets <span style="color: #db7093;">&lt;-</span> as.data.frame(as.matrix(DocTermMatrix))
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-3-1-1" class="outline-4">
+<h4 id="sec-3-1-1"><span class="section-number-4">3.1.1</span> Question</h4>
+<div class="outline-text-4" id="text-3-1-1">
+<p>
+How many unique words are there across all the documents?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: allTweets dataframe matrix portion:"</span>)
+allTweets[1:13, 1:13]
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Unique words across all documents:"</span>)
+ncol(allTweets)
+</pre>
+</div>
+
+<pre class="example">
+ :: allTweets dataframe matrix portion:
+                000 075 0909 0910 099 100 100m 1085 10min 110 13apple 13th 1415
+character(0)      0   0    0    0   0   0    0    0     0   0       0    0    0
+character(0).1    0   0    0    0   0   0    0    0     0   0       0    0    0
+character(0).2    0   0    0    0   0   0    0    0     0   0       0    0    0
+character(0).3    0   0    0    0   0   0    0    0     0   0       0    0    0
+character(0).4    0   0    0    0   0   0    0    0     1   0       0    0    0
+character(0).5    0   0    0    0   0   0    0    0     0   0       0    0    0
+character(0).6    0   0    0    0   0   0    0    0     0   0       0    0    0
+character(0).7    0   0    0    0   0   0    0    0     0   0       0    0    0
+character(0).8    0   0    0    0   0   0    0    0     0   0       0    0    0
+character(0).9    0   0    0    0   0   0    0    0     0   0       0    0    0
+character(0).10   0   0    0    0   0   0    0    0     0   0       0    0    0
+character(0).11   0   0    0    0   0   0    0    0     0   0       0    0    0
+character(0).12   0   0    0    0   0   0    0    0     0   0       0    0    0
+
+ :: Unique words across all documents:
+[1] 3780
+</pre>
+</div>
+
+<div id="outline-container-sec-3-1-1-1" class="outline-5">
+<h5 id="sec-3-1-1-1"><span class="section-number-5">3.1.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-3-1-1-1">
+<p>
+3780
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+We can complete the pre-processing steps with the following commands:
+</p>
+
+<p>
+<code>library(tm)</code>
+</p>
+
+<p>
+<code>tweets = read.csv("tweets.csv", stringsAsFactors=FALSE)</code>
+</p>
+
+<p>
+<code>corpus = Corpus(VectorSource(tweets$Tweet))</code>
+</p>
+
+<p>
+<code>corpus = tm_map(corpus, tolower)</code>
+</p>
+
+<p>
+<code>corpus = tm_map(corpus, PlainTextDocument)</code>
+</p>
+
+<p>
+<code>corpus = tm_map(corpus, removePunctuation)</code>
+</p>
+
+<p>
+<code>corpus = tm_map(corpus, removeWords, stopwords("english"))</code>
+</p>
+
+<p>
+<code>frequencies = DocumentTermMatrix(corpus)</code>
+</p>
+
+<p>
+<code>allTweets = as.data.frame(as.matrix(frequencies))</code>
+</p>
+
+<p>
+From the commands <code>frequencies</code>, <code>str(allTweets)</code> or
+<code>ncol(allTweets)</code>, we can read that there are \(3780\) unique words across
+all the tweets.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> Problem 1.2 - Preparing the Data (1 point possible)</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+Although we typically stem words during the text preprocessing step,
+we did not do so here.
+</p>
+</div>
+
+<div id="outline-container-sec-3-2-1" class="outline-4">
+<h4 id="sec-3-2-1"><span class="section-number-4">3.2.1</span> Question</h4>
+<div class="outline-text-4" id="text-3-2-1">
+<p>
+What is the most compelling rationale for skipping this step when
+visualizing text data?
+</p>
+</div>
+
+<div id="outline-container-sec-3-2-1-1" class="outline-5">
+<h5 id="sec-3-2-1-1"><span class="section-number-5">3.2.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-3-2-1-1">
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> It avoids the computational burden of stemming
+</li>
+
+<li><code>[X]</code> It will be easier to read and understand the word cloud if it
+includes full words instead of just the word stems
+</li>
+
+<li><code>[&#xa0;]</code> We would not be able to create a word cloud if we stemmed the
+document
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+We want to create an interpretable display of a document's contents,
+and our results will be easier to read if they include full words
+instead of just the stems.
+</p>
+
+<p>
+Stemming has relatively minor computational burden, and we certainly
+could create a word cloud with a stemmed document.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3"><span class="section-number-3">3.3</span> Problem 2.1 - Building a Word Cloud (1 point possible)</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+Install and load the <code>wordcloud</code> package, which is needed to build
+word clouds.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Install new package: wordcloud ..."</span>)
+<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">install.packages('wordcloud', repos='http://cran.rstudio.com/')</span>
+writeLines(<span style="color: #ff6a6a;">"\n :: NOTE: Please comment after install once..."</span>)
+
+<span style="color: #db7093;">library</span>(wordcloud)
+writeLines(<span style="color: #ff6a6a;">"\n :: Library wordcloud loaded..."</span>)
+</pre>
+</div>
+
+<pre class="example">
+:: Install new package: wordcloud ...
+
+:: NOTE: Please comment after install once...
+
+:: Library wordcloud loaded...
+</pre>
+
+<p>
+As we can read from <code>?wordcloud</code>, we will need to provide the function
+with a vector of words and a vector of word frequencies. Which
+function can we apply to <code>allTweets</code> to get a vector of the words in our
+dataset, which we'll pass as the first argument to <code>wordcloud()</code>?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: We can pass the column names:"</span>)
+head(colnames(allTweets), 50)
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Is the same as passing the names of the features:"</span>)
+head(names(allTweets), 50)
+</pre>
+</div>
+
+<pre class="example">
+ :: We can pass the column names:
+ [1] "000"           "075"           "0909"          "0910"
+ [5] "099"           "100"           "100m"          "1085"
+ [9] "10min"         "110"           "13apple"       "13th"
+[13] "1415"          "16gb"          "16gbs"         "180"
+[17] "18092013"      "18th"          "199"           "1am"
+[21] "1jazzyjeff"    "1st"           "200"           "2000ad"
+[25] "2001"          "2002"          "2004"          "2005"
+[29] "2011with"      "2013"          "2014"          "20th"
+[33] "211"           "21st"          "22000"         "22nd"
+[37] "244tsuyoponzu" "2nd"           "2shaneez"      "2week"
+[41] "300"           "30aud"         "30mins"        "320k"
+[45] "350"           "3gs"           "3rd"           "3yr"
+[49] "40000"         "40k"
+
+ :: Is the same as passing the names of the features:
+ [1] "000"           "075"           "0909"          "0910"
+ [5] "099"           "100"           "100m"          "1085"
+ [9] "10min"         "110"           "13apple"       "13th"
+[13] "1415"          "16gb"          "16gbs"         "180"
+[17] "18092013"      "18th"          "199"           "1am"
+[21] "1jazzyjeff"    "1st"           "200"           "2000ad"
+[25] "2001"          "2002"          "2004"          "2005"
+[29] "2011with"      "2013"          "2014"          "20th"
+[33] "211"           "21st"          "22000"         "22nd"
+[37] "244tsuyoponzu" "2nd"           "2shaneez"      "2week"
+[41] "300"           "30aud"         "30mins"        "320k"
+[45] "350"           "3gs"           "3rd"           "3yr"
+[49] "40000"         "40k"
+</pre>
+</div>
+
+<div id="outline-container-sec-3-3-1" class="outline-4">
+<h4 id="sec-3-3-1"><span class="section-number-4">3.3.1</span> Answer</h4>
+<div class="outline-text-4" id="text-3-3-1">
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> str
+</li>
+<li><code>[&#xa0;]</code> rownames
+</li>
+<li><code>[X]</code> colnames
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+Each tweet represents a row of <code>allTweets</code>, and each word represents a
+column. We need the names of all the columns of <code>allTweets</code>, which is
+returned by <code>colnames(allTweets)</code>. While <code>str(allTweets)</code> displays the
+names of the variables along with other information, it doesn't return
+a vector that we can use as the first argument to <code>wordcloud()</code>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-4" class="outline-3">
+<h3 id="sec-3-4"><span class="section-number-3">3.4</span> Problem 2.2 - Building a Word Cloud (1 point possible)</h3>
+<div class="outline-text-3" id="text-3-4">
+<p>
+Which function should we apply to <code>allTweets</code> to obtain the frequency of
+each word across all tweets?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">head(colSums(allTweets), 50)
+</pre>
+</div>
+
+<pre class="example">
+       000           075          0909          0910           099
+         1             3             1             1             1
+       100          100m          1085         10min           110
+         2             1             3             1             1
+   13apple          13th          1415          16gb         16gbs
+         1             1             1             1             1
+       180      18092013          18th           199           1am
+         1             1             2             3             1
+1jazzyjeff           1st           200        2000ad          2001
+         1             1             2             1             1
+      2002          2004          2005      2011with          2013
+         1             1             2             1             4
+      2014          20th           211          21st         22000
+         3             4             1             1             1
+      22nd 244tsuyoponzu           2nd      2shaneez         2week
+         1             6             2             1             1
+       300         30aud        30mins          320k           350
+         2             1             1             1             1
+       3gs           3rd           3yr         40000           40k
+         1             1             1             1             1
+</pre>
+</div>
+
+<div id="outline-container-sec-3-4-1" class="outline-4">
+<h4 id="sec-3-4-1"><span class="section-number-4">3.4.1</span> Answer</h4>
+<div class="outline-text-4" id="text-3-4-1">
+<ul class="org-ul">
+<li><code>[X]</code> colSums
+</li>
+<li><code>[&#xa0;]</code> rowSums
+</li>
+<li><code>[&#xa0;]</code> sum
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+Each tweet represents a row in <code>allTweets</code>, and each word represents a
+column. Therefore, we need to access the sums of each column in
+<code>allTweets</code>, which is returned by <code>colSums(allTweets)</code>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-5" class="outline-3">
+<h3 id="sec-3-5"><span class="section-number-3">3.5</span> Problem 2.3 - Building a Word Cloud (1 point possible)</h3>
+<div class="outline-text-3" id="text-3-5">
+<p>
+Use <code>allTweets</code> to build a word cloud. Make sure to check out the help
+page for <code>wordcloud</code> if you are not sure how to do this.
+</p>
+
+<p>
+Because we are plotting a large number of words, you might get
+warnings that some of the words could not be fit on the page and were
+therefore not plotted &#x2013; this is especially likely if you are using a
+smaller screen.
+</p>
+
+<p>
+You can address these warnings by plotting the words smaller. From
+<code>?wordcloud</code>, we can see that the <code>scale</code> parameter controls the sizes
+of the plotted words. By default, the sizes range from 4 for the most
+frequent words to 0.5 for the least frequent, as denoted by the
+parameter <code>scale=c(4, 0.5)</code>. We could obtain a much smaller plot with,
+for instance, parameter <code>scale=c(2, 0.25)</code>.
+</p>
+
+
+<div id="fig:AppleTweetsWordCloud" class="figure">
+<p><img src="../graphs/AppleTweetsWordCloud.png" alt="AppleTweetsWordCloud.png" />
+</p>
+<p><span class="figure-number">Figure 20:</span> Apple tweets wordcloud v1</p>
+</div>
+
+<p>
+What is the most common word across all the tweets (it will be the
+largest in the outputted word cloud)? Please type the word exactly how
+you see it in the word cloud. The most frequent word might not be
+printed if you got a warning about words being cut off &#x2013; if this
+happened, be sure to follow the instructions in the paragraph above.
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+We can output the word cloud with:
+</p>
+
+<p>
+<code>wordcloud(colnames(allTweets), colSums(allTweets))</code>
+</p>
+
+<p>
+For smaller words, we could have used:
+</p>
+
+<p>
+<code>wordcloud(colnames(allTweets), colSums(allTweets), scale=c(2, .25))</code>
+</p>
+
+<p>
+<b>apple</b> is by far the largest, and therefore most common, word.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-6" class="outline-3">
+<h3 id="sec-3-6"><span class="section-number-3">3.6</span> Problem 2.4 - Building a Word Cloud (1 point possible)</h3>
+<div class="outline-text-3" id="text-3-6">
+<p>
+In the previous subproblem, we noted that there is one word with a
+much higher frequency than the other words. Repeat the steps to load
+and pre-process the corpus, this time removing the most frequent word
+in addition to all elements of stopwords("english") in the call to
+tm_map with removeWords. For a refresher on how to remove this
+additional word, see the Twitter text analytics lecture.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: 1) Create a corpus using the Tweet variable..."</span>)
+corpus <span style="color: #db7093;">&lt;-</span> Corpus(VectorSource(tweets$Tweet))
+
+writeLines(<span style="color: #ff6a6a;">"\n :: 2) Convert the corpus to lowercase..."</span>)
+corpus <span style="color: #db7093;">&lt;-</span> tm_map(corpus, tolower)
+corpus <span style="color: #db7093;">&lt;-</span> tm_map(corpus, PlainTextDocument)
+
+writeLines(<span style="color: #ff6a6a;">"\n :: 3) Remove punctuation from the corpus..."</span>)
+corpus <span style="color: #db7093;">&lt;-</span> tm_map(corpus, removePunctuation)
+
+writeLines(<span style="color: #ff6a6a;">"\n :: 4) Remove all English-language stopwords..."</span>)
+corpus <span style="color: #db7093;">&lt;-</span> tm_map(corpus, removeWords, c(<span style="color: #ff6a6a;">"apple"</span>, stopwords(<span style="color: #ff6a6a;">"english"</span>)))
+
+writeLines(<span style="color: #ff6a6a;">"\n :: 5) Build a document-term matrix out of the corpus..."</span>)
+DocTermMatrix <span style="color: #db7093;">&lt;-</span> DocumentTermMatrix(corpus)
+
+writeLines(<span style="color: #ff6a6a;">"\n :: 6) Convert the document-term matrix to a data frame called allTweets..."</span>)
+allTweets <span style="color: #db7093;">&lt;-</span> as.data.frame(as.matrix(DocTermMatrix))
+</pre>
+</div>
+
+<pre class="example">
+quartz_off_screen
+               2
+
+:: 1) Create a corpus using the Tweet variable...
+
+:: 2) Convert the corpus to lowercase...
+
+:: 3) Remove punctuation from the corpus...
+
+:: 4) Remove all English-language stopwords...
+
+:: 5) Build a document-term matrix out of the corpus...
+
+:: 6) Convert the document-term matrix to a data frame called allTweets...
+</pre>
+
+<p>
+Replace allTweets with the document-term matrix of this new corpus &#x2013;
+we will use this updated corpus for the remainder of the assignment.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">DocTermMatrix <span style="color: #db7093;">&lt;-</span> DocumentTermMatrix(corpus)
+allTweets <span style="color: #db7093;">&lt;-</span> as.data.frame(as.matrix(DocTermMatrix))
+</pre>
+</div>
+
+<p>
+Create a word cloud with the updated corpus. What is the most common
+word in this new corpus (the largest word in the outputted word
+cloud)? The most frequent word might not be printed if you got a
+warning about words being cut off &#x2013; if this happened, be sure to
+follow the instructions in the previous problem.
+</p>
+
+
+<div id="fig:AppleTweetsWordcloud02" class="figure">
+<p><img src="../graphs/AppleTweetsWordcloud02.png" alt="AppleTweetsWordcloud02.png" />
+</p>
+<p><span class="figure-number">Figure 21:</span> Apple tweets wordcloud v2</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-6-1" class="outline-4">
+<h4 id="sec-3-6-1"><span class="section-number-4">3.6.1</span> Answer</h4>
+<div class="outline-text-4" id="text-3-6-1">
+<p>
+<b>iphone</b>
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+We can do the specified update with the following commands:
+</p>
+
+<p>
+<code>tweets = read.csv("tweets.csv", stringsAsFactors=FALSE)</code>
+</p>
+
+<p>
+<code>corpus = Corpus(VectorSource(tweets$Tweet))</code>
+</p>
+
+<p>
+<code>corpus = tm_map(corpus, tolower)</code>
+</p>
+
+<p>
+<code>corpus = tm_map(corpus, removePunctuation)</code>
+</p>
+
+<p>
+<code>corpus = tm_map(corpus, removeWords, c("apple", stopwords("english")))</code>
+</p>
+
+<p>
+<code>frequencies = DocumentTermMatrix(corpus)</code>
+</p>
+
+<p>
+<code>allTweets = as.data.frame(as.matrix(frequencies))</code>
+</p>
+
+<p>
+<code>wordcloud(colnames(allTweets), colSums(allTweets))</code>
+</p>
+
+<p>
+For a much smaller plot, we could have used:
+</p>
+
+<p>
+<code>wordcloud(colnames(allTweets), colSums(allTweets), scale=c(2, 0.25))</code>
+</p>
+
+<p>
+The most common (largest) word is now <b>iphone</b>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-7" class="outline-3">
+<h3 id="sec-3-7"><span class="section-number-3">3.7</span> Problem 3 - Size and Color</h3>
+<div class="outline-text-3" id="text-3-7">
+<p>
+So far, the word clouds we've built have not been too visually
+appealing &#x2013; they are crowded by having too many words displayed, and
+they don't take advantage of color. One important step to building
+visually appealing visualizations is to experiment with the parameters
+available, which in this case can be viewed by typing <code>?wordcloud</code> in
+your R console. In this problem, you should look through the help page
+and experiment with different parameters to answer the questions.
+</p>
+
+<p>
+Below are four word clouds, each of which uses different parameter
+settings in the call to the <code>wordcloud()</code> function:
+</p>
+
+<p>
+<b>Word Cloud A</b>:
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/wordcloudA.png" alt="wordcloudA.png" />
+</p>
+</div>
+
+<p>
+<b>Word Cloud B</b>:
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/wordcloudB.png" alt="wordcloudB.png" />
+</p>
+</div>
+
+<p>
+<b>Word Cloud C</b>:
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/wordcloudC.png" alt="wordcloudC.png" />
+</p>
+</div>
+
+<p>
+<b>Word Cloud D</b>:
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/wordcloudD.png" alt="wordcloudD.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-8" class="outline-3">
+<h3 id="sec-3-8"><span class="section-number-3">3.8</span> Problem 3.1 - Size and Color (1 point possible)</h3>
+<div class="outline-text-3" id="text-3-8">
+</div><div id="outline-container-sec-3-8-1" class="outline-4">
+<h4 id="sec-3-8-1"><span class="section-number-4">3.8.1</span> Question</h4>
+<div class="outline-text-4" id="text-3-8-1">
+<p>
+Which word cloud is based only on the negative tweets (tweets with Avg
+value -1 or less)?
+</p>
+
+
+<div id="fig:AppleTweetsWordcloud03" class="figure">
+<p><img src="../graphs/AppleTweetsWordcloud03.png" alt="AppleTweetsWordcloud03.png" />
+</p>
+<p><span class="figure-number">Figure 26:</span> Apple tweets wordcloud v3</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-8-1-1" class="outline-5">
+<h5 id="sec-3-8-1-1"><span class="section-number-5">3.8.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-3-8-1-1">
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> Word Cloud A
+</li>
+<li><code>[&#xa0;]</code> Word Cloud B
+</li>
+<li><code>[X]</code> Word Cloud C
+</li>
+<li><code>[&#xa0;]</code> Word Cloud D
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+Word Cloud C is the only one with a different distribution of the most
+frequent words &#x2013; negative words (or censored versions of negative
+words) are much more common in this cloud.
+</p>
+
+<p>
+It is quite simple to obtain a word cloud that is limited to a subset
+of the tweets using the subset function:
+</p>
+
+<p>
+<code>negativeTweets = subset(allTweets, tweets$Avg &lt;= -1)</code>
+</p>
+
+<p>
+<code>wordcloud(colnames(negativeTweets), colSums(negativeTweets))</code>
+</p>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3-9" class="outline-3">
+<h3 id="sec-3-9"><span class="section-number-3">3.9</span> Problem 3.2 - Size and Color (1 point possible)</h3>
+<div class="outline-text-3" id="text-3-9">
+</div><div id="outline-container-sec-3-9-1" class="outline-4">
+<h4 id="sec-3-9-1"><span class="section-number-4">3.9.1</span> Question</h4>
+<div class="outline-text-4" id="text-3-9-1">
+
+<div id="fig:AppleTweetsWordcloud04" class="figure">
+<p><img src="../graphs/AppleTweetsWordcloud04.png" alt="AppleTweetsWordcloud04.png" />
+</p>
+<p><span class="figure-number">Figure 27:</span> Apple tweets wordcloud v4</p>
+</div>
+
+<p>
+Only one word cloud was created without modifying parameters min.freq
+or max.words. Which word cloud is this?
+</p>
+</div>
+
+<div id="outline-container-sec-3-9-1-1" class="outline-5">
+<h5 id="sec-3-9-1-1"><span class="section-number-5">3.9.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-3-9-1-1">
+<ul class="org-ul">
+<li><code>[X]</code> Word Cloud A
+</li>
+<li><code>[&#xa0;]</code> Word Cloud B
+</li>
+<li><code>[&#xa0;]</code> Word Cloud C
+</li>
+<li><code>[&#xa0;]</code> Word Cloud D
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+<code>min.freq</code> and <code>max.words</code> are parameters that can be used to remove
+the least frequent words, resulting is a less cluttered word
+cloud. Word Cloud A is much more cluttered than the others because it
+did not use either of these parameters, and therefore is displaying
+every word that appears more than 3 times.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-10" class="outline-3">
+<h3 id="sec-3-10"><span class="section-number-3">3.10</span> Problem 3.3 - Size and Color (1 point possible)</h3>
+<div class="outline-text-3" id="text-3-10">
+</div><div id="outline-container-sec-3-10-1" class="outline-4">
+<h4 id="sec-3-10-1"><span class="section-number-4">3.10.1</span> Question</h4>
+<div class="outline-text-4" id="text-3-10-1">
+
+<div id="fig:AppleTweetsWordcloud05" class="figure">
+<p><img src="../graphs/AppleTweetsWordcloud05.png" alt="AppleTweetsWordcloud05.png" />
+</p>
+<p><span class="figure-number">Figure 28:</span> Apple tweets wordcloud v5</p>
+</div>
+
+<p>
+Which word clouds were created with parameter <code>random.order</code> set to
+<code>FALSE</code>?
+</p>
+</div>
+
+<div id="outline-container-sec-3-10-1-1" class="outline-5">
+<h5 id="sec-3-10-1-1"><span class="section-number-5">3.10.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-3-10-1-1">
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> Word Cloud A
+</li>
+<li><code>[X]</code> Word Cloud B
+</li>
+<li><code>[&#xa0;]</code> Word Cloud C
+</li>
+<li><code>[X]</code> Word Cloud D
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+If <code>random.order</code> is set to <code>FALSE</code>, then the most frequent (largest)
+words will be plotted first, resulting in them being displayed
+together in the center of the word cloud. This is the case in Word
+Cloud B and Word Cloud D.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-11" class="outline-3">
+<h3 id="sec-3-11"><span class="section-number-3">3.11</span> Problem 3.4 - Size and Color (1 point possible)</h3>
+<div class="outline-text-3" id="text-3-11">
+</div><div id="outline-container-sec-3-11-1" class="outline-4">
+<h4 id="sec-3-11-1"><span class="section-number-4">3.11.1</span> Question</h4>
+<div class="outline-text-4" id="text-3-11-1">
+
+<div id="fig:AppleTweetsWordcloud06" class="figure">
+<p><img src="../graphs/AppleTweetsWordcloud06.png" alt="AppleTweetsWordcloud06.png" />
+</p>
+<p><span class="figure-number">Figure 29:</span> Apple tweets wordcloud v6</p>
+</div>
+
+<p>
+Which word cloud was built with a non-default value for parameter
+<code>rot.per</code>?
+</p>
+</div>
+
+<div id="outline-container-sec-3-11-1-1" class="outline-5">
+<h5 id="sec-3-11-1-1"><span class="section-number-5">3.11.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-3-11-1-1">
+<ul class="org-ul">
+<li><code>[X]</code> Word Cloud A
+</li>
+<li><code>[&#xa0;]</code> Word Cloud B
+</li>
+<li><code>[&#xa0;]</code> Word Cloud C
+</li>
+<li><code>[&#xa0;]</code> Word Cloud D
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+<code>rot.per</code> controls the proportion of words that are rotated to be
+vertical in the word cloud. By default \(10\%\) of words are
+rotated. However in Word Cloud A a much higher proportion (\(50\%\)) are
+rotated, which was achieved by setting <code>rot.per=0.5</code>.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-12" class="outline-3">
+<h3 id="sec-3-12"><span class="section-number-3">3.12</span> Problem 3.5 - Size and Color (1 point possible)</h3>
+<div class="outline-text-3" id="text-3-12">
+</div><div id="outline-container-sec-3-12-1" class="outline-4">
+<h4 id="sec-3-12-1"><span class="section-number-4">3.12.1</span> Question</h4>
+<div class="outline-text-4" id="text-3-12-1">
+
+<div id="fig:AppleTweetsWordcloud07" class="figure">
+<p><img src="../graphs/AppleTweetsWordcloud07.png" alt="AppleTweetsWordcloud07.png" />
+</p>
+<p><span class="figure-number">Figure 30:</span> Apple tweets wordcloud v7</p>
+</div>
+
+<p>
+In Word Cloud C and Word Cloud D, we provided a color palette ranging
+from light purple to dark purple as the parameter colors (you will
+learn how to make such a color palette later in this assignment). For
+which word cloud was the parameter <code>random.color</code> set to <code>TRUE</code>?
+</p>
+</div>
+
+<div id="outline-container-sec-3-12-1-1" class="outline-5">
+<h5 id="sec-3-12-1-1"><span class="section-number-5">3.12.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-3-12-1-1">
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> Word Cloud C
+</li>
+<li><code>[X]</code> Word Cloud D
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+When <code>random.color</code> is set to <code>TRUE</code>, the words will be colored
+randomly. This is the case in Word Cloud D. Meanwhile, colors were
+assigned based on the number of appearances in Word Cloud C.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-13" class="outline-3">
+<h3 id="sec-3-13"><span class="section-number-3">3.13</span> Problem 4.1 - Selecting a Color Palette (1 point possible)</h3>
+<div class="outline-text-3" id="text-3-13">
+<p>
+The use of a palette of colors can often improve the overall effect of
+a visualization. We can easily select our own colors when plotting;
+for instance, we could pass <code>c("red", "green", "blue")</code> as the colors
+parameter to <code>wordcloud()</code>. The <code>RColorBrewer</code> package, which is based on
+the <code>ColorBrewer</code> project (<code>colorbrewer.org</code>), provides pre-selected
+palettes that can lead to more visually appealing images. Though these
+palettes are designed specifically for coloring maps, we can also use
+them in our word clouds and other visualizations.
+</p>
+
+<p>
+Begin by installing and loading the <code>RColorBrewer</code> package. This
+package may have already been installed and loaded when you installed
+and loaded the <code>wordcloud</code> package, in which case you don't need to go
+through this additional installation step. If you obtain errors (for
+instance, <code>Error: lazy-load database 'P' is corrupt</code>) after installing
+and loading the <code>RColorBrewer</code> package and running some of the commands,
+try closing and re-opening R.
+</p>
+
+<p>
+The function <code>brewer.pal()</code> returns color palettes from the <code>ColorBrewer</code>
+project when provided with appropriate parameters, and the function
+<code>display.brewer.all()</code> displays the palettes we can choose from.
+</p>
+
+
+<div id="fig:ColorBrewerPalette" class="figure">
+<p><img src="../graphs/ColorBrewerPalette.png" alt="ColorBrewerPalette.png" />
+</p>
+<p><span class="figure-number">Figure 31:</span> ColorBrewer package palette</p>
+</div>
+
+<p>
+Which color palette would be most appropriate for use in a word cloud
+for which we want to use color to indicate word frequency?
+</p>
+</div>
+
+<div id="outline-container-sec-3-13-1" class="outline-4">
+<h4 id="sec-3-13-1"><span class="section-number-4">3.13.1</span> Answer</h4>
+<div class="outline-text-4" id="text-3-13-1">
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> Accent
+</li>
+<li><code>[&#xa0;]</code> Set2
+</li>
+<li><code>[X]</code> YlOrRd
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+From <code>?brewer.pal</code> we read that <code>Accent</code> and <code>Set2</code> are both
+<b>qualitative palettes</b>, which means color changes don't imply a change
+in magnitude (we can also see this in the output of
+<code>display.brewer.all()</code>). As a result, the colors selected would not
+visually identify the least and most frequent words.
+</p>
+
+<p>
+On the other hand, <code>YlOrRd</code> is a <b>sequential palette</b>, with earlier
+colors begin lighter and later colors being darker. Therefore, it is a
+good palette choice for indicating low-frequency vs. high-frequency
+words.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-14" class="outline-3">
+<h3 id="sec-3-14"><span class="section-number-3">3.14</span> Problem 4.2 - Selecting a Color Palette (1 point possible)</h3>
+<div class="outline-text-3" id="text-3-14">
+</div><div id="outline-container-sec-3-14-1" class="outline-4">
+<h4 id="sec-3-14-1"><span class="section-number-4">3.14.1</span> Question</h4>
+<div class="outline-text-4" id="text-3-14-1">
+<p>
+Which <code>RColorBrewer</code> palette name would be most appropriate to use when
+preparing an image for a document that must be in grayscale?
+</p>
+</div>
+
+<div id="outline-container-sec-3-14-1-1" class="outline-5">
+<h5 id="sec-3-14-1-1"><span class="section-number-5">3.14.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-3-14-1-1">
+<p>
+<b>Greys</b>
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+As we can see from display.brewer.all(), palette "Greys" is the only
+one completely in grayscale.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-15" class="outline-3">
+<h3 id="sec-3-15"><span class="section-number-3">3.15</span> Problem 4.3 - Selecting a Color Palette (1 point possible)</h3>
+<div class="outline-text-3" id="text-3-15">
+<p>
+In sequential palettes, sometimes there is an undesirably large
+contrast between the lightest and darkest colors. You can see this
+effect when plotting a word cloud for <code>allTweets</code> with parameter
+<code>colors=brewer.pal(9, "Blues")</code>, which returns a sequential blue palette
+with 9 colors.
+</p>
+
+
+<div id="fig:AppleTweetsWordcloud08" class="figure">
+<p><img src="../graphs/AppleTweetsWordcloud08.png" alt="AppleTweetsWordcloud08.png" />
+</p>
+<p><span class="figure-number">Figure 32:</span> Apple tweets wordcloud palette</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-15-1" class="outline-4">
+<h4 id="sec-3-15-1"><span class="section-number-4">3.15.1</span> Question</h4>
+<div class="outline-text-4" id="text-3-15-1">
+
+<div id="fig:AppleTweetsWordcloud09" class="figure">
+<p><img src="../graphs/AppleTweetsWordcloud09.png" alt="AppleTweetsWordcloud09.png" />
+</p>
+<p><span class="figure-number">Figure 33:</span> Better palette for our wordcloud</p>
+</div>
+
+<p>
+Which of the following commands addresses this issue by removing the
+first 4 elements of the 9-color palette of blue colors? Select all
+that apply.
+</p>
+</div>
+
+<div id="outline-container-sec-3-15-1-1" class="outline-5">
+<h5 id="sec-3-15-1-1"><span class="section-number-5">3.15.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-3-15-1-1">
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> <code>brewer.pal(9, "Blues")[c(-5, -6, -7, -8, -9)]</code>
+</li>
+<li><code>[X]</code> <code>brewer.pal(9, "Blues")[c(-1, -2, -3, -4)]</code>
+</li>
+<li><code>[&#xa0;]</code> <code>brewer.pal(9, "Blues")[c(1, 2, 3, 4)]</code>
+</li>
+<li><code>[X]</code> <code>brewer.pal(9, "Blues")[c(5, 6, 7, 8, 9)]</code>
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+The fourth option limits to elements 5-9, which removes the first
+four. The second option uses negative indexes, which means remove
+elements 1-4. The first and third options actually keep colors 1-4,
+discarding the rest.
+</p>
+
+<p>
+A shorthand for this indexing is:
+</p>
+
+<p>
+<code>brewer.pal(9, "Blues")[-1:-4]</code>
+</p>
+
+<p>
+<code>brewer.pal(9, "Blues")[5:9]</code>
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
 <p class="date">Date: 24/07/2015</p>
 <p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
-<p class="date">Created: 2015-07-25 Sat 18:59</p>
+<p class="date">Created: 2015-07-26 Sun 10:58</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
