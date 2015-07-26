@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Assignment 7. Visualization</title>
-<!-- 2015-07-25 Sat 08:29 -->
+<!-- 2015-07-25 Sat 18:59 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Sergio-Feliciano Mendoza-Barrera" />
@@ -209,6 +209,21 @@ for the JavaScript code in this tag.
 <li><a href="#sec-1-12">1.12. Problem 4.2 - Parameter Settings (1 point possible)</a></li>
 </ul>
 </li>
+<li><a href="#sec-2">2. Visualizing Network Data</a>
+<ul>
+<li><a href="#sec-2-1">2.1. Problem 1.1 - Summarizing the Data (2 points possible)</a></li>
+<li><a href="#sec-2-2">2.2. Problem 1.2 - Summarizing the Data (1 point possible)</a></li>
+<li><a href="#sec-2-3">2.3. Problem 1.3 - Summarizing the Data (1 point possible)</a></li>
+<li><a href="#sec-2-4">2.4. Problem 2.1 - Creating a Network (1 point possible)</a></li>
+<li><a href="#sec-2-5">2.5. Problem 2.2 - Creating a Network (2 points possible)</a></li>
+<li><a href="#sec-2-6">2.6. Problem 2.3 - Creating a Network (1 point possible)</a></li>
+<li><a href="#sec-2-7">2.7. Problem 2.4 - Creating a Network (2 points possible)</a></li>
+<li><a href="#sec-2-8">2.8. Problem 3.1 - Coloring Vertices (1 point possible)</a></li>
+<li><a href="#sec-2-9">2.9. Problem 3.2 - Coloring Vertices (2 points possible)</a></li>
+<li><a href="#sec-2-10">2.10. Problem 3.3 - Coloring Vertices (2 points possible)</a></li>
+<li><a href="#sec-2-11">2.11. Problem 4 - Other Plotting Options (2 points possible)</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -255,9 +270,7 @@ using the <code>install.packages</code> function.
 </div>
 
 <pre class="example">
- :: Loading the necessary libraries...
-Google Maps API Terms of Service: http://developers.google.com/maps/terms.
-Please cite ggmap if you use it: see citation('ggmap') for details.
+:: Loading the necessary libraries...
 </pre>
 
 <p>
@@ -1385,11 +1398,1185 @@ color. A smaller value of alpha will make the colors lighter.
 </div>
 </div>
 </div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Visualizing Network Data</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+The cliche goes that the world is an increasingly interconnected
+place, and the connections between different entities are often best
+represented with a graph. Graphs are comprised of vertices (also often
+called "nodes") and edges connecting those nodes. In this assignment,
+we will learn how to visualize networks using the <code>igraph</code> package in
+R.
+</p>
+
+<p>
+For this assignment, we will visualize social networking data using
+anonymized data from Facebook; this data was originally curated in a
+<a href="http://i.stanford.edu/~julian/pdfs/nips2012.pdf">recent paper</a> about computing social circles in social networks. In our
+visualizations, the vertices in our network will represent Facebook
+users and the edges will represent these users being Facebook friends
+with each other.
+</p>
+
+<p>
+The first file we will use, <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/edges.csv">edges.csv</a>, contains variables <code>V1</code> and <code>V2</code>,
+which label the endpoints of edges in our network. Each row represents
+a pair of users in our graph who are Facebook friends. For a pair of
+friends A and B, <code>edges.csv</code> will only contain a single row &#x2013; the
+smaller identifier will be listed first in this row. From this row, we
+will know that A is friends with B and B is friends with A.
+</p>
+
+<p>
+The second file, <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/users.csv">users.csv</a>, contains information about the Facebook
+users, who are the vertexes in our network. This file contains the
+following variables:
+</p>
+
+<ul class="org-ul">
+<li><b>id</b>: A unique identifier for this user; this is the value that
+appears in the rows of <code>edges.csv</code>
+</li>
+
+<li><b>gender</b>: An identifier for the gender of a user taking the values A
+and B. Because the data is anonymized, we don't know which value
+refers to males and which value refers to females.
+</li>
+
+<li><b>school</b>: An identifier for the school the user attended taking the
+values A and AB (users with AB attended school A as well as another
+school B). Because the data is anonymized, we don't know the schools
+represented by A and B.
+</li>
+
+<li><b>locale</b>: An identifier for the locale of the user taking the values
+A and B. Because the data is anonymized, we don't know which value
+refers to what locale.
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="src src-R"><span style="color: #db7093;">library</span>(parallel)
+
+<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #ff6a6a;">"../data"</span>)) {
+        dir.create(<span style="color: #ff6a6a;">"../data"</span>)
+}
+
+fileUrl <span style="color: #db7093;">&lt;-</span>
+        c(<span style="color: #ff6a6a;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/edges.csv"</span>,
+        <span style="color: #ff6a6a;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/users.csv"</span>)
+
+fileName <span style="color: #db7093;">&lt;-</span> c(<span style="color: #ff6a6a;">"edges.csv"</span>, <span style="color: #ff6a6a;">"users.csv"</span>)
+dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"../data"</span>
+
+<span style="color: #4682b4;">for</span>(i <span style="color: #4682b4;">in</span> 1:2) {
+        filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName[i], sep = <span style="color: #ff6a6a;">"/"</span>)
+
+        <span style="color: #4682b4;">if</span>(!file.exists(filePath)) {
+                download.file(fileUrl[i], destfile = filePath, method = <span style="color: #ff6a6a;">"curl"</span>)
+        }
+}
+writeLines(<span style="color: #ff6a6a;">"\n :: Files downloaded..."</span>)
+</pre>
+</div>
+
+<pre class="example">
+:: Files downloaded...
+</pre>
+</div>
+
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> Problem 1.1 - Summarizing the Data (2 points possible)</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+Load the data from <code>edges.csv</code> into a data frame called <code>edges</code>, and load
+the data from <code>users.csv</code> into a data frame called <code>users</code>.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Loading the data sets in dataframes..."</span>)
+edges <span style="color: #db7093;">&lt;-</span> read.csv(<span style="color: #ff6a6a;">"../data/edges.csv"</span>, na.strings = <span style="color: #ff6a6a;">""</span>)
+users <span style="color: #db7093;">&lt;-</span> read.csv(<span style="color: #ff6a6a;">"../data/users.csv"</span>, na.strings = <span style="color: #ff6a6a;">""</span>)
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Revising the edges dataframe structure:"</span>)
+str(edges)
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Revising the users dataframe structure:"</span>)
+str(users)
+</pre>
+</div>
+
+<pre class="example">
+ :: Loading the data sets in dataframes...
+
+ :: Revising the edges dataframe structure:
+'data.frame':	146 obs. of  2 variables:
+ $ V1: int  4019 4023 4023 4027 3988 3982 3994 3998 3993 3982 ...
+ $ V2: int  4026 4031 4030 4032 4021 3986 3998 3999 3995 4021 ...
+
+ :: Revising the users dataframe structure:
+'data.frame':	59 obs. of  4 variables:
+ $ id    : int  3981 3982 3983 3984 3985 3986 3987 3988 3989 3990 ...
+ $ gender: Factor w/ 2 levels "A","B": 1 2 2 2 2 2 1 2 2 1 ...
+ $ school: Factor w/ 2 levels "A","AB": 1 NA NA NA NA 1 NA NA 1 NA ...
+ $ locale: Factor w/ 2 levels "A","B": 2 2 2 2 2 2 1 2 2 1 ...
+</pre>
+</div>
+
+<div id="outline-container-sec-2-1-1" class="outline-4">
+<h4 id="sec-2-1-1"><span class="section-number-4">2.1.1</span> Question a</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<p>
+How many Facebook users are there in our dataset?
+</p>
+</div>
+
+<div id="outline-container-sec-2-1-1-1" class="outline-5">
+<h5 id="sec-2-1-1-1"><span class="section-number-5">2.1.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-2-1-1-1">
+<p>
+<b>59</b>
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+From <code>str(users)</code> or <code>nrow(users)</code>, we see that there are 59 Facebook
+users in this dataset.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-1-2" class="outline-4">
+<h4 id="sec-2-1-2"><span class="section-number-4">2.1.2</span> Question b</h4>
+<div class="outline-text-4" id="text-2-1-2">
+<p>
+In our dataset, what is the average number of friends per user? Hint:
+this question is tricky, and it might help to start by thinking about
+a small example with two users who are friends.
+</p>
+</div>
+
+<div id="outline-container-sec-2-1-2-1" class="outline-5">
+<h5 id="sec-2-1-2-1"><span class="section-number-5">2.1.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-2-1-2-1">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Number of frienship relationships:"</span>)
+nrow(edges)
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Number of users:"</span>)
+nrow(users)
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Average number of friends per user:"</span>)
+(2 * nrow(edges)) / nrow(users)
+</pre>
+</div>
+
+<pre class="example">
+ :: Number of frienship relationships:
+[1] 146
+
+ :: Number of users:
+[1] 59
+
+ :: Average number of friends per user:
+[1] 4.949153
+</pre>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+From <code>str(edges)</code> or <code>nrow(edges)</code>, we see that there are $146 pairs
+of users in our dataset who are Facebook friends. However, each pair
+\((A, B)\) must be counted twice, because \(B\) is a friend of \(A\) and \(A\)
+is a friend of \(B\). To think of this in simpler terms, consider a
+network with just new people, \(A\) and \(B\), and a single edge \((A,
+B)\). Even though there are two vertexes and one edge, each user has on
+average one friend.
+</p>
+
+<p>
+For our network, the average number of friends per user is
+</p>
+
+<p>
+$$
+\frac{292}{59} = 4.95
+$$
+</p>
+
+<p>
+Finally, note that in all likelihood these users have a much higher
+number of Facebook friends. We are computing here the average number
+of people in this dataset who are their friends, instead of the
+average total number of Facebook friends.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> Problem 1.2 - Summarizing the Data (1 point possible)</h3>
+<div class="outline-text-3" id="text-2-2">
+</div><div id="outline-container-sec-2-2-1" class="outline-4">
+<h4 id="sec-2-2-1"><span class="section-number-4">2.2.1</span> Question</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<p>
+Out of all the students who listed a school, what was the most common
+locale?
+</p>
+</div>
+
+<div id="outline-container-sec-2-2-1-1" class="outline-5">
+<h5 id="sec-2-2-1-1"><span class="section-number-5">2.2.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-2-2-1-1">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: the most common locale for students who listed a school:"</span>)
+subset(users, users$school == <span style="color: #ff6a6a;">"A"</span> | users$school == <span style="color: #ff6a6a;">"AB"</span>)
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Other way to answer:"</span>)
+table(users$locale, users$school)
+</pre>
+</div>
+
+<pre class="example">
+ :: the most common locale for students who listed a school:
+     id gender school locale
+1  3981      A      A      B
+6  3986      B      A      B
+9  3989      B      A      B
+11 3991      B      A      B
+12 3992      A      A      B
+16  594      B      A      B
+20 3999      B     AB      B
+23 4002      B      A      B
+26 4005      B      A      B
+31 4010      B      A      B
+39 4018      A      A      B
+40 4019      B      A      B
+41 4020   &lt;NA&gt;      A      B
+42 4021      B      A      B
+44 4023      B      A      B
+49 4028      B      A      B
+52 4031      B      A      B
+55 4034      B      A      B
+57 4036      A     AB      B
+
+ :: Other way to answer:
+
+     A AB
+  A  0  0
+  B 17  2
+</pre>
+
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> Locale A
+</li>
+<li><code>[X]</code> Locale B
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+From <code>table(users$locale, users$school)</code>, we read that all students
+listed at schools \(A\) and \(B\) listed their locale as \(B\).
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> Problem 1.3 - Summarizing the Data (1 point possible)</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+Is it possible that either school A or B is an all-girls or all-boys
+school?
+</p>
+</div>
+
+<div id="outline-container-sec-2-3-1" class="outline-4">
+<h4 id="sec-2-3-1"><span class="section-number-4">2.3.1</span> Answer</h4>
+<div class="outline-text-4" id="text-2-3-1">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Exploratory analysis of the data frame:"</span>)
+head(users, 20)
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Are all students of the same gender in some school?"</span>)
+table(users$school, users$gender)
+</pre>
+</div>
+
+<pre class="example">
+ :: Exploratory analysis of the data frame:
+     id gender school locale
+1  3981      A      A      B
+2  3982      B   &lt;NA&gt;      B
+3  3983      B   &lt;NA&gt;      B
+4  3984      B   &lt;NA&gt;      B
+5  3985      B   &lt;NA&gt;      B
+6  3986      B      A      B
+7  3987      A   &lt;NA&gt;      A
+8  3988      B   &lt;NA&gt;      B
+9  3989      B      A      B
+10 3990      A   &lt;NA&gt;      A
+11 3991      B      A      B
+12 3992      A      A      B
+13 3993      B   &lt;NA&gt;   &lt;NA&gt;
+14 3994      A   &lt;NA&gt;      B
+15 3995      B   &lt;NA&gt;      B
+16  594      B      A      B
+17 3996      B   &lt;NA&gt;      B
+18 3997      B   &lt;NA&gt;      B
+19 3998      B   &lt;NA&gt;      B
+20 3999      B     AB      B
+
+ :: Are all students of the same gender in some school?
+
+      A  B
+  A   3 13
+  AB  1  1
+</pre>
+
+<ul class="org-ul">
+<li><code>[X]</code> No No - correct
+</li>
+<li><code>[&#xa0;]</code> Yes
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+We see from <code>table(users$gender, users$school)</code> that both genders \(A\)
+and \(B\) have attended schools \(A\) and \(B\).
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-4" class="outline-3">
+<h3 id="sec-2-4"><span class="section-number-3">2.4</span> Problem 2.1 - Creating a Network (1 point possible)</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+We will be using the <code>igraph</code> package to visualize networks; install
+and load this package using the <code>install.packages</code> and <code>library</code>
+commands.
+</p>
+
+<p>
+We can create a new graph object using the <code>graph.data.frame()</code>
+function. Based on <code>?graph.data.frame</code>, which of the following
+commands will create a graph <code>g</code> describing our social network, with
+the attributes of each user correctly loaded?
+</p>
+
+<p>
+Note: A directed graph is one where the edges only go one way &#x2013; they
+point from one vertex to another. The other option is an undirected
+graph, which means that the relations between the vertexes are
+symmetric.
+</p>
+</div>
+
+<div id="outline-container-sec-2-4-1" class="outline-4">
+<h4 id="sec-2-4-1"><span class="section-number-4">2.4.1</span> Answer</h4>
+<div class="outline-text-4" id="text-2-4-1">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Install new package: igraph ..."</span>)
+<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">install.packages('igraph', repos='http://cran.rstudio.com/')</span>
+writeLines(<span style="color: #ff6a6a;">"\n :: NOTE: Please comment after install once..."</span>)
+
+<span style="color: #db7093;">library</span>(igraph)
+writeLines(<span style="color: #ff6a6a;">"\n :: Library igraph loaded..."</span>)
+</pre>
+</div>
+
+<pre class="example">
+:: Install new package: igraph ...
+
+:: NOTE: Please comment after install once...
+
+:: Library igraph loaded...
+</pre>
+
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> <code>g = graph.data.frame(edges, FALSE, users)</code>
+</li>
+<li><code>[&#xa0;]</code> <code>g = graph.data.frame(users, FALSE, edges)</code>
+</li>
+<li><code>[&#xa0;]</code> <code>g = graph.data.frame(edges, TRUE, users)</code>
+</li>
+<li><code>[&#xa0;]</code> <code>g = graph.data.frame(users, TRUE, edges)</code>
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="src src-R">g1 <span style="color: #db7093;">&lt;-</span> graph.data.frame(edges, <span style="color: #3cb371;">FALSE</span>, users)
+<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">g2 &lt;- graph.data.frame(users, FALSE, edges)</span>
+g3 <span style="color: #db7093;">&lt;-</span> graph.data.frame(edges, <span style="color: #3cb371;">TRUE</span>, users)
+<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">g4 &lt;- graph.data.frame(users, TRUE, edges)</span>
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Our undirected graph g1:"</span>)
+g1
+</pre>
+</div>
+
+<pre class="example">
+ :: Our undirected graph g1:
+ attr: name (v/c), gender (v/c), school (v/c), locale (v/c)
++ edges (vertex names):
+ [1] 4019--4026 4023--4031 4023--4030 4027--4032 3988--4021 3982--3986
+ [7] 3994--3998 3998--3999 3993--3995 3982--4021 3982--4037 3997--4019
+[13] 3994--4019 3992--4017 3981--3998 3997--4018 4009--4030 3994--4018
+[19] 3995--4000 4000--4026 4027--4038 4031--4038 4000--4021 3986--4030
+[25] 3985--4014 3994--4030 3998--4021 3994--4009 3982--4023 3998--4019
+[31] 4020--4031 4009--4023 3994--3997 3981--4023 3997--4030 3997--4021
+[37] 4023--4034 3993--4004 3994--3996 4000--4030 3998--4014 4004--4013
+[43] 4016--4025 3990--4016 3999--4005 4004--4023 4002--4020 3998--4018
++ ... omitted several edges
+</pre>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+From <code>?graph.data.frame</code>, we can see that the function expects the
+first two columns of parameter d to specify the edges in the graph &#x2013;
+our edges object fits this description.
+</p>
+
+<p>
+Our edges are undirected &#x2013; if \(A\) is a Facebook friend of \(B\) then
+\(B\) is a Facebook friend of \(A\). Therefore, we set the directed
+parameter to <code>FALSE</code>.
+</p>
+
+<p>
+The vertices parameter expects a data frame where the first column is
+a vertex id and the remaining columns are properties of vertices in
+our graph. This is the case with our users data frame.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-5" class="outline-3">
+<h3 id="sec-2-5"><span class="section-number-3">2.5</span> Problem 2.2 - Creating a Network (2 points possible)</h3>
+<div class="outline-text-3" id="text-2-5">
+<p>
+Use the correct command from Problem 2.1 to load the graph <code>g</code>.
+</p>
+
+<p>
+Now, we want to plot our graph. By default, the vertices are large and
+have text labels of a user's identifier. Because this would clutter
+the output, we will plot with no text labels and smaller vertices:
+</p>
+
+
+<div id="fig:FBFriendshipGraph01" class="figure">
+<p><img src="../graphs/FBFriendshipGraph01.png" alt="FBFriendshipGraph01.png" />
+</p>
+<p><span class="figure-number">Figure 12:</span> Facebook friendship graph v1</p>
+</div>
+
+<p>
+In this graph, there are a number of groups of nodes where all the
+nodes in each group are connected but the groups are disjoint from one
+another, forming <b>islands</b> in the graph. Such groups are called
+<code>connected components</code>, or <code>components</code> for short.
+</p>
+</div>
+
+<div id="outline-container-sec-2-5-1" class="outline-4">
+<h4 id="sec-2-5-1"><span class="section-number-4">2.5.1</span> Question a</h4>
+<div class="outline-text-4" id="text-2-5-1">
+<p>
+How many connected components with at least 2 nodes are there in the
+graph?
+</p>
+</div>
+
+<div id="outline-container-sec-2-5-1-1" class="outline-5">
+<h5 id="sec-2-5-1-1"><span class="section-number-5">2.5.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-2-5-1-1">
+<p>
+4
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+In addition to the large connected component, there is a 4-node
+component and two 2-node components.
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-2-5-2" class="outline-4">
+<h4 id="sec-2-5-2"><span class="section-number-4">2.5.2</span> Question b</h4>
+<div class="outline-text-4" id="text-2-5-2">
+<p>
+How many users are there with no friends in the network?
+</p>
+</div>
+
+<div id="outline-container-sec-2-5-2-1" class="outline-5">
+<h5 id="sec-2-5-2-1"><span class="section-number-5">2.5.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-2-5-2-1">
+<p>
+7
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+There are 7 nodes that are not connected to any other nodes. Each
+forms a 1-node connected component.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-6" class="outline-3">
+<h3 id="sec-2-6"><span class="section-number-3">2.6</span> Problem 2.3 - Creating a Network (1 point possible)</h3>
+<div class="outline-text-3" id="text-2-6">
+<p>
+In our graph, the <b>degree</b> of a node is its number of friends. We have
+already seen that some nodes in our graph have degree 0 (these are the
+nodes with no friends), while others have much higher degree. We can
+use <code>degree(g)</code> to compute the degree of all the nodes in our graph
+<code>g</code>.
+</p>
+</div>
+
+<div id="outline-container-sec-2-6-1" class="outline-4">
+<h4 id="sec-2-6-1"><span class="section-number-4">2.6.1</span> Question</h4>
+<div class="outline-text-4" id="text-2-6-1">
+<p>
+How many users are friends with 10 or more other Facebook users in
+this network?
+</p>
+</div>
+
+<div id="outline-container-sec-2-6-1-1" class="outline-5">
+<h5 id="sec-2-6-1-1"><span class="section-number-5">2.6.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-2-6-1-1">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Calculating the degree of users in the graph:"</span>)
+sort(degree(g), decreasing = <span style="color: #3cb371;">TRUE</span>)
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Other useful way to calculate the degree &gt; 10:"</span>)
+table(degree(g) &gt;= 10)
+</pre>
+</div>
+
+<pre class="example">
+ :: Calculating the degree of users in the graph:
+4030 4023 3982 3998 4014 3994 3997 4021 4031 4004 4009 3986 3995 4000 4017 4026
+  18   17   13   13   11   10   10   10   10    9    9    8    8    8    8    8
+4038 3981 4019 4020 3988 4002 4018 4027 3985 3989 3993 4013 4003 3990  594 3996
+   8    7    7    7    6    6    6    6    5    5    5    5    4    3    3    3
+3999 4007 4011 4016 4025 4037 3991 3992 4005 4033 3983 3987 4001 4006 4012 4028
+   3    3    3    3    3    3    2    2    2    2    1    1    1    1    1    1
+4029 4032 4034 4036 3984 4008 4010 4015 4022 4024 4035
+   1    1    1    1    0    0    0    0    0    0    0
+
+ :: Other useful way to calculate the degree &gt; 10:
+
+FALSE  TRUE
+   50     9
+</pre>
+
+<p>
+9 users have equal or more to 10 friends.
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+From <code>table(degree(g))</code> or <code>table(degree(g) &gt;= 10)</code>, we can see that
+there are 9 users with 10 or more friends in this network.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-7" class="outline-3">
+<h3 id="sec-2-7"><span class="section-number-3">2.7</span> Problem 2.4 - Creating a Network (2 points possible)</h3>
+<div class="outline-text-3" id="text-2-7">
+<p>
+In a network, it's often visually useful to draw attention to
+<b>important</b> nodes in the network. While this might mean different
+things in different contexts, in a social network we might consider a
+user with a large number of friends to be an <b>important user</b>. From the
+previous problem, we know this is the same as saying that nodes with a
+high degree are important users.
+</p>
+
+<p>
+To visually draw attention to these nodes, we will change the size of
+the vertices so the vertices with high degrees are larger. To do this,
+we will change the "size" attribute of the vertices of our graph to be
+an increasing function of their degrees:
+</p>
+
+<p>
+<code>V(g)$size = degree(g)/ 2 + 2</code>
+</p>
+
+<p>
+Now that we have specified the vertex size of each vertex, we will no
+longer use the <code>vertex.size</code> parameter when we plot our graph:
+</p>
+
+
+<div id="fig:FBFriendshipGraph02" class="figure">
+<p><img src="../graphs/FBFriendshipGraph02.png" alt="FBFriendshipGraph02.png" />
+</p>
+<p><span class="figure-number">Figure 13:</span> Facebook friendship graph v2</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-7-1" class="outline-4">
+<h4 id="sec-2-7-1"><span class="section-number-4">2.7.1</span> Question a</h4>
+<div class="outline-text-4" id="text-2-7-1">
+<p>
+What is the largest size we assigned to any node in our graph?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: The largest size assigned to a node:"</span>)
+sort(V(g)$size, decreasing = <span style="color: #3cb371;">TRUE</span>)
+</pre>
+</div>
+
+<pre class="example">
+ :: The largest size assigned to a node:
+ [1] 11.0 10.5  8.5  8.5  7.5  7.0  7.0  7.0  7.0  6.5  6.5  6.0  6.0  6.0  6.0
+[16]  6.0  6.0  5.5  5.5  5.5  5.0  5.0  5.0  5.0  4.5  4.5  4.5  4.5  4.0  3.5
+[31]  3.5  3.5  3.5  3.5  3.5  3.5  3.5  3.5  3.0  3.0  3.0  3.0  2.5  2.5  2.5
+[46]  2.5  2.5  2.5  2.5  2.5  2.5  2.5  2.0  2.0  2.0  2.0  2.0  2.0  2.0
+</pre>
+
+<p>
+<b>11 is the largest size assigned to a node.</b>
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-7-2" class="outline-4">
+<h4 id="sec-2-7-2"><span class="section-number-4">2.7.2</span> Question b</h4>
+<div class="outline-text-4" id="text-2-7-2">
+<p>
+What is the smallest size we assigned to any node in our graph?
+</p>
+</div>
+
+<div id="outline-container-sec-2-7-2-1" class="outline-5">
+<h5 id="sec-2-7-2-1"><span class="section-number-5">2.7.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-2-7-2-1">
+<p>
+<b>2 is the smallest size assigned to a node.</b>
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+From <code>table(degree(g))</code> or <code>summary(degree(g))</code>, we see that the maximum
+degree of any node in the graph is \(18\) and the minimum degree of any
+node is \(0\). Therefore, the maximum size of any point is <code>18/2+2=11</code>, and
+the minimum size is <code>0/2+2=2</code>.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-8" class="outline-3">
+<h3 id="sec-2-8"><span class="section-number-3">2.8</span> Problem 3.1 - Coloring Vertices (1 point possible)</h3>
+<div class="outline-text-3" id="text-2-8">
+<p>
+Thus far, we have changed the <b>size</b> attributes of our
+vertices. However, we can also change the colors of vertices to
+capture additional information about the Facebook users we are
+depicting.
+</p>
+
+<p>
+When changing the size of nodes, we first obtained the vertices of our
+graph with <code>V(g)</code> and then accessed the the size attribute with
+<code>V(g)$size</code>. To change the color, we will update the attribute
+<code>V(g)$color</code>.
+</p>
+
+<p>
+To color the vertices based on the gender of the user, we will need
+access to that variable. When we created our graph <code>g</code>, we provided it
+with the data frame users, which had variables <code>gender</code>, <code>school</code>, and
+<code>locale</code>. These are now stored as attributes <code>V(g)$gender</code>, <code>V(g)$school</code>,
+and <code>V(g)$locale</code>.
+</p>
+
+<p>
+We can update the colors by setting the color to black for all
+vertices, than setting it to red for the vertices with gender A and
+setting it to gray for the vertices with gender B:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Assigning black color to the nodes..."</span>)
+V(g)$color <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"black"</span>
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Assigning red color to gender A..."</span>)
+V(g)$color[V(g)$gender == <span style="color: #ff6a6a;">"A"</span>] <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"red"</span>
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Assigning gray color to gender B..."</span>)
+V(g)$color[V(g)$gender == <span style="color: #ff6a6a;">"B"</span>] <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"gray"</span>
+</pre>
+</div>
+
+<pre class="example">
+:: Assigning black color to the nodes...
+
+:: Assigning red color to gender A...
+
+:: Assigning gray color to gender B...
+</pre>
+</div>
+
+<div id="outline-container-sec-2-8-1" class="outline-4">
+<h4 id="sec-2-8-1"><span class="section-number-4">2.8.1</span> Question</h4>
+<div class="outline-text-4" id="text-2-8-1">
+<p>
+Plot the resulting graph. What is the gender of the users with the
+highest degree in the graph?
+</p>
+
+
+<div id="fig:FBFriendshipGraph03" class="figure">
+<p><img src="../graphs/FBFriendshipGraph03.png" alt="FBFriendshipGraph03.png" />
+</p>
+<p><span class="figure-number">Figure 14:</span> Facebook friendship graph v3</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-8-1-1" class="outline-5">
+<h5 id="sec-2-8-1-1"><span class="section-number-5">2.8.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-2-8-1-1">
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> Missing gender value
+</li>
+<li><code>[&#xa0;]</code> Gender A
+</li>
+<li><code>[X]</code> Gender B
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+After updating <code>V(g)$color</code>, run <code>plot(g, vertex.label=NA)</code> to plot
+the graph. All the largest nodes (the ones with the highest degree)
+are colored <b>gray</b>, which corresponds to Gender <b>B</b>.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-9" class="outline-3">
+<h3 id="sec-2-9"><span class="section-number-3">2.9</span> Problem 3.2 - Coloring Vertices (2 points possible)</h3>
+<div class="outline-text-3" id="text-2-9">
+<p>
+Now, color the vertices based on the school that each user in our
+network attended.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Assigning black color to the nodes..."</span>)
+V(g)$color <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"black"</span>
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Assigning blue color to school A..."</span>)
+V(g)$color[V(g)$school == <span style="color: #ff6a6a;">"A"</span>] <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"blue"</span>
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Assigning red color to school AB..."</span>)
+V(g)$color[V(g)$school == <span style="color: #ff6a6a;">"AB"</span>] <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"red"</span>
+</pre>
+</div>
+
+<pre class="example">
+:: Assigning black color to the nodes...
+
+:: Assigning blue color to school A...
+
+:: Assigning red color to school AB...
+</pre>
+</div>
+
+<div id="outline-container-sec-2-9-1" class="outline-4">
+<h4 id="sec-2-9-1"><span class="section-number-4">2.9.1</span> Question</h4>
+<div class="outline-text-4" id="text-2-9-1">
+
+<div id="fig:FBFriendshipGraph04" class="figure">
+<p><img src="../graphs/FBFriendshipGraph04.png" alt="FBFriendshipGraph04.png" />
+</p>
+<p><span class="figure-number">Figure 15:</span> Facebook friendship graph v4</p>
+</div>
+
+<p>
+Are the two users who attended both schools A and B Facebook friends
+with each other?
+</p>
+</div>
+
+<div id="outline-container-sec-2-9-1-1" class="outline-5">
+<h5 id="sec-2-9-1-1"><span class="section-number-5">2.9.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-2-9-1-1">
+<ul class="org-ul">
+<li><code>[X]</code> Yes Yes - correct
+</li>
+<li><code>[&#xa0;]</code> No
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-9-2" class="outline-4">
+<h4 id="sec-2-9-2"><span class="section-number-4">2.9.2</span> Question</h4>
+<div class="outline-text-4" id="text-2-9-2">
+<p>
+What best describes the users with highest degree?
+</p>
+
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> None of the high-degree users attended school A
+</li>
+
+<li><code>[X]</code> Some, but not all, of the high-degree users attended school A
+Some, but not all, of the high-degree users attended school A -
+correct
+</li>
+
+<li><code>[&#xa0;]</code> All of the high-degree users attended school A
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+As with coloring by gender, we will set the color for all vertices to
+black, and then we will set the color for students from school A to
+red and the color for students from schools A and B to gray. Finally
+we will plot the updated graph:
+</p>
+
+<p>
+<code>(V(g)$color = "black")</code>
+</p>
+
+<p>
+<code>(V(g)$color[V(g)$school == "A"] = "red")</code>
+</p>
+
+<p>
+<code>(V(g)$color[V(g)$school == "AB"] = "gray")</code>
+</p>
+
+<p>
+<code>plot(g, vertex.label=NA)</code>
+</p>
+
+<p>
+The two students who attended schools A and B are colored gray; we can
+see from the graph that they are Facebook friends (aka they are
+connected by an edge). The high-degree users (depicted by the large
+nodes) are a mixture of red and black color, meaning some of these
+users attended school A and other did not.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-10" class="outline-3">
+<h3 id="sec-2-10"><span class="section-number-3">2.10</span> Problem 3.3 - Coloring Vertices (2 points possible)</h3>
+<div class="outline-text-3" id="text-2-10">
+<p>
+Now, color the vertices based on the locale of the user.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Assigning black color to the nodes..."</span>)
+V(g)$color <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"black"</span>
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Assigning green color to locale A..."</span>)
+V(g)$color[V(g)$locale == <span style="color: #ff6a6a;">"A"</span>] <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"green"</span>
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Assigning red color to locale B..."</span>)
+V(g)$color[V(g)$locale == <span style="color: #ff6a6a;">"B"</span>] <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"red"</span>
+</pre>
+</div>
+
+<pre class="example">
+:: Assigning black color to the nodes...
+
+:: Assigning green color to locale A...
+
+:: Assigning red color to locale B...
+</pre>
+
+
+<div id="fig:FBFriendshipGraph05" class="figure">
+<p><img src="../graphs/FBFriendshipGraph05.png" alt="FBFriendshipGraph05.png" />
+</p>
+<p><span class="figure-number">Figure 16:</span> Facebook friendship graph v5</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-10-1" class="outline-4">
+<h4 id="sec-2-10-1"><span class="section-number-4">2.10.1</span> Question</h4>
+<div class="outline-text-4" id="text-2-10-1">
+<p>
+The large connected component is most associated with which locale?
+</p>
+</div>
+
+<div id="outline-container-sec-2-10-1-1" class="outline-5">
+<h5 id="sec-2-10-1-1"><span class="section-number-5">2.10.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-2-10-1-1">
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> Locale A
+</li>
+<li><code>[X]</code> Locale B
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-10-2" class="outline-4">
+<h4 id="sec-2-10-2"><span class="section-number-4">2.10.2</span> Question</h4>
+<div class="outline-text-4" id="text-2-10-2">
+<p>
+The 4-user connected component is most associated with which locale?
+</p>
+</div>
+
+<div id="outline-container-sec-2-10-2-1" class="outline-5">
+<h5 id="sec-2-10-2-1"><span class="section-number-5">2.10.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-2-10-2-1">
+<ul class="org-ul">
+<li><code>[X]</code> Locale A
+</li>
+<li><code>[&#xa0;]</code> Locale B
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+As with the other coloring tasks, we will set the color for all
+vertices to black, and then we will set the color for users from
+locale A to red and the color for users from locale B to gray. Finally
+we will plot the updated graph:
+</p>
+
+<p>
+<code>(V(g)$color = "black")</code>
+</p>
+
+<p>
+<code>(V(g)$color[V(g)$locale == "A"] = "red")</code>
+</p>
+
+<p>
+<code>(V(g)$color[V(g)$locale == "B"] = "gray")</code>
+</p>
+
+<p>
+<code>plot(g, vertex.label=NA)</code>
+</p>
+
+<p>
+Nearly all of the vertices from the large connected component are
+colored gray, indicating users from Locale B. Meanwhile, all the
+vertices in the 4-user connected component are colored red, indicating
+users from Locale A.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-11" class="outline-3">
+<h3 id="sec-2-11"><span class="section-number-3">2.11</span> Problem 4 - Other Plotting Options (2 points possible)</h3>
+<div class="outline-text-3" id="text-2-11">
+<p>
+The help page is a helpful tool when making visualizations. Answer the
+following questions with the help of <code>?igraph.plotting</code> and
+experimentation in your R console.
+</p>
+</div>
+
+<div id="outline-container-sec-2-11-1" class="outline-4">
+<h4 id="sec-2-11-1"><span class="section-number-4">2.11.1</span> Question</h4>
+<div class="outline-text-4" id="text-2-11-1">
+<p>
+Which <code>igraph</code> plotting function would enable us to plot our graph in
+3-D?
+</p>
+</div>
+
+<div id="outline-container-sec-2-11-1-1" class="outline-5">
+<h5 id="sec-2-11-1-1"><span class="section-number-5">2.11.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-2-11-1-1">
+<p>
+We need to install the <code>rgl</code> package.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Install new package: rgl ..."</span>)
+<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">install.packages('rgl', repos='http://cran.rstudio.com/')</span>
+writeLines(<span style="color: #ff6a6a;">"\n :: NOTE: Please comment after install once..."</span>)
+
+<span style="color: #db7093;">library</span>(rgl)
+writeLines(<span style="color: #ff6a6a;">"\n :: Library rgl loaded..."</span>)
+</pre>
+</div>
+
+<pre class="example">
+:: Install new package: rgl ...
+
+:: NOTE: Please comment after install once...
+
+:: Library rgl loaded...
+</pre>
+
+<p>
+Now we can use the <code>rglplot</code> function:
+</p>
+
+
+<div id="fig:FBFriendshipGraph06" class="figure">
+<p><img src="../graphs/FBFriendSGraphRGLPlot.png" alt="FBFriendSGraphRGLPlot.png" />
+</p>
+<p><span class="figure-number">Figure 17:</span> Facebook friendship graph v6</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-11-2" class="outline-4">
+<h4 id="sec-2-11-2"><span class="section-number-4">2.11.2</span> Question</h4>
+<div class="outline-text-4" id="text-2-11-2">
+<p>
+What parameter to the <code>plot()</code> function would we use to change the edge
+width when plotting <code>g</code>?
+</p>
+</div>
+
+<div id="outline-container-sec-2-11-2-1" class="outline-5">
+<h5 id="sec-2-11-2-1"><span class="section-number-5">2.11.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-2-11-2-1">
+<p>
+<code>edge.width</code> is the parameter to control the width of the edges.
+</p>
+
+
+<div id="fig:FBFriendshipGraph07" class="figure">
+<p><img src="../graphs/FBFriendshipGraph07.png" alt="FBFriendshipGraph07.png" />
+</p>
+<p><span class="figure-number">Figure 18:</span> Facebook friendship graph v7</p>
+</div>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+The three functions to plot the <code>igraph</code> are <code>plot.igraph</code> (the function
+we used through the command <code>plot</code>), <code>tkplot</code>, and <code>rglplot</code>. <code>rglplot</code>
+makes 3D plots &#x2013; you can try one with
+</p>
+
+<p>
+<code>rglplot(g, vertex.label=NA)</code>
+</p>
+
+<p>
+Once you've made the plot, you can click and drag to rotate the
+graph. To use this function, you will need to install and load the
+<code>rgl</code> package.
+</p>
+
+<p>
+To change the edge width, you need to change the edge parameter called
+<code>width</code>. From <code>?igraph.plotting</code>, we read that we need to append the
+prefix <code>edge</code>. to the beginning for our call to plot, so the full
+parameter is called <code>edge.width</code>. For instance, we could plot with
+edge width 2 with the command
+</p>
+
+<p>
+<code>plot(g, edge.width=2, vertex.label=NA)</code>.
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
 <p class="date">Date: 24/07/2015</p>
 <p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
-<p class="date">Created: 2015-07-25 Sat 08:29</p>
+<p class="date">Created: 2015-07-25 Sat 18:59</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
