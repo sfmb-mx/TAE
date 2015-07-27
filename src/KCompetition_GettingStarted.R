@@ -14,18 +14,18 @@
 ## We are adding in the argument stringsAsFactors=FALSE, since we have
 ## some text fields
 
-eBayTrain = read.csv("eBayiPadTrain.csv", stringsAsFactors=FALSE)
+eBayTrain <- read.csv("../data/eBayiPadTrain.csv", stringsAsFactors=FALSE)
 
-eBayTest = read.csv("eBayiPadTest.csv", stringsAsFactors=FALSE)
+eBayTest <- read.csv("../data/eBayiPadTest.csv", stringsAsFactors=FALSE)
 
 ## We will just create a simple logistic regression model, to predict
 ## Sold using Price:
 
-SimpleMod = glm(sold ~ startprice, data=eBayTrain, family=binomial)
+SimpleMod <- glm(sold ~ startprice, data = eBayTrain, family = binomial)
 
 ## And then make predictions on the test set:
 
-PredTest = predict(SimpleMod, newdata=eBayTest, type="response")
+PredTest <- predict(SimpleMod, newdata = eBayTest, type = "response")
 
 ## We can't compute the accuracy or AUC on the test set ourselves,
 ## since we don't have the dependent variable on the test set (you can
@@ -38,9 +38,10 @@ PredTest = predict(SimpleMod, newdata=eBayTest, type="response")
 ## Let's prepare a submission file for Kaggle (for more about this,
 ## see the "Evaluation" page on the competition site):
 
-MySubmission = data.frame(UniqueID = eBayTest$UniqueID, Probability1 = PredTest)
+MySubmission <- data.frame(UniqueID = eBayTest$UniqueID, Probability1 = PredTest)
 
-write.csv(MySubmission, "SubmissionSimpleLog.csv", row.names=FALSE)
+write.csv(MySubmission, "../data/SubmissionSimpleLogV1.csv", row.names
+          = FALSE)
 
 ## You should upload the submission "SubmissionSimpleLog.csv" on the
 ## Kaggle website to use this as a submission to the competition
