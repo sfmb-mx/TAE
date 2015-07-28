@@ -88,7 +88,7 @@ to class 1, and predicting a low probability for observations actually
 belonging to class 0.
 
 In the second step of logistic regression, a threshold value is used
-to classify each observation into one of the classes. - [ ] A common choice
+to classify each observation into one of the classes. A common choice
 is $0.5$, meaning that if $P(y = 1) \geq 0.5$, the observation is
 classified into class 1, and if $P(y = 1) < 0.5$, the observation is
 classified into class 0. Simply stated, each observation is classified
@@ -98,9 +98,9 @@ However, other threshold values can be chosen, and in some cases are
 more appropriate. The threshold value that should be selected often
 depends on error preferences. When the probabilities are converted
 into class predictions, two types of errors can be made: false
-positives, and false negatives. - [ ] A *false positive error* is made when
+positives, and false negatives. A *false positive error* is made when
 the model predicts class 1, but the observation actually belongs to
-class 0. - [ ] A *false negative error* is made when the model predicts class
+class 0. A *false negative error* is made when the model predicts class
 0, but the observation actually belongs to class 1. If a higher
 threshold value is selected, more false negative errors will be
 made. If a lower threshold value is selected, more false positive
@@ -137,7 +137,7 @@ annoyance for the user (since they have to delete the message from the
 inbox themselves) but at least an important message was not missed.
 
 This error trade-off can be formalized with a [[https://courses.edx.org/wiki/15.071x_2/logistic-regression/confusion-matrix][Confusion Matrix]] or a
-[[https://courses.edx.org/wiki/15.071x_2/logistic-regression/roc-curve][Receiver Operator Characteristic Curve (ROC curve)]]. - [ ] A confusion matrix
+[[https://courses.edx.org/wiki/15.071x_2/logistic-regression/roc-curve][Receiver Operator Characteristic Curve (ROC curve)]]. A confusion matrix
 compares predicted classes with actual classes for a particular
 threshold value, while an ROC curve plots the false positive rate
 versus the true positive rate for all possible threshold values. The
@@ -377,7 +377,7 @@ the linear regression piece. The logistic response function always
 takes values between $0$ and $1$, which makes sense, since it equals a
 probability.
 
-- [ ] A positive coefficient value for a variable increases the linear
+A positive coefficient value for a variable increases the linear
 regression piece, which increases the probability that $y = 1$, or
 increases the probability of poor care. On the other hand, a negative
 coefficient value for a variable decreases the linear regression
@@ -1013,8 +1013,8 @@ good care, but they're actually poor care.
 - The Specificity is called *the true negative rate* and measures the
   percentage of actual good care cases that we classify correctly.
 
-- [ ] A model with a *higher threshold* will have a *lower sensitivity* and a
-*higher specificity*. - [ ] A model with a *lower threshold* will have a higher
+A model with a *higher threshold* will have a *lower sensitivity* and a
+*higher specificity*. A model with a *lower threshold* will have a higher
 *sensitivity* and a lower *specificity*.
 
 #+begin_src R :session :results output :exports all
@@ -1203,7 +1203,7 @@ we must have increased the threshold.
 
 ** Video 6: ROC Curves
 
-Picking a good threshold value is often challenging. - [ ] A Receiver
+Picking a good threshold value is often challenging. A Receiver
 Operator Characteristic curve, or ROC curve, can help you decide which
 value of the threshold is best.
 
@@ -1256,7 +1256,7 @@ positive rate, or 1 minus the specificity, is given on the x-axis.
 - On the other hand, if you're more concerned with having a *high
   sensitivity* or *high true positive rate*, pick a threshold that
   *minimizes the false positive rate but has a very high true positive
-  rate*. - [ ] A threshold around $(0.3, 0.8)$ looks like a good choice in
+  rate*. A threshold around $(0.3, 0.8)$ looks like a good choice in
   this case.
 
 [[../graphs/ROC03.png]]
@@ -1647,7 +1647,7 @@ of his death was 300/190.
 
 - FDR’s personal physician:
 
-"- [ ] A moderate degree of arteriosclerosis, although no more than normal
+"A moderate degree of arteriosclerosis, although no more than normal
 for a man of his age"
 
 - Two months before death: 260/150 - Day of death: 300/190

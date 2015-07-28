@@ -1,0 +1,1071 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Kaggle Competition. 15.071x - The Analytics Edge (Summer 2015).</title>
+<!-- 2015-07-28 Tue 09:22 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="Sergio-Feliciano Mendoza-Barrera" />
+<meta  name="description" content="The Analytics Edge Kaggle competition"
+ />
+<meta  name="keywords" content="R, data science, emacs, ESS, org-mode, kaggle, competition" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/readtheorg/js/readtheorg.js"></script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js"></script>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+    MathJax.Hub.Config({
+        // Only one of the two following lines, depending on user settings
+        // First allows browser-native MathML display, second forces HTML/CSS
+        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
+                     "TeX/noUndefined.js"],
+        tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
+            skipTags: ["script","noscript","style","textarea","pre","code"],
+            ignoreClass: "tex2jax_ignore",
+            processEscapes: false,
+            processEnvironments: true,
+            preview: "TeX"
+        },
+        showProcessingMessages: true,
+        displayAlign: "center",
+        displayIndent: "2em",
+
+        "HTML-CSS": {
+             scale: 100,
+             availableFonts: ["STIX","TeX"],
+             preferredFont: "TeX",
+             webFont: "TeX",
+             imageFont: "TeX",
+             showMathMenu: true,
+        },
+        MMLorHTML: {
+             prefer: {
+                 MSIE:    "MML",
+                 Firefox: "MML",
+                 Opera:   "HTML",
+                 other:   "HTML"
+             }
+        }
+    });
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Kaggle Competition. 15.071x - The Analytics Edge (Summer 2015).</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. Introduction</a>
+<ul>
+<li><a href="#sec-1-1">1.1. Welcome to the Kaggle Competition!</a></li>
+<li><a href="#sec-1-2">1.2. Getting started on Kaggle</a></li>
+<li><a href="#sec-1-3">1.3. Dealing with the text data</a></li>
+<li><a href="#sec-1-4">1.4. Example R script</a></li>
+</ul>
+</li>
+<li><a href="#sec-2">2. Test your analytics skills by predicting which iPads listed on eBay will be sold</a>
+<ul>
+<li><a href="#sec-2-1">2.1. Acknowledgments</a></li>
+</ul>
+</li>
+<li><a href="#sec-3">3. Understanding the data</a>
+<ul>
+<li><a href="#sec-3-1">3.1. Download the data sets</a></li>
+<li><a href="#sec-3-2">3.2. File descriptions</a></li>
+<li><a href="#sec-3-3">3.3. Data fields</a></li>
+<li><a href="#sec-3-4">3.4. Load the data set</a></li>
+<li><a href="#sec-3-5">3.5. Preprocessing the data</a></li>
+<li><a href="#sec-3-6">3.6. Understanding each type and distribution of the data</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="abstract">
+<p>
+This is the document for the Kaggle competition for the Analytics Edge
+course from MIT.
+</p>
+
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Welcome to the Kaggle Competition!</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+For the next three weeks, you will be participating in a competition
+on Kaggle. You should have already set up a Kaggle account (this was
+the last component of Unit 6). When the competition is over, you will
+be able to check your grade on the competition by going to your
+Progress page.
+</p>
+
+<p>
+We have created two R script files to help you get started on this
+competition. The first script (on the next page), is intended to help
+you get started by building a simple logistic regression model and
+preparing the results for submission on Kaggle. The second script (on
+the following page), is designed to help you deal with the text data
+provided in this competition. We highly recommend that you carefully
+go through both of these script files, and refer to them during the
+competition.
+</p>
+
+<p>
+If you get stuck or have questions, please use the Discussion forum on
+the edX site for this class. Remember though that the standard
+discussion forum rules apply. You should not ask for answers or give
+any answers on the forum.
+</p>
+
+<p>
+Once you are ready, go ahead and get started by heading to the
+<a href="https://kaggle.com/join/15071xtheanalyticsedgesummer2015">competition page</a> on Kaggle. Note that this competition is a private
+competition only for students in 15.071x. Please do not distribute
+this link to people who are not enrolled in this class.
+</p>
+
+<p>
+Good luck!
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Getting started on Kaggle</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+If you have never participated in a Kaggle competition before, or if
+you just want some help getting started, we have created <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/KCompetition_GettingStarted.R">this R script</a>
+file to help you get started. It shows you how to prepare a submission
+file for a simple logistic regression model, and how to get the most
+out of the date/time variable in the dataset.
+</p>
+
+<p>
+Before going through the script file, please explore the Kaggle
+competition by following the link on the previous page. There are
+several very important pages in the competition:
+</p>
+
+<ul class="org-ul">
+<li>The "<b>Data</b>" page of the competition describes the data and gives
+you links to download the data.
+</li>
+
+<li>The "<b>Evaluation</b>" page is where you will learn how the competition
+is graded and how to make submissions.
+</li>
+
+<li>The "<b>Rules</b>" page outlines some very important rules for the
+competition. Please keep in mind that all of your submissions should
+reflect the results of your own analytical models, built using the
+data provided on the Kaggle site. While you can use the discussion
+forum to ask questions and get help, the standard rules
+apply. Please do not ask for or give solutions to the
+competition. We will be checking submissions for signs of copying,
+either from your classmates or from outside sources.
+</li>
+
+<li>When you are ready to make a submission, the "<b>Make a Submission</b>"
+page is where you can submit your solution. Note that you can make
+up to 5 submissions each day, so don't hesitate to get creative and
+try out many different models!
+</li>
+</ul>
+
+<p>
+If you have questions about the logistics of the competition, or need
+help understanding the provided script file, please go to the
+Discussion forum by using the link below.
+</p>
+
+<p>
+Remember that this script file is just designed to help you get
+started. You will need to build better models to do well in the
+competition!
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Dealing with the text data</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+The data for this competition has a few variables composed of
+unstructured text data. You should be comfortable using the <b>bag of
+words</b> approach on text data from Unit 5, and we want to encourage you
+to use this data to improve your predictive models. However, you need
+to deal with the text data for this competition in a slightly
+different way from how we have dealt with text data in the past,
+because it is already split into a training set and a test set.
+</p>
+
+<p>
+This <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/KCompetition_TextData.R">R script file</a> is designed to help you get started working with
+some the text data provided in the eBay dataset. If you have any
+questions about the approach used in the script file, please go to the
+Dicussion forum to get help by following the link below.
+</p>
+
+<p>
+Remember that this script file is just designed to help you get
+started. You will need to build better models to do well in the
+competition!
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> Example R script</h3>
+<div class="outline-text-3" id="text-1-4">
+</div><div id="outline-container-sec-1-4-1" class="outline-4">
+<h4 id="sec-1-4-1"><span class="section-number-4">1.4.1</span> KAGGLE COMPETITION - GETTING STARTED</h4>
+<div class="outline-text-4" id="text-1-4-1">
+<p>
+This script file is intended to help you get started on the Kaggle
+platform, and to show you how to make a submission to the
+competition.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4-2" class="outline-4">
+<h4 id="sec-1-4-2"><span class="section-number-4">1.4.2</span> Let's start by reading the data into R</h4>
+<div class="outline-text-4" id="text-1-4-2">
+<p>
+Make sure you have downloaded these files from the Kaggle website,
+and have navigated to the directory where you saved the files on
+your computer
+</p>
+
+<p>
+We are adding in the argument <code>stringsAsFactors = FALSE</code>, since we have
+some text fields
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">eBayTrain <span style="color: #db7093;">&lt;-</span> read.csv(<span style="color: #ff6a6a;">"../data/eBayiPadTrain.csv"</span>, stringsAsFactors = <span style="color: #3cb371;">FALSE</span>)
+eBayTest <span style="color: #db7093;">&lt;-</span> read.csv(<span style="color: #ff6a6a;">"../data/eBayiPadTest.csv"</span>, stringsAsFactors = <span style="color: #3cb371;">FALSE</span>)
+</pre>
+</div>
+
+<p>
+We will just create a simple logistic regression model, to predict
+Sold using Price:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">SimpleMod <span style="color: #db7093;">&lt;-</span> glm(sold ~ startprice, data = eBayTrain, family = binomial)
+</pre>
+</div>
+
+<p>
+And then make predictions on the test set:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">PredTest <span style="color: #db7093;">&lt;-</span> predict(SimpleMod, newdata = eBayTest, type = <span style="color: #ff6a6a;">"response"</span>)
+</pre>
+</div>
+
+<p>
+We can't compute the <code>accuracy</code> or <code>AUC</code> on the test set ourselves,
+since we don't have the dependent variable on the test set (you can
+compute it on the training set though!).
+</p>
+
+<p>
+However, you can submit the file on Kaggle to see how well the
+model performs. You can make up to 5 submissions per day, so don't
+hesitate to just upload a solution to see how you did.
+</p>
+
+<p>
+Let's prepare a submission file for Kaggle (for more about this,
+see the "Evaluation" page on the competition site):
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">MySubmission <span style="color: #db7093;">&lt;-</span> data.frame(UniqueID = eBayTest$UniqueID, Probability1
+                           = PredTest)
+
+write.csv(MySubmission, <span style="color: #ff6a6a;">"../data/SubmissionSimpleLogV1.csv"</span>, row.names
+          = <span style="color: #3cb371;">FALSE</span>)
+</pre>
+</div>
+
+<p>
+You should upload the submission <code>SubmissionSimpleLog.csv</code> on the
+Kaggle website to use this as a submission to the competition
+</p>
+
+<p>
+This model was just designed to help you get started - to do well
+in the competition, you will need to build better models!
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Test your analytics skills by predicting which iPads listed on eBay will be sold</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+<b>IMPORTANT NOTE</b>: This competition is only open to students of the
+MITx free, online course 15.071x - The Analytics Edge.
+</p>
+
+<p>
+<b>What makes an eBay listing successful?</b>
+</p>
+
+<p>
+Sellers on online auction websites need to understand the
+characteristics of a successful item listing to maximize their
+revenue. Buyers might also be interested in understanding which
+listings are less attractive so as to score a good deal. In this
+competition, we challenge you to develop an analytics model that will
+help buyers and sellers predict the sales success of a set of eBay
+listings for Apple iPads from spring 2015.
+</p>
+
+<p>
+The following screenshot shows an example of iPad listings on eBay:
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/ScreenshotEbay.png" alt="ScreenshotEbay.png" />
+</p>
+</div>
+
+<p>
+To download the data and learn how this competition works, please be
+sure to read the "Data" page, as well as the "Evaluation" page, which
+can both be found in the panel on the left.
+</p>
+</div>
+
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> Acknowledgments</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+This competition is brought to you by MITx and edX.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Understanding the data</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> Download the data sets</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+In this part we can download the data
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R"><span style="color: #db7093;">library</span>(parallel)
+
+<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #ff6a6a;">"../data"</span>)) {
+        dir.create(<span style="color: #ff6a6a;">"../data"</span>)
+}
+
+fileUrl <span style="color: #db7093;">&lt;-</span>
+c(<span style="color: #ff6a6a;">"https://inclass.kaggle.com/c/15-071x-the-analytics-edge-summer-2015/download/eBayiPadTest.csv"</span>,
+<span style="color: #ff6a6a;">"https://inclass.kaggle.com/c/15-071x-the-analytics-edge-summer-2015/download/eBayiPadTrain.csv"</span>,
+<span style="color: #ff6a6a;">"https://inclass.kaggle.com/c/15-071x-the-analytics-edge-summer-2015/download/SampleSubmission.csv"</span>)
+
+fileName <span style="color: #db7093;">&lt;-</span> c(<span style="color: #ff6a6a;">"eBayiPadTest.csv"</span>, <span style="color: #ff6a6a;">"eBayiPadTrain.csv"</span>, <span style="color: #ff6a6a;">"SampleSubmission.csv"</span>)
+
+dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"../data"</span>
+
+<span style="color: #4682b4;">for</span>(i <span style="color: #4682b4;">in</span> 1:3) {
+        filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName[i], sep = <span style="color: #ff6a6a;">"/"</span>)
+
+        <span style="color: #4682b4;">if</span>(!file.exists(filePath)) {
+                download.file(fileUrl[i], destfile = filePath, method = <span style="color: #ff6a6a;">"curl"</span>)
+        }
+}
+writeLines(<span style="color: #ff6a6a;">"\n :: Files downloaded..."</span>)
+</pre>
+</div>
+
+<pre class="example">
+:: Files downloaded...
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> File descriptions</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+The data provided for this competition is split into two files:
+</p>
+
+<ul class="org-ul">
+<li><b>eBayiPadTrain.csv</b> = the training data set. It consists of 1861 listings.
+</li>
+
+<li><b>eBayiPadTest.csv</b> = the testing data set. It consists of 798 listings.
+</li>
+
+<li>We have also provided a sample submission file,
+<b>SampleSubmission.csv</b>. This file gives an example of the format of
+submission files (see the Evaluation page for more information). The
+data for this competition comes from eBay.com.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3"><span class="section-number-3">3.3</span> Data fields</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+The dependent variable in this problem is the variable sold, which
+labels if an iPad listed on the eBay site was sold (equal to 1 if it
+did, and 0 if it did not). The dependent variable is provided in the
+training data set, but not the testing dataset. This is an important
+difference from what you are used to - you will not be able to see how
+well your model does on the test set until you make a submission on
+Kaggle.
+</p>
+
+<p>
+The independent variables consist of 9 pieces of product data
+available at the time the iPad listing is posted, and a unique
+identifier:
+</p>
+
+<ul class="org-ul">
+<li><b>description</b> = The text description of the product provided by the
+seller.
+</li>
+
+<li><b>biddable</b> = Whether this is an auction (biddable=1) or a sale with
+a fixed price (biddable=0).
+</li>
+
+<li><b>startprice</b> = The start price (in US Dollars) for the auction (if
+biddable=1) or the sale price (if biddable=0).
+</li>
+
+<li><b>condition</b> = The condition of the product (new, used, etc.)
+</li>
+
+<li><b>cellular</b> = Whether the iPad has cellular connectivity (cellular=1)
+or not (cellular=0).
+</li>
+
+<li><b>carrier</b> = The cellular carrier for which the iPad is equipped (if
+cellular=1); listed as "None" if cellular=0.
+</li>
+
+<li><b>color</b> = The color of the iPad.
+</li>
+
+<li><b>storage</b> = The iPad's storage capacity (in gigabytes).
+</li>
+
+<li><b>productline</b> = The name of the product being sold.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3-4" class="outline-3">
+<h3 id="sec-3-4"><span class="section-number-3">3.4</span> Load the data set</h3>
+<div class="outline-text-3" id="text-3-4">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"    Loading data set into their data frame..."</span>)
+eBayTrain <span style="color: #db7093;">&lt;-</span> read.csv(<span style="color: #ff6a6a;">"../data/eBayiPadTrain.csv"</span>, colClasses = <span style="color: #ff6a6a;">"character"</span>,
+                 na.strings = c(<span style="color: #ff6a6a;">""</span>, <span style="color: #ff6a6a;">"Unknown"</span>, <span style="color: #3cb371;">NULL</span>))
+
+str(eBayTrain)
+</pre>
+</div>
+
+<pre class="example">
+    Loading data set into their data frame...
+'data.frame':	1861 obs. of  11 variables:
+ $ description: chr  "iPad is in 8.5+ out of 10 cosmetic condition!" "Previously used, please read description. May show signs of use such as scratches to the screen and " NA NA ...
+ $ biddable   : chr  "0" "1" "0" "0" ...
+ $ startprice : chr  "159.99" "0.99" "199.99" "235" ...
+ $ condition  : chr  "Used" "Used" "Used" "New other (see details)" ...
+ $ cellular   : chr  "0" "1" "0" "0" ...
+ $ carrier    : chr  "None" "Verizon" "None" "None" ...
+ $ color      : chr  "Black" NA "White" NA ...
+ $ storage    : chr  "16" "16" "16" "16" ...
+ $ productline: chr  "iPad 2" "iPad 2" "iPad 4" "iPad mini 2" ...
+ $ sold       : chr  "0" "1" "1" "0" ...
+ $ UniqueID   : chr  "10001" "10002" "10003" "10004" ...
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-3-5" class="outline-3">
+<h3 id="sec-3-5"><span class="section-number-3">3.5</span> Preprocessing the data</h3>
+<div class="outline-text-3" id="text-3-5">
+<p>
+In this part we can try with different types for the data in order to
+have a better understanding of the data and to have the probability to
+improve the models.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Converting data types in the dataframe..."</span>)
+
+eBayTrain$biddable <span style="color: #db7093;">&lt;-</span> as.integer(eBayTrain$biddable)
+eBayTrain$startprice <span style="color: #db7093;">&lt;-</span> as.numeric(eBayTrain$startprice)
+eBayTrain$cellular <span style="color: #db7093;">&lt;-</span> as.integer(eBayTrain$cellular)
+eBayTrain$storage <span style="color: #db7093;">&lt;-</span> as.integer(eBayTrain$storage)
+eBayTrain$sold <span style="color: #db7093;">&lt;-</span> as.integer(eBayTrain$sold)
+
+<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">eBayTrain$condition &lt;- as.factor(eBayTrain$condition)</span>
+<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">eBayTrain$carrier &lt;- as.factor(eBayTrain$carrier)</span>
+<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">eBayTrain$color &lt;- as.factor(eBayTrain$color)</span>
+<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">eBayTrain$productline &lt;- as.factor(eBayTrain$productline)</span>
+
+writeLines(<span style="color: #ff6a6a;">"\n :: eBayTrain new structure:"</span>)
+str(eBayTrain)
+</pre>
+</div>
+
+<pre class="example">
+ :: Converting data types in the dataframe...
+
+ :: eBayTrain new structure:
+'data.frame':	1861 obs. of  11 variables:
+ $ description: chr  "iPad is in 8.5+ out of 10 cosmetic condition!" "Previously used, please read description. May show signs of use such as scratches to the screen and " NA NA ...
+ $ biddable   : int  0 1 0 0 0 1 1 0 1 1 ...
+ $ startprice : num  159.99 0.99 199.99 235 199.99 ...
+ $ condition  : chr  "Used" "Used" "Used" "New other (see details)" ...
+ $ cellular   : int  0 1 0 0 NA 1 0 0 1 0 ...
+ $ carrier    : chr  "None" "Verizon" "None" "None" ...
+ $ color      : chr  "Black" NA "White" NA ...
+ $ storage    : int  16 16 16 16 NA 32 16 16 64 32 ...
+ $ productline: chr  "iPad 2" "iPad 2" "iPad 4" "iPad mini 2" ...
+ $ sold       : int  0 1 1 0 0 1 1 0 1 1 ...
+ $ UniqueID   : chr  "10001" "10002" "10003" "10004" ...
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-3-6" class="outline-3">
+<h3 id="sec-3-6"><span class="section-number-3">3.6</span> Understanding each type and distribution of the data</h3>
+<div class="outline-text-3" id="text-3-6">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Summary of the data:"</span>)
+summary(eBayTrain)
+</pre>
+</div>
+
+<pre class="example">
+:: Summary of the data:
+description           biddable        startprice      condition
+Length:1861        Min.   :0.0000   Min.   :  0.01   Length:1861
+Class :character   1st Qu.:0.0000   1st Qu.: 80.00   Class :character
+Mode  :character   Median :0.0000   Median :179.99   Mode  :character
+                   Mean   :0.4498   Mean   :211.18
+                   3rd Qu.:1.0000   3rd Qu.:300.00
+                   Max.   :1.0000   Max.   :999.00
+
+   cellular        carrier             color              storage
+Min.   :0.0000   Length:1861        Length:1861        Min.   : 16.00
+1st Qu.:0.0000   Class :character   Class :character   1st Qu.: 16.00
+Median :0.0000   Mode  :character   Mode  :character   Median : 16.00
+Mean   :0.3196                                         Mean   : 34.23
+3rd Qu.:1.0000                                         3rd Qu.: 32.00
+Max.   :1.0000                                         Max.   :128.00
+NA's   :234                                            NA's   :183
+productline             sold          UniqueID
+Length:1861        Min.   :0.0000   Length:1861
+Class :character   1st Qu.:0.0000   Class :character
+Mode  :character   Median :0.0000   Mode  :character
+                   Mean   :0.4621
+                   3rd Qu.:1.0000
+                   Max.   :1.0000
+</pre>
+</div>
+
+<div id="outline-container-sec-3-6-1" class="outline-4">
+<h4 id="sec-3-6-1"><span class="section-number-4">3.6.1</span> Baseline model</h4>
+<div class="outline-text-4" id="text-3-6-1">
+<p>
+We can plot the dependent variable <code>sold</code>, in order to know their
+behavior.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: The baseline model:"</span>)
+table(eBayTrain$sold)
+
+writeLines(<span style="color: #ff6a6a;">"\n :: The baseline model accuracy (NOT SOLD) is:"</span>)
+table(eBayTrain$sold)[1] / (table(eBayTrain$sold)[1] + table(eBayTrain$sold)[2])
+</pre>
+</div>
+
+<pre class="example">
+ :: The baseline model:
+
+   0    1
+1001  860
+
+ :: The baseline model accuracy (NOT SOLD) is:
+        0
+0.5378829
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-3-6-2" class="outline-4">
+<h4 id="sec-3-6-2"><span class="section-number-4">3.6.2</span> Summaries of the probable factor variables</h4>
+<div class="outline-text-4" id="text-3-6-2">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: The condition feature summary:"</span>)
+table(eBayTrain$condition)
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Any NA values:"</span>)
+anyNA(eBayTrain$condition)
+
+writeLines(<span style="color: #ff6a6a;">"\n :: The carrier feature supplier summary:"</span>)
+table(eBayTrain$carrier)
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Any NA values:"</span>)
+anyNA(eBayTrain$carrier)
+
+writeLines(<span style="color: #ff6a6a;">"\n :: The color of iPads:"</span>)
+table(eBayTrain$color)
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Any NA values:"</span>)
+anyNA(eBayTrain$color)
+
+writeLines(<span style="color: #ff6a6a;">"\n :: The product line:"</span>)
+table(eBayTrain$productline)
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Any NA values:"</span>)
+anyNA(eBayTrain$productline)
+</pre>
+</div>
+
+<pre class="example">
+ :: The condition feature summary:
+
+For parts or not working Manufacturer refurbished                      New
+                     181                       39                      289
+ New other (see details)       Seller refurbished                     Used
+                      85                      109                     1158
+
+ :: Any NA values:
+[1] FALSE
+
+ :: The carrier feature supplier summary:
+
+    AT&amp;T     None    Other   Sprint T-Mobile  Verizon
+     206     1111        3       30       19      144
+
+ :: Any NA values:
+[1] TRUE
+
+ :: The color of iPads:
+
+     Black       Gold Space Gray      White
+       425         77        202        449
+
+ :: Any NA values:
+[1] TRUE
+
+ :: The product line:
+
+          iPad 1           iPad 2           iPad 3           iPad 4
+             227              286              153              157
+          iPad 5         iPad Air       iPad Air 2        iPad mini
+               1              180              171              277
+     iPad mini 2      iPad mini 3 iPad mini Retina
+             107               90                8
+
+ :: Any NA values:
+[1] TRUE
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-3-6-3" class="outline-4">
+<h4 id="sec-3-6-3"><span class="section-number-4">3.6.3</span> What type of deal (auction) is better sold?</h4>
+<div class="outline-text-4" id="text-3-6-3">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Is an auction a better deal for customers?"</span>)
+<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">biddable as rows and sold as columns</span>
+m <span style="color: #db7093;">&lt;-</span> table(eBayTrain$biddable, eBayTrain$sold)
+m
+
+writeLines(<span style="color: #ff6a6a;">"\n :: The proportion of auctions sold:"</span>)
+m[2, 2] / (m[1, 2] + m[2, 2])
+</pre>
+</div>
+
+<pre class="example">
+ :: Is an auction a better deal for customers?
+
+      0   1
+  0 804 220
+  1 197 640
+
+ :: The proportion of auctions sold:
+[1] 0.744186
+</pre>
+
+<p>
+We understand that the auctions have a proportion of \(74.4\%\) of
+<b>success in sales</b>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-6-4" class="outline-4">
+<h4 id="sec-3-6-4"><span class="section-number-4">3.6.4</span> What is the sold products vs condition?</h4>
+<div class="outline-text-4" id="text-3-6-4">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: The condiction of the product vs. the sold outcome:"</span>)
+table(eBayTrain$condition, eBayTrain$sold)
+</pre>
+</div>
+
+<pre class="example">
+:: The condiction of the product vs. the sold outcome:
+
+                            0   1
+ For parts or not working  75 106
+ Manufacturer refurbished  25  14
+ New                      204  85
+ New other (see details)   51  34
+ Seller refurbished        74  35
+ Used                     572 586
+</pre>
+
+<p>
+The most sold product by condition is <b>used</b>. Now if we can see what is
+the proportion of used products as an auction.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Proportion of used vs auction:"</span>)
+table(eBayTrain$condition, eBayTrain$biddable)
+</pre>
+</div>
+
+<pre class="example">
+:: Proportion of used vs auction:
+
+                            0   1
+ For parts or not working  75 106
+ Manufacturer refurbished  29  10
+ New                      206  83
+ New other (see details)   55  30
+ Seller refurbished        77  32
+ Used                     582 576
+</pre>
+
+<p>
+We can see that the people prefer to sell their products with an fixed
+<b>expected price</b>. Besides, all the used offers as auctions was <b>sold</b>,
+and <b>only 10 non auction offers was sold</b>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-6-5" class="outline-4">
+<h4 id="sec-3-6-5"><span class="section-number-4">3.6.5</span> Is the cellular feature important for the customer?</h4>
+<div class="outline-text-4" id="text-3-6-5">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Cellular feature vs. the sold outcome:"</span>)
+m <span style="color: #db7093;">&lt;-</span> table(eBayTrain$cellular, eBayTrain$sold)
+m
+
+writeLines(<span style="color: #ff6a6a;">"\n :: The proportion of products with cellular feature sold is:"</span>)
+m[2, 2] / (m[2, 1] + m[2, 2])
+</pre>
+</div>
+
+<pre class="example">
+ :: Cellular feature vs. the sold outcome:
+
+      0   1
+  0 562 545
+  1 296 224
+
+ :: The proportion of products with cellular feature sold is:
+[1] 0.4307692
+</pre>
+
+<p>
+This result said us that the <b>cellular feature it is NOT the most
+important</b> feature for customers.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-6-6" class="outline-4">
+<h4 id="sec-3-6-6"><span class="section-number-4">3.6.6</span> Is the color important for the customer?</h4>
+<div class="outline-text-4" id="text-3-6-6">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: How much is the importance of the color?"</span>)
+table(eBayTrain$color, eBayTrain$sold)
+</pre>
+</div>
+
+<pre class="example">
+:: How much is the importance of the color?
+
+              0   1
+ Black      205 220
+ Gold        55  22
+ Space Gray 111  91
+ White      255 194
+</pre>
+
+<p>
+The vast majority prefer products in <b>black and white</b>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-6-7" class="outline-4">
+<h4 id="sec-3-6-7"><span class="section-number-4">3.6.7</span> Is the capacity an important feature to buy?</h4>
+<div class="outline-text-4" id="text-3-6-7">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Storage capacity vs. sold:"</span>)
+m <span style="color: #db7093;">&lt;-</span> table(eBayTrain$storage, eBayTrain$sold)
+m
+
+writeLines(<span style="color: #ff6a6a;">"\n :: The proportion of 16GB storage sold:"</span>)
+m[1, 2] / (m[1, 2] + m[2, 2] + m[3, 2] + m [4, 2])
+</pre>
+</div>
+
+<pre class="example">
+ :: Storage capacity vs. sold:
+
+        0   1
+  16  473 461
+  32  183 157
+  64  167 147
+  128  68  22
+
+ :: The proportion of 16GB storage sold:
+[1] 0.5857687
+</pre>
+
+<p>
+<b>The majority of people has bought their equipment with 16GB of ram</b>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-6-8" class="outline-4">
+<h4 id="sec-3-6-8"><span class="section-number-4">3.6.8</span> What is the most sold product?</h4>
+<div class="outline-text-4" id="text-3-6-8">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Products sold:"</span>)
+table(eBayTrain$productline, eBayTrain$sold)
+</pre>
+</div>
+
+<pre class="example">
+:: Products sold:
+
+                    0   1
+ iPad 1           102 125
+ iPad 2           139 147
+ iPad 3            73  80
+ iPad 4            93  64
+ iPad 5             0   1
+ iPad Air         102  78
+ iPad Air 2       100  71
+ iPad mini        145 132
+ iPad mini 2       58  49
+ iPad mini 3       63  27
+ iPad mini Retina   4   4
+</pre>
+
+<p>
+The best sold product is the <b>iPad 2</b>.
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 20/07/2015</p>
+<p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
+<p class="date">Created: 2015-07-28 Tue 09:22</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

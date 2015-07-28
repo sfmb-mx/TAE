@@ -345,7 +345,6 @@ How many observations (songs) are from the year 2010?
 
   writeLines("\n :: Other way to calculate:")
   table(songs$year)
-
 #+end_src
 
 #+RESULTS:

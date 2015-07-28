@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Unit 3 - Logistic Regression</title>
-<!-- 2015-06-30 Tue 08:13 -->
+<!-- 2015-07-28 Tue 07:32 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Sergio-Feliciano Mendoza-Barrera" />
@@ -299,7 +299,7 @@ belonging to class 0.
 
 <p>
 In the second step of logistic regression, a threshold value is used
-to classify each observation into one of the classes. - [ ] A common choice
+to classify each observation into one of the classes. A common choice
 is \(0.5\), meaning that if \(P(y = 1) \geq 0.5\), the observation is
 classified into class 1, and if \(P(y = 1) < 0.5\), the observation is
 classified into class 0. Simply stated, each observation is classified
@@ -311,9 +311,9 @@ However, other threshold values can be chosen, and in some cases are
 more appropriate. The threshold value that should be selected often
 depends on error preferences. When the probabilities are converted
 into class predictions, two types of errors can be made: false
-positives, and false negatives. - [ ] A <b>false positive error</b> is made when
+positives, and false negatives. A <b>false positive error</b> is made when
 the model predicts class 1, but the observation actually belongs to
-class 0. - [ ] A <b>false negative error</b> is made when the model predicts class
+class 0. A <b>false negative error</b> is made when the model predicts class
 0, but the observation actually belongs to class 1. If a higher
 threshold value is selected, more false negative errors will be
 made. If a lower threshold value is selected, more false positive
@@ -356,7 +356,7 @@ inbox themselves) but at least an important message was not missed.
 
 <p>
 This error trade-off can be formalized with a <a href="https://courses.edx.org/wiki/15.071x_2/logistic-regression/confusion-matrix">Confusion Matrix</a> or a
-<a href="https://courses.edx.org/wiki/15.071x_2/logistic-regression/roc-curve">Receiver Operator Characteristic Curve (ROC curve)</a>. - [ ] A confusion matrix
+<a href="https://courses.edx.org/wiki/15.071x_2/logistic-regression/roc-curve">Receiver Operator Characteristic Curve (ROC curve)</a>. A confusion matrix
 compares predicted classes with actual classes for a particular
 threshold value, while an ROC curve plots the false positive rate
 versus the true positive rate for all possible threshold values. The
@@ -774,11 +774,8 @@ takes values between \(0\) and \(1\), which makes sense, since it equals a
 probability.
 </p>
 
-<ul class="org-ul">
-<li><code>[&#xa0;]</code> A positive coefficient value for a variable increases the linear
-</li>
-</ul>
 <p>
+A positive coefficient value for a variable increases the linear
 regression piece, which increases the probability that \(y = 1\), or
 increases the probability of poor care. On the other hand, a negative
 coefficient value for a variable decreases the linear regression
@@ -875,7 +872,7 @@ $$
 <pre class="src src-R">beta0 <span style="color: #db7093;">&lt;-</span> -1.5; beta1 <span style="color: #db7093;">&lt;-</span> 3; beta2 <span style="color: #db7093;">&lt;-</span> -0.5;
 x1 <span style="color: #db7093;">&lt;-</span> 1; x2 <span style="color: #db7093;">&lt;-</span> 5
 logit <span style="color: #db7093;">&lt;-</span> beta0 + (beta1 * x1) + (beta2 * x2)
-writeLines(<span style="color: #fffacd;">"\n :: The value of logit is:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: The value of logit is:"</span>)
 logit
 </pre>
 </div>
@@ -913,7 +910,7 @@ exp(x). The function exp() computes the exponential of its argument.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: The value of odds is:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: The value of odds is:"</span>)
 exp(logit)
 </pre>
 </div>
@@ -950,7 +947,7 @@ What is the value of P(y = 1) for this observation?
 <div class="org-src-container">
 
 <pre class="src src-R">P <span style="color: #db7093;">&lt;-</span> 1 / (1 + exp(-logit))
-writeLines(<span style="color: #fffacd;">"\n :: The probability of P(y = 1) is:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: The probability of P(y = 1) is:"</span>)
 P
 </pre>
 </div>
@@ -1023,23 +1020,23 @@ In this part we can download the data
 
 <pre class="src src-R"><span style="color: #db7093;">library</span>(parallel)
 
-<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #fffacd;">"../data"</span>)) {
-        dir.create(<span style="color: #fffacd;">"../data"</span>)
+<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #ff6a6a;">"../data"</span>)) {
+        dir.create(<span style="color: #ff6a6a;">"../data"</span>)
 }
 
-fileUrl <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/quality.csv"</span>
+fileUrl <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/quality.csv"</span>
 
-fileName <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"quality.csv"</span>
+fileName <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"quality.csv"</span>
 
-dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"../data"</span>
+dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"../data"</span>
 
-filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #fffacd;">"/"</span>)
+filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #ff6a6a;">"/"</span>)
 
 <span style="color: #4682b4;">if</span>(!file.exists(filePath)) {
-        download.file(fileUrl, destfile = filePath, method = <span style="color: #fffacd;">"curl"</span>)
+        download.file(fileUrl, destfile = filePath, method = <span style="color: #ff6a6a;">"curl"</span>)
 }
 
-list.files(<span style="color: #fffacd;">"../data"</span>)
+list.files(<span style="color: #ff6a6a;">"../data"</span>)
 </pre>
 </div>
 
@@ -1069,8 +1066,8 @@ list.files(<span style="color: #fffacd;">"../data"</span>)
 <div class="outline-text-4" id="text-1-9-2">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"    Loading data into their data frames."</span>)
-quality <span style="color: #db7093;">&lt;-</span> read.table(<span style="color: #fffacd;">"../data/quality.csv"</span>, sep = <span style="color: #fffacd;">","</span>, header = <span style="color: #3cb371;">TRUE</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"    Loading data into their data frames."</span>)
+quality <span style="color: #db7093;">&lt;-</span> read.table(<span style="color: #ff6a6a;">"../data/quality.csv"</span>, sep = <span style="color: #ff6a6a;">","</span>, header = <span style="color: #3cb371;">TRUE</span>)
 str(quality)
 summary(quality)
 </pre>
@@ -1253,11 +1250,11 @@ measure our out-of-sample accuracy.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Install and load caTools package (Only once)"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Install and load caTools package (Only once)"</span>)
 <span style="color: #9932cc;">## </span><span style="color: #ba55d3;">install.packages('caTools', repos='http://cran.rstudio.com/')</span>
 <span style="color: #db7093;">library</span>(caTools)
 
-writeLines(<span style="color: #fffacd;">"\n :: Randomly split data"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Randomly split data"</span>)
 set.seed(88)
 split <span style="color: #db7093;">&lt;-</span> sample.split(quality$PoorCare, SplitRatio = 0.75)
 head(split)
@@ -1297,14 +1294,14 @@ receiving good care.
 <div class="outline-text-4" id="text-1-9-5">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Create training and testing sets"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Create training and testing sets"</span>)
 qualityTrain <span style="color: #db7093;">&lt;-</span> subset(quality, split == <span style="color: #3cb371;">TRUE</span>)
 qualityTest <span style="color: #db7093;">&lt;-</span> subset(quality, split == <span style="color: #3cb371;">FALSE</span>)
 
-writeLines(<span style="color: #fffacd;">"\n :: The number of observations in the training set"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: The number of observations in the training set"</span>)
 nrow(qualityTrain)
 
-writeLines(<span style="color: #fffacd;">"\n :: The number of observations in the testing set"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: The number of observations in the testing set"</span>)
 nrow(qualityTest)
 </pre>
 </div>
@@ -1326,7 +1323,7 @@ and <b>Narcotics</b> as independent variables.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: First Logistic Regression Model"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: First Logistic Regression Model"</span>)
 QualityLog <span style="color: #db7093;">&lt;-</span> glm(PoorCare ~ OfficeVisits + Narcotics,
                   data=qualityTrain, family = binomial)
 summary(QualityLog)
@@ -1385,8 +1382,8 @@ The preferred model is the one with the minimum <b>AIC</b>.
 <div class="outline-text-4" id="text-1-9-6">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Make predictions on training set"</span>)
-predictTrain <span style="color: #db7093;">&lt;-</span> predict(QualityLog, type = <span style="color: #fffacd;">"response"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Make predictions on training set"</span>)
+predictTrain <span style="color: #db7093;">&lt;-</span> predict(QualityLog, type = <span style="color: #ff6a6a;">"response"</span>)
 </pre>
 </div>
 
@@ -1402,7 +1399,7 @@ statistical summary of our predictions.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Analyze predictions"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Analyze predictions"</span>)
 summary(predictTrain)
 tapply(predictTrain, qualityTrain$PoorCare, mean)
 </pre>
@@ -1490,8 +1487,8 @@ PoorCare using the R command:
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: create a logistic regression model to predict PoorCare using</span>
-<span style="color: #fffacd;">the independent variables StartedOnCombination and ProviderCount:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: create a logistic regression model to predict PoorCare using</span>
+<span style="color: #ff6a6a;">the independent variables StartedOnCombination and ProviderCount:"</span>)
 QualityLog2 <span style="color: #db7093;">&lt;-</span> glm(PoorCare ~ StartedOnCombination + ProviderCount,
                    data = qualityTrain, family = binomial)
 summary(QualityLog2)
@@ -1689,24 +1686,23 @@ correctly.
 <li>The Specificity is called <b>the true negative rate</b> and measures the
 percentage of actual good care cases that we classify correctly.
 </li>
-
-<li><code>[&#xa0;]</code> A model with a <b>higher threshold</b> will have a <b>lower sensitivity</b> and a
-</li>
 </ul>
+
 <p>
-<b>higher specificity</b>. - [ ] A model with a <b>lower threshold</b> will have a higher
+A model with a <b>higher threshold</b> will have a <b>lower sensitivity</b> and a
+<b>higher specificity</b>. A model with a <b>lower threshold</b> will have a higher
 <b>sensitivity</b> and a lower <b>specificity</b>.
 </p>
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Confusion matrix for threshold of 0.5:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Confusion matrix for threshold of 0.5:"</span>)
 table(qualityTrain$PoorCare, predictTrain &gt; 0.5)
 
-writeLines(<span style="color: #fffacd;">"\n :: Sensitivity:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Sensitivity:"</span>)
 10/25
 
-writeLines(<span style="color: #fffacd;">"\n :: Specificity:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Specificity:"</span>)
 70/74
 </pre>
 </div>
@@ -1743,13 +1739,13 @@ Now we can experiment with a higher threshold:
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Confusion matrix for threshold of 0.7"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Confusion matrix for threshold of 0.7"</span>)
 table(qualityTrain$PoorCare, predictTrain &gt; 0.7)
 
-writeLines(<span style="color: #fffacd;">"\n :: Sensitivity:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Sensitivity:"</span>)
 8/25
 
-writeLines(<span style="color: #fffacd;">"\n :: Specificity:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Specificity:"</span>)
 73/74
 </pre>
 </div>
@@ -1779,13 +1775,13 @@ If now we choose a small threshold:
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Confusion matrix for threshold of 0.2"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Confusion matrix for threshold of 0.2"</span>)
 table(qualityTrain$PoorCare, predictTrain &gt; 0.2)
 
-writeLines(<span style="color: #fffacd;">"\n :: Sensitivity:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Sensitivity:"</span>)
 16/25
 
-writeLines(<span style="color: #fffacd;">"\n :: Specificity:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Specificity:"</span>)
 54/74
 </pre>
 </div>
@@ -1862,11 +1858,11 @@ This question asks about the following two confusion matrices:
 <div class="org-src-container">
 
 <pre class="src src-R">TP <span style="color: #db7093;">&lt;-</span> 20; TN <span style="color: #db7093;">&lt;-</span> 15; FP <span style="color: #db7093;">&lt;-</span> 10; FN <span style="color: #db7093;">&lt;-</span> 5;
-writeLines(<span style="color: #fffacd;">"\n :: Sensitivity:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Sensitivity:"</span>)
 Sensitivity <span style="color: #db7093;">&lt;-</span> TP / (TP + FN)
 Sensitivity
 
-writeLines(<span style="color: #fffacd;">"\n :: Specificity:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Specificity:"</span>)
 Specificity <span style="color: #db7093;">&lt;-</span> TN / (TN + FP)
 Specificity
 </pre>
@@ -1947,11 +1943,11 @@ by the true negatives plus the false positives. In this case, it is
 <div class="org-src-container">
 
 <pre class="src src-R">TP <span style="color: #db7093;">&lt;-</span> 15; TN <span style="color: #db7093;">&lt;-</span> 20; FP <span style="color: #db7093;">&lt;-</span> 5; FN <span style="color: #db7093;">&lt;-</span> 10;
-writeLines(<span style="color: #fffacd;">"\n :: Sensitivity:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Sensitivity:"</span>)
 Sensitivity <span style="color: #db7093;">&lt;-</span> TP / (TP + FN)
 Sensitivity
 
-writeLines(<span style="color: #fffacd;">"\n :: Specificity:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Specificity:"</span>)
 Specificity <span style="color: #db7093;">&lt;-</span> TN / (TN + FP)
 Specificity
 </pre>
@@ -1991,7 +1987,7 @@ we must have increased the threshold.
 <h3 id="sec-1-15"><span class="section-number-3">1.15</span> Video 6: ROC Curves</h3>
 <div class="outline-text-3" id="text-1-15">
 <p>
-Picking a good threshold value is often challenging. - [ ] A Receiver
+Picking a good threshold value is often challenging. A Receiver
 Operator Characteristic curve, or ROC curve, can help you decide which
 value of the threshold is best.
 </p>
@@ -2069,7 +2065,7 @@ choice in this case.
 <li>On the other hand, if you're more concerned with having a <b>high
 sensitivity</b> or <b>high true positive rate</b>, pick a threshold that
 <b>minimizes the false positive rate but has a very high true positive
-rate</b>. - [ ] A threshold around \((0.3, 0.8)\) looks like a good choice in
+rate</b>. A threshold around \((0.3, 0.8)\) looks like a good choice in
 this case.
 </li>
 </ul>
@@ -2105,15 +2101,15 @@ want on the x and y-axes.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Install package only once"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Install package only once"</span>)
 <span style="color: #9932cc;">## </span><span style="color: #ba55d3;">install.packages('ROCR', repos='http://cran.rstudio.com/')</span>
 <span style="color: #db7093;">library</span>(ROCR)
 
-writeLines(<span style="color: #fffacd;">"\n :: Prediction function"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Prediction function"</span>)
 ROCRpred = prediction(predictTrain, qualityTrain$PoorCare)
 
-writeLines(<span style="color: #fffacd;">"\n :: Performance function"</span>)
-ROCRperf = performance(ROCRpred, <span style="color: #fffacd;">"tpr"</span>, <span style="color: #fffacd;">"fpr"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Performance function"</span>)
+ROCRperf = performance(ROCRpred, <span style="color: #ff6a6a;">"tpr"</span>, <span style="color: #ff6a6a;">"fpr"</span>)
 </pre>
 </div>
 
@@ -2367,34 +2363,34 @@ doing so, we obtain the following confusion matrix.
 
 <div class="org-src-container">
 
-<pre class="src src-R">predictTest <span style="color: #db7093;">&lt;-</span> predict(QualityLog, type = <span style="color: #fffacd;">"response"</span>, newdata = qualityTest)
+<pre class="src src-R">predictTest <span style="color: #db7093;">&lt;-</span> predict(QualityLog, type = <span style="color: #ff6a6a;">"response"</span>, newdata = qualityTest)
 
-writeLines(<span style="color: #fffacd;">"\n :: Confusion matrix for threshold of 0.3:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Confusion matrix for threshold of 0.3:"</span>)
 table(qualityTest$PoorCare, predictTest &gt; 0.3)
 
 TN <span style="color: #db7093;">&lt;-</span> 19; TP <span style="color: #db7093;">&lt;-</span> 6; FN <span style="color: #db7093;">&lt;-</span> 2; FP <span style="color: #db7093;">&lt;-</span> 5
 
-writeLines(<span style="color: #fffacd;">"\n :: Overall accuracy:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Overall accuracy:"</span>)
 OverallAccuracy <span style="color: #db7093;">&lt;-</span> (TN + TP) / nrow(qualityTest)
 OverallAccuracy
 
-writeLines(<span style="color: #fffacd;">"\n :: Sensitivity:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Sensitivity:"</span>)
 Sensitivity <span style="color: #db7093;">&lt;-</span> TP / (TP + FN)
 Sensitivity
 
-writeLines(<span style="color: #fffacd;">"\n :: Specificity:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Specificity:"</span>)
 Specificity <span style="color: #db7093;">&lt;-</span> TN / (TN + FP)
 Specificity
 
-writeLines(<span style="color: #fffacd;">"\n :: Overall error rate:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Overall error rate:"</span>)
 OverallErrorRate <span style="color: #db7093;">&lt;-</span> (FP + FN) / nrow(qualityTest)
 OverallErrorRate
 
-writeLines(<span style="color: #fffacd;">"\n :: False Negative Error Rate:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: False Negative Error Rate:"</span>)
 FalseNegativeErrorRate <span style="color: #db7093;">&lt;-</span> FN / (TP + FN)
 FalseNegativeErrorRate
 
-writeLines(<span style="color: #fffacd;">"\n :: False Positive Error Rate:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: False Positive Error Rate:"</span>)
 FalsePositiveErrorRate <span style="color: #db7093;">&lt;-</span> FP / ( TN + FP)
 FalsePositiveErrorRate
 </pre>
@@ -2463,9 +2459,9 @@ in R:
 <div class="org-src-container">
 
 <pre class="src src-R">ROCRpredTest <span style="color: #db7093;">&lt;-</span> prediction(predictTest, qualityTest$PoorCare)
-auc <span style="color: #db7093;">&lt;-</span> as.numeric(performance(ROCRpredTest, <span style="color: #fffacd;">"auc"</span>)@y.values)
+auc <span style="color: #db7093;">&lt;-</span> as.numeric(performance(ROCRpredTest, <span style="color: #ff6a6a;">"auc"</span>)@y.values)
 
-writeLines(<span style="color: #fffacd;">"\n :: The AUC of the test set is:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: The AUC of the test set is:"</span>)
 auc
 </pre>
 </div>
@@ -2635,7 +2631,7 @@ needed
 </ul>
 
 <p>
-"- [ ] A moderate degree of arteriosclerosis, although no more than normal
+"A moderate degree of arteriosclerosis, although no more than normal
 for a man of his age"
 </p>
 
@@ -2939,23 +2935,23 @@ In this part we can download the data
 
 <pre class="src src-R"><span style="color: #db7093;">library</span>(parallel)
 
-<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #fffacd;">"../data"</span>)) {
-        dir.create(<span style="color: #fffacd;">"../data"</span>)
+<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #ff6a6a;">"../data"</span>)) {
+        dir.create(<span style="color: #ff6a6a;">"../data"</span>)
 }
 
-fileUrl <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/framingham.csv"</span>
+fileUrl <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/framingham.csv"</span>
 
-fileName <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"framingham.csv"</span>
+fileName <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"framingham.csv"</span>
 
-dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"../data"</span>
+dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"../data"</span>
 
-filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #fffacd;">"/"</span>)
+filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #ff6a6a;">"/"</span>)
 
 <span style="color: #4682b4;">if</span>(!file.exists(filePath)) {
-        download.file(fileUrl, destfile = filePath, method = <span style="color: #fffacd;">"curl"</span>)
+        download.file(fileUrl, destfile = filePath, method = <span style="color: #ff6a6a;">"curl"</span>)
 }
 
-list.files(<span style="color: #fffacd;">"../data"</span>)
+list.files(<span style="color: #ff6a6a;">"../data"</span>)
 </pre>
 </div>
 
@@ -2985,8 +2981,8 @@ list.files(<span style="color: #fffacd;">"../data"</span>)
 <div class="outline-text-4" id="text-2-5-2">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"    Loading data into their data frames."</span>)
-framingham <span style="color: #db7093;">&lt;-</span> read.table(<span style="color: #fffacd;">"../data/framingham.csv"</span>, sep = <span style="color: #fffacd;">","</span>, header = <span style="color: #3cb371;">TRUE</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"    Loading data into their data frames."</span>)
+framingham <span style="color: #db7093;">&lt;-</span> read.table(<span style="color: #ff6a6a;">"../data/framingham.csv"</span>, sep = <span style="color: #ff6a6a;">","</span>, header = <span style="color: #3cb371;">TRUE</span>)
 str(framingham)
 summary(framingham)
 </pre>
@@ -3071,14 +3067,14 @@ model on the test set.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Load the library caTools"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Load the library caTools"</span>)
 <span style="color: #db7093;">library</span>(caTools)
 
-writeLines(<span style="color: #fffacd;">"\n :: Randomly split the data into training and testing sets"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Randomly split the data into training and testing sets"</span>)
 set.seed(1000)
 split <span style="color: #db7093;">&lt;-</span> sample.split(framingham$TenYearCHD, SplitRatio = 0.65)
 
-writeLines(<span style="color: #fffacd;">"\n :: Split up the data using subset"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Split up the data using subset"</span>)
 train <span style="color: #db7093;">&lt;-</span> subset(framingham, split==<span style="color: #3cb371;">TRUE</span>)
 test <span style="color: #db7093;">&lt;-</span> subset(framingham, split==<span style="color: #3cb371;">FALSE</span>)
 </pre>
@@ -3113,7 +3109,7 @@ training set.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Logistic Regression Model"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Logistic Regression Model"</span>)
 framinghamLog <span style="color: #db7093;">&lt;-</span> glm(TenYearCHD ~ ., data = train, family=binomial)
 summary(framinghamLog)
 </pre>
@@ -3182,16 +3178,16 @@ Now, let's use this model to make predictions on our test set.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Predictions on the test set"</span>)
-predictTest <span style="color: #db7093;">&lt;-</span> predict(framinghamLog, type=<span style="color: #fffacd;">"response"</span>, newdata=test)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Predictions on the test set"</span>)
+predictTest <span style="color: #db7093;">&lt;-</span> predict(framinghamLog, type = <span style="color: #ff6a6a;">"response"</span>, newdata = test)
 
-writeLines(<span style="color: #fffacd;">"\n :: Confusion matrix with threshold of 0.5"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Confusion matrix with threshold of 0.5"</span>)
 table(test$TenYearCHD, predictTest &gt; 0.5)
 
-writeLines(<span style="color: #fffacd;">"\n :: Accuracy"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Accuracy"</span>)
 (1069 + 11) / (1069 + 6 + 187 + 11)
 
-writeLines(<span style="color: #fffacd;">"\n :: Baseline accuracy"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Baseline accuracy"</span>)
 (1069 + 6) / (1069 + 6 + 187 + 11)
 </pre>
 </div>
@@ -3236,10 +3232,10 @@ have a valuable model by varying the threshold? Let's compute the
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Test set AUC "</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Test set AUC "</span>)
 <span style="color: #db7093;">library</span>(ROCR)
 ROCRpred <span style="color: #db7093;">&lt;-</span> prediction(predictTest, test$TenYearCHD)
-as.numeric(performance(ROCRpred, <span style="color: #fffacd;">"auc"</span>)@y.values)
+as.numeric(performance(ROCRpred, <span style="color: #ff6a6a;">"auc"</span>)@y.values)
 </pre>
 </div>
 
@@ -3304,11 +3300,11 @@ Using this confusion matrix, answer the following questions.
 <pre class="src src-R">TN <span style="color: #db7093;">&lt;-</span> 1069; FP <span style="color: #db7093;">&lt;-</span> 6
 FN <span style="color: #db7093;">&lt;-</span> 187; TP <span style="color: #db7093;">&lt;-</span> 11
 
-writeLines(<span style="color: #fffacd;">"\n :: The Sensitivity is:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: The Sensitivity is:"</span>)
 Sensitivity <span style="color: #db7093;">&lt;-</span> TP / (TP + FN)
 Sensitivity
 
-writeLines(<span style="color: #fffacd;">"\n :: The Specificity is:"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: The Specificity is:"</span>)
 Specificity <span style="color: #db7093;">&lt;-</span> TN / (TN + FP)
 Specificity
 </pre>
@@ -3922,23 +3918,23 @@ In this part we can download the data
 
 <pre class="src src-R"><span style="color: #db7093;">library</span>(parallel)
 
-<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #fffacd;">"../data"</span>)) {
-        dir.create(<span style="color: #fffacd;">"../data"</span>)
+<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #ff6a6a;">"../data"</span>)) {
+        dir.create(<span style="color: #ff6a6a;">"../data"</span>)
 }
 
-fileUrl <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/PollingData.csv"</span>
+fileUrl <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/PollingData.csv"</span>
 
-fileName <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"PollingData.csv"</span>
+fileName <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"PollingData.csv"</span>
 
-dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"../data"</span>
+dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"../data"</span>
 
-filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #fffacd;">"/"</span>)
+filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #ff6a6a;">"/"</span>)
 
 <span style="color: #4682b4;">if</span>(!file.exists(filePath)) {
-        download.file(fileUrl, destfile = filePath, method = <span style="color: #fffacd;">"curl"</span>)
+        download.file(fileUrl, destfile = filePath, method = <span style="color: #ff6a6a;">"curl"</span>)
 }
 
-list.files(<span style="color: #fffacd;">"../data"</span>)
+list.files(<span style="color: #ff6a6a;">"../data"</span>)
 </pre>
 </div>
 
@@ -3968,8 +3964,8 @@ list.files(<span style="color: #fffacd;">"../data"</span>)
 <div class="outline-text-4" id="text-3-2-2">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"    Loading data into their data frames."</span>)
-polling <span style="color: #db7093;">&lt;-</span> read.table(<span style="color: #fffacd;">"../data/PollingData.csv"</span>, sep = <span style="color: #fffacd;">","</span>, header = <span style="color: #3cb371;">TRUE</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"    Loading data into their data frames."</span>)
+polling <span style="color: #db7093;">&lt;-</span> read.table(<span style="color: #ff6a6a;">"../data/PollingData.csv"</span>, sep = <span style="color: #ff6a6a;">","</span>, header = <span style="color: #3cb371;">TRUE</span>)
 str(polling)
 table(polling$Year)
 summary(polling)
@@ -4099,7 +4095,7 @@ value would likely be filled in as a negative value as well.
 <div class="outline-text-4" id="text-3-2-5">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Install and load mice package (Only once)"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Install and load mice package (Only once)"</span>)
 <span style="color: #9932cc;">## </span><span style="color: #ba55d3;">install.packages('mice', repos='http://cran.rstudio.com/')</span>
 <span style="color: #db7093;">library</span>(mice)
 </pre>
@@ -4128,8 +4124,8 @@ just going to be our original polling data frame limited to <b>Rasmussen</b>,
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Multiple imputation"</span>)
-simple <span style="color: #db7093;">&lt;-</span> polling[c(<span style="color: #fffacd;">"Rasmussen"</span>, <span style="color: #fffacd;">"SurveyUSA"</span>, <span style="color: #fffacd;">"PropR"</span>, <span style="color: #fffacd;">"DiffCount"</span>)]
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Multiple imputation"</span>)
+simple <span style="color: #db7093;">&lt;-</span> polling[c(<span style="color: #ff6a6a;">"Rasmussen"</span>, <span style="color: #ff6a6a;">"SurveyUSA"</span>, <span style="color: #ff6a6a;">"PropR"</span>, <span style="color: #ff6a6a;">"DiffCount"</span>)]
 summary(simple)
 </pre>
 </div>
@@ -4264,23 +4260,23 @@ In this part we can download the data
 
 <pre class="src src-R"><span style="color: #db7093;">library</span>(parallel)
 
-<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #fffacd;">"../data"</span>)) {
-        dir.create(<span style="color: #fffacd;">"../data"</span>)
+<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #ff6a6a;">"../data"</span>)) {
+        dir.create(<span style="color: #ff6a6a;">"../data"</span>)
 }
 
-fileUrl <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/PollingData_Imputed.csv"</span>
+fileUrl <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/PollingData_Imputed.csv"</span>
 
-fileName <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"PollingData_Imputed.csv"</span>
+fileName <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"PollingData_Imputed.csv"</span>
 
-dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #fffacd;">"../data"</span>
+dataPath <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">"../data"</span>
 
-filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #fffacd;">"/"</span>)
+filePath <span style="color: #db7093;">&lt;-</span> paste(dataPath, fileName, sep = <span style="color: #ff6a6a;">"/"</span>)
 
 <span style="color: #4682b4;">if</span>(!file.exists(filePath)) {
-        download.file(fileUrl, destfile = filePath, method = <span style="color: #fffacd;">"curl"</span>)
+        download.file(fileUrl, destfile = filePath, method = <span style="color: #ff6a6a;">"curl"</span>)
 }
 
-list.files(<span style="color: #fffacd;">"../data"</span>)
+list.files(<span style="color: #ff6a6a;">"../data"</span>)
 </pre>
 </div>
 
@@ -4310,8 +4306,8 @@ list.files(<span style="color: #fffacd;">"../data"</span>)
 <div class="outline-text-4" id="text-3-2-7">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"    Loading the imputed data into their data frame."</span>)
-polling <span style="color: #db7093;">&lt;-</span> read.table(<span style="color: #fffacd;">"../data/PollingData_Imputed.csv"</span>, sep = <span style="color: #fffacd;">","</span>, header = <span style="color: #3cb371;">TRUE</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"    Loading the imputed data into their data frame."</span>)
+polling <span style="color: #db7093;">&lt;-</span> read.table(<span style="color: #ff6a6a;">"../data/PollingData_Imputed.csv"</span>, sep = <span style="color: #ff6a6a;">","</span>, header = <span style="color: #3cb371;">TRUE</span>)
 str(polling)
 table(polling$Year)
 summary(polling)
@@ -4363,7 +4359,7 @@ going to test on data from the 2012 presidential election.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Subset data into training set and test set"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Subset data into training set and test set"</span>)
 Train <span style="color: #db7093;">&lt;-</span> subset(polling, Year == 2004 | Year == 2008)
 Test <span style="color: #db7093;">&lt;-</span> subset(polling, Year == 2012)
 </pre>
@@ -4381,7 +4377,7 @@ we want to compare a later logistic regression model.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Naive Baseline"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Naive Baseline"</span>)
 table(Train$Republican)
 </pre>
 </div>
@@ -4431,12 +4427,12 @@ tied, the model would not know which one to select.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: The Sign function:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: The Sign function:"</span>)
 sign(20)
 sign(-10)
 sign(0)
 
-writeLines(<span style="color: #fffacd;">"\n :: Applying to the training set"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: Applying to the training set"</span>)
 table(sign(Train$Rasmussen))
 </pre>
 </div>
@@ -4495,7 +4491,7 @@ the state.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Comparing the smart baseline with the actual result"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Comparing the smart baseline with the actual result"</span>)
 table(Train$Republican, sign(Train$Rasmussen))
 </pre>
 </div>
@@ -4569,7 +4565,7 @@ Republican candidate is performing  in the particular state.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Multicollinearity"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Multicollinearity"</span>)
 <span style="color: #9932cc;">## </span><span style="color: #ba55d3;">cor(Train)                              # Error because is not numeric</span>
 </pre>
 </div>
@@ -4596,11 +4592,11 @@ this correlation matrix.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Eliminate the issue:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Eliminate the issue:"</span>)
 str(Train)
 
-writeLines(<span style="color: #fffacd;">"\n :: The correlation between variables:"</span>)
-cor(Train[c(<span style="color: #fffacd;">"Rasmussen"</span>, <span style="color: #fffacd;">"SurveyUSA"</span>, <span style="color: #fffacd;">"PropR"</span>, <span style="color: #fffacd;">"DiffCount"</span>, <span style="color: #fffacd;">"Republican"</span>)])
+writeLines(<span style="color: #ff6a6a;">"\n :: The correlation between variables:"</span>)
+cor(Train[c(<span style="color: #ff6a6a;">"Rasmussen"</span>, <span style="color: #ff6a6a;">"SurveyUSA"</span>, <span style="color: #ff6a6a;">"PropR"</span>, <span style="color: #ff6a6a;">"DiffCount"</span>, <span style="color: #ff6a6a;">"Republican"</span>)])
 </pre>
 </div>
 
@@ -4651,8 +4647,8 @@ the <b>Republican</b> status.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Logistic Regression Model 1:"</span>)
-mod1 <span style="color: #db7093;">&lt;-</span> glm(Republican ~ PropR, data = Train, family = <span style="color: #fffacd;">"binomial"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Logistic Regression Model 1:"</span>)
+mod1 <span style="color: #db7093;">&lt;-</span> glm(Republican ~ PropR, data = Train, family = <span style="color: #ff6a6a;">"binomial"</span>)
 summary(mod1)
 </pre>
 </div>
@@ -4710,8 +4706,8 @@ it type = "response" to get probabilities out as the predictions.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Training set predictions"</span>)
-pred1 <span style="color: #db7093;">&lt;-</span> predict(mod1, type=<span style="color: #fffacd;">"response"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Training set predictions"</span>)
+pred1 <span style="color: #db7093;">&lt;-</span> predict(mod1, type=<span style="color: #ff6a6a;">"response"</span>)
 table(Train$Republican, pred1 &gt;= 0.5)
 </pre>
 </div>
@@ -4760,9 +4756,9 @@ now using <b>SurveyUSA plus DiffCount</b>.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Two-variable model"</span>)
-mod2 <span style="color: #db7093;">&lt;-</span> glm(Republican ~ SurveyUSA + DiffCount, data = Train, family = <span style="color: #fffacd;">"binomial"</span>)
-pred2 <span style="color: #db7093;">&lt;-</span> predict(mod2, type = <span style="color: #fffacd;">"response"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Two-variable model"</span>)
+mod2 <span style="color: #db7093;">&lt;-</span> glm(Republican ~ SurveyUSA + DiffCount, data = Train, family = <span style="color: #ff6a6a;">"binomial"</span>)
+pred2 <span style="color: #db7093;">&lt;-</span> predict(mod2, type = <span style="color: #ff6a6a;">"response"</span>)
 table(Train$Republican, pred2 &gt;= 0.5)
 summary(mod2)
 </pre>
@@ -4843,7 +4839,7 @@ the election.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Smart baseline accuracy:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Smart baseline accuracy:"</span>)
 table(Test$Republican, sign(Test$Rasmussen))
 </pre>
 </div>
@@ -4883,8 +4879,8 @@ we selected mod2, which was the two variable model.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Test set predictions:"</span>)
-TestPrediction <span style="color: #db7093;">&lt;-</span> predict(mod2, newdata = Test, type = <span style="color: #fffacd;">"response"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Test set predictions:"</span>)
+TestPrediction <span style="color: #db7093;">&lt;-</span> predict(mod2, newdata = Test, type = <span style="color: #ff6a6a;">"response"</span>)
 table(Test$Republican, TestPrediction &gt;= 0.5)
 </pre>
 </div>
@@ -4939,7 +4935,7 @@ case when that one failed.
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #fffacd;">"\n :: Analyze mistake:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Analyze mistake:"</span>)
 subset(Test, TestPrediction &gt;= 0.5 &amp; Republican == 0)
 </pre>
 </div>
@@ -4985,7 +4981,7 @@ model to use in the election prediction.
 <div id="postamble" class="status">
 <p class="date">Date: 26/06/2015</p>
 <p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
-<p class="date">Created: 2015-06-30 Tue 08:13</p>
+<p class="date">Created: 2015-07-28 Tue 07:32</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
