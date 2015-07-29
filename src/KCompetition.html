@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Kaggle Competition. 15.071x - The Analytics Edge (Summer 2015).</title>
-<!-- 2015-07-28 Tue 09:22 -->
+<!-- 2015-07-28 Tue 18:16 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Sergio-Feliciano Mendoza-Barrera" />
@@ -214,6 +214,8 @@ for the JavaScript code in this tag.
 <li><a href="#sec-3-4">3.4. Load the data set</a></li>
 <li><a href="#sec-3-5">3.5. Preprocessing the data</a></li>
 <li><a href="#sec-3-6">3.6. Understanding each type and distribution of the data</a></li>
+<li><a href="#sec-3-7">3.7. Correlation between variables</a></li>
+<li><a href="#sec-3-8">3.8. Logistic regression model</a></li>
 </ul>
 </li>
 </ul>
@@ -1058,12 +1060,109 @@ The best sold product is the <b>iPad 2</b>.
 </div>
 </div>
 </div>
+
+<div id="outline-container-sec-3-7" class="outline-3">
+<h3 id="sec-3-7"><span class="section-number-3">3.7</span> Correlation between variables</h3>
+<div class="outline-text-3" id="text-3-7">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: The correlation matrix:"</span>)
+cor(eBayTrain[c(<span style="color: #ff6a6a;">"biddable"</span>, <span style="color: #ff6a6a;">"startprice"</span>, <span style="color: #ff6a6a;">"cellular"</span>, <span style="color: #ff6a6a;">"storage"</span>)])
+</pre>
+</div>
+
+<pre class="example">
+ :: The correlation matrix:
+             biddable startprice cellular storage
+biddable    1.0000000 -0.4550538       NA      NA
+startprice -0.4550538  1.0000000       NA      NA
+cellular           NA         NA        1      NA
+storage            NA         NA       NA       1
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-3-8" class="outline-3">
+<h3 id="sec-3-8"><span class="section-number-3">3.8</span> Logistic regression model</h3>
+<div class="outline-text-3" id="text-3-8">
+<p>
+The first logistic regression model
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Create a logistic regression model to predict sold using\nthe independent all variables:"</span>)
+
+eBayLR01 <span style="color: #db7093;">&lt;-</span> glm(sold ~ biddable + startprice + condition + cellular +
+                        carrier + color + storage + productline, data
+                        = eBayTrain, family = binomial)
+summary(eBayLR01)
+</pre>
+</div>
+
+<pre class="example">
+ :: Create a logistic regression model to predict sold using
+the independent all variables:
+
+Call:
+glm(formula = sold ~ biddable + startprice + condition + cellular +
+    carrier + color + storage + productline, family = binomial,
+    data = eBayTrain)
+
+Deviance Residuals:
+    Min       1Q   Median       3Q      Max
+-3.3651  -0.6991  -0.1450   0.5932   2.6567
+
+Coefficients: (1 not defined because of singularities)
+                                    Estimate Std. Error z value Pr(&gt;|z|)
+(Intercept)                       -1.826e-01  4.626e-01  -0.395 0.693046
+biddable                           1.368e+00  2.017e-01   6.783 1.18e-11 ***
+startprice                        -1.698e-02  1.806e-03  -9.399  &lt; 2e-16 ***
+conditionManufacturer refurbished  1.079e+00  6.748e-01   1.600 0.109676
+conditionNew                       1.583e+00  5.566e-01   2.845 0.004446 **
+conditionNew other (see details)   7.325e-01  6.442e-01   1.137 0.255471
+conditionSeller refurbished        1.504e-01  5.319e-01   0.283 0.777343
+conditionUsed                      8.235e-01  4.173e-01   1.974 0.048432 *
+cellular                          -8.411e-02  2.768e-01  -0.304 0.761216
+carrierNone                               NA         NA      NA       NA
+carrierOther                       1.284e+01  8.827e+02   0.015 0.988391
+carrierSprint                      6.821e-01  7.044e-01   0.968 0.332919
+carrierT-Mobile                   -3.370e-01  1.149e+00  -0.293 0.769384
+carrierVerizon                     4.429e-01  3.852e-01   1.150 0.250307
+colorGold                         -6.713e-01  5.582e-01  -1.203 0.229161
+colorSpace Gray                   -1.329e-01  3.160e-01  -0.421 0.674032
+colorWhite                        -1.924e-01  2.170e-01  -0.887 0.375262
+storage                            1.923e-02  4.645e-03   4.140 3.47e-05 ***
+productlineiPad 2                  5.985e-01  3.340e-01   1.792 0.073141 .
+productlineiPad 3                  1.689e+00  4.324e-01   3.906 9.37e-05 ***
+productlineiPad 4                  2.063e+00  4.945e-01   4.173 3.01e-05 ***
+productlineiPad 5                  4.500e+00  1.248e+03   0.004 0.997124
+productlineiPad Air                3.081e+00  5.578e-01   5.523 3.33e-08 ***
+productlineiPad Air 2              4.998e+00  7.280e-01   6.865 6.64e-12 ***
+productlineiPad mini               1.020e+00  3.877e-01   2.631 0.008503 **
+productlineiPad mini 2             2.294e+00  5.244e-01   4.375 1.21e-05 ***
+productlineiPad mini 3             3.348e+00  6.739e-01   4.969 6.74e-07 ***
+productlineiPad mini Retina        3.523e+00  1.027e+00   3.429 0.000605 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 1290.93  on 931  degrees of freedom
+Residual deviance:  793.57  on 905  degrees of freedom
+  (929 observations deleted due to missingness)
+AIC: 847.57
+
+Number of Fisher Scoring iterations: 13
+</pre>
+</div>
+</div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="date">Date: 20/07/2015</p>
 <p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
-<p class="date">Created: 2015-07-28 Tue 09:22</p>
+<p class="date">Created: 2015-07-28 Tue 18:16</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

@@ -1,0 +1,956 @@
+#+TITLE:     Kaggle Competition. 15.071x - The Analytics Edge (Summer 2015).
+#+AUTHOR:    Sergio-Feliciano Mendoza-Barrera
+#+DRAWERS:    sfmb
+#+EMAIL:     smendoza.barrera@gmail.com
+#+DATE:     20/07/2015
+#+DESCRIPTION:  The Analytics Edge Kaggle competition
+#+KEYWORDS:   R, data science, emacs, ESS, org-mode, kaggle, competition
+#+LANGUAGE:   en
+#+OPTIONS:    H:10 num:t toc:nil \n:nil @:t ::t |:t ^:{} -:t f:t *:t <:t d:HIDDEN
+#+OPTIONS:    TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+OPTIONS:    LaTeX:dvipng
+#+INFOJS_OPT:  view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:
+#+LINK_HOME:
+#+XSLT:
+#+STYLE: <link rel="stylesheet" type="text/css" href="dft.css"/>
+
+#+LaTeX_CLASS: IEEEtran
+#+LATEX_CLASS_OPTIONS: [letterpaper, 9pt, onecolumn, twoside, technote, final]
+#+LATEX_HEADER: \usepackage{minted}
+#+LATEX_HEADER: \usepackage{makeidx}
+
+#+LATEX_HEADER: \usepackage[lining,tabular]{fbb} % so math uses tabular lining figures
+#+LATEX_HEADER: \usepackage[scaled=.95,type1]{cabin} % sans serif in style of Gill Sans
+#+LATEX_HEADER: \usepackage[varqu,varl]{zi4}% inconsolata typewriter
+#+LATEX_HEADER: \usepackage[T1]{fontenc} % LY1 also works
+#+LATEX_HEADER: \usepackage[libertine,bigdelims]{newtxmath}
+#+LATEX_HEADER: \usepackage[cal=boondoxo,bb=boondox,frak=boondox]{mathalfa}
+#+LATEX_HEADER: \useosf % change normal text to use proportional oldstyle figures
+
+#+LATEX_HEADER: \markboth{Kaggle competition, July 2015.}%
+#+LATEX_HEADER: {Sergio-Feliciano Mendoza-Barrera}
+
+#+LATEX_HEADER: \newcommand{\degC}{$^\circ$C{}}
+
+#+STYLE: <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
+
+#+ATTR_HTML: width="500px"
+
+# -*- mode: org; -*-
+#+OPTIONS:   toc:2
+
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/htmlize.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/readtheorg.css"/>
+
+#+HTML_HEAD: <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+#+HTML_HEAD: <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/readtheorg/js/readtheorg.js"></script>
+
+#+BEGIN_ABSTRACT
+This is the document for the Kaggle competition for the Analytics Edge
+course from MIT.
+#+END_ABSTRACT
+
+* Introduction
+
+** Welcome to the Kaggle Competition!
+
+For the next three weeks, you will be participating in a competition
+on Kaggle. You should have already set up a Kaggle account (this was
+the last component of Unit 6). When the competition is over, you will
+be able to check your grade on the competition by going to your
+Progress page.
+
+We have created two R script files to help you get started on this
+competition. The first script (on the next page), is intended to help
+you get started by building a simple logistic regression model and
+preparing the results for submission on Kaggle. The second script (on
+the following page), is designed to help you deal with the text data
+provided in this competition. We highly recommend that you carefully
+go through both of these script files, and refer to them during the
+competition.
+
+If you get stuck or have questions, please use the Discussion forum on
+the edX site for this class. Remember though that the standard
+discussion forum rules apply. You should not ask for answers or give
+any answers on the forum.
+
+Once you are ready, go ahead and get started by heading to the
+[[https://kaggle.com/join/15071xtheanalyticsedgesummer2015][competition page]] on Kaggle. Note that this competition is a private
+competition only for students in 15.071x. Please do not distribute
+this link to people who are not enrolled in this class.
+
+Good luck!
+
+** Getting started on Kaggle
+
+If you have never participated in a Kaggle competition before, or if
+you just want some help getting started, we have created [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/KCompetition_GettingStarted.R][this R script]]
+file to help you get started. It shows you how to prepare a submission
+file for a simple logistic regression model, and how to get the most
+out of the date/time variable in the dataset.
+
+Before going through the script file, please explore the Kaggle
+competition by following the link on the previous page. There are
+several very important pages in the competition:
+
+- The "*Data*" page of the competition describes the data and gives
+ you links to download the data.
+
+- The "*Evaluation*" page is where you will learn how the competition
+ is graded and how to make submissions.
+
+- The "*Rules*" page outlines some very important rules for the
+ competition. Please keep in mind that all of your submissions should
+ reflect the results of your own analytical models, built using the
+ data provided on the Kaggle site. While you can use the discussion
+ forum to ask questions and get help, the standard rules
+ apply. Please do not ask for or give solutions to the
+ competition. We will be checking submissions for signs of copying,
+ either from your classmates or from outside sources.
+
+- When you are ready to make a submission, the "*Make a Submission*"
+ page is where you can submit your solution. Note that you can make
+ up to 5 submissions each day, so don't hesitate to get creative and
+ try out many different models!
+
+If you have questions about the logistics of the competition, or need
+help understanding the provided script file, please go to the
+Discussion forum by using the link below.
+
+Remember that this script file is just designed to help you get
+started. You will need to build better models to do well in the
+competition!
+
+** Dealing with the text data
+
+The data for this competition has a few variables composed of
+unstructured text data. You should be comfortable using the *bag of
+words* approach on text data from Unit 5, and we want to encourage you
+to use this data to improve your predictive models. However, you need
+to deal with the text data for this competition in a slightly
+different way from how we have dealt with text data in the past,
+because it is already split into a training set and a test set.
+
+This [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/KCompetition_TextData.R][R script file]] is designed to help you get started working with
+some the text data provided in the eBay dataset. If you have any
+questions about the approach used in the script file, please go to the
+Dicussion forum to get help by following the link below.
+
+Remember that this script file is just designed to help you get
+started. You will need to build better models to do well in the
+competition!
+
+** Example R script
+
+*** KAGGLE COMPETITION - GETTING STARTED
+
+This script file is intended to help you get started on the Kaggle
+platform, and to show you how to make a submission to the
+competition.
+
+*** Let's start by reading the data into R
+
+Make sure you have downloaded these files from the Kaggle website,
+and have navigated to the directory where you saved the files on
+your computer
+
+We are adding in the argument ~stringsAsFactors = FALSE~, since we have
+some text fields
+
+#+begin_src R :session :results output :exports all
+  eBayTrain <- read.csv("../data/eBayiPadTrain.csv", stringsAsFactors = FALSE)
+  eBayTest <- read.csv("../data/eBayiPadTest.csv", stringsAsFactors = FALSE)
+#+end_src
+
+#+RESULTS:
+
+We will just create a simple logistic regression model, to predict
+Sold using Price:
+
+#+begin_src R :session :results output :exports all
+  SimpleMod <- glm(sold ~ startprice, data = eBayTrain, family = binomial)
+#+end_src
+
+#+RESULTS:
+
+And then make predictions on the test set:
+
+#+begin_src R :session :results output :exports all
+  PredTest <- predict(SimpleMod, newdata = eBayTest, type = "response")
+#+end_src
+
+#+RESULTS:
+
+We can't compute the ~accuracy~ or ~AUC~ on the test set ourselves,
+since we don't have the dependent variable on the test set (you can
+compute it on the training set though!).
+
+However, you can submit the file on Kaggle to see how well the
+model performs. You can make up to 5 submissions per day, so don't
+hesitate to just upload a solution to see how you did.
+
+Let's prepare a submission file for Kaggle (for more about this,
+see the "Evaluation" page on the competition site):
+
+#+begin_src R :session :results output :exports all
+  MySubmission <- data.frame(UniqueID = eBayTest$UniqueID, Probability1
+                             = PredTest)
+
+  write.csv(MySubmission, "../data/SubmissionSimpleLogV1.csv", row.names
+            = FALSE)
+#+end_src
+
+#+RESULTS:
+
+You should upload the submission ~SubmissionSimpleLog.csv~ on the
+Kaggle website to use this as a submission to the competition
+
+This model was just designed to help you get started - to do well
+in the competition, you will need to build better models!
+
+* Test your analytics skills by predicting which iPads listed on eBay will be sold
+
+*IMPORTANT NOTE*: This competition is only open to students of the
+MITx free, online course 15.071x - The Analytics Edge.
+
+*What makes an eBay listing successful?*
+
+Sellers on online auction websites need to understand the
+characteristics of a successful item listing to maximize their
+revenue. Buyers might also be interested in understanding which
+listings are less attractive so as to score a good deal. In this
+competition, we challenge you to develop an analytics model that will
+help buyers and sellers predict the sales success of a set of eBay
+listings for Apple iPads from spring 2015.
+
+The following screenshot shows an example of iPad listings on eBay:
+
+[[../graphs/ScreenshotEbay.png]]
+
+To download the data and learn how this competition works, please be
+sure to read the "Data" page, as well as the "Evaluation" page, which
+can both be found in the panel on the left.
+
+** Acknowledgments
+
+This competition is brought to you by MITx and edX.
+
+* Understanding the data
+
+** Download the data sets
+
+In this part we can download the data
+
+#+BEGIN_SRC R :session :results output :exports all
+  library(parallel)
+
+  if(!file.exists("../data")) {
+          dir.create("../data")
+  }
+
+  fileUrl <-
+  c("https://inclass.kaggle.com/c/15-071x-the-analytics-edge-summer-2015/download/eBayiPadTest.csv",
+  "https://inclass.kaggle.com/c/15-071x-the-analytics-edge-summer-2015/download/eBayiPadTrain.csv",
+  "https://inclass.kaggle.com/c/15-071x-the-analytics-edge-summer-2015/download/SampleSubmission.csv")
+
+  fileName <- c("eBayiPadTest.csv", "eBayiPadTrain.csv", "SampleSubmission.csv")
+
+  dataPath <- "../data"
+
+  for(i in 1:3) {
+          filePath <- paste(dataPath, fileName[i], sep = "/")
+
+          if(!file.exists(filePath)) {
+                  download.file(fileUrl[i], destfile = filePath, method = "curl")
+          }
+  }
+  writeLines("\n :: Files downloaded...")
+#+END_SRC
+
+#+RESULTS:
+:
+:  :: Files downloaded...
+
+** File descriptions
+
+The data provided for this competition is split into two files:
+
+- *eBayiPadTrain.csv* = the training data set. It consists of 1861 listings.
+
+- *eBayiPadTest.csv* = the testing data set. It consists of 798 listings.
+
+- We have also provided a sample submission file,
+  *SampleSubmission.csv*. This file gives an example of the format of
+  submission files (see the Evaluation page for more information). The
+  data for this competition comes from eBay.com.
+
+** Data fields
+
+The dependent variable in this problem is the variable sold, which
+labels if an iPad listed on the eBay site was sold (equal to 1 if it
+did, and 0 if it did not). The dependent variable is provided in the
+training data set, but not the testing dataset. This is an important
+difference from what you are used to - you will not be able to see how
+well your model does on the test set until you make a submission on
+Kaggle.
+
+The independent variables consist of 9 pieces of product data
+available at the time the iPad listing is posted, and a unique
+identifier:
+
+- *description* = The text description of the product provided by the
+  seller.
+
+- *biddable* = Whether this is an auction (biddable=1) or a sale with
+  a fixed price (biddable=0).
+
+- *startprice* = The start price (in US Dollars) for the auction (if
+  biddable=1) or the sale price (if biddable=0).
+
+- *condition* = The condition of the product (new, used, etc.)
+
+- *cellular* = Whether the iPad has cellular connectivity (cellular=1)
+  or not (cellular=0).
+
+- *carrier* = The cellular carrier for which the iPad is equipped (if
+  cellular=1); listed as "None" if cellular=0.
+
+- *color* = The color of the iPad.
+
+- *storage* = The iPad's storage capacity (in gigabytes).
+
+- *productline* = The name of the product being sold.
+
+** Load the data set
+
+Lets begin loading the data sets.
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("    Loading the training data set into their data frame...")
+  eBayTrain <- read.csv("../data/eBayiPadTrain.csv", colClasses = "character",
+                   na.strings = c("", "Unknown", NULL))
+
+  str(eBayTrain)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+    Loading the training data set into their data frame...
+'data.frame':	1861 obs. of  11 variables:
+ $ description: chr  "iPad is in 8.5+ out of 10 cosmetic condition!" "Previously used, please read description. May show signs of use such as scratches to the screen and " NA NA ...
+ $ biddable   : chr  "0" "1" "0" "0" ...
+ $ startprice : chr  "159.99" "0.99" "199.99" "235" ...
+ $ condition  : chr  "Used" "Used" "Used" "New other (see details)" ...
+ $ cellular   : chr  "0" "1" "0" "0" ...
+ $ carrier    : chr  "None" "Verizon" "None" "None" ...
+ $ color      : chr  "Black" NA "White" NA ...
+ $ storage    : chr  "16" "16" "16" "16" ...
+ $ productline: chr  "iPad 2" "iPad 2" "iPad 4" "iPad mini 2" ...
+ $ sold       : chr  "0" "1" "1" "0" ...
+ $ UniqueID   : chr  "10001" "10002" "10003" "10004" ...
+#+end_example
+
+** Preprocessing the data
+
+In this part we can try with different types for the data in order to
+have a better understanding of the data and to have the probability to
+improve the models.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Converting data types in the dataframe...")
+
+  eBayTrain$UniqueID <- as.integer(eBayTrain$UniqueID)
+  eBayTrain$biddable <- as.integer(eBayTrain$biddable)
+  eBayTrain$startprice <- as.numeric(eBayTrain$startprice)
+  eBayTrain$cellular <- as.integer(eBayTrain$cellular)
+  eBayTrain$storage <- as.integer(eBayTrain$storage)
+  eBayTrain$sold <- as.integer(eBayTrain$sold)
+
+  ## eBayTrain$condition <- as.factor(eBayTrain$condition)
+  ## eBayTrain$carrier <- as.factor(eBayTrain$carrier)
+  ## eBayTrain$color <- as.factor(eBayTrain$color)
+  ## eBayTrain$productline <- as.factor(eBayTrain$productline)
+
+  writeLines("\n :: eBayTrain new structure:")
+  str(eBayTrain)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Converting data types in the dataframe...
+
+ :: eBayTrain new structure:
+'data.frame':	1861 obs. of  11 variables:
+ $ description: chr  "iPad is in 8.5+ out of 10 cosmetic condition!" "Previously used, please read description. May show signs of use such as scratches to the screen and " NA NA ...
+ $ biddable   : int  0 1 0 0 0 1 1 0 1 1 ...
+ $ startprice : num  159.99 0.99 199.99 235 199.99 ...
+ $ condition  : chr  "Used" "Used" "Used" "New other (see details)" ...
+ $ cellular   : int  0 1 0 0 NA 1 0 0 1 0 ...
+ $ carrier    : chr  "None" "Verizon" "None" "None" ...
+ $ color      : chr  "Black" NA "White" NA ...
+ $ storage    : int  16 16 16 16 NA 32 16 16 64 32 ...
+ $ productline: chr  "iPad 2" "iPad 2" "iPad 4" "iPad mini 2" ...
+ $ sold       : int  0 1 1 0 0 1 1 0 1 1 ...
+ $ UniqueID   : int  10001 10002 10003 10004 10005 10006 10007 10008 10009 10010 ...
+#+end_example
+
+** Understanding each type and distribution of the data
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Summary of the data:")
+  summary(eBayTrain)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Summary of the data:
+ description           biddable        startprice      condition
+ Length:1861        Min.   :0.0000   Min.   :  0.01   Length:1861
+ Class :character   1st Qu.:0.0000   1st Qu.: 80.00   Class :character
+ Mode  :character   Median :0.0000   Median :179.99   Mode  :character
+                    Mean   :0.4498   Mean   :211.18
+                    3rd Qu.:1.0000   3rd Qu.:300.00
+                    Max.   :1.0000   Max.   :999.00
+
+    cellular        carrier             color              storage
+ Min.   :0.0000   Length:1861        Length:1861        Min.   : 16.00
+ 1st Qu.:0.0000   Class :character   Class :character   1st Qu.: 16.00
+ Median :0.0000   Mode  :character   Mode  :character   Median : 16.00
+ Mean   :0.3196                                         Mean   : 34.23
+ 3rd Qu.:1.0000                                         3rd Qu.: 32.00
+ Max.   :1.0000                                         Max.   :128.00
+ NA's   :234                                            NA's   :183
+ productline             sold           UniqueID
+ Length:1861        Min.   :0.0000   Min.   :10001
+ Class :character   1st Qu.:0.0000   1st Qu.:10466
+ Mode  :character   Median :0.0000   Median :10931
+                    Mean   :0.4621   Mean   :10931
+                    3rd Qu.:1.0000   3rd Qu.:11396
+                    Max.   :1.0000   Max.   :11861
+#+end_example
+
+*** Baseline model
+
+We can plot the dependent variable ~sold~, in order to know their
+behavior.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: The baseline model:")
+  table(eBayTrain$sold)
+
+  writeLines("\n :: The baseline model accuracy (NOT SOLD) is:")
+  table(eBayTrain$sold)[1] / (table(eBayTrain$sold)[1] + table(eBayTrain$sold)[2])
+#+end_src
+
+#+RESULTS:
+:
+:  :: The baseline model:
+:
+:    0    1
+: 1001  860
+:
+:  :: The baseline model accuracy (NOT SOLD) is:
+:         0
+: 0.5378829
+
+*** Summaries of the probable factor variables
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: The condition feature summary:")
+  table(eBayTrain$condition)
+
+  writeLines("\n :: Any NA values:")
+  anyNA(eBayTrain$condition)
+
+  writeLines("\n :: The carrier feature supplier summary:")
+  table(eBayTrain$carrier)
+
+  writeLines("\n :: Any NA values:")
+  anyNA(eBayTrain$carrier)
+
+  writeLines("\n :: The color of iPads:")
+  table(eBayTrain$color)
+
+  writeLines("\n :: Any NA values:")
+  anyNA(eBayTrain$color)
+
+  writeLines("\n :: The product line:")
+  table(eBayTrain$productline)
+
+  writeLines("\n :: Any NA values:")
+  anyNA(eBayTrain$productline)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: The condition feature summary:
+
+For parts or not working Manufacturer refurbished                      New
+                     181                       39                      289
+ New other (see details)       Seller refurbished                     Used
+                      85                      109                     1158
+
+ :: Any NA values:
+[1] FALSE
+
+ :: The carrier feature supplier summary:
+
+    AT&T     None    Other   Sprint T-Mobile  Verizon
+     206     1111        3       30       19      144
+
+ :: Any NA values:
+[1] TRUE
+
+ :: The color of iPads:
+
+     Black       Gold Space Gray      White
+       425         77        202        449
+
+ :: Any NA values:
+[1] TRUE
+
+ :: The product line:
+
+          iPad 1           iPad 2           iPad 3           iPad 4
+             227              286              153              157
+          iPad 5         iPad Air       iPad Air 2        iPad mini
+               1              180              171              277
+     iPad mini 2      iPad mini 3 iPad mini Retina
+             107               90                8
+
+ :: Any NA values:
+[1] TRUE
+#+end_example
+
+*** What type of deal (auction) is better sold?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Is an auction a better deal for customers?")
+  ## biddable as rows and sold as columns
+  m <- table(eBayTrain$biddable, eBayTrain$sold)
+  m
+
+  writeLines("\n :: The proportion of auctions sold:")
+  m[2, 2] / (m[1, 2] + m[2, 2])
+#+end_src
+
+#+RESULTS:
+:
+:  :: Is an auction a better deal for customers?
+:
+:       0   1
+:   0 804 220
+:   1 197 640
+:
+:  :: The proportion of auctions sold:
+: [1] 0.744186
+
+We understand that the auctions have a proportion of $74.4\%$ of
+*success in sales*.
+
+*** What is the sold products vs condition?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: The condiction of the product vs. the sold outcome:")
+  table(eBayTrain$condition, eBayTrain$sold)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: The condiction of the product vs. the sold outcome:
+
+                             0   1
+  For parts or not working  75 106
+  Manufacturer refurbished  25  14
+  New                      204  85
+  New other (see details)   51  34
+  Seller refurbished        74  35
+  Used                     572 586
+#+end_example
+
+The most sold product by condition is *used*. Now if we can see what is
+the proportion of used products as an auction.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Proportion of used vs auction:")
+  table(eBayTrain$condition, eBayTrain$biddable)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Proportion of used vs auction:
+
+                             0   1
+  For parts or not working  75 106
+  Manufacturer refurbished  29  10
+  New                      206  83
+  New other (see details)   55  30
+  Seller refurbished        77  32
+  Used                     582 576
+#+end_example
+
+We can see that the people prefer to sell their products with an fixed
+*expected price*. Besides, all the used offers as auctions was *sold*,
+and *only 10 non auction offers was sold*.
+
+*** Is the cellular feature important for the customer?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Cellular feature vs. the sold outcome:")
+  m <- table(eBayTrain$cellular, eBayTrain$sold)
+  m
+
+  writeLines("\n :: The proportion of products with cellular feature sold is:")
+  m[2, 2] / (m[2, 1] + m[2, 2])
+#+end_src
+
+#+RESULTS:
+:
+:  :: Cellular feature vs. the sold outcome:
+:
+:       0   1
+:   0 562 545
+:   1 296 224
+:
+:  :: The proportion of products with cellular feature sold is:
+: [1] 0.4307692
+
+This result said us that the *cellular feature it is NOT the most
+important* feature for customers.
+
+*** Is the color important for the customer?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: How much is the importance of the color?")
+  table(eBayTrain$color, eBayTrain$sold)
+#+end_src
+
+#+RESULTS:
+:
+:  :: How much is the importance of the color?
+:
+:                0   1
+:   Black      205 220
+:   Gold        55  22
+:   Space Gray 111  91
+:   White      255 194
+
+The vast majority prefer products in *black and white*.
+
+*** Is the capacity an important feature to buy?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Storage capacity vs. sold:")
+  m <- table(eBayTrain$storage, eBayTrain$sold)
+  m
+
+  writeLines("\n :: The proportion of 16GB storage sold:")
+  m[1, 2] / (m[1, 2] + m[2, 2] + m[3, 2] + m [4, 2])
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Storage capacity vs. sold:
+
+        0   1
+  16  473 461
+  32  183 157
+  64  167 147
+  128  68  22
+
+ :: The proportion of 16GB storage sold:
+[1] 0.5857687
+#+end_example
+
+*The majority of people has bought their equipment with 16GB of ram*.
+
+*** What is the most sold product?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Products sold:")
+  table(eBayTrain$productline, eBayTrain$sold)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Products sold:
+
+                     0   1
+  iPad 1           102 125
+  iPad 2           139 147
+  iPad 3            73  80
+  iPad 4            93  64
+  iPad 5             0   1
+  iPad Air         102  78
+  iPad Air 2       100  71
+  iPad mini        145 132
+  iPad mini 2       58  49
+  iPad mini 3       63  27
+  iPad mini Retina   4   4
+#+end_example
+
+The best sold product is the *iPad 2*.
+
+** Correlation between variables
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: The correlation matrix:")
+  cor(eBayTrain[c("biddable", "startprice", "cellular", "storage")])
+#+end_src
+
+#+RESULTS:
+:
+:  :: The correlation matrix:
+:              biddable startprice cellular storage
+: biddable    1.0000000 -0.4550538       NA      NA
+: startprice -0.4550538  1.0000000       NA      NA
+: cellular           NA         NA        1      NA
+: storage            NA         NA       NA       1
+
+In this moment we can not know much about the correlations between
+variables.
+
+** Logistic regression model
+
+The first logistic regression model
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Create a logistic regression model to predict sold using
+  all the independent variables:")
+
+  eBayLR01 <- glm(sold ~ biddable + startprice + condition + cellular +
+                          carrier + color + storage + productline, data
+                          = eBayTrain, family = binomial)
+  summary(eBayLR01)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Create a logistic regression model to predict sold using
+all the independent variables:
+
+Call:
+glm(formula = sold ~ biddable + startprice + condition + cellular +
+    carrier + color + storage + productline, family = binomial,
+    data = eBayTrain)
+
+Deviance Residuals:
+    Min       1Q   Median       3Q      Max
+-3.3651  -0.6991  -0.1450   0.5932   2.6567
+
+Coefficients: (1 not defined because of singularities)
+                                    Estimate Std. Error z value Pr(>|z|)
+(Intercept)                       -1.826e-01  4.626e-01  -0.395 0.693046
+biddable                           1.368e+00  2.017e-01   6.783 1.18e-11 ***
+startprice                        -1.698e-02  1.806e-03  -9.399  < 2e-16 ***
+conditionManufacturer refurbished  1.079e+00  6.748e-01   1.600 0.109676
+conditionNew                       1.583e+00  5.566e-01   2.845 0.004446 **
+conditionNew other (see details)   7.325e-01  6.442e-01   1.137 0.255471
+conditionSeller refurbished        1.504e-01  5.319e-01   0.283 0.777343
+conditionUsed                      8.235e-01  4.173e-01   1.974 0.048432 *
+cellular                          -8.411e-02  2.768e-01  -0.304 0.761216
+carrierNone                               NA         NA      NA       NA
+carrierOther                       1.284e+01  8.827e+02   0.015 0.988391
+carrierSprint                      6.821e-01  7.044e-01   0.968 0.332919
+carrierT-Mobile                   -3.370e-01  1.149e+00  -0.293 0.769384
+carrierVerizon                     4.429e-01  3.852e-01   1.150 0.250307
+colorGold                         -6.713e-01  5.582e-01  -1.203 0.229161
+colorSpace Gray                   -1.329e-01  3.160e-01  -0.421 0.674032
+colorWhite                        -1.924e-01  2.170e-01  -0.887 0.375262
+storage                            1.923e-02  4.645e-03   4.140 3.47e-05 ***
+productlineiPad 2                  5.985e-01  3.340e-01   1.792 0.073141 .
+productlineiPad 3                  1.689e+00  4.324e-01   3.906 9.37e-05 ***
+productlineiPad 4                  2.063e+00  4.945e-01   4.173 3.01e-05 ***
+productlineiPad 5                  4.500e+00  1.248e+03   0.004 0.997124
+productlineiPad Air                3.081e+00  5.578e-01   5.523 3.33e-08 ***
+productlineiPad Air 2              4.998e+00  7.280e-01   6.865 6.64e-12 ***
+productlineiPad mini               1.020e+00  3.877e-01   2.631 0.008503 **
+productlineiPad mini 2             2.294e+00  5.244e-01   4.375 1.21e-05 ***
+productlineiPad mini 3             3.348e+00  6.739e-01   4.969 6.74e-07 ***
+productlineiPad mini Retina        3.523e+00  1.027e+00   3.429 0.000605 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 1290.93  on 931  degrees of freedom
+Residual deviance:  793.57  on 905  degrees of freedom
+  (929 observations deleted due to missingness)
+AIC: 847.57
+
+Number of Fisher Scoring iterations: 13
+#+end_example
+
+The most important features are:
+
+- biddable
+- startprice
+- condition
+- storage
+- productline
+
+We can rebuild the model only with these variables:
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Create a logistic regression model to predict sold using
+  the selected independent variables:")
+
+  eBayLR02 <- glm(sold ~ biddable + startprice + condition + storage + productline, data
+                          = eBayTrain, family = binomial)
+  summary(eBayLR02)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Create a logistic regression model to predict sold using
+the selected independent variables:
+
+Call:
+glm(formula = sold ~ biddable + startprice + condition + storage +
+    productline, family = binomial, data = eBayTrain)
+
+Deviance Residuals:
+    Min       1Q   Median       3Q      Max
+-3.5757  -0.6796  -0.1346   0.5658   3.0060
+
+Coefficients:
+                                    Estimate Std. Error z value Pr(>|z|)
+(Intercept)                        -0.769570   0.291883  -2.637 0.008375 **
+biddable                            1.150819   0.153972   7.474 7.77e-14 ***
+startprice                         -0.019069   0.001421 -13.424  < 2e-16 ***
+conditionManufacturer refurbished   1.892001   0.540961   3.497 0.000470 ***
+conditionNew                        2.650338   0.398496   6.651 2.91e-11 ***
+conditionNew other (see details)    2.078527   0.439856   4.725 2.30e-06 ***
+conditionSeller refurbished         0.689779   0.380939   1.811 0.070182 .
+conditionUsed                       1.426016   0.262601   5.430 5.62e-08 ***
+storage                             0.022367   0.003466   6.453 1.09e-10 ***
+productlineiPad 2                   0.924883   0.243080   3.805 0.000142 ***
+productlineiPad 3                   1.849126   0.320217   5.775 7.71e-09 ***
+productlineiPad 4                   2.172567   0.363626   5.975 2.30e-09 ***
+productlineiPad 5                  15.111129 324.744048   0.047 0.962886
+productlineiPad Air                 3.429017   0.402729   8.514  < 2e-16 ***
+productlineiPad Air 2               5.447179   0.545344   9.989  < 2e-16 ***
+productlineiPad mini                1.248745   0.271145   4.605 4.12e-06 ***
+productlineiPad mini 2              2.699709   0.391962   6.888 5.67e-12 ***
+productlineiPad mini 3              3.143778   0.512832   6.130 8.78e-10 ***
+productlineiPad mini Retina         3.470265   0.924211   3.755 0.000173 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 2217.5  on 1602  degrees of freedom
+Residual deviance: 1319.8  on 1584  degrees of freedom
+  (258 observations deleted due to missingness)
+AIC: 1357.8
+
+Number of Fisher Scoring iterations: 11
+#+end_example
+
+** Testing the model with the testing data set
+
+Load the testing data set
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("    Loading the training data set into their data frame...")
+  eBayTest <- read.csv("../data/eBayiPadTest.csv", colClasses = "character",
+                   na.strings = c("", "Unknown", NULL))
+
+  str(eBayTest)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+    Loading the training data set into their data frame...
+'data.frame':	798 obs. of  10 variables:
+ $ description: chr  "like new" "Item is in great shape. I upgraded to the iPad Air 2 and don&#039;t need the mini any longer, even though " "This iPad is working and is tested 100%. It runs great. It is in good condition. Cracked digitizer." NA ...
+ $ biddable   : chr  "0" "0" "0" "1" ...
+ $ startprice : chr  "105" "195" "219.99" "100" ...
+ $ condition  : chr  "Used" "Used" "Used" "Used" ...
+ $ cellular   : chr  "1" "0" "0" "0" ...
+ $ carrier    : chr  "AT&T" "None" "None" "None" ...
+ $ color      : chr  NA NA NA NA ...
+ $ storage    : chr  "32" "16" "64" "16" ...
+ $ productline: chr  "iPad 1" "iPad mini 2" "iPad 3" "iPad mini" ...
+ $ UniqueID   : chr  "11862" "11863" "11864" "11865" ...
+#+end_example
+
+Lets convert the data in the testing to the same type as the training
+data set
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Converting data types in the dataframe...")
+
+  eBayTest$UniqueID <- as.integer(eBayTest$UniqueID)
+  eBayTest$biddable <- as.integer(eBayTest$biddable)
+  eBayTest$startprice <- as.numeric(eBayTest$startprice)
+  eBayTest$cellular <- as.integer(eBayTest$cellular)
+  eBayTest$storage <- as.integer(eBayTest$storage)
+  ## eBayTest$sold <- as.integer(eBayTest$sold)
+
+  ## eBayTest$condition <- as.factor(eBayTest$condition)
+  ## eBayTest$carrier <- as.factor(eBayTest$carrier)
+  ## eBayTest$color <- as.factor(eBayTest$color)
+  ## eBayTest$productline <- as.factor(eBayTest$productline)
+
+  writeLines("\n :: eBayTest new structure:")
+  str(eBayTest)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Converting data types in the dataframe...
+
+ :: eBayTest new structure:
+'data.frame':	798 obs. of  10 variables:
+ $ description: chr  "like new" "Item is in great shape. I upgraded to the iPad Air 2 and don&#039;t need the mini any longer, even though " "This iPad is working and is tested 100%. It runs great. It is in good condition. Cracked digitizer." NA ...
+ $ biddable   : int  0 0 0 1 0 0 0 0 0 1 ...
+ $ startprice : num  105 195 220 100 211 ...
+ $ condition  : chr  "Used" "Used" "Used" "Used" ...
+ $ cellular   : int  1 0 0 0 0 0 0 0 0 0 ...
+ $ carrier    : chr  "AT&T" "None" "None" "None" ...
+ $ color      : chr  NA NA NA NA ...
+ $ storage    : int  32 16 64 16 32 64 32 16 16 32 ...
+ $ productline: chr  "iPad 1" "iPad mini 2" "iPad 3" "iPad mini" ...
+ $ UniqueID   : int  11862 11863 11864 11865 11866 11867 11868 11869 11870 11871 ...
+#+end_example
+
+And then make predictions on the test set:
+
+#+begin_src R :session :results output :exports all
+  PredTest <- predict(eBayLR02, newdata = eBayTest, type = "response")
+#+end_src
+
+#+RESULTS:
+
+Let's prepare a submission file for Kaggle (for more about this, see
+the "Evaluation" page on the competition site):
+
+#+begin_src R :session :results output :exports all
+  MySubmission <- data.frame(UniqueID = eBayTest$UniqueID, Probability1
+                             = PredTest)
+
+  write.csv(MySubmission, "../data/SubmissionLR2.csv", row.names =
+                                                               FALSE)
+
+  writeLines("\n :: Submission file generated...")
+#+end_src
+
+#+RESULTS:
+:
+:  :: Submission file generated...

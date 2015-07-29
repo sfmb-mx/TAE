@@ -1,0 +1,106 @@
+#    -*- mode: org -*-
+
+
+Archived entries from file /Users/jaalkabcha/src/TAE/src/KCompetition.org
+
+
+* Inspecting the data set
+:PROPERTIES:
+:ARCHIVE_TIME: 2015-07-29 Wed 08:26
+:ARCHIVE_FILE: ~/src/TAE/src/KCompetition.org
+:ARCHIVE_OLPATH: Understanding the data
+:ARCHIVE_CATEGORY: KCompetition
+:END:
+
+Lets begin researching in the training data set.
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("    The structure of the training data set:")
+  str(eBayDS)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+    The structure of the training data set:
+'data.frame':	1861 obs. of  11 variables:
+ $ description: chr  "iPad is in 8.5+ out of 10 cosmetic condition!" "Previously used, please read description. May show signs of use such as scratches to the screen and " "" "" ...
+ $ biddable   : int  0 1 0 0 0 1 1 0 1 1 ...
+ $ startprice : num  159.99 0.99 199.99 235 199.99 ...
+ $ condition  : chr  "Used" "Used" "Used" "New other (see details)" ...
+ $ cellular   : chr  "0" "1" "0" "0" ...
+ $ carrier    : chr  "None" "Verizon" "None" "None" ...
+ $ color      : chr  "Black" "Unknown" "White" "Unknown" ...
+ $ storage    : chr  "16" "16" "16" "16" ...
+ $ productline: chr  "iPad 2" "iPad 2" "iPad 4" "iPad mini 2" ...
+ $ sold       : int  0 1 1 0 0 1 1 0 1 1 ...
+ $ UniqueID   : int  10001 10002 10003 10004 10005 10006 10007 10008 10009 10010 ...
+#+end_example
+
+In this part we can try with different types for the data in order to
+have a better understanding of the data and to have the probability to
+improve the models. We can assume that some default values must be
+changed to the right type.
+
+#+begin_src R :session :results output :exports all
+  eBayDS$cellular <- as.integer(eBayDS$cellular)
+  eBayDS$storage <- as.integer(eBayDS$storage)
+
+  writeLines("\n :: New structure of the original training set:")
+  str(eBayDS)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: New structure of the original training set:
+'data.frame':	1861 obs. of  11 variables:
+ $ description: chr  "iPad is in 8.5+ out of 10 cosmetic condition!" "Previously used, please read description. May show signs of use such as scratches to the screen and " "" "" ...
+ $ biddable   : int  0 1 0 0 0 1 1 0 1 1 ...
+ $ startprice : num  159.99 0.99 199.99 235 199.99 ...
+ $ condition  : chr  "Used" "Used" "Used" "New other (see details)" ...
+ $ cellular   : int  0 1 0 0 NA 1 0 0 1 0 ...
+ $ carrier    : chr  "None" "Verizon" "None" "None" ...
+ $ color      : chr  "Black" "Unknown" "White" "Unknown" ...
+ $ storage    : int  16 16 16 16 NA 32 16 16 64 32 ...
+ $ productline: chr  "iPad 2" "iPad 2" "iPad 4" "iPad mini 2" ...
+ $ sold       : int  0 1 1 0 0 1 1 0 1 1 ...
+ $ UniqueID   : int  10001 10002 10003 10004 10005 10006 10007 10008 10009 10010 ...
+#+end_example
+
+Lets research about the NA values and their impact in the ML road map
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Summary of the original training data set:")
+  summary(eBayDS)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Summary of the original training data set:
+ description           biddable        startprice      condition
+ Length:1861        Min.   :0.0000   Min.   :  0.01   Length:1861
+ Class :character   1st Qu.:0.0000   1st Qu.: 80.00   Class :character
+ Mode  :character   Median :0.0000   Median :179.99   Mode  :character
+                    Mean   :0.4498   Mean   :211.18
+                    3rd Qu.:1.0000   3rd Qu.:300.00
+                    Max.   :1.0000   Max.   :999.00
+
+    cellular        carrier             color              storage
+ Min.   :0.0000   Length:1861        Length:1861        Min.   : 16.00
+ 1st Qu.:0.0000   Class :character   Class :character   1st Qu.: 16.00
+ Median :0.0000   Mode  :character   Mode  :character   Median : 16.00
+ Mean   :0.3196                                         Mean   : 34.23
+ 3rd Qu.:1.0000                                         3rd Qu.: 32.00
+ Max.   :1.0000                                         Max.   :128.00
+ NA's   :234                                            NA's   :183
+ productline             sold           UniqueID
+ Length:1861        Min.   :0.0000   Min.   :10001
+ Class :character   1st Qu.:0.0000   1st Qu.:10466
+ Mode  :character   Median :0.0000   Median :10931
+                    Mean   :0.4621   Mean   :10931
+                    3rd Qu.:1.0000   3rd Qu.:11396
+                    Max.   :1.0000   Max.   :11861
+#+end_example
+
+The exist NA values have some serious problems in the CSV generation.
