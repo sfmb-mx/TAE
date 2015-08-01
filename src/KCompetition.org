@@ -163,8 +163,8 @@ We are adding in the argument ~stringsAsFactors = FALSE~, since we have
 some text fields
 
 #+begin_src R :session :results output :exports all
-  eBayDS <- read.csv("../data/eBayiPadTrain.csv", stringsAsFactors = FALSE)
-  eBayValidation <- read.csv("../data/eBayiPadTest.csv", stringsAsFactors = FALSE)
+  eBayDS1 <- read.csv("../data/eBayiPadTrain.csv", stringsAsFactors = FALSE)
+  eBayValidation1 <- read.csv("../data/eBayiPadTest.csv", stringsAsFactors = FALSE)
 #+end_src
 
 #+RESULTS:
@@ -173,7 +173,7 @@ We will just create a simple logistic regression model, to predict
 Sold using Price:
 
 #+begin_src R :session :results output :exports all
-  SimpleMod <- glm(sold ~ startprice, data = eBayDS, family = binomial)
+  SimpleMod <- glm(sold ~ startprice, data = eBayDS1, family = binomial)
 #+end_src
 
 #+RESULTS:
@@ -181,7 +181,7 @@ Sold using Price:
 And then make predictions on the test set:
 
 #+begin_src R :session :results output :exports all
-  PredTest <- predict(SimpleMod, newdata = eBayValidation, type = "response")
+  PredTest <- predict(SimpleMod, newdata = eBayValidation1, type = "response")
 #+end_src
 
 #+RESULTS:
@@ -198,11 +198,13 @@ Let's prepare a submission file for Kaggle (for more about this,
 see the "Evaluation" page on the competition site):
 
 #+begin_src R :session :results output :exports all
-  MySubmission <- data.frame(UniqueID = eBayValidation$UniqueID, Probability1
-                             = PredTest)
+    MySubmission <- data.frame(UniqueID = eBayValidation1$UniqueID, Probability1
+                               = PredTest)
 
-  write.csv(MySubmission, "../data/SubmissionSimpleLogV1.csv", row.names
-            = FALSE)
+    write.csv(MySubmission, "../data/SubmissionSimpleLogV1.csv", row.names
+              = FALSE)
+
+  rm(list = ls())                         # Remove all workspace data
 #+end_src
 
 #+RESULTS:
@@ -242,6 +244,19 @@ This competition is brought to you by MITx and edX.
 
 * Understanding the data
 
+** Clear workspace for initialization purposes
+
+As first step we will reset all the workspace
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: clearing workspace...")
+  rm(list = ls(all = TRUE))
+#+end_src
+
+#+RESULTS:
+:
+:  :: clearing workspace...
+
 ** Download the data sets
 
 In this part we can download the data
@@ -273,6 +288,18 @@ In this part we can download the data
 #+RESULTS:
 :
 :  :: Files downloaded...
+
+** Load the data sets
+
+We need to investigate the best way to load the data, in this case a
+series of factor features can improve the performance of the algorithms
+
+#+begin_src R :session :results output :exports all
+  eBayDS <- read.csv("../data/eBayiPadTrain.csv", stringsAsFactors = FALSE)
+  eBayValidation <- read.csv("../data/eBayiPadTest.csv", stringsAsFactors = FALSE)
+#+end_src
+
+#+RESULTS:
 
 ** File descriptions
 
@@ -330,19 +357,53 @@ identifier:
   writeLines("\n :: Loading the necessary libraries...")
   library(caret)                          # ML interface to many
                                           # functions
-
   library(ggplot2)                        # Graphical libraries
-
   library(caTools)                        # Partition data sets
-
   library(parallel)                       # Parallel computation
-
   library(mice)                           # Imputation library
+  library(ROCR)                           # ROCS for AUC calculation
+  library(randomForest)                   # Random Forest library
+  library(pROC)                           # ROC calculations
+  library(gbm)                            # gbm algorithm
+  library(parallel)                       # Multicore calculations
+  library(corrplot)                       # Correlation matrix plot
 #+end_src
 
 #+RESULTS:
-:
-:  :: Loading the necessary libraries...
+#+begin_example
+
+ :: Loading the necessary libraries...
+Loading required package: lattice
+Loading required package: ggplot2
+Loading required package: Rcpp
+mice 2.22 2014-06-10
+Loading required package: gplots
+
+Attaching package: ‘gplots’
+
+The following object is masked from ‘package:stats’:
+
+    lowess
+randomForest 4.6-10
+Type rfNews() to see new features/changes/bug fixes.
+Type 'citation("pROC")' for a citation.
+
+Attaching package: ‘pROC’
+
+The following objects are masked from ‘package:stats’:
+
+    cov, smooth, var
+Loading required package: survival
+
+Attaching package: ‘survival’
+
+The following object is masked from ‘package:caret’:
+
+    cluster
+
+Loading required package: splines
+Loaded gbm 2.1.1
+#+end_example
 
 ** Inspecting the data set
 
@@ -370,14 +431,23 @@ Lets begin researching in the training data set.
  $ UniqueID   : int  10001 10002 10003 10004 10005 10006 10007 10008 10009 10010 ...
 #+end_example
 
+** Preprocessing the data
+
 In this part we can try with different types for the data in order to
 have a better understanding of the data and to have the probability to
 improve the models. We can assume that some default values must be
 changed to the right type.
 
+*** Training data set
+
 #+begin_src R :session :results output :exports all
+  eBayDS$condition <- as.factor(eBayDS$condition)
   eBayDS$cellular <- as.integer(eBayDS$cellular)
-  eBayDS$storage <- as.integer(eBayDS$storage)
+  eBayDS$carrier <- as.factor(eBayDS$carrier)
+  eBayDS$color <- as.factor(eBayDS$color)
+  eBayDS$storage <- as.factor(eBayDS$storage)
+  eBayDS$productline <- as.factor(eBayDS$productline)
+  ## eBayDS$sold <- as.factor(eBayDS$sold)
 
   writeLines("\n :: New structure of the original training set:")
   str(eBayDS)
@@ -387,23 +457,57 @@ changed to the right type.
 #+begin_example
 Warning message:
 NAs introduced by coercion
-Warning message:
-NAs introduced by coercion
 
  :: New structure of the original training set:
 'data.frame':	1861 obs. of  11 variables:
  $ description: chr  "iPad is in 8.5+ out of 10 cosmetic condition!" "Previously used, please read description. May show signs of use such as scratches to the screen and " "" "" ...
  $ biddable   : int  0 1 0 0 0 1 1 0 1 1 ...
  $ startprice : num  159.99 0.99 199.99 235 199.99 ...
- $ condition  : chr  "Used" "Used" "Used" "New other (see details)" ...
+ $ condition  : Factor w/ 6 levels "For parts or not working",..: 6 6 6 4 5 6 3 3 6 6 ...
  $ cellular   : int  0 1 0 0 NA 1 0 0 1 0 ...
- $ carrier    : chr  "None" "Verizon" "None" "None" ...
- $ color      : chr  "Black" "Unknown" "White" "Unknown" ...
- $ storage    : int  16 16 16 16 NA 32 16 16 64 32 ...
- $ productline: chr  "iPad 2" "iPad 2" "iPad 4" "iPad mini 2" ...
+ $ carrier    : Factor w/ 7 levels "AT&T","None",..: 2 7 2 2 6 1 2 2 6 2 ...
+ $ color      : Factor w/ 5 levels "Black","Gold",..: 1 4 5 4 4 3 3 5 5 5 ...
+ $ storage    : Factor w/ 5 levels "128","16","32",..: 2 2 2 2 5 3 2 2 4 3 ...
+ $ productline: Factor w/ 12 levels "iPad 1","iPad 2",..: 2 2 4 9 12 9 8 10 1 4 ...
  $ sold       : int  0 1 1 0 0 1 1 0 1 1 ...
  $ UniqueID   : int  10001 10002 10003 10004 10005 10006 10007 10008 10009 10010 ...
 #+end_example
+
+*** Validation data set
+
+#+begin_src R :session :results output :exports all
+  eBayValidation$condition <- as.factor(eBayValidation$condition)
+  eBayValidation$cellular <- as.integer(eBayValidation$cellular)
+  eBayValidation$carrier <- as.factor(eBayValidation$carrier)
+  eBayValidation$color <- as.factor(eBayValidation$color)
+  eBayValidation$storage <- as.factor(eBayValidation$storage)
+  eBayValidation$productline <- as.factor(eBayValidation$productline)
+  ## eBayValidation$sold <- as.factor(eBayValidation$sold)
+
+  writeLines("\n :: New structure of the original training set:")
+  str(eBayValidation)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+Warning message:
+NAs introduced by coercion
+
+ :: New structure of the original training set:
+'data.frame':	798 obs. of  10 variables:
+ $ description: chr  "like new" "Item is in great shape. I upgraded to the iPad Air 2 and don&#039;t need the mini any longer, even though " "This iPad is working and is tested 100%. It runs great. It is in good condition. Cracked digitizer." "" ...
+ $ biddable   : int  0 0 0 1 0 0 0 0 0 1 ...
+ $ startprice : num  105 195 220 100 211 ...
+ $ condition  : Factor w/ 6 levels "For parts or not working",..: 6 6 6 6 2 4 5 6 6 6 ...
+ $ cellular   : int  1 0 0 0 0 0 0 0 0 0 ...
+ $ carrier    : Factor w/ 7 levels "AT&T","None",..: 1 2 2 2 2 2 2 2 2 2 ...
+ $ color      : Factor w/ 5 levels "Black","Gold",..: 4 4 4 4 1 2 1 4 1 4 ...
+ $ storage    : Factor w/ 5 levels "128","16","32",..: 3 2 4 2 3 4 3 2 2 3 ...
+ $ productline: Factor w/ 10 levels "iPad 1","iPad 2",..: 1 8 3 7 3 6 1 4 3 1 ...
+ $ UniqueID   : int  11862 11863 11864 11865 11866 11867 11868 11869 11870 11871 ...
+#+end_example
+
+*** Imputing the NA values in the training dataset
 
 Lets research about the NA values and their impact in the ML road map
 
@@ -416,29 +520,37 @@ Lets research about the NA values and their impact in the ML road map
 #+begin_example
 
  :: Summary of the original training data set:
- description           biddable        startprice      condition
- Length:1861        Min.   :0.0000   Min.   :  0.01   Length:1861
- Class :character   1st Qu.:0.0000   1st Qu.: 80.00   Class :character
- Mode  :character   Median :0.0000   Median :179.99   Mode  :character
+ description           biddable        startprice
+ Length:1861        Min.   :0.0000   Min.   :  0.01
+ Class :character   1st Qu.:0.0000   1st Qu.: 80.00
+ Mode  :character   Median :0.0000   Median :179.99
                     Mean   :0.4498   Mean   :211.18
                     3rd Qu.:1.0000   3rd Qu.:300.00
                     Max.   :1.0000   Max.   :999.00
 
-    cellular        carrier             color              storage
- Min.   :0.0000   Length:1861        Length:1861        Min.   : 16.00
- 1st Qu.:0.0000   Class :character   Class :character   1st Qu.: 16.00
- Median :0.0000   Mode  :character   Mode  :character   Median : 16.00
- Mean   :0.3196                                         Mean   : 34.23
- 3rd Qu.:1.0000                                         3rd Qu.: 32.00
- Max.   :1.0000                                         Max.   :128.00
- NA's   :234                                            NA's   :183
- productline             sold           UniqueID
- Length:1861        Min.   :0.0000   Min.   :10001
- Class :character   1st Qu.:0.0000   1st Qu.:10466
- Mode  :character   Median :0.0000   Median :10931
-                    Mean   :0.4621   Mean   :10931
-                    3rd Qu.:1.0000   3rd Qu.:11396
-                    Max.   :1.0000   Max.   :11861
+                    condition       cellular          carrier
+ For parts or not working: 181   Min.   :0.0000   AT&T    : 206
+ Manufacturer refurbished:  39   1st Qu.:0.0000   None    :1111
+ New                     : 289   Median :0.0000   Other   :   3
+ New other (see details) :  85   Mean   :0.3196   Sprint  :  30
+ Seller refurbished      : 109   3rd Qu.:1.0000   T-Mobile:  19
+ Used                    :1158   Max.   :1.0000   Unknown : 348
+                                 NA's   :234      Verizon : 144
+        color        storage        productline       sold
+ Black     :425   128    : 90   iPad 2    :286   Min.   :0.0000
+ Gold      : 77   16     :934   iPad mini :277   1st Qu.:0.0000
+ Space Gray:202   32     :340   iPad 1    :227   Median :0.0000
+ Unknown   :708   64     :314   Unknown   :204   Mean   :0.4621
+ White     :449   Unknown:183   iPad Air  :180   3rd Qu.:1.0000
+                                iPad Air 2:171   Max.   :1.0000
+                                (Other)   :516
+    UniqueID
+ Min.   :10001
+ 1st Qu.:10466
+ Median :10931
+ Mean   :10931
+ 3rd Qu.:11396
+ Max.   :11861
 #+end_example
 
 The exist NA values have some serious problems in the CSV generation.
@@ -449,7 +561,8 @@ NA values.
 #+begin_src R :session :results output :exports all
   writeLines("\n :: Multiple imputation")
   eBaySimple <- eBayDS[c("UniqueID", "biddable", "startprice",
-                         "condition", "storage", "productline")]
+                         "condition", "cellular", "storage",
+                         "productline")]
   summary(eBaySimple)
 #+end_src
 
@@ -457,22 +570,30 @@ NA values.
 #+begin_example
 
  :: Multiple imputation
-    UniqueID        biddable        startprice      condition
- Min.   :10001   Min.   :0.0000   Min.   :  0.01   Length:1861
- 1st Qu.:10466   1st Qu.:0.0000   1st Qu.: 80.00   Class :character
- Median :10931   Median :0.0000   Median :179.99   Mode  :character
+    UniqueID        biddable        startprice
+ Min.   :10001   Min.   :0.0000   Min.   :  0.01
+ 1st Qu.:10466   1st Qu.:0.0000   1st Qu.: 80.00
+ Median :10931   Median :0.0000   Median :179.99
  Mean   :10931   Mean   :0.4498   Mean   :211.18
  3rd Qu.:11396   3rd Qu.:1.0000   3rd Qu.:300.00
  Max.   :11861   Max.   :1.0000   Max.   :999.00
 
-    storage       productline
- Min.   : 16.00   Length:1861
- 1st Qu.: 16.00   Class :character
- Median : 16.00   Mode  :character
- Mean   : 34.23
- 3rd Qu.: 32.00
- Max.   :128.00
- NA's   :183
+                    condition       cellular         storage
+ For parts or not working: 181   Min.   :0.0000   128    : 90
+ Manufacturer refurbished:  39   1st Qu.:0.0000   16     :934
+ New                     : 289   Median :0.0000   32     :340
+ New other (see details) :  85   Mean   :0.3196   64     :314
+ Seller refurbished      : 109   3rd Qu.:1.0000   Unknown:183
+ Used                    :1158   Max.   :1.0000
+                                 NA's   :234
+     productline
+ iPad 2    :286
+ iPad mini :277
+ iPad 1    :227
+ Unknown   :204
+ iPad Air  :180
+ iPad Air 2:171
+ (Other)   :516
 #+end_example
 
 Lets impute the data in order to have a better response.
@@ -487,45 +608,55 @@ Lets impute the data in order to have a better response.
 #+begin_example
 
  iter imp variable
-  1   1  storage
-  1   2  storage
-  1   3  storage
-  1   4  storage
-  1   5  storage
-  2   1  storage
-  2   2  storage
-  2   3  storage
-  2   4  storage
-  2   5  storage
-  3   1  storage
-  3   2  storage
-  3   3  storage
-  3   4  storage
-  3   5  storage
-  4   1  storage
-  4   2  storage
-  4   3  storage
-  4   4  storage
-  4   5  storage
-  5   1  storage
-  5   2  storage
-  5   3  storage
-  5   4  storage
-  5   5  storage
-    UniqueID        biddable        startprice      condition
- Min.   :10001   Min.   :0.0000   Min.   :  0.01   Length:1861
- 1st Qu.:10466   1st Qu.:0.0000   1st Qu.: 80.00   Class :character
- Median :10931   Median :0.0000   Median :179.99   Mode  :character
+  1   1  cellular
+  1   2  cellular
+  1   3  cellular
+  1   4  cellular
+  1   5  cellular
+  2   1  cellular
+  2   2  cellular
+  2   3  cellular
+  2   4  cellular
+  2   5  cellular
+  3   1  cellular
+  3   2  cellular
+  3   3  cellular
+  3   4  cellular
+  3   5  cellular
+  4   1  cellular
+  4   2  cellular
+  4   3  cellular
+  4   4  cellular
+  4   5  cellular
+  5   1  cellular
+  5   2  cellular
+  5   3  cellular
+  5   4  cellular
+  5   5  cellular
+    UniqueID        biddable        startprice
+ Min.   :10001   Min.   :0.0000   Min.   :  0.01
+ 1st Qu.:10466   1st Qu.:0.0000   1st Qu.: 80.00
+ Median :10931   Median :0.0000   Median :179.99
  Mean   :10931   Mean   :0.4498   Mean   :211.18
  3rd Qu.:11396   3rd Qu.:1.0000   3rd Qu.:300.00
  Max.   :11861   Max.   :1.0000   Max.   :999.00
-    storage       productline
- Min.   : 16.00   Length:1861
- 1st Qu.: 16.00   Class :character
- Median : 16.00   Mode  :character
- Mean   : 33.94
- 3rd Qu.: 32.00
- Max.   :128.00
+
+                    condition       cellular         storage
+ For parts or not working: 181   Min.   :0.0000   128    : 90
+ Manufacturer refurbished:  39   1st Qu.:0.0000   16     :934
+ New                     : 289   Median :0.0000   32     :340
+ New other (see details) :  85   Mean   :0.3052   64     :314
+ Seller refurbished      : 109   3rd Qu.:1.0000   Unknown:183
+ Used                    :1158   Max.   :1.0000
+
+     productline
+ iPad 2    :286
+ iPad mini :277
+ iPad 1    :227
+ Unknown   :204
+ iPad Air  :180
+ iPad Air 2:171
+ (Other)   :516
 #+end_example
 
 Lets substitute the imputed values in the original dataframe
@@ -533,6 +664,7 @@ Lets substitute the imputed values in the original dataframe
 #+begin_src R :session :results output :exports all
   writeLines("\n :: Substitute the original values of storage with the imputed values:")
   eBayDS$storage <- imputed$storage
+  eBayDS$cellular <- imputed$cellular
   summary(eBayDS)
 #+end_src
 
@@ -540,39 +672,663 @@ Lets substitute the imputed values in the original dataframe
 #+begin_example
 
  :: Substitute the original values of storage with the imputed values:
- description           biddable        startprice      condition
- Length:1861        Min.   :0.0000   Min.   :  0.01   Length:1861
- Class :character   1st Qu.:0.0000   1st Qu.: 80.00   Class :character
- Mode  :character   Median :0.0000   Median :179.99   Mode  :character
+ description           biddable        startprice
+ Length:1861        Min.   :0.0000   Min.   :  0.01
+ Class :character   1st Qu.:0.0000   1st Qu.: 80.00
+ Mode  :character   Median :0.0000   Median :179.99
                     Mean   :0.4498   Mean   :211.18
                     3rd Qu.:1.0000   3rd Qu.:300.00
                     Max.   :1.0000   Max.   :999.00
 
-    cellular        carrier             color              storage
- Min.   :0.0000   Length:1861        Length:1861        Min.   : 16.00
- 1st Qu.:0.0000   Class :character   Class :character   1st Qu.: 16.00
- Median :0.0000   Mode  :character   Mode  :character   Median : 16.00
- Mean   :0.3196                                         Mean   : 33.94
- 3rd Qu.:1.0000                                         3rd Qu.: 32.00
- Max.   :1.0000                                         Max.   :128.00
- NA's   :234
- productline             sold           UniqueID
- Length:1861        Min.   :0.0000   Min.   :10001
- Class :character   1st Qu.:0.0000   1st Qu.:10466
- Mode  :character   Median :0.0000   Median :10931
-                    Mean   :0.4621   Mean   :10931
-                    3rd Qu.:1.0000   3rd Qu.:11396
-                    Max.   :1.0000   Max.   :11861
+                    condition       cellular          carrier
+ For parts or not working: 181   Min.   :0.0000   AT&T    : 206
+ Manufacturer refurbished:  39   1st Qu.:0.0000   None    :1111
+ New                     : 289   Median :0.0000   Other   :   3
+ New other (see details) :  85   Mean   :0.3052   Sprint  :  30
+ Seller refurbished      : 109   3rd Qu.:1.0000   T-Mobile:  19
+ Used                    :1158   Max.   :1.0000   Unknown : 348
+                                                  Verizon : 144
+        color        storage        productline       sold
+ Black     :425   128    : 90   iPad 2    :286   Min.   :0.0000
+ Gold      : 77   16     :934   iPad mini :277   1st Qu.:0.0000
+ Space Gray:202   32     :340   iPad 1    :227   Median :0.0000
+ Unknown   :708   64     :314   Unknown   :204   Mean   :0.4621
+ White     :449   Unknown:183   iPad Air  :180   3rd Qu.:1.0000
+                                iPad Air 2:171   Max.   :1.0000
+                                (Other)   :516
+    UniqueID
+ Min.   :10001
+ 1st Qu.:10466
+ Median :10931
+ Mean   :10931
+ 3rd Qu.:11396
+ Max.   :11861
 #+end_example
 
-** Preprocessing the data
+*** Imputing the NA values in the validation dataset
+
+Lets create a dataframe with the factor/character features
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Multiple imputation")
+  eBaySimple <- eBayValidation[c("UniqueID", "biddable", "startprice",
+                         "condition", "cellular", "storage",
+                         "productline")]
+  summary(eBaySimple)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Multiple imputation
+    UniqueID        biddable        startprice
+ Min.   :11862   Min.   :0.0000   Min.   :   0.01
+ 1st Qu.:12061   1st Qu.:0.0000   1st Qu.:  89.24
+ Median :12260   Median :0.0000   Median : 179.00
+ Mean   :12260   Mean   :0.4712   Mean   : 208.64
+ 3rd Qu.:12460   3rd Qu.:1.0000   3rd Qu.: 289.00
+ Max.   :12659   Max.   :1.0000   Max.   : 999.99
+
+                    condition      cellular         storage       productline
+ For parts or not working: 83   Min.   :0.0000   128    : 38   iPad 2   :154
+ Manufacturer refurbished: 16   1st Qu.:0.0000   16     :394   iPad mini:111
+ New                     :113   Median :0.0000   32     :138   Unknown  : 92
+ New other (see details) : 43   Mean   :0.2938   64     :147   iPad 1   : 88
+ Seller refurbished      : 52   3rd Qu.:1.0000   Unknown: 81   iPad Air : 74
+ Used                    :491   Max.   :1.0000                 iPad 4   : 68
+                                NA's   :107                    (Other)  :211
+#+end_example
+
+Lets impute the data in order to have a better response.
+
+#+begin_src R :session :results output :exports all
+  set.seed(pi)
+  imputed <- complete(mice(eBaySimple))
+  summary(imputed)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ iter imp variable
+  1   1  cellular
+  1   2  cellular
+  1   3  cellular
+  1   4  cellular
+  1   5  cellular
+  2   1  cellular
+  2   2  cellular
+  2   3  cellular
+  2   4  cellular
+  2   5  cellular
+  3   1  cellular
+  3   2  cellular
+  3   3  cellular
+  3   4  cellular
+  3   5  cellular
+  4   1  cellular
+  4   2  cellular
+  4   3  cellular
+  4   4  cellular
+  4   5  cellular
+  5   1  cellular
+  5   2  cellular
+  5   3  cellular
+  5   4  cellular
+  5   5  cellular
+    UniqueID        biddable        startprice
+ Min.   :11862   Min.   :0.0000   Min.   :   0.01
+ 1st Qu.:12061   1st Qu.:0.0000   1st Qu.:  89.24
+ Median :12260   Median :0.0000   Median : 179.00
+ Mean   :12260   Mean   :0.4712   Mean   : 208.64
+ 3rd Qu.:12460   3rd Qu.:1.0000   3rd Qu.: 289.00
+ Max.   :12659   Max.   :1.0000   Max.   : 999.99
+
+                    condition      cellular         storage       productline
+ For parts or not working: 83   Min.   :0.0000   128    : 38   iPad 2   :154
+ Manufacturer refurbished: 16   1st Qu.:0.0000   16     :394   iPad mini:111
+ New                     :113   Median :0.0000   32     :138   Unknown  : 92
+ New other (see details) : 43   Mean   :0.2895   64     :147   iPad 1   : 88
+ Seller refurbished      : 52   3rd Qu.:1.0000   Unknown: 81   iPad Air : 74
+ Used                    :491   Max.   :1.0000                 iPad 4   : 68
+                                                               (Other)  :211
+#+end_example
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Substitute the original values of storage with the imputed values:")
+  eBayValidation$storage <- imputed$storage
+  eBayValidation$cellular <- imputed$cellular
+  summary(eBayValidation)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Substitute the original values of storage with the imputed values:
+ description           biddable        startprice
+ Length:798         Min.   :0.0000   Min.   :   0.01
+ Class :character   1st Qu.:0.0000   1st Qu.:  89.24
+ Mode  :character   Median :0.0000   Median : 179.00
+                    Mean   :0.4712   Mean   : 208.64
+                    3rd Qu.:1.0000   3rd Qu.: 289.00
+                    Max.   :1.0000   Max.   : 999.99
+
+                    condition      cellular          carrier
+ For parts or not working: 83   Min.   :0.0000   AT&T    : 86
+ Manufacturer refurbished: 16   1st Qu.:0.0000   None    :488
+ New                     :113   Median :0.0000   Other   :  3
+ New other (see details) : 43   Mean   :0.2895   Sprint  :  6
+ Seller refurbished      : 52   3rd Qu.:1.0000   T-Mobile:  8
+ Used                    :491   Max.   :1.0000   Unknown :155
+                                                 Verizon : 52
+        color        storage       productline     UniqueID
+ Black     :173   128    : 38   iPad 2   :154   Min.   :11862
+ Gold      : 33   16     :394   iPad mini:111   1st Qu.:12061
+ Space Gray: 83   32     :138   Unknown  : 92   Median :12260
+ Unknown   :323   64     :147   iPad 1   : 88   Mean   :12260
+ White     :186   Unknown: 81   iPad Air : 74   3rd Qu.:12460
+                                iPad 4   : 68   Max.   :12659
+                                (Other)  :211
+#+end_example
+
+** Understanding each type and distribution of the data
+
+In this part we will research about the data and the interactions
+between it.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Summary of the data:")
+  summary(eBayDS)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Summary of the data:
+ description           biddable        startprice
+ Length:1861        Min.   :0.0000   Min.   :  0.01
+ Class :character   1st Qu.:0.0000   1st Qu.: 80.00
+ Mode  :character   Median :0.0000   Median :179.99
+                    Mean   :0.4498   Mean   :211.18
+                    3rd Qu.:1.0000   3rd Qu.:300.00
+                    Max.   :1.0000   Max.   :999.00
+
+                    condition       cellular          carrier
+ For parts or not working: 181   Min.   :0.0000   AT&T    : 206
+ Manufacturer refurbished:  39   1st Qu.:0.0000   None    :1111
+ New                     : 289   Median :0.0000   Other   :   3
+ New other (see details) :  85   Mean   :0.3052   Sprint  :  30
+ Seller refurbished      : 109   3rd Qu.:1.0000   T-Mobile:  19
+ Used                    :1158   Max.   :1.0000   Unknown : 348
+                                                  Verizon : 144
+        color        storage        productline       sold
+ Black     :425   128    : 90   iPad 2    :286   Min.   :0.0000
+ Gold      : 77   16     :934   iPad mini :277   1st Qu.:0.0000
+ Space Gray:202   32     :340   iPad 1    :227   Median :0.0000
+ Unknown   :708   64     :314   Unknown   :204   Mean   :0.4621
+ White     :449   Unknown:183   iPad Air  :180   3rd Qu.:1.0000
+                                iPad Air 2:171   Max.   :1.0000
+                                (Other)   :516
+    UniqueID
+ Min.   :10001
+ 1st Qu.:10466
+ Median :10931
+ Mean   :10931
+ 3rd Qu.:11396
+ Max.   :11861
+#+end_example
+
+*** Summaries of the probable factor variables
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: The condition feature summary:")
+  table(eBayDS$condition)
+
+  writeLines("\n :: Any NA values:")
+  anyNA(eBayDS$condition)
+
+  writeLines("\n :: The carrier feature supplier summary:")
+  table(eBayDS$carrier)
+
+  writeLines("\n :: Any NA values:")
+  anyNA(eBayDS$carrier)
+
+  writeLines("\n :: The color of iPads:")
+  table(eBayDS$color)
+
+  writeLines("\n :: Any NA values:")
+  anyNA(eBayDS$color)
+
+  writeLines("\n :: The product line:")
+  table(eBayDS$productline)
+
+  writeLines("\n :: Any NA values:")
+  anyNA(eBayDS$productline)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: The condition feature summary:
+
+For parts or not working Manufacturer refurbished                      New
+                     181                       39                      289
+ New other (see details)       Seller refurbished                     Used
+                      85                      109                     1158
+
+ :: Any NA values:
+[1] FALSE
+
+ :: The carrier feature supplier summary:
+
+    AT&T     None    Other   Sprint T-Mobile  Unknown  Verizon
+     206     1111        3       30       19      348      144
+
+ :: Any NA values:
+[1] FALSE
+
+ :: The color of iPads:
+
+     Black       Gold Space Gray    Unknown      White
+       425         77        202        708        449
+
+ :: Any NA values:
+[1] FALSE
+
+ :: The product line:
+
+          iPad 1           iPad 2           iPad 3           iPad 4
+             227              286              153              157
+          iPad 5         iPad Air       iPad Air 2        iPad mini
+               1              180              171              277
+     iPad mini 2      iPad mini 3 iPad mini Retina          Unknown
+             107               90                8              204
+
+ :: Any NA values:
+[1] FALSE
+#+end_example
+
+*** Correlation between original variables
+
+#+BEGIN_SRC R :var basename="eBayFeaturePlot" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  featurePlot(x = eBayDS[, c("biddable", "startprice", "condition",
+                                "cellular", "carrier", "color",
+                                "storage", "productline")], y =
+                                       eBayDS$sold, plot = "pairs")
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  eBay feature plot
+#+NAME:     fig:eBayFeaturePlot
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/eBayFeaturePlot.png]]
+
+For the selected features we can try to understand the behavior vs the
+~sold~ feature.
+
+#+BEGIN_SRC R :var basename="eBaySoldVsBiddableCor" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  ggplot(eBayDS, aes(x = biddable, y = sold, color = productline)) + geom_point()
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  Correlation between the sold and biddable features
+#+NAME:     fig:eBaySoldVsBiddableCor
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/eBaySoldVsBiddableCor.png]]
+
+*** What type of deal (auction) is better sold?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Is an auction a better deal for customers?")
+  ## biddable as rows and sold as columns
+  m <- table(eBayDS$biddable, eBayDS$sold)
+  m
+
+  writeLines("\n :: The proportion of auctions sold:")
+  m[2, 2] / (m[1, 2] + m[2, 2])
+#+end_src
+
+#+RESULTS:
+:
+:  :: Is an auction a better deal for customers?
+:
+:       0   1
+:   0 804 220
+:   1 197 640
+:
+:  :: The proportion of auctions sold:
+: [1] 0.744186
+
+We understand that the auctions have a proportion of $74.4\%$ of
+*success in sales*.
+
+*** What is the sold products vs condition?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: The condiction of the product vs. the sold outcome:")
+  table(eBayDS$condition, eBayDS$sold)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: The condiction of the product vs. the sold outcome:
+
+                             0   1
+  For parts or not working  75 106
+  Manufacturer refurbished  25  14
+  New                      204  85
+  New other (see details)   51  34
+  Seller refurbished        74  35
+  Used                     572 586
+#+end_example
+
+The most sold product by condition is *used*. Now if we can see what is
+the proportion of used products as an auction.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Proportion of used vs auction:")
+  table(eBayDS$condition, eBayDS$biddable)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Proportion of used vs auction:
+
+                             0   1
+  For parts or not working  75 106
+  Manufacturer refurbished  29  10
+  New                      206  83
+  New other (see details)   55  30
+  Seller refurbished        77  32
+  Used                     582 576
+#+end_example
+
+We can see that the people prefer to sell their products with an fixed
+*expected price*. Besides, all the used offers as auctions was *sold*,
+and *only 10 non auction offers was sold*.
+
+*** Is the cellular feature important for the customer?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Cellular feature vs. the sold outcome:")
+  m <- table(eBayDS$cellular, eBayDS$sold)
+  m
+
+  writeLines("\n :: The proportion of products with cellular feature sold is:")
+  m[2, 2] / (m[2, 1] + m[2, 2])
+#+end_src
+
+#+RESULTS:
+:
+:  :: Cellular feature vs. the sold outcome:
+:
+:       0   1
+:   0 675 618
+:   1 326 242
+:
+:  :: The proportion of products with cellular feature sold is:
+: [1] 0.4260563
+
+This result said us that the *cellular feature it is NOT the most
+important* feature for customers.
+
+*** Is the color important for the customer?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: How much is the importance of the color?")
+  table(eBayDS$color, eBayDS$sold)
+#+end_src
+
+#+RESULTS:
+:
+:  :: How much is the importance of the color?
+:
+:                0   1
+:   Black      205 220
+:   Gold        55  22
+:   Space Gray 111  91
+:   Unknown    375 333
+:   White      255 194
+
+The vast majority prefer products in *black and white or don't care*.
+
+*** Is the capacity an important feature to buy?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Storage capacity vs. sold:")
+  m <- table(eBayDS$storage, eBayDS$sold)
+  m
+
+  writeLines("\n :: The proportion of 16GB storage sold:")
+  m[2, 2] / (m[1, 2] + m[2, 2] + m[3, 2] + m [4, 2])
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Storage capacity vs. sold:
+
+            0   1
+  128      68  22
+  16      473 461
+  32      183 157
+  64      167 147
+  Unknown 110  73
+
+ :: The proportion of 16GB storage sold:
+[1] 0.5857687
+#+end_example
+
+*The majority of people has bought their equipment with 16GB of ram*.
+
+*** What is the most sold product?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Products sold:")
+  table(eBayDS$productline, eBayDS$sold)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Products sold:
+
+                     0   1
+  iPad 1           102 125
+  iPad 2           139 147
+  iPad 3            73  80
+  iPad 4            93  64
+  iPad 5             0   1
+  iPad Air         102  78
+  iPad Air 2       100  71
+  iPad mini        145 132
+  iPad mini 2       58  49
+  iPad mini 3       63  27
+  iPad mini Retina   4   4
+  Unknown          122  82
+#+end_example
+
+The best sold product is the *iPad 2*.
+
+** The dummy variable creation
+
+Lets convert the factor/character variables to dummy variables
+
+*** Dummy variables creation for the testing dataset
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Dummy variables for factors/characters...")
+
+  eBayDS2 <- eBayDS[, -1]
+  eBayDummy <- dummyVars("~.", data = eBayDS2, fullRank = F)
+  eBayDS2 <- as.data.frame(predict(eBayDummy, eBayDS))
+  print(names(eBayDS2))
+
+  writeLines("\n :: Re-work the feature names:")
+   names(eBayDS2) <- c("biddable", "startprice",
+   "condition.For.parts.or.not.working",
+   "condition.Manufacturer.refurbished", "condition.New",
+   "condition.New.other.see.details", "condition.Seller.refurbished",
+   "condition.Used", "cellular", "carrier.ATT", "carrier.None",
+   "carrier.Other", "carrier.Sprint", "carrier.T-Mobile",
+   "carrier.Unknown", "carrier.Verizon", "color.Black", "color.Gold",
+   "color.Space.Gray", "color.Unknown", "color.White", "storage.2",
+   "storage.3", "storage.4", "storage.5", "productline.iPad.1",
+   "productline.iPad.2", "productline.iPad.3", "productline.iPad.4",
+   "productline.iPad.5", "productline.iPad.Air",
+   "productline.iPad.Air.2", "productline.iPad.mini",
+   "productline.iPad.mini.2", "productline.iPad.mini.3",
+   "productline.iPad.mini.Retina", "productline.Unknown", "sold",
+   'UniqueID')
+
+  print(names(eBayDS2))
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Dummy variables for factors/characters...
+ [1] "biddable"                           "startprice"
+ [3] "condition.For parts or not working" "condition.Manufacturer refurbished"
+ [5] "condition.New"                      "condition.New other (see details)"
+ [7] "condition.Seller refurbished"       "condition.Used"
+ [9] "cellular"                           "carrier.AT&T"
+[11] "carrier.None"                       "carrier.Other"
+[13] "carrier.Sprint"                     "carrier.T-Mobile"
+[15] "carrier.Unknown"                    "carrier.Verizon"
+[17] "color.Black"                        "color.Gold"
+[19] "color.Space Gray"                   "color.Unknown"
+[21] "color.White"                        "storage.2"
+[23] "storage.3"                          "storage.4"
+[25] "storage.5"                          "productline.iPad 1"
+[27] "productline.iPad 2"                 "productline.iPad 3"
+[29] "productline.iPad 4"                 "productline.iPad 5"
+[31] "productline.iPad Air"               "productline.iPad Air 2"
+[33] "productline.iPad mini"              "productline.iPad mini 2"
+[35] "productline.iPad mini 3"            "productline.iPad mini Retina"
+[37] "productline.Unknown"                "sold"
+[39] "UniqueID"
+
+ :: Re-work the feature names:
+ [1] "biddable"                           "startprice"
+ [3] "condition.For.parts.or.not.working" "condition.Manufacturer.refurbished"
+ [5] "condition.New"                      "condition.New.other.see.details"
+ [7] "condition.Seller.refurbished"       "condition.Used"
+ [9] "cellular"                           "carrier.ATT"
+[11] "carrier.None"                       "carrier.Other"
+[13] "carrier.Sprint"                     "carrier.T-Mobile"
+[15] "carrier.Unknown"                    "carrier.Verizon"
+[17] "color.Black"                        "color.Gold"
+[19] "color.Space.Gray"                   "color.Unknown"
+[21] "color.White"                        "storage.2"
+[23] "storage.3"                          "storage.4"
+[25] "storage.5"                          "productline.iPad.1"
+[27] "productline.iPad.2"                 "productline.iPad.3"
+[29] "productline.iPad.4"                 "productline.iPad.5"
+[31] "productline.iPad.Air"               "productline.iPad.Air.2"
+[33] "productline.iPad.mini"              "productline.iPad.mini.2"
+[35] "productline.iPad.mini.3"            "productline.iPad.mini.Retina"
+[37] "productline.Unknown"                "sold"
+[39] "UniqueID"
+#+end_example
+
+*** Dummy variables creation for the validation dataset
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Dummy variables for factors/characters...")
+
+  eBayValidation2 <- eBayValidation[, -1]
+  eBayDummy <- dummyVars("~.", data = eBayValidation2, fullRank = F)
+  eBayValidation2 <- as.data.frame(predict(eBayDummy, eBayValidation))
+  print(names(eBayValidation2))
+
+  writeLines("\n :: Re-work the feature names:")
+   names(eBayValidation2) <- c("biddable", "startprice",
+   "condition.For.parts.or.not.working",
+   "condition.Manufacturer.refurbished", "condition.New",
+   "condition.New.other.see.details", "condition.Seller.refurbished",
+   "condition.Used", "cellular", "carrier.ATT", "carrier.None",
+   "carrier.Other", "carrier.Sprint", "carrier.T-Mobile",
+   "carrier.Unknown", "carrier.Verizon", "color.Black", "color.Gold",
+   "color.Space.Gray", "color.Unknown", "color.White", "storage.2",
+   "storage.3", "storage.4", "storage.5", "productline.iPad.1",
+   "productline.iPad.2", "productline.iPad.3", "productline.iPad.4",
+   "productline.iPad.Air",
+   "productline.iPad.Air.2", "productline.iPad.mini",
+   "productline.iPad.mini.2", "productline.iPad.mini.3",
+   "productline.Unknown", "UniqueID")
+
+  print(names(eBayValidation2))
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Dummy variables for factors/characters...
+ [1] "biddable"                           "startprice"
+ [3] "condition.For parts or not working" "condition.Manufacturer refurbished"
+ [5] "condition.New"                      "condition.New other (see details)"
+ [7] "condition.Seller refurbished"       "condition.Used"
+ [9] "cellular"                           "carrier.AT&T"
+[11] "carrier.None"                       "carrier.Other"
+[13] "carrier.Sprint"                     "carrier.T-Mobile"
+[15] "carrier.Unknown"                    "carrier.Verizon"
+[17] "color.Black"                        "color.Gold"
+[19] "color.Space Gray"                   "color.Unknown"
+[21] "color.White"                        "storage.2"
+[23] "storage.3"                          "storage.4"
+[25] "storage.5"                          "productline.iPad 1"
+[27] "productline.iPad 2"                 "productline.iPad 3"
+[29] "productline.iPad 4"                 "productline.iPad Air"
+[31] "productline.iPad Air 2"             "productline.iPad mini"
+[33] "productline.iPad mini 2"            "productline.iPad mini 3"
+[35] "productline.Unknown"                "UniqueID"
+
+ :: Re-work the feature names:
+ [1] "biddable"                           "startprice"
+ [3] "condition.For.parts.or.not.working" "condition.Manufacturer.refurbished"
+ [5] "condition.New"                      "condition.New.other.see.details"
+ [7] "condition.Seller.refurbished"       "condition.Used"
+ [9] "cellular"                           "carrier.ATT"
+[11] "carrier.None"                       "carrier.Other"
+[13] "carrier.Sprint"                     "carrier.T-Mobile"
+[15] "carrier.Unknown"                    "carrier.Verizon"
+[17] "color.Black"                        "color.Gold"
+[19] "color.Space.Gray"                   "color.Unknown"
+[21] "color.White"                        "storage.2"
+[23] "storage.3"                          "storage.4"
+[25] "storage.5"                          "productline.iPad.1"
+[27] "productline.iPad.2"                 "productline.iPad.3"
+[29] "productline.iPad.4"                 "productline.iPad.Air"
+[31] "productline.iPad.Air.2"             "productline.iPad.mini"
+[33] "productline.iPad.mini.2"            "productline.iPad.mini.3"
+[35] "productline.Unknown"                "UniqueID"
+#+end_example
+
+** Partitioning the data
 
 *What are the right steps for the best model generation?*
 
 The problem of the NA existence in the submission CSV file must be
 addressed.
-
-*** Partition of the training data set
 
 We need more information about the behavior and performance of the
 models, then a reasonable decision is subdivide the training data set
@@ -582,10 +1338,10 @@ in a new training data set plus a testing set
   writeLines("\n :: Split the data:")
   set.seed(pi)
 
-  spl <- sample.split(eBayDS$sold, SplitRatio = 0.75)
+  spl <- sample.split(eBayDS2$sold, SplitRatio = 0.75)
 
-  eBayTrain <- subset(eBayDS, spl == TRUE)
-  eBayTest <- subset(eBayDS, spl == FALSE)
+  eBayTrain <- subset(eBayDS2, spl == TRUE)
+  eBayTest <- subset(eBayDS2, spl == FALSE)
 
   writeLines("\n :: Dimensions of the training set:")
   dim(eBayTrain)
@@ -599,48 +1355,71 @@ in a new training data set plus a testing set
 :  :: Split the data:
 :
 :  :: Dimensions of the training set:
-: [1] 1396   11
+: [1] 1396   39
 :
 :  :: Dimensions of the testing set:
-: [1] 465  11
+: [1] 465  39
 
-** Understanding each type and distribution of the data
+** Correlation between created covariates
+
+#+BEGIN_SRC R :var basename="DummyCorrelationPlot" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 800, height = 600, units = "px")
+
+  ## ----- Plot code begin here
+  corrplot(cor(eBayTrain))
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  Created dummy variables correlation plot
+#+NAME:     fig:DummyCorrelationPlot
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/DummyCorrelationPlot.png]]
+
+* Machine Learning Models
+
+** Predictor features
+
+Lets save some important variables in order to use it as arguments for
+the modeling functions
 
 #+begin_src R :session :results output :exports all
-  writeLines("\n :: Summary of the data:")
-  summary(eBayTrain)
+  writeLines("\n :: Generalize outcome and predictor variables...")
+  outcomeName <- 'sold'
+  predictorsNames <- names(eBayDS2)[names(eBayDS2) != outcomeName]
+  predictorsNames
 #+end_src
 
 #+RESULTS:
 #+begin_example
 
- :: Summary of the data:
- description           biddable        startprice      condition
- Length:1396        Min.   :0.0000   Min.   :  0.01   Length:1396
- Class :character   1st Qu.:0.0000   1st Qu.: 82.97   Class :character
- Mode  :character   Median :0.0000   Median :179.95   Mode  :character
-                    Mean   :0.4456   Mean   :211.11
-                    3rd Qu.:1.0000   3rd Qu.:300.00
-                    Max.   :1.0000   Max.   :948.98
-
-    cellular        carrier             color              storage
- Min.   :0.0000   Length:1396        Length:1396        Min.   : 16.0
- 1st Qu.:0.0000   Class :character   Class :character   1st Qu.: 16.0
- Median :0.0000   Mode  :character   Mode  :character   Median : 16.0
- Mean   :0.3139                                         Mean   : 34.3
- 3rd Qu.:1.0000                                         3rd Qu.: 32.0
- Max.   :1.0000                                         Max.   :128.0
- NA's   :176
- productline             sold          UniqueID
- Length:1396        Min.   :0.000   Min.   :10001
- Class :character   1st Qu.:0.000   1st Qu.:10453
- Mode  :character   Median :0.000   Median :10906
-                    Mean   :0.462   Mean   :10913
-                    3rd Qu.:1.000   3rd Qu.:11373
-                    Max.   :1.000   Max.   :11861
+ :: Generalize outcome and predictor variables...
+ [1] "biddable"                           "startprice"
+ [3] "condition.For.parts.or.not.working" "condition.Manufacturer.refurbished"
+ [5] "condition.New"                      "condition.New.other.see.details"
+ [7] "condition.Seller.refurbished"       "condition.Used"
+ [9] "cellular"                           "carrier.ATT"
+[11] "carrier.None"                       "carrier.Other"
+[13] "carrier.Sprint"                     "carrier.T-Mobile"
+[15] "carrier.Unknown"                    "carrier.Verizon"
+[17] "color.Black"                        "color.Gold"
+[19] "color.Space.Gray"                   "color.Unknown"
+[21] "color.White"                        "storage.2"
+[23] "storage.3"                          "storage.4"
+[25] "storage.5"                          "productline.iPad.1"
+[27] "productline.iPad.2"                 "productline.iPad.3"
+[29] "productline.iPad.4"                 "productline.iPad.5"
+[31] "productline.iPad.Air"               "productline.iPad.Air.2"
+[33] "productline.iPad.mini"              "productline.iPad.mini.2"
+[35] "productline.iPad.mini.3"            "productline.iPad.mini.Retina"
+[37] "productline.Unknown"                "UniqueID"
 #+end_example
 
-*** Baseline model
+** Baseline model
 
 We can plot the dependent variable ~sold~, in order to know their
 behavior.
@@ -664,296 +1443,9 @@ behavior.
 :         0
 : 0.5379656
 
-*** Summaries of the probable factor variables
+** Logistic regression models
 
-#+begin_src R :session :results output :exports all
-  writeLines("\n :: The condition feature summary:")
-  table(eBayTrain$condition)
-
-  writeLines("\n :: Any NA values:")
-  anyNA(eBayTrain$condition)
-
-  writeLines("\n :: The carrier feature supplier summary:")
-  table(eBayTrain$carrier)
-
-  writeLines("\n :: Any NA values:")
-  anyNA(eBayTrain$carrier)
-
-  writeLines("\n :: The color of iPads:")
-  table(eBayTrain$color)
-
-  writeLines("\n :: Any NA values:")
-  anyNA(eBayTrain$color)
-
-  writeLines("\n :: The product line:")
-  table(eBayTrain$productline)
-
-  writeLines("\n :: Any NA values:")
-  anyNA(eBayTrain$productline)
-#+end_src
-
-#+RESULTS:
-#+begin_example
-
- :: The condition feature summary:
-
-For parts or not working Manufacturer refurbished                      New
-                     129                       29                      224
- New other (see details)       Seller refurbished                     Used
-                      64                       79                      871
-
- :: Any NA values:
-[1] FALSE
-
- :: The carrier feature supplier summary:
-
-    AT&T     None    Other   Sprint T-Mobile  Unknown  Verizon
-     151      840        3       23       12      262      105
-
- :: Any NA values:
-[1] FALSE
-
- :: The color of iPads:
-
-     Black       Gold Space Gray    Unknown      White
-       314         61        150        546        325
-
- :: Any NA values:
-[1] FALSE
-
- :: The product line:
-
-          iPad 1           iPad 2           iPad 3           iPad 4
-             175              222              113              115
-          iPad 5         iPad Air       iPad Air 2        iPad mini
-               1              127              132              199
-     iPad mini 2      iPad mini 3 iPad mini Retina          Unknown
-              85               70                5              152
-
- :: Any NA values:
-[1] FALSE
-#+end_example
-
-*** What type of deal (auction) is better sold?
-
-#+begin_src R :session :results output :exports all
-  writeLines("\n :: Is an auction a better deal for customers?")
-  ## biddable as rows and sold as columns
-  m <- table(eBayTrain$biddable, eBayTrain$sold)
-  m
-
-  writeLines("\n :: The proportion of auctions sold:")
-  m[2, 2] / (m[1, 2] + m[2, 2])
-#+end_src
-
-#+RESULTS:
-:
-:  :: Is an auction a better deal for customers?
-:
-:       0   1
-:   0 611 163
-:   1 140 482
-:
-:  :: The proportion of auctions sold:
-: [1] 0.7472868
-
-We understand that the auctions have a proportion of $74.4\%$ of
-*success in sales*.
-
-*** What is the sold products vs condition?
-
-#+begin_src R :session :results output :exports all
-  writeLines("\n :: The condiction of the product vs. the sold outcome:")
-  table(eBayTrain$condition, eBayTrain$sold)
-#+end_src
-
-#+RESULTS:
-#+begin_example
-
- :: The condiction of the product vs. the sold outcome:
-
-                             0   1
-  For parts or not working  56  73
-  Manufacturer refurbished  17  12
-  New                      157  67
-  New other (see details)   36  28
-  Seller refurbished        55  24
-  Used                     430 441
-#+end_example
-
-The most sold product by condition is *used*. Now if we can see what is
-the proportion of used products as an auction.
-
-#+begin_src R :session :results output :exports all
-  writeLines("\n :: Proportion of used vs auction:")
-  table(eBayTrain$condition, eBayTrain$biddable)
-#+end_src
-
-#+RESULTS:
-#+begin_example
-
- :: Proportion of used vs auction:
-
-                             0   1
-  For parts or not working  55  74
-  Manufacturer refurbished  22   7
-  New                      163  61
-  New other (see details)   40  24
-  Seller refurbished        61  18
-  Used                     433 438
-#+end_example
-
-We can see that the people prefer to sell their products with an fixed
-*expected price*. Besides, all the used offers as auctions was *sold*,
-and *only 10 non auction offers was sold*.
-
-*** Is the cellular feature important for the customer?
-
-#+begin_src R :session :results output :exports all
-  writeLines("\n :: Cellular feature vs. the sold outcome:")
-  m <- table(eBayTrain$cellular, eBayTrain$sold)
-  m
-
-  writeLines("\n :: The proportion of products with cellular feature sold is:")
-  m[2, 2] / (m[2, 1] + m[2, 2])
-#+end_src
-
-#+RESULTS:
-:
-:  :: Cellular feature vs. the sold outcome:
-:
-:       0   1
-:   0 416 421
-:   1 225 158
-:
-:  :: The proportion of products with cellular feature sold is:
-: [1] 0.4125326
-
-This result said us that the *cellular feature it is NOT the most
-important* feature for customers.
-
-*** Is the color important for the customer?
-
-#+begin_src R :session :results output :exports all
-  writeLines("\n :: How much is the importance of the color?")
-  table(eBayTrain$color, eBayTrain$sold)
-#+end_src
-
-#+RESULTS:
-:
-:  :: How much is the importance of the color?
-:
-:                0   1
-:   Black      151 163
-:   Gold        43  18
-:   Space Gray  82  68
-:   Unknown    288 258
-:   White      187 138
-
-The vast majority prefer products in *black and white or don't care*.
-
-*** Is the capacity an important feature to buy?
-
-#+begin_src R :session :results output :exports all
-  writeLines("\n :: Storage capacity vs. sold:")
-  m <- table(eBayTrain$storage, eBayTrain$sold)
-  m
-
-  writeLines("\n :: The proportion of 16GB storage sold:")
-  m[1, 2] / (m[1, 2] + m[2, 2] + m[3, 2] + m [4, 2])
-#+end_src
-
-#+RESULTS:
-#+begin_example
-
- :: Storage capacity vs. sold:
-
-        0   1
-  16  409 378
-  32  144 123
-  64  142 124
-  128  56  20
-
- :: The proportion of 16GB storage sold:
-[1] 0.5860465
-#+end_example
-
-*The majority of people has bought their equipment with 16GB of ram*.
-
-*** What is the most sold product?
-
-#+begin_src R :session :results output :exports all
-  writeLines("\n :: Products sold:")
-  table(eBayTrain$productline, eBayTrain$sold)
-#+end_src
-
-#+RESULTS:
-#+begin_example
-
- :: Products sold:
-
-                     0   1
-  iPad 1            77  98
-  iPad 2           111 111
-  iPad 3            49  64
-  iPad 4            68  47
-  iPad 5             0   1
-  iPad Air          72  55
-  iPad Air 2        74  58
-  iPad mini        107  92
-  iPad mini 2       47  38
-  iPad mini 3       48  22
-  iPad mini Retina   4   1
-  Unknown           94  58
-#+end_example
-
-The best sold product is the *iPad 2*.
-
-** Correlation between variables
-
-#+BEGIN_SRC R :var basename="eBayFeaturePlot" :session :results none silent :exports none
-  filename <- paste("../graphs/", basename, ".png", sep = "")
-
-  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
-
-  ## ----- Plot code begin here
-  featurePlot(x = eBayTrain[, c("biddable", "startprice", "condition",
-                                "cellular", "carrier", "color",
-                                "storage", "productline")], y =
-                                       eBayTrain$sold, plot = "pairs")
-  ## ----- Plot code ends here
-
-  ## Close the PNG device and plots
-  dev.off()
-#+END_SRC
-
-#+CAPTION:  eBay feature plot
-#+NAME:     fig:eBayFeaturePlot
-#+ATTR_LaTeX: placement: [H]
-[[../graphs/eBayFeaturePlot.png]]
-
-For the selected features we can try to understand the behavior vs the
-~sold~ feature.
-
-#+BEGIN_SRC R :var basename="eBaySoldVsBiddableCor" :session :results none silent :exports none
-  filename <- paste("../graphs/", basename, ".png", sep = "")
-
-  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
-
-  ## ----- Plot code begin here
-  ggplot(eBayTrain, aes(x = biddable, y = sold, color = productline)) + geom_point()
-  ## ----- Plot code ends here
-
-  ## Close the PNG device and plots
-  dev.off()
-#+END_SRC
-
-#+CAPTION:  Correlation between the sold and biddable features
-#+NAME:     fig:eBaySoldVsBiddableCor
-#+ATTR_LaTeX: placement: [H]
-[[../graphs/eBaySoldVsBiddableCor.png]]
-
-** Logistic regression model
+*** Logistic Regression model LR4
 
 The first logistic regression model
 
@@ -961,11 +1453,10 @@ The first logistic regression model
   writeLines("\n :: Create a logistic regression model to predict sold using
   all the independent variables:")
 
-  eBayLR01 <- glm(sold ~ UniqueID + biddable + startprice + condition +
-                          cellular + carrier + color + storage +
-                          productline, data = eBayTrain, family = binomial)
+  eBayLR4 <- glm(sold ~ ., data = eBayTrain, family = binomial)
 
-  summary(eBayLR01)
+  writeLines("\n :: Summary of the Logistic Regression model 4:")
+  summary(eBayLR4)
 #+end_src
 
 #+RESULTS:
@@ -974,315 +1465,302 @@ The first logistic regression model
  :: Create a logistic regression model to predict sold using
 all the independent variables:
 
+ :: Summary of the Logistic Regression model 4:
+
 Call:
-glm(formula = sold ~ UniqueID + biddable + startprice + condition +
-    cellular + carrier + color + storage + productline, family = binomial,
-    data = eBayTrain)
+glm(formula = sold ~ ., family = binomial, data = eBayTrain)
 
 Deviance Residuals:
     Min       1Q   Median       3Q      Max
--2.6488  -0.6806  -0.1348   0.5769   3.0457
+-2.3187  -0.7262  -0.2335   0.6107   3.1353
 
-Coefficients: (1 not defined because of singularities)
-                                    Estimate Std. Error z value Pr(>|z|)
-(Intercept)                        4.120e+00  2.108e+00   1.955 0.050631 .
-UniqueID                          -4.045e-04  1.763e-04  -2.294 0.021788 *
-biddable                           1.283e+00  1.820e-01   7.050 1.79e-12 ***
-startprice                        -1.643e-02  1.549e-03 -10.603  < 2e-16 ***
-conditionManufacturer refurbished  1.805e+00  6.164e-01   2.929 0.003405 **
-conditionNew                       1.914e+00  4.940e-01   3.874 0.000107 ***
-conditionNew other (see details)   1.539e+00  5.619e-01   2.738 0.006172 **
-conditionSeller refurbished        2.669e-01  4.921e-01   0.542 0.587573
-conditionUsed                      8.768e-01  3.609e-01   2.430 0.015116 *
-cellular                          -2.504e-01  2.604e-01  -0.962 0.336165
-carrierNone                               NA         NA      NA       NA
-carrierOther                       1.220e+01  5.354e+02   0.023 0.981827
-carrierSprint                      1.062e+00  6.653e-01   1.596 0.110572
-carrierT-Mobile                   -1.272e+00  9.098e-01  -1.398 0.162079
-carrierUnknown                     2.042e-01  4.261e-01   0.479 0.631867
-carrierVerizon                     3.776e-01  3.696e-01   1.022 0.306955
-colorGold                         -7.207e-01  5.445e-01  -1.323 0.185678
-colorSpace Gray                   -1.227e-01  3.171e-01  -0.387 0.698775
-colorUnknown                      -1.602e-01  2.109e-01  -0.760 0.447530
-colorWhite                        -1.619e-01  2.304e-01  -0.703 0.482230
-storage                            1.665e-02  3.893e-03   4.276 1.90e-05 ***
-productlineiPad 2                  7.344e-01  2.933e-01   2.504 0.012289 *
-productlineiPad 3                  1.608e+00  3.740e-01   4.298 1.72e-05 ***
-productlineiPad 4                  1.745e+00  4.129e-01   4.225 2.39e-05 ***
-productlineiPad 5                  3.670e+00  7.572e+02   0.005 0.996133
-productlineiPad Air                3.091e+00  4.860e-01   6.359 2.04e-10 ***
-productlineiPad Air 2              5.116e+00  6.203e-01   8.248  < 2e-16 ***
-productlineiPad mini               9.630e-01  3.194e-01   3.015 0.002571 **
-productlineiPad mini 2             2.328e+00  4.530e-01   5.140 2.75e-07 ***
-productlineiPad mini 3             2.958e+00  5.954e-01   4.969 6.73e-07 ***
-productlineiPad mini Retina        2.680e+00  1.251e+00   2.142 0.032215 *
-productlineUnknown                -3.129e-01  5.388e-01  -0.581 0.561397
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-
-(Dispersion parameter for binomial family taken to be 1)
-
-    Null deviance: 1688.1  on 1219  degrees of freedom
-Residual deviance: 1009.9  on 1189  degrees of freedom
-  (176 observations deleted due to missingness)
-AIC: 1071.9
-
-Number of Fisher Scoring iterations: 12
-#+end_example
-
-The most important features are:
-
-- ~UniqueID~
-- ~biddable~
-- ~startprice~
-- ~condition~
-- ~storage~
-- ~productline~
-
-We can rebuild the model only with these variables:
-
-#+begin_src R :session :results output :exports all
-  writeLines("\n :: Create a logistic regression model to predict sold using
-  the selected independent variables:")
-
-  eBayLR02 <- glm(sold ~ UniqueID + biddable + startprice + condition +
-                          storage + productline, data = eBayTrain,
-                  family = binomial)
-  summary(eBayLR02)
-#+end_src
-
-#+RESULTS:
-#+begin_example
-
- :: Create a logistic regression model to predict sold using
-the selected independent variables:
-
-Call:
-glm(formula = sold ~ UniqueID + biddable + startprice + condition +
-    storage + productline, family = binomial, data = eBayTrain)
-
-Deviance Residuals:
-    Min       1Q   Median       3Q      Max
--2.3042  -0.7233  -0.2312   0.6140   3.1678
-
-Coefficients:
-                                    Estimate Std. Error z value Pr(>|z|)
-(Intercept)                        5.749e+00  1.875e+00   3.066 0.002168 **
-UniqueID                          -5.397e-04  1.585e-04  -3.406 0.000660 ***
-biddable                           1.434e+00  1.581e-01   9.072  < 2e-16 ***
-startprice                        -1.172e-02  1.102e-03 -10.637  < 2e-16 ***
-conditionManufacturer refurbished  1.047e+00  5.553e-01   1.885 0.059452 .
-conditionNew                       5.905e-01  3.713e-01   1.590 0.111722
-conditionNew other (see details)   8.191e-01  4.698e-01   1.744 0.081225 .
-conditionSeller refurbished       -1.963e-01  4.175e-01  -0.470 0.638277
-conditionUsed                      2.471e-01  2.913e-01   0.848 0.396270
-storage                            1.045e-02  3.324e-03   3.144 0.001667 **
-productlineiPad 2                  4.338e-01  2.587e-01   1.677 0.093631 .
-productlineiPad 3                  1.144e+00  3.281e-01   3.489 0.000485 ***
-productlineiPad 4                  1.097e+00  3.532e-01   3.107 0.001893 **
-productlineiPad 5                  1.371e+01  3.247e+02   0.042 0.966318
-productlineiPad Air                2.043e+00  3.850e-01   5.306 1.12e-07 ***
-productlineiPad Air 2              3.676e+00  4.848e-01   7.582 3.41e-14 ***
-productlineiPad mini               6.096e-01  2.812e-01   2.168 0.030154 *
-productlineiPad mini 2             1.571e+00  3.890e-01   4.038 5.40e-05 ***
-productlineiPad mini 3             2.226e+00  5.083e-01   4.378 1.20e-05 ***
-productlineiPad mini Retina        1.616e+00  1.172e+00   1.378 0.168052
-productlineUnknown                 1.252e-01  2.938e-01   0.426 0.670058
+Coefficients: (4 not defined because of singularities)
+                                     Estimate Std. Error z value Pr(>|z|)
+(Intercept)                         7.897e+00  1.906e+00   4.144 3.42e-05 ***
+biddable                            1.490e+00  1.621e-01   9.197  < 2e-16 ***
+startprice                         -1.154e-02  1.116e-03 -10.342  < 2e-16 ***
+condition.For.parts.or.not.working -2.068e-01  2.935e-01  -0.705 0.481042
+condition.Manufacturer.refurbished  7.921e-01  4.927e-01   1.608 0.107876
+condition.New                       3.294e-01  2.634e-01   1.251 0.211009
+condition.New.other.see.details     5.566e-01  3.808e-01   1.462 0.143820
+condition.Seller.refurbished       -4.499e-01  3.236e-01  -1.390 0.164422
+condition.Used                             NA         NA      NA       NA
+cellular                           -2.223e-01  3.890e-01  -0.571 0.567677
+carrier.ATT                        -3.166e-01  3.541e-01  -0.894 0.371281
+carrier.None                       -3.243e-01  4.789e-01  -0.677 0.498292
+carrier.Other                       1.263e+01  6.028e+02   0.021 0.983281
+carrier.Sprint                      5.982e-01  6.623e-01   0.903 0.366427
+`carrier.T-Mobile`                 -1.353e+00  8.602e-01  -1.573 0.115637
+carrier.Unknown                    -4.972e-01  3.953e-01  -1.258 0.208491
+carrier.Verizon                            NA         NA      NA       NA
+color.Black                         1.645e-01  2.166e-01   0.759 0.447657
+color.Gold                         -5.760e-01  5.041e-01  -1.143 0.253133
+color.Space.Gray                    4.491e-02  2.800e-01   0.160 0.872561
+color.Unknown                       5.569e-03  1.956e-01   0.028 0.977289
+color.White                                NA         NA      NA       NA
+storage.2                          -1.341e+00  4.685e-01  -2.863 0.004196 **
+storage.3                          -1.221e+00  4.827e-01  -2.530 0.011419 *
+storage.4                          -8.599e-01  4.692e-01  -1.833 0.066840 .
+storage.5                          -8.640e-01  5.950e-01  -1.452 0.146460
+productline.iPad.1                 -2.996e-02  3.634e-01  -0.082 0.934312
+productline.iPad.2                  3.444e-01  3.560e-01   0.967 0.333316
+productline.iPad.3                  1.040e+00  4.049e-01   2.568 0.010221 *
+productline.iPad.4                  1.033e+00  4.185e-01   2.469 0.013547 *
+productline.iPad.5                  2.884e+00  1.069e+03   0.003 0.997847
+productline.iPad.Air                2.019e+00  4.464e-01   4.524 6.07e-06 ***
+productline.iPad.Air.2              3.717e+00  5.402e-01   6.881 5.95e-12 ***
+productline.iPad.mini               5.036e-01  3.595e-01   1.401 0.161200
+productline.iPad.mini.2             1.566e+00  4.501e-01   3.478 0.000504 ***
+productline.iPad.mini.3             2.304e+00  5.445e-01   4.231 2.33e-05 ***
+productline.iPad.mini.Retina        1.629e+00  1.204e+00   1.353 0.175964
+productline.Unknown                        NA         NA      NA       NA
+UniqueID                           -5.457e-04  1.606e-04  -3.398 0.000679 ***
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
     Null deviance: 1927.2  on 1395  degrees of freedom
-Residual deviance: 1244.9  on 1375  degrees of freedom
-AIC: 1286.9
+Residual deviance: 1235.8  on 1361  degrees of freedom
+AIC: 1305.8
 
-Number of Fisher Scoring iterations: 11
+Number of Fisher Scoring iterations: 13
 #+end_example
 
-** Testing the model with the new testing data set
-
-We will change the type for the testing set:
+**** Testing Logistic Regression LR4
 
 #+begin_src R :session :results output :exports all
-  writeLines("\n :: Converting data types in the dataframe...")
+  writeLines("\n :: Test set AUC ")
+  PredTestLR4 <- predict(eBayLR4, newdata = eBayTest, type = "response")
 
-  eBayTest$cellular <- as.integer(eBayTest$cellular)
-  eBayTest$storage <- as.integer(eBayTest$storage)
+  ROCRpredLR4 <- prediction(PredTestLR4, eBayTest$sold)
+  as.numeric(performance(ROCRpredLR4, "auc")@y.values)
+#+end_src
 
-  writeLines("\n :: eBayTest new structure:")
-  str(eBayTest)
+#+RESULTS:
+:
+:  :: Test set AUC
+: Warning message:
+: In predict.lm(object, newdata, se.fit, scale = 1, type = ifelse(type ==  :
+:   prediction from a rank-deficient fit may be misleading
+: [1] 0.8410605
+
+*** Logistic Regression model 5
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Create the logistic regression model 5 to predict sold using
+  all the independent variables:")
+
+  eBayLR5 <- glm(sold ~ biddable + startprice + storage.2 + storage.3 +
+                   storage.4 + productline.iPad.3 + productline.iPad.4 + productline.iPad.Air
+                   + productline.iPad.Air.2 + productline.iPad.mini.2 +
+                   productline.iPad.mini.3 + UniqueID, data = eBayTrain,
+                   family = binomial)
+
+  ## eBayLR5 <- train(sold ~ biddable + startprice + storage.2 + storage.3
+  ##                  + productline.iPad.3 + productline.iPad.Air +
+  ##                            productline.iPad.Air.2 +
+  ##                            productline.iPad.mini.2 +
+  ##                            productline.iPad.mini.3 + UniqueID, data =
+  ##                            eBayTrain, method = "glm")
+
+  writeLines("\n :: Summary of the Logistic Regression model 5:")
+  summary(eBayLR5)
 #+end_src
 
 #+RESULTS:
 #+begin_example
 
- :: Converting data types in the dataframe...
+ :: Create the logistic regression model 5 to predict sold using
+all the independent variables:
 
- :: eBayTest new structure:
-'data.frame':	465 obs. of  11 variables:
- $ description: chr  "" "" "\x89\xdbω\xdb\xcfCustomer or Carrier Return. Cosmetic condition is 9.5 of 10.\x89 NOT IN ORIGINAL BOX\x89""| __truncated__ "We are selling good quality iPads that have been fully tested by an Apple Certified Technician. The " ...
- $ biddable   : int  0 0 0 0 0 0 0 0 0 1 ...
- $ startprice : num  235 75 310 300 225 ...
- $ condition  : chr  "New other (see details)" "Used" "New other (see details)" "Seller refurbished" ...
- $ cellular   : int  0 0 0 0 1 0 1 0 0 1 ...
- $ carrier    : chr  "None" "None" "None" "None" ...
- $ color      : chr  "Unknown" "Black" "White" "Unknown" ...
- $ storage    : int  16 16 32 32 32 32 64 32 16 16 ...
- $ productline: chr  "iPad mini 2" "iPad 1" "iPad 4" "iPad Air" ...
- $ sold       : int  0 1 0 0 1 0 1 0 0 1 ...
- $ UniqueID   : int  10004 10014 10029 10033 10037 10038 10045 10047 10053 10064 ...
+ :: Summary of the Logistic Regression model 5:
+
+Call:
+glm(formula = sold ~ biddable + startprice + storage.2 + storage.3 +
+    storage.4 + productline.iPad.3 + productline.iPad.4 + productline.iPad.Air +
+    productline.iPad.Air.2 + productline.iPad.mini.2 + productline.iPad.mini.3 +
+    UniqueID, family = binomial, data = eBayTrain)
+
+Deviance Residuals:
+    Min       1Q   Median       3Q      Max
+-2.1955  -0.7234  -0.2457   0.6195   2.9248
+
+Coefficients:
+                          Estimate Std. Error z value Pr(>|z|)
+(Intercept)              7.1100067  1.5130834   4.699 2.61e-06 ***
+biddable                 1.5844876  0.1518784  10.433  < 2e-16 ***
+startprice              -0.0095891  0.0008780 -10.921  < 2e-16 ***
+storage.2               -0.2646267  0.2245696  -1.178 0.238648
+storage.3               -0.2502982  0.2616783  -0.957 0.338814
+storage.4               -0.0232648  0.2699242  -0.086 0.931315
+productline.iPad.3       0.7061009  0.2663874   2.651 0.008034 **
+productline.iPad.4       0.5945304  0.2826014   2.104 0.035398 *
+productline.iPad.Air     1.5686288  0.3105454   5.051 4.39e-07 ***
+productline.iPad.Air.2   3.0206872  0.3896893   7.752 9.08e-15 ***
+productline.iPad.mini.2  1.1050593  0.3285822   3.363 0.000771 ***
+productline.iPad.mini.3  1.7668696  0.4141557   4.266 1.99e-05 ***
+UniqueID                -0.0005994  0.0001323  -4.532 5.85e-06 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 1927.2  on 1395  degrees of freedom
+Residual deviance: 1265.9  on 1383  degrees of freedom
+AIC: 1291.9
+
+Number of Fisher Scoring iterations: 5
 #+end_example
 
-* Prepare a temporal the CSV file for submission
+**** Testing Logistic Regression LR5
+
+For the Logistic Regression LR5 we can concentrate the features used
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Generalize outcome and predictor variables...")
+
+  predictorsNamesLR5 <- c("biddable",
+                       "startprice",
+                       "productline.iPad.3",
+                       "productline.iPad.Air",
+                       "productline.iPad.Air.2",
+                       "productline.iPad.mini.2",
+                       "productline.iPad.mini.3",
+                       "UniqueID")
+  predictorsNamesLR5
+#+end_src
+
+#+RESULTS:
+:
+:  :: Generalize outcome and predictor variables...
+: [1] "biddable"                "startprice"
+: [3] "productline.iPad.3"      "productline.iPad.Air"
+: [5] "productline.iPad.Air.2"  "productline.iPad.mini.2"
+: [7] "productline.iPad.mini.3" "UniqueID"
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Test set AUC ")
+  ## PredTestLR5 <- predict(object = eBayLR5, newdata = eBayTest, type = 'prob')
+  PredTestLR5 <- predict(eBayLR5, newdata = eBayTest, type = "response")
+
+  ROCRpredLR5 <- prediction(PredTestLR5, eBayTest$sold)
+  as.numeric(performance(ROCRpredLR5, "auc")@y.values)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Test set AUC
+: [1] 0.8346419
+
+Test set AUC LR03:
+
+*0.8453767*
+
+** Random forest models
+
+*** RF model 1
+
+#+begin_src R :session :results output :exports all
+  ## writeLines("\n :: Random Forest model:")
+  ## set.seed(pi)
+  ## eBayRF01 <- randomForest(sold ~ UniqueID + biddable + startprice +
+  ##                                  condition + cellular + carrier +
+  ##                                  color + storage + productline, data =
+  ##                     eBayTrain, method = "class", na.action=na.roughfix)
+
+  ## summary(eBayRF01)
+#+end_src
+
+#+RESULTS:
+
+* Prepare the CSV file for submission
 
 And then make predictions on the test set. We will change the type for
 the testing set:
 
 #+begin_src R :session :results output :exports all
-  writeLines("\n :: Converting data types in the dataframe...")
-
-  eBayValidation$cellular <- as.integer(eBayValidation$cellular)
-  eBayValidation$storage <- as.integer(eBayValidation$storage)
-
   writeLines("\n :: eBayValidation new structure:")
-  str(eBayValidation)
+  str(eBayValidation2)
 #+end_src
 
 #+RESULTS:
 #+begin_example
-
- :: Converting data types in the dataframe...
-Warning message:
-NAs introduced by coercion
-Warning message:
-NAs introduced by coercion
 
  :: eBayValidation new structure:
-'data.frame':	798 obs. of  10 variables:
- $ description: chr  "like new" "Item is in great shape. I upgraded to the iPad Air 2 and don&#039;t need the mini any longer, even though " "This iPad is working and is tested 100%. It runs great. It is in good condition. Cracked digitizer." "" ...
- $ biddable   : int  0 0 0 1 0 0 0 0 0 1 ...
- $ startprice : num  105 195 220 100 211 ...
- $ condition  : chr  "Used" "Used" "Used" "Used" ...
- $ cellular   : int  1 0 0 0 0 0 0 0 0 0 ...
- $ carrier    : chr  "AT&T" "None" "None" "None" ...
- $ color      : chr  "Unknown" "Unknown" "Unknown" "Unknown" ...
- $ storage    : int  32 16 64 16 32 64 32 16 16 32 ...
- $ productline: chr  "iPad 1" "iPad mini 2" "iPad 3" "iPad mini" ...
- $ UniqueID   : int  11862 11863 11864 11865 11866 11867 11868 11869 11870 11871 ...
+'data.frame':	798 obs. of  36 variables:
+ $ biddable                          : num  0 0 0 1 0 0 0 0 0 1 ...
+ $ startprice                        : num  105 195 220 100 211 ...
+ $ condition.For.parts.or.not.working: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ condition.Manufacturer.refurbished: num  0 0 0 0 1 0 0 0 0 0 ...
+ $ condition.New                     : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ condition.New.other.see.details   : num  0 0 0 0 0 1 0 0 0 0 ...
+ $ condition.Seller.refurbished      : num  0 0 0 0 0 0 1 0 0 0 ...
+ $ condition.Used                    : num  1 1 1 1 0 0 0 1 1 1 ...
+ $ cellular                          : num  1 0 0 0 0 0 0 0 0 0 ...
+ $ carrier.ATT                       : num  1 0 0 0 0 0 0 0 0 0 ...
+ $ carrier.None                      : num  0 1 1 1 1 1 1 1 1 1 ...
+ $ carrier.Other                     : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ carrier.Sprint                    : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ carrier.T-Mobile                  : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ carrier.Unknown                   : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ carrier.Verizon                   : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ color.Black                       : num  0 0 0 0 1 0 1 0 1 0 ...
+ $ color.Gold                        : num  0 0 0 0 0 1 0 0 0 0 ...
+ $ color.Space.Gray                  : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ color.Unknown                     : num  1 1 1 1 0 0 0 1 0 1 ...
+ $ color.White                       : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ storage.2                         : num  0 1 0 1 0 0 0 1 1 0 ...
+ $ storage.3                         : num  1 0 0 0 1 0 1 0 0 1 ...
+ $ storage.4                         : num  0 0 1 0 0 1 0 0 0 0 ...
+ $ storage.5                         : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ productline.iPad.1                : num  1 0 0 0 0 0 1 0 0 1 ...
+ $ productline.iPad.2                : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ productline.iPad.3                : num  0 0 1 0 1 0 0 0 1 0 ...
+ $ productline.iPad.4                : num  0 0 0 0 0 0 0 1 0 0 ...
+ $ productline.iPad.Air              : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ productline.iPad.Air.2            : num  0 0 0 0 0 1 0 0 0 0 ...
+ $ productline.iPad.mini             : num  0 0 0 1 0 0 0 0 0 0 ...
+ $ productline.iPad.mini.2           : num  0 1 0 0 0 0 0 0 0 0 ...
+ $ productline.iPad.mini.3           : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ productline.Unknown               : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ UniqueID                          : num  11862 11863 11864 11865 11866 ...
 #+end_example
 
-Lets impute the data in order to have a better response.
+*** Logistic Regression 4
 
 #+begin_src R :session :results output :exports all
-  writeLines("\n :: Multiple imputation")
-  eBaySimple <- eBayValidation[c("UniqueID", "biddable", "startprice",
-                         "condition", "storage", "productline")]
-  summary(eBaySimple)
+  writeLines("\n :: Probabilities test vector generation:")
+  PredTest <- predict(eBayLR4, newdata = eBayValidation2, type = "response")
+  summary(PredTest)
 
-  set.seed(pi)
-  imputed <- complete(mice(eBaySimple))
-  ## summary(imputed)
+  MySubmission <- data.frame(UniqueID = eBayValidation2$UniqueID, Probability1 = PredTest)
+  write.csv(MySubmission, "../data/SubmissionLR4.csv", row.names = FALSE)
 
-  writeLines("\n :: Substitute the original values of storage with the imputed values:")
-  eBayValidation$storage <- imputed$storage
-  summary(eBayValidation)
+  writeLines("\n :: Submission LR4 file generated...")
 #+end_src
 
 #+RESULTS:
 #+begin_example
 
- :: Multiple imputation
-    UniqueID        biddable        startprice       condition
- Min.   :11862   Min.   :0.0000   Min.   :   0.01   Length:798
- 1st Qu.:12061   1st Qu.:0.0000   1st Qu.:  89.24   Class :character
- Median :12260   Median :0.0000   Median : 179.00   Mode  :character
- Mean   :12260   Mean   :0.4712   Mean   : 208.64
- 3rd Qu.:12460   3rd Qu.:1.0000   3rd Qu.: 289.00
- Max.   :12659   Max.   :1.0000   Max.   : 999.99
+ :: Probabilities test vector generation:
+Error in eval(expr, envir, enclos) :
+  object 'productline.iPad.5' not found
+Error in summary(PredTest) : object 'PredTest' not found
+Error in data.frame(UniqueID = eBayValidation2$UniqueID, Probability1 = PredTest) :
+  object 'PredTest' not found
+Error in is.data.frame(x) : object 'MySubmission' not found
 
-    storage       productline
- Min.   : 16.00   Length:798
- 1st Qu.: 16.00   Class :character
- Median : 16.00   Mode  :character
- Mean   : 34.86
- 3rd Qu.: 64.00
- Max.   :128.00
- NA's   :81
-
- iter imp variable
-  1   1  storage
-  1   2  storage
-  1   3  storage
-  1   4  storage
-  1   5  storage
-  2   1  storage
-  2   2  storage
-  2   3  storage
-  2   4  storage
-  2   5  storage
-  3   1  storage
-  3   2  storage
-  3   3  storage
-  3   4  storage
-  3   5  storage
-  4   1  storage
-  4   2  storage
-  4   3  storage
-  4   4  storage
-  4   5  storage
-  5   1  storage
-  5   2  storage
-  5   3  storage
-  5   4  storage
-  5   5  storage
-    UniqueID        biddable        startprice       condition
- Min.   :11862   Min.   :0.0000   Min.   :   0.01   Length:798
- 1st Qu.:12061   1st Qu.:0.0000   1st Qu.:  89.24   Class :character
- Median :12260   Median :0.0000   Median : 179.00   Mode  :character
- Mean   :12260   Mean   :0.4712   Mean   : 208.64
- 3rd Qu.:12460   3rd Qu.:1.0000   3rd Qu.: 289.00
- Max.   :12659   Max.   :1.0000   Max.   : 999.99
-    storage       productline
- Min.   : 16.00   Length:798
- 1st Qu.: 16.00   Class :character
- Median : 16.00   Mode  :character
- Mean   : 35.41
- 3rd Qu.: 64.00
- Max.   :128.00
-
- :: Substitute the original values of storage with the imputed values:
- description           biddable        startprice       condition
- Length:798         Min.   :0.0000   Min.   :   0.01   Length:798
- Class :character   1st Qu.:0.0000   1st Qu.:  89.24   Class :character
- Mode  :character   Median :0.0000   Median : 179.00   Mode  :character
-                    Mean   :0.4712   Mean   : 208.64
-                    3rd Qu.:1.0000   3rd Qu.: 289.00
-                    Max.   :1.0000   Max.   : 999.99
-
-    cellular        carrier             color              storage
- Min.   :0.0000   Length:798         Length:798         Min.   : 16.00
- 1st Qu.:0.0000   Class :character   Class :character   1st Qu.: 16.00
- Median :0.0000   Mode  :character   Mode  :character   Median : 16.00
- Mean   :0.2938                                         Mean   : 35.41
- 3rd Qu.:1.0000                                         3rd Qu.: 64.00
- Max.   :1.0000                                         Max.   :128.00
- NA's   :107
- productline           UniqueID
- Length:798         Min.   :11862
- Class :character   1st Qu.:12061
- Mode  :character   Median :12260
-                    Mean   :12260
-                    3rd Qu.:12460
-                    Max.   :12659
+ :: Submission LR4 file generated...
 #+end_example
+
+*** Logistic Regression 5
 
 Now we will apply the new model to the validation data
 
 #+begin_src R :session :results output :exports all
   writeLines("\n :: Probabilities test vector generation:")
-  PredTest <- predict(eBayLR02, newdata = eBayValidation, type = "response")
-
+  PredTest <- predict(eBayLR5, newdata = eBayValidation2, type = "response")
   summary(PredTest)
 #+end_src
 
@@ -1290,21 +1768,21 @@ Now we will apply the new model to the validation data
 :
 :  :: Probabilities test vector generation:
 :      Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
-: 0.0000121 0.0970800 0.2313000 0.3615000 0.6364000 0.9969000
+: 0.0000434 0.0942400 0.2115000 0.3478000 0.6314000 0.9878000
 
 Let's prepare a submission file for Kaggle (for more about this, see
 the "Evaluation" page on the competition site):
 
 #+begin_src R :session :results output :exports all
-  MySubmission <- data.frame(UniqueID = eBayValidation$UniqueID, Probability1
+  MySubmission <- data.frame(UniqueID = eBayValidation2$UniqueID, Probability1
                              = PredTest)
 
-  write.csv(MySubmission, "../data/SubmissionLR3.csv", row.names =
+  write.csv(MySubmission, "../data/SubmissionLR5.csv", row.names =
                                                                FALSE)
 
-  writeLines("\n :: Submission file generated...")
+  writeLines("\n :: Submission LR5 file generated...")
 #+end_src
 
 #+RESULTS:
 :
-:  :: Submission file generated...
+:  :: Submission LR5 file generated...

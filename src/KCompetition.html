@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Kaggle Competition. 15.071x - The Analytics Edge (Summer 2015).</title>
-<!-- 2015-07-28 Tue 18:16 -->
+<!-- 2015-07-31 Fri 13:36 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Sergio-Feliciano Mendoza-Barrera" />
@@ -208,16 +208,27 @@ for the JavaScript code in this tag.
 </li>
 <li><a href="#sec-3">3. Understanding the data</a>
 <ul>
-<li><a href="#sec-3-1">3.1. Download the data sets</a></li>
-<li><a href="#sec-3-2">3.2. File descriptions</a></li>
-<li><a href="#sec-3-3">3.3. Data fields</a></li>
-<li><a href="#sec-3-4">3.4. Load the data set</a></li>
-<li><a href="#sec-3-5">3.5. Preprocessing the data</a></li>
-<li><a href="#sec-3-6">3.6. Understanding each type and distribution of the data</a></li>
-<li><a href="#sec-3-7">3.7. Correlation between variables</a></li>
-<li><a href="#sec-3-8">3.8. Logistic regression model</a></li>
+<li><a href="#sec-3-1">3.1. Clear workspace for initialization purposes</a></li>
+<li><a href="#sec-3-2">3.2. Download the data sets</a></li>
+<li><a href="#sec-3-3">3.3. Load the data sets</a></li>
+<li><a href="#sec-3-4">3.4. File descriptions</a></li>
+<li><a href="#sec-3-5">3.5. Data fields or data features available</a></li>
+<li><a href="#sec-3-6">3.6. Load the necessary libraries</a></li>
+<li><a href="#sec-3-7">3.7. Inspecting the data set</a></li>
+<li><a href="#sec-3-8">3.8. Preprocessing the data</a></li>
+<li><a href="#sec-3-9">3.9. Understanding each type and distribution of the data</a></li>
+<li><a href="#sec-3-10">3.10. The dummy variable creation</a></li>
+<li><a href="#sec-3-11">3.11. Partitioning the data</a></li>
 </ul>
 </li>
+<li><a href="#sec-4">4. Machine Learning Models</a>
+<ul>
+<li><a href="#sec-4-1">4.1. Baseline model</a></li>
+<li><a href="#sec-4-2">4.2. Logistic regression models</a></li>
+<li><a href="#sec-4-3">4.3. Random forest models</a></li>
+</ul>
+</li>
+<li><a href="#sec-5">5. Prepare the CSV file for submission</a></li>
 </ul>
 </div>
 </div>
@@ -389,8 +400,8 @@ some text fields
 
 <div class="org-src-container">
 
-<pre class="src src-R">eBayTrain <span style="color: #db7093;">&lt;-</span> read.csv(<span style="color: #ff6a6a;">"../data/eBayiPadTrain.csv"</span>, stringsAsFactors = <span style="color: #3cb371;">FALSE</span>)
-eBayTest <span style="color: #db7093;">&lt;-</span> read.csv(<span style="color: #ff6a6a;">"../data/eBayiPadTest.csv"</span>, stringsAsFactors = <span style="color: #3cb371;">FALSE</span>)
+<pre class="src src-R">eBayDS1 <span style="color: #db7093;">&lt;-</span> read.csv(<span style="color: #ff6a6a;">"../data/eBayiPadTrain.csv"</span>, stringsAsFactors = <span style="color: #3cb371;">FALSE</span>)
+eBayValidation1 <span style="color: #db7093;">&lt;-</span> read.csv(<span style="color: #ff6a6a;">"../data/eBayiPadTest.csv"</span>, stringsAsFactors = <span style="color: #3cb371;">FALSE</span>)
 </pre>
 </div>
 
@@ -401,7 +412,7 @@ Sold using Price:
 
 <div class="org-src-container">
 
-<pre class="src src-R">SimpleMod <span style="color: #db7093;">&lt;-</span> glm(sold ~ startprice, data = eBayTrain, family = binomial)
+<pre class="src src-R">SimpleMod <span style="color: #db7093;">&lt;-</span> glm(sold ~ startprice, data = eBayDS1, family = binomial)
 </pre>
 </div>
 
@@ -411,7 +422,7 @@ And then make predictions on the test set:
 
 <div class="org-src-container">
 
-<pre class="src src-R">PredTest <span style="color: #db7093;">&lt;-</span> predict(SimpleMod, newdata = eBayTest, type = <span style="color: #ff6a6a;">"response"</span>)
+<pre class="src src-R">PredTest <span style="color: #db7093;">&lt;-</span> predict(SimpleMod, newdata = eBayValidation1, type = <span style="color: #ff6a6a;">"response"</span>)
 </pre>
 </div>
 
@@ -434,7 +445,7 @@ see the "Evaluation" page on the competition site):
 
 <div class="org-src-container">
 
-<pre class="src src-R">MySubmission <span style="color: #db7093;">&lt;-</span> data.frame(UniqueID = eBayTest$UniqueID, Probability1
+<pre class="src src-R">MySubmission <span style="color: #db7093;">&lt;-</span> data.frame(UniqueID = eBayValidation$UniqueID, Probability1
                            = PredTest)
 
 write.csv(MySubmission, <span style="color: #ff6a6a;">"../data/SubmissionSimpleLogV1.csv"</span>, row.names
@@ -509,17 +520,35 @@ This competition is brought to you by MITx and edX.
 <h2 id="sec-3"><span class="section-number-2">3</span> Understanding the data</h2>
 <div class="outline-text-2" id="text-3">
 </div><div id="outline-container-sec-3-1" class="outline-3">
-<h3 id="sec-3-1"><span class="section-number-3">3.1</span> Download the data sets</h3>
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> Clear workspace for initialization purposes</h3>
 <div class="outline-text-3" id="text-3-1">
+<p>
+As first step we will reset all the workspace
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: clearing workspace..."</span>)
+rm(list = ls(all = <span style="color: #3cb371;">TRUE</span>))
+</pre>
+</div>
+
+<pre class="example">
+:: clearing workspace...
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> Download the data sets</h3>
+<div class="outline-text-3" id="text-3-2">
 <p>
 In this part we can download the data
 </p>
 
 <div class="org-src-container">
 
-<pre class="src src-R"><span style="color: #db7093;">library</span>(parallel)
-
-<span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #ff6a6a;">"../data"</span>)) {
+<pre class="src src-R"><span style="color: #4682b4;">if</span>(!file.exists(<span style="color: #ff6a6a;">"../data"</span>)) {
         dir.create(<span style="color: #ff6a6a;">"../data"</span>)
 }
 
@@ -549,9 +578,26 @@ writeLines(<span style="color: #ff6a6a;">"\n :: Files downloaded..."</span>)
 </div>
 </div>
 
-<div id="outline-container-sec-3-2" class="outline-3">
-<h3 id="sec-3-2"><span class="section-number-3">3.2</span> File descriptions</h3>
-<div class="outline-text-3" id="text-3-2">
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3"><span class="section-number-3">3.3</span> Load the data sets</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+We need to investigate the best way to load the data, in this case a
+series of factor features can improve the performance of the algorithms
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">eBayDS <span style="color: #db7093;">&lt;-</span> read.csv(<span style="color: #ff6a6a;">"../data/eBayiPadTrain.csv"</span>, stringsAsFactors = <span style="color: #3cb371;">FALSE</span>)
+eBayValidation <span style="color: #db7093;">&lt;-</span> read.csv(<span style="color: #ff6a6a;">"../data/eBayiPadTest.csv"</span>, stringsAsFactors = <span style="color: #3cb371;">FALSE</span>)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-4" class="outline-3">
+<h3 id="sec-3-4"><span class="section-number-3">3.4</span> File descriptions</h3>
+<div class="outline-text-3" id="text-3-4">
 <p>
 The data provided for this competition is split into two files:
 </p>
@@ -572,9 +618,9 @@ data for this competition comes from eBay.com.
 </div>
 </div>
 
-<div id="outline-container-sec-3-3" class="outline-3">
-<h3 id="sec-3-3"><span class="section-number-3">3.3</span> Data fields</h3>
-<div class="outline-text-3" id="text-3-3">
+<div id="outline-container-sec-3-5" class="outline-3">
+<h3 id="sec-3-5"><span class="section-number-3">3.5</span> Data fields or data features available</h3>
+<div class="outline-text-3" id="text-3-5">
 <p>
 The dependent variable in this problem is the variable sold, which
 labels if an iPad listed on the eBay site was sold (equal to 1 if it
@@ -627,183 +673,576 @@ cellular=1); listed as "None" if cellular=0.
 </div>
 </div>
 
-<div id="outline-container-sec-3-4" class="outline-3">
-<h3 id="sec-3-4"><span class="section-number-3">3.4</span> Load the data set</h3>
-<div class="outline-text-3" id="text-3-4">
+<div id="outline-container-sec-3-6" class="outline-3">
+<h3 id="sec-3-6"><span class="section-number-3">3.6</span> Load the necessary libraries</h3>
+<div class="outline-text-3" id="text-3-6">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"    Loading data set into their data frame..."</span>)
-eBayTrain <span style="color: #db7093;">&lt;-</span> read.csv(<span style="color: #ff6a6a;">"../data/eBayiPadTrain.csv"</span>, colClasses = <span style="color: #ff6a6a;">"character"</span>,
-                 na.strings = c(<span style="color: #ff6a6a;">""</span>, <span style="color: #ff6a6a;">"Unknown"</span>, <span style="color: #3cb371;">NULL</span>))
-
-str(eBayTrain)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Loading the necessary libraries..."</span>)
+<span style="color: #db7093;">library</span>(caret)                          <span style="color: #9932cc;"># </span><span style="color: #ba55d3;">ML interface to many</span>
+                                        <span style="color: #9932cc;"># </span><span style="color: #ba55d3;">functions</span>
+<span style="color: #db7093;">library</span>(ggplot2)                        <span style="color: #9932cc;"># </span><span style="color: #ba55d3;">Graphical libraries</span>
+<span style="color: #db7093;">library</span>(caTools)                        <span style="color: #9932cc;"># </span><span style="color: #ba55d3;">Partition data sets</span>
+<span style="color: #db7093;">library</span>(parallel)                       <span style="color: #9932cc;"># </span><span style="color: #ba55d3;">Parallel computation</span>
+<span style="color: #db7093;">library</span>(mice)                           <span style="color: #9932cc;"># </span><span style="color: #ba55d3;">Imputation library</span>
+<span style="color: #db7093;">library</span>(ROCR)                           <span style="color: #9932cc;"># </span><span style="color: #ba55d3;">ROCS for AUC calculation</span>
+<span style="color: #db7093;">library</span>(randomForest)                   <span style="color: #9932cc;"># </span><span style="color: #ba55d3;">Random Forest library</span>
+<span style="color: #db7093;">library</span>(pROC)                           <span style="color: #9932cc;"># </span><span style="color: #ba55d3;">ROC calculations</span>
+<span style="color: #db7093;">library</span>(gbm)                            <span style="color: #9932cc;"># </span><span style="color: #ba55d3;">gbm algorithm</span>
+<span style="color: #db7093;">library</span>(parallel)                       <span style="color: #9932cc;"># </span><span style="color: #ba55d3;">Multicore calculations</span>
 </pre>
 </div>
 
 <pre class="example">
-    Loading data set into their data frame...
-'data.frame':	1861 obs. of  11 variables:
- $ description: chr  "iPad is in 8.5+ out of 10 cosmetic condition!" "Previously used, please read description. May show signs of use such as scratches to the screen and " NA NA ...
- $ biddable   : chr  "0" "1" "0" "0" ...
- $ startprice : chr  "159.99" "0.99" "199.99" "235" ...
- $ condition  : chr  "Used" "Used" "Used" "New other (see details)" ...
- $ cellular   : chr  "0" "1" "0" "0" ...
- $ carrier    : chr  "None" "Verizon" "None" "None" ...
- $ color      : chr  "Black" NA "White" NA ...
- $ storage    : chr  "16" "16" "16" "16" ...
- $ productline: chr  "iPad 2" "iPad 2" "iPad 4" "iPad mini 2" ...
- $ sold       : chr  "0" "1" "1" "0" ...
- $ UniqueID   : chr  "10001" "10002" "10003" "10004" ...
+:: Loading the necessary libraries...
 </pre>
 </div>
 </div>
 
-<div id="outline-container-sec-3-5" class="outline-3">
-<h3 id="sec-3-5"><span class="section-number-3">3.5</span> Preprocessing the data</h3>
-<div class="outline-text-3" id="text-3-5">
+<div id="outline-container-sec-3-7" class="outline-3">
+<h3 id="sec-3-7"><span class="section-number-3">3.7</span> Inspecting the data set</h3>
+<div class="outline-text-3" id="text-3-7">
 <p>
-In this part we can try with different types for the data in order to
-have a better understanding of the data and to have the probability to
-improve the models.
+Lets begin researching in the training data set.
 </p>
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Converting data types in the dataframe..."</span>)
-
-eBayTrain$biddable <span style="color: #db7093;">&lt;-</span> as.integer(eBayTrain$biddable)
-eBayTrain$startprice <span style="color: #db7093;">&lt;-</span> as.numeric(eBayTrain$startprice)
-eBayTrain$cellular <span style="color: #db7093;">&lt;-</span> as.integer(eBayTrain$cellular)
-eBayTrain$storage <span style="color: #db7093;">&lt;-</span> as.integer(eBayTrain$storage)
-eBayTrain$sold <span style="color: #db7093;">&lt;-</span> as.integer(eBayTrain$sold)
-
-<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">eBayTrain$condition &lt;- as.factor(eBayTrain$condition)</span>
-<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">eBayTrain$carrier &lt;- as.factor(eBayTrain$carrier)</span>
-<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">eBayTrain$color &lt;- as.factor(eBayTrain$color)</span>
-<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">eBayTrain$productline &lt;- as.factor(eBayTrain$productline)</span>
-
-writeLines(<span style="color: #ff6a6a;">"\n :: eBayTrain new structure:"</span>)
-str(eBayTrain)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"    The structure of the training data set:"</span>)
+str(eBayDS)
 </pre>
 </div>
 
 <pre class="example">
- :: Converting data types in the dataframe...
-
- :: eBayTrain new structure:
+    The structure of the training data set:
 'data.frame':	1861 obs. of  11 variables:
- $ description: chr  "iPad is in 8.5+ out of 10 cosmetic condition!" "Previously used, please read description. May show signs of use such as scratches to the screen and " NA NA ...
+ $ description: chr  "iPad is in 8.5+ out of 10 cosmetic condition!" "Previously used, please read description. May show signs of use such as scratches to the screen and " "" "" ...
  $ biddable   : int  0 1 0 0 0 1 1 0 1 1 ...
  $ startprice : num  159.99 0.99 199.99 235 199.99 ...
  $ condition  : chr  "Used" "Used" "Used" "New other (see details)" ...
- $ cellular   : int  0 1 0 0 NA 1 0 0 1 0 ...
+ $ cellular   : chr  "0" "1" "0" "0" ...
  $ carrier    : chr  "None" "Verizon" "None" "None" ...
- $ color      : chr  "Black" NA "White" NA ...
- $ storage    : int  16 16 16 16 NA 32 16 16 64 32 ...
+ $ color      : chr  "Black" "Unknown" "White" "Unknown" ...
+ $ storage    : chr  "16" "16" "16" "16" ...
  $ productline: chr  "iPad 2" "iPad 2" "iPad 4" "iPad mini 2" ...
  $ sold       : int  0 1 1 0 0 1 1 0 1 1 ...
- $ UniqueID   : chr  "10001" "10002" "10003" "10004" ...
+ $ UniqueID   : int  10001 10002 10003 10004 10005 10006 10007 10008 10009 10010 ...
 </pre>
 </div>
 </div>
 
-<div id="outline-container-sec-3-6" class="outline-3">
-<h3 id="sec-3-6"><span class="section-number-3">3.6</span> Understanding each type and distribution of the data</h3>
-<div class="outline-text-3" id="text-3-6">
+<div id="outline-container-sec-3-8" class="outline-3">
+<h3 id="sec-3-8"><span class="section-number-3">3.8</span> Preprocessing the data</h3>
+<div class="outline-text-3" id="text-3-8">
+<p>
+In this part we can try with different types for the data in order to
+have a better understanding of the data and to have the probability to
+improve the models. We can assume that some default values must be
+changed to the right type.
+</p>
+</div>
+
+<div id="outline-container-sec-3-8-1" class="outline-4">
+<h4 id="sec-3-8-1"><span class="section-number-4">3.8.1</span> Training data set</h4>
+<div class="outline-text-4" id="text-3-8-1">
+<div class="org-src-container">
+
+<pre class="src src-R">eBayDS$condition <span style="color: #db7093;">&lt;-</span> as.factor(eBayDS$condition)
+eBayDS$cellular <span style="color: #db7093;">&lt;-</span> as.integer(eBayDS$cellular)
+eBayDS$carrier <span style="color: #db7093;">&lt;-</span> as.factor(eBayDS$carrier)
+eBayDS$color <span style="color: #db7093;">&lt;-</span> as.factor(eBayDS$color)
+eBayDS$storage <span style="color: #db7093;">&lt;-</span> as.factor(eBayDS$storage)
+eBayDS$productline <span style="color: #db7093;">&lt;-</span> as.factor(eBayDS$productline)
+<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">eBayDS$sold &lt;- as.factor(eBayDS$sold)</span>
+
+writeLines(<span style="color: #ff6a6a;">"\n :: New structure of the original training set:"</span>)
+str(eBayDS)
+</pre>
+</div>
+
+<pre class="example">
+Warning message:
+NAs introduced by coercion
+
+ :: New structure of the original training set:
+'data.frame':	1861 obs. of  11 variables:
+ $ description: chr  "iPad is in 8.5+ out of 10 cosmetic condition!" "Previously used, please read description. May show signs of use such as scratches to the screen and " "" "" ...
+ $ biddable   : int  0 1 0 0 0 1 1 0 1 1 ...
+ $ startprice : num  159.99 0.99 199.99 235 199.99 ...
+ $ condition  : Factor w/ 6 levels "For parts or not working",..: 6 6 6 4 5 6 3 3 6 6 ...
+ $ cellular   : int  0 1 0 0 NA 1 0 0 1 0 ...
+ $ carrier    : Factor w/ 7 levels "AT&amp;T","None",..: 2 7 2 2 6 1 2 2 6 2 ...
+ $ color      : Factor w/ 5 levels "Black","Gold",..: 1 4 5 4 4 3 3 5 5 5 ...
+ $ storage    : Factor w/ 5 levels "128","16","32",..: 2 2 2 2 5 3 2 2 4 3 ...
+ $ productline: Factor w/ 12 levels "iPad 1","iPad 2",..: 2 2 4 9 12 9 8 10 1 4 ...
+ $ sold       : int  0 1 1 0 0 1 1 0 1 1 ...
+ $ UniqueID   : int  10001 10002 10003 10004 10005 10006 10007 10008 10009 10010 ...
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-3-8-2" class="outline-4">
+<h4 id="sec-3-8-2"><span class="section-number-4">3.8.2</span> Validation data set</h4>
+<div class="outline-text-4" id="text-3-8-2">
+<div class="org-src-container">
+
+<pre class="src src-R">eBayValidation$condition <span style="color: #db7093;">&lt;-</span> as.factor(eBayValidation$condition)
+eBayValidation$cellular <span style="color: #db7093;">&lt;-</span> as.integer(eBayValidation$cellular)
+eBayValidation$carrier <span style="color: #db7093;">&lt;-</span> as.factor(eBayValidation$carrier)
+eBayValidation$color <span style="color: #db7093;">&lt;-</span> as.factor(eBayValidation$color)
+eBayValidation$storage <span style="color: #db7093;">&lt;-</span> as.factor(eBayValidation$storage)
+eBayValidation$productline <span style="color: #db7093;">&lt;-</span> as.factor(eBayValidation$productline)
+<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">eBayValidation$sold &lt;- as.factor(eBayValidation$sold)</span>
+
+writeLines(<span style="color: #ff6a6a;">"\n :: New structure of the original training set:"</span>)
+str(eBayValidation)
+</pre>
+</div>
+
+<pre class="example">
+Warning message:
+NAs introduced by coercion
+
+ :: New structure of the original training set:
+'data.frame':	798 obs. of  10 variables:
+ $ description: chr  "like new" "Item is in great shape. I upgraded to the iPad Air 2 and don&amp;#039;t need the mini any longer, even though " "This iPad is working and is tested 100%. It runs great. It is in good condition. Cracked digitizer." "" ...
+ $ biddable   : int  0 0 0 1 0 0 0 0 0 1 ...
+ $ startprice : num  105 195 220 100 211 ...
+ $ condition  : Factor w/ 6 levels "For parts or not working",..: 6 6 6 6 2 4 5 6 6 6 ...
+ $ cellular   : int  1 0 0 0 0 0 0 0 0 0 ...
+ $ carrier    : Factor w/ 7 levels "AT&amp;T","None",..: 1 2 2 2 2 2 2 2 2 2 ...
+ $ color      : Factor w/ 5 levels "Black","Gold",..: 4 4 4 4 1 2 1 4 1 4 ...
+ $ storage    : Factor w/ 5 levels "128","16","32",..: 3 2 4 2 3 4 3 2 2 3 ...
+ $ productline: Factor w/ 10 levels "iPad 1","iPad 2",..: 1 8 3 7 3 6 1 4 3 1 ...
+ $ UniqueID   : int  11862 11863 11864 11865 11866 11867 11868 11869 11870 11871 ...
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-3-8-3" class="outline-4">
+<h4 id="sec-3-8-3"><span class="section-number-4">3.8.3</span> Imputing the NA values in the training dataset</h4>
+<div class="outline-text-4" id="text-3-8-3">
+<p>
+Lets research about the NA values and their impact in the ML road map
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Summary of the original training data set:"</span>)
+summary(eBayDS)
+</pre>
+</div>
+
+<pre class="example">
+:: Summary of the original training data set:
+description           biddable        startprice
+Length:1861        Min.   :0.0000   Min.   :  0.01
+Class :character   1st Qu.:0.0000   1st Qu.: 80.00
+Mode  :character   Median :0.0000   Median :179.99
+                   Mean   :0.4498   Mean   :211.18
+                   3rd Qu.:1.0000   3rd Qu.:300.00
+                   Max.   :1.0000   Max.   :999.00
+
+                   condition       cellular          carrier
+For parts or not working: 181   Min.   :0.0000   AT&amp;T    : 206
+Manufacturer refurbished:  39   1st Qu.:0.0000   None    :1111
+New                     : 289   Median :0.0000   Other   :   3
+New other (see details) :  85   Mean   :0.3196   Sprint  :  30
+Seller refurbished      : 109   3rd Qu.:1.0000   T-Mobile:  19
+Used                    :1158   Max.   :1.0000   Unknown : 348
+                                NA's   :234      Verizon : 144
+       color        storage        productline       sold
+Black     :425   128    : 90   iPad 2    :286   Min.   :0.0000
+Gold      : 77   16     :934   iPad mini :277   1st Qu.:0.0000
+Space Gray:202   32     :340   iPad 1    :227   Median :0.0000
+Unknown   :708   64     :314   Unknown   :204   Mean   :0.4621
+White     :449   Unknown:183   iPad Air  :180   3rd Qu.:1.0000
+                               iPad Air 2:171   Max.   :1.0000
+                               (Other)   :516
+   UniqueID
+Min.   :10001
+1st Qu.:10466
+Median :10931
+Mean   :10931
+3rd Qu.:11396
+Max.   :11861
+</pre>
+
+<p>
+The exist NA values have some serious problems in the CSV generation.
+</p>
+
+<p>
+We can work with some imputation algorithms in order to substitute the
+NA values.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Multiple imputation"</span>)
+eBaySimple <span style="color: #db7093;">&lt;-</span> eBayDS[c(<span style="color: #ff6a6a;">"UniqueID"</span>, <span style="color: #ff6a6a;">"biddable"</span>, <span style="color: #ff6a6a;">"startprice"</span>,
+                       <span style="color: #ff6a6a;">"condition"</span>, <span style="color: #ff6a6a;">"cellular"</span>, <span style="color: #ff6a6a;">"storage"</span>,
+                       <span style="color: #ff6a6a;">"productline"</span>)]
+summary(eBaySimple)
+</pre>
+</div>
+
+<pre class="example">
+:: Multiple imputation
+   UniqueID        biddable        startprice
+Min.   :10001   Min.   :0.0000   Min.   :  0.01
+1st Qu.:10466   1st Qu.:0.0000   1st Qu.: 80.00
+Median :10931   Median :0.0000   Median :179.99
+Mean   :10931   Mean   :0.4498   Mean   :211.18
+3rd Qu.:11396   3rd Qu.:1.0000   3rd Qu.:300.00
+Max.   :11861   Max.   :1.0000   Max.   :999.00
+
+                   condition       cellular         storage
+For parts or not working: 181   Min.   :0.0000   128    : 90
+Manufacturer refurbished:  39   1st Qu.:0.0000   16     :934
+New                     : 289   Median :0.0000   32     :340
+New other (see details) :  85   Mean   :0.3196   64     :314
+Seller refurbished      : 109   3rd Qu.:1.0000   Unknown:183
+Used                    :1158   Max.   :1.0000
+                                NA's   :234
+    productline
+iPad 2    :286
+iPad mini :277
+iPad 1    :227
+Unknown   :204
+iPad Air  :180
+iPad Air 2:171
+(Other)   :516
+</pre>
+
+<p>
+Lets impute the data in order to have a better response.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">set.seed(pi)
+imputed <span style="color: #db7093;">&lt;-</span> complete(mice(eBaySimple))
+summary(imputed)
+</pre>
+</div>
+
+<pre class="example">
+iter imp variable
+ 1   1  cellular
+ 1   2  cellular
+ 1   3  cellular
+ 1   4  cellular
+ 1   5  cellular
+ 2   1  cellular
+ 2   2  cellular
+ 2   3  cellular
+ 2   4  cellular
+ 2   5  cellular
+ 3   1  cellular
+ 3   2  cellular
+ 3   3  cellular
+ 3   4  cellular
+ 3   5  cellular
+ 4   1  cellular
+ 4   2  cellular
+ 4   3  cellular
+ 4   4  cellular
+ 4   5  cellular
+ 5   1  cellular
+ 5   2  cellular
+ 5   3  cellular
+ 5   4  cellular
+ 5   5  cellular
+   UniqueID        biddable        startprice
+Min.   :10001   Min.   :0.0000   Min.   :  0.01
+1st Qu.:10466   1st Qu.:0.0000   1st Qu.: 80.00
+Median :10931   Median :0.0000   Median :179.99
+Mean   :10931   Mean   :0.4498   Mean   :211.18
+3rd Qu.:11396   3rd Qu.:1.0000   3rd Qu.:300.00
+Max.   :11861   Max.   :1.0000   Max.   :999.00
+
+                   condition       cellular         storage
+For parts or not working: 181   Min.   :0.0000   128    : 90
+Manufacturer refurbished:  39   1st Qu.:0.0000   16     :934
+New                     : 289   Median :0.0000   32     :340
+New other (see details) :  85   Mean   :0.3052   64     :314
+Seller refurbished      : 109   3rd Qu.:1.0000   Unknown:183
+Used                    :1158   Max.   :1.0000
+
+    productline
+iPad 2    :286
+iPad mini :277
+iPad 1    :227
+Unknown   :204
+iPad Air  :180
+iPad Air 2:171
+(Other)   :516
+</pre>
+
+<p>
+Lets substitute the imputed values in the original dataframe
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Substitute the original values of storage with the imputed values:"</span>)
+eBayDS$storage <span style="color: #db7093;">&lt;-</span> imputed$storage
+eBayDS$cellular <span style="color: #db7093;">&lt;-</span> imputed$cellular
+summary(eBayDS)
+</pre>
+</div>
+
+<pre class="example">
+:: Substitute the original values of storage with the imputed values:
+description           biddable        startprice
+Length:1861        Min.   :0.0000   Min.   :  0.01
+Class :character   1st Qu.:0.0000   1st Qu.: 80.00
+Mode  :character   Median :0.0000   Median :179.99
+                   Mean   :0.4498   Mean   :211.18
+                   3rd Qu.:1.0000   3rd Qu.:300.00
+                   Max.   :1.0000   Max.   :999.00
+
+                   condition       cellular          carrier
+For parts or not working: 181   Min.   :0.0000   AT&amp;T    : 206
+Manufacturer refurbished:  39   1st Qu.:0.0000   None    :1111
+New                     : 289   Median :0.0000   Other   :   3
+New other (see details) :  85   Mean   :0.3052   Sprint  :  30
+Seller refurbished      : 109   3rd Qu.:1.0000   T-Mobile:  19
+Used                    :1158   Max.   :1.0000   Unknown : 348
+                                                 Verizon : 144
+       color        storage        productline       sold
+Black     :425   128    : 90   iPad 2    :286   Min.   :0.0000
+Gold      : 77   16     :934   iPad mini :277   1st Qu.:0.0000
+Space Gray:202   32     :340   iPad 1    :227   Median :0.0000
+Unknown   :708   64     :314   Unknown   :204   Mean   :0.4621
+White     :449   Unknown:183   iPad Air  :180   3rd Qu.:1.0000
+                               iPad Air 2:171   Max.   :1.0000
+                               (Other)   :516
+   UniqueID
+Min.   :10001
+1st Qu.:10466
+Median :10931
+Mean   :10931
+3rd Qu.:11396
+Max.   :11861
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-3-8-4" class="outline-4">
+<h4 id="sec-3-8-4"><span class="section-number-4">3.8.4</span> Imputing the NA values in the validation dataset</h4>
+<div class="outline-text-4" id="text-3-8-4">
+<p>
+Lets create a dataframe with the factor/character features
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Multiple imputation"</span>)
+eBaySimple <span style="color: #db7093;">&lt;-</span> eBayValidation[c(<span style="color: #ff6a6a;">"UniqueID"</span>, <span style="color: #ff6a6a;">"biddable"</span>, <span style="color: #ff6a6a;">"startprice"</span>,
+                       <span style="color: #ff6a6a;">"condition"</span>, <span style="color: #ff6a6a;">"cellular"</span>, <span style="color: #ff6a6a;">"storage"</span>,
+                       <span style="color: #ff6a6a;">"productline"</span>)]
+summary(eBaySimple)
+</pre>
+</div>
+
+<pre class="example">
+:: Multiple imputation
+   UniqueID        biddable        startprice
+Min.   :11862   Min.   :0.0000   Min.   :   0.01
+1st Qu.:12061   1st Qu.:0.0000   1st Qu.:  89.24
+Median :12260   Median :0.0000   Median : 179.00
+Mean   :12260   Mean   :0.4712   Mean   : 208.64
+3rd Qu.:12460   3rd Qu.:1.0000   3rd Qu.: 289.00
+Max.   :12659   Max.   :1.0000   Max.   : 999.99
+
+                   condition      cellular         storage       productline
+For parts or not working: 83   Min.   :0.0000   128    : 38   iPad 2   :154
+Manufacturer refurbished: 16   1st Qu.:0.0000   16     :394   iPad mini:111
+New                     :113   Median :0.0000   32     :138   Unknown  : 92
+New other (see details) : 43   Mean   :0.2938   64     :147   iPad 1   : 88
+Seller refurbished      : 52   3rd Qu.:1.0000   Unknown: 81   iPad Air : 74
+Used                    :491   Max.   :1.0000                 iPad 4   : 68
+                               NA's   :107                    (Other)  :211
+</pre>
+
+<p>
+Lets impute the data in order to have a better response.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">set.seed(pi)
+imputed <span style="color: #db7093;">&lt;-</span> complete(mice(eBaySimple))
+summary(imputed)
+</pre>
+</div>
+
+<pre class="example">
+iter imp variable
+ 1   1  cellular
+ 1   2  cellular
+ 1   3  cellular
+ 1   4  cellular
+ 1   5  cellular
+ 2   1  cellular
+ 2   2  cellular
+ 2   3  cellular
+ 2   4  cellular
+ 2   5  cellular
+ 3   1  cellular
+ 3   2  cellular
+ 3   3  cellular
+ 3   4  cellular
+ 3   5  cellular
+ 4   1  cellular
+ 4   2  cellular
+ 4   3  cellular
+ 4   4  cellular
+ 4   5  cellular
+ 5   1  cellular
+ 5   2  cellular
+ 5   3  cellular
+ 5   4  cellular
+ 5   5  cellular
+   UniqueID        biddable        startprice
+Min.   :11862   Min.   :0.0000   Min.   :   0.01
+1st Qu.:12061   1st Qu.:0.0000   1st Qu.:  89.24
+Median :12260   Median :0.0000   Median : 179.00
+Mean   :12260   Mean   :0.4712   Mean   : 208.64
+3rd Qu.:12460   3rd Qu.:1.0000   3rd Qu.: 289.00
+Max.   :12659   Max.   :1.0000   Max.   : 999.99
+
+                   condition      cellular         storage       productline
+For parts or not working: 83   Min.   :0.0000   128    : 38   iPad 2   :154
+Manufacturer refurbished: 16   1st Qu.:0.0000   16     :394   iPad mini:111
+New                     :113   Median :0.0000   32     :138   Unknown  : 92
+New other (see details) : 43   Mean   :0.2895   64     :147   iPad 1   : 88
+Seller refurbished      : 52   3rd Qu.:1.0000   Unknown: 81   iPad Air : 74
+Used                    :491   Max.   :1.0000                 iPad 4   : 68
+                                                              (Other)  :211
+</pre>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Substitute the original values of storage with the imputed values:"</span>)
+eBayValidation$storage <span style="color: #db7093;">&lt;-</span> imputed$storage
+eBayValidation$cellular <span style="color: #db7093;">&lt;-</span> imputed$cellular
+summary(eBayValidation)
+</pre>
+</div>
+
+<pre class="example">
+:: Substitute the original values of storage with the imputed values:
+description           biddable        startprice
+Length:798         Min.   :0.0000   Min.   :   0.01
+Class :character   1st Qu.:0.0000   1st Qu.:  89.24
+Mode  :character   Median :0.0000   Median : 179.00
+                   Mean   :0.4712   Mean   : 208.64
+                   3rd Qu.:1.0000   3rd Qu.: 289.00
+                   Max.   :1.0000   Max.   : 999.99
+
+                   condition      cellular          carrier
+For parts or not working: 83   Min.   :0.0000   AT&amp;T    : 86
+Manufacturer refurbished: 16   1st Qu.:0.0000   None    :488
+New                     :113   Median :0.0000   Other   :  3
+New other (see details) : 43   Mean   :0.2895   Sprint  :  6
+Seller refurbished      : 52   3rd Qu.:1.0000   T-Mobile:  8
+Used                    :491   Max.   :1.0000   Unknown :155
+                                                Verizon : 52
+       color        storage       productline     UniqueID
+Black     :173   128    : 38   iPad 2   :154   Min.   :11862
+Gold      : 33   16     :394   iPad mini:111   1st Qu.:12061
+Space Gray: 83   32     :138   Unknown  : 92   Median :12260
+Unknown   :323   64     :147   iPad 1   : 88   Mean   :12260
+White     :186   Unknown: 81   iPad Air : 74   3rd Qu.:12460
+                               iPad 4   : 68   Max.   :12659
+                               (Other)  :211
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-9" class="outline-3">
+<h3 id="sec-3-9"><span class="section-number-3">3.9</span> Understanding each type and distribution of the data</h3>
+<div class="outline-text-3" id="text-3-9">
+<p>
+In this part we will research about the data and the interactions
+between it.
+</p>
+
 <div class="org-src-container">
 
 <pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Summary of the data:"</span>)
-summary(eBayTrain)
+summary(eBayDS)
 </pre>
 </div>
 
 <pre class="example">
 :: Summary of the data:
-description           biddable        startprice      condition
-Length:1861        Min.   :0.0000   Min.   :  0.01   Length:1861
-Class :character   1st Qu.:0.0000   1st Qu.: 80.00   Class :character
-Mode  :character   Median :0.0000   Median :179.99   Mode  :character
+description           biddable        startprice
+Length:1861        Min.   :0.0000   Min.   :  0.01
+Class :character   1st Qu.:0.0000   1st Qu.: 80.00
+Mode  :character   Median :0.0000   Median :179.99
                    Mean   :0.4498   Mean   :211.18
                    3rd Qu.:1.0000   3rd Qu.:300.00
                    Max.   :1.0000   Max.   :999.00
 
-   cellular        carrier             color              storage
-Min.   :0.0000   Length:1861        Length:1861        Min.   : 16.00
-1st Qu.:0.0000   Class :character   Class :character   1st Qu.: 16.00
-Median :0.0000   Mode  :character   Mode  :character   Median : 16.00
-Mean   :0.3196                                         Mean   : 34.23
-3rd Qu.:1.0000                                         3rd Qu.: 32.00
-Max.   :1.0000                                         Max.   :128.00
-NA's   :234                                            NA's   :183
-productline             sold          UniqueID
-Length:1861        Min.   :0.0000   Length:1861
-Class :character   1st Qu.:0.0000   Class :character
-Mode  :character   Median :0.0000   Mode  :character
-                   Mean   :0.4621
-                   3rd Qu.:1.0000
-                   Max.   :1.0000
+                   condition       cellular          carrier
+For parts or not working: 181   Min.   :0.0000   AT&amp;T    : 206
+Manufacturer refurbished:  39   1st Qu.:0.0000   None    :1111
+New                     : 289   Median :0.0000   Other   :   3
+New other (see details) :  85   Mean   :0.3052   Sprint  :  30
+Seller refurbished      : 109   3rd Qu.:1.0000   T-Mobile:  19
+Used                    :1158   Max.   :1.0000   Unknown : 348
+                                                 Verizon : 144
+       color        storage        productline       sold
+Black     :425   128    : 90   iPad 2    :286   Min.   :0.0000
+Gold      : 77   16     :934   iPad mini :277   1st Qu.:0.0000
+Space Gray:202   32     :340   iPad 1    :227   Median :0.0000
+Unknown   :708   64     :314   Unknown   :204   Mean   :0.4621
+White     :449   Unknown:183   iPad Air  :180   3rd Qu.:1.0000
+                               iPad Air 2:171   Max.   :1.0000
+                               (Other)   :516
+   UniqueID
+Min.   :10001
+1st Qu.:10466
+Median :10931
+Mean   :10931
+3rd Qu.:11396
+Max.   :11861
 </pre>
 </div>
 
-<div id="outline-container-sec-3-6-1" class="outline-4">
-<h4 id="sec-3-6-1"><span class="section-number-4">3.6.1</span> Baseline model</h4>
-<div class="outline-text-4" id="text-3-6-1">
-<p>
-We can plot the dependent variable <code>sold</code>, in order to know their
-behavior.
-</p>
-
-<div class="org-src-container">
-
-<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: The baseline model:"</span>)
-table(eBayTrain$sold)
-
-writeLines(<span style="color: #ff6a6a;">"\n :: The baseline model accuracy (NOT SOLD) is:"</span>)
-table(eBayTrain$sold)[1] / (table(eBayTrain$sold)[1] + table(eBayTrain$sold)[2])
-</pre>
-</div>
-
-<pre class="example">
- :: The baseline model:
-
-   0    1
-1001  860
-
- :: The baseline model accuracy (NOT SOLD) is:
-        0
-0.5378829
-</pre>
-</div>
-</div>
-
-<div id="outline-container-sec-3-6-2" class="outline-4">
-<h4 id="sec-3-6-2"><span class="section-number-4">3.6.2</span> Summaries of the probable factor variables</h4>
-<div class="outline-text-4" id="text-3-6-2">
+<div id="outline-container-sec-3-9-1" class="outline-4">
+<h4 id="sec-3-9-1"><span class="section-number-4">3.9.1</span> Summaries of the probable factor variables</h4>
+<div class="outline-text-4" id="text-3-9-1">
 <div class="org-src-container">
 
 <pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: The condition feature summary:"</span>)
-table(eBayTrain$condition)
+table(eBayDS$condition)
 
 writeLines(<span style="color: #ff6a6a;">"\n :: Any NA values:"</span>)
-anyNA(eBayTrain$condition)
+anyNA(eBayDS$condition)
 
 writeLines(<span style="color: #ff6a6a;">"\n :: The carrier feature supplier summary:"</span>)
-table(eBayTrain$carrier)
+table(eBayDS$carrier)
 
 writeLines(<span style="color: #ff6a6a;">"\n :: Any NA values:"</span>)
-anyNA(eBayTrain$carrier)
+anyNA(eBayDS$carrier)
 
 writeLines(<span style="color: #ff6a6a;">"\n :: The color of iPads:"</span>)
-table(eBayTrain$color)
+table(eBayDS$color)
 
 writeLines(<span style="color: #ff6a6a;">"\n :: Any NA values:"</span>)
-anyNA(eBayTrain$color)
+anyNA(eBayDS$color)
 
 writeLines(<span style="color: #ff6a6a;">"\n :: The product line:"</span>)
-table(eBayTrain$productline)
+table(eBayDS$productline)
 
 writeLines(<span style="color: #ff6a6a;">"\n :: Any NA values:"</span>)
-anyNA(eBayTrain$productline)
+anyNA(eBayDS$productline)
 </pre>
 </div>
 
@@ -820,19 +1259,19 @@ For parts or not working Manufacturer refurbished                      New
 
  :: The carrier feature supplier summary:
 
-    AT&amp;T     None    Other   Sprint T-Mobile  Verizon
-     206     1111        3       30       19      144
+    AT&amp;T     None    Other   Sprint T-Mobile  Unknown  Verizon
+     206     1111        3       30       19      348      144
 
  :: Any NA values:
-[1] TRUE
+[1] FALSE
 
  :: The color of iPads:
 
-     Black       Gold Space Gray      White
-       425         77        202        449
+     Black       Gold Space Gray    Unknown      White
+       425         77        202        708        449
 
  :: Any NA values:
-[1] TRUE
+[1] FALSE
 
  :: The product line:
 
@@ -840,23 +1279,47 @@ For parts or not working Manufacturer refurbished                      New
              227              286              153              157
           iPad 5         iPad Air       iPad Air 2        iPad mini
                1              180              171              277
-     iPad mini 2      iPad mini 3 iPad mini Retina
-             107               90                8
+     iPad mini 2      iPad mini 3 iPad mini Retina          Unknown
+             107               90                8              204
 
  :: Any NA values:
-[1] TRUE
+[1] FALSE
 </pre>
 </div>
 </div>
 
-<div id="outline-container-sec-3-6-3" class="outline-4">
-<h4 id="sec-3-6-3"><span class="section-number-4">3.6.3</span> What type of deal (auction) is better sold?</h4>
-<div class="outline-text-4" id="text-3-6-3">
+<div id="outline-container-sec-3-9-2" class="outline-4">
+<h4 id="sec-3-9-2"><span class="section-number-4">3.9.2</span> Correlation between variables</h4>
+<div class="outline-text-4" id="text-3-9-2">
+
+<div id="fig:eBayFeaturePlot" class="figure">
+<p><img src="../graphs/eBayFeaturePlot.png" alt="eBayFeaturePlot.png" />
+</p>
+<p><span class="figure-number">Figure 2:</span> eBay feature plot</p>
+</div>
+
+<p>
+For the selected features we can try to understand the behavior vs the
+<code>sold</code> feature.
+</p>
+
+
+<div id="fig:eBaySoldVsBiddableCor" class="figure">
+<p><img src="../graphs/eBaySoldVsBiddableCor.png" alt="eBaySoldVsBiddableCor.png" />
+</p>
+<p><span class="figure-number">Figure 3:</span> Correlation between the sold and biddable features</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-9-3" class="outline-4">
+<h4 id="sec-3-9-3"><span class="section-number-4">3.9.3</span> What type of deal (auction) is better sold?</h4>
+<div class="outline-text-4" id="text-3-9-3">
 <div class="org-src-container">
 
 <pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Is an auction a better deal for customers?"</span>)
 <span style="color: #9932cc;">## </span><span style="color: #ba55d3;">biddable as rows and sold as columns</span>
-m <span style="color: #db7093;">&lt;-</span> table(eBayTrain$biddable, eBayTrain$sold)
+m <span style="color: #db7093;">&lt;-</span> table(eBayDS$biddable, eBayDS$sold)
 m
 
 writeLines(<span style="color: #ff6a6a;">"\n :: The proportion of auctions sold:"</span>)
@@ -882,13 +1345,13 @@ We understand that the auctions have a proportion of \(74.4\%\) of
 </div>
 </div>
 
-<div id="outline-container-sec-3-6-4" class="outline-4">
-<h4 id="sec-3-6-4"><span class="section-number-4">3.6.4</span> What is the sold products vs condition?</h4>
-<div class="outline-text-4" id="text-3-6-4">
+<div id="outline-container-sec-3-9-4" class="outline-4">
+<h4 id="sec-3-9-4"><span class="section-number-4">3.9.4</span> What is the sold products vs condition?</h4>
+<div class="outline-text-4" id="text-3-9-4">
 <div class="org-src-container">
 
 <pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: The condiction of the product vs. the sold outcome:"</span>)
-table(eBayTrain$condition, eBayTrain$sold)
+table(eBayDS$condition, eBayDS$sold)
 </pre>
 </div>
 
@@ -912,7 +1375,7 @@ the proportion of used products as an auction.
 <div class="org-src-container">
 
 <pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Proportion of used vs auction:"</span>)
-table(eBayTrain$condition, eBayTrain$biddable)
+table(eBayDS$condition, eBayDS$biddable)
 </pre>
 </div>
 
@@ -936,13 +1399,13 @@ and <b>only 10 non auction offers was sold</b>.
 </div>
 </div>
 
-<div id="outline-container-sec-3-6-5" class="outline-4">
-<h4 id="sec-3-6-5"><span class="section-number-4">3.6.5</span> Is the cellular feature important for the customer?</h4>
-<div class="outline-text-4" id="text-3-6-5">
+<div id="outline-container-sec-3-9-5" class="outline-4">
+<h4 id="sec-3-9-5"><span class="section-number-4">3.9.5</span> Is the cellular feature important for the customer?</h4>
+<div class="outline-text-4" id="text-3-9-5">
 <div class="org-src-container">
 
 <pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Cellular feature vs. the sold outcome:"</span>)
-m <span style="color: #db7093;">&lt;-</span> table(eBayTrain$cellular, eBayTrain$sold)
+m <span style="color: #db7093;">&lt;-</span> table(eBayDS$cellular, eBayDS$sold)
 m
 
 writeLines(<span style="color: #ff6a6a;">"\n :: The proportion of products with cellular feature sold is:"</span>)
@@ -954,11 +1417,11 @@ m[2, 2] / (m[2, 1] + m[2, 2])
  :: Cellular feature vs. the sold outcome:
 
       0   1
-  0 562 545
-  1 296 224
+  0 675 618
+  1 326 242
 
  :: The proportion of products with cellular feature sold is:
-[1] 0.4307692
+[1] 0.4260563
 </pre>
 
 <p>
@@ -968,13 +1431,13 @@ important</b> feature for customers.
 </div>
 </div>
 
-<div id="outline-container-sec-3-6-6" class="outline-4">
-<h4 id="sec-3-6-6"><span class="section-number-4">3.6.6</span> Is the color important for the customer?</h4>
-<div class="outline-text-4" id="text-3-6-6">
+<div id="outline-container-sec-3-9-6" class="outline-4">
+<h4 id="sec-3-9-6"><span class="section-number-4">3.9.6</span> Is the color important for the customer?</h4>
+<div class="outline-text-4" id="text-3-9-6">
 <div class="org-src-container">
 
 <pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: How much is the importance of the color?"</span>)
-table(eBayTrain$color, eBayTrain$sold)
+table(eBayDS$color, eBayDS$sold)
 </pre>
 </div>
 
@@ -985,37 +1448,39 @@ table(eBayTrain$color, eBayTrain$sold)
  Black      205 220
  Gold        55  22
  Space Gray 111  91
+ Unknown    375 333
  White      255 194
 </pre>
 
 <p>
-The vast majority prefer products in <b>black and white</b>.
+The vast majority prefer products in <b>black and white or don't care</b>.
 </p>
 </div>
 </div>
 
-<div id="outline-container-sec-3-6-7" class="outline-4">
-<h4 id="sec-3-6-7"><span class="section-number-4">3.6.7</span> Is the capacity an important feature to buy?</h4>
-<div class="outline-text-4" id="text-3-6-7">
+<div id="outline-container-sec-3-9-7" class="outline-4">
+<h4 id="sec-3-9-7"><span class="section-number-4">3.9.7</span> Is the capacity an important feature to buy?</h4>
+<div class="outline-text-4" id="text-3-9-7">
 <div class="org-src-container">
 
 <pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Storage capacity vs. sold:"</span>)
-m <span style="color: #db7093;">&lt;-</span> table(eBayTrain$storage, eBayTrain$sold)
+m <span style="color: #db7093;">&lt;-</span> table(eBayDS$storage, eBayDS$sold)
 m
 
 writeLines(<span style="color: #ff6a6a;">"\n :: The proportion of 16GB storage sold:"</span>)
-m[1, 2] / (m[1, 2] + m[2, 2] + m[3, 2] + m [4, 2])
+m[2, 2] / (m[1, 2] + m[2, 2] + m[3, 2] + m [4, 2])
 </pre>
 </div>
 
 <pre class="example">
  :: Storage capacity vs. sold:
 
-        0   1
-  16  473 461
-  32  183 157
-  64  167 147
-  128  68  22
+            0   1
+  128      68  22
+  16      473 461
+  32      183 157
+  64      167 147
+  Unknown 110  73
 
  :: The proportion of 16GB storage sold:
 [1] 0.5857687
@@ -1027,13 +1492,13 @@ m[1, 2] / (m[1, 2] + m[2, 2] + m[3, 2] + m [4, 2])
 </div>
 </div>
 
-<div id="outline-container-sec-3-6-8" class="outline-4">
-<h4 id="sec-3-6-8"><span class="section-number-4">3.6.8</span> What is the most sold product?</h4>
-<div class="outline-text-4" id="text-3-6-8">
+<div id="outline-container-sec-3-9-8" class="outline-4">
+<h4 id="sec-3-9-8"><span class="section-number-4">3.9.8</span> What is the most sold product?</h4>
+<div class="outline-text-4" id="text-3-9-8">
 <div class="org-src-container">
 
 <pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Products sold:"</span>)
-table(eBayTrain$productline, eBayTrain$sold)
+table(eBayDS$productline, eBayDS$sold)
 </pre>
 </div>
 
@@ -1052,6 +1517,7 @@ table(eBayTrain$productline, eBayTrain$sold)
  iPad mini 2       58  49
  iPad mini 3       63  27
  iPad mini Retina   4   4
+ Unknown          122  82
 </pre>
 
 <p>
@@ -1061,108 +1527,638 @@ The best sold product is the <b>iPad 2</b>.
 </div>
 </div>
 
-<div id="outline-container-sec-3-7" class="outline-3">
-<h3 id="sec-3-7"><span class="section-number-3">3.7</span> Correlation between variables</h3>
-<div class="outline-text-3" id="text-3-7">
+<div id="outline-container-sec-3-10" class="outline-3">
+<h3 id="sec-3-10"><span class="section-number-3">3.10</span> The dummy variable creation</h3>
+<div class="outline-text-3" id="text-3-10">
+<p>
+Lets convert the factor/character variables to dummy variables
+</p>
+</div>
+
+<div id="outline-container-sec-3-10-1" class="outline-4">
+<h4 id="sec-3-10-1"><span class="section-number-4">3.10.1</span> Dummy variables creation for the testing dataset</h4>
+<div class="outline-text-4" id="text-3-10-1">
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: The correlation matrix:"</span>)
-cor(eBayTrain[c(<span style="color: #ff6a6a;">"biddable"</span>, <span style="color: #ff6a6a;">"startprice"</span>, <span style="color: #ff6a6a;">"cellular"</span>, <span style="color: #ff6a6a;">"storage"</span>)])
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Dummy variables for factors/characters..."</span>)
+
+eBayDS2 <span style="color: #db7093;">&lt;-</span> eBayDS[, -1]
+eBayDummy <span style="color: #db7093;">&lt;-</span> dummyVars(<span style="color: #ff6a6a;">"~."</span>, data = eBayDS2, fullRank = F)
+eBayDS2 <span style="color: #db7093;">&lt;-</span> as.data.frame(predict(eBayDummy, eBayDS))
+print(names(eBayDS2))
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Re-work the feature names:"</span>)
+ names(eBayDS2) <span style="color: #db7093;">&lt;-</span> c(<span style="color: #ff6a6a;">"biddable"</span>, <span style="color: #ff6a6a;">"startprice"</span>,
+ <span style="color: #ff6a6a;">"condition.For.parts.or.not.working"</span>,
+ <span style="color: #ff6a6a;">"condition.Manufacturer.refurbished"</span>, <span style="color: #ff6a6a;">"condition.New"</span>,
+ <span style="color: #ff6a6a;">"condition.New.other.see.details"</span>, <span style="color: #ff6a6a;">"condition.Seller.refurbished"</span>,
+ <span style="color: #ff6a6a;">"condition.Used"</span>, <span style="color: #ff6a6a;">"cellular"</span>, <span style="color: #ff6a6a;">"carrier.ATT"</span>, <span style="color: #ff6a6a;">"carrier.None"</span>,
+ <span style="color: #ff6a6a;">"carrier.Other"</span>, <span style="color: #ff6a6a;">"carrier.Sprint"</span>, <span style="color: #ff6a6a;">"carrier.T-Mobile"</span>,
+ <span style="color: #ff6a6a;">"carrier.Unknown"</span>, <span style="color: #ff6a6a;">"carrier.Verizon"</span>, <span style="color: #ff6a6a;">"color.Black"</span>, <span style="color: #ff6a6a;">"color.Gold"</span>,
+ <span style="color: #ff6a6a;">"color.Space.Gray"</span>, <span style="color: #ff6a6a;">"color.Unknown"</span>, <span style="color: #ff6a6a;">"color.White"</span>, <span style="color: #ff6a6a;">"storage.2"</span>,
+ <span style="color: #ff6a6a;">"storage.3"</span>, <span style="color: #ff6a6a;">"storage.4"</span>, <span style="color: #ff6a6a;">"storage.5"</span>, <span style="color: #ff6a6a;">"productline.iPad.1"</span>,
+ <span style="color: #ff6a6a;">"productline.iPad.2"</span>, <span style="color: #ff6a6a;">"productline.iPad.3"</span>, <span style="color: #ff6a6a;">"productline.iPad.4"</span>,
+ <span style="color: #ff6a6a;">"productline.iPad.5"</span>, <span style="color: #ff6a6a;">"productline.iPad.Air"</span>,
+ <span style="color: #ff6a6a;">"productline.iPad.Air.2"</span>, <span style="color: #ff6a6a;">"productline.iPad.mini"</span>,
+ <span style="color: #ff6a6a;">"productline.iPad.mini.2"</span>, <span style="color: #ff6a6a;">"productline.iPad.mini.3"</span>,
+ <span style="color: #ff6a6a;">"productline.iPad.mini.Retina"</span>, <span style="color: #ff6a6a;">"productline.Unknown"</span>, <span style="color: #ff6a6a;">"sold"</span>,
+ <span style="color: #ff6a6a;">'UniqueID'</span>)
+
+print(names(eBayDS2))
 </pre>
 </div>
 
 <pre class="example">
- :: The correlation matrix:
-             biddable startprice cellular storage
-biddable    1.0000000 -0.4550538       NA      NA
-startprice -0.4550538  1.0000000       NA      NA
-cellular           NA         NA        1      NA
-storage            NA         NA       NA       1
+ :: Dummy variables for factors/characters...
+ [1] "biddable"                           "startprice"
+ [3] "condition.For parts or not working" "condition.Manufacturer refurbished"
+ [5] "condition.New"                      "condition.New other (see details)"
+ [7] "condition.Seller refurbished"       "condition.Used"
+ [9] "cellular"                           "carrier.AT&amp;T"
+[11] "carrier.None"                       "carrier.Other"
+[13] "carrier.Sprint"                     "carrier.T-Mobile"
+[15] "carrier.Unknown"                    "carrier.Verizon"
+[17] "color.Black"                        "color.Gold"
+[19] "color.Space Gray"                   "color.Unknown"
+[21] "color.White"                        "storage.2"
+[23] "storage.3"                          "storage.4"
+[25] "storage.5"                          "productline.iPad 1"
+[27] "productline.iPad 2"                 "productline.iPad 3"
+[29] "productline.iPad 4"                 "productline.iPad 5"
+[31] "productline.iPad Air"               "productline.iPad Air 2"
+[33] "productline.iPad mini"              "productline.iPad mini 2"
+[35] "productline.iPad mini 3"            "productline.iPad mini Retina"
+[37] "productline.Unknown"                "sold"
+[39] "UniqueID"
+
+ :: Re-work the feature names:
+ [1] "biddable"                           "startprice"
+ [3] "condition.For.parts.or.not.working" "condition.Manufacturer.refurbished"
+ [5] "condition.New"                      "condition.New.other.see.details"
+ [7] "condition.Seller.refurbished"       "condition.Used"
+ [9] "cellular"                           "carrier.ATT"
+[11] "carrier.None"                       "carrier.Other"
+[13] "carrier.Sprint"                     "carrier.T-Mobile"
+[15] "carrier.Unknown"                    "carrier.Verizon"
+[17] "color.Black"                        "color.Gold"
+[19] "color.Space.Gray"                   "color.Unknown"
+[21] "color.White"                        "storage.2"
+[23] "storage.3"                          "storage.4"
+[25] "storage.5"                          "productline.iPad.1"
+[27] "productline.iPad.2"                 "productline.iPad.3"
+[29] "productline.iPad.4"                 "productline.iPad.5"
+[31] "productline.iPad.Air"               "productline.iPad.Air.2"
+[33] "productline.iPad.mini"              "productline.iPad.mini.2"
+[35] "productline.iPad.mini.3"            "productline.iPad.mini.Retina"
+[37] "productline.Unknown"                "sold"
+[39] "UniqueID"
 </pre>
 </div>
 </div>
 
-<div id="outline-container-sec-3-8" class="outline-3">
-<h3 id="sec-3-8"><span class="section-number-3">3.8</span> Logistic regression model</h3>
-<div class="outline-text-3" id="text-3-8">
+<div id="outline-container-sec-3-10-2" class="outline-4">
+<h4 id="sec-3-10-2"><span class="section-number-4">3.10.2</span> Dummy variables creation for the validation dataset</h4>
+<div class="outline-text-4" id="text-3-10-2">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Dummy variables for factors/characters..."</span>)
+
+eBayValidation2 <span style="color: #db7093;">&lt;-</span> eBayValidation[, -1]
+eBayDummy <span style="color: #db7093;">&lt;-</span> dummyVars(<span style="color: #ff6a6a;">"~."</span>, data = eBayValidation2, fullRank = F)
+eBayValidation2 <span style="color: #db7093;">&lt;-</span> as.data.frame(predict(eBayDummy, eBayValidation))
+print(names(eBayValidation2))
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Re-work the feature names:"</span>)
+ names(eBayValidation2) <span style="color: #db7093;">&lt;-</span> c(<span style="color: #ff6a6a;">"biddable"</span>, <span style="color: #ff6a6a;">"startprice"</span>,
+ <span style="color: #ff6a6a;">"condition.For.parts.or.not.working"</span>,
+ <span style="color: #ff6a6a;">"condition.Manufacturer.refurbished"</span>, <span style="color: #ff6a6a;">"condition.New"</span>,
+ <span style="color: #ff6a6a;">"condition.New.other.see.details"</span>, <span style="color: #ff6a6a;">"condition.Seller.refurbished"</span>,
+ <span style="color: #ff6a6a;">"condition.Used"</span>, <span style="color: #ff6a6a;">"cellular"</span>, <span style="color: #ff6a6a;">"carrier.ATT"</span>, <span style="color: #ff6a6a;">"carrier.None"</span>,
+ <span style="color: #ff6a6a;">"carrier.Other"</span>, <span style="color: #ff6a6a;">"carrier.Sprint"</span>, <span style="color: #ff6a6a;">"carrier.T-Mobile"</span>,
+ <span style="color: #ff6a6a;">"carrier.Unknown"</span>, <span style="color: #ff6a6a;">"carrier.Verizon"</span>, <span style="color: #ff6a6a;">"color.Black"</span>, <span style="color: #ff6a6a;">"color.Gold"</span>,
+ <span style="color: #ff6a6a;">"color.Space.Gray"</span>, <span style="color: #ff6a6a;">"color.Unknown"</span>, <span style="color: #ff6a6a;">"color.White"</span>, <span style="color: #ff6a6a;">"storage.2"</span>,
+ <span style="color: #ff6a6a;">"storage.3"</span>, <span style="color: #ff6a6a;">"storage.4"</span>, <span style="color: #ff6a6a;">"storage.5"</span>, <span style="color: #ff6a6a;">"productline.iPad.1"</span>,
+ <span style="color: #ff6a6a;">"productline.iPad.2"</span>, <span style="color: #ff6a6a;">"productline.iPad.3"</span>, <span style="color: #ff6a6a;">"productline.iPad.4"</span>,
+ <span style="color: #ff6a6a;">"productline.iPad.Air"</span>,
+ <span style="color: #ff6a6a;">"productline.iPad.Air.2"</span>, <span style="color: #ff6a6a;">"productline.iPad.mini"</span>,
+ <span style="color: #ff6a6a;">"productline.iPad.mini.2"</span>, <span style="color: #ff6a6a;">"productline.iPad.mini.3"</span>,
+ <span style="color: #ff6a6a;">"productline.Unknown"</span>, <span style="color: #ff6a6a;">"UniqueID"</span>)
+
+print(names(eBayValidation2))
+</pre>
+</div>
+
+<pre class="example">
+ :: Dummy variables for factors/characters...
+ [1] "biddable"                           "startprice"
+ [3] "condition.For parts or not working" "condition.Manufacturer refurbished"
+ [5] "condition.New"                      "condition.New other (see details)"
+ [7] "condition.Seller refurbished"       "condition.Used"
+ [9] "cellular"                           "carrier.AT&amp;T"
+[11] "carrier.None"                       "carrier.Other"
+[13] "carrier.Sprint"                     "carrier.T-Mobile"
+[15] "carrier.Unknown"                    "carrier.Verizon"
+[17] "color.Black"                        "color.Gold"
+[19] "color.Space Gray"                   "color.Unknown"
+[21] "color.White"                        "storage.2"
+[23] "storage.3"                          "storage.4"
+[25] "storage.5"                          "productline.iPad 1"
+[27] "productline.iPad 2"                 "productline.iPad 3"
+[29] "productline.iPad 4"                 "productline.iPad Air"
+[31] "productline.iPad Air 2"             "productline.iPad mini"
+[33] "productline.iPad mini 2"            "productline.iPad mini 3"
+[35] "productline.Unknown"                "UniqueID"
+
+ :: Re-work the feature names:
+ [1] "biddable"                           "startprice"
+ [3] "condition.For.parts.or.not.working" "condition.Manufacturer.refurbished"
+ [5] "condition.New"                      "condition.New.other.see.details"
+ [7] "condition.Seller.refurbished"       "condition.Used"
+ [9] "cellular"                           "carrier.ATT"
+[11] "carrier.None"                       "carrier.Other"
+[13] "carrier.Sprint"                     "carrier.T-Mobile"
+[15] "carrier.Unknown"                    "carrier.Verizon"
+[17] "color.Black"                        "color.Gold"
+[19] "color.Space.Gray"                   "color.Unknown"
+[21] "color.White"                        "storage.2"
+[23] "storage.3"                          "storage.4"
+[25] "storage.5"                          "productline.iPad.1"
+[27] "productline.iPad.2"                 "productline.iPad.3"
+[29] "productline.iPad.4"                 "productline.iPad.Air"
+[31] "productline.iPad.Air.2"             "productline.iPad.mini"
+[33] "productline.iPad.mini.2"            "productline.iPad.mini.3"
+[35] "productline.Unknown"                "UniqueID"
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-11" class="outline-3">
+<h3 id="sec-3-11"><span class="section-number-3">3.11</span> Partitioning the data</h3>
+<div class="outline-text-3" id="text-3-11">
+<p>
+<b>What are the right steps for the best model generation?</b>
+</p>
+
+<p>
+The problem of the NA existence in the submission CSV file must be
+addressed.
+</p>
+
+<p>
+We need more information about the behavior and performance of the
+models, then a reasonable decision is subdivide the training data set
+in a new training data set plus a testing set
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Split the data:"</span>)
+set.seed(pi)
+
+spl <span style="color: #db7093;">&lt;-</span> sample.split(eBayDS2$sold, SplitRatio = 0.75)
+
+eBayTrain <span style="color: #db7093;">&lt;-</span> subset(eBayDS2, spl == <span style="color: #3cb371;">TRUE</span>)
+eBayTest <span style="color: #db7093;">&lt;-</span> subset(eBayDS2, spl == <span style="color: #3cb371;">FALSE</span>)
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Dimensions of the training set:"</span>)
+dim(eBayTrain)
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Dimensions of the testing set:"</span>)
+dim(eBayTest)
+</pre>
+</div>
+
+<pre class="example">
+ :: Split the data:
+
+ :: Dimensions of the training set:
+[1] 1396   39
+
+ :: Dimensions of the testing set:
+[1] 465  39
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Machine Learning Models</h2>
+<div class="outline-text-2" id="text-4">
+</div><div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1"><span class="section-number-3">4.1</span> Baseline model</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+We can plot the dependent variable <code>sold</code>, in order to know their
+behavior.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: The baseline model:"</span>)
+table(eBayTrain$sold)
+
+writeLines(<span style="color: #ff6a6a;">"\n :: The baseline model accuracy (NOT SOLD) is:"</span>)
+table(eBayTrain$sold)[1] / (table(eBayTrain$sold)[1] + table(eBayTrain$sold)[2])
+</pre>
+</div>
+
+<pre class="example">
+ :: The baseline model:
+
+  0   1
+751 645
+
+ :: The baseline model accuracy (NOT SOLD) is:
+        0
+0.5379656
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2"><span class="section-number-3">4.2</span> Logistic regression models</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+Lets save some important variables in order to use it as arguments for
+the modeling functions
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Generalize outcome and predictor variables..."</span>)
+outcomeName <span style="color: #db7093;">&lt;-</span> <span style="color: #ff6a6a;">'sold'</span>
+predictorsNames <span style="color: #db7093;">&lt;-</span> names(eBayDS2)[names(eBayDS2) != outcomeName]
+predictorsNames
+</pre>
+</div>
+
+<pre class="example">
+ :: Generalize outcome and predictor variables...
+ [1] "biddable"                           "startprice"
+ [3] "condition.For.parts.or.not.working" "condition.Manufacturer.refurbished"
+ [5] "condition.New"                      "condition.New.other.see.details"
+ [7] "condition.Seller.refurbished"       "condition.Used"
+ [9] "cellular"                           "carrier.ATT"
+[11] "carrier.None"                       "carrier.Other"
+[13] "carrier.Sprint"                     "carrier.T-Mobile"
+[15] "carrier.Unknown"                    "carrier.Verizon"
+[17] "color.Black"                        "color.Gold"
+[19] "color.Space.Gray"                   "color.Unknown"
+[21] "color.White"                        "storage.2"
+[23] "storage.3"                          "storage.4"
+[25] "storage.5"                          "productline.iPad.1"
+[27] "productline.iPad.2"                 "productline.iPad.3"
+[29] "productline.iPad.4"                 "productline.iPad.5"
+[31] "productline.iPad.Air"               "productline.iPad.Air.2"
+[33] "productline.iPad.mini"              "productline.iPad.mini.2"
+[35] "productline.iPad.mini.3"            "productline.iPad.mini.Retina"
+[37] "productline.Unknown"                "UniqueID"
+</pre>
+</div>
+
+<div id="outline-container-sec-4-2-1" class="outline-4">
+<h4 id="sec-4-2-1"><span class="section-number-4">4.2.1</span> Logistic Regression model 4</h4>
+<div class="outline-text-4" id="text-4-2-1">
 <p>
 The first logistic regression model
 </p>
 
 <div class="org-src-container">
 
-<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Create a logistic regression model to predict sold using\nthe independent all variables:"</span>)
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Create a logistic regression model to predict sold using</span>
+<span style="color: #ff6a6a;">all the independent variables:"</span>)
 
-eBayLR01 <span style="color: #db7093;">&lt;-</span> glm(sold ~ biddable + startprice + condition + cellular +
-                        carrier + color + storage + productline, data
-                        = eBayTrain, family = binomial)
-summary(eBayLR01)
+eBayLR4 <span style="color: #db7093;">&lt;-</span> glm(sold ~ ., data = eBayTrain, family = binomial)
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Summary of the Logistic Regression model 4:"</span>)
+summary(eBayLR4)
 </pre>
 </div>
 
 <pre class="example">
  :: Create a logistic regression model to predict sold using
-the independent all variables:
+all the independent variables:
+
+ :: Summary of the Logistic Regression model 4:
 
 Call:
-glm(formula = sold ~ biddable + startprice + condition + cellular +
-    carrier + color + storage + productline, family = binomial,
-    data = eBayTrain)
+glm(formula = sold ~ ., family = binomial, data = eBayTrain)
 
 Deviance Residuals:
     Min       1Q   Median       3Q      Max
--3.3651  -0.6991  -0.1450   0.5932   2.6567
+-2.3187  -0.7262  -0.2335   0.6107   3.1353
 
-Coefficients: (1 not defined because of singularities)
-                                    Estimate Std. Error z value Pr(&gt;|z|)
-(Intercept)                       -1.826e-01  4.626e-01  -0.395 0.693046
-biddable                           1.368e+00  2.017e-01   6.783 1.18e-11 ***
-startprice                        -1.698e-02  1.806e-03  -9.399  &lt; 2e-16 ***
-conditionManufacturer refurbished  1.079e+00  6.748e-01   1.600 0.109676
-conditionNew                       1.583e+00  5.566e-01   2.845 0.004446 **
-conditionNew other (see details)   7.325e-01  6.442e-01   1.137 0.255471
-conditionSeller refurbished        1.504e-01  5.319e-01   0.283 0.777343
-conditionUsed                      8.235e-01  4.173e-01   1.974 0.048432 *
-cellular                          -8.411e-02  2.768e-01  -0.304 0.761216
-carrierNone                               NA         NA      NA       NA
-carrierOther                       1.284e+01  8.827e+02   0.015 0.988391
-carrierSprint                      6.821e-01  7.044e-01   0.968 0.332919
-carrierT-Mobile                   -3.370e-01  1.149e+00  -0.293 0.769384
-carrierVerizon                     4.429e-01  3.852e-01   1.150 0.250307
-colorGold                         -6.713e-01  5.582e-01  -1.203 0.229161
-colorSpace Gray                   -1.329e-01  3.160e-01  -0.421 0.674032
-colorWhite                        -1.924e-01  2.170e-01  -0.887 0.375262
-storage                            1.923e-02  4.645e-03   4.140 3.47e-05 ***
-productlineiPad 2                  5.985e-01  3.340e-01   1.792 0.073141 .
-productlineiPad 3                  1.689e+00  4.324e-01   3.906 9.37e-05 ***
-productlineiPad 4                  2.063e+00  4.945e-01   4.173 3.01e-05 ***
-productlineiPad 5                  4.500e+00  1.248e+03   0.004 0.997124
-productlineiPad Air                3.081e+00  5.578e-01   5.523 3.33e-08 ***
-productlineiPad Air 2              4.998e+00  7.280e-01   6.865 6.64e-12 ***
-productlineiPad mini               1.020e+00  3.877e-01   2.631 0.008503 **
-productlineiPad mini 2             2.294e+00  5.244e-01   4.375 1.21e-05 ***
-productlineiPad mini 3             3.348e+00  6.739e-01   4.969 6.74e-07 ***
-productlineiPad mini Retina        3.523e+00  1.027e+00   3.429 0.000605 ***
+Coefficients: (4 not defined because of singularities)
+                                     Estimate Std. Error z value Pr(&gt;|z|)
+(Intercept)                         7.897e+00  1.906e+00   4.144 3.42e-05 ***
+biddable                            1.490e+00  1.621e-01   9.197  &lt; 2e-16 ***
+startprice                         -1.154e-02  1.116e-03 -10.342  &lt; 2e-16 ***
+condition.For.parts.or.not.working -2.068e-01  2.935e-01  -0.705 0.481042
+condition.Manufacturer.refurbished  7.921e-01  4.927e-01   1.608 0.107876
+condition.New                       3.294e-01  2.634e-01   1.251 0.211009
+condition.New.other.see.details     5.566e-01  3.808e-01   1.462 0.143820
+condition.Seller.refurbished       -4.499e-01  3.236e-01  -1.390 0.164422
+condition.Used                             NA         NA      NA       NA
+cellular                           -2.223e-01  3.890e-01  -0.571 0.567677
+carrier.ATT                        -3.166e-01  3.541e-01  -0.894 0.371281
+carrier.None                       -3.243e-01  4.789e-01  -0.677 0.498292
+carrier.Other                       1.263e+01  6.028e+02   0.021 0.983281
+carrier.Sprint                      5.982e-01  6.623e-01   0.903 0.366427
+`carrier.T-Mobile`                 -1.353e+00  8.602e-01  -1.573 0.115637
+carrier.Unknown                    -4.972e-01  3.953e-01  -1.258 0.208491
+carrier.Verizon                            NA         NA      NA       NA
+color.Black                         1.645e-01  2.166e-01   0.759 0.447657
+color.Gold                         -5.760e-01  5.041e-01  -1.143 0.253133
+color.Space.Gray                    4.491e-02  2.800e-01   0.160 0.872561
+color.Unknown                       5.569e-03  1.956e-01   0.028 0.977289
+color.White                                NA         NA      NA       NA
+storage.2                          -1.341e+00  4.685e-01  -2.863 0.004196 **
+storage.3                          -1.221e+00  4.827e-01  -2.530 0.011419 *
+storage.4                          -8.599e-01  4.692e-01  -1.833 0.066840 .
+storage.5                          -8.640e-01  5.950e-01  -1.452 0.146460
+productline.iPad.1                 -2.996e-02  3.634e-01  -0.082 0.934312
+productline.iPad.2                  3.444e-01  3.560e-01   0.967 0.333316
+productline.iPad.3                  1.040e+00  4.049e-01   2.568 0.010221 *
+productline.iPad.4                  1.033e+00  4.185e-01   2.469 0.013547 *
+productline.iPad.5                  2.884e+00  1.069e+03   0.003 0.997847
+productline.iPad.Air                2.019e+00  4.464e-01   4.524 6.07e-06 ***
+productline.iPad.Air.2              3.717e+00  5.402e-01   6.881 5.95e-12 ***
+productline.iPad.mini               5.036e-01  3.595e-01   1.401 0.161200
+productline.iPad.mini.2             1.566e+00  4.501e-01   3.478 0.000504 ***
+productline.iPad.mini.3             2.304e+00  5.445e-01   4.231 2.33e-05 ***
+productline.iPad.mini.Retina        1.629e+00  1.204e+00   1.353 0.175964
+productline.Unknown                        NA         NA      NA       NA
+UniqueID                           -5.457e-04  1.606e-04  -3.398 0.000679 ***
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
-    Null deviance: 1290.93  on 931  degrees of freedom
-Residual deviance:  793.57  on 905  degrees of freedom
-  (929 observations deleted due to missingness)
-AIC: 847.57
+    Null deviance: 1927.2  on 1395  degrees of freedom
+Residual deviance: 1235.8  on 1361  degrees of freedom
+AIC: 1305.8
 
 Number of Fisher Scoring iterations: 13
 </pre>
 </div>
+</div>
+
+<div id="outline-container-sec-4-2-2" class="outline-4">
+<h4 id="sec-4-2-2"><span class="section-number-4">4.2.2</span> Logistic Regression model 5</h4>
+<div class="outline-text-4" id="text-4-2-2">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Create the logistic regression model 5 to predict sold using</span>
+<span style="color: #ff6a6a;">all the independent variables:"</span>)
+
+eBayLR5 <span style="color: #db7093;">&lt;-</span> glm(sold ~ biddable + startprice <span style="color: #9932cc;">#</span><span style="color: #ba55d3;">+ storage.2 + storage.3</span>
+                 + productline.iPad.3 + productline.iPad.Air +
+                           productline.iPad.Air.2 +
+                           productline.iPad.mini.2 +
+                           productline.iPad.mini.3 + UniqueID, data =
+                 eBayTrain, family = binomial)
+
+<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">eBayLR5 &lt;- train(sold ~ biddable + startprice + storage.2 + storage.3</span>
+<span style="color: #9932cc;">##                  </span><span style="color: #ba55d3;">+ productline.iPad.3 + productline.iPad.Air +</span>
+<span style="color: #9932cc;">##                            </span><span style="color: #ba55d3;">productline.iPad.Air.2 +</span>
+<span style="color: #9932cc;">##                            </span><span style="color: #ba55d3;">productline.iPad.mini.2 +</span>
+<span style="color: #9932cc;">##                            </span><span style="color: #ba55d3;">productline.iPad.mini.3 + UniqueID, data =</span>
+<span style="color: #9932cc;">##                            </span><span style="color: #ba55d3;">eBayTrain, method = "glm")</span>
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Summary of the Logistic Regression model 5:"</span>)
+summary(eBayLR5)
+</pre>
+</div>
+
+<pre class="example">
+ :: Create the logistic regression model 5 to predict sold using
+all the independent variables:
+
+ :: Summary of the Logistic Regression model 5:
+
+Call:
+glm(formula = sold ~ biddable + startprice + productline.iPad.3 +
+    productline.iPad.Air + productline.iPad.Air.2 + productline.iPad.mini.2 +
+    productline.iPad.mini.3 + UniqueID, family = binomial, data = eBayTrain)
+
+Deviance Residuals:
+    Min       1Q   Median       3Q      Max
+-2.1361  -0.7164  -0.2504   0.6312   2.9358
+
+Coefficients:
+                          Estimate Std. Error z value Pr(&gt;|z|)
+(Intercept)              6.8240018  1.4390161   4.742 2.11e-06 ***
+biddable                 1.6257390  0.1502309  10.822  &lt; 2e-16 ***
+startprice              -0.0089527  0.0008220 -10.892  &lt; 2e-16 ***
+productline.iPad.3       0.6048917  0.2597041   2.329  0.01985 *
+productline.iPad.Air     1.4025400  0.2992490   4.687 2.77e-06 ***
+productline.iPad.Air.2   2.8126968  0.3666238   7.672 1.69e-14 ***
+productline.iPad.mini.2  0.9322483  0.3183514   2.928  0.00341 **
+productline.iPad.mini.3  1.5441602  0.3955666   3.904 9.47e-05 ***
+UniqueID                -0.0005940  0.0001296  -4.584 4.56e-06 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 1927.2  on 1395  degrees of freedom
+Residual deviance: 1272.1  on 1387  degrees of freedom
+AIC: 1290.1
+
+Number of Fisher Scoring iterations: 5
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-4-2-3" class="outline-4">
+<h4 id="sec-4-2-3"><span class="section-number-4">4.2.3</span> Testing the LR models with the new testing data set</h4>
+<div class="outline-text-4" id="text-4-2-3">
+<p>
+So the baseline model would get an accuracy of about 0.5379656. Let's
+compute the out-of-sample AUC.
+</p>
+
+<p>
+For the Logistic Regression LR5 we can concentrate the features used
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Generalize outcome and predictor variables..."</span>)
+
+predictorsNamesLR5 <span style="color: #db7093;">&lt;-</span> c(<span style="color: #ff6a6a;">"biddable"</span>,
+                     <span style="color: #ff6a6a;">"startprice"</span>,
+                     <span style="color: #ff6a6a;">"productline.iPad.3"</span>,
+                     <span style="color: #ff6a6a;">"productline.iPad.Air"</span>,
+                     <span style="color: #ff6a6a;">"productline.iPad.Air.2"</span>,
+                     <span style="color: #ff6a6a;">"productline.iPad.mini.2"</span>,
+                     <span style="color: #ff6a6a;">"productline.iPad.mini.3"</span>,
+                     <span style="color: #ff6a6a;">"UniqueID"</span>)
+predictorsNamesLR5
+</pre>
+</div>
+
+<pre class="example">
+ :: Generalize outcome and predictor variables...
+[1] "biddable"                "startprice"
+[3] "productline.iPad.3"      "productline.iPad.Air"
+[5] "productline.iPad.Air.2"  "productline.iPad.mini.2"
+[7] "productline.iPad.mini.3" "UniqueID"
+</pre>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Test set AUC "</span>)
+<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">PredTestLR5 &lt;- predict(object = eBayLR5, newdata = eBayTest, type = 'prob')</span>
+
+<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">ROCRpredLR5 &lt;- prediction(PredTestLR5, eBayTest$sold)</span>
+<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">as.numeric(performance(ROCRpredLR2, "auc")@y.values)</span>
+</pre>
+</div>
+
+<pre class="example">
+:: Test set AUC
+</pre>
+
+
+
+<p>
+Test set AUC LR03:
+</p>
+
+<p>
+<b>0.8453767</b>
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-3" class="outline-3">
+<h3 id="sec-4-3"><span class="section-number-3">4.3</span> Random forest models</h3>
+<div class="outline-text-3" id="text-4-3">
+</div><div id="outline-container-sec-4-3-1" class="outline-4">
+<h4 id="sec-4-3-1"><span class="section-number-4">4.3.1</span> RF model 1</h4>
+<div class="outline-text-4" id="text-4-3-1">
+<div class="org-src-container">
+
+<pre class="src src-R"><span style="color: #9932cc;">## </span><span style="color: #ba55d3;">writeLines("\n :: Random Forest model:")</span>
+<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">set.seed(pi)</span>
+<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">eBayRF01 &lt;- randomForest(sold ~ UniqueID + biddable + startprice +</span>
+<span style="color: #9932cc;">##                                  </span><span style="color: #ba55d3;">condition + cellular + carrier +</span>
+<span style="color: #9932cc;">##                                  </span><span style="color: #ba55d3;">color + storage + productline, data =</span>
+<span style="color: #9932cc;">##                     </span><span style="color: #ba55d3;">eBayTrain, method = "class", na.action=na.roughfix)</span>
+
+<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">summary(eBayRF01)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> Prepare the CSV file for submission</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+And then make predictions on the test set. We will change the type for
+the testing set:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: eBayValidation new structure:"</span>)
+str(eBayValidation2)
+</pre>
+</div>
+
+<pre class="example">
+ :: eBayValidation new structure:
+'data.frame':	798 obs. of  36 variables:
+ $ biddable                          : num  0 0 0 1 0 0 0 0 0 1 ...
+ $ startprice                        : num  105 195 220 100 211 ...
+ $ condition.For.parts.or.not.working: num  0 0 0 0 0 0 0 0 0 0 ...
+ $ condition.Manufacturer.refurbished: num  0 0 0 0 1 0 0 0 0 0 ...
+ $ condition.New                     : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ condition.New.other.see.details   : num  0 0 0 0 0 1 0 0 0 0 ...
+ $ condition.Seller.refurbished      : num  0 0 0 0 0 0 1 0 0 0 ...
+ $ condition.Used                    : num  1 1 1 1 0 0 0 1 1 1 ...
+ $ cellular                          : num  1 0 0 0 0 0 0 0 0 0 ...
+ $ carrier.ATT                       : num  1 0 0 0 0 0 0 0 0 0 ...
+ $ carrier.None                      : num  0 1 1 1 1 1 1 1 1 1 ...
+ $ carrier.Other                     : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ carrier.Sprint                    : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ carrier.T-Mobile                  : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ carrier.Unknown                   : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ carrier.Verizon                   : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ color.Black                       : num  0 0 0 0 1 0 1 0 1 0 ...
+ $ color.Gold                        : num  0 0 0 0 0 1 0 0 0 0 ...
+ $ color.Space.Gray                  : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ color.Unknown                     : num  1 1 1 1 0 0 0 1 0 1 ...
+ $ color.White                       : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ storage.2                         : num  0 1 0 1 0 0 0 1 1 0 ...
+ $ storage.3                         : num  1 0 0 0 1 0 1 0 0 1 ...
+ $ storage.4                         : num  0 0 1 0 0 1 0 0 0 0 ...
+ $ storage.5                         : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ productline.iPad.1                : num  1 0 0 0 0 0 1 0 0 1 ...
+ $ productline.iPad.2                : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ productline.iPad.3                : num  0 0 1 0 1 0 0 0 1 0 ...
+ $ productline.iPad.4                : num  0 0 0 0 0 0 0 1 0 0 ...
+ $ productline.iPad.Air              : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ productline.iPad.Air.2            : num  0 0 0 0 0 1 0 0 0 0 ...
+ $ productline.iPad.mini             : num  0 0 0 1 0 0 0 0 0 0 ...
+ $ productline.iPad.mini.2           : num  0 1 0 0 0 0 0 0 0 0 ...
+ $ productline.iPad.mini.3           : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ productline.Unknown               : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ UniqueID                          : num  11862 11863 11864 11865 11866 ...
+</pre>
+
+<p>
+Now we will apply the new model to the validation data
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Probabilities test vector generation:"</span>)
+PredTest <span style="color: #db7093;">&lt;-</span> predict(eBayLR5, newdata = eBayValidation2, type = <span style="color: #ff6a6a;">"response"</span>)
+
+summary(PredTest)
+</pre>
+</div>
+
+<pre class="example">
+ :: Probabilities test vector generation:
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+0.0000659 0.0931200 0.2151000 0.3485000 0.6310000 0.9845000
+</pre>
+
+<p>
+Let's prepare a submission file for Kaggle (for more about this, see
+the "Evaluation" page on the competition site):
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">MySubmission <span style="color: #db7093;">&lt;-</span> data.frame(UniqueID = eBayValidation2$UniqueID, Probability1
+                           = PredTest)
+
+write.csv(MySubmission, <span style="color: #ff6a6a;">"../data/SubmissionLR5.csv"</span>, row.names =
+                                                             <span style="color: #3cb371;">FALSE</span>)
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Submission file generated..."</span>)
+</pre>
+</div>
+
+<pre class="example">
+:: Submission file generated...
+</pre>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="date">Date: 20/07/2015</p>
 <p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
-<p class="date">Created: 2015-07-28 Tue 18:16</p>
+<p class="date">Created: 2015-07-31 Fri 13:36</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
