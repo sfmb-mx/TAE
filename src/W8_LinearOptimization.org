@@ -1,0 +1,271 @@
+#+TITLE:         Unit 8. Linear Optimization
+#+AUTHOR:        Sergio-Feliciano Mendoza-Barrera
+#+DRAWERS:       sfmb
+#+EMAIL:         smendoza.barrera@gmail.com
+#+DATE:          04/08/2015
+#+DESCRIPTION:   Linear optimization with Libreoffice, R, Matlab, Mathematica, Julia
+#+KEYWORDS:      R, data science, emacs, ESS, org-mode, linear optimization, libreoffice
+#+LANGUAGE:      en
+#+OPTIONS:       H:10 num:t toc:nil \n:nil @:t ::t |:t ^:{} -:t f:t *:t <:t d:HIDDEN
+#+OPTIONS:       TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+OPTIONS:       LaTeX:dvipng
+#+INFOJS_OPT:    view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:
+#+LINK_HOME:
+#+XSLT:
+#+STYLE: <link rel="stylesheet" type="text/css" href="dft.css"/>
+
+#+LaTeX_CLASS: IEEEtran
+#+LATEX_CLASS_OPTIONS: [letterpaper, 9pt, onecolumn, twoside, technote, final]
+#+LATEX_HEADER: \usepackage{minted}
+#+LATEX_HEADER: \usepackage{makeidx}
+
+#+LATEX_HEADER: \usepackage[lining,tabular]{fbb} % so math uses tabular lining figures
+#+LATEX_HEADER: \usepackage[scaled=.95,type1]{cabin} % sans serif in style of Gill Sans
+#+LATEX_HEADER: \usepackage[varqu,varl]{zi4}% inconsolata typewriter
+#+LATEX_HEADER: \usepackage[T1]{fontenc} % LY1 also works
+#+LATEX_HEADER: \usepackage[libertine,bigdelims]{newtxmath}
+#+LATEX_HEADER: \usepackage[cal=boondoxo,bb=boondox,frak=boondox]{mathalfa}
+#+LATEX_HEADER: \useosf % change normal text to use proportional oldstyle figures
+
+#+LATEX_HEADER: \markboth{Unit 8. Linear Optimization}%
+#+LATEX_HEADER: {Sergio-Feliciano Mendoza-Barrera}
+
+#+LATEX_HEADER: \newcommand{\degC}{$^\circ$C{}}
+
+#+STYLE: <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
+
+#+ATTR_HTML: width="500px"
+
+# -*- mode: org; -*-
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/htmlize.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/bigblow.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/hideshow.css"/>
+
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery-1.11.0.min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery-ui-1.10.2.min.js"></script>
+
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.localscroll-min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.scrollTo-1.4.3.1-min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.zclip.min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/bigblow.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/hideshow.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.min.js"></script>
+
+#+BEGIN_ABSTRACT
+The Unit 8 for the topics of Linear Optimization.
+#+END_ABSTRACT
+
+* Airline Revenue Management: An Introduction to Linear Optimization
+
+** Video 1: Introduction
+
+[[../graphs/LO-RevenueManagement.png]]
+
+We will introduce linear optimization and apply it to airline revenue
+management. Air transportation became a reality in the United States
+in the 20th century.
+
+From 1938 to 1978, the Civil Aeronautics Board set fares, routes, and
+schedules for all interstate air transport.
+
+Most airlines were very positive on this system, as it guaranteed
+their profits. However, this system led to higher costs for a
+traveling public as well as to various inefficiencies.
+
+For example, applications for new routes and fares were often delayed
+or dismissed.
+
+[[../graphs/LO-AirlinesRegulation.png]]
+
+In response to these inefficiencies, the administration of President
+Carter passed the Airline Deregulation Act in 1978. The act encouraged
+more competition. As a result, 52 new airlines were formed between
+1980 and 2000.
+
+[[../graphs/LO-AirlinesDeRegulation.png]]
+
+More competition led to lower fares, as we discussed, while meeting
+operating costs. This further led to heavy losses by air carriers.
+
+[[../graphs/LO-ACompetitiveEdge.png]]
+
+*So it is natural to ask how did airlines compete?* In their attempt
+to sell more seats, airlines started to offer deep discounts. For
+example, on January 17, 1985, American Airlines launched its Ultimate
+Super Saver fares to compete with *PeopleExpress*.
+
+The key strategy involved selling enough seats to cover fixed
+operating costs while selling remaining seats at higher rates to
+maximize revenues.
+
+This led to the science of revenue management that we will study.
+
+[[../graphs/LO-DiscountFares.png]]
+
+The key question in revenue management is how many seats to sell on
+discount. The key consideration is that passengers have different
+valuations. For example, business people value flexibility, whereas
+people seeking a vacation value good deals. So if we sell too many
+discounted seats, then there would not be enough seats for high-paying
+passengers.
+
+At the same time, if we sell too few discounted seats, then we will
+have empty seats, which lead to lost revenue.
+
+So the key question is *how airlines like American can allocate their
+seats among customers in order to maximize their revenue*.
+
+[[../graphs/LO-SeatsOnDiscount.png]]
+
+** Video 2: A Single Flight
+
+
+
+[[../graphs/LO-LetsStartSimple.png]]
+
+
+[[../graphs/LO-TicketPrices.png]]
+
+
+[[../graphs/LO-Boeing757-200SeatMap.png]]
+
+
+[[../graphs/LO-DemandForecasting.png]]
+
+
+[[../graphs/LO-MyopicSolution.png]]
+
+
+[[../graphs/LO-MyopicSolution02.png]]
+
+
+[[../graphs/LO-MyopicSolution03.png]]
+
+
+[[../graphs/LO-SingleRouteExample.png]]
+
+
+[[../graphs/LO-Step1_Decisions.png]]
+
+[[../graphs/LO-Step2_Objective.png]]
+
+
+[[../graphs/LO-Step3_Constraints.png]]
+
+
+[[../graphs/LO-Step4_Non-Negativity.png]]
+
+
+[[../graphs/LO-ProblemFormulation.png]]
+
+
+[[../graphs/LO-ProblemFormulation02.png]]
+
+
+[[../graphs/LO-VisualizingProblem.png]]
+
+
+[[../graphs/LO-VisualizingProblem02.png]]
+
+
+[[../graphs/LO-VisualizingProblem03.png]]
+
+
+[[../graphs/LO-VisualizingProblem04.png]]
+
+
+[[../graphs/LO-FeasibleSpace.png]]
+
+
+[[../graphs/LO-PossibleSolutions.png]]
+
+
+[[../graphs/LO-BestSolution.png]]
+
+
+[[../graphs/LO-MarketingDecisions.png]]
+
+
+[[../graphs/LO-MarketingDiscountFares.png]]
+
+
+[[../graphs/LO-MarketingDiscountFares02.png]]
+
+
+[[../graphs/LO-MarketingDiscountFares03.png]]
+
+
+[[../graphs/LO-MarketingDiscountFares04.png]]
+
+
+[[../graphs/LO-MarketingDiscountFares05.png]]
+
+
+[[../graphs/LO-MarketingDecisions02.png]]
+
+
+[[../graphs/LO-CapacityAllocation.png]]
+
+
+[[../graphs/LO-AircraftCapacity.png]]
+
+
+[[../graphs/LO-CapacityAllocation02.png]]
+
+
+[[../graphs/LO-ConnectingFlights.png]]
+
+
+[[../graphs/LO-Step1_Decisions02.png]]
+
+
+[[../graphs/LO-Step2_Objective02.png]]
+
+
+[[../graphs/LO-Step3_Constraints02.png]]
+
+
+[[../graphs/LO-Step3_Constraints03.png]]
+
+
+[[../graphs/LO-Step4_Non-Negativity02.png]]
+
+
+[[../graphs/LO-ComplexNetwork.png]]
+
+
+[[../graphs/LO-MultipleFareClasses.png]]
+
+
+[[../graphs/LO-Competitive StrategyOfAA.png]]
+
+
+[[../graphs/LO-Competitive StrategyOfAA02.png]]
+
+
+[[../graphs/LO-TheEdgeOfRevenueManagement.png]]
+
+
+** Optimization with R
+
+Lets install an load important packages
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Install new package: optimx ...")
+  ## install.packages('optimx', repos='http://cran.rstudio.com/')
+  writeLines("\n :: NOTE: Please comment after install once...")
+
+  library(optimx)
+  writeLines("\n :: Library optimx loaded...")
+#+end_src
+
+#+RESULTS:
+:
+:  :: Install new package: optimx ...
+:
+:  :: NOTE: Please comment after install once...
+:
+:  :: Library optimx loaded...

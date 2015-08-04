@@ -371,40 +371,8 @@ identifier:
 #+end_src
 
 #+RESULTS:
-#+begin_example
-
- :: Loading the necessary libraries...
-Loading required package: lattice
-Loading required package: ggplot2
-Loading required package: Rcpp
-mice 2.22 2014-06-10
-Loading required package: gplots
-
-Attaching package: ‘gplots’
-
-The following object is masked from ‘package:stats’:
-
-    lowess
-randomForest 4.6-10
-Type rfNews() to see new features/changes/bug fixes.
-Type 'citation("pROC")' for a citation.
-
-Attaching package: ‘pROC’
-
-The following objects are masked from ‘package:stats’:
-
-    cov, smooth, var
-Loading required package: survival
-
-Attaching package: ‘survival’
-
-The following object is masked from ‘package:caret’:
-
-    cluster
-
-Loading required package: splines
-Loaded gbm 2.1.1
-#+end_example
+:
+:  :: Loading the necessary libraries...
 
 ** Inspecting the data set
 
@@ -1186,11 +1154,6 @@ Lets convert the factor/character variables to dummy variables
   writeLines("\n :: Re-work the feature names:")
   names(eBayDS2) <- make.names(names(eBayDS2), unique = FALSE, allow_ = TRUE)
   names(eBayDS2)
-
-  writeLines("\n :: Removing the features not available in the validation dataset:")
-  eBayDS2$productline.iPad.5 <- NULL
-  eBayDS2$productline.iPad.mini.Retina <- NULL
-  names(eBayDS2)
 #+end_src
 
 #+RESULTS:
@@ -1239,27 +1202,6 @@ Lets convert the factor/character variables to dummy variables
 [35] "productline.iPad.mini.3"            "productline.iPad.mini.Retina"
 [37] "productline.Unknown"                "sold"
 [39] "UniqueID"
-
- :: Removing the features not available in the validation dataset:
- [1] "biddable"                           "startprice"
- [3] "condition.For.parts.or.not.working" "condition.Manufacturer.refurbished"
- [5] "condition.New"                      "condition.New.other..see.details."
- [7] "condition.Seller.refurbished"       "condition.Used"
- [9] "cellular"                           "carrier.AT.T"
-[11] "carrier.None"                       "carrier.Other"
-[13] "carrier.Sprint"                     "carrier.T.Mobile"
-[15] "carrier.Unknown"                    "carrier.Verizon"
-[17] "color.Black"                        "color.Gold"
-[19] "color.Space.Gray"                   "color.Unknown"
-[21] "color.White"                        "storage.2"
-[23] "storage.3"                          "storage.4"
-[25] "storage.5"                          "productline.iPad.1"
-[27] "productline.iPad.2"                 "productline.iPad.3"
-[29] "productline.iPad.4"                 "productline.iPad.Air"
-[31] "productline.iPad.Air.2"             "productline.iPad.mini"
-[33] "productline.iPad.mini.2"            "productline.iPad.mini.3"
-[35] "productline.Unknown"                "sold"
-[37] "UniqueID"
 #+end_example
 
 Now we can convert the outcome variable to ~yes~ and ~no~ outcomes for
@@ -1288,12 +1230,12 @@ clarity
   names(eBayValidation2) <- make.names(names(eBayValidation2), unique =
                                                      FALSE, allow_ = TRUE)
 
-  ## writeLines("\n :: Adding some dummy features:")
-  ## productline.iPad.5 <- as.numeric(rep(0, nrow(eBayValidation2)))
-  ## productline.iPad.mini.Retina <- as.numeric(rep(0, nrow(eBayValidation2)))
-  ## sold <- rep(0, nrow(eBayValidation2))
-  ## eBayValidation2 <- cbind(eBayValidation2, productline.iPad.5,
-  ##                          productline.iPad.mini.Retina, sold)
+  writeLines("\n :: Adding some dummy features:")
+  productline.iPad.5 <- as.numeric(rep(0, nrow(eBayValidation2)))
+  productline.iPad.mini.Retina <- as.numeric(rep(0, nrow(eBayValidation2)))
+  sold <- rep(0, nrow(eBayValidation2))
+  eBayValidation2 <- cbind(eBayValidation2, productline.iPad.5,
+                           productline.iPad.mini.Retina, sold)
 
   print(names(eBayValidation2))
 #+end_src
@@ -1322,6 +1264,8 @@ clarity
 [35] "productline.Unknown"                "UniqueID"
 
  :: Re-work the feature names:
+
+ :: Adding some dummy features:
  [1] "biddable"                           "startprice"
  [3] "condition.For.parts.or.not.working" "condition.Manufacturer.refurbished"
  [5] "condition.New"                      "condition.New.other..see.details."
@@ -1340,6 +1284,8 @@ clarity
 [31] "productline.iPad.Air.2"             "productline.iPad.mini"
 [33] "productline.iPad.mini.2"            "productline.iPad.mini.3"
 [35] "productline.Unknown"                "UniqueID"
+[37] "productline.iPad.5"                 "productline.iPad.mini.Retina"
+[39] "sold"
 #+end_example
 
 ** Partitioning the data
@@ -1374,10 +1320,10 @@ in a new training data set plus a testing set
 :  :: Split the data:
 :
 :  :: Dimensions of the training set:
-: [1] 1396   37
+: [1] 1396   39
 :
 :  :: Dimensions of the testing set:
-: [1] 465  37
+: [1] 465  39
 
 ** Correlation between created covariates
 
@@ -1403,7 +1349,7 @@ in a new training data set plus a testing set
 
 ** Generalized Boosted Regression Models (gbm)
 
-*** Generalized Boosted Regression GBM2
+*** Generalized Boosted Regression GBM1
 
 The first GBM model
 
@@ -1447,10 +1393,11 @@ the modeling functions
 [23] "storage.3"                          "storage.4"
 [25] "storage.5"                          "productline.iPad.1"
 [27] "productline.iPad.2"                 "productline.iPad.3"
-[29] "productline.iPad.4"                 "productline.iPad.Air"
-[31] "productline.iPad.Air.2"             "productline.iPad.mini"
-[33] "productline.iPad.mini.2"            "productline.iPad.mini.3"
-[35] "productline.Unknown"                "UniqueID"
+[29] "productline.iPad.4"                 "productline.iPad.5"
+[31] "productline.iPad.Air"               "productline.iPad.Air.2"
+[33] "productline.iPad.mini"              "productline.iPad.mini.2"
+[35] "productline.iPad.mini.3"            "productline.iPad.mini.Retina"
+[37] "productline.Unknown"                "UniqueID"
 #+end_example
 
 The ~caret~ package support a multitude of models
@@ -1493,11 +1440,11 @@ validations performed for the synthesis of the model
 :  :: Create caret trainControl object to control the number of
 :     cross-validations performed...
 
-We can generate the GBM2
+We can generate the GBM1
 
 #+begin_src R :session :results none :exports none
-  writeLines("\n :: Generating the GBM2 model...")
-  eBayGBM2 <- train(eBayTrain[, predictorsNames],
+  writeLines("\n :: Generating the GBM1 model...")
+  eBayGBM1 <- train(eBayTrain[, predictorsNames],
                     as.factor(eBayTrain[, outcomeName]),
                     method = 'gbm',
                     trControl = objControl,
@@ -1508,7 +1455,7 @@ We can generate the GBM2
 #+RESULTS:
 #+begin_example
 
- :: Generating the GBM2 model...
+ :: Generating the GBM1 model...
  Iter   TrainDeviance   ValidDeviance   StepSize   Improve
      1        1.3193             nan     0.1000    0.0303
      2        1.2698             nan     0.1000    0.0246
@@ -7546,7 +7493,7 @@ Warning messages:
 
 #+begin_src R :session :results output :exports all
   writeLines("\n :: Find out model details:")
-  eBayGBM2
+  eBayGBM1
 #+end_src
 
 #+RESULTS:
@@ -7556,7 +7503,7 @@ Warning messages:
 Stochastic Gradient Boosting
 
 1396 samples
-  36 predictor
+  38 predictor
    2 classes: 'no', 'yes'
 
 Pre-processing: centered, scaled
@@ -7593,19 +7540,19 @@ The final values used for the model were n.trees = 150, interaction.depth =
  2, shrinkage = 0.1 and n.minobsinnode = 10.
 #+end_example
 
-*** Testing GBM2
+*** Testing GBM1
 
 #+begin_src R :session :results output :exports all
   writeLines("\n :: Get predictions on your testing data:")
 
   writeLines("\n :: Class prediction:")
-  predictions <- predict(object = eBayGBM2, eBayTest[, predictorsNames],
+  predictions <- predict(object = eBayGBM1, eBayTest[, predictorsNames],
                          type = 'raw')
   head(predictions)
   postResample(pred = predictions, obs = as.factor(eBayTest[, outcomeName]))
 
   writeLines("\n :: Probabilites prediction:")
-  predictions <- predict(object = eBayGBM2, eBayTest[, predictorsNames],
+  predictions <- predict(object = eBayGBM1, eBayTest[, predictorsNames],
                          type = 'prob')
   head(predictions)
   ## postResample(pred = predictions, obs = eBayTest[, outcomeName])
@@ -7661,7 +7608,7 @@ the testing set:
 #+begin_example
 
  :: eBayValidation new structure:
-'data.frame':	798 obs. of  36 variables:
+'data.frame':	798 obs. of  39 variables:
  $ biddable                          : num  0 0 0 1 0 0 0 0 0 1 ...
  $ startprice                        : num  105 195 220 100 211 ...
  $ condition.For.parts.or.not.working: num  0 0 0 0 0 0 0 0 0 0 ...
@@ -7698,28 +7645,38 @@ the testing set:
  $ productline.iPad.mini.3           : num  0 0 0 0 0 0 0 0 0 0 ...
  $ productline.Unknown               : num  0 0 0 0 0 0 0 0 0 0 ...
  $ UniqueID                          : num  11862 11863 11864 11865 11866 ...
+ $ productline.iPad.5                : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ productline.iPad.mini.Retina      : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ sold                              : num  0 0 0 0 0 0 0 0 0 0 ...
 #+end_example
 
-*** Generalized Boosted Regression model GBM2
+*** Generalized Boosted Regression model GBM1
 
 Now we will apply the new model to the validation data and proceed to
 generate the submission file for Kaggle
 
 #+begin_src R :session :results output :exports all
   writeLines("\n :: Probabilites prediction:")
-  predTest <- predict(object = eBayGBM2, eBayValidation2, type = 'prob')
+  predTest <- predict(object = eBayGBM1, eBayValidation2, type = 'prob')
   head(predTest$yes)
   myYesPredTest <- predTest$yes
 
   MySubmission <- data.frame(UniqueID = eBayValidation2$UniqueID, Probability1 = myYesPredTest)
-  write.csv(MySubmission, "../data/SubmissionGBM2.csv", row.names = FALSE)
+  write.csv(MySubmission, "../data/SubmissionGBM1.csv", row.names = FALSE)
 
-  writeLines("\n :: Submission GBM2 file generated...")
+  writeLines("\n :: Submission GBM1 file generated...")
 #+end_src
 
 #+RESULTS:
-:
-:  :: Probabilites prediction:
-: [1] 0.1656607 0.1803403 0.1622997 0.5846847 0.2204799 0.1849586
-:
-:  :: Submission GBM2 file generated...
+#+begin_example
+
+ :: Probabilites prediction:
+Warning messages:
+1: In sweep(newdata, 2, object$mean, "-") :
+  STATS does not recycle exactly across MARGIN
+2: In sweep(newdata, 2, object$std, "/") :
+  STATS does not recycle exactly across MARGIN
+[1] 0.25421425 0.09534813 0.13630867 0.41271553 0.10449256 0.06843838
+
+ :: Submission GBM1 file generated...
+#+end_example
