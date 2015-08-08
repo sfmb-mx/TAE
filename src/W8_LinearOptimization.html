@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Unit 8. Linear Optimization</title>
-<!-- 2015-08-07 Fri 21:34 -->
+<!-- 2015-08-08 Sat 16:25 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Sergio-Feliciano Mendoza-Barrera" />
@@ -1879,14 +1879,32 @@ JFK to DFW because even though the revenue increases, it does not
 exceed the costs.
 </li>
 
-<li><code>[&#xa0;]</code> No. American Airlines should not market the discount fares from
+<li><code>[X]</code> No. American Airlines should not market the discount fares from
 JFK to DFW because the revenue does not increase at all by
 increasing the demand for these tickets.
 </li>
 </ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+You can answer this question without re-solving the model by noticing
+that we are not meeting the demand for discount fares from JFK to DFW
+at all. The demand could increase by 100, and we still would not offer
+more than 11 discount fares.
+</p>
+
+<p>
+Alternatively, you could change the demand for discount fares, and
+re-solve the model. The solution does not change, regardless of how
+much you increase the demand.
+</p>
 </div>
 </div>
 </div>
+
 
 <div id="outline-container-sec-1-14-2" class="outline-4">
 <h4 id="sec-1-14-2"><span class="section-number-4">1.14.2</span> Question b</h4>
@@ -1908,7 +1926,7 @@ to LAX to increase demand by 50.
 to LAX to increase demand by 10.
 </li>
 
-<li><code>[&#xa0;]</code> No. American Airlines should not market the regular fares from
+<li><code>[X]</code> No. American Airlines should not market the regular fares from
 JFK to LAX because even though the revenue increases, it does not
 exceed the costs.
 </li>
@@ -1918,6 +1936,20 @@ JFK to LAX because the revenue does not increase at all by
 increasing the demand for these tickets.
 </li>
 </ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+In the current solution, we are meeting the demand for regular tickets
+from JFK to LAX. If we increase the demand by 10, we offer 10 more
+regular tickets, but our revenue only increases by $140, which does
+not exceed the cost of $2000. If we increase the demand by 50, to 130,
+we only offer 91 seats. Therefore, American Airlines should not market
+the regular fares from JFK to LAX because even though the revenue
+increases, it does not exceed the costs.
+</p>
 </div>
 </div>
 </div>
@@ -2044,11 +2076,19 @@ writeLines(<span style="color: #ff6a6a;">"\n :: Library optimx loaded..."</span>
 </div>
 </div>
 </div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Radiation Therapy: An Application of Linear Optimization</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> Video 1: Introduction</h3>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
-<p class="date">Date: 04/08/2015</p>
+<p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-08-08 Sat&gt;</span></span></p>
 <p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
-<p class="date">Created: 2015-08-07 Fri 21:34</p>
+<p class="date">Created: 2015-08-08 Sat 16:25</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

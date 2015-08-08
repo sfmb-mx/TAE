@@ -2,7 +2,7 @@
 #+AUTHOR:        Sergio-Feliciano Mendoza-Barrera
 #+DRAWERS:       sfmb
 #+EMAIL:         smendoza.barrera@gmail.com
-#+DATE:          04/08/2015
+#+DATE:          <2015-08-08 Sat>
 #+DESCRIPTION:   Linear optimization with Libreoffice, R, Matlab, Mathematica, Julia
 #+KEYWORDS:      R, data science, emacs, ESS, org-mode, linear optimization, libreoffice
 #+LANGUAGE:      en
@@ -999,7 +999,7 @@ Dallas to LA, and lastly, 26 of the discount price from Dallas to LA.
 
 [[../graphs/AR2_OptimizationSolver02.png]]
 
-** TODO Quick Question (2 points possible)
+** Quick Question (2 points possible)
 
 In this quick question, we'll perform some sensitivity analysis on the
 connecting flights problem.
@@ -1024,9 +1024,21 @@ Is it worth it to market the discount fares from JFK to DFW?
   JFK to DFW because even though the revenue increases, it does not
   exceed the costs.
 
-- [ ] No. American Airlines should not market the discount fares from
+- [X] No. American Airlines should not market the discount fares from
   JFK to DFW because the revenue does not increase at all by
   increasing the demand for these tickets.
+
+*Explanation*
+
+You can answer this question without re-solving the model by noticing
+that we are not meeting the demand for discount fares from JFK to DFW
+at all. The demand could increase by 100, and we still would not offer
+more than 11 discount fares.
+
+Alternatively, you could change the demand for discount fares, and
+re-solve the model. The solution does not change, regardless of how
+much you increase the demand.
+
 
 *** Question b
 
@@ -1040,13 +1052,23 @@ Is it worth it to market the regular fares from JFK to LAX?
 - [ ] Yes. American Airlines should market the regular fares from JFK
   to LAX to increase demand by 10.
 
-- [ ] No. American Airlines should not market the regular fares from
+- [X] No. American Airlines should not market the regular fares from
   JFK to LAX because even though the revenue increases, it does not
   exceed the costs.
 
 - [ ] No. American Airlines should not market the regular fares from
   JFK to LAX because the revenue does not increase at all by
   increasing the demand for these tickets.
+
+*Explanation*
+
+In the current solution, we are meeting the demand for regular tickets
+from JFK to LAX. If we increase the demand by 10, we offer 10 more
+regular tickets, but our revenue only increases by $140, which does
+not exceed the cost of $2000. If we increase the demand by 50, to 130,
+we only offer 91 seats. Therefore, American Airlines should not market
+the regular fares from JFK to LAX because even though the revenue
+increases, it does not exceed the costs.
 
 ** Video 8: The Edge of Revenue Management
 
@@ -1120,3 +1142,7 @@ Lets install an load important packages
 :  :: NOTE: Please comment after install once...
 :
 :  :: Library optimx loaded...
+
+* Radiation Therapy: An Application of Linear Optimization
+
+** Video 1: Introduction
