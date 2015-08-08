@@ -1,0 +1,2056 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Unit 8. Linear Optimization</title>
+<!-- 2015-08-07 Fri 21:34 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="Sergio-Feliciano Mendoza-Barrera" />
+<meta  name="description" content="Linear optimization with Libreoffice, R, Matlab, Mathematica, Julia"
+ />
+<meta  name="keywords" content="R, data science, emacs, ESS, org-mode, linear optimization, libreoffice" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/bigblow.css"/>
+<link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/hideshow.css"/>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery-ui-1.10.2.min.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.localscroll-min.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.scrollTo-1.4.3.1-min.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.zclip.min.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/bigblow.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/hideshow.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js"></script>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+    MathJax.Hub.Config({
+        // Only one of the two following lines, depending on user settings
+        // First allows browser-native MathML display, second forces HTML/CSS
+        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
+                     "TeX/noUndefined.js"],
+        tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
+            skipTags: ["script","noscript","style","textarea","pre","code"],
+            ignoreClass: "tex2jax_ignore",
+            processEscapes: false,
+            processEnvironments: true,
+            preview: "TeX"
+        },
+        showProcessingMessages: true,
+        displayAlign: "center",
+        displayIndent: "2em",
+
+        "HTML-CSS": {
+             scale: 100,
+             availableFonts: ["STIX","TeX"],
+             preferredFont: "TeX",
+             webFont: "TeX",
+             imageFont: "TeX",
+             showMathMenu: true,
+        },
+        MMLorHTML: {
+             prefer: {
+                 MSIE:    "MML",
+                 Firefox: "MML",
+                 Opera:   "HTML",
+                 other:   "HTML"
+             }
+        }
+    });
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Unit 8. Linear Optimization</h1>
+<div class="abstract">
+<p>
+The Unit 8 for the topics of Linear Optimization.
+</p>
+
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Airline Revenue Management: An Introduction to Linear Optimization</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Video 1: Introduction</h3>
+<div class="outline-text-3" id="text-1-1">
+
+<div class="figure">
+<p><img src="../graphs/LO-RevenueManagement.png" alt="LO-RevenueManagement.png" />
+</p>
+</div>
+
+<p>
+We will introduce linear optimization and apply it to airline revenue
+management. Air transportation became a reality in the United States
+in the 20th century.
+</p>
+
+<p>
+From 1938 to 1978, the Civil Aeronautics Board set fares, routes, and
+schedules for all interstate air transport.
+</p>
+
+<p>
+Most airlines were very positive on this system, as it guaranteed
+their profits. However, this system led to higher costs for a
+traveling public as well as to various inefficiencies.
+</p>
+
+<p>
+For example, applications for new routes and fares were often delayed
+or dismissed.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-AirlinesRegulation.png" alt="LO-AirlinesRegulation.png" />
+</p>
+</div>
+
+<p>
+In response to these inefficiencies, the administration of President
+Carter passed the Airline Deregulation Act in 1978. The act encouraged
+more competition. As a result, 52 new airlines were formed between
+1980 and 2000.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-AirlinesDeRegulation.png" alt="LO-AirlinesDeRegulation.png" />
+</p>
+</div>
+
+<p>
+More competition led to lower fares, as we discussed, while meeting
+operating costs. This further led to heavy losses by air carriers.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-ACompetitiveEdge.png" alt="LO-ACompetitiveEdge.png" />
+</p>
+</div>
+
+<p>
+<b>So it is natural to ask how did airlines compete?</b> In their attempt
+to sell more seats, airlines started to offer deep discounts. For
+example, on January 17, 1985, American Airlines launched its Ultimate
+Super Saver fares to compete with <b>PeopleExpress</b>.
+</p>
+
+<p>
+The key strategy involved selling enough seats to cover fixed
+operating costs while selling remaining seats at higher rates to
+maximize revenues.
+</p>
+
+<p>
+This led to the science of revenue management that we will study.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-DiscountFares.png" alt="LO-DiscountFares.png" />
+</p>
+</div>
+
+<p>
+The key question in revenue management is how many seats to sell on
+discount. The key consideration is that passengers have different
+valuations. For example, business people value flexibility, whereas
+people seeking a vacation value good deals. So if we sell too many
+discounted seats, then there would not be enough seats for high-paying
+passengers.
+</p>
+
+<p>
+At the same time, if we sell too few discounted seats, then we will
+have empty seats, which lead to lost revenue.
+</p>
+
+<p>
+So the key question is <b>how airlines like American can allocate their
+seats among customers in order to maximize their revenue</b>.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-SeatsOnDiscount.png" alt="LO-SeatsOnDiscount.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Video 2: A Single Flight</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+To illustrate how linear optimization works in revenue management, let
+us consider a simple example: A flight from New York to Los Angeles.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-LetsStartSimple.png" alt="LO-LetsStartSimple.png" />
+</p>
+</div>
+
+<p>
+In this flight, there are two types of economy fares, Early Bird fares
+that cost $238, and Last Minute fares that cost $617.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-TicketPrices.png" alt="LO-TicketPrices.png" />
+</p>
+</div>
+
+<p>
+In this flight, a Boeing 757 is used that has 166 economy seats.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-Boeing757-200SeatMap.png" alt="LO-Boeing757-200SeatMap.png" />
+</p>
+</div>
+
+<p>
+Demand for these prices has been forecasted using analytics tools,
+looking at historical data and incorporating models like time series
+or linear regression.
+</p>
+
+<p>
+Clearly, forecasts have errors, and therefore, we need to assess the
+sensitivity of our decisions to these errors.
+</p>
+
+<p>
+To illustrate the use of linear optimization, we assume that demand
+has already been forecasted.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-DemandForecasting.png" alt="LO-DemandForecasting.png" />
+</p>
+</div>
+
+<p>
+We'll illustrate how our decisions on how many discount seats to sell
+vary as the demand forecasts vary. If the demand for regular seats is
+50, and for discounted fares is 150, and the capacity is 166 seats,
+then the optimal allocation is going to be to sell the 50 seats to
+satisfy the regular demand, and then we allocate the remaining 116
+seats to the discounted fare class.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-MyopicSolution.png" alt="LO-MyopicSolution.png" />
+</p>
+</div>
+
+<p>
+If the regular demand increases to 100 seats, then we allocate these
+100 seats to these customers, and only 66 seats to discounted fare
+customers.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-MyopicSolution02.png" alt="LO-MyopicSolution02.png" />
+</p>
+</div>
+
+<p>
+Finally, if the regular demand increases to 200, then we allocate all
+of our capacity, 166 seats, to these customers.
+</p>
+
+<p>
+While this seems simple, what happens if we have 100 flights with
+connections in tens of fares? We'll next see how to formulate the
+problem mathematically and solve it in a systematic way, using linear
+optimization.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-MyopicSolution03.png" alt="LO-MyopicSolution03.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Quick Question (2 points possible)</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+Suppose that, as in the previous video, regular seats cost $617 and
+discount seats cost $238. We are selling 166 seats. The demand for
+regular seats is 150 and the demand for discount seats is 150.
+</p>
+</div>
+
+<div id="outline-container-sec-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1"><span class="section-number-4">1.3.1</span> Question a</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<p>
+How many discount seats should we sell?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: How many discount seats we should sell?"</span>)
+regularDemand <span style="color: #db7093;">&lt;-</span> 150
+fullCapacity <span style="color: #db7093;">&lt;-</span> 166
+discountSeats <span style="color: #db7093;">&lt;-</span> fullCapacity - regularDemand
+discountSeats
+</pre>
+</div>
+
+<pre class="example">
+ :: How many discount seats we should sell?
+[1] 16
+</pre>
+</div>
+
+<div id="outline-container-sec-1-3-1-1" class="outline-5">
+<h5 id="sec-1-3-1-1"><span class="section-number-5">1.3.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-1-3-1-1">
+<p>
+The available discount seats are \(16\).
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3-2" class="outline-4">
+<h4 id="sec-1-3-2"><span class="section-number-4">1.3.2</span> Question b</h4>
+<div class="outline-text-4" id="text-1-3-2">
+<p>
+What would our total revenue be, for both regular and discount seats,
+assuming that we have a full plane?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: The total revenue is:"</span>)
+regularPrice <span style="color: #db7093;">&lt;-</span> 617.0
+discountPrice <span style="color: #db7093;">&lt;-</span> 238.0
+
+totalRevenue <span style="color: #db7093;">&lt;-</span> (regularDemand * regularPrice) + (discountSeats *
+                                                  discountPrice)
+
+totalRevenue
+</pre>
+</div>
+
+<pre class="example">
+ :: The total revenue is:
+[1] 96358
+</pre>
+</div>
+
+<div id="outline-container-sec-1-3-2-1" class="outline-5">
+<h5 id="sec-1-3-2-1"><span class="section-number-5">1.3.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-1-3-2-1">
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+We would sell 150 seats to regular customers, giving us a revenue of
+$617*150, and 16 seats to discount customers, giving us a revenue of
+$238*16. Our total revenue would be <code>$617*150 + $238*16 = $96,358</code>.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> Video 3: The Problem Formulation</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+For a single route example, our problem is to find the optimal number
+of discount seats and regular seats to sell to maximize revenue. We'll
+assume that the price of regular seats is $617, and the price of
+discount seats is $238. Also, let's assume that we forecasted the
+demand of regular seats to be 100, and the demand of discount seats to
+be 150.
+</p>
+
+<p>
+The capacity of our airplane is 166 seats.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-SingleRouteExample.png" alt="LO-SingleRouteExample.png" />
+</p>
+</div>
+
+<p>
+Let's go ahead and formulate this mathematically as a linear
+optimization problem.
+</p>
+
+<p>
+The first step is to decide what our decisions are, or the variables
+in our model. We need to decide how many regular seats we went to
+sell. We'll call the number of regular seats we sell R. We also need
+to decide the number of discount seats we want to sell. We'll call the
+number of discount seats we sell D.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-Step1_Decisions.png" alt="LO-Step1_Decisions.png" />
+</p>
+</div>
+
+<p>
+The second step is to decide what our objective, or our goal, is. In
+this case, it's to maximize the total revenue to the airline. The
+revenue from each type of seat is equal to the number of that type of
+seat sold times the seat price.
+</p>
+
+<p>
+In the case of regular seats, this is $617 times R, the number of
+regular seats we sell. And for discount seats, this is $230 times D,
+the number of discount seats we sell.
+</p>
+
+<p>
+We sum these together to get the total revenue, and our objective is
+to maximize this sum.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-Step2_Objective.png" alt="LO-Step2_Objective.png" />
+</p>
+</div>
+
+<p>
+The third step is to define the constraints, or limits, of our
+decisions. One constraint is that American Airlines can't sell more
+seats than the aircraft capacity, which is 166 seats. So the total
+number of seats sold, R + D has to be less than or equal to the
+capacity of 166.
+</p>
+
+<p>
+Additionally, American Airlines shouldn't sell more seats than the
+demand for each type of seat. So the regular seats, R, shouldn't
+exceed 100. So R should be less than or equal to 100. And the discount
+seats, D, can't exceed 150. So D should be less than or equal to 150.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-Step3_Constraints.png" alt="LO-Step3_Constraints.png" />
+</p>
+</div>
+
+<p>
+The final step is to make sure our variables are taking reasonable
+values. In this case, it wouldn't make sense to sell a negative number
+of seats, so we need to make sure that both R and D are greater than
+or equal to 0.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-Step4_Non-Negativity.png" alt="LO-Step4_Non-Negativity.png" />
+</p>
+</div>
+
+<p>
+So our entire problem is to maximize total airline revenue, subject to
+the constraints that seats sold can't exceed capacity, seats sold
+can't exceed demand, and the seats sold can't be negative.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-ProblemFormulation.png" alt="LO-ProblemFormulation.png" />
+</p>
+</div>
+
+<p>
+Mathematically, this can be written as shown in the figure. Which \(R\)
+and \(D\) are the demand constraints; and \(R\) and \(D\) are both greater
+than or equal to 0.
+</p>
+
+<p>
+This is called a <b>linear optimization problem</b>.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-ProblemFormulation02.png" alt="LO-ProblemFormulation02.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5"><span class="section-number-3">1.5</span> Quick Question (2 points possible)</h3>
+<div class="outline-text-3" id="text-1-5">
+<p>
+In the previous video, we set up an optimization problem with 2
+different types of tickets.
+</p>
+</div>
+
+<div id="outline-container-sec-1-5-1" class="outline-4">
+<h4 id="sec-1-5-1"><span class="section-number-4">1.5.1</span> Question a</h4>
+<div class="outline-text-4" id="text-1-5-1">
+<p>
+How many decision variables would we have if there were 4 different
+types of tickets?
+</p>
+</div>
+
+<div id="outline-container-sec-1-5-1-1" class="outline-5">
+<h5 id="sec-1-5-1-1"><span class="section-number-5">1.5.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-1-5-1-1">
+<p>
+4
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-5-2" class="outline-4">
+<h4 id="sec-1-5-2"><span class="section-number-4">1.5.2</span> Question b</h4>
+<div class="outline-text-4" id="text-1-5-2">
+<p>
+How many constraints would we have if there were 4 different types of
+tickets (with two different types of tickets, our model has 5
+constraints: one capacity constraint, two demand constraints, and two
+non-negativity constraints)?
+</p>
+</div>
+
+<div id="outline-container-sec-1-5-2-1" class="outline-5">
+<h5 id="sec-1-5-2-1"><span class="section-number-5">1.5.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-1-5-2-1">
+<p>
+9
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+If our model had 4 different types of tickets, we would have four
+decision variables, one for each type of ticket. We would have 9
+constraints, since we would need one capacity constraint, 4 demand
+constraints, and 4 non-negativity constraints.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6"><span class="section-number-3">1.6</span> Video 4: Solving the Problem</h3>
+<div class="outline-text-3" id="text-1-6">
+<p>
+In this video, we'll be solving our optimization problem using the
+spreadsheet AirlineRM. If you are using LibreOffice or OpenOffice,
+please download and open the spreadsheet <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/AirlineRM.ods">AirlineRM.ods</a> to follow along
+with the lecture. If you are using Microsoft Excel, please download
+and open the spreadsheet <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/AirlineRM.xlsx">AirlineRM.xlsx</a> to follow along with the
+lecture. The following spreadsheets have the completed model as it is
+at the end of the video: <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/AirlineRM_Complete.ods">AirlineRM_Complete.ods</a> and
+<a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/AirlineRM_Complete.xlsx">AirlineRM_Complete.xlsx</a>.
+</p>
+
+<p>
+If you are using LibreOffice or OpenOffice, the functions and solver
+will look very similar to what you see in this video. If you are using
+<b>Microsoft Excel, please see the helpful tips below this video</b>.
+</p>
+
+<p>
+We'll solve our linear optimization problem in the software
+LibreOffice. LibreOffice is similar to Microsoft Excel, but it's an
+open source software, and is available for free on the internet.
+</p>
+
+<p>
+Another option we could use is OpenOffice. You're welcome to use
+Excel, OpenOffice, or LibreOffice in this course, and whenever we
+mention LibreOffice, keep in mind that you could be using one of the
+other softwares instead.
+</p>
+
+<p>
+For more information about the options, see the download instructions
+on edX. You should have already downloaded and installed LibreOffice.
+</p>
+
+<p>
+If not, follow the instructions on edX before continuing with this
+video. Go ahead and open the file, Week9_AirlineRM.ods.
+</p>
+
+<p>
+I've already set up the data for our problem and places for us to
+build our decisions, our objective, and our constraints. The decisions
+are highlighted in yellow.
+</p>
+
+<p>
+These are the number of regular seats to sell, and the number of
+discount seats to sell. We'll just leave these cells blank for now,
+since the solver will be finding the optimal values. Our objective,
+which we saw in the previous video, is to maximize total revenue.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/AR-Libreoffice.png" alt="AR-Libreoffice.png" />
+</p>
+</div>
+
+<p>
+Let's go ahead and build the objective in this blue cell. It should
+equal the price of regular seats, times the number of regular seats we
+sell, plus the price the discount seats, times the number of discount
+seats we sell.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/AR-ObjectiveFunction.png" alt="AR-ObjectiveFunction.png" />
+</p>
+</div>
+
+<p>
+You should see 0 in this cell. That's because right now, we're not
+selling any seats. Our decision cells are blank. This could be a
+little tedious if we had more than two decisions.
+</p>
+
+<p>
+To make it easier, we can use a nice function called sumproduct to
+build our objective.
+</p>
+
+<p>
+Now in the objective cell, let's type equals, and then sumproduct, and
+then in parentheses, select the two prices, type a semicolon, and then
+select the two seats.
+</p>
+
+<p>
+This will multiply the first price times the first decision variable,
+and the second price times the second decision variable, and add them
+up. Close the parentheses and hit Enter.
+</p>
+
+<p>
+Note that if you're using Excel, you should use a comma instead of a
+semicolon.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/AR-ObjectiveFunction02.png" alt="AR-ObjectiveFunction02.png" />
+</p>
+</div>
+
+<p>
+Now let's construct our constraints. The first constraint is the
+capacity constraint. The green table here allows us to easily write
+out our constraints in terms of what's on the left-hand side, LHS,
+what the sign is, like equals, less than or equals, or greater than or
+equals, and what's on the right-hand side, or RHS, of the constraint.
+</p>
+
+<p>
+So for the capacity constraint, the left-hand side is equal to the
+number of regular seats plus the number of discount seats.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/AR-Constraints.png" alt="AR-Constraints.png" />
+</p>
+</div>
+
+<p>
+The sign is less than or equals, and the right-hand side is 166, the
+capacity of our aircraft.
+</p>
+
+<p>
+The regular demand constraint should be the regular number of seats,
+which should be less than or equal to the regular demand, which
+equals 100. The discount demand should be the number of discount
+seats, which should be less than or equal to the demand, which is
+equal to 150. Note here that whenever I pick the seats or the demand,
+I pick those cells up on the top.
+</p>
+
+<p>
+That's because if we want to change our demand, we could easily change
+it up at the top, and all of our constraints will change too.
+</p>
+
+<p>
+Now, let's add in our non-negativity constraints. So the number of
+regular seats should be greater than or equal to 0, and the number of
+discount seats should be greater than or equal to 0.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/AR-Constraints02.png" alt="AR-Constraints02.png" />
+</p>
+</div>
+
+<p>
+Now we're ready to solve our problem. To do this, we just go to the
+Tools menu in LibreOffice and select Solver.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/AR_Solver.png" alt="AR_Solver.png" />
+</p>
+</div>
+
+<p>
+Now we need to fill in the information about our problem. The "Target
+cell" should be the objective. So with the blinking cursor in the
+target cell, select the objective cell.
+</p>
+
+<p>
+We should also be selecting <b>Maximum</b>, since we're trying to maximize
+the total revenue.
+</p>
+
+<p>
+The area called <b>By changing cells</b> should be our decision variables,
+so go ahead and select that blank area, and select the decision
+variables.
+</p>
+
+<p>
+The <b>Limiting conditions</b> are our constraints. The <b>Cell reference</b>
+should be the left-hand side of the constraint, the <b>Operator</b> is the
+sign, and the <b>Value</b> is the right-hand side.
+</p>
+
+<p>
+For constraints with the same sign, if they're in a row, we could
+select them at once to be more efficient.
+</p>
+
+<p>
+So first, let's select the first three less than or equal to
+constraints. We want to make sure the operator is less than or equal
+to, the integer and binary options you see here, we'll explain next
+week, and the value should be the right-hand side of these
+constraints.
+</p>
+
+<p>
+Then we need to add in the greater than or equal to constraints. So
+select the two left-hand sides. The operator should be greater than or
+equal to, and the value should be the two right-hand sides.
+</p>
+
+<p>
+The last thing we want to do is in Options, make sure that the
+LibreOffice Linear Solver is selected.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/AR_Solver02.png" alt="AR_Solver02.png" />
+</p>
+</div>
+
+<p>
+Click OK, and then hit Solve. The solving result should say: "Solving
+successfully finished.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/AR_Solver03.png" alt="AR_Solver03.png" />
+</p>
+</div>
+
+<p>
+Result: \(77,408\). This is the objective of our optimal solution, and is
+the total revenue we get. Go ahead and click Keep Result.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/AR_Solver04.png" alt="AR_Solver04.png" />
+</p>
+</div>
+
+<p>
+And now back in our spreadsheet, we can see that our solution is to
+sell 100 regular seats and 66 discount seats. You may be thinking that
+you could have done this without the Solver.
+</p>
+
+<p>
+But when the problems become more complicated, it's very difficult and
+often impossible to solve them by hand.
+</p>
+</div>
+
+<div id="outline-container-sec-1-6-1" class="outline-4">
+<h4 id="sec-1-6-1"><span class="section-number-4">1.6.1</span> Helpful Tips for Excel</h4>
+<div class="outline-text-4" id="text-1-6-1">
+<p>
+If you are using Microsoft Excel, the functions and solver you will be
+using are similar, but not identical, to what you see in the
+video. Here are some helpful tips to assist in using Excel for this
+class.
+</p>
+
+<ul class="org-ul">
+<li>Unlike LibreOffice and OpenOffice, the "Solver" option does not
+typically come pre-loaded into Excel. If you are on a Mac and you
+don't see "Solver&#x2026;" in the Tools menu, you will need to add it in
+by going to the Tools menu, and selecting "Add-Ins&#x2026;". Then, check
+"Solver.Xlam" if it is not already checked, and click OK. You should
+now see "Solver&#x2026;" under the Tools menu. If you are on a Windows
+computer and you don't see Solver in the Data tab, go to the File
+menu, and click on "Options". Then select "Add-ins", then "Manage
+Excel Add-ins" and click Go. Check "Solver Add-in" if it is not
+already checked, and click OK. You might need to search for
+"SOLVER.XLAM" if you don't see a checkbox and click through a
+security warning about running macros within Excel - please click OK
+and run the macros. You should now see Solver in the Analysis
+section of the Data tab. You might experience various issues if you
+are using an older version of Excel - please visit the discussion
+foum or search on Google to get help with these problems.
+</li>
+
+<li>When using the sumproduct function, you should separate the two
+groups of cells with a comma, instead of a semicolon. So whenever we
+say semicolon in LibreOffice, you probably want a comma in Excel.
+</li>
+
+<li>Specifying the objective and decision variables is very similar to
+how it is done in LibreOffice, but the constraints are slightly
+different. To add a new constraint, you should click on the "Add"
+button to the right of the "Subject to the Constraints" box. This
+will change the window into one that looks more like how we are
+adding constraints in LibreOffice. After filling in the
+left-hand-side, sign, and right-hand-side, you can click on "Add" to
+add the constraint to your model and to continue adding constraints,
+or click "OK" to stop adding constraints. If you click "Cancel" it
+will just bring you back to the Solver window, without doing
+anything. You can change or delete a constraint by just selecting it
+and clicking the "Change" or "Delete" buttons next to the "Subject
+to the Constraints" box.
+</li>
+
+<li>Excel has a nice way of specifying non-negativity constraints. You
+can just check the "Make Unconstrained Variables Non-Negative" box
+insteading of adding the non-negativity constraints.
+</li>
+
+<li>You should always select the "Simplex LP" solving method in this
+class.
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+
+
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7"><span class="section-number-3">1.7</span> Quick Question (2 points possible)</h3>
+<div class="outline-text-3" id="text-1-7">
+<p>
+In the previous video, we solved our optimization problem in
+LibreOffice. In your spreadsheet, change the demand for regular seats
+to 50 (cell D5). Then re-solve the model.
+</p>
+</div>
+
+<div id="outline-container-sec-1-7-1" class="outline-4">
+<h4 id="sec-1-7-1"><span class="section-number-4">1.7.1</span> Question a</h4>
+<div class="outline-text-4" id="text-1-7-1">
+<p>
+What is the new optimal objective value?
+</p>
+</div>
+
+<div id="outline-container-sec-1-7-1-1" class="outline-5">
+<h5 id="sec-1-7-1-1"><span class="section-number-5">1.7.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-1-7-1-1">
+<p>
+58458
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-7-2" class="outline-4">
+<h4 id="sec-1-7-2"><span class="section-number-4">1.7.2</span> Question b</h4>
+<div class="outline-text-4" id="text-1-7-2">
+<p>
+Now change the demand of regular seats to 200. What is the new optimal
+objective value?
+</p>
+</div>
+
+<div id="outline-container-sec-1-7-2-1" class="outline-5">
+<h5 id="sec-1-7-2-1"><span class="section-number-5">1.7.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-1-7-2-1">
+<p>
+102422
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+For each of these questions, change the value in cell D5 to the new
+demand. Then select "Solver&#x2026;" in the "Tools" menu, and hit
+solve. The problem should re-solve, and the new objective value is in
+the Objective cell (B8).
+</p>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-1-8" class="outline-3">
+<h3 id="sec-1-8"><span class="section-number-3">1.8</span> Video 5: Visualizing the Problem</h3>
+<div class="outline-text-3" id="text-1-8">
+<p>
+So we saw in the previous video how we can solve linear optimization
+problems in LibreOffice. Let's now try to get some intuition for
+what's going on by visualizing our problem.
+</p>
+
+<p>
+Since we only have two decisions, R and D, we can visualize our
+constraints in two dimensions. We'll plot D on the x-axis, and R on
+the y-axis. We first have non-negativity constraints, so R and D are
+both greater than zero.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-VisualizingProblem.png" alt="LO-VisualizingProblem.png" />
+</p>
+</div>
+
+<p>
+We can plot the capacity constraint, \(R + D\) less than or equal to 166,
+which is shown as the red line here. Our solution has to be to the
+left of this line according to this constraint.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-VisualizingProblem02.png" alt="LO-VisualizingProblem02.png" />
+</p>
+</div>
+
+<p>
+Now, let's add in our demand constraints. The regular seats should be
+less than the demand of 100, which requires the solution to be below
+this blue line.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-VisualizingProblem03.png" alt="LO-VisualizingProblem03.png" />
+</p>
+</div>
+
+<p>
+And the discount seats should be less than the demand of 150, which
+requires the solution to be to the left of this green line.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-VisualizingProblem04.png" alt="LO-VisualizingProblem04.png" />
+</p>
+</div>
+
+<p>
+Taken together, our constraints define what we call our "feasible
+space" or the space of all possible values that our decisions can take
+according to our constraints.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-FeasibleSpace.png" alt="LO-FeasibleSpace.png" />
+</p>
+</div>
+
+<p>
+To find the optimal solution now in our feasible space, we have to use
+the objective, \(617*R + 238*D\).
+</p>
+
+<p>
+We can plot this objective in our feasible space. So to know how many
+seats we should sell to achieve a certain revenue, we can see
+different values of this line.
+</p>
+
+<p>
+So to achieve a revenue of $20,000, our solution has to be somewhere
+on this line in our feasible space.
+</p>
+
+<p>
+To achieve a revenue of $40,000, our solution has to be somewhere on
+this line in our feasible space. And to achieve a revenue of $60,000,
+our solution has to be somewhere on this line in our feasible space.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-PossibleSolutions.png" alt="LO-PossibleSolutions.png" />
+</p>
+</div>
+
+<p>
+Since the revenue is increasing as we move this line up and our goal
+is to maximize the revenue, our optimal solution will be where this
+line can't go any further and still be in our feasible space.
+</p>
+
+<p>
+So our optimal solution is at this point with a revenue of $77,408.
+</p>
+
+<p>
+As we can see here, the solution is dependent on how the feasible
+space was defined.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-BestSolution.png" alt="LO-BestSolution.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-9" class="outline-3">
+<h3 id="sec-1-9"><span class="section-number-3">1.9</span> Quick Question (2 points possible)</h3>
+<div class="outline-text-3" id="text-1-9">
+<p>
+Using the visualization we created in the previous video, answer the
+following questions:
+</p>
+</div>
+
+<div id="outline-container-sec-1-9-1" class="outline-4">
+<h4 id="sec-1-9-1"><span class="section-number-4">1.9.1</span> Question a</h4>
+<div class="outline-text-4" id="text-1-9-1">
+<p>
+Suppose that our demand for regular seats remains the same (100) but
+our demand for discount seats goes down to 100. Will our optimal
+solution change?
+</p>
+</div>
+
+<div id="outline-container-sec-1-9-1-1" class="outline-5">
+<h5 id="sec-1-9-1-1"><span class="section-number-5">1.9.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-1-9-1-1">
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> Yes
+</li>
+<li><code>[X]</code> No
+</li>
+<li><code>[&#xa0;]</code> I can't answer this question using the visualization.
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-9-2" class="outline-4">
+<h4 id="sec-1-9-2"><span class="section-number-4">1.9.2</span> Question b</h4>
+<div class="outline-text-4" id="text-1-9-2">
+<p>
+Now suppose that our demand for regular seats remains the same (100)
+but our demand for discount seats goes down to 50. Will our optimal
+solution change?
+</p>
+</div>
+
+<div id="outline-container-sec-1-9-2-1" class="outline-5">
+<h5 id="sec-1-9-2-1"><span class="section-number-5">1.9.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-1-9-2-1">
+<ul class="org-ul">
+<li><code>[X]</code> Yes
+</li>
+<li><code>[&#xa0;]</code> No
+</li>
+<li><code>[&#xa0;]</code> I can't answer this question using the visualization.
+</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+In the first case, our optimal solution will not change because we are
+only offering 66 discount seats. So even if the demand goes down to
+100, we are not meeting the demand. But in the second case, we can
+only offer 50 discount seats. So our airplane will not be full, and
+our optimal solution will change to 100 regular seats and 50 discount
+seats.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-10" class="outline-3">
+<h3 id="sec-1-10"><span class="section-number-3">1.10</span> Video 6: Sensitivity Analysis</h3>
+<div class="outline-text-3" id="text-1-10">
+<p>
+Often, in linear optimization problems, we've estimated the data we're
+using in the problem, but it's subject to change.
+</p>
+
+<p>
+Understanding how the solution changes when the data changes is called
+<b>sensitivity analysis</b>.
+</p>
+
+<p>
+One way that the data could change is through marketing
+decisions. Suppose that American Airlines' management is trying to
+figure out whether or not it would be beneficial to invest in
+marketing its fares.
+</p>
+
+<p>
+They forecast that the marketing effort is likely to attract one more
+unit of demand, of each type, for every $200 spent.
+</p>
+
+<p>
+So for the discount fare, the marketing cost per unit is $200, and for
+the regular fare, the marketing cost per unit is also $200. We want to
+know how much this will increase our marginal revenue for each type of
+fare.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-MarketingDecisions.png" alt="LO-MarketingDecisions.png" />
+</p>
+</div>
+
+<p>
+This graph shows our current feasible space and optimal solution. What
+would happen if we increased the marketing for discount fares?
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-MarketingDiscountFares.png" alt="LO-MarketingDiscountFares.png" />
+</p>
+</div>
+
+<p>
+The demand for discount fares would increase. But since we're not even
+meeting the current demand for discount fares with the optimal
+solution, this doesn't give us any extra revenue.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-MarketingDiscountFares02.png" alt="LO-MarketingDiscountFares02.png" />
+</p>
+</div>
+
+<p>
+So we shouldn't add any marketing for discount fares. Actually,
+American Airlines could decrease their budget to market discount
+fares, and even if the demand decreases, it wouldn't change our
+revenue.
+</p>
+
+<p>
+The demand could go all the way down to 66 without affecting our
+decisions.
+</p>
+
+<p>
+In <b>sensitivity analysis</b> like this, we're often concerned with the
+shadow price of a constraint. For a discount demand constraint, this
+is the marginal revenue gained by increasing the demand by one unit.
+</p>
+
+<p>
+In this case, the shadow price is 0 for demand greater than or equal
+to 66.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-MarketingDiscountFares03.png" alt="LO-MarketingDiscountFares03.png" />
+</p>
+</div>
+
+<p>
+Now, let's look at what happens when we market regular fares. If we
+increase the demand for regular fares, our revenue increases.
+</p>
+
+<p>
+If we increase by 25 units of demand, our revenue increases to
+$86,883. If we increase by another 25 units of demand, our revenue
+increases to $96,358. So what's the shadow price in this case?
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-MarketingDiscountFares04.png" alt="LO-MarketingDiscountFares04.png" />
+</p>
+</div>
+
+<p>
+Remember that the shadow price is the marginal revenue for a unit
+increase in demand, in this case, of regular seats.
+</p>
+
+<p>
+From 100 to 125, the revenue increased by $86,883 minus $77,408, which
+is equal to $9,475. Since this was an increase of 25 units of demand,
+the shadow price is 9,475 divided by 25, which equals 379. We can
+calculate that this is the same shadow price from 125 to 150.
+</p>
+
+<p>
+So the marginal revenue for every extra unit of regular demand from
+100 to 166 is $379.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-MarketingDiscountFares05.png" alt="LO-MarketingDiscountFares05.png" />
+</p>
+</div>
+
+<p>
+So given this analysis, how can we help the marketing department make
+their decisions? The forecast was an extra unit of demand for every
+$200 spent. For discount fares, this isn't worth it, since the shadow
+price, or marginal revenue, is 0. But for the regular fares, this is
+worth it, since the shadow price is $379.
+</p>
+
+<p>
+So the marketing department should invest in marketing regular fares
+to increase the demand by 66 units.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-MarketingDecisions02.png" alt="LO-MarketingDecisions02.png" />
+</p>
+</div>
+
+<p>
+Another sensitivity analysis question in our problem is whether or not
+it would be beneficial to allocate a bigger aircraft for this
+flight. This would change the capacity constraint, which currently
+limits the capacity to 166.
+</p>
+
+<p>
+With our current aircraft, the management knows that the cost per hour
+is $12,067. So the total cost of the six-hour flight is $72,402. With
+the 166 seats filled, we get a revenue of $77,408 from our optimal
+solution (Original Aircraft).
+</p>
+
+<p>
+If we increase the capacity of the aircraft to 176 seats, the total
+cost would increase to $76,590. But how much would this increase our
+revenue?
+</p>
+
+<p>
+And if we increase the capacity of the aircraft to 218 seats, the total
+cost would increase to $87,342. But how much would this increase our
+revenue?
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-CapacityAllocation.png" alt="LO-CapacityAllocation.png" />
+</p>
+</div>
+
+<p>
+For our analysis, let's assume that the demand does not change.
+</p>
+
+<p>
+If we increase our capacity to 176, the capacity constraint will move
+right. And our optimal solution will move right too. We now get a
+revenue of $79,788.
+</p>
+
+<p>
+If we then increase the capacity to 218 seats, the capacity constraint
+will move right again, and our revenue will increase to $89,784.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-AircraftCapacity.png" alt="LO-AircraftCapacity.png" />
+</p>
+</div>
+
+<p>
+So let's look at our extra profit from increasing the capacity to see
+if it's worth it. With our current costs and revenue, the profit is
+$5,006.
+</p>
+
+<p>
+If we increase the capacity to 176 seats, our profit actually
+decreases to $3,198. And if we increase the capacity to 218 seats, our
+profit decreases even more to $2,442.
+</p>
+
+<p>
+So even though our revenue is increasing, the cost increases too.
+</p>
+
+<p>
+So <b>it's not profitable for us to increase the capacity of our
+aircraft</b>.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-CapacityAllocation02.png" alt="LO-CapacityAllocation02.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-11" class="outline-3">
+<h3 id="sec-1-11"><span class="section-number-3">1.11</span> Quick Question (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-11">
+<p>
+In your spreadsheet, change the capacity to 250 in the capacity
+constraint, the regular demand to 150, and the discount demand
+to 150. Then re-solve the model.
+</p>
+
+<p>
+What is the objective value of the optimal solution?
+</p>
+</div>
+
+<div id="outline-container-sec-1-11-1" class="outline-4">
+<h4 id="sec-1-11-1"><span class="section-number-4">1.11.1</span> Answer</h4>
+<div class="outline-text-4" id="text-1-11-1">
+<p>
+116350
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+You can change the values in the capacity constraint RHS (cell D11),
+the regular demand (cell D5), and the discount demand (cell D6) and
+resolve the model by selecting "Solver&#x2026;" in the "Tools" menu. After
+it finishes solving, the objective value can be found in the blue cell
+(B8)
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-12" class="outline-3">
+<h3 id="sec-1-12"><span class="section-number-3">1.12</span> Video 7: Connecting Flights</h3>
+<div class="outline-text-3" id="text-1-12">
+<p>
+In this video, we'll be solving our optimization problem using the
+spreadsheet AirlineRM_Connecting. If you are using LibreOffice or
+OpenOffice, please download and open the spreadsheet
+<a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/AirlineRM_Connecting.ods">AirlineRM_Connecting.ods</a>. If you are using Microsoft Excel, please
+download and open the spreadsheet <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/AirlineRM_Connecting.xlsx">AirlineRM_Connecting.xlsx</a>. The
+following spreadsheets have the completed model as it is at the end of
+the video: <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/AirlineRM_Connecting_Complete.ods">AirlineRM_Connecting_Complete.ods</a> and
+<a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/AirlineRM_Connecting_Complete.xlsx">AirlineRM_Connecting_Complete.xlsx</a>.
+</p>
+</div>
+
+<div id="outline-container-sec-1-12-1" class="outline-4">
+<h4 id="sec-1-12-1"><span class="section-number-4">1.12.1</span> Solving Optimization Problems in R</h4>
+<div class="outline-text-4" id="text-1-12-1">
+<p>
+In this class, we are using a spreadsheet software to solve
+optimization problems because we feel that this method is more
+intuitive and more widely used in the business world. However, you
+might be wondering how you can solve optimization problems in R. While
+we will not be teaching optimization in R in this course, we have
+provided <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/Unit8_AirlineRM.R">this script file</a> showing how the optimization problems
+discussed in this lecture can be solved in R. We will not be asking
+you to do this for any assignments in this course, so learning about
+optimization in R is completely optional.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-13" class="outline-3">
+<h3 id="sec-1-13"><span class="section-number-3">1.13</span> Video 7: Connecting Flights</h3>
+<div class="outline-text-3" id="text-1-13">
+<p>
+We've only considered optimizing the fares for a single route. In this
+video, we'll change our optimization formulation to include connecting
+flights.
+</p>
+
+<p>
+Now, instead of just being able to go from JFK in New York to LAX in
+Los Angeles, let's suppose that the plane stops in Dallas at the
+Dallas Fort Worth airport. We still are just using one plane, but the
+passengers can now fly from New York to Dallas, Dallas to Los Angeles,
+or from New York to Los Angeles by just staying on the plane in
+Dallas.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-ConnectingFlights.png" alt="LO-ConnectingFlights.png" />
+</p>
+</div>
+
+<p>
+<b>So how does our optimization problem change?</b> We now have six types
+of seats that we can offer: the original two types, regular and
+discount from New York to LA, and four new types.
+</p>
+
+<p>
+We can sell both regular and discount seats from New York to Dallas,
+and regular and discount seats from Dallas to Los Angeles. We know the
+price of each type of ticket as well as the forecasted demand for each
+type of ticket.
+</p>
+
+<p>
+We also know that we have a capacity of 166 seats on our plane for
+each leg of the trip. There's room for 166 passengers on the plane
+from New York to Dallas, or the first leg of the trip. Then the
+passengers with a final destination of Dallas will get off the plane
+and the passengers flying from Dallas to LA will get on the plane.
+</p>
+
+<p>
+On the second leg of the trip, flying from Dallas to LA, we also have
+a capacity of 166 seats. So we need to remember that the passengers
+flying from New York to LA will take up capacity on both legs of the
+trip, while the other types of passengers will only take up capacity
+on one leg of the trip.
+</p>
+
+<p>
+<b>So what are our decisions now?</b> They're the number of regular tickets
+to sell for each type, and the number of discount tickets to sell for
+each type. So in total, we have six decisions to make.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-Step1_Decisions02.png" alt="LO-Step1_Decisions02.png" />
+</p>
+</div>
+
+<p>
+Now, let's define our objective. Like before, it's to maximize the
+total revenue. This is the sum of the price of the ticket times the
+number of seats of that type we sell, for each type of ticket.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-Step2_Objective02.png" alt="LO-Step2_Objective02.png" />
+</p>
+</div>
+
+<p>
+And like before, we have two types of constraints&#x2013; capacity
+constraints and demand constraints. For the capacity constraints, the
+airline shouldn't sell more seats than the capacity of the plane, for
+each leg of the trip.
+</p>
+
+<p>
+So we need two capacity constraints here: one for the New York to
+Dallas leg and one for the Dallas to LA leg.
+</p>
+
+<p>
+Note that the New York to LA passengers have to be counted on both
+legs of the trip. So the first constraint accounts for all passengers
+that need to be on the plane when it flies from New York to Dallas,
+and the second constraint accounts for all passengers that need to be
+on the plane when it flies from Dallas to LA.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-Step3_Constraints02.png" alt="LO-Step3_Constraints02.png" />
+</p>
+</div>
+
+<p>
+We also need six demand constraints, one for each type of ticket. The
+number of seats sold should not exceed the forecasted demand for each
+type.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-Step3_Constraints03.png" alt="LO-Step3_Constraints03.png" />
+</p>
+</div>
+
+<p>
+And lastly, we can't sell a negative number of seats, so we have our
+non-negativity constraints to prevent the variables from being
+negative. Let's now go to LibreOffice and adjust our formulation to
+solve this bigger problem.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-Step4_Non-Negativity02.png" alt="LO-Step4_Non-Negativity02.png" />
+</p>
+</div>
+
+<p>
+In LibreOffice, go ahead and open the file
+<code>Week9_AirlineRM_Connecting.ods</code>. In this file, I've set up our data,
+our decisions, our objective, and our constraints. Our decisions,
+again, are highlighted in yellow. We have a decision for each type of
+seat on each flight. Our objective here is the spot in blue. To build
+our objective, we'll use the sumproduct function.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/AR2_Optimization.png" alt="AR2_Optimization.png" />
+</p>
+</div>
+
+<p>
+So type = and then sumproduct, and in parentheses, select all six
+prices, type a semicolon, and then select all six decisions.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/AR2_OptimizationInit.png" alt="AR2_OptimizationInit.png" />
+</p>
+</div>
+
+<p>
+Now let's create our constraints. The first constraints are capacity
+constraints. The first is the capacity on the leg from New York to
+Dallas. The left-hand side should be equal to the seats from New York
+to LA plus the seats from New York to Dallas.
+</p>
+
+<p>
+The sign is less than or equals and the right-hand side is 166, the
+capacity of our aircraft.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/AR2_OptimizationConstrain.png" alt="AR2_OptimizationConstrain.png" />
+</p>
+</div>
+
+<p>
+The sign is less than or equals and the right-hand side is 166, the
+capacity of our aircraft.
+</p>
+
+<p>
+Now we need to build the capacity constraint from Dallas to LA. The
+left-hand side is equal to the seats from New York to LA plus the
+seats from Dallas to LA. Our sign is, again, less than or equals and
+our right-hand side is 166.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/AR2_OptimizationConstrain02.png" alt="AR2_OptimizationConstrain02.png" />
+</p>
+</div>
+
+<p>
+Our final model is:
+</p>
+
+
+
+<div class="figure">
+<p><img src="../graphs/AR2_OptimizationConstrain03.png" alt="AR2_OptimizationConstrain03.png" />
+</p>
+</div>
+
+<p>
+So now go ahead and in the Tools menu, select Solver. We need to first
+fill in the target cell, which should be the objective. Make sure that
+Maximum is selected. Then, in the Changing Cells box, select all six
+decisions. Down in the Limiting Conditions, let's now build our
+constraints.
+</p>
+
+<p>
+For the Cell Reference column, let's start by selecting the left-hand
+side of the two capacity constraints.
+</p>
+
+<p>
+The Operator should be less than or equals and the Value should be the
+right-hand side of these two capacity constraints.
+</p>
+
+<p>
+Now let's make the demand constraints. In Cell Reference, just
+directly select the six decision variables, make sure the Operator's
+less than or equals, and for the Value, select the six demand
+constraints. This is a bit easier than what we did before because we
+didn't have to type them all out in our spreadsheet.
+</p>
+
+<p>
+Now let's do a similar thing for the non-negativity constraints, where
+in Cell Reference, we select the six decisions. The Operator this time
+should be greater than or equals, and for the Value, just type 0.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/AR2_OptimizationSolver.png" alt="AR2_OptimizationSolver.png" />
+</p>
+</div>
+
+<p>
+Make sure in Options that the Linear Solver is selected, and go ahead
+and hit Solve. The solving result should say:
+</p>
+
+<p>
+"Solving successfully finished. Result: 120,514."
+</p>
+
+<p>
+<b>This is our total revenue.</b>
+</p>
+
+<p>
+So we see here that the optimal solution is to sell 80 tickets for the
+regular price from New York to LA, 0 of the discount price from New
+York to LA, 75 of the regular price from New York to Dallas, 11 of the
+discount price from New York to Dallas, 60 of the regular price from
+Dallas to LA, and lastly, 26 of the discount price from Dallas to LA.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/AR2_OptimizationSolver02.png" alt="AR2_OptimizationSolver02.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-14" class="outline-3">
+<h3 id="sec-1-14"><span class="section-number-3">1.14</span> <span class="todo TODO">TODO</span> Quick Question (2 points possible)</h3>
+<div class="outline-text-3" id="text-1-14">
+<p>
+In this quick question, we'll perform some sensitivity analysis on the
+connecting flights problem.
+</p>
+
+<p>
+Previously, we said that American Airlines could market their fares to
+increase demand. It costs $200 in advertising to increase demand by
+one unit.
+</p>
+</div>
+
+<div id="outline-container-sec-1-14-1" class="outline-4">
+<h4 id="sec-1-14-1"><span class="section-number-4">1.14.1</span> Question a</h4>
+<div class="outline-text-4" id="text-1-14-1">
+<p>
+Is it worth it to market the discount fares from JFK to DFW?
+</p>
+</div>
+
+<div id="outline-container-sec-1-14-1-1" class="outline-5">
+<h5 id="sec-1-14-1-1"><span class="section-number-5">1.14.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-1-14-1-1">
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> Yes. American Airlines should market the discount fares from JFK
+to DFW to increase demand by 50.
+</li>
+
+<li><code>[&#xa0;]</code> Yes. American Airlines should market the discount fares from JFK
+to DFW to increase demand by 10.
+</li>
+
+<li><code>[&#xa0;]</code> No. American Airlines should not market the discount fares from
+JFK to DFW because even though the revenue increases, it does not
+exceed the costs.
+</li>
+
+<li><code>[&#xa0;]</code> No. American Airlines should not market the discount fares from
+JFK to DFW because the revenue does not increase at all by
+increasing the demand for these tickets.
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-14-2" class="outline-4">
+<h4 id="sec-1-14-2"><span class="section-number-4">1.14.2</span> Question b</h4>
+<div class="outline-text-4" id="text-1-14-2">
+<p>
+Is it worth it to market the regular fares from JFK to LAX?
+</p>
+</div>
+
+<div id="outline-container-sec-1-14-2-1" class="outline-5">
+<h5 id="sec-1-14-2-1"><span class="section-number-5">1.14.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-1-14-2-1">
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> Yes. American Airlines should market the regular fares from JFK
+to LAX to increase demand by 50.
+</li>
+
+<li><code>[&#xa0;]</code> Yes. American Airlines should market the regular fares from JFK
+to LAX to increase demand by 10.
+</li>
+
+<li><code>[&#xa0;]</code> No. American Airlines should not market the regular fares from
+JFK to LAX because even though the revenue increases, it does not
+exceed the costs.
+</li>
+
+<li><code>[&#xa0;]</code> No. American Airlines should not market the regular fares from
+JFK to LAX because the revenue does not increase at all by
+increasing the demand for these tickets.
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-15" class="outline-3">
+<h3 id="sec-1-15"><span class="section-number-3">1.15</span> Video 8: The Edge of Revenue Management</h3>
+<div class="outline-text-3" id="text-1-15">
+<p>
+The overall revenue management problem involves a network of airports
+and literally thousands of flights. Clearly optimization is
+needed. Myopic solutions leave significant revenue on the table.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-ComplexNetwork.png" alt="LO-ComplexNetwork.png" />
+</p>
+</div>
+
+<p>
+Furthermore, revenue management involves tens of different classes
+that have different restrictions, different characteristics like mile
+awards, and fares.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-MultipleFareClasses.png" alt="LO-MultipleFareClasses.png" />
+</p>
+</div>
+
+<p>
+*PEOPLExpress could not compete with American Airlines' Ultimate Super
+Saver fares. Donald Burr, CEO of PEOPLExpress in 1985, notes, "We were
+a vibrant, profitable company from 1981 to 1985, and then we tipped
+right over into losing $50 million a month.
+</p>
+
+<p>
+We had been profitable from the day we started until American came at
+us with Ultimate Super Savers."
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-Competitive StrategyOfAA.png" alt="LO-Competitive StrategyOfAA.png" />
+</p>
+</div>
+
+<p>
+Revenue management is the science of selling the right seats to the
+right customers at the right prices. To illustrate the impact that
+revenue management has had on American Airlines, we note what Robert
+Crandall, CEO of American, wrote during the period that revenue
+management practices were applied.
+</p>
+
+<p>
+"Revenue management is the single most important technical development
+in transportation management since we entered the era of airline
+deregulation. We estimate that revenue management has generated $1.4
+billion in incremental revenue in the last three years."
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-Competitive StrategyOfAA02.png" alt="LO-Competitive StrategyOfAA02.png" />
+</p>
+</div>
+
+<p>
+Let us see the impact of revenue management more broadly. Today,
+American Airlines has emerged from bankruptcy by merging with US Air
+Airlines. However, American Airlines has spun off Sabre Holdings, the
+entity that built revenue management for American.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/LO-TheEdgeOfRevenueManagement.png" alt="LO-TheEdgeOfRevenueManagement.png" />
+</p>
+</div>
+
+<p>
+As of November 2012, Sabre ranked 133rd among America's largest
+private companies with $3.15 billion in sales, 400 airlines, 90,000
+hotels, and 30 car rental companies as clients. Today, companies
+prosper from revenue management. Delta Airlines, for example,
+increased annual revenue by $300 million.
+</p>
+
+<p>
+Marriott hotels increased annual revenue by $100 million.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-16" class="outline-3">
+<h3 id="sec-1-16"><span class="section-number-3">1.16</span> Optimization with R</h3>
+<div class="outline-text-3" id="text-1-16">
+<p>
+Lets install an load important packages
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Install new package: optimx ..."</span>)
+<span style="color: #9932cc;">## </span><span style="color: #ba55d3;">install.packages('optimx', repos='http://cran.rstudio.com/')</span>
+writeLines(<span style="color: #ff6a6a;">"\n :: NOTE: Please comment after install once..."</span>)
+
+<span style="color: #db7093;">library</span>(optimx)
+writeLines(<span style="color: #ff6a6a;">"\n :: Library optimx loaded..."</span>)
+</pre>
+</div>
+
+<pre class="example">
+:: Install new package: optimx ...
+
+:: NOTE: Please comment after install once...
+
+:: Library optimx loaded...
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 04/08/2015</p>
+<p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
+<p class="date">Created: 2015-08-07 Fri 21:34</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

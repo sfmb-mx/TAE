@@ -123,131 +123,982 @@ seats among customers in order to maximize their revenue*.
 ** Video 2: A Single Flight
 
 
+To illustrate how linear optimization works in revenue management, let
+us consider a simple example: A flight from New York to Los Angeles.
 
 [[../graphs/LO-LetsStartSimple.png]]
 
+In this flight, there are two types of economy fares, Early Bird fares
+that cost $238, and Last Minute fares that cost $617.
 
 [[../graphs/LO-TicketPrices.png]]
 
+In this flight, a Boeing 757 is used that has 166 economy seats.
 
 [[../graphs/LO-Boeing757-200SeatMap.png]]
 
+Demand for these prices has been forecasted using analytics tools,
+looking at historical data and incorporating models like time series
+or linear regression.
+
+Clearly, forecasts have errors, and therefore, we need to assess the
+sensitivity of our decisions to these errors.
+
+To illustrate the use of linear optimization, we assume that demand
+has already been forecasted.
 
 [[../graphs/LO-DemandForecasting.png]]
 
+We'll illustrate how our decisions on how many discount seats to sell
+vary as the demand forecasts vary. If the demand for regular seats is
+50, and for discounted fares is 150, and the capacity is 166 seats,
+then the optimal allocation is going to be to sell the 50 seats to
+satisfy the regular demand, and then we allocate the remaining 116
+seats to the discounted fare class.
 
 [[../graphs/LO-MyopicSolution.png]]
 
+If the regular demand increases to 100 seats, then we allocate these
+100 seats to these customers, and only 66 seats to discounted fare
+customers.
 
 [[../graphs/LO-MyopicSolution02.png]]
 
+Finally, if the regular demand increases to 200, then we allocate all
+of our capacity, 166 seats, to these customers.
+
+While this seems simple, what happens if we have 100 flights with
+connections in tens of fares? We'll next see how to formulate the
+problem mathematically and solve it in a systematic way, using linear
+optimization.
 
 [[../graphs/LO-MyopicSolution03.png]]
 
+** Quick Question (2 points possible)
+
+Suppose that, as in the previous video, regular seats cost $617 and
+discount seats cost $238. We are selling 166 seats. The demand for
+regular seats is 150 and the demand for discount seats is 150.
+
+*** Question a
+
+How many discount seats should we sell?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: How many discount seats we should sell?")
+  regularDemand <- 150
+  fullCapacity <- 166
+  discountSeats <- fullCapacity - regularDemand
+  discountSeats
+#+end_src
+
+#+RESULTS:
+:
+:  :: How many discount seats we should sell?
+: [1] 16
+
+**** Answer
+
+The available discount seats are $16$.
+
+*** Question b
+
+What would our total revenue be, for both regular and discount seats,
+assuming that we have a full plane?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: The total revenue is:")
+  regularPrice <- 617.0
+  discountPrice <- 238.0
+
+  totalRevenue <- (regularDemand * regularPrice) + (discountSeats *
+                                                    discountPrice)
+
+  totalRevenue
+#+end_src
+
+#+RESULTS:
+:
+:  :: The total revenue is:
+: [1] 96358
+
+**** Answer
+
+*Explanation*
+
+We would sell 150 seats to regular customers, giving us a revenue of
+$617*150, and 16 seats to discount customers, giving us a revenue of
+$238*16. Our total revenue would be ~$617*150 + $238*16 = $96,358~.
+
+** Video 3: The Problem Formulation
+
+For a single route example, our problem is to find the optimal number
+of discount seats and regular seats to sell to maximize revenue. We'll
+assume that the price of regular seats is $617, and the price of
+discount seats is $238. Also, let's assume that we forecasted the
+demand of regular seats to be 100, and the demand of discount seats to
+be 150.
+
+The capacity of our airplane is 166 seats.
 
 [[../graphs/LO-SingleRouteExample.png]]
 
+Let's go ahead and formulate this mathematically as a linear
+optimization problem.
+
+The first step is to decide what our decisions are, or the variables
+in our model. We need to decide how many regular seats we went to
+sell. We'll call the number of regular seats we sell R. We also need
+to decide the number of discount seats we want to sell. We'll call the
+number of discount seats we sell D.
 
 [[../graphs/LO-Step1_Decisions.png]]
 
+The second step is to decide what our objective, or our goal, is. In
+this case, it's to maximize the total revenue to the airline. The
+revenue from each type of seat is equal to the number of that type of
+seat sold times the seat price.
+
+In the case of regular seats, this is $617 times R, the number of
+regular seats we sell. And for discount seats, this is $230 times D,
+the number of discount seats we sell.
+
+We sum these together to get the total revenue, and our objective is
+to maximize this sum.
+
 [[../graphs/LO-Step2_Objective.png]]
 
+The third step is to define the constraints, or limits, of our
+decisions. One constraint is that American Airlines can't sell more
+seats than the aircraft capacity, which is 166 seats. So the total
+number of seats sold, R + D has to be less than or equal to the
+capacity of 166.
+
+Additionally, American Airlines shouldn't sell more seats than the
+demand for each type of seat. So the regular seats, R, shouldn't
+exceed 100. So R should be less than or equal to 100. And the discount
+seats, D, can't exceed 150. So D should be less than or equal to 150.
 
 [[../graphs/LO-Step3_Constraints.png]]
 
+The final step is to make sure our variables are taking reasonable
+values. In this case, it wouldn't make sense to sell a negative number
+of seats, so we need to make sure that both R and D are greater than
+or equal to 0.
 
 [[../graphs/LO-Step4_Non-Negativity.png]]
 
+So our entire problem is to maximize total airline revenue, subject to
+the constraints that seats sold can't exceed capacity, seats sold
+can't exceed demand, and the seats sold can't be negative.
 
 [[../graphs/LO-ProblemFormulation.png]]
 
+Mathematically, this can be written as shown in the figure. Which $R$
+and $D$ are the demand constraints; and $R$ and $D$ are both greater
+than or equal to 0.
+
+This is called a *linear optimization problem*.
 
 [[../graphs/LO-ProblemFormulation02.png]]
 
+** Quick Question (2 points possible)
+
+In the previous video, we set up an optimization problem with 2
+different types of tickets.
+
+*** Question a
+
+How many decision variables would we have if there were 4 different
+types of tickets?
+
+**** Answer
+
+4
+
+*** Question b
+
+How many constraints would we have if there were 4 different types of
+tickets (with two different types of tickets, our model has 5
+constraints: one capacity constraint, two demand constraints, and two
+non-negativity constraints)?
+
+**** Answer
+
+9
+
+*Explanation*
+
+If our model had 4 different types of tickets, we would have four
+decision variables, one for each type of ticket. We would have 9
+constraints, since we would need one capacity constraint, 4 demand
+constraints, and 4 non-negativity constraints.
+
+** Video 4: Solving the Problem
+
+In this video, we'll be solving our optimization problem using the
+spreadsheet AirlineRM. If you are using LibreOffice or OpenOffice,
+please download and open the spreadsheet [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/AirlineRM.ods][AirlineRM.ods]] to follow along
+with the lecture. If you are using Microsoft Excel, please download
+and open the spreadsheet [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/AirlineRM.xlsx][AirlineRM.xlsx]] to follow along with the
+lecture. The following spreadsheets have the completed model as it is
+at the end of the video: [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/AirlineRM_Complete.ods][AirlineRM_Complete.ods]] and
+[[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/AirlineRM_Complete.xlsx][AirlineRM_Complete.xlsx]].
+
+If you are using LibreOffice or OpenOffice, the functions and solver
+will look very similar to what you see in this video. If you are using
+*Microsoft Excel, please see the helpful tips below this video*.
+
+We'll solve our linear optimization problem in the software
+LibreOffice. LibreOffice is similar to Microsoft Excel, but it's an
+open source software, and is available for free on the internet.
+
+Another option we could use is OpenOffice. You're welcome to use
+Excel, OpenOffice, or LibreOffice in this course, and whenever we
+mention LibreOffice, keep in mind that you could be using one of the
+other softwares instead.
+
+For more information about the options, see the download instructions
+on edX. You should have already downloaded and installed LibreOffice.
+
+If not, follow the instructions on edX before continuing with this
+video. Go ahead and open the file, Week9_AirlineRM.ods.
+
+I've already set up the data for our problem and places for us to
+build our decisions, our objective, and our constraints. The decisions
+are highlighted in yellow.
+
+These are the number of regular seats to sell, and the number of
+discount seats to sell. We'll just leave these cells blank for now,
+since the solver will be finding the optimal values. Our objective,
+which we saw in the previous video, is to maximize total revenue.
+
+[[../graphs/AR-Libreoffice.png]]
+
+Let's go ahead and build the objective in this blue cell. It should
+equal the price of regular seats, times the number of regular seats we
+sell, plus the price the discount seats, times the number of discount
+seats we sell.
+
+[[../graphs/AR-ObjectiveFunction.png]]
+
+You should see 0 in this cell. That's because right now, we're not
+selling any seats. Our decision cells are blank. This could be a
+little tedious if we had more than two decisions.
+
+To make it easier, we can use a nice function called sumproduct to
+build our objective.
+
+Now in the objective cell, let's type equals, and then sumproduct, and
+then in parentheses, select the two prices, type a semicolon, and then
+select the two seats.
+
+This will multiply the first price times the first decision variable,
+and the second price times the second decision variable, and add them
+up. Close the parentheses and hit Enter.
+
+Note that if you're using Excel, you should use a comma instead of a
+semicolon.
+
+[[../graphs/AR-ObjectiveFunction02.png]]
+
+Now let's construct our constraints. The first constraint is the
+capacity constraint. The green table here allows us to easily write
+out our constraints in terms of what's on the left-hand side, LHS,
+what the sign is, like equals, less than or equals, or greater than or
+equals, and what's on the right-hand side, or RHS, of the constraint.
+
+So for the capacity constraint, the left-hand side is equal to the
+number of regular seats plus the number of discount seats.
+
+[[../graphs/AR-Constraints.png]]
+
+The sign is less than or equals, and the right-hand side is 166, the
+capacity of our aircraft.
+
+The regular demand constraint should be the regular number of seats,
+which should be less than or equal to the regular demand, which
+equals 100. The discount demand should be the number of discount
+seats, which should be less than or equal to the demand, which is
+equal to 150. Note here that whenever I pick the seats or the demand,
+I pick those cells up on the top.
+
+That's because if we want to change our demand, we could easily change
+it up at the top, and all of our constraints will change too.
+
+Now, let's add in our non-negativity constraints. So the number of
+regular seats should be greater than or equal to 0, and the number of
+discount seats should be greater than or equal to 0.
+
+[[../graphs/AR-Constraints02.png]]
+
+Now we're ready to solve our problem. To do this, we just go to the
+Tools menu in LibreOffice and select Solver.
+
+[[../graphs/AR_Solver.png]]
+
+Now we need to fill in the information about our problem. The "Target
+cell" should be the objective. So with the blinking cursor in the
+target cell, select the objective cell.
+
+We should also be selecting *Maximum*, since we're trying to maximize
+the total revenue.
+
+The area called *By changing cells* should be our decision variables,
+so go ahead and select that blank area, and select the decision
+variables.
+
+The *Limiting conditions* are our constraints. The *Cell reference*
+should be the left-hand side of the constraint, the *Operator* is the
+sign, and the *Value* is the right-hand side.
+
+For constraints with the same sign, if they're in a row, we could
+select them at once to be more efficient.
+
+So first, let's select the first three less than or equal to
+constraints. We want to make sure the operator is less than or equal
+to, the integer and binary options you see here, we'll explain next
+week, and the value should be the right-hand side of these
+constraints.
+
+Then we need to add in the greater than or equal to constraints. So
+select the two left-hand sides. The operator should be greater than or
+equal to, and the value should be the two right-hand sides.
+
+The last thing we want to do is in Options, make sure that the
+LibreOffice Linear Solver is selected.
+
+[[../graphs/AR_Solver02.png]]
+
+Click OK, and then hit Solve. The solving result should say: "Solving
+successfully finished.
+
+[[../graphs/AR_Solver03.png]]
+
+Result: $77,408$. This is the objective of our optimal solution, and is
+the total revenue we get. Go ahead and click Keep Result.
+
+[[../graphs/AR_Solver04.png]]
+
+And now back in our spreadsheet, we can see that our solution is to
+sell 100 regular seats and 66 discount seats. You may be thinking that
+you could have done this without the Solver.
+
+But when the problems become more complicated, it's very difficult and
+often impossible to solve them by hand.
+
+*** Helpful Tips for Excel
+
+If you are using Microsoft Excel, the functions and solver you will be
+using are similar, but not identical, to what you see in the
+video. Here are some helpful tips to assist in using Excel for this
+class.
+
+- Unlike LibreOffice and OpenOffice, the "Solver" option does not
+  typically come pre-loaded into Excel. If you are on a Mac and you
+  don't see "Solver..." in the Tools menu, you will need to add it in
+  by going to the Tools menu, and selecting "Add-Ins...". Then, check
+  "Solver.Xlam" if it is not already checked, and click OK. You should
+  now see "Solver..." under the Tools menu. If you are on a Windows
+  computer and you don't see Solver in the Data tab, go to the File
+  menu, and click on "Options". Then select "Add-ins", then "Manage
+  Excel Add-ins" and click Go. Check "Solver Add-in" if it is not
+  already checked, and click OK. You might need to search for
+  "SOLVER.XLAM" if you don't see a checkbox and click through a
+  security warning about running macros within Excel - please click OK
+  and run the macros. You should now see Solver in the Analysis
+  section of the Data tab. You might experience various issues if you
+  are using an older version of Excel - please visit the discussion
+  foum or search on Google to get help with these problems.
+
+- When using the sumproduct function, you should separate the two
+  groups of cells with a comma, instead of a semicolon. So whenever we
+  say semicolon in LibreOffice, you probably want a comma in Excel.
+
+- Specifying the objective and decision variables is very similar to
+  how it is done in LibreOffice, but the constraints are slightly
+  different. To add a new constraint, you should click on the "Add"
+  button to the right of the "Subject to the Constraints" box. This
+  will change the window into one that looks more like how we are
+  adding constraints in LibreOffice. After filling in the
+  left-hand-side, sign, and right-hand-side, you can click on "Add" to
+  add the constraint to your model and to continue adding constraints,
+  or click "OK" to stop adding constraints. If you click "Cancel" it
+  will just bring you back to the Solver window, without doing
+  anything. You can change or delete a constraint by just selecting it
+  and clicking the "Change" or "Delete" buttons next to the "Subject
+  to the Constraints" box.
+
+- Excel has a nice way of specifying non-negativity constraints. You
+  can just check the "Make Unconstrained Variables Non-Negative" box
+  insteading of adding the non-negativity constraints.
+
+- You should always select the "Simplex LP" solving method in this
+  class.
+
+
+
+
+** Quick Question (2 points possible)
+
+In the previous video, we solved our optimization problem in
+LibreOffice. In your spreadsheet, change the demand for regular seats
+to 50 (cell D5). Then re-solve the model.
+
+*** Question a
+
+What is the new optimal objective value?
+
+**** Answer
+
+58458
+
+*** Question b
+
+Now change the demand of regular seats to 200. What is the new optimal
+objective value?
+
+**** Answer
+
+102422
+
+*Explanation*
+
+For each of these questions, change the value in cell D5 to the new
+demand. Then select "Solver..." in the "Tools" menu, and hit
+solve. The problem should re-solve, and the new objective value is in
+the Objective cell (B8).
+
+
+** Video 5: Visualizing the Problem
+
+So we saw in the previous video how we can solve linear optimization
+problems in LibreOffice. Let's now try to get some intuition for
+what's going on by visualizing our problem.
+
+Since we only have two decisions, R and D, we can visualize our
+constraints in two dimensions. We'll plot D on the x-axis, and R on
+the y-axis. We first have non-negativity constraints, so R and D are
+both greater than zero.
 
 [[../graphs/LO-VisualizingProblem.png]]
 
+We can plot the capacity constraint, $R + D$ less than or equal to 166,
+which is shown as the red line here. Our solution has to be to the
+left of this line according to this constraint.
 
 [[../graphs/LO-VisualizingProblem02.png]]
 
+Now, let's add in our demand constraints. The regular seats should be
+less than the demand of 100, which requires the solution to be below
+this blue line.
 
 [[../graphs/LO-VisualizingProblem03.png]]
 
+And the discount seats should be less than the demand of 150, which
+requires the solution to be to the left of this green line.
 
 [[../graphs/LO-VisualizingProblem04.png]]
 
+Taken together, our constraints define what we call our "feasible
+space" or the space of all possible values that our decisions can take
+according to our constraints.
 
 [[../graphs/LO-FeasibleSpace.png]]
 
+To find the optimal solution now in our feasible space, we have to use
+the objective, $617*R + 238*D$.
+
+We can plot this objective in our feasible space. So to know how many
+seats we should sell to achieve a certain revenue, we can see
+different values of this line.
+
+So to achieve a revenue of $20,000, our solution has to be somewhere
+on this line in our feasible space.
+
+To achieve a revenue of $40,000, our solution has to be somewhere on
+this line in our feasible space. And to achieve a revenue of $60,000,
+our solution has to be somewhere on this line in our feasible space.
 
 [[../graphs/LO-PossibleSolutions.png]]
 
+Since the revenue is increasing as we move this line up and our goal
+is to maximize the revenue, our optimal solution will be where this
+line can't go any further and still be in our feasible space.
+
+So our optimal solution is at this point with a revenue of $77,408.
+
+As we can see here, the solution is dependent on how the feasible
+space was defined.
 
 [[../graphs/LO-BestSolution.png]]
 
+** Quick Question (2 points possible)
+
+Using the visualization we created in the previous video, answer the
+following questions:
+
+*** Question a
+
+Suppose that our demand for regular seats remains the same (100) but
+our demand for discount seats goes down to 100. Will our optimal
+solution change?
+
+**** Answer
+
+- [ ] Yes
+- [X] No
+- [ ] I can't answer this question using the visualization.
+
+*** Question b
+
+Now suppose that our demand for regular seats remains the same (100)
+but our demand for discount seats goes down to 50. Will our optimal
+solution change?
+
+**** Answer
+
+- [X] Yes
+- [ ] No
+- [ ] I can't answer this question using the visualization.
+
+*Explanation*
+
+In the first case, our optimal solution will not change because we are
+only offering 66 discount seats. So even if the demand goes down to
+100, we are not meeting the demand. But in the second case, we can
+only offer 50 discount seats. So our airplane will not be full, and
+our optimal solution will change to 100 regular seats and 50 discount
+seats.
+
+** Video 6: Sensitivity Analysis
+
+Often, in linear optimization problems, we've estimated the data we're
+using in the problem, but it's subject to change.
+
+Understanding how the solution changes when the data changes is called
+*sensitivity analysis*.
+
+One way that the data could change is through marketing
+decisions. Suppose that American Airlines' management is trying to
+figure out whether or not it would be beneficial to invest in
+marketing its fares.
+
+They forecast that the marketing effort is likely to attract one more
+unit of demand, of each type, for every $200 spent.
+
+So for the discount fare, the marketing cost per unit is $200, and for
+the regular fare, the marketing cost per unit is also $200. We want to
+know how much this will increase our marginal revenue for each type of
+fare.
 
 [[../graphs/LO-MarketingDecisions.png]]
 
+This graph shows our current feasible space and optimal solution. What
+would happen if we increased the marketing for discount fares?
 
 [[../graphs/LO-MarketingDiscountFares.png]]
 
+The demand for discount fares would increase. But since we're not even
+meeting the current demand for discount fares with the optimal
+solution, this doesn't give us any extra revenue.
 
 [[../graphs/LO-MarketingDiscountFares02.png]]
 
+So we shouldn't add any marketing for discount fares. Actually,
+American Airlines could decrease their budget to market discount
+fares, and even if the demand decreases, it wouldn't change our
+revenue.
+
+The demand could go all the way down to 66 without affecting our
+decisions.
+
+In *sensitivity analysis* like this, we're often concerned with the
+shadow price of a constraint. For a discount demand constraint, this
+is the marginal revenue gained by increasing the demand by one unit.
+
+In this case, the shadow price is 0 for demand greater than or equal
+to 66.
 
 [[../graphs/LO-MarketingDiscountFares03.png]]
 
+Now, let's look at what happens when we market regular fares. If we
+increase the demand for regular fares, our revenue increases.
+
+If we increase by 25 units of demand, our revenue increases to
+$86,883. If we increase by another 25 units of demand, our revenue
+increases to $96,358. So what's the shadow price in this case?
 
 [[../graphs/LO-MarketingDiscountFares04.png]]
 
+Remember that the shadow price is the marginal revenue for a unit
+increase in demand, in this case, of regular seats.
+
+From 100 to 125, the revenue increased by $86,883 minus $77,408, which
+is equal to $9,475. Since this was an increase of 25 units of demand,
+the shadow price is 9,475 divided by 25, which equals 379. We can
+calculate that this is the same shadow price from 125 to 150.
+
+So the marginal revenue for every extra unit of regular demand from
+100 to 166 is $379.
 
 [[../graphs/LO-MarketingDiscountFares05.png]]
 
+So given this analysis, how can we help the marketing department make
+their decisions? The forecast was an extra unit of demand for every
+$200 spent. For discount fares, this isn't worth it, since the shadow
+price, or marginal revenue, is 0. But for the regular fares, this is
+worth it, since the shadow price is $379.
+
+So the marketing department should invest in marketing regular fares
+to increase the demand by 66 units.
 
 [[../graphs/LO-MarketingDecisions02.png]]
 
+Another sensitivity analysis question in our problem is whether or not
+it would be beneficial to allocate a bigger aircraft for this
+flight. This would change the capacity constraint, which currently
+limits the capacity to 166.
+
+With our current aircraft, the management knows that the cost per hour
+is $12,067. So the total cost of the six-hour flight is $72,402. With
+the 166 seats filled, we get a revenue of $77,408 from our optimal
+solution (Original Aircraft).
+
+If we increase the capacity of the aircraft to 176 seats, the total
+cost would increase to $76,590. But how much would this increase our
+revenue?
+
+And if we increase the capacity of the aircraft to 218 seats, the total
+cost would increase to $87,342. But how much would this increase our
+revenue?
 
 [[../graphs/LO-CapacityAllocation.png]]
 
+For our analysis, let's assume that the demand does not change.
+
+If we increase our capacity to 176, the capacity constraint will move
+right. And our optimal solution will move right too. We now get a
+revenue of $79,788.
+
+If we then increase the capacity to 218 seats, the capacity constraint
+will move right again, and our revenue will increase to $89,784.
 
 [[../graphs/LO-AircraftCapacity.png]]
 
+So let's look at our extra profit from increasing the capacity to see
+if it's worth it. With our current costs and revenue, the profit is
+$5,006.
+
+If we increase the capacity to 176 seats, our profit actually
+decreases to $3,198. And if we increase the capacity to 218 seats, our
+profit decreases even more to $2,442.
+
+So even though our revenue is increasing, the cost increases too.
+
+So *it's not profitable for us to increase the capacity of our
+aircraft*.
 
 [[../graphs/LO-CapacityAllocation02.png]]
 
+** Quick Question (1 point possible)
+
+In your spreadsheet, change the capacity to 250 in the capacity
+constraint, the regular demand to 150, and the discount demand
+to 150. Then re-solve the model.
+
+What is the objective value of the optimal solution?
+
+*** Answer
+
+116350
+
+*Explanation*
+
+You can change the values in the capacity constraint RHS (cell D11),
+the regular demand (cell D5), and the discount demand (cell D6) and
+resolve the model by selecting "Solver..." in the "Tools" menu. After
+it finishes solving, the objective value can be found in the blue cell
+(B8)
+
+** Video 7: Connecting Flights
+
+In this video, we'll be solving our optimization problem using the
+spreadsheet AirlineRM_Connecting. If you are using LibreOffice or
+OpenOffice, please download and open the spreadsheet
+[[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/AirlineRM_Connecting.ods][AirlineRM_Connecting.ods]]. If you are using Microsoft Excel, please
+download and open the spreadsheet [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/AirlineRM_Connecting.xlsx][AirlineRM_Connecting.xlsx]]. The
+following spreadsheets have the completed model as it is at the end of
+the video: [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/AirlineRM_Connecting_Complete.ods][AirlineRM_Connecting_Complete.ods]] and
+[[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/AirlineRM_Connecting_Complete.xlsx][AirlineRM_Connecting_Complete.xlsx]].
+
+*** Solving Optimization Problems in R
+
+In this class, we are using a spreadsheet software to solve
+optimization problems because we feel that this method is more
+intuitive and more widely used in the business world. However, you
+might be wondering how you can solve optimization problems in R. While
+we will not be teaching optimization in R in this course, we have
+provided [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/Unit8_AirlineRM.R][this script file]] showing how the optimization problems
+discussed in this lecture can be solved in R. We will not be asking
+you to do this for any assignments in this course, so learning about
+optimization in R is completely optional.
+
+** Video 7: Connecting Flights
+
+We've only considered optimizing the fares for a single route. In this
+video, we'll change our optimization formulation to include connecting
+flights.
+
+Now, instead of just being able to go from JFK in New York to LAX in
+Los Angeles, let's suppose that the plane stops in Dallas at the
+Dallas Fort Worth airport. We still are just using one plane, but the
+passengers can now fly from New York to Dallas, Dallas to Los Angeles,
+or from New York to Los Angeles by just staying on the plane in
+Dallas.
 
 [[../graphs/LO-ConnectingFlights.png]]
 
+*So how does our optimization problem change?* We now have six types
+of seats that we can offer: the original two types, regular and
+discount from New York to LA, and four new types.
+
+We can sell both regular and discount seats from New York to Dallas,
+and regular and discount seats from Dallas to Los Angeles. We know the
+price of each type of ticket as well as the forecasted demand for each
+type of ticket.
+
+We also know that we have a capacity of 166 seats on our plane for
+each leg of the trip. There's room for 166 passengers on the plane
+from New York to Dallas, or the first leg of the trip. Then the
+passengers with a final destination of Dallas will get off the plane
+and the passengers flying from Dallas to LA will get on the plane.
+
+On the second leg of the trip, flying from Dallas to LA, we also have
+a capacity of 166 seats. So we need to remember that the passengers
+flying from New York to LA will take up capacity on both legs of the
+trip, while the other types of passengers will only take up capacity
+on one leg of the trip.
+
+*So what are our decisions now?* They're the number of regular tickets
+to sell for each type, and the number of discount tickets to sell for
+each type. So in total, we have six decisions to make.
 
 [[../graphs/LO-Step1_Decisions02.png]]
 
+Now, let's define our objective. Like before, it's to maximize the
+total revenue. This is the sum of the price of the ticket times the
+number of seats of that type we sell, for each type of ticket.
 
 [[../graphs/LO-Step2_Objective02.png]]
 
+And like before, we have two types of constraints-- capacity
+constraints and demand constraints. For the capacity constraints, the
+airline shouldn't sell more seats than the capacity of the plane, for
+each leg of the trip.
+
+So we need two capacity constraints here: one for the New York to
+Dallas leg and one for the Dallas to LA leg.
+
+Note that the New York to LA passengers have to be counted on both
+legs of the trip. So the first constraint accounts for all passengers
+that need to be on the plane when it flies from New York to Dallas,
+and the second constraint accounts for all passengers that need to be
+on the plane when it flies from Dallas to LA.
 
 [[../graphs/LO-Step3_Constraints02.png]]
 
+We also need six demand constraints, one for each type of ticket. The
+number of seats sold should not exceed the forecasted demand for each
+type.
 
 [[../graphs/LO-Step3_Constraints03.png]]
 
+And lastly, we can't sell a negative number of seats, so we have our
+non-negativity constraints to prevent the variables from being
+negative. Let's now go to LibreOffice and adjust our formulation to
+solve this bigger problem.
 
 [[../graphs/LO-Step4_Non-Negativity02.png]]
 
+In LibreOffice, go ahead and open the file
+~Week9_AirlineRM_Connecting.ods~. In this file, I've set up our data,
+our decisions, our objective, and our constraints. Our decisions,
+again, are highlighted in yellow. We have a decision for each type of
+seat on each flight. Our objective here is the spot in blue. To build
+our objective, we'll use the sumproduct function.
+
+[[../graphs/AR2_Optimization.png]]
+
+So type = and then sumproduct, and in parentheses, select all six
+prices, type a semicolon, and then select all six decisions.
+
+[[../graphs/AR2_OptimizationInit.png]]
+
+Now let's create our constraints. The first constraints are capacity
+constraints. The first is the capacity on the leg from New York to
+Dallas. The left-hand side should be equal to the seats from New York
+to LA plus the seats from New York to Dallas.
+
+The sign is less than or equals and the right-hand side is 166, the
+capacity of our aircraft.
+
+[[../graphs/AR2_OptimizationConstrain.png]]
+
+The sign is less than or equals and the right-hand side is 166, the
+capacity of our aircraft.
+
+Now we need to build the capacity constraint from Dallas to LA. The
+left-hand side is equal to the seats from New York to LA plus the
+seats from Dallas to LA. Our sign is, again, less than or equals and
+our right-hand side is 166.
+
+[[../graphs/AR2_OptimizationConstrain02.png]]
+
+Our final model is:
+
+
+[[../graphs/AR2_OptimizationConstrain03.png]]
+
+So now go ahead and in the Tools menu, select Solver. We need to first
+fill in the target cell, which should be the objective. Make sure that
+Maximum is selected. Then, in the Changing Cells box, select all six
+decisions. Down in the Limiting Conditions, let's now build our
+constraints.
+
+For the Cell Reference column, let's start by selecting the left-hand
+side of the two capacity constraints.
+
+The Operator should be less than or equals and the Value should be the
+right-hand side of these two capacity constraints.
+
+Now let's make the demand constraints. In Cell Reference, just
+directly select the six decision variables, make sure the Operator's
+less than or equals, and for the Value, select the six demand
+constraints. This is a bit easier than what we did before because we
+didn't have to type them all out in our spreadsheet.
+
+Now let's do a similar thing for the non-negativity constraints, where
+in Cell Reference, we select the six decisions. The Operator this time
+should be greater than or equals, and for the Value, just type 0.
+
+[[../graphs/AR2_OptimizationSolver.png]]
+
+Make sure in Options that the Linear Solver is selected, and go ahead
+and hit Solve. The solving result should say:
+
+"Solving successfully finished. Result: 120,514."
+
+*This is our total revenue.*
+
+So we see here that the optimal solution is to sell 80 tickets for the
+regular price from New York to LA, 0 of the discount price from New
+York to LA, 75 of the regular price from New York to Dallas, 11 of the
+discount price from New York to Dallas, 60 of the regular price from
+Dallas to LA, and lastly, 26 of the discount price from Dallas to LA.
+
+[[../graphs/AR2_OptimizationSolver02.png]]
+
+** TODO Quick Question (2 points possible)
+
+In this quick question, we'll perform some sensitivity analysis on the
+connecting flights problem.
+
+Previously, we said that American Airlines could market their fares to
+increase demand. It costs $200 in advertising to increase demand by
+one unit.
+
+*** Question a
+
+Is it worth it to market the discount fares from JFK to DFW?
+
+**** Answer
+
+- [ ] Yes. American Airlines should market the discount fares from JFK
+  to DFW to increase demand by 50.
+
+- [ ] Yes. American Airlines should market the discount fares from JFK
+  to DFW to increase demand by 10.
+
+- [ ] No. American Airlines should not market the discount fares from
+  JFK to DFW because even though the revenue increases, it does not
+  exceed the costs.
+
+- [ ] No. American Airlines should not market the discount fares from
+  JFK to DFW because the revenue does not increase at all by
+  increasing the demand for these tickets.
+
+*** Question b
+
+Is it worth it to market the regular fares from JFK to LAX?
+
+**** Answer
+
+- [ ] Yes. American Airlines should market the regular fares from JFK
+  to LAX to increase demand by 50.
+
+- [ ] Yes. American Airlines should market the regular fares from JFK
+  to LAX to increase demand by 10.
+
+- [ ] No. American Airlines should not market the regular fares from
+  JFK to LAX because even though the revenue increases, it does not
+  exceed the costs.
+
+- [ ] No. American Airlines should not market the regular fares from
+  JFK to LAX because the revenue does not increase at all by
+  increasing the demand for these tickets.
+
+** Video 8: The Edge of Revenue Management
+
+The overall revenue management problem involves a network of airports
+and literally thousands of flights. Clearly optimization is
+needed. Myopic solutions leave significant revenue on the table.
 
 [[../graphs/LO-ComplexNetwork.png]]
 
+Furthermore, revenue management involves tens of different classes
+that have different restrictions, different characteristics like mile
+awards, and fares.
 
 [[../graphs/LO-MultipleFareClasses.png]]
 
+*PEOPLExpress could not compete with American Airlines' Ultimate Super
+Saver fares. Donald Burr, CEO of PEOPLExpress in 1985, notes, "We were
+a vibrant, profitable company from 1981 to 1985, and then we tipped
+right over into losing $50 million a month.
+
+We had been profitable from the day we started until American came at
+us with Ultimate Super Savers."
 
 [[../graphs/LO-Competitive StrategyOfAA.png]]
 
+Revenue management is the science of selling the right seats to the
+right customers at the right prices. To illustrate the impact that
+revenue management has had on American Airlines, we note what Robert
+Crandall, CEO of American, wrote during the period that revenue
+management practices were applied.
+
+"Revenue management is the single most important technical development
+in transportation management since we entered the era of airline
+deregulation. We estimate that revenue management has generated $1.4
+billion in incremental revenue in the last three years."
 
 [[../graphs/LO-Competitive StrategyOfAA02.png]]
 
+Let us see the impact of revenue management more broadly. Today,
+American Airlines has emerged from bankruptcy by merging with US Air
+Airlines. However, American Airlines has spun off Sabre Holdings, the
+entity that built revenue management for American.
 
 [[../graphs/LO-TheEdgeOfRevenueManagement.png]]
 
+As of November 2012, Sabre ranked 133rd among America's largest
+private companies with $3.15 billion in sales, 400 airlines, 90,000
+hotels, and 30 car rental companies as clients. Today, companies
+prosper from revenue management. Delta Airlines, for example,
+increased annual revenue by $300 million.
+
+Marriott hotels increased annual revenue by $100 million.
 
 ** Optimization with R
 
