@@ -40,19 +40,15 @@
 #+ATTR_HTML: width="500px"
 
 # -*- mode: org; -*-
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/htmlize.css"/>
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/bigblow.css"/>
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/hideshow.css"/>
+#+OPTIONS:   toc:2
 
-#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery-1.11.0.min.js"></script>
-#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery-ui-1.10.2.min.js"></script>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/htmlize.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/readtheorg.css"/>
 
-#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.localscroll-min.js"></script>
-#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.scrollTo-1.4.3.1-min.js"></script>
-#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.zclip.min.js"></script>
-#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/bigblow.js"></script>
-#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/hideshow.js"></script>
-#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.min.js"></script>
+#+HTML_HEAD: <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+#+HTML_HEAD: <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/readtheorg/js/readtheorg.js"></script>
 
 #+BEGIN_ABSTRACT
 The Unit 8 for the topics of Linear Optimization.
@@ -1147,53 +1143,262 @@ Lets install an load important packages
 
 ** Video 1: Introduction
 
+We will discuss how linear optimization is used to design radiation
+therapy treatments for cancer patients.
+
 [[../graphs/RadiationTherapy.png]]
 
+Cancer is the second leading cause of death in the United States,
+second only to heart disease. There were an estimated 570,000 deaths
+in 2013 due to cancer. Additionally, over 1.6 million new cases of
+cancer will be diagnosed in the United States in 2013.
+
+These trends are also seen throughout the world. Worldwide, cancer is
+a leading cause of death, with 8.2 million deaths in 2012.
 
 [[../graphs/RT02.png]]
 
+Cancer can be treated using radiation therapy, where beams of
+high-energy photons are fired into the patient to kill cancerous
+cells.
 
 [[../graphs/RT03.png]]
 
+Radiation therapy has a history going back to the late 1800s. X-rays
+were discovered by Wilhelm Rontgen in 1895, who was later awarded the
+first Nobel Prize in Physics.
+
+Shortly after the discovery, X-rays started being used to treat skin
+cancers. This image shows an x-ray of Rontgen's wife's hand. You can
+see the bones in her hand as well as her wedding ring on her finger.
 
 [[../graphs/RT04.png]]
 
+Later in the 1900s, the first radiation delivery machines, called
+linear accelerators, were developed. Then computed tomography, or CT
+scans, were invented in 1971. These discoveries led to the invention
+of Intensity Modulated Radiation Therapy, or IMRT, in the early
+1980s.
 
 [[../graphs/RT05.png]]
 
+The invention of IMRT significantly improved the ability of radiation
+therapy to target cancerous cells. To reach the tumor, radiation
+passes through healthy tissue and therefore damages both healthy and
+cancerous tissue.
+
+This damage to healthy tissue can lead to undesirable side effects
+that reduce post-treatment quality of life.
+
+For example, blistering and burning of skin can occur because of the
+damage to healthy skin cells. For this reason, we want the dose to fit
+the tumor as closely as possible to reduce the dose to healthy
+tissue. This became possible with the invention of IMRT.
 
 [[../graphs/RT06.png]]
 
+In IMRT, the intensity profile of each beam is non-uniform. Before
+IMRT, each beam had to have the same intensity, so the tumor could not
+be targeted very well.
 
 [[../graphs/RT07.png]]
 
+But by using non-uniform intensity profiles, the radiation dose can
+better fit the tumor. Let's see what this looks like.
+
+In this image, we have a person's body outlined in black, and then the
+target, or tumor, and two critical structures also outlined.
+
+We would like to maximize the radiation to the target, while
+minimizing the dose to healthy tissue, and especially to the critical
+structures. Using traditional radiation therapy, each of the three
+beams has the same intensity throughout the beam.
+
+So to deliver enough radiation to the tumor, we also have to deliver a
+significant amount of radiation to the critical structures and to
+other healthy tissue.
 
 [[../graphs/RT08.png]]
 
+But by using IMRT, we can change the intensity throughout each beam to
+make it non-uniform. Some pieces of the beam will have a higher
+intensity than others.
+
+This allows us to deliver the necessary amount of radiation to the
+tumor, while minimizing the total radiation to healthy tissue, and
+thus, the critical structures get significantly less radiation.
 
 [[../graphs/RT09.png]]
 
+Each of the pieces of the beam is referred to as a *beamlet*. So in
+IMRT, we decide the intensity of each of the *beamlets* so that we can
+target the tumor with radiation while minimizing the radiation to
+healthy tissue.
 
 [[../graphs/RT10.png]]
 
+So in designing an IMRT treatment, the fundamental problem is --
+
+how should the beamlet intensities be selected to deliver a
+therapeutic dose to the tumor and to minimize damage to healthy
+tissue?
 
 [[../graphs/RT11.png]]
 
+** Quick Question (1 point possible)
+
+In the next video, we'll be formulating the IMRT problem as a linear
+optimization problem. What do you think the decision variables in our
+problem will be?
+
+*** Answer
+
+- [ ] The amount of radiation to deliver to the tumor
+
+- [ ] The intensities of the beams
+
+- [X] The intensities of the beamlets The intensities of the
+  beamlets - correct
+
+- [ ] The shape of the tumor
+
+*Explanation*
+
+We get to decide the beamlet intensities - these will be the decision
+variables in our optimization problem. The amount of radiation to the
+tumor will be computed using the beamlet intensities, but we also want
+to make sure we know the amount of radiation to healthy tissue. The
+intensities of the beams would have been the decision variables in
+traditional radiation therapy, and the shape of the tumor is data.
+
+** Video 2: An Optimization Problem
+
+We will discuss how radiation therapy can be framed as an optimization
+problem. The data's collected in the treatment planning process, which
+starts from a CT scan, like the one you see here, on the right.
+
+Using a CT scan, a radiation oncologist contours, or draws outlines
+around the tumor and various critical structures. In this image, the
+oncologist would contour structures like the parotid glands, the
+largest of the saliva glands, and the brain.
+
+Then, each structure is discretized into voxels, or volume elements,
+which are typically four millimeters in dimension.
+
+The second image here shows a closer view of the brain. You can see
+the small squares, or voxels. Here, they're two-dimensional, but in
+reality they would be three-dimensional.
+
+Now, we can compute how much dose each beamlet, or piece of the beam,
+delivers to each voxel.
 
 [[../graphs/RT12.png]]
 
+We'll start with a small example. Suppose we have nine voxels and six
+beamlets. Our voxels can be categorized into three types: the tumor
+voxels, which are colored pink here; the spinal cord voxel, colored
+dark green; and other healthy tissue voxels, colored light green.
+
+So we have four tumor voxels, one spinal cord voxel, and four other
+healthy tissue voxels.
+
+We have two beams that are each split into three beamlets. Beam 1 is
+composed of beamlets 1, 2, and 3, and comes in from the right. Beam 2
+is composed of beamlets 4, 5, and 6, and comes in from the top.
+
+Our objective is to *minimize* the total dose to healthy tissue, both
+to the spinal cord and to the other healthy tissue.
+
+We have two types of constraints. The first is that the dose to the
+tumor voxels must be at least 7 Gray, which is the unit of measure for
+radiation.
+
+Our second constraint is that the dose to the spinal cord voxel can't
+be more than 5 Gray, since we want to be careful to protect the spinal
+cord.
 
 [[../graphs/RT13.png]]
 
+We know the dose that each beamlet gives to each voxel at unit
+intensity. This table shows the dose that each beamlet in Beam 1 gives
+to the voxels.
+
+Remember that this is at unit intensity. If we double the intensity of
+the beamlet, we double the doses.
+
+The dose to each voxel can depend on how far the beamlet has to
+travel, or the type of tissue that the beamlet has to travel through.
 
 [[../graphs/RT14.png]]
 
+Similarly, we know the dose that each beamlet in Beam 2 gives to each
+voxel, again at unit intensity. The dose depends on the direction of
+the beam and what it travels through.
 
 [[../graphs/RT15.png]]
 
+Putting these tables together, we can write out our optimization
+problem. Our decision variables are the intensities of each beamlet.
+
+We'll call them $x_1$, the intensity for beamlet $1$, $x_2$, the
+intensity for beamlet $2$, $x_3$, the intensity for beamlet 3, etc.,
+all the way up through $x_6$.
+
+As we mentioned before, our objective is to minimize the total dose to
+the healthy tissue, including the spinal cord.
+
+- So we want to minimize the total dose beamlets give to healthy
+  tissues.
+- Now for our constraints. First, we need to make sure that each voxel
+  of the tumor gets a dose of at least 7.
+- Then for the spinal cord, we need to make sure that do not receive
+  more that 5.
+- Non-negativity constraints are important too.
 
 [[../graphs/RT16.png]]
 
+** Quick Question (2 points possible)
+
+In the previous video, we constructed the optimization problem (see
+the last slide).
+
+*** Question a
+
+If the beamlet intensity of the first beamlet is set to 3, how much
+radiation will that beamlet deliver to tumor voxels?
+
+**** Answer
+
+6
+
+*** Question b
+
+How much radiation will it deliver to healthy tissue voxels?
+
+**** Answer
+
+$$
+3 + 6 = 9
+$$
+
+*Explanation*
+
+Beamlet 1 hits one tumor voxel, and two healthy tissue voxels. At unit
+intensity, it delivers a dose of 2 to the tumor voxel, a dose of 2 to
+the first healthy tissue voxel, and a dose of 1 to the second healthy
+tissue voxel. At intensity 3, this means that it will deliver a dose
+of $2 \times 3 = 6$ to the tumor voxel, and $2 \times 3 + 1 \times 3 =
+9$ to the healthy tissue voxels.
+
+** Video 3: Solving the Problem
+
+In this video, we'll be using the spreadsheet IMRT_SimpleExample. If
+you are using LibreOffice or OpenOffice, please download and open the
+spreadsheet [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/IMRT_SimpleExample.ods][IMRT_SimpleExample.ods]]. If you are using Microsoft Excel,
+please download and open the spreadsheet [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/IMRT_SimpleExample.xlsx][IMRT_SimpleExample.xlsx]]. The
+following spreadsheets have the completed model as it is at the end of
+the video: [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/IMRT_SimpleExample_Complete.ods][IMRT_SimpleExample_Complete.ods]] and
+[[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/IMRT_SimpleExample_Complete.xlsx][IMRT_SimpleExample_Complete.xlsx]].
 
 [[../graphs/RT17.png]]
 
