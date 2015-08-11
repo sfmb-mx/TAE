@@ -1443,41 +1443,351 @@ voxels.
 When Solver fills in our decision variables, our objective value will
 be here.
 
+[[../graphs/IMRT_OptimizationConstraints.png]]
 
+The remaining constraints we have are the non-negativity constraints,
+which we'll add in directly in the Solver. So now go ahead and go to
+the Tools menu, and select Solver.
 
-** tmp
+[[../graphs/IMRT_OptimizationConstraints02.png]]
+
+In the ~Options~, make sure you've selected the Linear Solver, and
+click OK. Now go ahead and hit Solve. You should see a solving result
+that says: "Solving successfully finished. Result: $22.75$.
+
+[[../graphs/IMRT_OptimizationConstraints03.png]]
+
+That's the optimal objective function value. Go ahead and select Keep
+Result. Now let's take a look at our solution.
+
+So the optimal solution is to have:
+
+- beamlet one at an intensity 2.25,
+- beamlet two at an intensity of 0,
+- beamlet three at an intensity of 3,
+- beamlet four at an intensity of 3.5,
+- beamlet five at an intensity of 2.5,
+- and beamlet six at an intensity of 0.
+
+[[../graphs/IMRT_OptimizationResults.png]]
+
+This makes sense, because beamlet two goes across the spinal cord, and
+beamlet six only goes down healthy-tissue voxels.
+
+[[../graphs/RT13.png]]
+
+And if we look at our constraints, we can double-check that each tumor
+voxel is receiving a dose of at least 7 -- one tumor voxel gets a dose
+of 8 -- and the spinal cord is receiving a dose of 5, which is the
+maximum possible dose.
+
+[[../graphs/IMRT_OptimizationResults02.png]]
+
+** Quick Question (1 point possible)
+
+In our optimal solution, we are giving the maximum allowed dose to the
+spinal cord (5). If we were to relax this, how much could we decrease
+the objective? Change the right-hand-side (RHS) of the spinal cord
+constraint to 6, and re-solve the model.
+
+By how much did we decrease the objective? (Hint: the previous
+objective value was 22.75)
+
+*** Answer
+
+#+begin_src R :session :results output :exports all
+  22.75 - 22.1666666667
+#+end_src
+
+#+RESULTS:
+: [1] 0.5833333
+
+*Explanation*
+
+If you change the RHS of the spinal cord constraint to 6 and re-solve
+the model (Tools->Solver, then hit solve) the new objective is
+22.666667. So we decreased the objective by $0.58333333$.
+
+** Video 4: A Head and Neck Case
+
+Now, let's take a look at a full example of a case. This is a head and
+neck example, and the CT scans are shown on the right. There are a
+total of 132,878 voxels. The target, or tumor, has 9,777 voxels.
+
+There are five critical structures that we want to minimize the dose
+to-- the spinal cord, the brain, the brain stem, the parotid glands,
+and the mandible or jaw.
+
+We're using five beams, and each beam is composed of about 60
+beamlets. In total, there are 328 beamlets.
 
 [[../graphs/RT17.png]]
 
+In this example, we want the dose to the whole tumor to be between 70
+and 77 gray. The spinal cord dose should be no more than 45 gray,
+since significant damage to any voxel in the spinal cord will result
+in loss of function.
+
+The brain stem dose should be no more than 54 gray, and the mandible
+dose should be no more than 70 gray. The average parotid gland dose
+should be at most 26 gray. This constraint is a little different,
+since the parotid gland is a parallel structure.
+
+Significant damage to any one voxel does not jeopardize function of
+the entire organ.
 
 [[../graphs/RT18.png]]
 
+*So what is our optimization problem now?* Again, our decisions are
+the intensities of the beamlets. Our objective is to minimize the
+total dose to healthy tissue.
+
+Our constraints are limits on the tumor dose and upper bounds for the
+spinal cord, brain stem, and mandible. We also have a constraint to
+limit the average parotid dose to 26 gray.
+
+Lastly, all of our intensities, or decision variables, should be
+non-negative.
 
 [[../graphs/RT19.png]]
 
+We solved this optimization problem, and this plot shows the
+results. On the x-axis is the dose, in gray, and on the y-axis is the
+fraction of voxels that received that dose or higher.
+
+Each line corresponds to a different structure. We can see that for
+the tumor, which is shown as the red line, 100% of the voxels get a
+dose of 70 gray, and 0% of the voxels get a dose of more than 77
+gray. This is what our constraint specified.
 
 [[../graphs/RT20.png]]
 
+While none of the critical structures are getting very high doses, it
+looks like the mandible, which is shown as the blue line, is receiving
+the highest dose of the healthy organs.
+
+In the next video, we'll explore different solutions and the shadow
+prices of our constraints.
+
+** Quick Question (1 point possible)
+
+In the previous video, we discussed a Head and Neck case with 132,878
+voxels total, 9,777 voxels in the tumor, and 328 beamlets.
+
+How many decision variables does our optimization model have?
+
+*** Answer
+
+328 beamlets.
+
+*Explanation*
+
+Our decision variables are for the intensities of the beamlets. So in
+this case, we would have 328 decision variables, which is the number
+of beamlets.
+
+** Video 5: Sensitivity Analysis
+
+In the previous video, we saw that the mandible, or jawbone, received
+the highest dose out of all of the critical structures. The mean
+mandible dose was 11.3 gray.
+
+*So how can we reduce this?*
+
+One approach is to modify our objective function. Our current
+objective is to minimize the sum of the total dose to each critical
+structure.
+
+So we're minimizing the sum of the total dose to the brain, plus the
+total dose to the brain stem, plus a total dose to the spinal cord,
+plus the total dose to the parotid glands, plus the total dose to the
+mandible.
+
+We could instead change our objective to make the total dose to the
+mandible more important. This can be done by weighting the term for
+the mandible. By giving the mandible dose a weight of 10, the total
+dose to the mandible becomes 10 times more important in our objective
+than the total dose to the other critical structures.
 
 [[../graphs/RT21.png]]
 
+If we solve our problem with this new objective, we get the solution
+shown in this figure. The dose to the tumor, shown as the red line,
+does not change. It still stays within the constraints we've defined.
+
+For each of the critical structures, the solution with the previous
+objective is shown as a dotted line, and the new solution with the
+weighted objective is shown as a solid line.
+
+We can see that the dose to the mandible, shown in blue, has
+significantly decreased by adding a weight in the objective.
+
+However, the dose to other critical structures has increased,
+especially to the parotid glands, shown in black, and to the spinal
+cord, shown in green. This shows how you can modify the objective to
+capture different trade-offs that might be desirable to different
+decision-makers or for different patients.
 
 [[../graphs/RT22.png]]
 
+Another way to explore trade-offs is to modify the constraints. For
+example, by relaxing the mandible maximum dose constraint or by
+allowing the maximum dose to the mandible to be higher, we may improve
+our total healthy tissue dose.
+
+We would like to know how much the objective changes for different
+constraints.
 
 [[../graphs/RT23.png]]
 
+This can be answered by looking at the *shadow prices* of the
+constraints. Recall that we have a constraint limiting the total dose
+for each voxel in each critical structure.
+
+This table shows the highest *shadow price* for any one voxel in each
+critical structure. The parotid glands and the brain stem have shadow
+prices of 0. This means that we're not even giving the maximum amount
+of radiation allowed to these structures, so modifying the constraints
+is not beneficial.
+
+The spinal cord has a shadow price of 96.911. This means that by
+increasing the radiation to one voxel of the spinal cord by one unit,
+we can decrease the total radiation to other critical structures by
+96.9 units. The mandible has the highest shadow price of 7,399.72.
 
 [[../graphs/RT24.png]]
 
+So if a slight increase in the mandible dose to a single voxel is
+acceptable, the total healthy tissue dose can be reduced. Keep in mind
+that this is the total reduction across all voxels in the
+objective. We've seen in this video that by modifying the formulation,
+both the objective and the constraints, we can explore different
+trade-offs in our problem.
+
+** Quick Question (2 points possible)
+
+In your spreadsheet from Video 3, make sure that you have solved the
+original small example problem (change the spinal cord limit back to 5
+and re-solve if you have changed it, and make sure the objective value
+is 22.75).
+
+Now, change the weight for the spinal cord term in the objective
+to 5.
+
+*** Question a
+
+Without re-solving, what does the objective value of the current
+solution change to?
+
+The coefficient change from (2 doses * 1 weight) to
+
+$$
+5 \times 2 = 10 doses
+$$
+
+**** Answer
+
+42.75
+
+*Explanation*
+
+The term SUMPRODUCT(B14:B19;F5:F10) in the objective (corresponding to
+Voxel 5) should now be 5*SUMPRODUCT(B14:B19;F5:F10). This changes the
+objective value to 42.75.
+
+
+*** Question b
+
+Now re-solve the model. What does the objective change to?
+
+**** Answer
+
+25.6666666667
+
+*Notice how we are now giving a smaller dose to the spinal cord!*
+
+*Explanation*
+
+You can resolve the model by going to Solver, and just hitting
+Solve. The new optimal objective function value is 25.666667.
+
+** Video 6: The Analytics Edge
+
+Radiation therapy is one of the most well used applications of
+optimization in health care. In practice, radiation machines are
+connected to treatment planning software that implements and solves
+optimization models, both linear optimization models, like we saw
+here, and other types of optimization models.
+
+Some examples of radiation machines that use optimization software are
+Pinnacle by Philips, RayStation by RaySearch Labs, and Eclipse by
+Varian.
 
 [[../graphs/RT25.png]]
 
+There are many extensions to the optimization model we described
+here. One is the selection of beam angles. The beam angles can be
+selected jointly with the intensity profiles by using integer
+optimization.
+
+This allows the treatment to be further personalized to the specific
+tumor and person receiving the radiation.
+
+Integer optimization is another type of optimization model and will be
+the topic of next week. Another extension is accounting for
+uncertainty. Often, the quality of IMRT treatments is degraded due to
+uncertain organ motion.
+
+For example, in lung cancer the target area is around the lungs. But
+since the patient is breathing throughout the treatment, the target
+area is moving and the location is slightly uncertain.
+
+We can manage this uncertainty using a method known as *robust
+optimization*. There is a significant amount of literature on this
+method and its application to radiation therapy.
 
 [[../graphs/RT26.png]]
 
+*Linear optimization* significantly improves the efficiency of
+radiation therapy. Manually designing an IMRT treatment would be
+inefficient and impractical.
+
+By using linear optimization, IMRT can be designed in an efficient and
+systematic way. As we saw in this lecture, clinical criteria can be
+modeled using constraints, and the treatment planner can explore
+trade-offs by changing the model.
 
 [[../graphs/RT27.png]]
 
+But ultimately, *IMRT* and the use of optimization benefits the
+patient. In head and neck cancers, saliva glands were rarely spared
+prior to IMRT. But by using optimized IMRT treatments, saliva glands
+can now be spared.
+
+In prostate cancer, IMRT treatments reduce toxicities and allow for
+higher tumor doses to be delivered safely.
 
 [[../graphs/RT28.png]]
+
+And in lung cancer, optimized IMRT reduced the risk of radiation
+induced *pneumonitis*. These are just three examples of the benefits of
+IMRT. Overall, optimized IMRT allows clinicians to deliver treatment
+that was previously impossible and to improve the quality of life for
+patients.
+
+* Google AdWords: Optimizing Online Advertising (Recitation)
+
+** Welcome to Recitation 8
+
+Welcome to the linear optimization recitation. My name is Velibor, and
+I'll be guiding you through it. This week, we'll learn the core
+techniques in applying linear optimization.
+
+We'll learn how to model a problem, how to solve it, how to compare
+the solution to alternative solutions, and how to perform sensitivity
+analysis using the model. The problem we will use to guide this whole
+process will be the online advertising allocation problem that is at
+the heart of Google's online advertising system, which is also known
+as *AdWords*.
+
+** Video 1: Introduction
