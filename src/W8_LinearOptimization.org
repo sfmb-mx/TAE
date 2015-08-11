@@ -1400,6 +1400,53 @@ following spreadsheets have the completed model as it is at the end of
 the video: [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/IMRT_SimpleExample_Complete.ods][IMRT_SimpleExample_Complete.ods]] and
 [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/IMRT_SimpleExample_Complete.xlsx][IMRT_SimpleExample_Complete.xlsx]].
 
+We will solve our simple example in LibreOffice.
+
+At the top of the spreadsheet, you should see our data. For each
+beamlet and each voxel, we have the dose that that beamlet gives to
+that voxel at unit intensity.
+
+So we have this data for voxel one, voxel two, voxel three, all the
+way up to voxel nine. Each row corresponds to one of the six
+beamlets. This is the data that we saw on the slides in the previous
+video.
+
+Below the data, we've outlined our decision variables, which are the
+intensities of the beamlets. So for beamlets one through six, we have
+one decision variable. These six decision variables are outlined in
+yellow.
+
+Right now, the decision variable cells are blank, because the values
+will be filled in by Solver.
+
+[[../graphs/IMRT_Optimization.png]]
+
+Below the decision variables, we have our objective. Our objective is
+to minimize the total dose to healthy tissue. The healthy-tissue
+voxels are voxels one, three, five, six, and nine.
+
+So let's go ahead and build our objective in the blue cell here. So
+first, we want to add up the total dose that each beamlet gives to
+voxel one.
+
+So here we will use the function that we used in the previous lecture,
+~sumproduct~. So type an equals sign, and then ~sumproduct~, and
+select all of the decision variables, semicolon, and then all of the
+doses.
+
+This will add up the total dose that beamlet one gives to voxel one,
+plus the total dose beamlet two gives to voxel one, plus the total
+dose beamlet three gives to voxel one, etc. Now we want to repeat this
+for voxels three, five, six, and nine-- the other healthy-tissue
+voxels.
+
+When Solver fills in our decision variables, our objective value will
+be here.
+
+
+
+** tmp
+
 [[../graphs/RT17.png]]
 
 
