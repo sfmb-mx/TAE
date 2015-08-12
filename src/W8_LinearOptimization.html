@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Unit 8. Linear Optimization</title>
-<!-- 2015-08-10 Mon 09:25 -->
+<!-- 2015-08-12 Wed 12:54 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Sergio-Feliciano Mendoza-Barrera" />
@@ -220,6 +220,22 @@ for the JavaScript code in this tag.
 <li><a href="#sec-2-3">2.3. Video 2: An Optimization Problem</a></li>
 <li><a href="#sec-2-4">2.4. Quick Question (2 points possible)</a></li>
 <li><a href="#sec-2-5">2.5. Video 3: Solving the Problem</a></li>
+<li><a href="#sec-2-6">2.6. Quick Question (1 point possible)</a></li>
+<li><a href="#sec-2-7">2.7. Video 4: A Head and Neck Case</a></li>
+<li><a href="#sec-2-8">2.8. Quick Question (1 point possible)</a></li>
+<li><a href="#sec-2-9">2.9. Video 5: Sensitivity Analysis</a></li>
+<li><a href="#sec-2-10">2.10. Quick Question (2 points possible)</a></li>
+<li><a href="#sec-2-11">2.11. Video 6: The Analytics Edge</a></li>
+</ul>
+</li>
+<li><a href="#sec-3">3. Google AdWords: Optimizing Online Advertising (Recitation)</a>
+<ul>
+<li><a href="#sec-3-1">3.1. Welcome to Recitation 8</a></li>
+<li><a href="#sec-3-2">3.2. Video 1: Introduction</a></li>
+<li><a href="#sec-3-3">3.3. Video 2: How Online Advertising Works</a></li>
+<li><a href="#sec-3-4">3.4. Video 3: Prices and Queries</a></li>
+<li><a href="#sec-3-5">3.5. Video 4: Modeling the Problem</a></li>
+<li><a href="#sec-3-6">3.6. Video 5: Solving the Problem</a></li>
 </ul>
 </li>
 </ul>
@@ -2572,12 +2588,245 @@ the video: <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type
 <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/IMRT_SimpleExample_Complete.xlsx">IMRT_SimpleExample_Complete.xlsx</a>.
 </p>
 
+<p>
+We will solve our simple example in LibreOffice.
+</p>
+
+<p>
+At the top of the spreadsheet, you should see our data. For each
+beamlet and each voxel, we have the dose that that beamlet gives to
+that voxel at unit intensity.
+</p>
+
+<p>
+So we have this data for voxel one, voxel two, voxel three, all the
+way up to voxel nine. Each row corresponds to one of the six
+beamlets. This is the data that we saw on the slides in the previous
+video.
+</p>
+
+<p>
+Below the data, we've outlined our decision variables, which are the
+intensities of the beamlets. So for beamlets one through six, we have
+one decision variable. These six decision variables are outlined in
+yellow.
+</p>
+
+<p>
+Right now, the decision variable cells are blank, because the values
+will be filled in by Solver.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/IMRT_Optimization.png" alt="IMRT_Optimization.png" />
+</p>
+</div>
+
+<p>
+Below the decision variables, we have our objective. Our objective is
+to minimize the total dose to healthy tissue. The healthy-tissue
+voxels are voxels one, three, five, six, and nine.
+</p>
+
+<p>
+So let's go ahead and build our objective in the blue cell here. So
+first, we want to add up the total dose that each beamlet gives to
+voxel one.
+</p>
+
+<p>
+So here we will use the function that we used in the previous lecture,
+<code>sumproduct</code>. So type an equals sign, and then <code>sumproduct</code>, and
+select all of the decision variables, semicolon, and then all of the
+doses.
+</p>
+
+<p>
+This will add up the total dose that beamlet one gives to voxel one,
+plus the total dose beamlet two gives to voxel one, plus the total
+dose beamlet three gives to voxel one, etc. Now we want to repeat this
+for voxels three, five, six, and nine&#x2013; the other healthy-tissue
+voxels.
+</p>
+
+<p>
+When Solver fills in our decision variables, our objective value will
+be here.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/IMRT_OptimizationConstraints.png" alt="IMRT_OptimizationConstraints.png" />
+</p>
+</div>
+
+<p>
+The remaining constraints we have are the non-negativity constraints,
+which we'll add in directly in the Solver. So now go ahead and go to
+the Tools menu, and select Solver.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/IMRT_OptimizationConstraints02.png" alt="IMRT_OptimizationConstraints02.png" />
+</p>
+</div>
+
+<p>
+In the <code>Options</code>, make sure you've selected the Linear Solver, and
+click OK. Now go ahead and hit Solve. You should see a solving result
+that says: "Solving successfully finished. Result: \(22.75\).
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/IMRT_OptimizationConstraints03.png" alt="IMRT_OptimizationConstraints03.png" />
+</p>
+</div>
+
+<p>
+That's the optimal objective function value. Go ahead and select Keep
+Result. Now let's take a look at our solution.
+</p>
+
+<p>
+So the optimal solution is to have:
+</p>
+
+<ul class="org-ul">
+<li>beamlet one at an intensity 2.25,
+</li>
+<li>beamlet two at an intensity of 0,
+</li>
+<li>beamlet three at an intensity of 3,
+</li>
+<li>beamlet four at an intensity of 3.5,
+</li>
+<li>beamlet five at an intensity of 2.5,
+</li>
+<li>and beamlet six at an intensity of 0.
+</li>
+</ul>
+
+
+<div class="figure">
+<p><img src="../graphs/IMRT_OptimizationResults.png" alt="IMRT_OptimizationResults.png" />
+</p>
+</div>
+
+<p>
+This makes sense, because beamlet two goes across the spinal cord, and
+beamlet six only goes down healthy-tissue voxels.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/RT13.png" alt="RT13.png" />
+</p>
+</div>
+
+<p>
+And if we look at our constraints, we can double-check that each tumor
+voxel is receiving a dose of at least 7 &#x2013; one tumor voxel gets a dose
+of 8 &#x2013; and the spinal cord is receiving a dose of 5, which is the
+maximum possible dose.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/IMRT_OptimizationResults02.png" alt="IMRT_OptimizationResults02.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-6" class="outline-3">
+<h3 id="sec-2-6"><span class="section-number-3">2.6</span> Quick Question (1 point possible)</h3>
+<div class="outline-text-3" id="text-2-6">
+<p>
+In our optimal solution, we are giving the maximum allowed dose to the
+spinal cord (5). If we were to relax this, how much could we decrease
+the objective? Change the right-hand-side (RHS) of the spinal cord
+constraint to 6, and re-solve the model.
+</p>
+
+<p>
+By how much did we decrease the objective? (Hint: the previous
+objective value was 22.75)
+</p>
+</div>
+
+<div id="outline-container-sec-2-6-1" class="outline-4">
+<h4 id="sec-2-6-1"><span class="section-number-4">2.6.1</span> Answer</h4>
+<div class="outline-text-4" id="text-2-6-1">
+<div class="org-src-container">
+
+<pre class="src src-R">22.75 - 22.1666666667
+</pre>
+</div>
+
+<pre class="example">
+[1] 0.5833333
+</pre>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+If you change the RHS of the spinal cord constraint to 6 and re-solve
+the model (Tools-&gt;Solver, then hit solve) the new objective is
+22.666667. So we decreased the objective by \(0.58333333\).
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-7" class="outline-3">
+<h3 id="sec-2-7"><span class="section-number-3">2.7</span> Video 4: A Head and Neck Case</h3>
+<div class="outline-text-3" id="text-2-7">
+<p>
+Now, let's take a look at a full example of a case. This is a head and
+neck example, and the CT scans are shown on the right. There are a
+total of 132,878 voxels. The target, or tumor, has 9,777 voxels.
+</p>
+
+<p>
+There are five critical structures that we want to minimize the dose
+to&#x2013; the spinal cord, the brain, the brain stem, the parotid glands,
+and the mandible or jaw.
+</p>
+
+<p>
+We're using five beams, and each beam is composed of about 60
+beamlets. In total, there are 328 beamlets.
+</p>
+
 
 <div class="figure">
 <p><img src="../graphs/RT17.png" alt="RT17.png" />
 </p>
 </div>
 
+<p>
+In this example, we want the dose to the whole tumor to be between 70
+and 77 gray. The spinal cord dose should be no more than 45 gray,
+since significant damage to any voxel in the spinal cord will result
+in loss of function.
+</p>
+
+<p>
+The brain stem dose should be no more than 54 gray, and the mandible
+dose should be no more than 70 gray. The average parotid gland dose
+should be at most 26 gray. This constraint is a little different,
+since the parotid gland is a parallel structure.
+</p>
+
+<p>
+Significant damage to any one voxel does not jeopardize function of
+the entire organ.
+</p>
 
 
 <div class="figure">
@@ -2585,6 +2834,22 @@ the video: <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type
 </p>
 </div>
 
+<p>
+<b>So what is our optimization problem now?</b> Again, our decisions are
+the intensities of the beamlets. Our objective is to minimize the
+total dose to healthy tissue.
+</p>
+
+<p>
+Our constraints are limits on the tumor dose and upper bounds for the
+spinal cord, brain stem, and mandible. We also have a constraint to
+limit the average parotid dose to 26 gray.
+</p>
+
+<p>
+Lastly, all of our intensities, or decision variables, should be
+non-negative.
+</p>
 
 
 <div class="figure">
@@ -2592,6 +2857,18 @@ the video: <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type
 </p>
 </div>
 
+<p>
+We solved this optimization problem, and this plot shows the
+results. On the x-axis is the dose, in gray, and on the y-axis is the
+fraction of voxels that received that dose or higher.
+</p>
+
+<p>
+Each line corresponds to a different structure. We can see that for
+the tumor, which is shown as the red line, 100% of the voxels get a
+dose of 70 gray, and 0% of the voxels get a dose of more than 77
+gray. This is what our constraint specified.
+</p>
 
 
 <div class="figure">
@@ -2599,6 +2876,85 @@ the video: <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type
 </p>
 </div>
 
+<p>
+While none of the critical structures are getting very high doses, it
+looks like the mandible, which is shown as the blue line, is receiving
+the highest dose of the healthy organs.
+</p>
+
+<p>
+In the next video, we'll explore different solutions and the shadow
+prices of our constraints.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-8" class="outline-3">
+<h3 id="sec-2-8"><span class="section-number-3">2.8</span> Quick Question (1 point possible)</h3>
+<div class="outline-text-3" id="text-2-8">
+<p>
+In the previous video, we discussed a Head and Neck case with 132,878
+voxels total, 9,777 voxels in the tumor, and 328 beamlets.
+</p>
+
+<p>
+How many decision variables does our optimization model have?
+</p>
+</div>
+
+<div id="outline-container-sec-2-8-1" class="outline-4">
+<h4 id="sec-2-8-1"><span class="section-number-4">2.8.1</span> Answer</h4>
+<div class="outline-text-4" id="text-2-8-1">
+<p>
+328 beamlets.
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+Our decision variables are for the intensities of the beamlets. So in
+this case, we would have 328 decision variables, which is the number
+of beamlets.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-9" class="outline-3">
+<h3 id="sec-2-9"><span class="section-number-3">2.9</span> Video 5: Sensitivity Analysis</h3>
+<div class="outline-text-3" id="text-2-9">
+<p>
+In the previous video, we saw that the mandible, or jawbone, received
+the highest dose out of all of the critical structures. The mean
+mandible dose was 11.3 gray.
+</p>
+
+<p>
+<b>So how can we reduce this?</b>
+</p>
+
+<p>
+One approach is to modify our objective function. Our current
+objective is to minimize the sum of the total dose to each critical
+structure.
+</p>
+
+<p>
+So we're minimizing the sum of the total dose to the brain, plus the
+total dose to the brain stem, plus a total dose to the spinal cord,
+plus the total dose to the parotid glands, plus the total dose to the
+mandible.
+</p>
+
+<p>
+We could instead change our objective to make the total dose to the
+mandible more important. This can be done by weighting the term for
+the mandible. By giving the mandible dose a weight of 10, the total
+dose to the mandible becomes 10 times more important in our objective
+than the total dose to the other critical structures.
+</p>
 
 
 <div class="figure">
@@ -2606,6 +2962,30 @@ the video: <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type
 </p>
 </div>
 
+<p>
+If we solve our problem with this new objective, we get the solution
+shown in this figure. The dose to the tumor, shown as the red line,
+does not change. It still stays within the constraints we've defined.
+</p>
+
+<p>
+For each of the critical structures, the solution with the previous
+objective is shown as a dotted line, and the new solution with the
+weighted objective is shown as a solid line.
+</p>
+
+<p>
+We can see that the dose to the mandible, shown in blue, has
+significantly decreased by adding a weight in the objective.
+</p>
+
+<p>
+However, the dose to other critical structures has increased,
+especially to the parotid glands, shown in black, and to the spinal
+cord, shown in green. This shows how you can modify the objective to
+capture different trade-offs that might be desirable to different
+decision-makers or for different patients.
+</p>
 
 
 <div class="figure">
@@ -2613,6 +2993,17 @@ the video: <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type
 </p>
 </div>
 
+<p>
+Another way to explore trade-offs is to modify the constraints. For
+example, by relaxing the mandible maximum dose constraint or by
+allowing the maximum dose to the mandible to be higher, we may improve
+our total healthy tissue dose.
+</p>
+
+<p>
+We would like to know how much the objective changes for different
+constraints.
+</p>
 
 
 <div class="figure">
@@ -2620,6 +3011,26 @@ the video: <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type
 </p>
 </div>
 
+<p>
+This can be answered by looking at the <b>shadow prices</b> of the
+constraints. Recall that we have a constraint limiting the total dose
+for each voxel in each critical structure.
+</p>
+
+<p>
+This table shows the highest <b>shadow price</b> for any one voxel in each
+critical structure. The parotid glands and the brain stem have shadow
+prices of 0. This means that we're not even giving the maximum amount
+of radiation allowed to these structures, so modifying the constraints
+is not beneficial.
+</p>
+
+<p>
+The spinal cord has a shadow price of 96.911. This means that by
+increasing the radiation to one voxel of the spinal cord by one unit,
+we can decrease the total radiation to other critical structures by
+96.9 units. The mandible has the highest shadow price of 7,399.72.
+</p>
 
 
 <div class="figure">
@@ -2627,6 +3038,121 @@ the video: <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type
 </p>
 </div>
 
+<p>
+So if a slight increase in the mandible dose to a single voxel is
+acceptable, the total healthy tissue dose can be reduced. Keep in mind
+that this is the total reduction across all voxels in the
+objective. We've seen in this video that by modifying the formulation,
+both the objective and the constraints, we can explore different
+trade-offs in our problem.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-10" class="outline-3">
+<h3 id="sec-2-10"><span class="section-number-3">2.10</span> Quick Question (2 points possible)</h3>
+<div class="outline-text-3" id="text-2-10">
+<p>
+In your spreadsheet from Video 3, make sure that you have solved the
+original small example problem (change the spinal cord limit back to 5
+and re-solve if you have changed it, and make sure the objective value
+is 22.75).
+</p>
+
+<p>
+Now, change the weight for the spinal cord term in the objective
+to 5.
+</p>
+</div>
+
+<div id="outline-container-sec-2-10-1" class="outline-4">
+<h4 id="sec-2-10-1"><span class="section-number-4">2.10.1</span> Question a</h4>
+<div class="outline-text-4" id="text-2-10-1">
+<p>
+Without re-solving, what does the objective value of the current
+solution change to?
+</p>
+
+<p>
+The coefficient change from (2 doses * 1 weight) to
+</p>
+
+<p>
+$$
+5 \times 2 = 10 doses
+$$
+</p>
+</div>
+
+<div id="outline-container-sec-2-10-1-1" class="outline-5">
+<h5 id="sec-2-10-1-1"><span class="section-number-5">2.10.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-2-10-1-1">
+<p>
+42.75
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+The term SUMPRODUCT(B14:B19;F5:F10) in the objective (corresponding to
+Voxel 5) should now be 5*SUMPRODUCT(B14:B19;F5:F10). This changes the
+objective value to 42.75.
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-2-10-2" class="outline-4">
+<h4 id="sec-2-10-2"><span class="section-number-4">2.10.2</span> Question b</h4>
+<div class="outline-text-4" id="text-2-10-2">
+<p>
+Now re-solve the model. What does the objective change to?
+</p>
+</div>
+
+<div id="outline-container-sec-2-10-2-1" class="outline-5">
+<h5 id="sec-2-10-2-1"><span class="section-number-5">2.10.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-2-10-2-1">
+<p>
+25.6666666667
+</p>
+
+<p>
+<b>Notice how we are now giving a smaller dose to the spinal cord!</b>
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+You can resolve the model by going to Solver, and just hitting
+Solve. The new optimal objective function value is 25.666667.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-11" class="outline-3">
+<h3 id="sec-2-11"><span class="section-number-3">2.11</span> Video 6: The Analytics Edge</h3>
+<div class="outline-text-3" id="text-2-11">
+<p>
+Radiation therapy is one of the most well used applications of
+optimization in health care. In practice, radiation machines are
+connected to treatment planning software that implements and solves
+optimization models, both linear optimization models, like we saw
+here, and other types of optimization models.
+</p>
+
+<p>
+Some examples of radiation machines that use optimization software are
+Pinnacle by Philips, RayStation by RaySearch Labs, and Eclipse by
+Varian.
+</p>
 
 
 <div class="figure">
@@ -2634,6 +3160,36 @@ the video: <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type
 </p>
 </div>
 
+<p>
+There are many extensions to the optimization model we described
+here. One is the selection of beam angles. The beam angles can be
+selected jointly with the intensity profiles by using integer
+optimization.
+</p>
+
+<p>
+This allows the treatment to be further personalized to the specific
+tumor and person receiving the radiation.
+</p>
+
+<p>
+Integer optimization is another type of optimization model and will be
+the topic of next week. Another extension is accounting for
+uncertainty. Often, the quality of IMRT treatments is degraded due to
+uncertain organ motion.
+</p>
+
+<p>
+For example, in lung cancer the target area is around the lungs. But
+since the patient is breathing throughout the treatment, the target
+area is moving and the location is slightly uncertain.
+</p>
+
+<p>
+We can manage this uncertainty using a method known as <b>robust
+optimization</b>. There is a significant amount of literature on this
+method and its application to radiation therapy.
+</p>
 
 
 <div class="figure">
@@ -2641,6 +3197,18 @@ the video: <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type
 </p>
 </div>
 
+<p>
+<b>Linear optimization</b> significantly improves the efficiency of
+radiation therapy. Manually designing an IMRT treatment would be
+inefficient and impractical.
+</p>
+
+<p>
+By using linear optimization, IMRT can be designed in an efficient and
+systematic way. As we saw in this lecture, clinical criteria can be
+modeled using constraints, and the treatment planner can explore
+trade-offs by changing the model.
+</p>
 
 
 <div class="figure">
@@ -2648,10 +3216,746 @@ the video: <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type
 </p>
 </div>
 
+<p>
+But ultimately, <b>IMRT</b> and the use of optimization benefits the
+patient. In head and neck cancers, saliva glands were rarely spared
+prior to IMRT. But by using optimized IMRT treatments, saliva glands
+can now be spared.
+</p>
+
+<p>
+In prostate cancer, IMRT treatments reduce toxicities and allow for
+higher tumor doses to be delivered safely.
+</p>
 
 
 <div class="figure">
 <p><img src="../graphs/RT28.png" alt="RT28.png" />
+</p>
+</div>
+
+<p>
+And in lung cancer, optimized IMRT reduced the risk of radiation
+induced <b>pneumonitis</b>. These are just three examples of the benefits of
+IMRT. Overall, optimized IMRT allows clinicians to deliver treatment
+that was previously impossible and to improve the quality of life for
+patients.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Google AdWords: Optimizing Online Advertising (Recitation)</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> Welcome to Recitation 8</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+Welcome to the linear optimization recitation. My name is Velibor, and
+I'll be guiding you through it. This week, we'll learn the core
+techniques in applying linear optimization.
+</p>
+
+<p>
+We'll learn how to model a problem, how to solve it, how to compare
+the solution to alternative solutions, and how to perform sensitivity
+analysis using the model. The problem we will use to guide this whole
+process will be the online advertising allocation problem that is at
+the heart of Google's online advertising system, which is also known
+as <b>AdWords</b>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> Video 1: Introduction</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+In this recitation, we'll be going over the basic steps in building,
+solving, and analyzing a linear optimization model. The problem we
+will use to demonstrate this comes from Google AdWords, which is the
+advertising system used by Google.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/G01.png" alt="G01.png" />
+</p>
+</div>
+
+<p>
+Let's begin by talking a little bit about Google. As you may know,
+Google is a major company in the United States that provides products
+and services related to the internet.
+</p>
+
+<p>
+Google's official mission statement is to organize the world's
+information, and to make it universally accessible and
+useful. Although Google today develops a variety of products that
+includes things such as the Android operating system, the Google Glass
+wearable computer, and even self-driving cars, Google became famous&#x2013;
+and is still most widely known&#x2013; for its search engine, which can be
+found at www.google.com.
+</p>
+
+<p>
+The search engine lets the user enter a query. Google then searches
+through the web pages accessible on the internet, to return links to
+websites that best fit the search query.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/G02.png" alt="G02.png" />
+</p>
+</div>
+
+<p>
+<b>Now, how did Google come about?</b> Well, the idea of Google originated
+as a research project of two people&#x2013; Sergey Brin and Larry Page.
+</p>
+
+<p>
+This was in 1996, while they were still graduate students at Stanford
+University. Their idea, in a nut shell, was to measure the importance
+of a web page to a particular query, not just by measuring how much
+that query occurs in that web page, but also by considering the links
+to that web page from other web pages.
+</p>
+
+<p>
+They quickly found that this idea could form the core of a search
+engine, and they found that the search engine actually worked quite
+well.
+</p>
+
+<p>
+They eventually named it Google. And in 1998, they incorporated Google
+as a company. In the same year, they received their first funding. At
+the time, they had a database of 60 million web pages. Six years
+later, Google's initial public offering took place, and Google became
+a publicly traded company.
+</p>
+
+<p>
+After going public, Google has continued to grow at an immense pace,
+acquiring other internet companies like YouTube in 2007. In 2013,
+Google's traffic reached more than a billion unique monthly visitors.
+</p>
+
+<p>
+Today, more than two-thirds of all the searches done on the internet
+are powered by Google's search engine. Now, you may be rather
+surprised to hear that Google does not actually make any money
+directly from its search engine. In fact, Google's search engine is
+free for anyone to use.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/G03.png" alt="G03.png" />
+</p>
+</div>
+
+<p>
+So then, <b>how does Google make money?</b> And the answer is &#x2013; through
+online advertising.
+</p>
+
+<p>
+Basically, Google sells space on its web pages&#x2013; in particular,
+results of its search queries&#x2013; to outside companies. These companies
+can then place advertisements, or ads, on these spaces.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/G04.png" alt="G04.png" />
+</p>
+</div>
+
+<p>
+Let's take a look at a concrete example. So here we have a screen shot
+of the results of a Google search. The query here was "nine inch nails
+tickets". Nine Inch Nails&#x2013; if you're not familiar with it&#x2013; is a
+critically acclaimed industrial rock band from the United States, that
+recently toured North America.
+</p>
+
+<p>
+On this page, there are only two search results&#x2013; here and here. The
+first is a link to Ticketmaster, which is a company that sells concert
+tickets. The second is to the tour page of Nine Inch Nails' official
+website.
+</p>
+
+<p>
+All the remaining links on this web page are ads. In this case, these
+are mostly links to other third-party companies that resell tickets.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/G05.png" alt="G05.png" />
+</p>
+</div>
+
+<p>
+Now, you may be asking, why do companies advertise with Google? Well,
+there are several reasons. As you saw a few slides back, Google
+receives a lot of internet traffic, as a lot of users conduct searches
+on Google.
+</p>
+
+<p>
+So an ad placed on Google could be seen by a very large number of
+users. At the same time, Google's web pages&#x2013; and the ads in them&#x2013;
+are formatted in a very clean, visually appealing way.
+</p>
+
+<p>
+Lastly, companies that advertise with Google can select which queries
+their ads will be displayed for. This is a very useful feature,
+because a company can then target specific customers that they think
+are likely to buy their product, or to use their service.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/G06.png" alt="G06.png" />
+</p>
+</div>
+
+<p>
+Google's online advertising system is known as AdWords and is
+responsible for more than 97% percent of Google's revenues.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3"><span class="section-number-3">3.3</span> Video 2: How Online Advertising Works</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+The process by which Google determines which ads to display for which
+queries consists of three key steps.
+</p>
+
+<ul class="org-ul">
+<li>First, Google runs an auction where advertisers place bids for
+different queries that they want to display their ads on.
+</li>
+
+<li>Next, Google uses each bid in a metric known as the Quality Score,
+which basically measures how well a particular ad fits a particular
+query to decide a quantity known as the price-per-click. Google does
+this for each advertiser and each query.
+</li>
+
+<li>Finally, and this is where optimization plays a key role, Google
+decides how often to display each ad for each query.
+</li>
+</ul>
+
+<p>
+This problem, as we'll see shortly, can be formulated as a linear
+optimization model. Let's begin by thinking about the data that we
+need for this model.
+</p>
+
+<p>
+In particular, let's think about the price-per-click.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/G07.png" alt="G07.png" />
+</p>
+</div>
+
+<p>
+So as we just discussed, Google decides each advertiser's
+price-per-click. The price-per-click is how much each advertiser pays
+Google when a user clicks on the ad for that query.
+</p>
+
+<p>
+Each advertiser also specifies a budget. This is the total amount of
+money that the advertiser has available to pay for all the clicks on
+their ad.
+</p>
+
+<p>
+Every time a user clicks on the advertiser's ad, the advertiser's
+budget is depleted by the price-per-click for that ad for that user's
+query.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/G08.png" alt="G08.png" />
+</p>
+</div>
+
+<p>
+Let's illustrate this with a small example. So suppose that we are
+Google, and three of the major wireless service providers in the
+United States &#x2013; AT&amp;T, T-Mobile, and Verizon &#x2013; come to us wanting to
+place ads on three different search queries: query 1, which is "4G
+LTE"; query 2, which is the "largest LTE"; and query 3, which is "best
+LTE network".
+</p>
+
+<p>
+If you're not familiar with these terms, 4G and LTE basically refer to
+different standards of high speed wireless data communication.
+</p>
+
+<p>
+The table here shows the <code>price-per-click</code> of each advertiser in each
+query. So for example, this 10 here means that T-Mobile will pay
+Google $10 every time a user searches for query 1 and clicks on
+T-Mobile's advertisement. In this example, T-Mobile's budget is $100.
+</p>
+
+<p>
+If T-Mobile begins advertising and by some point five people have
+clicked on T-Mobile's ad when they search for "4G LTE", then T-Mobile
+will need to pay five times $10, or a total of $50.
+</p>
+
+<p>
+If T-Mobile's budget is $100, this means that T-Mobile is left with
+$100 minus $50, for a remaining budget of $50.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/G09.png" alt="G09.png" />
+</p>
+</div>
+
+<p>
+Now, while the price-per-click is important to know, we must remember
+that the price-per-click is exactly that, the price that the
+advertiser pays to Google for a single click of a given ad, on a given
+query.
+</p>
+
+<p>
+This price is paid only if the user clicks on the ad. But typically,
+the people who use Google search engine, who are you and me, will not
+click on every ad that is shown to them.
+</p>
+
+<p>
+Therefore, we need a way to capture how often users click on ads. This
+is where the idea of <code>click-through-rate</code> becomes useful.
+</p>
+
+<p>
+The <code>click-through-rate</code> is the probability that a user clicks on an
+advertiser's ad for a given query. You can also think of this as the
+average number of clicks that we expect per user.
+</p>
+
+<p>
+And this quantity is defined, as we said, per advertiser and per
+query.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/G10.png" alt="G10.png" />
+</p>
+</div>
+
+<p>
+So to illustrate this, for the example that we just introduced a few
+slides ago, suppose that we have the following click-through-rates.
+</p>
+
+<p>
+The number 0.08 here means that there is an 8% chance that a user who
+searches for best LTE network will click on AT&amp;T's ad if it is shown
+to them. In terms of the number of users who click on an ad for a
+given query, this means that for 50 users, if the click-through-rate
+is 0.08, we expect to see 4 users clicking on the ad.
+</p>
+
+<p>
+Similarly, if there are a hundred users who view the ad and 8% of them
+click on the ad, we expect to see eight users clicking on AT&amp;T's ad
+for query 3.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/G11.png" alt="G11.png" />
+</p>
+</div>
+
+<p>
+In the next video, we'll define additional data that we'll need to
+formulate the problem. In particular, we will see how the
+<code>click-through-rate</code> and the <code>price-per-click</code> can be combined
+together to obtain a new quantity called the average price per
+display. This derived quantity will form a crucial part of our linear
+optimization model.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-4" class="outline-3">
+<h3 id="sec-3-4"><span class="section-number-3">3.4</span> Video 3: Prices and Queries</h3>
+<div class="outline-text-3" id="text-3-4">
+<p>
+We introduced the concept of <code>price-per-click</code> and
+<code>click-through-rate</code>. Once we know both of these quantities, we can
+calculate the average price per display. This is simply the average
+amount that an advertiser pays when a user is shown their ad.
+</p>
+
+<p>
+We can compute this by multiplying the <code>price-per-click</code> with the
+<code>click-through-rate</code>.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/G12.png" alt="G12.png" />
+</p>
+</div>
+
+<p>
+Let's go through an example to see how this works.
+Suppose we have 10 users who search for "best LTE network".
+Google decides to display Verizon's ad to all of them.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/G13.png" alt="G13.png" />
+</p>
+</div>
+
+
+
+<div class="figure">
+<p><img src="../graphs/G14.png" alt="G14.png" />
+</p>
+</div>
+
+<p>
+We know that the <code>click-through-rate</code> for Verizon and for the "best
+LTE network" query is 0.2, so only two users click on the ad.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/G15.png" alt="G15.png" />
+</p>
+</div>
+
+<p>
+Verizon must now pay the <code>price-per-click</code> for each of these
+users. Since there were two clicks and each click costs $25, Verizon
+must pay a total of $50 to Google.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/G16.png" alt="G16.png" />
+</p>
+</div>
+
+<p>
+If we consider how much Verizon paid to Google on average, per user,
+or equivalently how much Verizon paid per display of the ad, we just
+divide the total amount of $50 for the 10 users who saw the ad. Doing
+this, we see that the average price per display was $5.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/G17.png" alt="G17.png" />
+</p>
+</div>
+
+<p>
+We could have obtained this amount in a simpler way. In particular, as
+we defined in the previous slide, this turns out to be exactly the
+same as the <code>price-per-click</code> multiplied by the <code>click-through-rate</code>.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/G18.png" alt="G18.png" />
+</p>
+</div>
+
+<p>
+For our data then, to obtain the average price per display
+we simply need to multiply the <code>price-per-click</code> table and the
+<code>click-through-rate</code> tables together.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/G19.png" alt="G19.png" />
+</p>
+</div>
+
+<p>
+The result table is
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/G20.png" alt="G20.png" />
+</p>
+</div>
+
+<p>
+The last piece of data that we need before we can define our problem
+is we need to know how popular the queries are. Obviously, Google does
+not control how many times a search query will be searched because the
+users are the ones who submit the queries.
+</p>
+
+<p>
+However, Google does have an estimate of the number of times, on
+average, the query will be requested over a given day.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/G21.png" alt="G21.png" />
+</p>
+</div>
+
+<p>
+For the example that we have been building so far, let's suppose that
+we expect to see "4G LTE" 140 times, "largest LTE" 80 times, and "best
+LTE network" 80 times, as well.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/G22.png" alt="G22.png" />
+</p>
+</div>
+
+<p>
+We're now ready to start modeling this problem. The problem that we
+will consider is this. How many times should Google display each ad
+for each query, so as to maximize their total revenue?
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/G23.png" alt="G23.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-5" class="outline-3">
+<h3 id="sec-3-5"><span class="section-number-3">3.5</span> Video 4: Modeling the Problem</h3>
+<div class="outline-text-3" id="text-3-5">
+<p>
+So let's begin modeling this problem as a linear optimization
+problem. In terms of the framework that we have seen in the lectures,
+our objective is to maximize the revenue to Google.
+</p>
+
+<p>
+Our decision is for each advertiser and each query to decide the
+number of times that advertiser's ad will be displayed for that query.
+</p>
+
+<p>
+Our constraints are of two types. Our first constraint is that the
+average amount paid by each advertiser, based on the number of times
+Google displays their ad for each query, cannot exceed the budget of
+that advertiser.
+</p>
+
+<p>
+Our second constraint is that the total number of ads we display for a
+query cannot exceed our estimate of the number of requests that we
+expect to see for that query.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/G24.png" alt="G24.png" />
+</p>
+</div>
+
+<p>
+Let's quickly review our problem data. We have the average price per
+display for each advertiser and each query. We have the budget of each
+advertiser. And we have estimates of the number of requests for each
+query.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/G25.png" alt="G25.png" />
+</p>
+</div>
+
+<p>
+So, let's now think about how to model all the pieces of our
+problem. First, how should we define our decision variables? Well, we
+should define them for each advertiser and each query. So for example,
+one of our decision variables will be \(x_{A1}\).
+</p>
+
+<p>
+\(x_{A1}\) is the number of times we will display AT&amp;T's ad for
+query 1. Similarly, we can define \(x_{A2}\) and \(x_{A3}\).
+</p>
+
+<p>
+These are the numbers of times that we will display AT&amp;T's ad for
+queries 2 and 3, respectively.
+</p>
+
+<p>
+Now, of course, we have three different advertisers, so we will have
+variables \(x_{T1}\), \(x_{T2}\), and \(x_{T3}\). These variables represent
+the number of times that we display T-Mobile's ad for queries 1, 2,
+and 3, respectively.
+</p>
+
+<p>
+And, of course, our last advertiser's Verizon. At the same way.
+</p>
+
+<p>
+Now, how do we compute the revenue to Google, <b>which is our
+objective?</b> Well, we know the average price per display, and our
+decision variables tell us exactly how many times we'll display each
+ad for each query.
+</p>
+
+<p>
+So all we need to do is we need to multiply each decision variable
+with its corresponding average price per display and add them all up.
+</p>
+
+<p>
+To get the constraints, we use a similar process. For instance, to get
+how much AT&amp;T pays, we multiply the AT&amp;T variables by their average
+prices per display and add them up. Now, one of our constraints, as
+you will recall, is that this cannot exceed AT&amp;T's budget, which is
+$170.
+</p>
+
+<p>
+We can repeat this to get the same kind of budget constraint for
+T-Mobile and Verizon. Now, to get the number of times query 2 is used,
+we add up the decision variables corresponding to query 2.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/G26.png" alt="G26.png" />
+</p>
+</div>
+
+<p>
+So we have \(x_{A2}\), the number of times AT&amp;T is paired with
+query 2. We have \(x_{T2}\), which is the number of times T-Mobile is
+paired with query 2, and \(x_{V2}\), which is the number of times
+Verizon is paired with query 2.
+</p>
+
+<p>
+Now, one of our constraints is that this cannot exceed the estimated
+number of requests for query 2, which is 80.
+</p>
+
+<p>
+We can do this for the other queries. So we can do this for query 1
+and query 3. And this is all that we really need.
+</p>
+
+<p>
+let's take this problem to LibreOffice and actually solve it.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/G27.png" alt="G27.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-6" class="outline-3">
+<h3 id="sec-3-6"><span class="section-number-3">3.6</span> Video 5: Solving the Problem</h3>
+<div class="outline-text-3" id="text-3-6">
+<p>
+In this video, we'll be using the spreadsheet GoogleAdWords_LO. If you
+are using LibreOffice or OpenOffice, please download and open the
+spreadsheet <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/GoogleAdWords_LO.ods">GoogleAdWords_LO.ods</a> to follow along with this video. If
+you are using Microsoft Excel, please download and open the
+spreadsheet <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/GoogleAdWords_LO.xlsx">GoogleAdWords_LO.xlsx</a> to follow along with this video. The
+following spreadsheets provide the final model, as it is at the end of
+the video: <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/GoogleAdWords_LO_Complete.ods">GoogleAdWords_LO_Complete.ods</a> and
+<a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/GoogleAdWords_LO_Complete.xlsx">GoogleAdWords_LO_Complete.xlsx</a>.
+</p>
+
+<p>
+Here, we have a spreadsheet in LibreOffice that contains all of our
+data. Up here, we have the basic data, which are the price-per-click
+and click-through-rate.
+</p>
+
+<p>
+Below, we have the average price per display, which we will actually
+be using. Below it, we have the budgets, and below that we have the
+query estimates. After the data, we then have the variables. So these
+are the \(x_{A1}\) through \(x_{A3}\), the \(x_{T1}\) through \(x_{T3}\) and
+the \(x_{V1}\) through \(x_{V3}\) that we saw in the previous video.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd_Optimization.png" alt="GAdd_Optimization.png" />
+</p>
+</div>
+
+
+
+<div class="figure">
+<p><img src="../graphs/G28.png" alt="G28.png" />
+</p>
+</div>
+
+
+
+<div class="figure">
+<p><img src="../graphs/G29.png" alt="G29.png" />
+</p>
+</div>
+
+
+
+<div class="figure">
+<p><img src="../graphs/G30.png" alt="G30.png" />
+</p>
+</div>
+
+
+
+<div class="figure">
+<p><img src="../graphs/G31.png" alt="G31.png" />
 </p>
 </div>
 </div>
@@ -2661,7 +3965,7 @@ the video: <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type
 <div id="postamble" class="status">
 <p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-08-08 Sat&gt;</span></span></p>
 <p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
-<p class="date">Created: 2015-08-10 Mon 09:25</p>
+<p class="date">Created: 2015-08-12 Wed 12:54</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
