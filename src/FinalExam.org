@@ -1,0 +1,602 @@
+#+TITLE:         The Analytical Edge. Final Evaluation
+#+AUTHOR:        Sergio-Feliciano Mendoza-Barrera
+#+DRAWERS:       sfmb
+#+EMAIL:         smendoza.barrera@gmail.com
+#+DATE:          14/08/2015
+#+DESCRIPTION:   Final exam of The Analytical Edge
+#+KEYWORDS:      R, data science, emacs, ESS, org-mode, final
+#+LANGUAGE:      en
+#+OPTIONS:       H:10 num:t toc:nil \n:nil @:t ::t |:t ^:{} -:t f:t *:t <:t d:HIDDEN
+#+OPTIONS:       TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+OPTIONS:       LaTeX:dvipng
+#+INFOJS_OPT:    view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:
+#+LINK_HOME:
+#+XSLT:
+#+STYLE: <link rel="stylesheet" type="text/css" href="dft.css"/>
+
+#+LaTeX_CLASS: IEEEtran
+#+LATEX_CLASS_OPTIONS: [letterpaper, 9pt, onecolumn, twoside, technote, final]
+#+LATEX_HEADER: \usepackage{minted}
+#+LATEX_HEADER: \usepackage{makeidx}
+
+#+LATEX_HEADER: \usepackage[lining,tabular]{fbb} % so math uses tabular lining figures
+#+LATEX_HEADER: \usepackage[scaled=.95,type1]{cabin} % sans serif in style of Gill Sans
+#+LATEX_HEADER: \usepackage[varqu,varl]{zi4}% inconsolata typewriter
+#+LATEX_HEADER: \usepackage[T1]{fontenc} % LY1 also works
+#+LATEX_HEADER: \usepackage[libertine,bigdelims]{newtxmath}
+#+LATEX_HEADER: \usepackage[cal=boondoxo,bb=boondox,frak=boondox]{mathalfa}
+#+LATEX_HEADER: \useosf % change normal text to use proportional oldstyle figures
+
+#+LATEX_HEADER: \markboth{The Analytical Edge. Final Evaluation}%
+#+LATEX_HEADER: {Sergio-Feliciano Mendoza-Barrera}
+
+#+LATEX_HEADER: \newcommand{\degC}{$^\circ$C{}}
+
+#+STYLE: <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
+
+#+ATTR_HTML: width="500px"
+
+# -*- mode: org; -*-
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/htmlize.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/bigblow.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/hideshow.css"/>
+
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery-1.11.0.min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery-ui-1.10.2.min.js"></script>
+
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.localscroll-min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.scrollTo-1.4.3.1-min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.zclip.min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/bigblow.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/hideshow.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.min.js"></script>
+
+#+BEGIN_ABSTRACT
+The Analytical Edge Final Evaluation
+#+END_ABSTRACT
+
+* Final Evaluation
+
+This short final evaluation is designed to assess your knowledge of
+analytics at the end of this course. It will give us important insight
+into what you and your fellow students know at the end of the course
+compared to the beginning the course , and will help us improve the
+course in the future. Please answer the questions as honestly as
+possible.
+
+You will get credit for completing this evaluation, but there are no
+right or wrong answers (every answer will be marked as
+correct). Completing this evaluation is worth 1% of your final grade
+in this course.
+
+** Question 1.1 - Software (1 point possible)
+
+Do you have any experience using a programming language? Examples are
+R, python, C, C++, Java, php, and SQL.
+
+- [X] Yes, I am comfortable using a programming language.
+- [ ] Yes, but I am not very comfortable using it.
+- [ ] Yes, but very minimally.
+- [ ] No, I have never used a programming language.
+
+** Question 1.2 - Software (1 point possible)
+
+Have you ever used any analytics software? Some examples are R, SAS,
+Stata, pandas, and Microsoft Excel Statistical Add-ins, like XLMiner
+and the Analysis ToolPak.
+
+- [X] Yes, I'm very comfortable using analytics software.
+- [ ] Yes, but I'm not very comfortable using the software.
+- [ ] Yes, but very minimally.
+- [ ] No, I have never used analytics software.
+
+** Question 2.1 - Linear Regression (1 point possible)
+
+Have you ever learned about the method of linear regression?
+
+- [X] Yes, I've learned about linear regression before.
+- [ ] No, I've never learned about linear regression.
+- [ ] I'm not sure.
+
+** Question 2.2 - Linear Regression (1 point possible)
+
+Which of the following situations is a linear regression model
+designed to handle? If you don't know the answer, just select "I don't
+know".
+
+- [ ] Situation 1: A factory wants to decide how many machines of
+  different types to purchase so that they can increase their
+  production next month. They want to maximize total revenue, while
+  not spending more than $100,000 on new machines. (*Optimization ::
+  Maximize*)
+
+- [X] Situation 2: A clothing store wants to predict their total
+  revenue next month using the total sales this month, the types of
+  styles that will be released next month, and seasonality. (*Linear
+  regression*)
+
+- [ ] Situation 3: A medical researcher wants to predict whether or
+  not a patient will be re-admitted to the hospital, using information
+  from the patient's medical record (e.g. demographic information,
+  medical history, doctor's free-text notes). (*Logistic Regression,
+  CART or RF*)
+
+- [ ] Situation 4: An airline wants to use historical data to segment
+  their customers into different categories to better understand the
+  different types of customers they have and to target them with
+  advertisements. (*Logistic Regression, CART or RF*)
+
+- [ ] Situation 5: A chicken feed company wants to decide what
+  percentage of four different grains to use to create a new
+  product. They want to minimize the total cost of the product, while
+  making sure that it meet all of the nutritional requirements for
+  chicken feed. (*Optimization :: Minimize*)
+
+- [ ] Situations 2 and 3.
+
+- [ ] Situations 1 and 5.
+
+- [ ] Situations 1, 2, 3, 4, and 5.
+
+- [ ] None of the above situations.
+
+- [ ] I don't know.
+
+** Question 2.3 - Linear Regression (1 point possible)
+
+Have you ever created a linear regression model using any software
+package?
+
+- [X] Yes, within the past year.
+- [ ] Yes, but not within the past year.
+- [ ] No.
+- [ ] I'm not sure.
+
+** Question 3.1 - Logistic Regression (1 point possible)
+
+Have you ever learned about the method of logistic regression?
+
+- [X] Yes, I've learned about logistic regression before.
+- [ ] No, I've never learned about logistic regression.
+- [ ] I'm not sure.
+
+** Question 3.2 - Logistic Regression (1 point possible)
+
+Which of the following situations is a logistic regression model
+designed to handle? If you don't know the answer, just select "I don't
+know".
+
+- [ ] Situation 1: A factory wants to decide how many machines of
+  different types to purchase so that they can increase their
+  production next month. They want to maximize total revenue, while
+  not spending more than $100,000 on new machines. (*Optimization ::
+  Maximize*)
+
+- [ ] Situation 2: A clothing store wants to predict their total
+  revenue next month using the total sales this month, the types of
+  styles that will be released next month, and seasonality. (*Linear
+  regression*)
+
+- [X] Situation 3: A medical researcher wants to predict whether or
+  not a patient will be re-admitted to the hospital, using information
+  from the patient's medical record (e.g. demographic information,
+  medical history, doctor's free-text notes). (*Logistic Regression,
+  CART or RF*)
+
+- [ ] Situation 4: An airline wants to use historical data to segment
+  their customers into different categories to better understand the
+  different types of customers they have and to target them with
+  advertisements. (*Clustering, CART or RF*)
+
+- [ ] Situation 5: A chicken feed company wants to decide what
+  percentage of four different grains to use to create a new
+  product. They want to minimize the total cost of the product, while
+  making sure that it meet all of the nutritional requirements for
+  chicken feed. (*Optimization :: Minimize*)
+
+- [ ] Situations 2 and 3.
+
+- [ ] Situations 1 and 5.
+
+- [ ] Situations 1, 2, 3, 4, and 5.
+
+- [ ] None of the above situations.
+
+- [ ] I don't know.
+
+** Question 3.3 - Logistic Regression (1 point possible)
+
+Have you ever created a logistic regression model using any software
+package?
+
+- [X] Yes, within the past year.
+- [ ] Yes, but not within the past year.
+- [ ] No.
+- [ ] I'm not sure.
+
+** Question 4.1 - CART and Random Forests (1 point possible)
+
+Have you ever learned about the methods of CART and Random Forests?
+
+- [X] Yes, I've learned about both of them.
+- [ ] I've learned about one of these methods.
+- [ ] No, I've never learned about either of them.
+- [ ] I'm not sure.
+
+** Question 4.2 - CART and Random Forests (1 point possible)
+
+Which of the following situations is a CART or Random Forest model
+designed to handle? If you don't know the answer, just select "I don't
+know".
+
+- [ ] Situation 1: A factory wants to decide how many machines of
+  different types to purchase so that they can increase their
+  production next month. They want to maximize total revenue, while
+  not spending more than $100,000 on new machines. (*Optimization ::
+  Maximize*)
+
+- [ ] Situation 2: A clothing store wants to predict their total
+  revenue next month using the total sales this month, the types of
+  styles that will be released next month, and seasonality. (*Linear
+  regression*)
+
+- [X] Situation 3: A medical researcher wants to predict whether or
+  not a patient will be re-admitted to the hospital, using information
+  from the patient's medical record (e.g. demographic information,
+  medical history, doctor's free-text notes). (*Logistic Regression,
+  CART or RF*)
+
+- [X] Situation 4: An airline wants to use historical data to segment
+  their customers into different categories to better understand the
+  different types of customers they have and to target them with
+  advertisements. (*Logistic Regression, CART or RF*)
+
+- [ ] Situation 5: A chicken feed company wants to decide what
+  percentage of four different grains to use to create a new
+  product. They want to minimize the total cost of the product, while
+  making sure that it meet all of the nutritional requirements for
+  chicken feed. (*Optimization :: Minimize*)
+
+- [ ] Situations 2 and 3.
+
+- [ ] Situations 1 and 5.
+
+- [ ] Situations 1, 2, 3, 4, and 5.
+
+- [ ] None of the above situations.
+
+- [ ] I don't know.
+
+** Question 4.3 - CART and Random Forests (1 point possible)
+
+Have you ever created a CART or Random Forest model using any software
+package?
+
+- [ ] Yes, I've created at least one of these models within the past
+  year.
+- [X] Yes, I've created at least one of these models, but not within
+  the past year.
+- [ ] No, I've never created either of these models.
+- [ ] I'm not sure.
+
+** Question 5.1 - Bag of Words (1 point possible)
+
+Have you ever learned about the text analytics method called "bag of
+words"?
+
+- [X] Yes, I've learned about the bag of words method.
+- [ ] No, I've never learned about the bag of words method.
+- [ ] I'm not sure.
+
+** Question 5.2 - Bag of Words (1 point possible)
+
+Which of the following situations is the bag of words approach
+designed to handle? If you don't know the answer, just select "I don't
+know".
+
+- [ ] Situation 1: A factory wants to decide how many machines of
+  different types to purchase so that they can increase their
+  production next month. They want to maximize total revenue, while
+  not spending more than $100,000 on new machines. (*Optimization ::
+  Maximize*)
+
+- [ ] Situation 2: A clothing store wants to predict their total
+  revenue next month using the total sales this month, the types of
+  styles that will be released next month, and seasonality. (*Linear
+  regression*)
+
+- [X] Situation 3: A medical researcher wants to predict whether or
+  not a patient will be re-admitted to the hospital, using information
+  from the patient's medical record (e.g. demographic information,
+  medical history, doctor's free-text notes). (*Bag of words, Logistic
+  Regression, CART or RF*)
+
+- [ ] Situation 4: An airline wants to use historical data to segment
+  their customers into different categories to better understand the
+  different types of customers they have and to target them with
+  advertisements. (*Logistic Regression, CART or RF*)
+
+- [ ] Situation 5: A chicken feed company wants to decide what
+  percentage of four different grains to use to create a new
+  product. They want to minimize the total cost of the product, while
+  making sure that it meet all of the nutritional requirements for
+  chicken feed. (*Optimization :: Minimize*)
+
+- [ ] Situations 2 and 3.
+
+- [ ] Situations 1 and 5.
+
+- [ ] Situations 1, 2, 3, 4, and 5.
+
+- [ ] None of the above situations.
+
+- [ ] I don't know.
+
+** Question 5.3 - Bag of Words (1 point possible)
+
+Have you ever created a bag of words model using any software package?
+
+- [X] Yes, within the past year.
+- [ ] Yes, but not within the past year.
+- [ ] No.
+- [ ] I'm not sure.
+
+** Question 6.1 - Clustering (1 point possible)
+
+Have you ever learned about Hierarchical Clustering or K-Means
+Clustering?
+
+- [X] Yes, I've learned about both of them.
+- [ ] I've learned about one of these methods.
+- [ ] No, I've never learned about either of them.
+- [ ] I'm not sure.
+
+** Question 6.2 - Clustering (1 point possible)
+
+Which of the following situations is a clustering model designed to
+handle? If you don't know the answer, just select "I don't know".
+
+- [ ] Situation 1: A factory wants to decide how many machines of
+  different types to purchase so that they can increase their
+  production next month. They want to maximize total revenue, while
+  not spending more than $100,000 on new machines. (*Optimization ::
+  Maximize*)
+
+- [ ] Situation 2: A clothing store wants to predict their total
+  revenue next month using the total sales this month, the types of
+  styles that will be released next month, and seasonality. (*Linear
+  regression*)
+
+- [X] Situation 3: A medical researcher wants to predict whether or
+  not a patient will be re-admitted to the hospital, using information
+  from the patient's medical record (e.g. demographic information,
+  medical history, doctor's free-text notes). (*Logistic Regression,
+  CART or RF*)
+
+- [X] Situation 4: An airline wants to use historical data to segment
+  their customers into different categories to better understand the
+  different types of customers they have and to target them with
+  advertisements. (*Logistic Regression, CART or RF*)
+
+- [ ] Situation 5: A chicken feed company wants to decide what
+  percentage of four different grains to use to create a new
+  product. They want to minimize the total cost of the product, while
+  making sure that it meet all of the nutritional requirements for
+  chicken feed. (*Optimization :: Minimize*)
+
+- [ ] Situations 2 and 3.
+
+- [ ] Situations 1 and 5.
+
+- [ ] Situations 1, 2, 3, 4, and 5.
+
+- [ ] None of the above situations.
+
+- [ ] I don't know.
+
+** Question 6.3 - Clustering (1 point possible)
+
+Have you ever created a Hierarchical Clustering or K-means Clustering
+model using any software package?
+
+- [X] Yes, I've created at least one of these models within the past
+  year.
+- [ ] Yes, I've created at least one of these models, but not within
+  the past year.
+- [ ] No, I've never created either of these models.
+- [ ] I'm not sure.
+
+** Question 7.1 - Visualization (1 point possible)
+
+Have you ever learned about data visualization (e.g. scatter plots,
+line plots, heat maps, geographical maps)?
+
+- [X] Yes, I've learned about data visualization, including
+  scatterplots, line plots, heat maps, and geographical maps.
+- [ ] I've learned about some data visualization, but not all of the
+  types listed above.
+- [ ] No, I've never learned about data visualization.
+- [ ] I'm not sure.
+
+** Question 7.2 - Visualization (1 point possible)
+
+Which of the following situations is data visualization designed to
+handle? If you don't know the answer, just select "I don't know".
+
+- [X] Situation 1: A factory wants to decide how many machines of
+  different types to purchase so that they can increase their
+  production next month. They want to maximize total revenue, while
+  not spending more than $100,000 on new machines. (*Optimization ::
+  Maximize*)
+
+- [X] Situation 2: A clothing store wants to predict their total
+  revenue next month using the total sales this month, the types of
+  styles that will be released next month, and seasonality. (*Linear
+  regression*)
+
+- [X] Situation 3: A medical researcher wants to predict whether or
+  not a patient will be re-admitted to the hospital, using information
+  from the patient's medical record (e.g. demographic information,
+  medical history, doctor's free-text notes). (*Logistic Regression,
+  CART or RF*)
+
+- [X] Situation 4: An airline wants to use historical data to segment
+  their customers into different categories to better understand the
+  different types of customers they have and to target them with
+  advertisements. (*Logistic Regression, CART or RF*)
+
+- [X] Situation 5: A chicken feed company wants to decide what
+  percentage of four different grains to use to create a new
+  product. They want to minimize the total cost of the product, while
+  making sure that it meet all of the nutritional requirements for
+  chicken feed. (*Optimization :: Minimize*)
+
+- [ ] Situations 2 and 3.
+
+- [ ] Situations 1 and 5.
+
+- [X] Situations 1, 2, 3, 4, and 5.
+
+- [ ] None of the above situations.
+
+- [ ] I don't know.
+
+** Question 7.3 - Visualization (1 point possible)
+
+Have you ever created a data visualization (e.g. scatterplot, line
+plot, heat map, geographical map) using any software package?
+
+- [X] Yes, within the past year.
+- [ ] Yes, but not within the past year.
+- [ ] No.
+- [ ] I'm not sure.
+
+** Question 8.1 - Linear Optimization (1 point possible)
+
+Have you ever learned about linear optimization (also called linear
+programming)?
+
+- [X] Yes, I've learned about linear optimization.
+- [ ] No, I've never learned about linear optimization.
+- [ ] I'm not sure.
+
+** Question 8.2 - Linear Optimization (1 point possible)
+
+Which of the following situations is a linear optimization model
+designed to handle? If you don't know the answer, just select "I don't
+know".
+
+- [X] Situation 1: A factory wants to decide how many machines of
+  different types to purchase so that they can increase their
+  production next month. They want to maximize total revenue, while
+  not spending more than $100,000 on new machines. (*Optimization ::
+  Maximize*)
+
+- [ ] Situation 2: A clothing store wants to predict their total
+  revenue next month using the total sales this month, the types of
+  styles that will be released next month, and seasonality. (*Linear
+  regression*)
+
+- [ ] Situation 3: A medical researcher wants to predict whether or
+  not a patient will be re-admitted to the hospital, using information
+  from the patient's medical record (e.g. demographic information,
+  medical history, doctor's free-text notes). (*Logistic Regression,
+  CART or RF*)
+
+- [ ] Situation 4: An airline wants to use historical data to segment
+  their customers into different categories to better understand the
+  different types of customers they have and to target them with
+  advertisements. (*Logistic Regression, CART or RF*)
+
+- [X] Situation 5: A chicken feed company wants to decide what
+  percentage of four different grains to use to create a new
+  product. They want to minimize the total cost of the product, while
+  making sure that it meet all of the nutritional requirements for
+  chicken feed. (*Optimization :: Minimize*)
+
+- [ ] Situations 2 and 3.
+
+- [X] Situations 1 and 5.
+
+- [ ] Situations 1, 2, 3, 4, and 5.
+
+- [ ] None of the above situations.
+
+- [ ] I don't know.
+
+** Question 8.3 - Linear Optimization (1 point possible)
+
+Have you ever created a linear optimization model using any software
+package?
+
+- [X] Yes, within the past year.
+- [ ] Yes, but not within the past year.
+- [ ] No.
+- [ ] I'm not sure.
+
+** Question 9.1 - Integer Optimization (1 point possible)
+
+Have you ever learned about integer optimization (also called integer
+programming)?
+
+- [X] Yes, I've learned about integer optimization. Yes, I've learned
+  about integer optimization. - correct
+- [ ] No, I've never learned about integer optimization.
+- [ ] I'm not sure.
+
+** Question 9.2 - Integer Optimization (1 point possible)
+
+Which of the following situations is an integer optimization model
+designed to handle? If you don't know the answer, just select "I don't
+know".
+
+- [ ] Situation 1: A factory wants to decide how many machines of
+  different types to purchase so that they can increase their
+  production next month. They want to maximize total revenue, while
+  not spending more than $100,000 on new machines. (*Optimization ::
+  Maximize*)
+
+- [ ] Situation 2: A clothing store wants to predict their total
+  revenue next month using the total sales this month, the types of
+  styles that will be released next month, and seasonality. (*Linear
+  regression*)
+
+- [ ] Situation 3: A medical researcher wants to predict whether or
+  not a patient will be re-admitted to the hospital, using information
+  from the patient's medical record (e.g. demographic information,
+  medical history, doctor's free-text notes). (*Logistic Regression,
+  CART or RF*)
+
+- [ ] Situation 4: An airline wants to use historical data to segment
+  their customers into different categories to better understand the
+  different types of customers they have and to target them with
+  advertisements. (*Logistic Regression, CART or RF*)
+
+- [ ] Situation 5: A chicken feed company wants to decide what
+  percentage of four different grains to use to create a new
+  product. They want to minimize the total cost of the product, while
+  making sure that it meet all of the nutritional requirements for
+  chicken feed. (*Optimization :: Minimize*)
+
+- [ ] Situations 2 and 3.
+
+- [X] Situations 1 and 5.
+
+- [ ] Situations 1, 2, 3, 4, and 5.
+
+- [ ] None of the above situations.
+
+- [ ] I don't know.
+
+** Question 9.3 - Integer Optimization (1 point possible)
+
+Have you ever created an integer optimization model using any software
+package?
+
+- [X] Yes, within the past year.
+- [ ] Yes, but not within the past year.
+- [ ] No.
+- [ ] I'm not sure.
