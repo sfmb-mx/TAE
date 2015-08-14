@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Unit 8. Linear Optimization</title>
-<!-- 2015-08-12 Wed 12:54 -->
+<!-- 2015-08-13 Thu 21:15 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Sergio-Feliciano Mendoza-Barrera" />
@@ -236,6 +236,9 @@ for the JavaScript code in this tag.
 <li><a href="#sec-3-4">3.4. Video 3: Prices and Queries</a></li>
 <li><a href="#sec-3-5">3.5. Video 4: Modeling the Problem</a></li>
 <li><a href="#sec-3-6">3.6. Video 5: Solving the Problem</a></li>
+<li><a href="#sec-3-7">3.7. Video 6: A Greedy Approach</a></li>
+<li><a href="#sec-3-8">3.8. Video 7: Sensitivity Analysis</a></li>
+<li><a href="#sec-3-9">3.9. Video 8: Extensions and the Edge</a></li>
 </ul>
 </li>
 </ul>
@@ -3925,12 +3928,1071 @@ are the \(x_{A1}\) through \(x_{A3}\), the \(x_{T1}\) through \(x_{T3}\) and
 the \(x_{V1}\) through \(x_{V3}\) that we saw in the previous video.
 </p>
 
+<p>
+And below those, we have the objective, the constraints, so that the
+budgets are not exceeded and that the query estimates are not
+exceeded.
+</p>
+
 
 <div class="figure">
 <p><img src="../graphs/GAdd_Optimization.png" alt="GAdd_Optimization.png" />
 </p>
 </div>
 
+<p>
+So we'll have to fill in all of these expressions, which reflect, for
+example, how many times query one is used in our advertising strategy,
+how much of, for instance, T-Mobile's budget we use in your
+advertising strategy, as well as the objective, which is the total
+average revenue from our advertising strategy.
+</p>
+
+<p>
+Let's start by defining the objective of our problem. To form the
+objective, we go to the cell next to revenue. Here we want to use
+<code>SUMPRODUCT</code> to multiply the average prices per display with the number
+of times we display each ad with each query.
+</p>
+
+<p>
+Our variables are all the cells between B35 and D37. And the average
+price per display is contained in all the cells between B17 and D19.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd01.png" alt="GAdd01.png" />
+</p>
+</div>
+
+<p>
+Now to compute how much of each advertiser's budget we're using, we're
+going to use the average price per display and the decision variables
+of each individual advertiser.
+</p>
+
+<p>
+So to get, for example, AT&amp;T's budget usage, we would use <code>SUMPRODUCT</code>
+again in the same way that we used it for the objective, but this time
+we would use it just for AT&amp;T's decision variables and AT&amp;T's average
+prices per display.
+</p>
+
+<p>
+So we write <code>= SUMPRODUCT</code>, but this time we select the cells between
+B35 and D35. So we write B35:D35. These are the cells that correspond
+to AT&amp;T's decision variables. For the second collection of cells, we
+select the cells between B17 and D17.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd02.png" alt="GAdd02.png" />
+</p>
+</div>
+
+<p>
+These are the cells that correspond to AT&amp;T's average prices per
+display. We can do the same thing for T-Mobile and Verizon. In this
+case, we don't need to enter the expressions again. We can just simply
+drag these expressions, and LibreOffice will conveniently fill the
+expressions in for us.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd03.png" alt="GAdd03.png" />
+</p>
+</div>
+
+<p>
+And now we need to do a similar thing for the number of times that we
+use each query. So, for example, to get the number of times query one
+is used, we need to add the cells corresponding to query one.
+</p>
+
+<p>
+In the spreadsheet, these are the cells corresponding to B35 and
+B37. And in this case, we simply need to add the decision variable
+cells &#x2013; we don't need to multiply them with any other cells.
+</p>
+
+<p>
+So we just need to use the sum function. So we write <code>= SUM</code>, and again,
+we're using the cell's <code>B35:B37</code>.
+</p>
+
+<p>
+For query two, we have to use <code>SUM</code> again. And we need to SUM the
+cells corresponding to query two, so we write <code>= SUM(C35:C37)</code>. And
+for query three, we need to use <code>SUM</code> again, but this time we need to
+use cells <code>D35</code> through <code>D37</code>. So we write <code>D35:D37</code>.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd04.png" alt="GAdd04.png" />
+</p>
+</div>
+
+<p>
+So we've now defined all of the expressions that we'll need for our
+model. Now we need to input the decision variables, the objective, and
+the constraints into the LibreOffice Solver.
+</p>
+
+<p>
+So we need to first open up the LibreOffice Solver. So we go to
+Tools. We open up Tools, and we click on Solver. So, to do this now,
+we need to specify, again as I mentioned, all the pieces of the
+problem. So for "Target cell" &#x2013; so the target cell here is the
+objective cell.
+</p>
+
+<p>
+So we need to specify our objective. So this cell was just B40.
+</p>
+
+<p>
+And we want to maximize this as we're maximizing revenue. The
+"changing cells" here are the decision variables. So this is just a
+collection of cells, B35 through D37. So we write, B35:D37.
+</p>
+
+<p>
+Now, underneath, these rows corresponding to the "Limiting
+conditions", these are just the constraints of the problem. In the
+first row here, we'll handle the budget constraints. So under "Cell
+reference" we'll input the budget expression, and these are contained
+in cells B45 through B47. Select the sign and the limit for each
+constraint.
+</p>
+
+<p>
+And in the second row here, we're going to handle the query estimate
+constraints. So here again, under cell reference, we're going to
+specify the expressions that correspond to how much we use each query
+in our advertising strategy.
+</p>
+
+<p>
+And under value, we want to input the query estimates, which are just
+the cells, D50 through D52. So, we can just select them in this way,
+and input them. So, at this point, it might be tempting to think that
+we are done, but we have two more things we need to do.
+</p>
+
+<p>
+First, we need to tell the solver to explicitly treat this as a linear
+optimization problem.
+</p>
+
+<p>
+Second, we need to include another set of constraints. This set of
+constraints requires each decision variable to be greater than or
+equal to zero, since it does not make sense to display an advertiser
+with a certain query some negative number of times.
+</p>
+
+<p>
+Now, while we could include these constraints here, these types of
+constraints are very common and very typical in linear optimization
+models. They come up all the time. And, in fact, they come up so
+often, that solvers often have an option that you can toggle, that
+incorporates these constraints automatically.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd05.png" alt="GAdd05.png" />
+</p>
+</div>
+
+<p>
+So to handle both of these considerations. Let's just click on
+Options. And under options, where we have the drop down menu for
+"Solver engine", we'll click on there, and then we'll select
+LibreOffice Linear Solver. This indicates to LibreOffice to use the
+linear optimization solver for this problem.
+</p>
+
+<p>
+And under the settings here, one of the settings, is to assume that
+the variables are non-negative. We'll just activate that option and
+hit OK.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd06.png" alt="GAdd06.png" />
+</p>
+</div>
+
+<p>
+And now we're ready to solve the problem. So if we hit solve, we get
+this dialogue that says that solving successfully finished, and that
+our result, in this case, this is the objective function, was 428. So
+we have an advertising strategy that achieves an average revenue of
+$428.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd07.png" alt="GAdd07.png" />
+</p>
+</div>
+
+<p>
+The cells that we specified as the decision variables have been
+populated with their optimal values. So our optimal strategy, based on
+this linear optimization solution is the following: so we're going to
+show AT&amp;T with query one 40 times; we're going to show AT&amp;T with query
+two also 40 times; we're going to show AT&amp;T with query three 80 times;
+for T-Mobile, we'll show T-Mobile's ad with query one 100 times; and
+we're only going to show Verizon's ad with query two, and we're going
+to show it 40 times.
+</p>
+
+<p>
+So this specifies, completely, the advertising strategy that Google
+should use. And this strategy, as we just saw, achieves an average
+revenue of $428. Let's double check that the solution is feasible by
+looking at the budgets and the query estimates.
+</p>
+
+<p>
+So if we scroll down here, we see that AT&amp;T's budget that we use here
+is $168. AT&amp;T's actual budget is $170. We can see that for the other
+two advertisers, that we are in the clear for both of them. Similarly,
+with the query estimates we can see that for all the queries that we
+are considering here, we do not use any query more than the estimate
+for the number of times that we expect to see that query.
+</p>
+
+<p>
+And finally, as one last check, all the decision variable values that
+we see here are all greater than or equal to zero. So we're not using
+any advertiser with any query a negative number times, which obviously
+would not make sense.
+</p>
+
+<p>
+So, the solution as a whole is a <b>feasible solution</b>. In the next
+video, we'll show how to solve the problem using a greedy common sense
+approach, where we will allocate ads to queries by prioritizing them
+by their average price per display.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-7" class="outline-3">
+<h3 id="sec-3-7"><span class="section-number-3">3.7</span> Video 6: A Greedy Approach</h3>
+<div class="outline-text-3" id="text-3-7">
+<p>
+In this video, we'll be using the spreadsheet
+GoogleAdWords_Greedy.ods. If you are using LibreOffice or OpenOffice,
+please download and open the spreadsheet <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/GoogleAdWords_Greedy.ods">GoogleAdWords_Greedy.ods</a> to
+follow along with this video. If you are using Microsoft Excel, please
+download and open the spreadsheet <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/GoogleAdWords_Greedy.xlsx">GoogleAdWords_Greedy.xlsx</a> to follow
+along with this video. The following spreadsheets provide the final
+model, as it is at the end of the video:
+<a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/GoogleAdWords_Greedy_Complete.ods">GoogleAdWords_Greedy_Complete.ods</a> and
+<a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/GoogleAdWords_Greedy_Complete.xlsx">GoogleAdWords_Greedy_Complete.xlsx</a>.
+</p>
+
+<p>
+In the previous video, we used linear optimization to allocate ads. In
+this video, we're going to use a greedy approach to allocate ads to
+queries.
+</p>
+
+<p>
+The approach is called greedy because we allocate the ads sequentially
+and we prioritize which combinations of ad and query to use, based on
+the average price per display.
+</p>
+
+<p>
+So here we have a spreadsheet set up in the same way as the one from
+the previous video with some minor tweaks. If we scroll down, we have
+this table here (Variables table), which has cells corresponding to
+combinations of advertisers and queries, which tells us basically how
+many times we display a particular advertiser's ad with a particular
+query.
+</p>
+
+<p>
+But to the side here, we have another table (Query-Advertiser) which
+we will use to keep track at every stage of our allocation process,
+how much we can allocate&#x2013; how many displays we can perform of a
+particular ad with a particular query, based on the budget, and based
+on how many displays of each query remain unallocated.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd08.png" alt="GAdd08.png" />
+</p>
+</div>
+
+<p>
+Further down, where we have our constraints, we've added some new
+cells here, which are labeled with the word "Remaining," to indicate
+how much of the budgets of each advertiser remaining, and how many
+displays of each query remain unallocated.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd09.png" alt="GAdd09.png" />
+</p>
+</div>
+
+<p>
+So let's get started with our greedy allocation. So to start, we go up
+to our <b>Average Price Per Display</b> table, and we find the combination
+of advertiser and query which gives us the largest average price per
+display.
+</p>
+
+<p>
+So, in this case, the largest average price per display is five. And
+this happens when we display Verizon's ad with Query 3.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd10.png" alt="GAdd10.png" />
+</p>
+</div>
+
+<p>
+So this is the first variable that we're going to change in our greedy
+allocation. These are the first, basically the first displays that
+we're going to use.
+</p>
+
+<p>
+So if we scroll down, we add Verizon in Query 3. And to figure out the
+budget limit, we go to Verizon's remaining budget which is $160. And
+so we take that $160, and we divide it through by the average price
+per display of $5.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd11.png" alt="GAdd11.png" />
+</p>
+</div>
+
+<p>
+So, we get this number 32, and so what this means is that we can
+display Verizon's ad with Query 3, 32 times based solely on the
+remaining budget of Verizon. Now, of course, we also have to respect
+how many displays are unallocated of each query, and for query 3, we
+have 80 displays.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd12.png" alt="GAdd12.png" />
+</p>
+</div>
+
+<p>
+So the query limit at this stage is 80. So now how many times do we
+actually display Verizon's ad with Query 3? Well, the most that we can
+display Verizon's ad with Query 3 is going to be the smaller of these
+two numbers. And so in this case the smaller of the two numbers is 32.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd13.png" alt="GAdd13.png" />
+</p>
+</div>
+
+<p>
+So, we allocate Verizon's ad to Query 3, 32 times.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd14.png" alt="GAdd14.png" />
+</p>
+</div>
+
+<p>
+So now after we've changed the value of this variable, you can see
+that the budget of Verizon has changed.So now it is 0. So we've
+completely extinguished Verizon's budget and the remaining unallocated
+displays for Query 3 has also changed. So this number used to be 80
+and now it is 48.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd15.png" alt="GAdd15.png" />
+</p>
+</div>
+
+<p>
+So, since we've extinguished Verizon's budget, we go back up to our
+Average Price Per Display table.
+</p>
+
+<p>
+And so now we have to select a new combination to use in our
+allocation. Since we've used up Verizon's budget, we're going to
+highlight these cells corresponding to Verizon. We're going to
+highlight them in red to indicate that we can't use any of those
+combinations anymore.
+</p>
+
+<p>
+And from the remaining cells in the table, we want to find the
+combination of Advertiser and Query that gives us the largest average
+price per display. So in this case, the next highest is for T-Mobile
+and Query 3, and in this case the average price per display is two. So
+this is the next combination that we'll use in our allocation.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd16.png" alt="GAdd16.png" />
+</p>
+</div>
+
+<p>
+So if we scroll down, we add T-Mobile and Query 3. So now we have to
+calculate the budget limit. T-Mobile's remaining budget is $100. We
+take $100, and we divide it through by $2 per display, and we get this
+value of 50.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd17.png" alt="GAdd17.png" />
+</p>
+</div>
+
+<p>
+And the query limit for T-Mobile and query 3 is the remaining number
+of displays for Query 3, which is 48. So we scroll up and we add 48.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd18.png" alt="GAdd18.png" />
+</p>
+</div>
+
+<p>
+And so now, how many times do we actually display T-Mobile's ad with
+Query 3? Well, that number is 48, because 48 is the smaller of the two
+numbers. So we go ahead and we add that. And so now T-Mobile's budget
+has changed.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd19.png" alt="GAdd19.png" />
+</p>
+</div>
+
+<p>
+And so now, how many times do we actually display T-Mobile's ad with
+Query 3? Well, that number is 48, because 48 is the smaller of the two
+numbers. So we go ahead and we add that.
+</p>
+
+<p>
+And so now T-Mobile's budget has changed. So it's dropped from 100 to
+four, and the remaining displays of Query 3, that number has dropped
+to 0. So there are no more displays of Query 3 remaining that we can
+use.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd20.png" alt="GAdd20.png" />
+</p>
+</div>
+
+<p>
+So now we move on to the next stage of our allocation, and we go back
+to the Average Price Per Display table. And since we've used up all of
+the displays of Query 3, we're going to highlight the remaining cells
+corresponding to Query 3 in red, just to remind us that we can't use
+them.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd21.png" alt="GAdd21.png" />
+</p>
+</div>
+
+<p>
+And so now from the remaining cells, again, we want to find the
+highest average price per display combination. And so from the
+remaining cells, the highest average price per display occurs when we
+use T-Mobile's ad with Query 1. So that's the next variable that we'll
+use in our allocation.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd22.png" alt="GAdd22.png" />
+</p>
+</div>
+
+<p>
+So we scroll back down and we add T-Mobile with Query 1. To compute
+the budget limit, we take T-Mobile's remaining budget which is four,
+$4, and we divide it through by the average price per display of $1.
+</p>
+
+<p>
+So, we get four displays according to the budget. And the query limit,
+in this case, is 140, because there are 140 displays of Query 1 that
+haven't been used towards any ad. Now how many times do we actually
+display T-Mobile's with Query 1?
+Again, we just take the minimum of these two quantities, which is four.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd23.png" alt="GAdd23.png" />
+</p>
+</div>
+
+<p>
+We go ahead and we enter that into our table.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd24.png" alt="GAdd24.png" />
+</p>
+</div>
+
+<p>
+ So now if you look at the budgets, we've completely extinguished
+T-Mobile's budget and the remaining number of displays of Query 1 that
+haven't been allocated has dropped to 136.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd25.png" alt="GAdd25.png" />
+</p>
+</div>
+
+<p>
+So now we move on to the next stage of our allocation. Again, we've
+eliminated T-Mobile's budget. So now we highlight those cells in
+red. And so now, we want to pick the highest average price per display
+from the remaining cells. Now in this case, the only two combinations
+that remain to us are to display AT&amp;T's ad with Query 1 and to display
+AT&amp;T's ad with Query 2.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd26.png" alt="GAdd26.png" />
+</p>
+</div>
+
+<p>
+Both of these have the same average price per display, so it doesn't
+matter which one we really choose. But for the purpose of this
+solution, let's just go with AT&amp;T displayed with Query 1.
+</p>
+
+<p>
+So the average price per display is 0.5. So we go down, we add that
+entry to our side table here.
+</p>
+
+<p>
+And to compute the budget limit, we take AT&amp;T's remaining budget of
+170, and we divide it through by 0.5. To get the query limit, we just
+look at the number of remaining displays of Query 1, which is 136.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd25.png" alt="GAdd25.png" />
+</p>
+</div>
+
+
+<p>
+So we add that. And so now, obviously, the smaller of the two
+quantities is 136.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd27.png" alt="GAdd27.png" />
+</p>
+</div>
+
+<p>
+So we'll display AT&amp;T's ad with Query 1, 136 times.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd28.png" alt="GAdd28.png" />
+</p>
+</div>
+
+<p>
+So now if we look at the state of our allocation, we've basically used
+up all the displays of Query 1. And we've used up some part of AT&amp;T's
+budget, though there's still a lot left.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd29.png" alt="GAdd29.png" />
+</p>
+</div>
+
+<p>
+So now we go back up and we now proceed to make the next allocation in
+our greedy solution. We've eliminated AT&amp;T in Query 1. So now the only
+combination that remains is AT&amp;T with Query 2.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd30.png" alt="GAdd30.png" />
+</p>
+</div>
+
+<p>
+So we go down. We add that entry to our side table. And so now to get
+the budget limit, we take AT&amp;T's remaining budget of $102, and we
+divide it through by 0.5, which is the average price per display to
+get 204. And the query limit now is 80, because 80 is the number of
+remaining unassigned displays of Query 2.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd31.png" alt="GAdd31.png" />
+</p>
+</div>
+
+<p>
+And now the smaller of the two numbers is 80. And so we add 80 to our
+table. And so at this point, we've gone through all the entries in our
+average price per display table, and we've eliminated basically all of
+them.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd32.png" alt="GAdd32.png" />
+</p>
+</div>
+
+<p>
+And in terms of the allocation, we know that we can't make any more
+allocations, because if we look at our constraints, basically, there
+are no more displays of any query that have not been assigned to any
+advertiser.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd33.png" alt="GAdd33.png" />
+</p>
+</div>
+
+<p>
+So all of these entries here are 0. And in this case, AT&amp;T's budget is
+still some positive value. So we still have $62 of AT&amp;T’s budget
+remaining.
+But since we don't have any more displays of any query that we can
+use, we are basically done.
+</p>
+
+<p>
+So this is our greedy solution. And so there are a couple of
+interesting things to note about this greedy solution. So the first is
+that the actual combinations that are used by the greedy solution are
+different from those that are made by the linear optimization based
+solution.
+</p>
+
+<p>
+So for example, in the optimization solution, if you recall, we only
+used Query 3 with AT&amp;T. So we only displayed&#x2013; whenever we displayed
+an ad with Query 3, it was only AT&amp;T’s ad.
+</p>
+
+<p>
+But in this case, we don't actually display AT&amp;T's ad with Query 3
+ever. And in fact, we display only T-Mobile's ad and Verizon's ad with
+Query 3.
+</p>
+
+<p>
+We don't use AT&amp;T. So that's&#x2013; so the actual allocation changes and so
+as a result, the revenue that we get from the greedy solution is
+different from the revenue that we get from the optimization
+solution.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd34.png" alt="GAdd34.png" />
+</p>
+</div>
+
+<p>
+If you recall, the revenue from the optimization solution was
+$428. Now, this may not seem like a very large difference. So this is
+a difference of $60. But in relative terms, this is actually a rather
+large amount, 368 relative to 428 is roughly 14 percent.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdd35.png" alt="GAdd35.png" />
+</p>
+</div>
+
+<p>
+And so, hopefully this illustrates the fact that an optimization based
+solution can provide a significant difference in performance relative
+to a basic common sense solution.
+</p>
+
+<p>
+So this concludes our construction and our discussion of the greedy
+solution. In the next video, we will go back to our linear
+optimization model, and we will consider some of the sensitivity
+analysis that goes along with that model.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-8" class="outline-3">
+<h3 id="sec-3-8"><span class="section-number-3">3.8</span> Video 7: Sensitivity Analysis</h3>
+<div class="outline-text-3" id="text-3-8">
+<p>
+In this video, we'll be using the spreadsheet
+GoogleAdWords_LO_Sensitivity. If you are using LibreOffice or
+OpenOffice, please download and open the spreadsheet
+<a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/GoogleAdWords_LO_Sensitivity.ods">GoogleAdWords_LO_Sensitivity.ods</a>. If you are using Microsoft Excel,
+please download and open the spreadsheet
+<a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/GoogleAdWords_LO_Sensitivity.xlsx">GoogleAdWords_LO_Sensitivity.xlsx</a>.
+</p>
+
+<p>
+We're going to explore our linear optimization model further. We're
+going to use it to answer some "what if" questions and to conduct some
+sensitivity analysis. So here, we have a spreadsheet that is formatted
+very similarly to the spreadsheets that we've used in Video 5 and
+Video 6.
+</p>
+
+<p>
+So we have the data up here, we have the price-per-click, the
+click-through-rate, the average price per display, the budgets, the
+query estimates. Below those, we have the variables. So we have the
+cells corresponding to the decision variables.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdSen01.png" alt="GAdSen01.png" />
+</p>
+</div>
+
+<p>
+We have the cell corresponding to the objective. And to the right of
+these, we have cells that contain the values of the decision variables
+and a cell that contains the value of the revenue from our original
+solution from Video 5.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdSen02.png" alt="GAdSen02.png" />
+</p>
+</div>
+
+<p>
+So what we're going to do is, we're going to change our data, and
+we're going to see how the solution changes and how the objective
+value changes and compare it to our original solution.
+</p>
+
+<p>
+So as one of the questions that we might consider, let's consider the
+following question. What would happen if the click-through-rate of
+AT&amp;T with query one increased from 0.10 to 0.5?
+</p>
+
+<p>
+So to answer this question, let's crawl up in the spreadsheet until we
+hit the click-through-rate. And let's change the click-through-rate
+from 0.1 to 0.5.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdSen03.png" alt="GAdSen03.png" />
+</p>
+</div>
+
+<p>
+Now, if we do this, you may have noticed that the average price per
+display for AT&amp;T in query one also changed. So of course, this makes
+sense, because the average price per display is just the
+click-through-rate multiplied by the price-per-click.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdSen04.png" alt="GAdSen04.png" />
+</p>
+</div>
+
+<p>
+And here, the way we've set up the spreadsheet is so that these cells
+are exactly the product of the corresponding cells. So the cells that
+correspond to the click-through-rate and the price-per-click for that
+respective query and advertiser combination.
+</p>
+
+<p>
+So our average price per display has changed appropriately. And so
+now, we just scroll down until we see our variables and we see our
+objective. And let's click on Tools. Let's open up the Solver.
+</p>
+
+<p>
+So we don't need to do anything here. And so now, all we have to do is
+just hit Solve and click on Keep Result, and voila. We have a new
+solution.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdSen05.png" alt="GAdSen05.png" />
+</p>
+</div>
+
+<p>
+So now, several things have changed with the solution, if you can
+see. So the first thing is that the allocations have changed.
+</p>
+
+<p>
+So for instance, we allocate query one and AT&amp;T 68 times. So we decide
+to show AT&amp;T's ad with query one 68 times, as opposed to the original
+solution, where we did it 40 times.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdSen06.png" alt="GAdSen06.png" />
+</p>
+</div>
+
+<p>
+And we can also see that AT&amp;T is never shown in query two or query
+three in our new solution, whereas before, it was shown 40 times for
+query two and 80 times for query three.
+</p>
+
+<p>
+Similarly, we show T-Mobile 72 times with query one, whereas before,
+we only showed it 100 times. And we also showed T-Mobile with query
+three 14 times, whereas before, we didn't show it at all with query
+three.
+</p>
+
+<p>
+And Verizon's allocations say the same as before.
+</p>
+
+<p>
+In terms of the revenue, our revenue has gone up slightly from $428 in
+the original solution to $430 in the new solution.
+</p>
+
+<p>
+Now, this may seem like a small amount. But actually, this is the most
+that we can hope to achieve.
+</p>
+
+<p>
+And the reason for this is, if we scroll down, if we look at our
+budgets, so the budget for AT&amp;T is 170, for T-Mobile, 100, and for
+Verizon, it's 160.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdSen07.png" alt="GAdSen07.png" />
+</p>
+</div>
+
+<p>
+If we add up these values, you can see that actually the sum of these
+values is 430. Now, this isn't a coincidence. In fact, if you think
+about it, this makes sense, because what Google earns from each
+advertiser is exactly how much that advertiser spends.
+</p>
+
+<p>
+And if the most that each advertiser spends is that advertiser's
+budget, then the most that Google could hope to earn is in fact the
+sum of these budgets.
+</p>
+
+<p>
+So in fact, we are attaining the highest possible revenue that we can
+hope to attain in this case.
+</p>
+
+<p>
+So that was rather interesting. And now, let's change back the
+click-through-rate from 0.5 back to the original value of 0.1.
+</p>
+
+<p>
+And let's answer another question.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdSen08.png" alt="GAdSen08.png" />
+</p>
+</div>
+
+<p>
+So the question that we'd now like to answer is, what would happen if
+AT&amp;T's budget increased from 170 to 200? So for example, AT&amp;T calls us
+and tells us that actually they can afford more advertisements.
+</p>
+
+<p>
+<b>So how would that change our solution?</b> Well, in this case, let's just
+find AT&amp;T's budget data. So in this case, it is the cell here. And
+let's change it from 170 to 200.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdSen09.png" alt="GAdSen09.png" />
+</p>
+</div>
+
+<p>
+Now, let's scroll down to our variables and our objective. And let's
+just set them back to zero. And now, let's go to Tools again, let's
+open up the Solver, and let's hit Solve.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdSen10.png" alt="GAdSen10.png" />
+</p>
+</div>
+
+<p>
+We get 428, which is actually the same objective that we got from
+before.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdSen11.png" alt="GAdSen11.png" />
+</p>
+</div>
+
+<p>
+Now, interestingly, this new solution is actually exactly the same as
+the old solution.
+</p>
+
+<p>
+<b>So what happened here?</b> <b>Why didn't this change anything?</b>
+</p>
+
+<p>
+Well, actually, if you recall from the previous solution, in the
+previous solution, we actually only used $168 of AT&amp;T's budget. And in
+the previous solution, AT&amp;T's budget was $170. So in the previous
+solution, we didn't actually use up all of AT&amp;T's budget.
+</p>
+
+<p>
+And since this constraint was not binding, then increasing this
+constraint beyond 170&#x2013; so increasing the budget from 170 to 200&#x2013;
+won't actually have an effect on the solution. So this is why the
+solution didn't change.
+</p>
+
+
+<div class="figure">
+<p><img src="../graphs/GAdSen12.png" alt="GAdSen12.png" />
+</p>
+</div>
+
+<p>
+And in fact, in this case, we didn't really need to change the data
+and to solve the problem again, we could've deduced this from actually
+looking at the budget values.
+</p>
+
+<p>
+So these are examples of two questions that we might consider in this
+setting.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3-9" class="outline-3">
+<h3 id="sec-3-9"><span class="section-number-3">3.9</span> Video 8: Extensions and the Edge</h3>
+<div class="outline-text-3" id="text-3-9">
+<p>
+The problem that we have studied so far captures the essential
+features of the AdWords problem, but it can be extended in several
+ways. We will shortly talk in some more detail about two of these,
+which relate to the idea of slates or positions, and which relate to
+the idea of personalization.
+</p>
+
+<p>
+Aside from these two extensions, there are also many other issues that
+Google deals with on a daily basis. One of these is related to
+click-through-rates (CTRs).
+</p>
+
+<p>
+In particular, <b>how does Google know the chance that a user clicks on
+a given ad?</b> Google does this by analyzing large amounts of user data
+and building predictive models, similar to those we studied in this
+class, to predict how often users click on different ads when they're
+shown with different queries.
+</p>
+
+<p>
+Another issue is related to the advertisers. We saw earlier that the
+price-per-click depends on how the advertisers place their bids.
+</p>
 
 
 <div class="figure">
@@ -3938,12 +5000,129 @@ the \(x_{V1}\) through \(x_{V3}\) that we saw in the previous video.
 </p>
 </div>
 
+<p>
+So understanding the behavior of advertisers and incorporating this
+behavior in the optimization model is also another important
+consideration.
+</p>
+
+<p>
+Let's move on to discuss the idea of slates.
+</p>
+
+<p>
+In our example with AT&amp;T, T-Mobile, and Verizon, we assume that the
+search page for each query has space for only one ad. Now typically,
+as we saw in Video 1 when we searched for Nine Inch Nails tickets,
+there's usually space for many ads.
+</p>
+
+<p>
+In this case, Google has to decide which combination of ads, or slate,
+to display with each query.
+</p>
+
+<p>
+Although this would seem to be a more complicated problem, it can
+still be solved using linear optimization. Before, our variables were
+defined as x of a given advertiser and a given query.
+</p>
+
+<p>
+But now, we would instead define them as x for a given slate and a
+given query.
+</p>
+
+<p>
+So for example, for our wireless service provider example, if we had
+two spaces on our results page, then for query 1, we'd still have
+\(x_{A1}\), \(x_{T1}\), and \(x_{V1}\), where here, for example, \(x_{V1}\) is
+the number of times that we display Verizon with query 1.
+</p>
+
+<p>
+But we would also have \(x_{AT1}\), \(x_{AV1}\), and \(x_{TV1}\). Here, for
+example, \(x_{AV1}\), represents the number of times that we display the
+slate containing AT&amp;T and Verizon with query 1.
+</p>
+
+<p>
+Now, this can become even more complicated as the position of the ad
+within the slate is important.
+</p>
+
+<p>
+For example, ads to the right of the search results might not attract
+as many clicks as those above the search results.
+</p>
+
+<p>
+In this case, we would also consider \(x_{TA1}\), \(x_{VA1}\), and
+\(x_{VT1}\). And here, the first ad in the combination is the ad that is
+placed in the first position.
+</p>
+
+<p>
+So, for example, here T-Mobile is placed in the first position for
+\(x_{TA1}\) and AT&amp;T is placed in the second position.
+</p>
+
+<p>
+We would formulate our objective and our budget and query constraints
+in the same way as before, but making sure that slates that contain a
+certain advertiser use up that advertiser's budget.
+</p>
+
+<p>
+And slates in a given query counts towards that query's estimated
+number of requests.
+</p>
 
 
 <div class="figure">
 <p><img src="../graphs/G29.png" alt="G29.png" />
 </p>
 </div>
+
+<p>
+Let's now discuss the idea of <b>personalization</b>. In addition to the
+query, Google can use other information to decide which ad to
+display. For example, Google might know the geographic location of the
+user as determined from their IP address.
+</p>
+
+<p>
+Google might also know other information, such as different Google
+searches that the user has conducted, and browser activity on Google's
+website.
+</p>
+
+<p>
+The question then is, how can Google take this into account when
+deciding which ads display for which queries? Well, just like slates,
+we could also incorporate this into our linear optimization model.
+</p>
+
+<p>
+Rather than working with queries, we would work with combinations of
+queries and user profiles.
+</p>
+
+<p>
+So rather than having x defined for a given advertiser and a given
+query, we would define x for a given advertiser, a given query, and a
+given user profile. So here, a user profile just describes the type of
+user. For instance, a profile might be men aged 20 to 25 who live in
+Boston, Massachusetts in the United States.
+</p>
+
+<p>
+If we had three user profiles, we could name them \(P_1\), \(P_2\),
+\(P_3\). And then for AT&amp;T for query 1, we would use \(x_{A_1P_1}\) to
+denote the number of times that we display AT&amp;T's ad with query 1 for
+a user of profile \(P_1\).
+</p>
+
 
 
 
@@ -3965,7 +5144,7 @@ the \(x_{V1}\) through \(x_{V3}\) that we saw in the previous video.
 <div id="postamble" class="status">
 <p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-08-08 Sat&gt;</span></span></p>
 <p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
-<p class="date">Created: 2015-08-12 Wed 12:54</p>
+<p class="date">Created: 2015-08-13 Thu 21:15</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
