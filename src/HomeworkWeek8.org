@@ -40,22 +40,204 @@
 #+ATTR_HTML: width="500px"
 
 # -*- mode: org; -*-
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/htmlize.css"/>
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/bigblow.css"/>
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/hideshow.css"/>
+#+OPTIONS:   toc:2
 
-#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery-1.11.0.min.js"></script>
-#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery-ui-1.10.2.min.js"></script>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/htmlize.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/readtheorg.css"/>
 
-#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.localscroll-min.js"></script>
-#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.scrollTo-1.4.3.1-min.js"></script>
-#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/jquery.zclip.min.js"></script>
-#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/bigblow.js"></script>
-#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/bigblow/js/hideshow.js"></script>
-#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.min.js"></script>
+#+HTML_HEAD: <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+#+HTML_HEAD: <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/readtheorg/js/readtheorg.js"></script>
 
 #+BEGIN_ABSTRACT
 Assignment 8. Problems about linear optimization.
 #+END_ABSTRACT
 
-* tmp
+* Investment management under taxation [3/3]
+
+Billions of shares of stock, or fractions of ownership in a business,
+are traded on the stock market every day. Over half of all adults in
+the United States own stocks and 1.2 billion people worldwide invest
+in the stock market. Many people invest in stocks to increase their
+wealth and to increase their earnings beyond their salary. If the
+business that you own stock in does well, then your stock value will
+increase and you will make money.
+
+An individual who owns stock can sell their shares, or a fraction of
+their shares, to get cash that can be used for a down payment on a
+home, to buy a new car, or for any other purchase. However, when you
+sell stock, you have to pay both a transaction fee and  tax on the
+money you gain. If you own many different stocks, you have to decide
+what stocks and how much to sell to make sure you have enough cash for
+your purchase. In this problem, we'll use linear optimization to
+decide which shares of stock and how many you need to sell in order to
+have enough cash to make your purchase, and to maintain a strong
+portfolio of stocks.
+
+** DONE Problem 1.1 - Formulating the Problem (1 point possible)
+CLOSED: [2015-08-15 Sat 19:50]
+
+Suppose that, last year, you purchased *150 shares of eight different
+stocks* (for a total of 1200 shares). The spreadsheet [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/Investment.ods][Investment.ods]]
+for LibreOffice or OpenOffice, and [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/Investment.xlsx][Investment.xlsx]] for Microsoft
+Excel, lists the stocks that you purchased, the price you purchased
+them for last year, the current price, and the price estimate for next
+year.
+
+If you sell any shares, you have to pay a *transaction cost* of 1% of
+the amount transacted.
+
+In addition, you must pay a *capital-gains tax* at the rate of 30% on
+any capital gains at the time of the sale. For example, suppose that
+you sell 100 shares of a stock today at $50 per share, which you
+originally purchased for $30 per share. You would receive
+$5,000. However, you would have to pay capital-gains taxes of (USD):
+
+$$
+0.30 \times (5000− 3000) = 600
+$$
+
+and you would have to pay:
+
+$$
+0.01 \times 5000 = 50
+$$
+
+in transaction costs. Therefore, by selling 100 shares of this stock,
+you would have a net cashflow of
+
+$$
+ 5000 − 600 − 50 = 4350
+$$
+
+Note that none of the stocks decreased in value since the time of
+purchase, so we don't have to deal with capital losses.
+
+You would like to sell enough shares of stock today to generate
+$10,000 to use as part of a down payment on a new home. You need to
+decide how many shares of which stocks to sell in order to generate
+*$10,000*, after taxes and transaction costs, while maximizing the
+estimated value of your stock portfolio next year. Let's formulate
+this as a linear optimization problem.
+
+How many decision variables should your model have?
+
+*** Answer
+
+8 variables.
+
+*Explanation*
+
+We need one decision variable for each stock, representing the number
+of shares to sell of that stock. Since we have 8 stocks, there are 8
+decision variables.
+
+** DONE Problem 1.2 - Formulating the Problem (2 points possible)
+CLOSED: [2015-08-15 Sat 19:50]
+
+We'll assume for this problem that you can't sell more shares of stock
+than you own, and you can't buy additional shares.
+
+*** Question a
+
+What is the maximum value your decision variables can be?
+
+**** Answer
+
+*150 shares*
+
+*Explanation*
+
+You can't sell more shares that you own, and since you own 150 shares
+of each stock, the decision variables can't be any larger than 150.
+
+*** Question b
+
+What is the minimum value your decision variables can be?
+
+**** Answer
+
+*Zero shares*
+
+*Explanation*
+
+Since you can't buy additional shares (giving the decision variables
+negative values) the minimum value the decision variables can be
+is 0.
+
+** DONE Problem 1.3 - Formulating the Problem (1 point possible)
+CLOSED: [2015-08-15 Sat 19:49]
+
+Your objective is to maximize the estimated value of your stock
+portfolio next year. To do this, you should sum the estimated value of
+each stock next year. Suppose you sell x shares of your stock in
+Microsoft.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: The estimated value of your Microsoft stock next year:")
+  x <- 10
+  Vmn <- 34.55 * (150 - x)
+  Vmn
+#+end_src
+
+#+RESULTS:
+:
+:  :: The estimated value of your Microsoft stock next year:
+: [1] 4837
+
+*** Question
+
+What is the estimated value of your Microsoft stock next year?
+
+**** Answer
+
+- [X] $34.55 * (150−x)
+- [ ] $34.55 * x
+- [ ] $2.05 * (150−x)
+- [ ] $2.05 * x
+
+*Explanation*
+
+We expect Microsoft stock to be worth $34.55 next year. Since you will
+have (150 - x) shares next year (after selling x shares), the
+estimated value of your stock is $34.55 (150 - x)$.
+
+** Problem 1.4 - Formulating the Problem (1 point possible)
+
+You need to make sure you get $10,000 in cash from selling your
+stocks, after taxes and transaction costs.
+
+*** Note
+
+In LibreOffice (or in the spreadsheet software you are using),
+formulate and solve this optimization problem. Make sure to include a
+constraint for the amount of cash you generate, and upper and lower
+bounds for the values of your decision variables.
+
+*** Question
+
+How much would you get in cash, after taxes and transaction costs, if
+you sell 50 shares of your Intel stock?
+
+#+begin_src R :session :results output :exports all
+  p <- 1 - 0.31
+  p
+#+end_src
+
+#+RESULTS:
+: [1] 0.69
+
+**** Answer
+
+1154.715
+
+*Explanation*
+
+The Intel stock is currently worth $23.67. If you sell 50 shares, then
+you will receive $1183.50. You will have to pay taxes of thirty
+percent times the current profit minus the amount you paid for it, or
+0.30($1183.50 - $1127.00) = $16.95, and transaction costs of 1 percent
+times the total amount, or 0.01($1183.50) = $11.84. So you will get in
+cash, after taxes and transaction costs, $1183.50 - $16.95 - $11.84 =
+$1154.71.

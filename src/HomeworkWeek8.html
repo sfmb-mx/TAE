@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2015-08-17 Mon 17:04 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="viewport" content="width=device-width, initial-scale=1" />
+<title>Assignment 8. Linear Optimization</title>
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="Sergio-Feliciano Mendoza-Barrera" />
+<meta  name="description" content="Linear optimization assignment 8"
+ />
+<meta  name="keywords" content="R, data science, emacs, ESS, org-mode, linear optimization" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/readtheorg/js/readtheorg.js"></script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Assignment 8. Linear Optimization</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgheadline14">1. Investment management under taxation <code>[3/3]</code></a>
+<ul>
+<li><a href="#orgheadline2">1.1. <span class="done nilDONE">DONE</span> Problem 1.1 - Formulating the Problem (1 point possible)</a></li>
+<li><a href="#orgheadline7">1.2. <span class="done nilDONE">DONE</span> Problem 1.2 - Formulating the Problem (2 points possible)</a></li>
+<li><a href="#orgheadline10">1.3. <span class="done nilDONE">DONE</span> Problem 1.3 - Formulating the Problem (1 point possible)</a></li>
+<li><a href="#orgheadline13">1.4. Problem 1.4 - Formulating the Problem (1 point possible)</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="ABSTRACT">
+<p>
+Assignment 8. Problems about linear optimization.
+</p>
+
+</div>
+
+<div id="outline-container-orgheadline14" class="outline-2">
+<h2 id="orgheadline14"><span class="section-number-2">1</span> Investment management under taxation <code>[3/3]</code></h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Billions of shares of stock, or fractions of ownership in a business,
+are traded on the stock market every day. Over half of all adults in
+the United States own stocks and 1.2 billion people worldwide invest
+in the stock market. Many people invest in stocks to increase their
+wealth and to increase their earnings beyond their salary. If the
+business that you own stock in does well, then your stock value will
+increase and you will make money.
+</p>
+
+<p>
+An individual who owns stock can sell their shares, or a fraction of
+their shares, to get cash that can be used for a down payment on a
+home, to buy a new car, or for any other purchase. However, when you
+sell stock, you have to pay both a transaction fee and  tax on the
+money you gain. If you own many different stocks, you have to decide
+what stocks and how much to sell to make sure you have enough cash for
+your purchase. In this problem, we'll use linear optimization to
+decide which shares of stock and how many you need to sell in order to
+have enough cash to make your purchase, and to maintain a strong
+portfolio of stocks.
+</p>
+</div>
+
+<div id="outline-container-orgheadline2" class="outline-3">
+<h3 id="orgheadline2"><span class="section-number-3">1.1</span> <span class="done DONE">DONE</span> Problem 1.1 - Formulating the Problem (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+Suppose that, last year, you purchased <b>150 shares of eight different
+stocks</b> (for a total of 1200 shares). The spreadsheet <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/Investment.ods">Investment.ods</a>
+for LibreOffice or OpenOffice, and <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/Investment.xlsx">Investment.xlsx</a> for Microsoft
+Excel, lists the stocks that you purchased, the price you purchased
+them for last year, the current price, and the price estimate for next
+year.
+</p>
+
+<p>
+If you sell any shares, you have to pay a <b>transaction cost</b> of 1% of
+the amount transacted.
+</p>
+
+<p>
+In addition, you must pay a <b>capital-gains tax</b> at the rate of 30% on
+any capital gains at the time of the sale. For example, suppose that
+you sell 100 shares of a stock today at $50 per share, which you
+originally purchased for $30 per share. You would receive
+$5,000. However, you would have to pay capital-gains taxes of (USD):
+</p>
+
+<p>
+\($
+0.30 \times (5000− 3000) = 600
+$\)
+</p>
+
+<p>
+and you would have to pay:
+</p>
+
+<p>
+\($
+0.01 \times 5000 = 50
+$\)
+</p>
+
+<p>
+in transaction costs. Therefore, by selling 100 shares of this stock,
+you would have a net cashflow of
+</p>
+
+<p>
+\($
+ 5000 − 600 − 50 = 4350
+$\)
+</p>
+
+<p>
+Note that none of the stocks decreased in value since the time of
+purchase, so we don't have to deal with capital losses.
+</p>
+
+<p>
+You would like to sell enough shares of stock today to generate
+$10,000 to use as part of a down payment on a new home. You need to
+decide how many shares of which stocks to sell in order to generate
+<b>$10,000</b>, after taxes and transaction costs, while maximizing the
+estimated value of your stock portfolio next year. Let's formulate
+this as a linear optimization problem.
+</p>
+
+<p>
+How many decision variables should your model have?
+</p>
+</div>
+
+<div id="outline-container-orgheadline1" class="outline-4">
+<h4 id="orgheadline1"><span class="section-number-4">1.1.1</span> Answer</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<p>
+8 variables.
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+We need one decision variable for each stock, representing the number
+of shares to sell of that stock. Since we have 8 stocks, there are 8
+decision variables.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline7" class="outline-3">
+<h3 id="orgheadline7"><span class="section-number-3">1.2</span> <span class="done DONE">DONE</span> Problem 1.2 - Formulating the Problem (2 points possible)</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+We'll assume for this problem that you can't sell more shares of stock
+than you own, and you can't buy additional shares.
+</p>
+</div>
+
+<div id="outline-container-orgheadline4" class="outline-4">
+<h4 id="orgheadline4"><span class="section-number-4">1.2.1</span> Question a</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<p>
+What is the maximum value your decision variables can be?
+</p>
+</div>
+
+<div id="outline-container-orgheadline3" class="outline-5">
+<h5 id="orgheadline3"><span class="section-number-5">1.2.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-1-2-1-1">
+<p>
+<b>150 shares</b>
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+You can't sell more shares that you own, and since you own 150 shares
+of each stock, the decision variables can't be any larger than 150.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline6" class="outline-4">
+<h4 id="orgheadline6"><span class="section-number-4">1.2.2</span> Question b</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<p>
+What is the minimum value your decision variables can be?
+</p>
+</div>
+
+<div id="outline-container-orgheadline5" class="outline-5">
+<h5 id="orgheadline5"><span class="section-number-5">1.2.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-1-2-2-1">
+<p>
+<b>Zero shares</b>
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+Since you can't buy additional shares (giving the decision variables
+negative values) the minimum value the decision variables can be
+is 0.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline10" class="outline-3">
+<h3 id="orgheadline10"><span class="section-number-3">1.3</span> <span class="done DONE">DONE</span> Problem 1.3 - Formulating the Problem (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+Your objective is to maximize the estimated value of your stock
+portfolio next year. To do this, you should sum the estimated value of
+each stock next year. Suppose you sell x shares of your stock in
+Microsoft.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: The estimated value of your Microsoft stock next year:"</span>)
+x <span style="color: #db7093;">&lt;-</span> 10
+Vmn <span style="color: #db7093;">&lt;-</span> 34.55 * (150 - x)
+Vmn
+</pre>
+</div>
+
+<pre class="example">
+ :: The estimated value of your Microsoft stock next year:
+[1] 4837
+</pre>
+</div>
+
+<div id="outline-container-orgheadline9" class="outline-4">
+<h4 id="orgheadline9"><span class="section-number-4">1.3.1</span> Question</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<p>
+What is the estimated value of your Microsoft stock next year?
+</p>
+</div>
+
+<div id="outline-container-orgheadline8" class="outline-5">
+<h5 id="orgheadline8"><span class="section-number-5">1.3.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-1-3-1-1">
+<ul class="org-ul">
+<li class="on"><code>[X]</code> $34.55 * (150−x)</li>
+<li class="off"><code>[&#xa0;]</code> $34.55 * x</li>
+<li class="off"><code>[&#xa0;]</code> $2.05 * (150−x)</li>
+<li class="off"><code>[&#xa0;]</code> $2.05 * x</li>
+</ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+We expect Microsoft stock to be worth $34.55 next year. Since you will
+have (150 - x) shares next year (after selling x shares), the
+estimated value of your stock is \(34.55 (150 - x)\).
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline13" class="outline-3">
+<h3 id="orgheadline13"><span class="section-number-3">1.4</span> Problem 1.4 - Formulating the Problem (1 point possible)</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+You need to make sure you get $10,000 in cash from selling your
+stocks, after taxes and transaction costs.
+</p>
+</div>
+
+<div id="outline-container-orgheadline11" class="outline-4">
+<h4 id="orgheadline11"><span class="section-number-4">1.4.1</span> Question</h4>
+<div class="outline-text-4" id="text-1-4-1">
+<p>
+How much would you get in cash, after taxes and transaction costs, if
+you sell 50 shares of your Intel stock?
+</p>
+</div>
+</div>
+
+
+
+<div id="outline-container-orgheadline12" class="outline-4">
+<h4 id="orgheadline12"><span class="section-number-4">1.4.2</span> Note</h4>
+<div class="outline-text-4" id="text-1-4-2">
+<p>
+In LibreOffice (or in the spreadsheet software you are using),
+formulate and solve this optimization problem. Make sure to include a
+constraint for the amount of cash you generate, and upper and lower
+bounds for the values of your decision variables.
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 14/08/2015</p>
+<p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
+<p class="date">Created: 2015-08-17 Mon 17:04</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
