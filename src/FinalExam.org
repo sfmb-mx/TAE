@@ -600,3 +600,212 @@ package?
 - [ ] Yes, but not within the past year.
 - [ ] No.
 - [ ] I'm not sure.
+
+* Final Exam
+
+** Instructions
+
+Please read and understand these instructions carefully before
+starting the final exam.
+
+Posts on the discussion forum about the final exam are not
+allowed. The staff will be proactive in removing posts about the final
+exam, and those caught posting about the final may have their account
+disabled and their progress erased. If you have clarification
+questions or you believe there might be a mistake in the exam, please
+send an email to mit15071x@gmail.com, and we will respond to your
+email as soon as possible. You should not send emails asking for
+specific help on the problems though - this is only for clarification
+questions or potential mistakes regarding the final exam.
+
+We have designed the Explanations differently in the final exam than
+the ones you are used to in the homework assignments. The
+Explanations here will serve as hints to give you the name of the
+functions you should have used, or a logical explanation of the
+answer. They do not provide R code.
+
+This final exam consists of four questions, with multiple parts to
+each question. You are allowed to use any materials from this class
+while working on the final exam, but please do not use outside
+materials. You answers should represent your work and your work
+alone.
+
+* Predicting Box OFfice revenue [0/2]
+
+Each year, box offices at movie theaters collect billions of dollars
+in revenue in the United States alone.  In this problem, we seek to
+determine whether or not we can predict box office revenue based on
+different variables related to a movie.
+
+In this problem, we'll use a dataset of 334 movies that were produced
+from 1953 to 2015. The dataset [[https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/Movies.csv][Movies.csv]] includes the following 24
+variables:
+
+- *Name* = the name of the movie
+
+- *Year* = the year the movie was produced
+
+- *Rated* = the rating given to the movie by the MPAA
+
+- *Runtime* = the duration of the movie in minutes
+
+- *Action* = binary variable that takes value 1 if the movie is an
+  action movie, 0 otherwise
+
+- *Adventure, Crime, Drama, Thriller, Fantasy, Horror, Sci.Fi, Comedy,
+  Family, Mystery, Romance, Animation, Music, History, Documentary*
+  are all defined like *Action*
+
+- *Wins* = number of awards won by the movie
+
+- *Nominations* = number of awards the movie was nominated for
+
+- *Production.Budget* = the natural logarithm of the production budget
+  in dollars
+
+- *Worldwide* = the natural logarithm of the worldwide revenue in
+  dollars
+
+** TODO Problem 1 - Loading the Data (2 points possible)
+
+Load the dataset Movies.csv into R and call it "Movies". In this
+problem, we will build a model to predict worldwide box office revenue
+for movies made in 2010-2015.
+
+#+begin_src R :session :results output :exports all
+  library(parallel)
+
+  if(!file.exists("../data")) {
+          dir.create("../data")
+  }
+
+  fileUrl <- "https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/Movies.csv"
+  fileName <- "MoviesP1Final.csv"
+  dataPath <- "../data"
+
+  filePath <- paste(dataPath, fileName, sep = "/")
+
+  if(!file.exists(filePath)) {
+          download.file(fileUrl, destfile = filePath, method = "curl")
+  }
+
+  writeLines("\n :: File downloaded...")
+
+#+end_src
+
+#+RESULTS:
+:
+:  :: File downloaded...
+
+Create a training set that consists of movies released before 2010 and
+a testing set that consists of movies released in 2010 and after.
+
+*** Question a
+
+How many observations are in the training set ~MoviesTrain~?
+
+*** Question b
+
+How many observations are in the testing set ~MoviesTest~?
+
+** TODO Problem 2 - Method of Splitting the Data (1 point possible)
+
+In this class, we have frequently used the sample.split function to
+randomly split our data. Why do we use a different approach here?
+Check all that apply.
+
+- [ ] We don't want to randomly split our data here, so the
+  sample.split function is not appropriate.
+
+- [ ] The sample.split function is typically used to split data with a
+  categorical dependent variable, and we have a continuous dependent
+  variable.
+
+- [ ] The sample.split function is typically used to split data with a
+  continuous dependent variable, and we have a categorical dependent
+  variable.
+
+- [ ] The sample.split function will give an error message if our
+  dependent variable is not a factor variable.
+
+- [ ] We have too many observations for the sample.split function to
+  work.
+
+** Problem 3 - A Linear Regression Model (1 point possible)
+
+Build a linear regression model to predict "Worldwide" based on all of
+the remaining variables, except for Name and Year. Use the training
+set to build the model. If your training set is called MoviesTrain, an
+easy way to do this it to pass the argument
+
+~data = MoviesTrain[ , 3:ncol(MoviesTrain)]~
+
+to the lm function.
+
+*** Question
+
+What is the model's R-squared? (Please report the "Multiple R-squared"
+value in the output.)
+
+** Problem 4 - Checking for Significance (1 point possible)
+
+In your linear regression model, which of the independent variables
+are significant at the p=0.05 level (at least one star)? For factor
+variables, consider the variable significant if at least one level is
+significant. Select all that apply.
+
+- [ ] Rated
+- [ ] Runtime
+- [ ] Action
+- [ ] Adventure
+- [ ] Crime
+- [ ] Drama
+- [ ] Thriller
+- [ ] Fantasy
+- [ ] Horror
+- [ ] Sci.Fi
+- [ ] Comedy
+- [ ] Family
+- [ ] Mystery
+- [ ] Romance
+- [ ] Animation
+- [ ] Music
+- [ ] History
+- [ ] Documentary
+- [ ] Wins
+- [ ] Nominations
+- [ ] Production.Budget
+
+** Problem 5 - Correlations (2 points possible)
+
+*** Question a
+
+What is the correlation between Worldwide and Production.Budget in the
+training set?
+
+*** Question b
+
+Given this value, should Production.Budget be included in the model?
+
+- [ ] Yes, it has high predictive value since the independent variable
+  is correlated with a dependent variable.
+
+- [ ] No, having highly correlated variables in a regression model can
+  affect the quality of the resulting predictions.
+
+** Problem 6 - An Updated Model (1 point possible)
+
+Create a new linear regression model on the training set with only the
+significant variables you found in Problem 4 as the independent
+variables. Going forward, we will only consider this linear regression
+model.
+
+*** Question
+
+What is the model's R-squared? (Please report the "Multiple R-squared"
+value in the output.)
+
+** Problem 7 - Understanding Coefficients (2 points possible)
+
+In the model from Problem 6, what is the coefficient for Animation in
+the linear regression?

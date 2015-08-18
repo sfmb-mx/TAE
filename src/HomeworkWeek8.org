@@ -54,7 +54,7 @@
 Assignment 8. Problems about linear optimization.
 #+END_ABSTRACT
 
-* Investment management under taxation [3/3]
+* Investment management under taxation [9/9]
 
 Billions of shares of stock, or fractions of ownership in a business,
 are traded on the stock market every day. Over half of all adults in
@@ -203,7 +203,8 @@ We expect Microsoft stock to be worth $34.55 next year. Since you will
 have (150 - x) shares next year (after selling x shares), the
 estimated value of your stock is $34.55 (150 - x)$.
 
-** Problem 1.4 - Formulating the Problem (1 point possible)
+** DONE Problem 1.4 - Formulating the Problem (1 point possible)
+CLOSED: [2015-08-17 Mon 22:14]
 
 You need to make sure you get $10,000 in cash from selling your
 stocks, after taxes and transaction costs.
@@ -241,3 +242,318 @@ percent times the current profit minus the amount you paid for it, or
 times the total amount, or 0.01($1183.50) = $11.84. So you will get in
 cash, after taxes and transaction costs, $1183.50 - $16.95 - $11.84 =
 $1154.71.
+
+** DONE Problem 2.1 - Analyzing the Solution (2/2 points)
+CLOSED: [2015-08-17 Mon 22:22]
+
+In the optimal solution, which stocks do you sell at least one share
+of? Select all that apply.
+
+*** Answer
+
+- [X] Yahoo!
+- [ ] General Electric
+- [X] Microsoft
+- [ ] Bank of America
+- [ ] JPMorgan Chase
+- [ ] Cisco Systems, Inc
+- [X] Intel
+- [ ] Pfizer
+
+*Explanation*
+
+In the optimal solution, the decision variables with non-zero values
+are those corresponding to Yahoo!, Microsoft, and Intel.
+
+You can set up this optimization problem as follows. Suppose that you
+add a column to the end of your table that indicates the number of
+shares to sell (the decision variables). The decision variables will
+therefore be in cells G6:G13.
+
+Then the objective formula is:
+
+~SUMPRODUCT(F6:F13;(C6:C13-G6:G13))~
+
+And the cash constraint is given by the following formula:
+
+~SUMPRODUCT(G6:G13;E6:E13) - 0.3*(SUMPRODUCT(G6:G13;E6:E13) -~
+~SUMPRODUCT(G6:G13;D6:D13)) - 0.01*SUMPRODUCT(G6:G13;E6:E13) >= 10000~
+
+Don't forget to also bound all of your decision variables to be less
+than or equal to 150, and to be non-negative.
+
+** DONE Problem 2.2 - Analyzing the Solution (2 points possible)
+CLOSED: [2015-08-17 Mon 22:22]
+
+What is the objective value of the optimal solution (the estimated
+value of your portfolio of stocks next year)?
+
+*** Answer
+
+*26773.66 USD*
+
+*Explanation*
+
+The objective value after solving the problem is $26773.66.
+
+** DONE Problem 2.3 - Analyzing the Solution (2 points possible)
+CLOSED: [2015-08-17 Mon 22:22]
+
+How many shares of stock in total should you sell to make sure you
+have enough cash, according to the optimal solution? (Assume that you
+can sell fractional shares.)
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Shares sold:")
+  67.723298056 + (2 * 150)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Shares sold:
+: [1] 367.7233
+
+*Explanation*
+
+According to the optimal solution, you should sell 150 shares of
+Microsoft, 150 shares of Intel, and 67.723 shares of Yahoo!. Since you
+can only sell whole shares, you should sell 68 shares of Yahoo!, for a
+total of 368 shares.
+
+** DONE Problem 3.1 - Adjusting the Formulation (1 point possible)
+CLOSED: [2015-08-17 Mon 22:22]
+
+As an invester, you like having a portfolio of eight different stocks
+because it diversifies your investment. If one or two stocks do poorly
+this year, you won't worry as much because you have many other
+stocks. In the optimal solution for this problem, you sold all of your
+shares of some stocks, but you would like to keep at least half of the
+shares of each of your stocks.
+
+Adjust the formulation so that you sell no more than 75 shares of each
+stock, and solve it again.
+
+In the optimal solution, you sell at least one share of which of your
+stocks? Select all that apply.
+
+*** Answer
+
+- [X] Yahoo!
+- [X] General Electric
+- [X] Microsoft
+- [ ] Bank of America
+- [ ] JPMorgan Chase
+- [X] Cisco Systems, Inc
+- [X] Intel
+- [X] Pfizer
+
+*Explanation*
+
+The decision variables with non-zero values in the optimal solution
+are those corresponding to Yahoo!, General Electric, Microsoft, Cisco
+Systems, Inc, Intel, and Pfizer. To reach this solution, just change
+the upper bounds for the decision variables from 150 to 75 in the
+Solver.
+
+** DONE Problem 3.2 - Adjusting the Formulation (1 point possible)
+CLOSED: [2015-08-17 Mon 22:24]
+
+What is the objective value of the optimal solution now?
+
+*** Answer
+
+26468.5411605165
+
+*Explanation*
+
+The objective value found in Solver is $26,468.54.
+
+** Problem 3.3 - Adjusting the Formulation (1 point possible)
+
+Even though your investment is worth a bit less next year by
+diversifying, you expect this diversification to help you long term.
+
+However, you notice that you expect the Yahoo! stock to decrease in
+value next year. So, while you would like to sell no more than 75
+shares of your other stocks, you would like to sell exactly 100 shares
+of your Yahoo! stock. Adjust your formulation in LibreOffice again,
+and re-solve to get the new optimal solution.
+
+*** Question
+
+You now sell at least one share of how many different stocks?
+
+**** Answer
+
+5 different stocks.
+
+*Explanation*
+
+You sell at least one share of Yahoo!, General Electric, Microsoft,
+Intel, and Pfizer, for a total of 5 different stocks.
+
+You should remove the upper bound of 75 for Yahoo!, and add an
+equality constraint stating that you should sell exactly 100 shares of
+your Yahoo! stock.
+
+** Problem 3.4 - Adjusting the Formulation (1 point possible)
+
+What is your estimated portfolio value next year?
+
+*** Answer
+
+26507.5253531624
+
+*Explanation*
+
+The new objective value, or estimated portfolio value next year, is
+$26,507.53.
+
+** Important note:
+
+This problem showed how we can easily use linear optimization to solve
+a simple portfolio optimization problem. However, there are many ways
+that we can extend this problem to make it more realistic. We could
+use regression to predict the future stock prices, and incorporate
+regression models into the optimization problem. You'll see how to do
+this next week.
+
+Portfolio optimization is a very advanced and sophisticated field of
+optimization.  In reality, it is often a multi-stage nonlinear
+optimization problem. For more information, see
+[[http://en.wikipedia.org/wiki/Portfolio_optimization][Portafolio optimization at Wikipedia]].
+
+* Filatoi Riuniti [1/1]
+
+The northern regions of Italy are the heartlands of the Italian
+textile industry, providing textile products for many great Italian
+(and non-Italian) fashion houses. Most of today's companies were
+founded at the turn of the century and have grown and thrived despite
+a series of twentieth century catastrophes, including the Great
+Depression and World War II. Sales in the entire Italian textile and
+apparel industry were about $80 billion in 2007. The Italian
+textile-fashion industry employs over 400,000 people.
+
+Filatoi Riuniti is a family-owned spinning mill located in northwest
+Italy. They produce cotton yarn, which is one of the raw materials
+that is used to produce the fabrics that are then cut and sewn by
+Italian stylists into the worldwide famous Italian clothes.
+
+Demand for Filatoi Riuniti's production is strong, but their spinning
+machine capacity is insufficient to meet its production orders. They
+decided to outsource part of the spinning production to six local
+family-owned spinning mills: Ambrosi, Bresciani, Castri, De Blasi,
+Estensi, and Giuliani. The local mills charge higher prices for
+spinning finer yarns, so Filatoi Riuniti has decided to spin as much
+as possible of the finer yarns entirely in-house and to outsource only
+the spinning of low-end (coarser) yarns. Last month, they faced a
+total demand of 104,500 kg of cotton and they outsourced 32,000 kg of
+the low-end sizes.
+
+Filatoi Riuniti hired a consulting firm to see if the outsourcing
+strategies to the six local mills could be improved. After analyzing
+the data, they immediately saw the potential for very large savings
+through more optimal outsourcing strategies. In this problem, we'll
+improve the outsourcing strategy of Filatoi Riuniti using linear
+optimization. (Note: This problem is based off of a real case, but the
+names have been changed for privacy reasons.)
+
+** DONE Problem 1.1 - Formulating the Optimization Problem (3/3 points)
+CLOSED: [2015-08-18 Tue 00:13]
+
+Filatoi Riuniti produces four different sizes of yarn: extra fine,
+fine, medium, and coarse. Their current strategy is to produce all of
+the fine and extra fine yarn in-house, outsource some of the medium
+yarn to the lowest-price mill, and outsource all of the coarse yarn to
+the other mills. To try to improve this strategy, let's set up an
+optimization problem.
+
+The spreadsheet FilatoiRiuniti.ods for LibreOffice or OpenOffice, and
+FilatoiRiuniti.xlsx for Microsoft Excel, contains data for the
+problem. This data includes information about production hours,
+capacities, costs, and demand. Ambrosi and De Blasi can't produce
+extra fine yarn, so no data is provided for extra fine yarn at these
+mills.
+
+The decision variables are the amount of yarn of each size that each
+company should be assigned to produce. There are four sizes, and seven
+companies (including Filatoi Riuniti). These decision variables are
+set up in the spreadsheet. Note that the decision variables should be
+non-negative - none of the mills can produce a negative amount of
+yarn!
+
+The objective is to minimize costs. The prices charged by the six
+local mills for production, as well as the production cost at Filatoi
+Riuniti, are provided in the spreadsheet. Additionally, the yarn that
+is spun by the six local mills needs to be transported. The
+transportation costs per kg of yarn are also provided in the
+spreadsheet.
+
+Our model has two types of constraints: capacity constraints and
+demand constraints. The spreadsheet contains a table showing the
+production capacity and production rate per product for each of the
+mills (including Filatoi Riuniti). For example, at the Bresciani mill,
+it takes 0.70 hours to produce one kg of extra fine yarn, and there
+are a total of 3,000 machines hours per month available at this
+mill. There is also a table that estimates the demand for the four
+yarn sizes in the current month. We should produce at least the demand
+for each yarn type.
+
+Formulate and solve this problem in LibreOffice (or in the spreadsheet
+software you are using). The objective should minimize the sum of the
+production and transportation costs. You should have the following
+constraints: non-negative decision variables, a capacity constraint
+for each mill, and a demand constraint for each type of yarn. Remember
+that Ambrosi and De Blasi can't produce extra fine yarn, so you should
+also account for this.
+
+*** Question
+
+What is the objective value of the solution?
+
+**** Answer
+
+1382544.33431492
+
+*Explanation*
+
+After setting up and solving the problem, the objective value of the
+solution is $1,382,544.33.
+
+The formula for the objective is:
+
+~SUMPRODUCT(B53:E59;B25:E31) + SUMPRODUCT(B53:E59;B35:E41)~
+
+You should select that you want to minimize the objective in Solver.
+
+The formulas for the constraints are as follows:
+
+~Ambrosi No Extra Fine Yarn: B53 = 0~
+
+~De Blasi No Extra Fine Yarn: B56 = 0~
+
+~Ambrosi Capacity: SUMPRODUCT(B53:E53;B5:E5) <= B15~
+
+~Bresciani Capacity: SUMPRODUCT(B54:E54;B6:E6) <= B16~
+
+~Castri Capacity: SUMPRODUCT(B55:E55;B7:E7) <= B17~
+
+~De Blasi Capacity: SUMPRODUCT(B56:E56;B8:E8) <= B18~
+
+~Estensi Capacity: SUMPRODUCT(B57:E57;B9:E9) <= B19~
+
+~Filatoi Riuniti Capacity: SUMPRODUCT(B58:E58;B10:E10) <= B20~
+
+~Giuliani Capacity: SUMPRODUCT(B59:E59;B11:E11) <= B21~
+
+~Extra Fine Demand: SUM(B53:B59) >= B45~
+
+~Fine Demand: SUM(C53:C59) >= B46~
+
+~Medium Demand: SUM(D53:D59) >= B47~
+
+~Coarse Demand: SUM(E53:E59) >= B48~
+
+** Problem 1.2 - Formulating the Optimization Problem (2 points possible)
+
+How many kg of medium yarn is outsourced?
