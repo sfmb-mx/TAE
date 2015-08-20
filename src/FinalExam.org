@@ -630,7 +630,7 @@ while working on the final exam, but please do not use outside
 materials. You answers should represent your work and your work
 alone.
 
-* Predicting Box OFfice revenue [0/2]
+* Part 1. Predicting Box OFfice revenue [0/16]
 
 Each year, box offices at movie theaters collect billions of dollars
 in revenue in the United States alone.  In this problem, we seek to
@@ -731,7 +731,7 @@ Check all that apply.
 - [ ] We have too many observations for the sample.split function to
   work.
 
-** Problem 3 - A Linear Regression Model (1 point possible)
+** TODO Problem 3 - A Linear Regression Model (1 point possible)
 
 Build a linear regression model to predict "Worldwide" based on all of
 the remaining variables, except for Name and Year. Use the training
@@ -747,7 +747,7 @@ to the lm function.
 What is the model's R-squared? (Please report the "Multiple R-squared"
 value in the output.)
 
-** Problem 4 - Checking for Significance (1 point possible)
+** TODO Problem 4 - Checking for Significance (1 point possible)
 
 In your linear regression model, which of the independent variables
 are significant at the p=0.05 level (at least one star)? For factor
@@ -776,7 +776,7 @@ significant. Select all that apply.
 - [ ] Nominations
 - [ ] Production.Budget
 
-** Problem 5 - Correlations (2 points possible)
+** TODO Problem 5 - Correlations (2 points possible)
 
 *** Question a
 
@@ -793,7 +793,7 @@ Given this value, should Production.Budget be included in the model?
 - [ ] No, having highly correlated variables in a regression model can
   affect the quality of the resulting predictions.
 
-** Problem 6 - An Updated Model (1 point possible)
+** TODO Problem 6 - An Updated Model (1 point possible)
 
 Create a new linear regression model on the training set with only the
 significant variables you found in Problem 4 as the independent
@@ -805,7 +805,933 @@ model.
 What is the model's R-squared? (Please report the "Multiple R-squared"
 value in the output.)
 
-** Problem 7 - Understanding Coefficients (2 points possible)
+** TODO Problem 7 - Understanding Coefficients (2 points possible)
+
+*** Question a
 
 In the model from Problem 6, what is the coefficient for Animation in
 the linear regression?
+
+*** Question b
+
+The coefficient for Runtime is 0.010095. What is the interpretation of
+this coefficient?
+
+- [ ] For an additional unit of the variable Worldwide, the Runtime
+  increases by approximately 0.01 minutes.
+
+- [ ] For an additional minute of Runtime, the prediction for the
+  variable Worldwide increases by approximately 0.01 units.
+
+- [ ] For each additional minute of Runtime, the variable Worldwide
+  will definitely increase by approximately 0.01 units; thus,
+  directors should strive to make their movies as long as possible.
+
+** TODO Problem 8 - Predictions on the Test Set (1 point possible)
+
+*** Question a
+
+Make predictions on the test set using your linear regression
+model. What is the Sum of Squared Errors (SSE) on the test set?
+
+*** Question b
+
+What is the Total Sum of Squares (SST) on the test set? Remember to
+use the mean of Worldwide on the training set as the "baseline
+model".
+
+*** Question c
+
+What is the R-squared on the test set?
+
+** TODO Problem 9 - Understanding the Model (1 point possible)
+
+True or False: Our linear regression model suffers from overfitting.
+
+- [ ] True
+- [ ] False
+
+** TODO Problem 10 - A Classification Problem (2 points possible)
+
+Let's turn this problem into a multi-class classification problem by
+creating a new dependent variable. Our new dependent variable will
+take three different values: "Excellent", "Average", and "Poor" for
+films with Worldwide revenue in the top quartile, middle 50%, and
+bottom quartile, respectively. Create this variable, called
+"Performance", in your dataset Movies by running the following line in
+your R console:
+
+~Movies$Performance = factor(ifelse(Movies$Worldwide >~
+~quantile(Movies$Worldwide, .75), "Excellent", ifelse(Movies$Worldwide~
+~> quantile(Movies$Worldwide, .25), "Average", "Poor")))~
+
+*** Question a
+
+How many movies in the dataset Movies have Performance value Average?
+
+*** Question b
+
+How many movies in the dataset Movies have Performance value
+Excellent?
+
+*** Notes
+
+Now, remove the original dependent variable "Worldwide" from your
+dataset with the command:
+
+~Movies$Worldwide = NULL~
+
+Then, randomly split Movies into a training set, containing 70% of the
+observations, and a testing set, containing 30% of the
+observations. This time, you should use the sample.split function with
+the dependent variable "Performance". Right before calling the
+sample.split function, set the seed to 15071.
+
+** TODO Problem 11 - A CART Model (1 point possible)
+
+Build a CART model to predict "Performance" using all of the other
+variables except for "Name and "Year" to build the model. (Unless you
+have re-ordered your columns, an easy way to do this is to send
+MoviesTrain[ , 3:ncol(MoviesTrain)] as the data argument, assuming
+your new training set is called "MoviesTrain.") Remember that to
+predict a multi-class dependent variable, you can use the rpart
+function in the same way as for a binary classification problem. Just
+use the default parameter settings (don't set a value for minbucket or
+cp).
+
+*** Question a
+
+How many splits are in the resulting tree?
+
+*** Question b
+
+The CART model you just built predicts only two possible outcomes for
+a movie with Production.Budget less than 18. Which outcome does it
+never predict for these low-budget films?
+
+- [ ] Excellent
+- [ ] Average
+- [ ] Poor
+
+** TODO Problem 12 - Training Set Accuracy (1 point possible)
+
+Make predictions on the training set, and then create a confusion
+matrix. What is the overall accuracy of the model?
+
+** TODO Problem 13 - A Baseline Model (1 point possible)
+
+What is the accuracy on the training set of a baseline model that
+predicts the most frequent outcome (Average) for all observations?
+
+** TODO Problem 14 - Testing Set Accuracy (1 point possible)
+
+Make predictions on the testing set, and then create a confusion
+matrix. What is the overall accuracy of the model on the testing set?
+
+** TODO Problem 15 - Baseline Accuracy on Testing Set (1 point possible)
+
+What is the accuracy on the testing set of a baseline model that
+predicts the most frequent outcome (Average) for all observations?
+
+** TODO Problem 16 - Understanding the Model (1 point possible)
+
+What can you conclude from the CART model?
+
+- [ ] Turning this problem into a classification problem significantly
+  improved the ability to predict movie revenue.
+
+- [ ] Both the linear regression and CART models are well-suited for
+  this prediction problem.
+
+- [ ] The linear regression model is significantly better suited for
+  the continuous prediction problem than the CART model is for the
+  classification problem.
+
+* Part 2. Forecasting Interest Rate Hikes by the U.S. Federal Reserve [0/17]
+
+The federal funds rate is the key interest rate that the U.S. Federal
+Reserve uses to influence economic growth. The Federal Open Market
+Committee meets regularly to decide whether to increase, decrease, or
+maintain the target interest rate. Their choice has important
+ramifications that cascade through the economy, so the announcement of
+the interest rates is eagerly awaited each month.
+
+In this problem, we will use analytics to try to predict when the
+Federal Reserve will raise interest rates. We will look at monthly
+economic and political data dating back to the mid-1960's. In this
+analysis, the dependent variable will be the binary outcome variable
+RaisedFedFunds, which takes value 1 if the federal funds rate was
+increased that month and 0 if it was lowered or stayed the same. For
+each month, the file [[https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/federalFundsRate.csv][federalFundsRate.csv]] contains the following
+independent variables:
+
+
+- *Date*: The date the change was announced.
+
+- *Chairman*: The name of the Federal Reserve Chairman at the time the
+  change was announced.
+
+- *PreviousRate*: The federal funds rate in the prior month.
+
+- *Streak*: The current streak of raising or not raising the rate,
+  e.g. +8 indicates the rate has been increased 8 months in a row,
+  whereas -3 indicates the rate has been lowered or stayed the same
+  for 3 months in a row.
+
+- *GDP*: The U.S. Gross Domestic Product, in Billions of Chained 2009
+  US Dollars.
+
+- *Unemployment*: The unemployment rate in the U.S.
+
+- *CPI*: The Consumer Price Index, an indicator of inflation, in
+
+- *HomeownershipRate*: The rate of homeownership in the U.S.
+
+- *DebtAsPctGDP*: The U.S. national debt as a percentage of GDP
+
+- *DemocraticPres*: Whether the sitting U.S. President is a Democrat
+  (DemocraticPres=1) or a Republican (DemocraticPres=0)
+
+- *MonthsUntilElection*: The number of remaining months until the next
+  U.S. presidential election.
+
+** TODO Problem 1: Loading the Data (1 point possible)
+
+Use the read.csv function to load the contents of federalFundsRate.csv
+into a data frame called fedFunds, using ~stringsAsFactors=FALSE~. What
+proportion of months did the Fed raise the interest rate?
+
+** TODO Problem 2: The Longest-Serving Fed Chair (1 point possible)
+
+Which Federal Reserve Chair has presided over the most interest rate
+decisions?
+
+- [ ] Ben Bernanke
+- [ ] Arthur Burns
+- [ ] Alan Greenspan
+- [ ] William M. Martin
+- [ ] G. William Miller
+- [ ] Paul Volcker
+- [ ] Janet Yellen
+
+** TODO Problem 3 - Converting Variables to Factors (1 point possible)
+
+Convert the following variables to factors using the ~as.factor~
+function:
+
+- Chairman
+- DemocraticPres
+- RaisedFedFunds
+
+Which of the following methods requires the dependent variable be
+stored as a factor variable when training a model for classification?
+
+- [ ] Logistic regression (glm)
+- [ ] CART (rpart)
+- [ ] Random forest (randomForest)
+
+** TODO Problem 4 - Splitting into a Training and Testing Set (1 point possible)
+
+Obtain a random training/testing set split with:
+
+~set.seed(201)~
+
+~library(caTools)~
+
+~spl = sample.split(fedFunds$RaisedFedFunds, 0.7)~
+
+Split months into a training data frame called "training" using the
+observations for which spl is TRUE and a testing data frame called
+"testing" using the observations for which spl is FALSE.
+
+Why do we use the sample.split() function to split into a training and
+testing set?
+
+- [ ] It is the most convenient way to randomly split the data
+
+- [ ] It balances the independent variables between the training and
+  testing sets
+
+- [ ] It balances the dependent variable between the training and
+  testing sets
+
+** TODO Problem 5 - Training a Logistic Regression Model (1 point possible)
+
+Train a logistic regression model using independent variables
+"PreviousRate", "Streak", "Unemployment", "HomeownershipRate",
+"DemocraticPres", and "MonthsUntilElection", using the training set to
+obtain the model.
+
+Which of the following characteristics are statistically significantly
+(p < 0.05, aka at least a * in the regression summary) associated with
+an increased chance of the federal funds rate being raised?
+
+- [ ] A higher federal funds rate in the previous month.
+
+- [ ] A longer consecutive streak of months in which the federal funds
+  rate was raised.
+
+- [ ] A higher unemployment rate.
+
+- [ ] A higher rate of homeownership.
+
+- [ ] The current president being a Democrat.
+
+- [ ] A longer amount of time until the next presidential election.
+
+** TODO Problem 6 - Predicting Using a Logistic Regression Model (1 point possible)
+
+Imagine you are an analyst at a bank and your manager has asked you to
+predict whether the federal funds rate will be raised next month. You
+know that the rate has been lowered for 3 straight months (Streak =
+-3) and that the previous month's rate was 1.7%. The unemployment rate
+is 5.1% and the homeownership rate is 65.3%. The current
+U.S. president is a Republican and the next election will be held in
+18 months. According to the logistic regression model you built in
+Problem 5, what is the predicted probability that the interest rate
+will be raised?
+
+** TODO Problem 8 - Interpreting Model Coefficients (1 point possible)
+
+What is the meaning of the coefficient labeled "DemocraticPres1" in
+the logistic regression summary output?
+
+- [ ] When the president is Democratic, the odds of the federal funds
+  rate increasing are 34.8% higher than in an otherise identical month
+  (i.e. identical among the variables in the model).
+
+- [ ] When the president is Democratic, the odds of the federal funds
+  rate increasing are 34.8% higher than in an average month in the
+  dataset.
+
+- [ ] When the president is Democratic, the odds of the federal funds
+  rate increasing are 41.6% higher than in an otherise identical month
+  (i.e. identical among the variables in the model).
+
+- [ ] When the president is Democratic, the odds of the federal funds
+  rate increasing are 41.6% higher than in an average month in the
+  dataset.
+
+** TODO Problem 8 - Obtaining Test Set Predictions (2 points possible)
+
+Using your logistic regression model, obtain predictions on the test
+set. Then, using a probability threshold of 0.5, create a confusion
+matrix for the test set. On how many test set observations does your
+logistic regression model make a different prediction than the
+prediction the naive baseline model would make? (Remember that the
+naive baseline model we use in this class always predicts the most
+frequent outcome in the training set for all observations in the test
+set.)
+
+** TODO Problem 9 - Computing Test-Set AUC (2 points possible)
+
+What is the test-set AUC of the logistic regression model?
+
+** TODO Problem 10 - Interpreting AUC (1 point possible)
+
+What is the meaning of the AUC?
+
+- [ ] The proportion of the time the model can differentiate between a
+  randomly selected shoe that was sold and a randomly selected shoe
+  that was not sold
+
+- [ ] The proportion of the time the model correctly identifies
+  whether or not a shoe will be sold
+
+** TODO Problem 11 - ROC Curves (1 point possible)
+
+Which logistic regression threshold is associated with the upper-right
+corner of the ROC plot (true positive rate 1 and false positive rate
+1)?
+
+- [ ] 0
+- [ ] 0.5
+- [ ] 1
+
+** TODO Problem 12 - ROC Curves (1 point possible)
+
+Plot the colorized ROC curve for the logistic regression model's
+performance on the test set.
+
+At roughly which logistic regression cutoff does the model achieve a
+true positive rate of 85% and a false positive rate of 60%?
+
+- [ ] 0
+- [ ] 0.16
+- [ ] 0.37
+- [ ] 0.52
+- [ ] 0.66
+- [ ] 0.87
+
+** TODO Problem 13 - Cross-Validation to Select Parameters (1 point possible)
+
+Which of the following best describes how 10-fold cross-validation
+works when selecting between 2 different parameter values?
+
+- [ ] 2 models are trained on subsets of the training set and
+  evaluated on the testing set
+
+- [ ] 10 models are trained on subsets of the training set and
+  evaluated on the testing set
+
+- [ ] 20 models are trained on subsets of the training set and
+  evaluated on the testing set
+
+- [ ] 2 models are trained on subsets of the training set and
+  evaluated on a portion of the training set
+
+- [ ] 10 models are trained on subsets of the training set and
+  evaluated on a portion of the training set
+
+- [ ] 20 models are trained on subsets of the training set and
+  evaluated on a portion of the training set
+
+** TODO Problem 14 - Cross-Validation for a CART Model (1 point possible)
+
+Set the random seed to 201 (even though you have already done so
+earlier in the problem). Then use the caret package and the train
+function to perform 10-fold cross validation with the training data
+set to select the best cp value for a CART model that predicts the
+dependent variable "RaisedFedFunds" using the independent variables
+"PreviousRate," "Streak," "Unemployment," "HomeownershipRate,"
+"DemocraticPres," and "MonthsUntilElection." Select the cp value from
+a grid consisting of the 50 values 0.001, 0.002, ..., 0.05.
+
+What cp value maximizes the cross-validation accuracy?
+
+** TODO Problem 15 - Train CART Model (1 point possible)
+
+Build and plot the CART model trained with the parameter identified in
+Problem 15, again predicting the dependent variable using
+"PreviousRate", "Streak", "Unemployment", "HomeownershipRate",
+"DemocraticPres", and "MonthsUntilElection". What variable is used as
+the first (upper-most) split in the tree?
+
+- [ ] PreviousRate
+
+- [ ] Streak
+
+- [ ] Unemployment
+
+- [ ] HomeownershipRate
+
+- [ ] DemocraticPres
+
+- [ ] MonthsUntilElection
+
+** TODO Problem 16 - Predicting Using a CART Model (1 point possible)
+
+If you were to use the CART model you created in Problem 15 to answer
+the question asked of the analyst in Problem 6, what would you predict
+for next month?
+
+Remember: The rate has been lowered for 3 straight months (Streak =
+-3). The previous month's rate was 1.7%. The unemployment rate is
+5.1%. The homeownership rate is 65.3%. The current U.S. president is a
+Republican and the next election will be held in 18 months.
+
+- [ ] The Fed will raise the federal funds rate.
+
+- [ ] The Fed will not raise the federal funds rate.
+
+** TODO Problem 17 - Test-Set Accuracy for CART Model (2 points possible)
+
+Using the CART model you created in Problem 15, obtain predictions on
+the test set (using the parameter type="class" with the predict
+function). Then, create a confusion matrix for the test set.
+
+What is the accuracy of your CART model?
+
+* Part 3. Understanding Retail Consumers [0/15]
+
+In Unit 6, we saw how clustering can be used for market segmentation,
+the idea of dividing airline passengers into small, more similar
+groups, and then designing a marketing strategy specifically for each
+group.  In this problem, we'll see how this idea can be applied to
+retail consumer data.
+
+In this problem, we'll use the dataset [[https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/Households.csv][Households.csv]], which contains
+data collected over two years for a group of 2,500 households.  Each
+row (observation) in our dataset represents a unique household.  The
+dataset contains the following variables:
+
+- *NumVisits* = the number of times the household visited the retailer
+
+- *AvgProdCount* = the average number of products purchased per
+  transaction
+
+- *AvgDiscount* = the average discount per transaction from coupon
+  usage
+
+- *AvgSalesValue* = the average sales value per transaction
+
+- *MorningPct* = the percentage of visits in the morning (8am -
+  1:59pm)
+
+- *AfternoonPct* = the percentage of visits in the afternoon (2pm -
+  7:59pm)
+
+*Note* that some visits can occur outside of morning and afternoon
+hours.  That is, visits from 8pm - 7:59am are possible.
+
+This dataset was derived from source files provided by *dunnhumby*, a
+customer science company based in the United Kingdom.
+
+** TODO Problem 1 - Reading in the data (2 points possible)
+
+Read the dataset Households.csv into R.
+
+*** Question a
+
+How many households have logged transactions at the retailer only in
+the morning?
+
+*** Question b
+
+How many households have logged transactions at the retailer only in
+the afternoon?
+
+** TODO Problem 2 - Descriptive statistics (3 points possible)
+
+*** Question a
+
+Of the households that spend more than $150 per transaction on
+average, what is the minimum average discount per transaction?
+
+*** Question b
+
+Of the households who have an average discount per transaction greater
+than 25%, what is the minimum average sales value per transaction?
+
+*** Question c
+
+In the dataset, what proportion of households visited the retailer at
+least 300 times?
+
+** TODO Problem 3 - Importance of Normalizing (1 point possible)
+
+When clustering data, it is often important to normalize the variables
+so that they are all on the same scale. If you clustered this dataset
+without normalizing, which variable would you expect to dominate in
+the distance calculations?
+
+- [ ] NumVisits
+- [ ] AvgProdCount
+- [ ] AvgDiscount
+- [ ] AvgSalesValue
+- [ ] MorningPct
+- [ ] AfternoonPct
+
+** TODO Problem 4 - Normalizing the Data (2 points possible)
+
+Normalize all of the variables in the Hubway dataset by entering the
+following commands in your R console: (Note that these commands assume
+that your dataset is called "Households", and create the normalized
+dataset "HouseholdsNorm". You can change the names to anything you
+want by editing the commands.)
+
+~library(caret)~
+
+~preproc = preProcess(Households)~
+
+~HouseholdsNorm = predict(preproc, Households)~
+
+(Remember that for each variable, the normalization process subtracts
+the mean and divides by the standard deviation. We learned how to do
+this in Unit 6.) In your normalized dataset, all of the variables
+should have mean 0 and standard deviation 1.
+
+*** Question a
+
+What is the maximum value of NumVisits in the normalized dataset?
+
+*** Question b
+
+What is the minimum value of AfternoonPct in the normalized dataset?
+
+*** Note:
+
+Run the following code to create a dendrogram of your data:
+
+~set.seed(200)~
+~distances <- dist(HouseholdsNorm, method = "euclidean")~
+~ClusterShoppers <- hclust(distances, method = "ward.D")~
+~plot(ClusterShoppers, labels = FALSE)~
+
+** TODO Problem 5 - Interpreting the Dendrogram (2 points possible)
+
+Based on the dendrogram, how many clusters do you think would be
+appropriate for this problem? Select all that apply.
+
+- [ ] 2
+- [ ] 3
+- [ ] 4
+- [ ] 5
+- [ ] 6
+
+** TODO Problem 6 - K-means Clustering (2 points possible)
+
+Run the k-means clustering algorithm on your normalized dataset,
+selecting 10 clusters. Right before using the kmeans function, type
+"set.seed(200)" in your R console.
+
+*** Question a
+
+How many observations are in the smallest cluster?
+
+*** Question b
+
+How many observations are in the largest cluster?
+
+** TODO Problem 7 - Understanding the Clusters (2 points possible)
+
+Now, use the cluster assignments from k-means clustering together with
+the cluster centroids to answer the next few questions.
+
+Which cluster best fits the description "morning shoppers stopping in
+to make a quick purchase"?
+
+- [ ] Cluster 1
+- [ ] Cluster 2
+- [ ] Cluster 3
+- [ ] Cluster 4
+- [ ] Cluster 5
+- [ ] Cluster 6
+- [ ] Cluster 7
+- [ ] Cluster 8
+- [ ] Cluster 9
+- [ ] Cluster 10
+
+** TODO Problem 8 - Understanding the Clusters (2 points possible)
+
+Which cluster best fits the description "shoppers with high average
+product count and high average value per visit"?
+
+- [ ] Cluster 1
+- [ ] Cluster 2
+- [ ] Cluster 3
+- [ ] Cluster 4
+- [ ] Cluster 5
+- [ ] Cluster 6
+- [ ] Cluster 7
+- [ ] Cluster 8
+- [ ] Cluster 9
+- [ ] Cluster 10
+
+** TODO Problem 9 - Understanding the Clusters (2 points possible)
+
+Which cluster best fits the description "frequent shoppers with low
+value per visit"?
+
+- [ ] Cluster 1
+- [ ] Cluster 2
+- [ ] Cluster 3
+- [ ] Cluster 4
+- [ ] Cluster 5
+- [ ] Cluster 6
+- [ ] Cluster 7
+- [ ] Cluster 8
+- [ ] Cluster 9
+- [ ] Cluster 10
+
+** TODO Problem 10 - Random Behavior (4 points possible)
+
+*** Question a
+
+If we ran hierarchical clustering a second time without making any
+additional calls to set.seed, we would expect:
+
+- [ ] Different results from the first hierarchical clustering
+
+- [ ] Identical results to the first hierarchical clustering
+
+*** Question b
+
+If we ran k-means clustering a second time without making any
+additional calls to set.seed, we would expect:
+
+- [ ] Different results from the first k-means clustering
+
+- [ ] Identical results to the first k-means clustering
+
+*** Question c
+
+If we ran k-means clustering a second time, again running the command
+set.seed(200) right before doing the clustering, we would expect:
+
+- [ ] Different results from the first k-means clustering
+
+- [ ] Identical results to the first k-means clustering
+
+*** Question d
+
+If we ran k-means clustering a second time, running the command
+set.seed(100) right before doing the clustering, we would expect:
+
+- [ ] Different results from the first k-means clustering
+
+- [ ] Identical results to the first k-means clustering
+
+** TODO Problem 11 - The Number of Clusters (1 point possible)
+
+Suppose the marketing department at the retail store decided that the
+10 clusters were too specific, and they wanted more general clusters
+to describe the consumer base. Would they want to increase or decrease
+the number of clusters?
+
+- [ ] Increase the number of clusters
+
+- [ ] Decrease the number of clusters
+
+- [ ] Keep it the same (10 clusters), just run it again
+
+** TODO Problem 12 - Increasing the Number of Clusters (2 points possible)
+
+Run the k-means clustering algorithm again, this time selecting 5
+clusters. Right before the "kmeans" function, set the random seed
+to 5000.
+
+*** Question a
+
+How many observations are in the smallest cluster?
+
+*** Question b
+
+How many observations are in the largest cluster?
+
+** TODO Problem 13 - Describing the Clusters (1 point possible)
+
+Using the cluster assignments from k-means clustering with 5 clusters,
+which cluster best fits the description "frequent shoppers with low
+value per visit"?
+
+- [ ] Cluster 1
+- [ ] Cluster 2
+- [ ] Cluster 3
+- [ ] Cluster 4
+- [ ] Cluster 5
+
+** TODO Problem 14 - Understanding Centroids (1 point possible)
+
+Why do we typically use cluster centroids to describe the clusters?
+
+- [ ] The cluster centroid captures the average behavior in the
+  cluster, and can be used to summarize the general pattern in the
+  cluster.
+
+- [ ] The cluster centroid gives the values of every single
+  observation in the cluster, and therefore exactly describes the
+  cluster.
+
+- [ ] The cluster centroid captures the average behavior in the
+  cluster, relative to the other clusters. So by just computing a
+  single cluster centroid, we can understand how the cluster differs
+  from the other clusters.
+
+** TODO Problem 15 - Using a Visualization (1 point possible)
+
+Which of the following visualizations could be used to observe the
+distribution of NumVisits, broken down by cluster? Select all that
+apply.
+
+- [ ] A box plot of the variable NumVisits, subdivided by cluster
+
+- [ ] A box plot of the clusters, subdivided by NumVisits values
+
+- [ ] ~ggplot~ with the cluster number on the ~x-axis~ and ~NumVisits~
+  on the ~y-axis~, plotting with ~geom_histogram()~
+
+- [ ] ~ggplot~ with ~NumVisits~ on the ~x-axis~ and the cluster number
+  on the ~y-axis~, plotting with ~geom_point()~
+
+* Part 4. Optimal Course Scheduling [/]
+
+You are about to enroll in a two-year Masters program in Analytics,
+which you are expected to complete in four semesters.  During the four
+semesters, you must take 7 courses from both optimization and
+statistics (including required courses and electives). You also must
+complete a one-semester thesis course.
+
+The university registrar has provided the following schedule of
+courses which will be offered over the next two years, along with the
+average rating given to that course by previous students. Ratings for
+an individual course may differ across semesters because they may be
+taught by different professors. Not all courses are offered in every
+semester; if a course is not offered, it is listed as "N/A" in the
+table. The Thesis course does not have a rating.  "Th" simply denotes
+that Thesis is offered during that particular semester.
+
+
+|          | Fall 2015 | Spring 2016 | Fall 2016 | Spring 2017 |
+|----------+-----------+-------------+-----------+-------------|
+| Opt 101  | 4.8       |         3.5 | N/A       | N/A         |
+| Stat 101 | 2.2       |         4.2 | N/A       | N/A         |
+| Opt 201  | N/A       |         4.1 | 3.7       | 3.9         |
+| Stat 201 | N/A       |         4.6 | 3.9       | 2.3         |
+| Opt E1   | N/A       |         4.9 | N/A       | 4.4         |
+| Opt E2   | 3.4       |         N/A | 4.0       | N/A         |
+| Opt E3   | N/A       |         4.9 | N/A       | N/A         |
+| Stat E1  | N/A       |         2.0 | N/A       | N/A         |
+| Stat E2  | 4.4       |         N/A | 4.7       | N/A         |
+| Stat E3  | N/A       |         N/A | N/A       | 3.8         |
+| Thesis   | N/A       |         N/A | Th        | Th          |
+
+The requirements for the program are as follows:
+
+- You must complete Opt 101 and Stat 101 in your first year (i.e. by
+  the end of Spring 2016).
+
+- You must take Opt 201 and Stat 201.
+
+- Each course (including Thesis) may only be taken once.
+
+- You must take exactly two courses per semester. (Thesis is counted
+  as a course.)
+
+- You must take the Thesis course.
+
+- You may not take Opt 201 and Stat 201 in the same semester, due to
+  the difficulty of these courses.
+
+You wish to get the most out of your degree program, so you decide to
+draw up a schedule to maximize the sum of the projected ratings of the
+courses that you end up taking.
+
+** Problem 1 - The Decision Variables (2 points possible)
+
+As mentioned above, you wish to determine which courses to take so
+that you can graduate on time and have the best experience (determined
+by the sum of the projected ratings of the courses you took). These
+are the decisions for our optimization problem.
+
+How many decision variables will there be in your optimization
+formulation? (HINT: You do not need a variable if a course is not
+offered.)
+
+** Problem 2 - The Decision Variables (1 point possible)
+
+What type of decision variables should be used in the optimization
+formulation?
+
+- [ ] Continuous variables allowed to take negative or non-negative
+  values
+
+- [ ] Continuous variables limited to non-negative values
+
+- [ ] Binary variables
+
+- [ ] Integer variables allowed to take negative or non-negative
+  values
+
+- [ ] Integer variables limited to non-negative values
+
+** Problem 3 - The Objective (2 points possible)
+
+Your objective is to maximize the sum of the projected ratings of the
+courses you take. How many decision variables defined in Problem 1
+have to do with courses that have ratings? (These are the decision
+variables that will participate in the objective!)
+
+** Problem 4 - Scheduling Constraints (4 points possible)
+
+*** Question a
+
+You may only take each course offered at most once. How many
+constraints in total do we need to add to the model to ensure this
+requirement is met?
+
+*** Question b
+
+You must take exactly two courses per semester (Thesis is counted as a
+course). How many constraints in total do we need to add to the model
+to ensure this requirement is met?
+
+** Problem 5 - Solving the Model (4 points possible)
+
+Set up and solve this optimization problem in the spreadsheet software
+of your choice (Excel, LibreOffice, or OpenOffice). Remember to define
+all of your decision variables, your objective, and your constraints.
+
+What is the optimal objective function value of the solution?
+
+** Problem 6 - Understanding the Solution (2 points possible)
+
+*** Question a
+
+In the optimal solution, which electives do you take? Select all that
+apply.
+
+- [ ] Opt E1
+- [ ] Opt E2
+- [ ] Opt E3
+- [ ] Stat E1
+- [ ] Stat E2
+- [ ] Stat E3
+
+*** Question b
+
+In which semester do you take the Thesis course?
+
+- [ ] Fall 16
+- [ ] Spring 17
+
+** Problem 7 - Updating the Model (2 points possible)
+
+For the following question, please reformulate your model and re-solve
+it using a solver of your choice.
+
+Upon arrival to campus, you are informed that the registrar has
+revised the course requirements. You are now asked to take a total of
+5 courses during the first two semesters, with at least two courses in
+each semester. Remaining course requirements stay the same (including
+the fact that you must take exactly two courses in each semester for
+the last two semesters).
+
+Formulate these new constraints and re-solve. What is the sum of all
+of the ratings for the courses that you take now?
+
+** Problem 8 - Updating the Model (1 point possible)
+
+In the new optimal solution, which electives do you take? Select all
+that apply.
+
+- [ ] Opt E1
+- [ ] Opt E2
+- [ ] Opt E3
+- [ ] Stat E1
+- [ ] Stat E2
+- [ ] Stat E3
+
+** Problem 9 - Additional Constraints (2 points possible)
+
+Please answer the following question without updating and re-solving
+your model. (Do not change your model!)
+
+Upon arrival to campus, you are informed by the registrar that you
+must take Opt 201 before you can take the Thesis course. With this in
+mind, in the new optimal solution, which of the following could happen
+to the average projected rating of the courses that you take?
+
+- [ ] Decrease, or stay the same as before.
+
+- [ ] Increase.
+
+** Problem 10 - Sensitivity Analysis (2 points possible)
+
+For the following problem, do not re-run your model.
+
+It is the end of your second semester, and you are very happy with the
+course selections that you have made according to your model in
+Problem 7. The registrar announces an update to their projected course
+rating for Opt E2 for Fall '16 due to extremely positive feedback from
+a new topic introduced by the professor in Fall '15. They have revised
+the projected rating from 4.0 to 4.2.
+
+Will this change affect your course selection for the remaining two
+semesters?
+
+- [ ] Yes
+
+- [ ] No
+
+- [ ] Cannot be determined without re-solving the optimization problem
