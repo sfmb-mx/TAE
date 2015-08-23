@@ -39,7 +39,6 @@
 
 #+ATTR_HTML: width="500px"
 
-# -*- mode: org; -*-
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/htmlize.css"/>
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/bigblow.css"/>
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/hideshow.css"/>
@@ -629,19 +628,6 @@ Now we can create our CART model using the rpart function.
 :
 :  :: CART model DONE...
 
-#+BEGIN_SRC R :var basename="CARTcourtModel" :session :results none silent :exports none
-  filename <- paste("../graphs/", basename, ".png", sep = "")
-
-  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
-
-  ## ----- Plot code begin here
-  prp(StevensTree)
-  ## ----- Plot code ends here
-
-  ## Close the PNG device and plots
-  dev.off()
-#+END_SRC
-
 #+CAPTION: CART model for the Stevens prediction.
 #+NAME:   fig:CARTcourtModel
 #+ATTR_LaTeX: placement: [H]
@@ -752,19 +738,6 @@ is the outcome of the prediction function, and then the next two
 arguments are true positive rate and false positive rate, what we want
 on the x and y-axes of our ROC curve.
 
-#+BEGIN_SRC R :var basename="ROCtestingStevens" :session :results none silent :exports none
-  filename <- paste("../graphs/", basename, ".png", sep = "")
-
-  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
-
-  ## ----- Plot code begin here
-  plot(perf)
-  ## ----- Plot code ends here
-
-  ## Close the PNG device and plots
-  dev.off()
-#+END_SRC
-
 #+CAPTION: The ROC curve for the justice Stevens.
 #+NAME:   fig:ROCtestingStevens
 #+ATTR_LaTeX: placement: [H]
@@ -811,19 +784,6 @@ First build a CART model that is similar to the one we built in Video
 :
 :  :: CART model 2 DONE...
 
-#+BEGIN_SRC R :var basename="CARTcourtModel2" :session :results none silent :exports none
-  filename <- paste("../graphs/", basename, ".png", sep = "")
-
-  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
-
-  ## ----- Plot code begin here
-  prp(StevensTree2)
-  ## ----- Plot code ends here
-
-  ## Close the PNG device and plots
-  dev.off()
-#+END_SRC
-
 #+CAPTION: CART court model with a minbucket of 5.
 #+NAME:   fig:CARTcourtModel2
 #+ATTR_LaTeX: placement: [H]
@@ -851,19 +811,6 @@ except change the minbucket parameter to 100. Plot the tree.
 #+RESULTS:
 :
 :  :: CART model 3 DONE...
-
-#+BEGIN_SRC R :var basename="CARTcourtModel3" :session :results none silent :exports none
-  filename <- paste("../graphs/", basename, ".png", sep = "")
-
-  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
-
-  ## ----- Plot code begin here
-  prp(StevensTree3)
-  ## ----- Plot code ends here
-
-  ## Close the PNG device and plots
-  dev.off()
-#+END_SRC
 
 #+CAPTION: CART court model with a minbucket of 5.
 #+NAME:   fig:CARTcourtModel3
@@ -1505,19 +1452,6 @@ value.
 
 Plot the tree that we created using cross-validation. How many splits
 does it have?
-
-#+BEGIN_SRC R :var basename="CARTcourtModelCV" :session :results none silent :exports none
-  filename <- paste("../graphs/", basename, ".png", sep = "")
-
-  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
-
-  ## ----- Plot code begin here
-  prp(StevensTreeCV)
-  ## ----- Plot code ends here
-
-  ## Close the PNG device and plots
-  dev.off()
-#+END_SRC
 
 #+CAPTION: CART model for the Stevens prediction with Cross Validation.
 #+NAME:   fig:CARTcourtModelCV
@@ -2562,19 +2496,6 @@ But keep in mind that the R commands needed for cross-validation here
 are the same as those used in the previous lecture on predicting
 Supreme Court decisions.
 
-#+BEGIN_SRC R :var basename="ClaimsCartModel" :session :results none silent :exports none
-  filename <- paste("../graphs/", basename, ".png", sep = "")
-
-  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
-
-  ## ----- Plot code begin here
-  prp(ClaimsTree)
-  ## ----- Plot code ends here
-
-  ## Close the PNG device and plots
-  dev.off()
-#+END_SRC
-
 #+CAPTION: CART model for the Quality Health Care Analysis
 #+NAME:   fig:ClaimsCartModel
 #+ATTR_LaTeX: placement: [H]
@@ -3092,19 +3013,6 @@ We are interested in *building a model* initially of *how prices vary* by
 out. Using the plot commands, we can plot the latitude and longitude
 of each of our census tracts.
 
-#+BEGIN_SRC R :var basename="PositionsCensusTracts" :session :results none silent :exports none
-  filename <- paste("../graphs/", basename, ".png", sep = "")
-
-  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
-
-  ## ----- Plot code begin here
-  plot(boston$LON, boston$LAT)
-  ## ----- Plot code ends here
-
-  ## Close the PNG device and plots
-  dev.off()
-#+END_SRC
-
 #+CAPTION: Latitude and longitude of the census tracts.
 #+NAME:    fig:PositionsCensusTracts
 #+ATTR_LaTeX: placement: [H]
@@ -3122,24 +3030,6 @@ So we want to show all the points that lie along the *Charles River* in
 a different color. We have a variable, *CHAS*, that tells us if a point
 is on the Charles River or not.
 
-#+BEGIN_SRC R :var basename="CHASRiverLocation" :session :results none silent :exports none
-  filename <- paste("../graphs/", basename, ".png", sep = "")
-
-  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
-
-  ## ----- Plot code begin here
-
-  # Plot observations
-  plot(boston$LON, boston$LAT)
-  # Tracts alongside the Charles River
-  points(boston$LON[boston$CHAS==1], boston$LAT[boston$CHAS==1], col="blue", pch=19)
-
-  ## ----- Plot code ends here
-
-  ## Close the PNG device and plots
-  dev.off()
-#+END_SRC
-
 #+CAPTION:  Adding census tracts along Charles River
 #+NAME:     fig:CHASRiverLocation
 #+ATTR_LaTeX: placement: [H]
@@ -3153,28 +3043,6 @@ So let's plot that. We add another point, the longitude of MIT, which
 is in tract 3531, and the latitude of MIT, which is in census
 tract 3531. I'm going to plot this one in red, so we can tell it apart
 from the other Charles River dots.
-
-#+BEGIN_SRC R :var basename="MITcensusLocation" :session :results none silent :exports none
-  filename <- paste("../graphs/", basename, ".png", sep = "")
-
-  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
-
-  ## ----- Plot code begin here
-
-  plot(boston$LON, boston$LAT)
-
-  points(boston$LON[boston$CHAS == 1], boston$LAT[boston$CHAS == 1], col
-         = "blue", pch = 19)
-
-  ## Plot MIT
-  points(boston$LON[boston$TRACT == 3531], boston$LAT[boston$TRACT ==
-                                3531], col = "red", pch = 19)
-
-  ## ----- Plot code ends here
-
-  ## Close the PNG device and plots
-  dev.off()
-#+END_SRC
 
 #+CAPTION:  Plotting the MIT census tract
 #+NAME:     fig:MITcensusLocation
@@ -3203,28 +3071,6 @@ value of $0.55$, as it's kind of in the middle.
 
 And we'll look at just the census tracts that have above-average
 pollution.
-
-#+BEGIN_SRC R :var basename="PollutionPlotBoston" :session :results none silent :exports none
-  filename <- paste("../graphs/", basename, ".png", sep = "")
-
-  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
-
-  ## ----- Plot code begin here
-
-  ## Plot observations
-  plot(boston$LON, boston$LAT)
-
-  ## Tracts alongside the Charles River
-  points(boston$LON[boston$CHAS==1], boston$LAT[boston$CHAS==1], col="blue", pch=19)
-
-  ## Plot polution
-  points(boston$LON[boston$NOX>=0.55], boston$LAT[boston$NOX>=0.55], col="green", pch=20)
-
-  ## ----- Plot code ends here
-
-  ## Close the PNG device and plots
-  dev.off()
-#+END_SRC
 
 #+CAPTION:  Pollution in Boston city
 #+NAME:     fig:PollutionPlotBoston
@@ -3257,24 +3103,6 @@ of dollars -- so the minimum is around five, the maximum is
 around $50$.
 
 So let's plot again only the above-average price points.
-
-#+BEGIN_SRC R :var basename="BostonPricesLocations" :session :results none silent :exports none
-  filename <- paste("../graphs/", basename, ".png", sep = "")
-
-  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
-
-  ## ----- Plot code begin here
-
-  # Plot prices
-  plot(boston$LON, boston$LAT)
-  points(boston$LON[boston$MEDV >= 21.2], boston$LAT[boston$MEDV >=
-                                          21.2], col = "red", pch = 20)
-
-  ## ----- Plot code ends here
-
-  ## Close the PNG device and plots
-  dev.off()
-#+END_SRC
 
 #+CAPTION:  Locations in Boston respect to prices
 #+NAME:     fig:BostonPricesLocations
@@ -3351,19 +3179,6 @@ prices decrease linearly.
 This make sense because the poor correlation between the Latitude and
 Longitude coordinates vs. price.
 
-#+BEGIN_SRC R :var basename="LatitudeVsPricePlot" :session :results none silent :exports none
-  filename <- paste("../graphs/", basename, ".png", sep = "")
-
-  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
-
-  ## ----- Plot code begin here
-  plot(boston$LAT, boston$MEDV)
-  ## ----- Plot code ends here
-
-  ## Close the PNG device and plots
-  dev.off()
-#+END_SRC
-
 #+CAPTION:  Latitude vs. Price plot.
 #+NAME:     fig:LatitudeVsPricePlot
 #+ATTR_LaTeX: placement: [H]
@@ -3371,19 +3186,6 @@ Longitude coordinates vs. price.
 
 Now we can plot the Longitude vs. Price and see if we have any
 relationship between these variables.
-
-#+BEGIN_SRC R :var basename="LongitudeVsPricePlot" :session :results none silent :exports none
-  filename <- paste("../graphs/", basename, ".png", sep = "")
-
-  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
-
-  ## ----- Plot code begin here
-  plot(boston$LON, boston$MEDV)
-  ## ----- Plot code ends here
-
-  ## Close the PNG device and plots
-  dev.off()
-#+END_SRC
 
 #+CAPTION:  Longitude vs. Price correlation
 #+NAME:     fig:LongitudeVsPricePlot
@@ -3416,23 +3218,6 @@ we're interested in seeing how the linear regression matches up with
 the truth. So it'd be ideal if we could plot the linear regression
 blue dots on top of the red dots, in some way that we can still see
 the red dots.
-
-#+BEGIN_SRC R :var basename="PositionCoordinatesVsPriceModel" :session :results none silent :exports none
-  filename <- paste("../graphs/", basename, ".png", sep = "")
-
-  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
-
-  ## ----- Plot code begin here
-  # Visualize regression output
-  plot(boston$LON, boston$LAT)
-  points(boston$LON[boston$MEDV>=21.2], boston$LAT[boston$MEDV>=21.2], col="red", pch=20)
-
-  points(boston$LON[latlonlm$fitted.values >= 21.2], boston$LAT[latlonlm$fitted.values >= 21.2], col="blue", pch="$")
-  ## ----- Plot code ends here
-
-  ## Close the PNG device and plots
-  dev.off()
-#+END_SRC
 
 #+CAPTION:  Position vs. Price in our linear model
 #+NAME:     fig:PositionCoordinatesVsPriceModel

@@ -740,7 +740,7 @@ R2 = 1 - SSE/SST
 
 * Reading Test Scores [16/16]
 
-The Programme for International Student Assessment (PISA) is a test
+The Program for International Student Assessment (PISA) is a test
 given every three years to 15-year-old students from around the world
 to evaluate their performance in mathematics, reading, and
 science. This test provides a quantitative way to compare the

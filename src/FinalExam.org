@@ -630,7 +630,7 @@ while working on the final exam, but please do not use outside
 materials. You answers should represent your work and your work
 alone.
 
-* Part 1. Predicting Box OFfice revenue [0/16]
+* Part 1. Predicting Box Office revenue [11/17]
 
 Each year, box offices at movie theaters collect billions of dollars
 in revenue in the United States alone.  In this problem, we seek to
@@ -666,7 +666,8 @@ variables:
 - *Worldwide* = the natural logarithm of the worldwide revenue in
   dollars
 
-** TODO Problem 1 - Loading the Data (2 points possible)
+** DONE Problem 1 - Loading the Data (2 points possible)
+CLOSED: [2015-08-22 Sat 04:59]
 
 Load the dataset Movies.csv into R and call it "Movies". In this
 problem, we will build a model to predict worldwide box office revenue
@@ -690,7 +691,6 @@ for movies made in 2010-2015.
   }
 
   writeLines("\n :: File downloaded...")
-
 #+end_src
 
 #+RESULTS:
@@ -700,24 +700,151 @@ for movies made in 2010-2015.
 Create a training set that consists of movies released before 2010 and
 a testing set that consists of movies released in 2010 and after.
 
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Loading data into their data frame.")
+  Movies <- read.csv("../data/MoviesP1Final.csv")
+  str(Movies)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Loading data into their data frame.
+'data.frame':	334 obs. of  24 variables:
+ $ Name             : Factor w/ 334 levels "2 Fast 2 Furious",..: 28 32 31 29 30 247 248 4 5 6 ...
+ $ Year             : int  1989 1992 1995 1997 2005 2008 2012 2002 2006 2014 ...
+ $ Rated            : Factor w/ 6 levels "Approved","G",..: 5 5 5 5 5 3 5 6 6 6 ...
+ $ Runtime          : int  126 126 121 125 140 152 165 113 117 102 ...
+ $ Action           : int  1 1 1 1 1 1 1 0 1 1 ...
+ $ Adventure        : int  1 0 1 0 1 0 0 0 0 0 ...
+ $ Crime            : int  0 0 0 0 0 1 0 0 0 0 ...
+ $ Drama            : int  0 0 0 0 0 1 0 0 0 1 ...
+ $ Thriller         : int  0 0 0 0 0 0 1 0 0 0 ...
+ $ Fantasy          : int  0 0 1 0 0 0 0 0 1 1 ...
+ $ Horror           : int  0 0 0 0 0 0 0 1 0 0 ...
+ $ Sci.Fi           : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ Comedy           : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ Family           : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ Mystery          : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ Romance          : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ Animation        : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ Music            : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ History          : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ Documentary      : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ Wins             : int  10 2 9 5 15 134 43 10 12 0 ...
+ $ Nominations      : int  21 16 20 20 49 106 83 25 30 6 ...
+ $ Production.Budget: num  18.1 18.9 19.1 19.2 19.1 ...
+ $ Worldwide        : num  20.6 20.1 20.3 19.9 20 ...
+#+end_example
+
+Lets change the the type of the ~Name~ feature to a character R type.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Converting the name to a character type...")
+  Movies$Name <- as.character(Movies$Name)
+  summary(Movies)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Converting the name to a character type...
+     Name                Year           Rated        Runtime
+ Length:334         Min.   :1953   Approved:  1   Min.   : 72.0
+ Class :character   1st Qu.:2001   G       : 11   1st Qu.: 94.0
+ Mode  :character   Median :2005   N/A     :  8   Median :108.0
+                    Mean   :2004   PG      : 77   Mean   :112.1
+                    3rd Qu.:2010   PG-13   :139   3rd Qu.:125.8
+                    Max.   :2015   R       : 98   Max.   :201.0
+     Action        Adventure         Crime            Drama
+ Min.   :0.000   Min.   :0.000   Min.   :0.0000   Min.   :0.00000
+ 1st Qu.:0.000   1st Qu.:0.000   1st Qu.:0.0000   1st Qu.:0.00000
+ Median :1.000   Median :0.000   Median :0.0000   Median :0.00000
+ Mean   :0.515   Mean   :0.491   Mean   :0.1287   Mean   :0.08982
+ 3rd Qu.:1.000   3rd Qu.:1.000   3rd Qu.:0.0000   3rd Qu.:0.00000
+ Max.   :1.000   Max.   :1.000   Max.   :1.0000   Max.   :1.00000
+    Thriller         Fantasy           Horror           Sci.Fi
+ Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :0.0000
+ 1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.0000
+ Median :0.0000   Median :0.0000   Median :0.0000   Median :0.0000
+ Mean   :0.1737   Mean   :0.1647   Mean   :0.1377   Mean   :0.1946
+ 3rd Qu.:0.0000   3rd Qu.:0.0000   3rd Qu.:0.0000   3rd Qu.:0.0000
+ Max.   :1.0000   Max.   :1.0000   Max.   :1.0000   Max.   :1.0000
+     Comedy           Family          Mystery           Romance
+ Min.   :0.0000   Min.   :0.0000   Min.   :0.00000   Min.   :0.0000
+ 1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.00000   1st Qu.:0.0000
+ Median :0.0000   Median :0.0000   Median :0.00000   Median :0.0000
+ Mean   :0.3293   Mean   :0.1138   Mean   :0.08084   Mean   :0.0509
+ 3rd Qu.:1.0000   3rd Qu.:0.0000   3rd Qu.:0.00000   3rd Qu.:0.0000
+ Max.   :1.0000   Max.   :1.0000   Max.   :1.00000   Max.   :1.0000
+   Animation          Music             History          Documentary
+ Min.   :0.0000   Min.   :0.000000   Min.   :0.000000   Min.   :0.000000
+ 1st Qu.:0.0000   1st Qu.:0.000000   1st Qu.:0.000000   1st Qu.:0.000000
+ Median :0.0000   Median :0.000000   Median :0.000000   Median :0.000000
+ Mean   :0.1048   Mean   :0.008982   Mean   :0.002994   Mean   :0.008982
+ 3rd Qu.:0.0000   3rd Qu.:0.000000   3rd Qu.:0.000000   3rd Qu.:0.000000
+ Max.   :1.0000   Max.   :1.000000   Max.   :1.000000   Max.   :1.000000
+      Wins          Nominations     Production.Budget   Worldwide
+ Min.   :  0.000   Min.   :  0.00   Min.   : 9.703    Min.   :17.28
+ 1st Qu.:  1.000   1st Qu.:  4.00   1st Qu.:17.573    1st Qu.:19.04
+ Median :  3.000   Median : 11.00   Median :18.381    Median :19.76
+ Mean   :  8.449   Mean   : 16.85   Mean   :18.116    Mean   :19.65
+ 3rd Qu.:  9.750   3rd Qu.: 22.00   3rd Qu.:18.881    3rd Qu.:20.33
+ Max.   :164.000   Max.   :106.00   Max.   :19.707    Max.   :21.82
+#+end_example
+
+Now we can split the dataset into two datasets in order to have both
+training and testing datasets
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Building the training and testing sets:")
+
+  MoviesTrain <- subset(Movies, Movies$Year <= 2009)
+  writeLines("\n :: Number of observations in the training set:")
+  nrow(MoviesTrain)
+
+  MoviesTest <- subset(Movies, Movies$Year >= 2010)
+  writeLines("\n :: Number of observations on the test set:")
+  nrow(MoviesTest)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Building the training and testing sets:
+:
+:  :: Number of observations in the training set:
+: [1] 248
+:
+:  :: Number of observations on the test set:
+: [1] 86
+
 *** Question a
 
 How many observations are in the training set ~MoviesTrain~?
+
+**** Answer
+
+248 observations exist in the ~MoviesTrain~ set.
 
 *** Question b
 
 How many observations are in the testing set ~MoviesTest~?
 
-** TODO Problem 2 - Method of Splitting the Data (1 point possible)
+**** Answer
+
+86 observations are available in the ~MoviesTest~ set.
+
+** DONE Problem 2 - Method of Splitting the Data (1 point possible)
+CLOSED: [2015-08-22 Sat 05:13]
 
 In this class, we have frequently used the sample.split function to
 randomly split our data. Why do we use a different approach here?
 Check all that apply.
 
-- [ ] We don't want to randomly split our data here, so the
+- [X] We don't want to randomly split our data here, so the
   sample.split function is not appropriate.
 
-- [ ] The sample.split function is typically used to split data with a
+- [X] The sample.split function is typically used to split data with a
   categorical dependent variable, and we have a continuous dependent
   variable.
 
@@ -731,7 +858,8 @@ Check all that apply.
 - [ ] We have too many observations for the sample.split function to
   work.
 
-** TODO Problem 3 - A Linear Regression Model (1 point possible)
+** DONE Problem 3 - A Linear Regression Model (1 point possible)
+CLOSED: [2015-08-22 Sat 05:25]
 
 Build a linear regression model to predict "Worldwide" based on all of
 the remaining variables, except for Name and Year. Use the training
@@ -742,12 +870,80 @@ easy way to do this it to pass the argument
 
 to the lm function.
 
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Regression model to predict WorldWide revenue:")
+  names(MoviesTrain)
+  MoviesLinearReg <- lm(Worldwide ~ ., data = MoviesTrain[ , 3:ncol(MoviesTrain)])
+  summary(MoviesLinearReg)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Regression model to predict WorldWide revenue:
+ [1] "Name"              "Year"              "Rated"
+ [4] "Runtime"           "Action"            "Adventure"
+ [7] "Crime"             "Drama"             "Thriller"
+[10] "Fantasy"           "Horror"            "Sci.Fi"
+[13] "Comedy"            "Family"            "Mystery"
+[16] "Romance"           "Animation"         "Music"
+[19] "History"           "Documentary"       "Wins"
+[22] "Nominations"       "Production.Budget" "Worldwide"
+
+Call:
+lm(formula = Worldwide ~ ., data = MoviesTrain[, 3:ncol(MoviesTrain)])
+
+Residuals:
+    Min      1Q  Median      3Q     Max
+-1.8311 -0.3893  0.0809  0.3906  1.6326
+
+Coefficients:
+                    Estimate Std. Error t value Pr(>|t|)
+(Intercept)       15.9976766  1.1580192  13.815  < 2e-16 ***
+RatedG             0.4102319  0.7041759   0.583 0.560774
+RatedN/A           0.5562304  0.7322003   0.760 0.448258
+RatedPG            0.7090507  0.6892058   1.029 0.304696
+RatedPG-13         0.6027509  0.7107462   0.848 0.397322
+RatedR             0.4127760  0.7210913   0.572 0.567608
+Runtime            0.0097079  0.0032359   3.000 0.003007 **
+Action             0.0172144  0.1333332   0.129 0.897389
+Adventure         -0.2232011  0.1283551  -1.739 0.083432 .
+Crime             -0.3315595  0.1473878  -2.250 0.025457 *
+Drama             -0.2097674  0.1881216  -1.115 0.266029
+Thriller          -0.1067814  0.1364400  -0.783 0.434682
+Fantasy            0.1634927  0.1406340   1.163 0.246264
+Horror            -0.6173923  0.2056864  -3.002 0.002993 **
+Sci.Fi            -0.0147251  0.1353512  -0.109 0.913466
+Comedy            -0.1431461  0.1611241  -0.888 0.375276
+Family            -0.3206547  0.1780467  -1.801 0.073067 .
+Mystery            0.1454495  0.1837735   0.791 0.429520
+Romance           -0.0449227  0.2063239  -0.218 0.827840
+Animation          0.6116779  0.2085349   2.933 0.003706 **
+Music             -0.1531571  0.6860353  -0.223 0.823546
+History           -1.3823299  0.6876694  -2.010 0.045624 *
+Documentary       -0.4480795  0.4830499  -0.928 0.354620
+Wins               0.0003704  0.0039940   0.093 0.926186
+Nominations        0.0159878  0.0043745   3.655 0.000321 ***
+Production.Budget  0.1104362  0.0550254   2.007 0.045962 *
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.6431 on 222 degrees of freedom
+Multiple R-squared:  0.5413,	Adjusted R-squared:  0.4896
+F-statistic: 10.48 on 25 and 222 DF,  p-value: < 2.2e-16
+#+end_example
+
 *** Question
 
 What is the model's R-squared? (Please report the "Multiple R-squared"
 value in the output.)
 
-** TODO Problem 4 - Checking for Significance (1 point possible)
+**** Answer
+
+Multiple R-squared:  0.5413
+
+** DONE Problem 4 - Checking for Significance (1 point possible)
+CLOSED: [2015-08-22 Sat 05:32]
 
 In your linear regression model, which of the independent variables
 are significant at the p=0.05 level (at least one star)? For factor
@@ -755,84 +951,267 @@ variables, consider the variable significant if at least one level is
 significant. Select all that apply.
 
 - [ ] Rated
-- [ ] Runtime
+- [X] Runtime
 - [ ] Action
 - [ ] Adventure
-- [ ] Crime
+- [X] Crime
 - [ ] Drama
 - [ ] Thriller
 - [ ] Fantasy
-- [ ] Horror
+- [X] Horror
 - [ ] Sci.Fi
 - [ ] Comedy
 - [ ] Family
 - [ ] Mystery
 - [ ] Romance
-- [ ] Animation
+- [X] Animation
 - [ ] Music
-- [ ] History
+- [X] History
 - [ ] Documentary
 - [ ] Wins
-- [ ] Nominations
-- [ ] Production.Budget
+- [X] Nominations
+- [X] Production.Budget
 
-** TODO Problem 5 - Correlations (2 points possible)
+** DONE Problem 5 - Correlations (2 points possible)
+CLOSED: [2015-08-22 Sat 06:08]
 
 *** Question a
 
 What is the correlation between Worldwide and Production.Budget in the
 training set?
 
+**** Answer
+
+We can plot the data in order to know the big picture
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Calculating the entire correlation matrix...")
+  MoviesTrainCor <- cor(MoviesTrain[, c(-1, -3)])
+#+end_src
+
+#+RESULTS:
+:
+:  :: Calculating the entire correlation matrix...
+
+Now we can plot the correlation matrix
+
+#+BEGIN_SRC R :var basename="MoviesTrainCorrelationPlot" :session :results none silent :exports none
+  library(corrplot)
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  corrplot(MoviesTrainCor)
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  The MoviesTrain dataset correlation plot
+#+NAME:     fig:MoviesTrainCorrelationPlot
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/MoviesTrainCorrelationPlot.png]]
+
+We can see some kind of correlation between ~Worldwide~ and
+~Production.Budget~.
+
+Lets see how looks like in a scatter plot
+
+#+BEGIN_SRC R :var basename="WorldwideVsProductionBudgetPlot" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  library(ggplot2)
+
+  ggplot(MoviesTrain, aes(x = Production.Budget, y = Worldwide)) + geom_point()
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  Worldwide vs. Production.Budget plot
+#+NAME:     fig:WorldwideVsProductionBudgetPlot
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/WorldwideVsProductionBudgetPlot.png]]
+
+We can calculate the correlation directly
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: The correlation between Worldwide and Production.Budget:")
+  cor(MoviesTrain$Worldwide, MoviesTrain$Production.Budget)
+#+end_src
+
+#+RESULTS:
+: null device
+:           1
+:
+:  :: The correlation between Worldwide and Production.Budget:
+: [1] 0.4947683
+
 *** Question b
 
 Given this value, should Production.Budget be included in the model?
 
-- [ ] Yes, it has high predictive value since the independent variable
+- [X] Yes, it has high predictive value since the independent variable
   is correlated with a dependent variable.
 
 - [ ] No, having highly correlated variables in a regression model can
   affect the quality of the resulting predictions.
 
-** TODO Problem 6 - An Updated Model (1 point possible)
+** DONE Problem 6 - An Updated Model (1 point possible)
+CLOSED: [2015-08-22 Sat 06:45]
 
 Create a new linear regression model on the training set with only the
 significant variables you found in Problem 4 as the independent
 variables. Going forward, we will only consider this linear regression
 model.
 
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Subsetting the most significant features...")
+  MoviesTrain <- MoviesTrain[, c(4, 7, 11, 17, 19, 22, 23, 24)]
+
+  writeLines("\n :: Regression model to predict WorldWide revenue:")
+  MoviesLinearReg2 <- lm(Worldwide ~ ., data = MoviesTrain)
+  summary(MoviesLinearReg2)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Subsetting the most significant features...
+
+ :: Regression model to predict WorldWide revenue:
+
+Call:
+lm(formula = Worldwide ~ ., data = MoviesTrain)
+
+Residuals:
+     Min       1Q   Median       3Q      Max
+-1.87336 -0.36913  0.07701  0.37701  1.93620
+
+Coefficients:
+                   Estimate Std. Error t value Pr(>|t|)
+(Intercept)       15.531741   0.803224  19.337  < 2e-16 ***
+Runtime            0.010095   0.002634   3.833 0.000162 ***
+Crime             -0.293315   0.120701  -2.430 0.015829 *
+Horror            -0.427419   0.141596  -3.019 0.002814 **
+Animation          0.465257   0.166530   2.794 0.005629 **
+History           -1.556980   0.650418  -2.394 0.017443 *
+Nominations        0.017313   0.003010   5.751 2.68e-08 ***
+Production.Budget  0.152527   0.046708   3.266 0.001252 **
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.6426 on 240 degrees of freedom
+Multiple R-squared:  0.5048,	Adjusted R-squared:  0.4904
+F-statistic: 34.95 on 7 and 240 DF,  p-value: < 2.2e-16
+#+end_example
+
 *** Question
 
 What is the model's R-squared? (Please report the "Multiple R-squared"
 value in the output.)
 
-** TODO Problem 7 - Understanding Coefficients (2 points possible)
+**** Answer
+
+Multiple R-squared:  0.5048
+
+** DONE Problem 7 - Understanding Coefficients (2 points possible)
+CLOSED: [2015-08-22 Sat 06:53]
 
 *** Question a
 
 In the model from Problem 6, what is the coefficient for Animation in
 the linear regression?
 
+**** Answer
+
+Animation:          0.465257
+
 *** Question b
 
 The coefficient for Runtime is 0.010095. What is the interpretation of
 this coefficient?
 
+**** Answer
+
+#+begin_src R :session :results output :exports all
+  RT <- c(0, 1, 2, 3, 4, 5)
+  a <- 0.010095
+  WW <- a * RT
+  WW
+#+end_src
+
+#+RESULTS:
+: [1] 0.000000 0.010095 0.020190 0.030285 0.040380 0.050475
+
 - [ ] For an additional unit of the variable Worldwide, the Runtime
   increases by approximately 0.01 minutes.
 
-- [ ] For an additional minute of Runtime, the prediction for the
+- [X] For an additional minute of Runtime, the prediction for the
   variable Worldwide increases by approximately 0.01 units.
 
 - [ ] For each additional minute of Runtime, the variable Worldwide
   will definitely increase by approximately 0.01 units; thus,
   directors should strive to make their movies as long as possible.
 
-** TODO Problem 8 - Predictions on the Test Set (1 point possible)
+** DONE Problem 8 - Predictions on the Test Set (1 point possible)
+CLOSED: [2015-08-22 Sat 07:24]
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Making some predictions in the testing set...")
+  MoviesPredTest1 = predict(MoviesLinearReg2, newdata = MoviesTest)
+  summary(MoviesPredTest1)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Making some predictions in the testing set...
+:    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+:   18.34   19.27   19.80   19.75   20.29   21.59
+
+Calculating the SSE, SST and R-squared
+
+#+BEGIN_SRC R :session :results output :exports all
+  writeLines("\n :: Calculating the SSE in the testing set:")
+  SSE <- sum((MoviesTest$Worldwide - MoviesPredTest1)^2)
+  SSE
+
+  writeLines("\n :: Calculatind the SST:")
+  SST <- sum((MoviesTest$Worldwide - mean(MoviesTrain$Worldwide))^2)
+  SST
+
+  writeLines("\n :: Compute out-of-sample R^2")
+  R2 <- 1 - (SSE/SST)
+  R2
+#+END_SRC
+
+#+RESULTS:
+:
+:  :: Calculating the SSE in the testing set:
+: [1] 25.0006
+:
+:  :: Calculatind the SST:
+: [1] 60.43398
+:
+:  :: Compute out-of-sample R^2
+: [1] 0.5863155
 
 *** Question a
 
 Make predictions on the test set using your linear regression
 model. What is the Sum of Squared Errors (SSE) on the test set?
+
+**** Answer
+
+$$
+SSE = 25.0006
+$$
 
 *** Question b
 
@@ -840,18 +1219,35 @@ What is the Total Sum of Squares (SST) on the test set? Remember to
 use the mean of Worldwide on the training set as the "baseline
 model".
 
+$$
+SST = 60.43398
+$$
+
 *** Question c
 
 What is the R-squared on the test set?
 
-** TODO Problem 9 - Understanding the Model (1 point possible)
+**** Answer
+
+$$
+R^2 = 0.5863155
+$$
+
+** DONE Problem 9 - Understanding the Model (1 point possible)
+CLOSED: [2015-08-22 Sat 10:09]
 
 True or False: Our linear regression model suffers from overfitting.
 
 - [ ] True
-- [ ] False
+- [X] False
 
-** TODO Problem 10 - A Classification Problem (2 points possible)
+The predicted R-squared doesn’t have to be negative to indicate an
+overfit model. If you see the predicted R-squared start to fall as you
+add predictors, even if they’re significant, you should begin to worry
+about overfitting the model.
+
+** DONE Problem 10 - A Classification Problem (2 points possible)
+CLOSED: [2015-08-22 Sat 11:01]
 
 Let's turn this problem into a multi-class classification problem by
 creating a new dependent variable. Our new dependent variable will
@@ -861,31 +1257,117 @@ bottom quartile, respectively. Create this variable, called
 "Performance", in your dataset Movies by running the following line in
 your R console:
 
-~Movies$Performance = factor(ifelse(Movies$Worldwide >~
-~quantile(Movies$Worldwide, .75), "Excellent", ifelse(Movies$Worldwide~
-~> quantile(Movies$Worldwide, .25), "Average", "Poor")))~
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: New dependent variable for a mult-class classification problem...")
+  Movies$Performance <- factor(ifelse(Movies$Worldwide > quantile(Movies$Worldwide,
+                               0.75), "Excellent", ifelse(Movies$Worldwide >
+                               quantile(Movies$Worldwide, 0.25), "Average", "Poor")))
+
+  summary(Movies$Performance)
+#+end_src
+
+#+RESULTS:
+:
+:  :: New dependent variable for a mult-class classification problem...
+:   Average Excellent      Poor
+:       166        84        84
 
 *** Question a
 
 How many movies in the dataset Movies have Performance value Average?
+
+**** Answer
+
+Average: 166
 
 *** Question b
 
 How many movies in the dataset Movies have Performance value
 Excellent?
 
-*** Notes
+**** Answer
+
+Excellent: 84
+
+** DONE Important change to the ~Movies~ dataset
+CLOSED: [2015-08-22 Sat 11:01]
 
 Now, remove the original dependent variable "Worldwide" from your
 dataset with the command:
 
-~Movies$Worldwide = NULL~
+#+begin_src R :session :results output :exports all
+  Movies$Worldwide <- NULL
+  writeLines("\n :: Worldwide dependent variable removed...")
+#+end_src
+
+#+RESULTS:
+:
+:  :: Worldwide dependent variable removed...
 
 Then, randomly split Movies into a training set, containing 70% of the
 observations, and a testing set, containing 30% of the
 observations. This time, you should use the sample.split function with
 the dependent variable "Performance". Right before calling the
 sample.split function, set the seed to 15071.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Spliting the data set in a training and testing dataframes...")
+  library(caTools)
+  set.seed(15071)
+  spl <- sample.split(Movies$Performance, SplitRatio = 0.7)
+  MoviesTrain <- subset(Movies, spl == TRUE)
+  MoviesTest <- subset(Movies, spl == FALSE)
+
+  writeLines("\n :: Training dataset structure:")
+  str(MoviesTrain)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Spliting the data set in a training and testing dataframes...
+
+ :: Training dataset structure:
+'data.frame':	234 obs. of  24 variables:
+ $ Name             : chr  "Batman" "Batman Forever" "Batman & Robin" "The Dark Knight" ...
+ $ Year             : int  1989 1995 1997 2008 2012 2002 2006 2004 2003 2007 ...
+ $ Rated            : Factor w/ 6 levels "Approved","G",..: 5 5 5 3 5 6 6 5 5 4 ...
+ $ Runtime          : int  126 121 125 152 165 113 117 101 101 96 ...
+ $ Action           : int  1 1 1 1 1 0 1 1 0 0 ...
+ $ Adventure        : int  1 1 0 0 0 0 0 1 0 0 ...
+ $ Crime            : int  0 0 0 1 0 0 0 0 0 0 ...
+ $ Drama            : int  0 0 0 1 0 0 0 0 1 0 ...
+ $ Thriller         : int  0 0 0 0 1 0 0 0 0 0 ...
+ $ Fantasy          : int  0 1 0 0 0 0 1 0 1 1 ...
+ $ Horror           : int  0 0 0 0 0 1 0 0 0 0 ...
+ $ Sci.Fi           : int  0 0 0 0 0 0 0 1 0 0 ...
+ $ Comedy           : int  0 0 0 0 0 0 0 0 1 1 ...
+ $ Family           : int  0 0 0 0 0 0 0 0 0 1 ...
+ $ Mystery          : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ Romance          : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ Animation        : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ Music            : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ History          : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ Documentary      : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ Wins             : int  10 9 5 134 43 10 12 2 7 2 ...
+ $ Nominations      : int  21 20 20 106 83 25 30 2 7 10 ...
+ $ Production.Budget: num  18.1 19.1 19.2 19.2 19.4 ...
+ $ Performance      : Factor w/ 3 levels "Average","Excellent",..: 2 1 1 2 2 3 1 1 1 1 ...
+#+end_example
+
+Now, it is important that all the character features are classified as
+factors in order to apply the algorithm
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Converting the Name feature to a factor type...")
+  Movies$Name <- as.factor(Movies$Name)
+  str(Movies$Name)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Converting the Name feature to a factor type...
+:  Factor w/ 334 levels "2 Fast 2 Furious",..: 28 32 31 29 30 247 248 4 5 6 ...
 
 ** TODO Problem 11 - A CART Model (1 point possible)
 
@@ -899,9 +1381,56 @@ function in the same way as for a binary classification problem. Just
 use the default parameter settings (don't set a value for minbucket or
 cp).
 
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Loading rpart and rpart.plot...")
+  library(rpart)
+  library(rpart.plot)
+  writeLines("\n :: rpart and r.part.plot libraries loaded...")
+#+end_src
+
+#+RESULTS:
+:
+:  :: Loading rpart and rpart.plot...
+:
+:  :: rpart and r.part.plot libraries loaded...
+
+Generating the CART model
+
+#+begin_src R :session :results output :exports all
+  MoviesCART <- rpart(Performance ~ ., data = MoviesTrain[ ,
+                                  3:ncol(MoviesTrain)], method = "class")
+  writeLines("\n :: CART model DONE...")
+#+end_src
+
+#+RESULTS:
+:
+:  :: CART model DONE...
+
 *** Question a
 
 How many splits are in the resulting tree?
+
+#+BEGIN_SRC R :var basename="MoviesTrainCARTModel" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  prp(MoviesCART)
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  Movie train CART model
+#+NAME:     fig:MoviesTrainCARTModel
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/MoviesTrainCARTModel.png]]
+
+**** Answer
+
+9 Splits
 
 *** Question b
 
@@ -1544,7 +2073,7 @@ apply.
 - [ ] ~ggplot~ with ~NumVisits~ on the ~x-axis~ and the cluster number
   on the ~y-axis~, plotting with ~geom_point()~
 
-* Part 4. Optimal Course Scheduling [/]
+* Part 4. Optimal Course Scheduling [0/10]
 
 You are about to enroll in a two-year Masters program in Analytics,
 which you are expected to complete in four semesters.  During the four
@@ -1597,7 +2126,7 @@ You wish to get the most out of your degree program, so you decide to
 draw up a schedule to maximize the sum of the projected ratings of the
 courses that you end up taking.
 
-** Problem 1 - The Decision Variables (2 points possible)
+** TODO Problem 1 - The Decision Variables (2 points possible)
 
 As mentioned above, you wish to determine which courses to take so
 that you can graduate on time and have the best experience (determined
@@ -1608,7 +2137,7 @@ How many decision variables will there be in your optimization
 formulation? (HINT: You do not need a variable if a course is not
 offered.)
 
-** Problem 2 - The Decision Variables (1 point possible)
+** TODO Problem 2 - The Decision Variables (1 point possible)
 
 What type of decision variables should be used in the optimization
 formulation?
@@ -1625,14 +2154,14 @@ formulation?
 
 - [ ] Integer variables limited to non-negative values
 
-** Problem 3 - The Objective (2 points possible)
+** TODO Problem 3 - The Objective (2 points possible)
 
 Your objective is to maximize the sum of the projected ratings of the
 courses you take. How many decision variables defined in Problem 1
 have to do with courses that have ratings? (These are the decision
 variables that will participate in the objective!)
 
-** Problem 4 - Scheduling Constraints (4 points possible)
+** TODO Problem 4 - Scheduling Constraints (4 points possible)
 
 *** Question a
 
@@ -1646,7 +2175,7 @@ You must take exactly two courses per semester (Thesis is counted as a
 course). How many constraints in total do we need to add to the model
 to ensure this requirement is met?
 
-** Problem 5 - Solving the Model (4 points possible)
+** TODO Problem 5 - Solving the Model (4 points possible)
 
 Set up and solve this optimization problem in the spreadsheet software
 of your choice (Excel, LibreOffice, or OpenOffice). Remember to define
@@ -1654,7 +2183,7 @@ all of your decision variables, your objective, and your constraints.
 
 What is the optimal objective function value of the solution?
 
-** Problem 6 - Understanding the Solution (2 points possible)
+** TODO Problem 6 - Understanding the Solution (2 points possible)
 
 *** Question a
 
@@ -1675,7 +2204,7 @@ In which semester do you take the Thesis course?
 - [ ] Fall 16
 - [ ] Spring 17
 
-** Problem 7 - Updating the Model (2 points possible)
+** TODO Problem 7 - Updating the Model (2 points possible)
 
 For the following question, please reformulate your model and re-solve
 it using a solver of your choice.
@@ -1690,7 +2219,7 @@ the last two semesters).
 Formulate these new constraints and re-solve. What is the sum of all
 of the ratings for the courses that you take now?
 
-** Problem 8 - Updating the Model (1 point possible)
+** TODO Problem 8 - Updating the Model (1 point possible)
 
 In the new optimal solution, which electives do you take? Select all
 that apply.
@@ -1702,7 +2231,7 @@ that apply.
 - [ ] Stat E2
 - [ ] Stat E3
 
-** Problem 9 - Additional Constraints (2 points possible)
+** TODO Problem 9 - Additional Constraints (2 points possible)
 
 Please answer the following question without updating and re-solving
 your model. (Do not change your model!)
@@ -1716,7 +2245,7 @@ to the average projected rating of the courses that you take?
 
 - [ ] Increase.
 
-** Problem 10 - Sensitivity Analysis (2 points possible)
+** TODO Problem 10 - Sensitivity Analysis (2 points possible)
 
 For the following problem, do not re-run your model.
 
