@@ -60,7 +60,7 @@ This document content the assignment 3 of the third week of The
 Analytics Edge course of MIT.
 #+END_ABSTRACT
 
-* Popularity of music records
+* Popularity of music records [18/18]
 
 The music industry has a well-developed market with a global annual
 revenue around $15$ billion USD. The recording industry is highly
@@ -139,7 +139,8 @@ Here's a detailed description of the variables:
       made it to the Top 10 of the Billboard Hot 100 Chart (1 if it
       was in the top 10, and 0 if it was not)
 
-** Problem 1.1 - Understanding the Data (1 point possible)
+** DONE Problem 1.1 - Understanding the Data (1 point possible)
+CLOSED: [2015-08-30 Sun 05:20]
 
 Use the read.csv function to load the dataset "songs.csv" into R.
 
@@ -373,7 +374,8 @@ function:
 
 ~table(songs$year)~
 
-** Problem 1.2 - Understanding the Data (1 point possible)
+** DONE Problem 1.2 - Understanding the Data (1 point possible)
+CLOSED: [2015-08-30 Sun 05:20]
 
 How many songs does the dataset include for which the artist name is
 "Michael Jackson"?
@@ -402,7 +404,8 @@ challenging to find Michael Jackson. Instead, we can use subset:
 Then, by typing ~str(MichaelJackson)~ or ~nrow(MichaelJackson)~, we can
 see that there are $18$ observations.
 
-** Problem 1.3 - Understanding the Data (1 point possible)
+** DONE Problem 1.3 - Understanding the Data (1 point possible)
+CLOSED: [2015-08-30 Sun 05:20]
 
 Which of these songs by Michael Jackson made it to the Top 10? Select
 all that apply.
@@ -450,7 +453,8 @@ As a shortcut, you could just output:
 
 ~MichaelJackson[c(“songtitle”, “Top10”)]~
 
-** Problem 1.4 - Understanding the Data (2 points possible)
+** DONE Problem 1.4 - Understanding the Data (2 points possible)
+CLOSED: [2015-08-30 Sun 05:20]
 
 The variable corresponding to the estimated time signature
 (timesignature) is discrete, meaning that it only takes integer values
@@ -497,7 +501,8 @@ The only values that appear in the table for *timesignature* are 0, 1,
 value of 4 for the timesignature, which is the highest count out of
 all of the possible timesignature values.
 
-** Problem 1.5 - Understanding the Data (1 point possible)
+** DONE Problem 1.5 - Understanding the Data (1 point possible)
+CLOSED: [2015-08-30 Sun 05:20]
 
 Out of all of the songs in our dataset, the song with the highest
 tempo is one of the following songs. Which one is it?
@@ -533,7 +538,8 @@ by typing:
 
 The song title is: *Wanna be Startin' Somethin'*.
 
-** Problem 2.1 - Creating Our Prediction Model (1 point possible)
+** DONE Problem 2.1 - Creating Our Prediction Model (1 point possible)
+CLOSED: [2015-08-30 Sun 05:20]
 
 We wish to predict whether or not a song will make it to the
 Top 10. To do this, first use the subset function to split the data
@@ -580,7 +586,8 @@ the following commands:
 The training set has $7201$ observations, which can be found by looking
 at the structure with ~str(SongsTrain)~ or by typing ~nrow(SongsTrain)~.
 
-** Problem 2.2 - Creating our Prediction Model (2 points possible)
+** DONE Problem 2.2 - Creating our Prediction Model (2 points possible)
+CLOSED: [2015-08-30 Sun 05:20]
 
 In this problem, our outcome variable is *Top10* - we are trying to
 predict whether or not a song will make it to the Top 10 of the
@@ -727,7 +734,8 @@ command:
 Looking at the bottom of the summary(SongsLog1) output, we can see
 that the $AIC = 4827.2$.
 
-** Problem 2.3 - Creating Our Prediction Model (1 point possible)
+** DONE Problem 2.3 - Creating Our Prediction Model (1 point possible)
+CLOSED: [2015-08-30 Sun 05:21]
 
 Let's now think about the variables in our dataset related to the
 *confidence of the time signature*, *key* and *tempo*
@@ -819,7 +827,8 @@ estimates for the confidence variables (*timesignature_confidence*,
 higher confidence leads to a higher predicted probability of a Top 10
 hit.
 
-** Problem 2.4 - Creating Our Prediction Model (1 point possible)
+** DONE Problem 2.4 - Creating Our Prediction Model (1 point possible)
+CLOSED: [2015-08-30 Sun 05:21]
 
 In general, if the confidence is low for the time signature, tempo,
 and key, then the song is more likely to be complex. What does Model 1
@@ -837,7 +846,8 @@ Since the coefficient values for *timesignature_confidence*,
 confidence leads to a lower predicted probability of a song being a
 hit. So mainstream listeners tend to prefer less complex songs.
 
-** Problem 2.5 - Creating Our Prediction Model (2 points possible)
+** DONE Problem 2.5 - Creating Our Prediction Model (2 points possible)
+CLOSED: [2015-08-30 Sun 05:21]
 
 Songs with heavier instrumentation tend to be louder (have higher
 values in the variable *loudness*) and more energetic (have higher
@@ -936,7 +946,8 @@ negative*, meaning that mainstream listeners prefer songs that are
 less energetic, which are those with light instrumentation. *These
 coefficients lead us to different conclusions!*
 
-** Problem 3.1 - Beware of Multicollinearity Issues! (1 point possible)
+** DONE Problem 3.1 - Beware of Multicollinearity Issues! (1 point possible)
+CLOSED: [2015-08-30 Sun 05:21]
 
 What is the correlation between the variables "loudness" and "energy"
 in the training set?
@@ -960,7 +971,8 @@ problem, we'll build two variations of our original model: Model 2, in
 which we keep "energy" and omit "loudness", and Model 3, in which we
 keep "loudness" and omit "energy".
 
-** Problem 3.2 - Beware of Multicollinearity Issues! (1 point possible)
+** DONE Problem 3.2 - Beware of Multicollinearity Issues! (1 point possible)
+CLOSED: [2015-08-30 Sun 05:21]
 
 Create Model 2, which is Model 1 without the independent variable
 *loudness*. This can be done with the following command:
@@ -1048,7 +1060,8 @@ The coefficient estimate for energy is positive in Model 2, suggesting
 that songs with higher energy levels tend to be more popular. However,
 note that the variable energy is not significant in this model.
 
-** Problem 3.3 - Beware of Multicollinearity Issues! (1 point possible)
+** DONE Problem 3.3 - Beware of Multicollinearity Issues! (1 point possible)
+CLOSED: [2015-08-30 Sun 05:36]
 
 Now, create Model 3, which should be exactly like Model 1, but without
 the variable *energy*.
@@ -1139,7 +1152,8 @@ is the same conclusion we got from Model 2.
 
 *In the remainder of this problem, we'll just use Model 3*.
 
-** Problem 4.1 - Validating Our Model (2 points possible)
+** DONE Problem 4.1 - Validating Our Model (2 points possible)
+CLOSED: [2015-08-30 Sun 05:36]
 
 Make predictions on the test set using Model 3. What is the accuracy
 of Model 3 on the test set, using a threshold of 0.45? (Compute the
@@ -1190,7 +1204,8 @@ The accuracy of the model is
 
 $$\frac{(309 + 19)}{(309 + 5 + 40 + 19)} = 0.87936$$.
 
-** Problem 4.2 - Validating Our Model (1 point possible)
+** DONE Problem 4.2 - Validating Our Model (1 point possible)
+CLOSED: [2015-08-30 Sun 05:36]
 
 Let's check if there's any incremental benefit in using Model 3
 instead of a baseline model. Given the difficulty of guessing which
@@ -1238,7 +1253,8 @@ $$
 accuracy = \frac{314}{(314 + 59)} = 0.8418231
 $$
 
-** Problem 4.3 - Validating Our Model (2 points possible)
+** DONE Problem 4.3 - Validating Our Model (2 points possible)
+CLOSED: [2015-08-30 Sun 05:36]
 
 It seems that Model 3 gives us a small improvement over the baseline
 model. Still, does it create an edge?
@@ -1318,7 +1334,8 @@ We have $19$ true positives (Top 10 hits that we predict correctly), and
 $5$ false positives (songs that we predict will be Top 10 hits, but end
 up not being Top 10 hits).
 
-** Problem 4.4 - Validating Our Model (2 points possible)
+** DONE Problem 4.4 - Validating Our Model (2 points possible)
+CLOSED: [2015-08-30 Sun 05:36]
 
 *** Question a
 
@@ -1368,7 +1385,8 @@ Using the confusion matrix:
 We can compute the sensitivity to be 19/(19+40) = 0.3220339, and the
 specificity to be 309/(309+5) = 0.9840764.
 
-** Problem 4.5 - Validating Our Model (1 point possible)
+** DONE Problem 4.5 - Validating Our Model (1 point possible)
+CLOSED: [2015-08-30 Sun 05:36]
 
 #+begin_src R :session :results output :exports all
   TN <- 309; FP <- 5;
@@ -1427,7 +1445,7 @@ specificity over sensitivity. While Model 3 only captures less than
 half of the Top 10 songs, it still can offer a competitive edge, since
 it is very conservative in its predictions.
 
-* Predicting parole violators
+* Predicting parole violators [17/17]
 
 In many criminal justice systems around the world, inmates deemed not
 to be a threat to society are released from prison under the parole
@@ -1479,7 +1497,8 @@ that year. The dataset contains the following variables:
 - *violator*: 1 if the parolee violated the parole, and 0 if the
   parolee completed the parole without violation.
 
-** Problem 1.1 - Loading the Dataset (1 point possible)
+** DONE Problem 1.1 - Loading the Dataset (1 point possible)
+CLOSED: [2015-08-30 Sun 05:38]
 
 Load the dataset parole.csv into a data frame called parole, and
 investigate it using the str() and summary() functions.
@@ -1591,7 +1610,8 @@ You can load the dataset into R with the following command:
 Then you can count the number of parolees in the dataset with
 ~str(parole)~ or with ~nrow(parole)~.
 
-** Problem 1.2 - Loading the Dataset (1 point possible)
+** DONE Problem 1.2 - Loading the Dataset (1 point possible)
+CLOSED: [2015-08-30 Sun 05:38]
 
 How many of the parolees in the dataset violated the terms of their
 parole?
@@ -1622,7 +1642,8 @@ parole?
 
 This can be observed by running table(parole$violator)
 
-** Problem 2.1 - Preparing the Dataset (1 point possible)
+** DONE Problem 2.1 - Preparing the Dataset (1 point possible)
+CLOSED: [2015-08-30 Sun 05:38]
 
 You should be familiar with unordered factors (if not, review the Week
 2 homework problem "Reading Test Scores"). Which variables in this
@@ -1665,7 +1686,8 @@ While the variables male, race, state, crime, and violator are all
 *unordered factors*, only state and crime have at least 3 levels in this
 dataset.
 
-** Problem 2.2 - Preparing the Dataset (1 point possible)
+** DONE Problem 2.2 - Preparing the Dataset (1 point possible)
+CLOSED: [2015-08-30 Sun 05:38]
 
 In the last subproblem, we identified variables that are unordered
 factors with at least 3 levels, so we need to convert them to factors
@@ -1752,7 +1774,8 @@ The output of ~summary(parole$state)~ or ~summary(parole$crime)~ now shows
 a breakdown of the number of parolees with each level of the factor,
 which is most similar to the output of the ~table()~ function.
 
-** Problem 3.1 - Splitting into a Training and Testing Set (1 point possible)
+** DONE Problem 3.1 - Splitting into a Training and Testing Set (1 point possible)
+CLOSED: [2015-08-30 Sun 05:38]
 
 To ensure consistent training/testing set splits, run the following 5
 lines of code (do not include the line numbers at the beginning):
@@ -1797,7 +1820,8 @@ of the time, so train should contain roughly $70\%$ of the values in
 the dataset. You can verify this by running ~nrow(train)~ and
 ~nrow(test)~.
 
-** Problem 3.2 - Splitting into a Training and Testing Set (3 points possible)
+** DONE Problem 3.2 - Splitting into a Training and Testing Set (3 points possible)
+CLOSED: [2015-08-30 Sun 05:38]
 
 *** Question a
 
@@ -1893,7 +1917,8 @@ have training sets train1 and train2, the function
 will count the number of values in those two data frames that are
 different.
 
-** Problem 4.1 - Building a Logistic Regression Model (1 point possible)
+** DONE Problem 4.1 - Building a Logistic Regression Model (1 point possible)
+CLOSED: [2015-08-30 Sun 05:38]
 
 *Note*: If you tested other training/testing set splits in the previous
 section, please re-run the original 5 lines of code to obtain the
@@ -1980,7 +2005,8 @@ regression model:
 
 ~summary(mod)~
 
-** Problem 4.2 - Building a Logistic Regression Model (1 point possible)
+** DONE Problem 4.2 - Building a Logistic Regression Model (1 point possible)
+CLOSED: [2015-08-30 Sun 05:38]
 
 What can we say based on the coefficient of the multiple.offenses
 variable?
@@ -2060,7 +2086,8 @@ In the fourth step we used the rule that
 
 ~e^(ln(x)) = x~.
 
-** Problem 4.3 - Building a Logistic Regression Model (4 points possible)
+** DONE Problem 4.3 - Building a Logistic Regression Model (4 points possible)
+CLOSED: [2015-08-30 Sun 05:38]
 
 Consider a parolee who is:
 
@@ -2172,7 +2199,8 @@ log(odds) = -1.700629.
 Therefore, the odds ratio is exp(-1.700629) = 0.183, and the predicted
 probability of violation is 1/(1+exp(1.700629)) = 0.154.
 
-** Problem 5.1 - Evaluating the Model on the Testing Set (1 point possible)
+** DONE Problem 5.1 - Evaluating the Model on the Testing Set (1 point possible)
+CLOSED: [2015-08-30 Sun 05:38]
 
 Use the predict() function to obtain the model's predicted
 probabilities for parolees in the testing set, remembering to pass
@@ -2207,7 +2235,8 @@ the values:
 
 ~ummary(predictions)~
 
-** Problem 5.2 - Evaluating the Model on the Testing Set (3 points possible)
+** DONE Problem 5.2 - Evaluating the Model on the Testing Set (3 points possible)
+CLOSED: [2015-08-30 Sun 05:38]
 
 In the following questions, evaluate the model's predictions on the
 test set using a threshold of 0.5.
@@ -2310,7 +2339,8 @@ of values on the diagonal) is (167+12)/202 = 0.886. The sensitivity
 0.522, and the specificity (proportion of the actual non-violators we
 got correct) is 167/(167+12) = 0.933.
 
-** Problem 5.3 - Evaluating the Model on the Testing Set (1 point possible)
+** DONE Problem 5.3 - Evaluating the Model on the Testing Set (1 point possible)
+CLOSED: [2015-08-30 Sun 05:38]
 
 What is the accuracy of a simple model that predicts that every
 parolee is a non-violator?
@@ -2348,7 +2378,8 @@ you can see that there are 179 negative examples, which are the ones
 that the baseline model would get correct. Thus the baseline model
 would have an accuracy of 179/202 = 0.886.
 
-** Problem 5.4 - Evaluating the Model on the Testing Set (1 point possible)
+** DONE Problem 5.4 - Evaluating the Model on the Testing Set (1 point possible)
+CLOSED: [2015-08-30 Sun 05:38]
 
 Consider a parole board using the model to predict whether parolees
 will be violators or not. The job of a parole board is to make sure
@@ -2398,7 +2429,8 @@ increases false negatives and decreases false positives. The parole
 board assigns high cost to false negatives, and therefore should
 decrease the cutoff.
 
-** Problem 5.5 - Evaluating the Model on the Testing Set (1 point possible)
+** DONE Problem 5.5 - Evaluating the Model on the Testing Set (1 point possible)
+CLOSED: [2015-08-30 Sun 05:38]
 
 Which of the following is the most accurate assessment of the value of
 the logistic regression model with a cutoff 0.5 to a parole board,
@@ -2493,7 +2525,8 @@ From the previous question, the parole board would likely benefit from
 decreasing the logistic regression cutoffs, which decreases the false
 negative rate while increasing the false positive rate.
 
-** Problem 5.6 - Evaluating the Model on the Testing Set (2 points possible)
+** DONE Problem 5.6 - Evaluating the Model on the Testing Set (2 points possible)
+CLOSED: [2015-08-30 Sun 05:38]
 
 Using the ROCR package, what is the AUC value for the model?
 
@@ -2530,7 +2563,8 @@ This can be obtained with the following code:
 
 ~as.numeric(performance(pred, "auc")@y.values)~
 
-** Problem 5.7 - Evaluating the Model on the Testing Set (1 point possible)
+** DONE Problem 5.7 - Evaluating the Model on the Testing Set (1 point possible)
+CLOSED: [2015-08-30 Sun 05:38]
 
 Describe the meaning of AUC in this context.
 
@@ -2551,7 +2585,8 @@ The AUC deals with differentiating between a randomly selected
 positive and negative example. It is independent of the regression
 cutoff selected.
 
-** Problem 6.1 - Identifying Bias in Observational Data (1 point possible)
+** DONE Problem 6.1 - Identifying Bias in Observational Data (1 point possible)
+CLOSED: [2015-08-30 Sun 05:38]
 
 Our goal has been to predict the outcome of a parole decision, and we
 used a publicly available dataset of parole releases for
@@ -2604,7 +2639,7 @@ require tracking that individual for 10 years before building the
 model). Such a prospective analysis would not be possible using the
 2004 National Corrections Reporting Program dataset.
 
-* Predicting loan repayment
+* Predicting loan repayment [17/17]
 
 In the lending industry, investors provide loans to borrowers in
 exchange for the promise of repayment with interest. If the borrower
@@ -2666,7 +2701,8 @@ to fund a loan:
 - *pub.rec*: The borrower's number of derogatory public records
   (bankruptcy filings, tax liens, or judgments).
 
-** Problem 1.1 - Preparing the Dataset (1 point possible)
+** DONE Problem 1.1 - Preparing the Dataset (1 point possible)
+CLOSED: [2015-08-30 Sun 05:39]
 
 Load the dataset loans.csv into a data frame called loans, and explore
 it using the ~str()~ and ~summary()~ functions.
@@ -2805,7 +2841,8 @@ From table(loans$not.fully.paid), we see that 1533 loans were not
 paid, and 8045 were fully paid. Therefore, the proportion of loans not
 paid is 1533/(1533+8045)=0.1601.
 
-** Problem 1.2 - Preparing the Dataset (1 point possible)
+** DONE Problem 1.2 - Preparing the Dataset (1 point possible)
+CLOSED: [2015-08-30 Sun 05:39]
 
 Which of the following variables has at least one missing observation?
 Select all that apply.
@@ -2876,7 +2913,8 @@ From summary(loans), we can read that log.annual.inc,
 days.with.cr.line, revol.util, inq.last.6mths, delinq.2yrs and pub.rec
 are missing values.
 
-** Problem 1.3 - Preparing the Dataset (1 point possible)
+** DONE Problem 1.3 - Preparing the Dataset (1 point possible)
+CLOSED: [2015-08-30 Sun 05:39]
 
 Which of the following is the best reason to fill in the missing
 values for these variables instead of removing observations with
@@ -2947,7 +2985,8 @@ described is not an issue. However, to predict risk for loans with
 missing data we need to fill in the missing values instead of removing
 the observations.
 
-** Problem 1.4 - Preparing the Dataset (1 point possible)
+** DONE Problem 1.4 - Preparing the Dataset (1 point possible)
+CLOSED: [2015-08-30 Sun 05:39]
 
 For the rest of this problem, we'll be using a revised version of the
 dataset that has the missing values filled in with multiple imputation
@@ -3067,7 +3106,8 @@ on a data frame with the dependent variable not.fully.paid removed, so
 we predicted the missing values using only other independent
 variables.
 
-** Problem 2.1 - Prediction Models (1 point possible)
+** DONE Problem 2.1 - Prediction Models (1 point possible)
+CLOSED: [2015-08-30 Sun 05:39]
 
 Now that we have prepared the dataset, we need to split it into a
 training and testing set. To ensure everybody obtains the same split,
@@ -3194,7 +3234,8 @@ to an increased risk of defaulting) and some have a negative
 coefficient (meaning that higher values of the variable lead to a
 decreased risk of defaulting).
 
-** Problem 2.2 - Prediction Models (4 points possible)
+** DONE Problem 2.2 - Prediction Models (4 points possible)
+CLOSED: [2015-08-30 Sun 05:39]
 
 Consider two loan applications, which are identical other than the
 fact that the borrower in Application A has FICO credit score 700
@@ -3262,7 +3303,8 @@ larger than the predicted odds for loan B. Intuitively, it makes sense
 that loan A should have higher odds of non-payment than loan B, since
 the borrower has a worse credit score.
 
-** Problem 2.3 - Prediction Models (4 points possible)
+** DONE Problem 2.3 - Prediction Models (4 points possible)
+CLOSED: [2015-08-30 Sun 05:39]
 
 Predict the probability of the test set loans not being paid back in
 full (remember type="response" for the predict function). Store these
@@ -3343,7 +3385,8 @@ The confusion matrix can be computed with the following commands:
 predictions would be correct in the baseline model of guessing every
 loan would be paid back in full (accuracy 2413/2873=0.8399).
 
-** Problem 2.4 - Prediction Models (2 points possible)
+** DONE Problem 2.4 - Prediction Models (2 points possible)
+CLOSED: [2015-08-30 Sun 05:39]
 
 *** Question
 
@@ -3390,7 +3433,8 @@ The model has poor accuracy at the threshold 0.5. But despite the poor
 accuracy, we will see later how an investor can still leverage this
 logistic regression model to make profitable investments.
 
-** Problem 3.1 - A "Smart Baseline" (1 point possible)
+** DONE Problem 3.1 - A "Smart Baseline" (1 point possible)
+CLOSED: [2015-08-30 Sun 05:39]
 
 In the previous problem, we built a logistic regression model that has
 an AUC significantly higher than the AUC of 0.5 that would be obtained
@@ -3530,7 +3574,8 @@ significance of variables (this can be verified in this case by trying
 out a few other training/testing splits), and the models were trained
 on the same observations.
 
-** Problem 3.2 - A "Smart Baseline" (2 points possible)
+** DONE Problem 3.2 - A "Smart Baseline" (2 points possible)
+CLOSED: [2015-08-30 Sun 05:39]
 
 *** Question a
 
@@ -3588,7 +3633,8 @@ According to the summary function, the maximum predicted probability
 of the loan not being paid back is 0.4266, which means no loans would
 be flagged at a logistic regression cutoff of 0.5.
 
-** Problem 3.3 - A "Smart Baseline" (1 point possible)
+** DONE Problem 3.3 - A "Smart Baseline" (1 point possible)
+CLOSED: [2015-08-30 Sun 05:39]
 
 What is the test set AUC of the bivariate model?
 
@@ -3623,7 +3669,8 @@ The AUC can be computed with:
 
 ~as.numeric(performance(prediction.bivariate, "auc")@y.values)~
 
-** Problem 4.1 - Computing the Profitability of an Investment (1 point possible)
+** DONE Problem 4.1 - Computing the Profitability of an Investment (1 point possible)
+CLOSED: [2015-08-30 Sun 05:39]
 
 While thus far we have predicted if a loan will be paid back or not,
 an investor needs to identify loans that are expected to be
@@ -3666,7 +3713,8 @@ $$
 10 e^{0.06 \times 3} = 11.97
 $$
 
-** Problem 4.2 - Computing the Profitability of an Investment (1 point possible)
+** DONE Problem 4.2 - Computing the Profitability of an Investment (1 point possible)
+CLOSED: [2015-08-30 Sun 05:39]
 
 While the investment has value c * exp(rt) dollars after collecting
 interest, the investor had to pay $c for the investment. What is the
@@ -3692,7 +3740,8 @@ A person's profit is what they get minus what they paid for it. In
 this case, the investor gets $c \times e^{rt}$ but paid $c$, yielding a profit
 of $c \times e^{rt} - c$.
 
-** Problem 4.3 - Computing the Profitability of an Investment (1 point possible)
+** DONE Problem 4.3 - Computing the Profitability of an Investment (1 point possible)
+CLOSED: [2015-08-30 Sun 05:39]
 
 Now, consider the case where the investor made a $c investment, but it
 was not paid back in full. Assume, conservatively, that no money was
@@ -3713,7 +3762,8 @@ A person's profit is what they get minus what they paid for it. In
 this case, the investor gets no money but paid $c$ dollars, yielding a
 profit of $-c$ dollars.
 
-** Problem 5.1 - A Simple Investment Strategy (2 points possible)
+** DONE Problem 5.1 - A Simple Investment Strategy (2 points possible)
+CLOSED: [2015-08-30 Sun 05:39]
 
 In the previous subproblem, we concluded that an investor who invested
 $c$ dollars in a *loan with interest rate* $r$ for $t$ years makes
@@ -3773,7 +3823,8 @@ From ~summary(test$profit)~, we see the maximum profit for a $1
 investment in any loan is $0.8895. Therefore, the maximum profit of a
 $10 investment is 10 times as large, or $8.895.
 
-** Problem 6.1 - An Investment Strategy Based on Risk (4 points possible)
+** DONE Problem 6.1 - An Investment Strategy Based on Risk (4 points possible)
+CLOSED: [2015-08-30 Sun 05:40]
 
 A simple investment strategy of equally investing in all the loans
 would yield profit $20.94 for a $100 investment. But this simple
@@ -3856,7 +3907,8 @@ we can use
 $110$ of the $437$ loans were not paid back in full, for a proportion of
 $0.2517$.
 
-** Problem 6.2 - An Investment Strategy Based on Risk (4 points possible)
+** DONE Problem 6.2 - An Investment Strategy Based on Risk (4 points possible)
+CLOSED: [2015-08-30 Sun 05:40]
 
 Next, we will determine the 100th smallest predicted probability of
 not paying in full by sorting the predicted risks in increasing order
@@ -3957,7 +4009,7 @@ be computed with
 
 ~table(selectedLoans$not.fully.paid)~
 
-* Predicting the baseball world series champion (OPTIONAL) [3/4]
+* Predicting the baseball world series champion (OPTIONAL) [3/13]
 
 *IMPORTANT NOTE*: This problem is optional, and will not count towards
 your grade. We have created this problem to give you extra practice
@@ -4248,3 +4300,298 @@ pairs remain.
 Through the years, different numbers of teams have been invited to the
 playoffs. Which of the following has been the number of teams making
 the playoffs in some season? Select all that apply.
+
+*** Answer
+
+- [X] 2
+- [X] 4
+- [ ] 6
+- [X] 8
+- [X] 10
+- [ ] 12
+
+*Explanation*
+
+Using ~table(baseball$Year)~, we can see at least one season had 2, 4,
+8, and 10 contenders. A fancier approach would be to use
+~table(table(baseball$Year))~.
+
+** TODO Problem 2.1 - Adding an Important Predictor
+
+It's much harder to win the World Series if there are 10 teams
+competing for the championship versus just two. Therefore, we will add
+the predictor variable NumCompetitors to the baseball data
+frame. NumCompetitors will contain the number of total teams making
+the playoffs in the year of a particular team/year pair. For instance,
+NumCompetitors should be 2 for the 1962 New York Yankees, but it
+should be 8 for the 1998 Boston Red Sox.
+
+We start by storing the output of the ~table()~ function that counts
+the number of playoff teams from each year:
+
+~PlayoffTable = table(baseball$Year)~
+
+You can output the table with the following command:
+
+~PlayoffTable~
+
+We will use this stored table to look up the number of teams in the
+playoffs in the year of each team/year pair.
+
+*** Question
+
+Just as we can use the names() function to get the names of a data
+frame's columns, we can use it to get the names of the entries in a
+table. What best describes the output of ~names(PlayoffTable)~?
+
+**** Answer
+
+- [ ] Vector of years stored as numbers (type num)
+
+- [X] Vector of years stored as strings (type chr)
+
+- [ ] Vector of frequencies stored as numbers (type num)
+
+- [ ] Vector of frequencies stored as strings (type chr)
+
+*Explanation*
+
+From the call ~str(names(PlayoffTable))~ we see ~PlayoffTable~ has
+names of type chr, which are the years of the teams in the dataset.
+
+** TODO Problem 2.2 - Adding an Important Predictor
+
+Given a vector of names, the table will return a vector of
+frequencies. Which function call returns the number of playoff teams
+in 1990 and 2001? (HINT: If you are not sure how these commands work,
+go ahead and try them out in your R console!)
+
+- [ ] PlayoffTable(1990, 2001)
+
+- [ ] PlayoffTable(c(1990, 2001))
+
+- [ ] PlayoffTable("1990", "2001")
+
+- [ ] PlayoffTable(c("1990", "2001"))
+
+- [ ] PlayoffTable[1990, 2001]
+
+- [ ] PlayoffTable[c(1990, 2001)]
+
+- [ ] PlayoffTable["1990", "2001"]
+
+- [X] PlayoffTable[c("1990", "2001")]
+
+*Explanation*
+
+Because PlayoffTable is an object and not a function, we look up
+elements in it with square brackets instead of parentheses. We build
+the vector of years to be passed with the c() function. Because the
+names of PlayoffTable are strings and not numbers, we need to pass
+"1990" and "2001".
+
+** TODO Problem 2.3 - Adding an Important Predictor
+
+Putting it all together, we want to look up the number of teams in the
+playoffs for each team/year pair in the dataset, and store it as a new
+variable named NumCompetitors in the baseball data frame. While of the
+following function calls accomplishes this? (HINT: Test out the
+functions if you are not sure what they do.)
+
+- [ ] baseball$NumCompetitors = PlayoffTable(baseball$Year)
+
+- [ ] baseball$NumCompetitors = PlayoffTable[baseball$Year]
+
+- [ ] baseball$NumCompetitors = PlayoffTable(as.character(baseball$Year))
+
+- [X] baseball$NumCompetitors = PlayoffTable[as.character(baseball$Year)]
+
+*Explanation*
+
+Because PlayoffTable is an object and not a function, we look up
+elements in it with square brackets instead of
+parentheses. as.character() is needed to convert the Year variable in
+the dataset to a string, which we know from the previous parts is
+needed to look up elements in a table. If you're not sure what a
+function does, remember you can look it up with the ? function. For
+instance, you could type ?as.character to look up information about
+as.character.
+
+** TODO Problem 2.4 - Adding an Important Predictor
+
+Add the NumCompetitors variable to your baseball data frame. How many
+playoff team/year pairs are there in our dataset from years where 8
+teams were invited to the playoffs?
+
+*** Answer
+
+128
+
+*Explanation*
+
+You can add the NumCompetitors variable to the baseball data frame
+with the following command:
+
+~baseball$NumCompetitors = PlayoffTable[as.character(baseball$Year)]~
+
+Then you can obtain the number of team/year pairs with 8 teams in the
+playoffs by running ~table(baseball$NumCompetitors)~
+
+** TODO Problem 3.1 - Bivariate Models for Predicting World Series Winner
+
+In this problem, we seek to predict whether a team won the World
+Series; in our dataset this is denoted with a RankPlayoffs value
+of 1. Add a variable named WorldSeries to the baseball data frame, by
+typing the following command in your R console:
+
+~baseball$WorldSeries = as.numeric(baseball$RankPlayoffs == 1)~
+
+WorldSeries takes value 1 if a team won the World Series in the
+indicated year and a 0 otherwise. How many observations do we have in
+our dataset where a team did NOT win the World Series?
+
+197
+
+*Explanation*
+
+You can create the WorldSeries variable by running the command:
+
+~baseball$WorldSeries = as.numeric(baseball$RankPlayoffs == 1)~
+
+Then, if you create the table:
+
+~table(baseball$WorldSeries)~
+
+You can see that there are 197 teams that did not win the World
+Series.
+
+** TODO Problem 3.2 - Bivariate Models for Predicting World Series Winner
+
+When we're not sure which of our variables are useful in predicting a
+particular outcome, it's often helpful to build bivariate models,
+which are models that predict the outcome using a single independent
+variable. Which of the following variables is a significant predictor
+of the WorldSeries variable in a bivariate logistic regression model?
+To determine significance, remember to look at the stars in the
+summary output of the model. We'll define an independent variable as
+significant if there is at least one star at the end of the
+coefficients row for that variable (this is equivalent to the
+probability column having a value smaller than 0.05). Note that you
+have to build 12 models to answer this question! Use the entire
+dataset baseball to build the models. (Select all that apply.)
+
+- [X] Year
+- [ ] RS
+- [X] RA
+- [ ] W
+- [ ] OBP
+- [ ] SLG
+- [ ] BA
+- [X] RankSeason
+- [ ] OOBP
+- [ ] OSLG
+- [X] NumCompetitors
+- [ ] League
+
+*Explanation*
+
+The results come from building each bivariate model and looking at its
+summary. For instance, the result for the variable Year can be
+obtained by running summary(glm(WorldSeries~Year, data=baseball,
+family="binomial")). You can save time on repeated model building by
+using the up arrow in your R terminal. The W and SLG variables were
+both nearly significant, with p = 0.0577 and 0.0504, respectively.
+
+** TODO Problem 4.1 - Multivariate Models for Predicting World Series Winner
+
+In this section, we'll consider multivariate models that combine the
+variables we found to be significant in bivariate models. Build a
+model using all of the variables that you found to be significant in
+the bivariate models. How many variables are significant in the
+combined model?
+
+*** Answer
+
+0
+
+*Explanation*
+
+You can create a model with all of the significant variables from the
+bivariate models (Year, RA, RankSeason, and NumCompetitors) by using
+the following command:
+
+~LogModel = glm(WorldSeries ~ Year + RA + RankSeason + NumCompetitors,
+data=baseball, family=binomial)~
+
+Looking at ~summary(LogModel)~, you can see that none of the variables
+are significant in the multivariate model!
+
+** TODO Problem 4.2 - Multivariate Models for Predicting World Series Winner
+
+Often, variables that were significant in bivariate models are no
+longer significant in multivariate analysis due to correlation between
+the variables. Which of the following variable pairs have a high
+degree of correlation (a correlation greater than 0.8 or less than
+-0.8)? Select all that apply.
+
+- [ ] Year/RA
+- [ ] Year/RankSeason
+- [X] Year/NumCompetitors
+- [ ] RA/RankSeason
+- [ ] RA/NumCompetitors
+- [ ] RankSeason/NumCompetitors
+
+*Explanation*
+
+To test the correlation between two variables, use a command like
+cor(baseball$Year, baseball$RA). While every pair was at least
+moderately correlated, the only strongly correlated pair was
+Year/NumCompetitors, with correlation coefficient 0.914.
+
+As a shortcut, you can compute all pair-wise correlations between
+these variables with:
+
+~cor(baseball[c(“Year”, “RA”, “RankSeason”, “NumCompetitors”)])~
+
+** TODO Problem 4.3 - Multivariate Models for Predicting World Series Winner
+
+Build all six of the two variable models listed in the previous
+problem. Together with the four bivariate models, you should have 10
+different logistic regression models. Which model has the best AIC
+value (the minimum AIC value)?
+
+- [ ] Year
+- [ ] RA
+- [ ] RankSeason
+- [ ] NumCompetitors
+- [ ] Year/RA
+- [ ] Year/RankSeason
+- [X] Year/NumCompetitors
+- [ ] RA/RankSeason
+- [ ] RA/NumCompetitors
+- [ ] RankSeason/NumCompetitors
+
+*Explanation*
+
+The two-variable models can be built with the following commands:
+
+~Model1 = glm(WorldSeries ~ Year + RA, data=baseball, family=binomial)~
+
+~Model2 = glm(WorldSeries ~ Year + RankSeason, data=baseball, family=binomial)~
+
+~Model3 = glm(WorldSeries ~ Year + NumCompetitors, data=baseball, family=binomial)~
+
+~Model4 = glm(WorldSeries ~ RA + RankSeason, data=baseball, family=binomial)~
+
+~Model5 = glm(WorldSeries ~ RA + NumCompetitors, data=baseball, family=binomial)~
+
+~Model6 = glm(WorldSeries ~ RankSeason + NumCompetitors, data=baseball, family=binomial)~
+
+None of the models with two independent variables had both variables
+significant, so none seem promising as compared to a simple bivariate
+model. Indeed the model with the lowest AIC value is the model with
+just NumCompetitors as the independent variable.
+
+This seems to confirm the claim made by Billy Beane in Moneyball that
+all that matters in the Playoffs is luck, since NumCompetitors has
+nothing to do with the quality of the teams!

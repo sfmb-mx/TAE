@@ -54,7 +54,7 @@
 Assignment 8. Problems about linear optimization.
 #+END_ABSTRACT
 
-* Investment management under taxation [9/9]
+* Investment management under taxation [11/11]
 
 Billions of shares of stock, or fractions of ownership in a business,
 are traded on the stock market every day. Over half of all adults in
@@ -368,7 +368,8 @@ What is the objective value of the optimal solution now?
 
 The objective value found in Solver is $26,468.54.
 
-** Problem 3.3 - Adjusting the Formulation (1 point possible)
+** DONE Problem 3.3 - Adjusting the Formulation (1 point possible)
+CLOSED: [2015-08-31 Mon 07:47]
 
 Even though your investment is worth a bit less next year by
 diversifying, you expect this diversification to help you long term.
@@ -396,7 +397,8 @@ You should remove the upper bound of 75 for Yahoo!, and add an
 equality constraint stating that you should sell exactly 100 shares of
 your Yahoo! stock.
 
-** Problem 3.4 - Adjusting the Formulation (1 point possible)
+** DONE Problem 3.4 - Adjusting the Formulation (1 point possible)
+CLOSED: [2015-08-31 Mon 07:48]
 
 What is your estimated portfolio value next year?
 
@@ -423,7 +425,7 @@ optimization.  In reality, it is often a multi-stage nonlinear
 optimization problem. For more information, see
 [[http://en.wikipedia.org/wiki/Portfolio_optimization][Portafolio optimization at Wikipedia]].
 
-* Filatoi Riuniti [1/1]
+* Filatoi Riuniti [11/11]
 
 The northern regions of Italy are the heartlands of the Italian
 textile industry, providing textile products for many great Italian
@@ -554,6 +556,833 @@ The formulas for the constraints are as follows:
 
 ~Coarse Demand: SUM(E53:E59) >= B48~
 
-** Problem 1.2 - Formulating the Optimization Problem (2 points possible)
+** DONE Problem 1.2 - Formulating the Optimization Problem (2/2 points)
+CLOSED: [2015-08-31 Mon 07:51]
 
 How many kg of medium yarn is outsourced?
+
+*** Answer
+
+9182.9825947473 - correct
+
+*Explanation*
+
+We need to sum the values of the decision variables for medium yarn at
+the other mills. We outsource 2040.125 kg of medium yarn to De Blasi,
+and 7142.857 kg of medium yarn to Giuliani, for a total of 9182.982
+kg.
+
+** DONE Problem 1.3 - Formulating the Optimization Problem (2/2 points)
+CLOSED: [2015-08-31 Mon 07:51]
+
+How many kg of fine yarn is outsourced?
+
+*** Answer
+
+6250.000 - correct
+
+*Explanation*
+
+We outsource 6250 kg of fine yarn to Ambrosi, and produce the rest
+in-house. So a total of 6250 kg of fine yarn is outsourced.
+
+** DONE Problem 1.4 - Formulating the Optimization Problem (1/1 point)
+CLOSED: [2015-08-31 Mon 07:54]
+
+At which mills does Filatoi use the maximum capacity available? Select
+all that apply.
+
+- [X] Ambrosi
+- [X] Bresciani
+- [X] Castri
+- [ ] De Blasi
+- [X] Estensi
+- [X] Filatoi Riuniti
+- [X] Giuliani
+
+Ambrosi, Bresciani, Castri, Estensi, Filatoi Riuniti, Giuliani, - correct
+
+*Explanation*
+
+To answer this question, we need to look at the capacity constraints,
+and see which ones are satisfied at equality. We use the maximum
+capacity available at all mills except for De Blasi, where we only use
+714 of the 2600 hours available.
+
+** DONE Problem 2.1 - Sensitivity Analysis (1/1 point)
+CLOSED: [2015-08-31 Mon 07:54]
+
+In Problems 2 and 3, we'll be checking how sensitive our model is to
+the data and constraints. If you change the constraints or data values
+to answer any of the questions, make sure to change them back to the
+original values before continuing on to the next problem.
+
+Filatoi Riuniti should obviously consider increasing its spinning
+machine capacity. They could slightly expand the production capacity
+of the existing machines by renting an upgrade. This would increase
+their spinning production capacity by 600 hours/month. The monthly
+rental cost is $1,500/month. Would you recommend that they rent the
+upgrade?
+
+*** Answer
+
+- [ ] Yes, they should rent the upgrade
+
+- [X] No, they should not rent the upgrade - correct
+
+*Explanation*
+
+Increasing Filatoi Riuniti's spinning capacity by 600 hours/month and
+resolving the problem decreases the objective value to $1,381,273.75,
+which means that they save $1270.59 in costs. But since the cost of
+the upgrade is $1,500, it is not worth it to rent the upgrade.
+
+** DONE Problem 2.2 - Sensitivity Analysis (1/1 point)
+CLOSED: [2015-08-31 Mon 07:58]
+
+Alternatively, Filatoi Riuniti could increase its spinning machine
+capacity by renting another spinning machine for the production of
+only medium size yarn, for a monthly rental cost of $3,000. The
+machine has a production capacity of 300 hours per month (the machine
+would run at the same rate of 0.425 hours/Kg). Suppose that the
+estimated production cost of running this machine is less than that
+for Filatoi Riuniti's existing machines and is estimated to be
+$5.70/Kg (as opposed to $11.40/Kg for their existing machines). Would
+you recommend that Filatoi Riuniti rent the machine?
+
+- [X] Yes, they should rent the machine. - correct
+
+- [ ] No, they should not rent the machine.
+
+*Explanation*
+
+For this problem, the extra capacity is only for medium sized yarn. We
+can look at our optimal solution and see how medium yarn is currently
+being produced. We are producing 18,817.017 kg in-house, 2,040.125 kg
+at De Blasi, and 7,142.857 kg at Giuliani. If we look at the total
+costs, we can see that the most expensive place that we are currently
+producing at is De Blasi, at a cost of $12.30 per kg (production plus
+transportation costs). An extra 300 hours of medium production
+capacity at Filatoi allows us to produce 300/0.425 = 706 kg of
+additional medium sized yarn, so we would take these kg away from De
+Blasi and produce them in-house. The benefit of doing so is
+706($12.30 - $5.70) = $4660. Since this is larger than the rental cost
+of $3,000, we should rent the machine.
+
+Alternatively, you could adjust the production capacity and analyze
+how the model changes. If you add 300 production hours for Filatoi,
+the objective decreases by $635.29. However, since we’re producing
+more than 705.88 kg of medium yarn in-house, we know that we’re
+getting the 705.88 from that machine at $5.70/kg cheaper than the
+objective thinks we are, meaning the real cost is actually
+$5.70*705.88=$4023.53 lower, and we have a total savings of
+$4023.53+$635.29=$4658.82, more than the cost of $3000.
+
+** DONE Problem 2.3 - Sensitivity Analysis (1/1 point)
+CLOSED: [2015-08-31 Mon 07:58]
+
+Suppose that the shadow price of the medium yarn demand constraint is
+$12.30, with an allowable increase of 5388. Recall that the shadow
+price is the amount that the objective increases per unit increase in
+the right hand side of the constraint. So a shadow price of $12.30 for
+the medium yarn demand constraint means that the cost increases by
+$12.30 for every unit increase in the medium yarn demand. The
+allowable increase of 5388 means that this shadow price hold up to an
+increase of 5388 in the right hand side of this constraint. If we
+increase the right hand side by more than 5388, the shadow price will
+change, and it is impossible to know how it changes without re-solving
+the model.
+
+A new client is interested in purchasing up to 5,000 kg/month of
+medium size yarn. What is the minimum price per kg of yarn that
+Filatoi Riuniti should quote to this new client? (In answering this
+question, assume that Filatoi has not decided to increase its spinning
+machine capacity, and that Filatoi does not want to change the prices
+that they currently charge their existing clients.)
+
+*** Answer
+
+12.30 - correct
+
+*Explanation*
+
+Filatoi should charge at least $12.30 per kg to the new client, since
+this is the amount it will cost per-unit to increase the medium yarn
+demand by 5,000.
+
+** DONE Problem 2.4 - Sensitivity Analysis (1/1 point)
+CLOSED: [2015-08-31 Mon 07:58]
+
+Now suppose that the client wants to purchase 6,000 kg/month of medium
+size yarn. Now what is the minimum price per kg of yarn that Filatoi
+Riuniti should quote to this new client? (In answering this question,
+assume that Filatoi has not decided to increase its spinning machine
+capacity, and that Filatoi does not want to change the prices that
+they currently charge their existing clients.)
+
+*** Answer
+
+12.4489247298 - correct
+
+*Explanation*
+
+We can't answer this question using just the shadow price, since it
+only holds for an allowable increase of 5,388. But we can increase the
+demand for medium yarn by 6,000 (to 34,000) and re-solve our
+optimization problem. The new objective value is
+1,457,237.88. Comparing this to the old objective of 1,382,544.33, the
+increase is 74,693.55. Dividing by 6,000, this is an increase of 12.45
+per kg. This is the minimum price that we should charge the client per
+kg of yarn.
+
+** DONE Problem 3.1 - Data Estimates (1/1 point)
+CLOSED: [2015-08-31 Mon 07:58]
+
+In many situations, the problem data is estimated but is not known for
+sure. In this problem, the optimization model is based in part on the
+prices charged by the local mills to Filatoi Riuniti and on an
+estimate of Filatoi Riuniti's internal production costs. The plant
+manager, the accounting department, and you estimate that Filatoi
+Riuniti's internal production costs could vary within a 5% range of
+the numbers given.
+
+If Filatoi Riuniti's production costs increase by 5%, by how much does
+the objective value of the solution change? You should adjust and
+re-optimize the model to answer this question.
+
+*** Answer
+
+48924.4906210373 - correct
+
+*Explanation*
+
+Multiply each of Filatoi's production costs by 1.05, and resolve the
+optimization model. The objective value of the solution increases to
+1,431,468.83, for a change of 48,924.5. This means that the overall
+cost is more, which makes sense since it is more expensive to produce
+in house.
+
+Note that none of the decision variables change value. So even though
+it is more expensive, the strategy does not change if the internal
+production costs increase by 5%.
+
+** DONE Problem 3.2 - Data Estimates (1/1 point)
+CLOSED: [2015-08-31 Mon 07:58]
+
+If Filatoi Riuniti's production costs decrease by 5%, by how much does
+the objective value of the solution change (in absolute difference)?
+You should adjust and re-optimize the model to answer this question.
+
+*** Answer
+
+48924.4906210301 - correct
+
+*Explanation*
+
+Multiply each of Filatoi's production costs by 0.95, and resolve the
+optimization model. The objective value of the solution decreases to
+1,333,619.84 for a change of 48,924.5. This means that the overall
+cost is less, which makes sense since it is less expensive to produce
+in house.
+
+Note that none of the decision variables change value. So even though
+it is less expensive, the strategy does not change if the internal
+production costs decrease by 5%.
+
+** DONE Problem 3.3 - Data estimates (1 point possible)
+CLOSED: [2015-08-31 Mon 07:58]
+
+Now you think that the production capacity of one of your local mills,
+De Blasi, could vary within a 20% range of the estimated value. In the
+current solution, De Blasi produces 2040.125 kg of medium yarn, and
+none of the other types of yarn. If De Blasi's capacity is actually
+20% higher or lower than the estimated value, will the solution
+change? HINT: Think about De Blasi's capacity constraint.
+
+*** Answer
+
+- [ ] Yes
+- [X] No
+
+*Explanation*
+
+De Blasi's capacity constraint is not binding in the current
+solution. While they have a capacity of 2600 hours, we only use 714
+hours. So even if the capacity changes by 20%, the solution will not
+change.
+
+** Acknowledgments
+
+This problem is based on a case study in the textbook Data, Models,
+and Decisions: The Fundamentals of Management Science by Dimitris
+Bertsimas and Robert Freund.
+
+* Gasoline Blending [0/1]
+
+One of the earliest and most successful applications of linear
+optimization was in the oil industry in the 1950s. According to Bill
+Drew, the former manager of research for Exxon Mobil, the company used
+linear optimization to "schedule our tanker fleets, design port
+facilities, blend gasoline, create financial models, you name it."  In
+this problem, we'll use optimization to blend gasoline. (While the
+application of this problem is real, the data that we will be using
+here has been created for this problem.)
+
+Gasoline blending occurs in oil refineries, where crude oil is
+processed and refined into more useful products, such as gasoline and
+diesel fuel. We will consider three products: super gasoline, regular
+gasoline, and diesel fuel. These can be made by mixing three different
+types of crude oil: crude 1, crude 2, and crude 3. Each product is
+distinguished by its octane rating, which measures the quality of the
+fuel, and its iron content, which is a contaminant in the gas. The
+crude oils each have an octane rating and iron content as well. The
+following table shows the required octane ratings and iron contents
+for each of the products, as well as the known octane ratings and iron
+contents of each of the crude oils:
+
+| Product or Oil   | Octane Rating | Iron Content   |
+|------------------+---------------+----------------|
+| Super Gasoline   | at least 10   | no more than 1 |
+| Regular Gasoline | at least 8    | no more than 2 |
+| Diesel Fuel      | at least 6    | no more than 1 |
+| Crude 1          | 12            | 0.5            |
+| Crude 2          | 6             | 2.0            |
+| Crude 3          | 8             | 3.0            |
+
+The gasoline produced must meet these standards for octane ratings and
+iron content. The octane rating and iron content of a product is the
+weighted average of the octane rating and iron content of the crude
+oils used to produce it. For example, if we produce super gasoline
+using 20 barrels of Crude 1, 5 barrels of Crude 2, and 10 barrels of
+Crude 3, the Octane Rating of the super gasoline would be:
+
+(20*12 + 5*6 + 10*8)/35 = 10~
+
+The numerator is the number of barrels of Crude 1 used times the
+octane rating of Crude 1, plus the number of barrels of Crude 2 used
+times the octane rating of Crude 2, plus the number of barrels of
+Crude 3 used times the octane rating of Crude 3. The denominator is
+the total number of barrels used.
+
+Similarly, the iron content of the super gasoline would be:
+
+~(20*0.5 + 5*2.0 + 10*3.0)/35 = 1.43~
+
+The objective of the oil company is to maximize profit. The following
+table gives the sales price (revenue) for one barrel of each of the
+products:
+
+| Product          | Sales Price |
+|------------------+-------------|
+| Super Gasoline   | $70         |
+| Regular Gasoline | $60         |
+| Diesel Fuel      | $50         |
+
+And the following table gives the purchase price for one barrel of
+each of the crude oils:
+
+| Oil     | Purchase Price |
+|---------+----------------|
+| Crude 1 | $45            |
+| Crude 2 | $35            |
+| Crude 3 | $25            |
+
+We would like to maximize the amount made by selling the products,
+minus the amount it costs to buy the crude oils.
+
+The company can only buy 5,000 barrels of each type of crude oil, and
+can process no more than 14,000 barrels total of crude oil. One barrel
+of crude oil makes one barrel of gasoline or fuel (nothing is lost in
+the conversion).
+
+How many barrels of each type of crude oil should the company use to
+make each product? Formulate this problem as a linear optimization
+problem, and solve it in LibreOffice (or in the spreadsheet software
+you are using). The first problem below asks about the formulation,
+and the second problem asks about the solution. So if you get stuck in
+formulating the problem, try working through Problem 1 below.
+
+HINT: When trying to solve this problem, your solver might complain
+that it is nonlinear. Be careful how you construct the octane and iron
+constraints. If x, y, and z are variables, and you are trying to add
+the constraint:
+
+~12x+6y+8zx+y+z≥10~
+
+It needs to be formulated as:
+
+~12x+6y+8z≥10(x+y+z)~
+
+This is because you can only add variables in linear constraints. Note
+that this is the same constraint - we just multiplied both sides of
+the denominator of the fraction.
+
+** TODO Problem 1.1 - The Formulation (1 point possible)
+
+How many decision variables are there in this optimization model?
+- unanswered
+
+9
+
+Explanation
+
+The are nine decision variables in this optimization model - one for each product and each type of crude oil. So we should have one decision variable for the amount of Crude 1 to use in Super Gasoline, one decision variable for the amount of Crude 2 to use in Super Gasoline, etc.
+You have used 0 of 3 submissions
+** TODO Problem 1.2 - The Formulation (1 point possible)
+
+How many constraints are in the model, not including the non-negativity constraints?
+- unanswered
+
+10
+
+Explanation
+
+There are 10 constraints in this model. Three for the octane limits, three for the lead limits, three for each of the crude oil limits, and one for the total crude limit.
+You have used 0 of 3 submissions
+** TODO Problem 2.1 - The Solution (3 points possible)
+
+Solve your optimization model in LibreOffice (or in the spreadsheet software you are using). What is the objective value of the solution?
+- unanswered
+
+375000
+
+Explanation
+
+After setting up and solving this problem in LibreOffice, the objective value of the solution is $375,000.
+
+To provide an explanation of the formulas used in the model, assume that your decision variables are set up in your spreadsheet like this:
+	A 	B 	C 	D
+1 		Crude 1 	Crude 2 	Crude 3
+2 	Super Gasoline
+3 	Regular Gasoline
+4 	Diesel Fuel
+
+where the yellow cells B2:D4 are the decision variables.
+
+Then the objective formula is given by:
+
+70*SUM(B2:D2) + 60*SUM(B3:D3) + 50*SUM(B4:D4) - 45*SUM(B2:B4) - 35*SUM(C2:C4) - 25*SUM(D2:D4)
+
+And the constraints can be written as:
+
+Octane Super Constraint: 12*B2 + 6*C2 + 8*D2 >= 10*(B2 + C2 + D2)
+
+Octane Regular Constraint: 12*B3 + 6*C3 + 8*D3 >= 8*(B3 + C3 + D3)
+
+Octane Diesel Constraint: 12*B4 + 6*C4 + 8*D4 >= 6*(B4 + C4 + D4)
+
+Lead Super Constraint: 0.5*B2 + 2*C2 + 3*D2 <= 1*(B2 + C2 + D2)
+
+Lead Regular Constraint: 0.5*B3 + 2*C3 + 3*D3 <= 2*(B3 + C3 + D3)
+
+Lead Diesel Constraint: 0.5*B4 + 2*C4 + 3*D4 <= 1*(B4 + C4 + D4)
+
+Crude 1 Limit: B2 + B3 + B4 <= 5000
+
+Crude 2 Limit: C2 + C3 + C4 <= 5000
+
+Crude 3 Limit: D2 + D3 + D4 <= 5000
+
+Total Crude Limit: SUM(B2:D4) <= 14000
+You have used 0 of 8 submissions
+** TODO Problem 2.2 - The Solution (1 point possible)
+
+In the optimal solution, we produce the MOST barrels of which gasoline?
+Super gasoline
+Regular gasoline
+Diesel fuel
+
+Explanation
+
+The total number of barrels of each type of gasoline produced can be computed by summing the total number of barrels of crude oil used to produce each type of gasoline. We produce far more barrels of regular gasoline than either of the other two types in the optimal solution.
+You have used 0 of 1 submissions
+** TODO Problem 2.3 - The Solution (1 point possible)
+
+In the optimal solution, how many barrels of diesel fuel are produced?
+- unanswered
+
+0
+
+Explanation
+
+No barrels of crude oil are used to produce diesel fuel, so 0 barrels of diesel fuel are produced.
+You have used 0 of 3 submissions
+** TODO Problem 2.4 - The Solution (1 point possible)
+
+The company is unhappy with this solution, because they are exceeding the customer demand for regular gasoline. They estimate that the customer demand for super gasoline is 3,000 barrels, the customer demand for regular gasoline is 2,000 barrels, and the customer demand for diesel fuel is 1,000 barrels. They don't want to produce more than the customer demand, since they will lose revenue. Add constraints to your model to make sure that the solution produces no more than the customer demand for each of the products, and re-solve your model.
+
+What is the objective value now?
+- unanswered
+
+150000
+
+Explanation
+
+After adding the new constraints and solving the model, the objective value of the solution is $150,000.
+
+Assuming that your decision variables are again set up as follows in your spreadsheet:
+	A 	B 	C 	D
+1 		Crude 1 	Crude 2 	Crude 3
+2 	Super Gasoline
+3 	Regular Gasoline
+4 	Diesel Fuel
+
+these new constraints can be specified as follows:
+
+Super Demand: B2 + C2 + D2 <= 3000
+
+Regular Demand: B3 + C3 + D3 <= 2000
+
+Diesel Demand: B4 + C4 + D4 <= 1000
+You have used 0 of 5 submissions
+** TODO Problem 2.5 - The Solution (1 point possible)
+
+Which of the crude oils are used in the solution? Select all that apply.
+Crude 1
+Crude 2
+Crude 3
+
+Explanation
+
+Crude 2 is not used in the solution - all of the decision variables corresponding to Crude 2 are zero.
+You have used 0 of 2 submissions
+** TODO Problem 3.1 - Sensitivity Analysis and Shadow Prices (1 point possible)
+
+The following are the shadow prices for each of the demand constraints:
+
+Super gasoline demand shadow price = 29
+
+Regular gasoline demand shadow price = 27
+
+Diesel fuel demand shadow price = 9
+
+The super gasoline shadow price holds to an allowable increase of 1250, the regular gasoline shadow price holds to an allowable increase of 2500, and the diesel fuel shadow price holds to an allowable increase of 1250. The "allowable increase" is the amount that you can increase the right-hand side and still use this shadow price. For a larger increase, the shadow price will change, and you have to resolve the model to get the new shadow price.
+
+Please answer the following questions without re-solving the optimization model.
+
+What does a shadow price of 29 for the super gasoline demand constraint mean?
+It is profitable to increase the super gasoline demand by 29 units, and then it is not profitable.
+It is profitable to decrease the super gasoline demand by 29 units, and then it is not profitable.
+For 10 additional barrels of demand of super gasoline, the total profit will decrease by 29.
+For 10 additional barrels of demand of super gasoline, the total profit will increase by 29.
+For one additional barrel of demand of super gasoline, the total profit will decrease by 29.
+For one additional barrel of demand of super gasoline, the total profit will increase by 29.
+
+Explanation
+
+The shadow price of a constraint means that for one unit increase in the right hand side of the constraint, the shadow price will be added to the objective value. So, a shadow price of 29 for the super gasoline demand constraint means that for one additional barrel of demand of super gasoline, the total profit will increase by 29.
+You have used 0 of 2 submissions
+** TODO Problem 3.2 - Sensitivity Analysis and Shadow Prices (1 point possible)
+
+According to the shadow prices, which type of gasoline should the company advertise to increase demand? Suppose that advertising costs $2 per unit increase in demand regardless of the type of gasoline being advertised.
+Super Gasoline
+Regular Gasoline
+Diesel Fuel
+Can not be determined from the given information without re-solving the optimization model.
+
+Explanation
+
+The gasoline with the largest shadow price is the most profitable if demand is increased, since an extra unit of demand increases profits the most.
+You have used 0 of 1 submissions
+** TODO Problem 3.3 - Sensitivity Analysis and Shadow Prices (1 point possible)
+
+How much additional profit would you gain if the super gasoline demand increased by 500?
+1,250
+7,450
+14,500
+43,500
+Can not be determined from the given information without re-solving the optimization model.
+
+Explanation
+
+Since the shadow price of super gasoline demand is 29, and this holds up to an allowable increase of 1250, the gained profit from an increase of 500 is 29*500 = 14,500.
+You have used 0 of 1 submissions
+** TODO Problem 3.4 - Sensitivity Analysis and Shadow Prices (1 point possible)
+
+How much additional profit would you gain if you increased the super gasoline demand by 1500?
+750
+3,450
+7,500
+43,500
+Can not be determined from the given information without re-solving the optimization model.
+
+Explanation
+
+Since the shadow price only holds up to an allowable increase of 1250, we can't answer this question given the information provided.
+
+* Even' star organic farm (OPTIONAL) [0/14]
+
+** Important Note
+
+This problem is optional, and will not count towards your grade. We
+have created this problem to give you extra practice with the topics
+covered in this unit.
+
+Even' Star Organic Farm was founded in 1997 by Brett Grohsgal, a
+former chef in Washington DC. The company owns a 104-acre farm in
+southern Maryland, and grows and sells organic produce. For more
+information, see [[https://www.facebook.com/EvenStarOrganicFarm/info][Even' Star's Facebook]] page. This problem describes
+the business issues faced by Brett, and the data is based on actual
+observations.
+
+Brett has decided to grow eight different types of produce: large
+tomatoes, small tomatoes, watermelon, okra, basil, cucumbers, sweet
+potatoes, and winter squash. He distrbutes his produce through three
+different channels: Restaurants, Community-Supported Agriculture, and
+Farmers' Markets.
+
+Initially, he sold exclusively to restuarants. He knows of 20
+restaurants that will buy his produce from his connections as a former
+chef. As his farm expanded, he also started selling his produce at a
+local farmers' market, where he can command a higher price. Recently,
+he has also started selling through Community Supported Agriculture
+(CSA), a program in which individuals pay a $400 subscription price to
+get a box of produce each week for 15 weeks. He currently knows of 90
+individuals who are interested in buying his produce through the CSA
+program.
+
+Brett has a limited amount of produce that he can sell each season,
+and he needs to decide how much produce to sell through each channel
+(restaurants, CSA, or farmers' markets).
+
+** TODO Problem 1.1 - Formulating the Problem
+
+Let's formulate Brett's problem as a linear optimization problem. The spreadsheet EvenStarFarm.ods for LibreOffice or OpenOffice, and EvenStarFarm.xlsx for Microsoft Excel, contains the data for the problem, and has set up the decision variables and objective for you.
+
+The decision variables in our problem are the number of cases of each type of produce to sell in each channel (there are 24 decision variables). They are highlighted in yellow in the spreadsheet.
+
+Brett's objective is to maximize total profit (total revenue minus total cost). In the spreadsheet EvenStarFarm, the objective is highlighted in blue.
+
+To compute the total revenue, we multiply the number of cases of each type of produce distributed in each channel by the price that Brett sells it for. The price of a case of each type of produce in each of the different channels is listed in cells C6:E13 of the spreadsheet.
+
+The total cost is composed of two parts: a variable cost per client, and an entry cost for being in the particular channel. The entry costs are listed in cells B20:D20.
+
+To compute the total variable cost for each restaurant client, we use the information that each restaurant client will buy 119 cases of produce during the season. So, the total number of restaurant clients served in a season can be computed as the total number of cases sold to restaurants, divided by 119. (Note that the number of restuarant clients Brett gives produce to could be fractional (like 16.57). This is a simplification we'll make for this problem, so please ignore the fact that this number should be integer. We'll see next week how you can add integer restrictions to an optimization model.)
+
+To compute the total variable cost for CSA clients, we need to know that each CSA customer will buy $400 worth of produce during the season. So, the total number of CSA clients served can be computed by dividing the total dollar amount sent to CSA customers by $400. (Note that the number of CSA clients Brett gives produce to could be fractional (like 16.57). This is a simplification we'll make for this problem, so please ignore the fact that this number should be integer. We'll see next week how you can add integer restrictions to an optimization model.)
+
+There is no variable cost for farmers' market clients.
+
+Which of the following spreadsheet formulas computes the total variable cost for the restaurant channel? Use the location of the data and variables in the spreadsheet EvenStarFarm.
+B19*SUM(B26:B33)
+B19/119
+B19*(SUM(B26:B33)/119)
+SUM(B26:B33)/119
+- unanswered
+
+Explanation
+
+The variable cost per restaurant client is located in cell B19. We need to multiply this by the total number of restuarant clients, which can be computed by summing the total number of cases sent to restaurant clients, and dividing by 119, or SUM(B26:B33)/119. So the correct answer is B19*(SUM(B26:B33)/119).
+You have used 0 of 1 submissions
+** TODO Problem 1.2 - Formulating the Problem
+
+Which of the following spreadsheet formulas computes the total variable cost for the CSA channel? Use the location of the data and variables in the spreadsheet EvenStarFarm.
+C19*(SUMPRODUCT(C26:C33;D6:D13)/400)
+SUMPRODUCT(C26:C33;D6:D13)/400
+C19*SUMPRODUCT(C26:C33;D6:D13)
+C19/400
+- unanswered
+
+Explanation
+
+The variable cost per CSA client is given in cell C19. We need to multiply this by the total dollar amount sent to CSA customers, divided by $400, which is computed is LibreOffice as SUMPRODUCT(C26:C33;D6:D13)/400. So the total variable cost is C19*(SUMPRODUCT(C26:C33;D6:D13)/400).
+You have used 0 of 1 submissions
+** TODO Problem 1.3 - Formulating the Problem
+
+Now, let's formulate the constraints for our model. Brett can't sell negative cases, and he can't sell more cases than he produces. Cells B6:B13 in the spreadsheet list the number of available cases of each type of produce. For large tomatoes, which of the following constraints should we add to our model to capture these restrictions? Select all that apply.
+B26:D26 ≥ 0
+B26:D26 ≤ 0
+B26:D26 = 0
+SUM(B26:D26) ≥ B6
+SUM(B26:D26) ≤ B6
+SUM(B26:D26) = B6
+- unanswered
+
+Explanation
+
+We need to add constraints to restrict the total number of cases sold to each client (B26:D26) to be greater than or equal to zero, and we need to make sure that the total number of cases sold (SUM(B26:D26)) is no more than the total number produced, B6.
+
+We should have similar constraints for each type of produce.
+You have used 0 of 2 submissions
+** TODO Problem 1.4 - Formulating the Problem
+
+Due to the truck capacity, the number of cases sold at the farmers' market can't be more than 600. Which constraint(s) captures this restriction?
+D26:D33 = 600
+SUM(D26:D33) = 600
+D26:D33 ≤ 600
+SUM(D26:D33) ≤ 600
+- unanswered
+
+Explanation
+
+We need to total number of cases sold at the farmers' market, SUM(D26:D33) to be less than or equal to 600.
+You have used 0 of 1 submissions
+** TODO Problem 1.5 - Formulating the Problem
+
+Brett knows that at most 20 restaurants will buy his produce. Which constraint(s) captures this restriction? HINT: Each restaurant buys 119 cases.
+SUM(B26:B33)/119 ≤ 20
+SUM(B26:B33)/119 = 20
+B26:B33/119 ≤ 20
+B26:B33/119 = 20
+- unanswered
+
+Explanation
+
+We first need to compute the total number of restaurant clients. We saw while computing the objective that this is SUM(B26:B33)/119. This should be less than or equal to 20.
+You have used 0 of 1 submissions
+** TODO Problem 1.6 - Formulating the Problem
+
+Brett knows that at most 90 CSA customers will buy his produce. Which constraint(s) captures this restriction? HINT: Each CSA customer buys $400 worth of produce.
+SUM(C26:C33;D6:D13)/400 ≤ 90
+SUMPRODUCT(C26:C33;D6:D13)/400 ≤ 90
+SUM(C26:C33)/400 ≤ 90
+- unanswered
+
+Explanation
+
+We first need to compute the total number of CSA clients. We saw while computing the objective that this is SUMPRODUCT(C26:C33;D6:D13)/400. This should be less than or equal to 90.
+
+Add all of these constraints to your model in LibreOffice (or in the spreadsheet software you are using). Here is a list of all of the constraints you should be adding:
+
+1) Brett can't sell negative cases, and he can't sell more cases than he produces, for each type of produce.
+
+2) The number of cases sold at the farmer's market can't be more than 600.
+
+3) Brett can't sell produce to more than 20 restaurants.
+
+4) Brett can't sell produce to more than 90 CSA customers.
+You have used 0 of 1 submissions
+** TODO Problem 2.1 - Solving the Model
+
+Solve your model, and answer the following questions about the solution:
+
+What is the objective function value (in dollars)?
+- unanswered
+
+49956.39
+
+Explanation
+
+After solving the problem in LibreOffice, the objective value is $49,956.39.
+
+You should have added the following constraints:
+
+Large Tomato Limit: SUM(B26:D26) <= 406
+
+Small Tomato Limit: SUM(B27:D27) <= 608
+
+Watermelon Limit: SUM(B28:D28) <= 167
+
+Okra Limit: SUM(B29:D29) <= 76
+
+Basil Limit: SUM(B30:D30) <= 72
+
+Cucumbers Limit: SUM(B31:D31) <= 251
+
+Sweet Potatoes Limit: SUM(B32:D32) <= 107
+
+Winter Squash Limit: SUM(B33:D33) <= 133
+
+Farmers' Market Limit: SUM(D26:D33) <= 600
+
+Restaurant Limit: SUM(B26:B33)/119 <= 20
+
+CSA Limit: SUMPRODUCT(C26:C33;D6:D13)/400 <= 90
+
+Also, make sure that you are maxiizing the objective, and that all of the variables are constrainted to be non-negative.
+You have used 0 of 6 submissions
+** TODO Problem 2.2 - Solving the Model
+
+How many cases of large tomatoes are given to CSA customers?
+- unanswered
+
+0
+
+Explanation
+
+The decision variable corresponding to large tomatoes and CSA has value 0 in the solution.
+You have used 0 of 3 submissions
+** TODO Problem 2.3 - Solving the Model
+
+How many cases of watermelon are given to farmer's market customers?
+- unanswered
+
+167
+
+Explanation
+
+The decision variable correponding to watermelon and the farmer's market has value 167 in the solution.
+You have used 0 of 3 submissions
+** TODO Problem 2.4 - Solving the Model
+
+How many CSA customers does Brett provide produce for? Remember that this might be fractional - go ahead and enter the exact number even though Brett can't really serve "fractional customers".
+- unanswered
+
+65.88
+
+Explanation
+
+If we look at the constraint for CSA customers, we see that the left-hand side of the constraint has value 65.88. This means that Brett will technically sell produce to 66 customers (65 will get $400 worth of produce, and one will get 0.88*$400 worth of produce).
+You have used 0 of 3 submissions
+** TODO Problem 3.1 - Sensitivity Analysis
+
+Suppose that Brett can pay $1,000 to trade in his truck for a larger truck. This would allow him to transport 200 more cases of produce to the farmers' market (for a total of 800 cases). Should he do it? HINT: Adjust the constraints in your model, re-solve it, and compare the increase in objective function value to the cost of buying the larger truck.
+Yes, he should buy the larger truck.
+No, he shouldn't buy the larger truck.
+- unanswered
+
+Explanation
+
+If you increase the right hand side of the constraint for farmers' market cases to 800 (increase by 200) and re-solve the model, the new objective value is $50,181.76. Compared to the old objective value of $49,956.39, this is an increase in profit of $50,181.76 - $49,956.39 = $225.37. Since this is less than the cost of the truck, he shouldn't buy the larger truck.
+You have used 0 of 1 submissions
+** TODO Problem 3.2 - Sensitivity Analysis
+
+One of Brett's workers has offered to use his truck to help Brett transport 200 more cases of produce to the farmer's market (for a total of 800 cases). Which of the following choices would increase Brett's profit? Select all that apply.
+Hire the worker, and pay him $300 for helping.
+Hire the worker, and pay him $150 for helping.
+Not hiring the worker.
+- unanswered
+
+Explanation
+
+We saw in the previous question that increasing the farmers' market cases to 800 increases profits by $225.37. Thus Brett should hire the worker, and pay him $150, since that will give him an additional profit of $225.37 - $150.00 = $75.37.
+You have used 0 of 2 submissions
+** TODO Problem 3.3 - Sensitivity Analysis
+
+Now suppose that Brett has found 10 more customers who would like to join the CSA program, for a total of 100 potential CSA customers. Should he sell produce to these customers? If you have changed any values in the constraints, change them back to their original values before answering this question (600 cases at the farmers' market).
+Yes, adding all of these extra customers will increase his profit.
+Yes, adding some of these extra customers will increase his profit.
+No, he shouldn't sell produce to any of these customers.
+- unanswered
+
+Explanation
+
+Since the constraint for CSA customers is not binding (we sell to 65.88 customers, when we know of 90) it is not beneficial to add 10 more CSA customers.
+You have used 0 of 1 submissions
+** TODO Problem 3.4 - Sensitivity Analysis
+
+Now suppose that Brett has purchased 5 additional acres of land, which allows him to produce 10 additional cases of one of his vegetables. Which vegetable should he plant on these 5 additional acres?
+
+If you have changed any values in the constraints, change them back to their original values before answering this question (600 cases at the farmers' market, and 90 potential CSA customers). Assume for this problem that the production cost is the same for all types of produce. For your reference, here is a list of the number of cases of each type of produce that Brett currently produces: 406 cases of Large Tomatoes, 608 cases of Small Tomatoes, 167 cases of Watermelon, 76 cases of Okra, 72 cases of Basil, 251 cases of Cucumbers, 107 cases of Sweet Potatoes, and 133 cases of Winter Squash.
+Tomatoes (large)
+Tomatoes (small)
+Watermelon
+Okra
+Basil
+Cucumber
+Sweet Potatoes
+Winter Squash
+- unanswered
+
+Explanation
+
+If you increase the total number of cases of each type of produce one at a time by 10, the large tomatoes give the largest increase in the objective function value. Thus, Brett should plant large tomatoes on the additional acres of land.
+You have used 0 of 2 submissions
+Acknowledgements
+
+This problem is based on the case study
+
+"[[https://www.informs.org/Pubs/ITE/Archive/Volume-7/Introducing-Integer-Modeling-with-Excel-Solver][Introducing Integer Modeling with Excel Solver]]"
+
+by Dessislava Pachamanova, INFORMS Transactions on Education
+7:1(88-98). Publication year 2006.

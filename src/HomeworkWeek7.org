@@ -54,7 +54,7 @@
 Unit 7 Visualization assignment of The Analytical Edge course from MIT.
 #+END_ABSTRACT
 
-* Election Forecasting Revisited
+* Election Forecasting Revisited [12/12]
 
 In the recitation from Unit 3, we used logistic regression on polling
 data in order to construct US presidential election predictions. We
@@ -101,7 +101,8 @@ did during the Crime lecture:
 The maps package contains other built-in maps, including a US county
 map, a world map, and maps for France and Italy.
 
-** Problem 1.1 - Drawing a Map of the US (1 point possible)
+** DONE Problem 1.1 - Drawing a Map of the US (1 point possible)
+CLOSED: [2015-08-31 Mon 09:35]
 
 If you look at the structure of the statesMap data frame using the ~str~
 function, you should see that there are 6 variables. One of the
@@ -180,7 +181,8 @@ as a shortcut to counting the number of groups in the table output.
 The variable ~order~ defines the order to connect the points within
 each group, and the variable ~region~ gives the name of the state.
 
-** Problem 1.2 - Drawing a Map of the US (1 point possible)
+** DONE Problem 1.2 - Drawing a Map of the US (1 point possible)
+CLOSED: [2015-08-31 Mon 09:36]
 
 You can draw a map of the United States by typing the following in
 your R console:
@@ -239,7 +241,8 @@ different color:
 #+ATTR_LaTeX: placement: [H]
 [[../graphs/USMapHW02.png]]
 
-** Problem 2.1 - Coloring the States by Predictions (2 points possible)
+** DONE Problem 2.1 - Coloring the States by Predictions (2 points possible)
+CLOSED: [2015-08-31 Mon 09:36]
 
 Now, let's color the map of the US according to our 2012 US
 presidential election predictions from the Unit 3 Recitation. We'll
@@ -461,7 +464,8 @@ TestPredictionBinary = as.numeric(TestPrediction > 0.5)~
 You can answer the two questions with the functions
 ~table(TestPredictionBinary)~ and ~mean(TestPrediction)~.
 
-** Problem 2.2 - Coloring the States by Predictions (2 points possible)
+** DONE Problem 2.2 - Coloring the States by Predictions (2 points possible)
+CLOSED: [2015-08-31 Mon 09:36]
 
 Now, we need to merge ~predictionDataFrame~ with the map data
 ~statesMap~, like we did in lecture. Before doing so, we need to
@@ -539,7 +543,8 @@ If you type ~str(predictionMap)~, you should see that there are $15034$
 observations, and if you type ~str(statesMap)~ you should see that there
 are $15537$ observations.
 
-** Problem 2.3 - Coloring the States by Predictions (1 point possible)
+** DONE Problem 2.3 - Coloring the States by Predictions (1 point possible)
+CLOSED: [2015-08-31 Mon 09:36]
 
 When we merged the data in the previous problem, it caused the number
 of observations to change. Why? Check out the help page for merge by
@@ -572,7 +577,8 @@ You can change this default behavior by using the ~all.x~ and ~all.y~
 arguments of the merge function. For more information, look at the
 help page for the merge function by typing ~?merge~ in your R console.
 
-** Problem 2.4 - Coloring the States by Predictions (1 point possible)
+** DONE Problem 2.4 - Coloring the States by Predictions (1 point possible)
+CLOSED: [2015-08-31 Mon 09:37]
 
 Now we are ready to color the US map with our predictions! You can
 color the states according to our binary predictions by typing the
@@ -613,7 +619,8 @@ Our logistic regression model assigned $1$ to *Republican* and $0$ to
 blue* color on the map and $0$ corresponds to a *dark blue* color on
 the map.
 
-** Problem 2.5 - Coloring the States by Predictions (1 point possible)
+** DONE Problem 2.5 - Coloring the States by Predictions (1 point possible)
+CLOSED: [2015-08-31 Mon 09:37]
 
 We see that the legend displays a *blue* gradient for outcomes between
 $0$ and $1$. However, when plotting the binary predictions there are
@@ -716,7 +723,8 @@ predicted probabilities are very close to $0$ or very close to $1$. In
 fact, we don't have a single predicted probability between $0.065$ and
 $0.93$.
 
-** Problem 3.1 - Understanding the Predictions (1 point possible)
+** DONE Problem 3.1 - Understanding the Predictions (1 point possible)
+CLOSED: [2015-08-31 Mon 09:38]
 
 In the 2012 election, the state of *Florida* ended up being a very close
 race. It was ultimately won by the *Democratic* party. Did we predict
@@ -737,7 +745,8 @@ In our prediction map, the state of Florida is colored *red*, meaning
 that we predicted Republican. So *we incorrectly predicted this
 state*.
 
-** Problem 3.2 - Understanding the Predictions (2 points possible)
+** DONE Problem 3.2 - Understanding the Predictions (2 points possible)
+CLOSED: [2015-08-31 Mon 09:38]
 
 *** Question a
 
@@ -797,7 +806,8 @@ model doesn't know this. The model only uses polling results for the
 particular year. For Florida in 2012, Survey USA predicted a tie, but
 other polls predicted Republican, so our model predicted Republican.
 
-** Problem 4 - Parameter Settings
+** DONE Problem 4 - Parameter Settings
+CLOSED: [2015-08-31 Mon 09:38]
 
 In this part, we'll explore what the different parameter settings of
 ~geom_polygon~ do. Throughout the problem, use the help page for
@@ -889,8 +899,8 @@ Now let recreate the *plot (3)*
 #+ATTR_LaTeX: placement: [H]
 [[../graphs/RecreatingPlot03.png]]
 
-
-** Problem 4.1 - Parameter Settings (2/2 points)
+** DONE Problem 4.1 - Parameter Settings (2/2 points)
+CLOSED: [2015-08-31 Mon 09:38]
 
 Plots (1) and (2) were created by setting different parameters of
 geom_polygon to the value 3.
@@ -932,7 +942,8 @@ The second plot can be generated by setting the parameter ~size = 3~:
 ~= "legend", breaks= c(0,1), labels = c("Democrat", "Republican"),name~
 ~= "Prediction 2012")~
 
-** Problem 4.2 - Parameter Settings (1 point possible)
+** DONE Problem 4.2 - Parameter Settings (1 point possible)
+CLOSED: [2015-08-31 Mon 09:38]
 
 *** Question
 
@@ -956,7 +967,7 @@ Plot (3) can be created by changing the alpha parameter:
 The ~alpha~ parameter controls the transparency or darkness of the
 color. A smaller value of alpha will make the colors lighter.
 
-* Visualizing Network Data
+* Visualizing Network Data [0/11]
 
 The cliche goes that the world is an increasingly interconnected
 place, and the connections between different entities are often best
@@ -1033,7 +1044,7 @@ following variables:
 :
 :  :: Files downloaded...
 
-** Problem 1.1 - Summarizing the Data (2 points possible)
+** TODO Problem 1.1 - Summarizing the Data (2 points possible)
 
 Load the data from ~edges.csv~ into a data frame called ~edges~, and load
 the data from ~users.csv~ into a data frame called ~users~.
@@ -1132,7 +1143,7 @@ number of Facebook friends. We are computing here the average number
 of people in this dataset who are their friends, instead of the
 average total number of Facebook friends.
 
-** Problem 1.2 - Summarizing the Data (1 point possible)
+** TODO Problem 1.2 - Summarizing the Data (1 point possible)
 
 *** Question
 
@@ -1189,7 +1200,7 @@ locale?
 From ~table(users$locale, users$school)~, we read that all students
 listed at schools $A$ and $B$ listed their locale as $B$.
 
-** Problem 1.3 - Summarizing the Data (1 point possible)
+** TODO Problem 1.3 - Summarizing the Data (1 point possible)
 
 Is it possible that either school A or B is an all-girls or all-boys
 school?
@@ -1245,7 +1256,7 @@ school?
 We see from ~table(users$gender, users$school)~ that both genders $A$
 and $B$ have attended schools $A$ and $B$.
 
-** Problem 2.1 - Creating a Network (1 point possible)
+** TODO Problem 2.1 - Creating a Network (1 point possible)
 
 We will be using the ~igraph~ package to visualize networks; install
 and load this package using the ~install.packages~ and ~library~
@@ -1326,7 +1337,7 @@ The vertices parameter expects a data frame where the first column is
 a vertex id and the remaining columns are properties of vertices in
 our graph. This is the case with our users data frame.
 
-** Problem 2.2 - Creating a Network (2 points possible)
+** TODO Problem 2.2 - Creating a Network (2 points possible)
 
 Use the correct command from Problem 2.1 to load the graph ~g~.
 
@@ -1385,7 +1396,7 @@ How many users are there with no friends in the network?
 There are 7 nodes that are not connected to any other nodes. Each
 forms a 1-node connected component.
 
-** Problem 2.3 - Creating a Network (1 point possible)
+** TODO Problem 2.3 - Creating a Network (1 point possible)
 
 In our graph, the *degree* of a node is its number of friends. We have
 already seen that some nodes in our graph have degree 0 (these are the
@@ -1436,7 +1447,7 @@ FALSE  TRUE
 From ~table(degree(g))~ or ~table(degree(g) >= 10)~, we can see that
 there are 9 users with 10 or more friends in this network.
 
-** Problem 2.4 - Creating a Network (2 points possible)
+** TODO Problem 2.4 - Creating a Network (2 points possible)
 
 In a network, it's often visually useful to draw attention to
 *important* nodes in the network. While this might mean different
@@ -1510,7 +1521,7 @@ degree of any node in the graph is $18$ and the minimum degree of any
 node is $0$. Therefore, the maximum size of any point is ~18/2+2=11~, and
 the minimum size is ~0/2+2=2~.
 
-** Problem 3.1 - Coloring Vertices (1 point possible)
+** TODO Problem 3.1 - Coloring Vertices (1 point possible)
 
 Thus far, we have changed the *size* attributes of our
 vertices. However, we can also change the colors of vertices to
@@ -1586,7 +1597,7 @@ After updating ~V(g)$color~, run ~plot(g, vertex.label=NA)~ to plot
 the graph. All the largest nodes (the ones with the highest degree)
 are colored *gray*, which corresponds to Gender *B*.
 
-** Problem 3.2 - Coloring Vertices (2 points possible)
+** TODO Problem 3.2 - Coloring Vertices (2 points possible)
 
 Now, color the vertices based on the school that each user in our
 network attended.
@@ -1673,7 +1684,7 @@ connected by an edge). The high-degree users (depicted by the large
 nodes) are a mixture of red and black color, meaning some of these
 users attended school A and other did not.
 
-** Problem 3.3 - Coloring Vertices (2 points possible)
+** TODO Problem 3.3 - Coloring Vertices (2 points possible)
 
 Now, color the vertices based on the locale of the user.
 
@@ -1754,7 +1765,7 @@ colored gray, indicating users from Locale B. Meanwhile, all the
 vertices in the 4-user connected component are colored red, indicating
 users from Locale A.
 
-** Problem 4 - Other Plotting Options (2 points possible)
+** TODO Problem 4 - Other Plotting Options (2 points possible)
 
 The help page is a helpful tool when making visualizations. Answer the
 following questions with the help of ~?igraph.plotting~ and
@@ -1842,7 +1853,7 @@ edge width 2 with the command
 
 ~plot(g, edge.width=2, vertex.label=NA)~.
 
-* Visualizing Text Data Using Word CLouds
+* Visualizing Text Data Using Word CLouds [0/15]
 
 Earlier in the course, we used text analytics as a predictive tool,
 using word frequencies as independent variables in our
@@ -1872,7 +1883,7 @@ variables:
   means highly positive sentiment, -2 means highly negative sentiment,
   and 0 means neutral sentiment.
 
-** Problem 1.1 - Preparing the Data (1 point possible)
+** TODO Problem 1.1 - Preparing the Data (1 point possible)
 
 Download the dataset ~tweets.csv~, and load it into a data frame
 called ~tweets~ using the ~read.csv()~ function, remembering to use
@@ -2061,7 +2072,7 @@ From the commands ~frequencies~, ~str(allTweets)~ or
 ~ncol(allTweets)~, we can read that there are $3780$ unique words across
 all the tweets.
 
-** Problem 1.2 - Preparing the Data (1 point possible)
+** TODO Problem 1.2 - Preparing the Data (1 point possible)
 
 Although we typically stem words during the text preprocessing step,
 we did not do so here.
@@ -2090,7 +2101,7 @@ instead of just the stems.
 Stemming has relatively minor computational burden, and we certainly
 could create a word cloud with a stemmed document.
 
-** Problem 2.1 - Building a Word Cloud (1 point possible)
+** TODO Problem 2.1 - Building a Word Cloud (1 point possible)
 
 Install and load the ~wordcloud~ package, which is needed to build
 word clouds.
@@ -2173,7 +2184,7 @@ returned by ~colnames(allTweets)~. While ~str(allTweets)~ displays the
 names of the variables along with other information, it doesn't return
 a vector that we can use as the first argument to ~wordcloud()~.
 
-** Problem 2.2 - Building a Word Cloud (1 point possible)
+** TODO Problem 2.2 - Building a Word Cloud (1 point possible)
 
 Which function should we apply to ~allTweets~ to obtain the frequency of
 each word across all tweets?
@@ -2218,7 +2229,7 @@ Each tweet represents a row in ~allTweets~, and each word represents a
 column. Therefore, we need to access the sums of each column in
 ~allTweets~, which is returned by ~colSums(allTweets)~.
 
-** Problem 2.3 - Building a Word Cloud (1 point possible)
+** TODO Problem 2.3 - Building a Word Cloud (1 point possible)
 
 Use ~allTweets~ to build a word cloud. Make sure to check out the help
 page for ~wordcloud~ if you are not sure how to do this.
@@ -2271,7 +2282,7 @@ For smaller words, we could have used:
 
 *apple* is by far the largest, and therefore most common, word.
 
-** Problem 2.4 - Building a Word Cloud (1 point possible)
+** TODO Problem 2.4 - Building a Word Cloud (1 point possible)
 
 In the previous subproblem, we noted that there is one word with a
 much higher frequency than the other words. Repeat the steps to load
@@ -2383,7 +2394,7 @@ For a much smaller plot, we could have used:
 
 The most common (largest) word is now *iphone*.
 
-** Problem 3 - Size and Color
+** TODO Problem 3 - Size and Color
 
 So far, the word clouds we've built have not been too visually
 appealing -- they are crowded by having too many words displayed, and
@@ -2412,7 +2423,7 @@ settings in the call to the ~wordcloud()~ function:
 
 [[../graphs/wordcloudD.png]]
 
-** Problem 3.1 - Size and Color (1 point possible)
+** TODO Problem 3.1 - Size and Color (1 point possible)
 
 *** Question
 
@@ -2458,8 +2469,7 @@ of the tweets using the subset function:
 
 ~wordcloud(colnames(negativeTweets), colSums(negativeTweets))~
 
-
-** Problem 3.2 - Size and Color (1 point possible)
+** TODO Problem 3.2 - Size and Color (1 point possible)
 
 *** Question
 
@@ -2499,7 +2509,7 @@ cloud. Word Cloud A is much more cluttered than the others because it
 did not use either of these parameters, and therefore is displaying
 every word that appears more than 3 times.
 
-** Problem 3.3 - Size and Color (1 point possible)
+** TODO Problem 3.3 - Size and Color (1 point possible)
 
 *** Question
 
@@ -2538,7 +2548,7 @@ words will be plotted first, resulting in them being displayed
 together in the center of the word cloud. This is the case in Word
 Cloud B and Word Cloud D.
 
-** Problem 3.4 - Size and Color (1 point possible)
+** TODO Problem 3.4 - Size and Color (1 point possible)
 
 *** Question
 
@@ -2577,7 +2587,7 @@ vertical in the word cloud. By default $10\%$ of words are
 rotated. However in Word Cloud A a much higher proportion ($50\%$) are
 rotated, which was achieved by setting ~rot.per=0.5~.
 
-** Problem 3.5 - Size and Color (1 point possible)
+** TODO Problem 3.5 - Size and Color (1 point possible)
 
 *** Question
 
@@ -2616,7 +2626,7 @@ When ~random.color~ is set to ~TRUE~, the words will be colored
 randomly. This is the case in Word Cloud D. Meanwhile, colors were
 assigned based on the number of appearances in Word Cloud C.
 
-** Problem 4.1 - Selecting a Color Palette (1 point possible)
+** TODO Problem 4.1 - Selecting a Color Palette (1 point possible)
 
 The use of a palette of colors can often improve the overall effect of
 a visualization. We can easily select our own colors when plotting;
@@ -2679,7 +2689,7 @@ colors begin lighter and later colors being darker. Therefore, it is a
 good palette choice for indicating low-frequency vs. high-frequency
 words.
 
-** Problem 4.2 - Selecting a Color Palette (1 point possible)
+** TODO Problem 4.2 - Selecting a Color Palette (1 point possible)
 
 *** Question
 
@@ -2695,7 +2705,7 @@ preparing an image for a document that must be in grayscale?
 As we can see from display.brewer.all(), palette "Greys" is the only
 one completely in grayscale.
 
-** Problem 4.3 - Selecting a Color Palette (1 point possible)
+** TODO Problem 4.3 - Selecting a Color Palette (1 point possible)
 
 In sequential palettes, sometimes there is an undesirably large
 contrast between the lightest and darkest colors. You can see this
@@ -2765,3 +2775,296 @@ A shorthand for this indexing is:
 ~brewer.pal(9, "Blues")[-1:-4]~
 
 ~brewer.pal(9, "Blues")[5:9]~
+
+* Visualizing Attributes of Parole Violators (OPTIONAL) [0/12]
+
+IMPORTANT NOTE: This problem is optional, and will not count towards
+your grade. We have created this problem to give you extra practice
+with the topics covered in this unit.
+
+In the crime lecture, we saw how we can use heatmaps to give a 2-dimensional representation of 3-dimensional data: we made heatmaps of crime counts by time of the day and day of the week. In this problem, we'll learn how to use histograms to show counts by one variable, and then how to visualize 3 dimensions by creating multiple histograms.
+
+We'll use the parole data parole.csv from Unit 3. Before, we used this data to predict parole violators. Now, let's try to get a little more insight into this dataset using histograms. As a reminder, the variables in this dataset are:
+
+    male = 1 if the parolee is male, 0 if female
+
+    race = 1 if the parolee is white, 2 otherwise
+
+    age = the parolee's age in years at the time of release from prison
+
+    state = a code for the parolee's state. 2 is Kentucky, 3 is Louisiana, 4 is Virginia, and 1 is any other state. These three states were selected due to having a high representation in the dataset.
+
+    time.served = the number of months the parolee served in prison (limited by the inclusion criteria to not exceed 6 months).
+
+    max.sentence = the maximum sentence length for all charges, in months (limited by the inclusion criteria to not exceed 18 months).
+
+    multiple.offenses = 1 if the parolee was incarcerated for multiple offenses, 0 otherwise.
+
+    crime = a code for the parolee's main crime leading to incarceration. 2 is larceny, 3 is drug-related crime, 4 is driving-related crime, and 1 is any other crime.
+
+    violator = 1 if the parolee violated the parole, and 0 if the parolee completed the parole without violation.
+
+** TODO Problem 1.1 - Loading the Data
+
+Using the read.csv function, load the dataset parole.csv and call it parole. Since male, state, and crime are all unordered factors, convert them to factor variables using the following commands:
+
+parole$male = as.factor(parole$male)
+
+parole$state = as.factor(parole$state)
+
+parole$crime = as.factor(parole$crime)
+
+What fraction of parole violators are female?
+- unanswered
+
+0.1794872
+
+Explanation
+
+This can be found by using table:
+
+table(parole$male, parole$violator)
+
+The total number of violators is 78, and 14 of them are female.
+You have used 0 of 3 submissions
+** TODO Problem 1.2 - Loading the Data
+
+In this dataset, which crime is the most common in Kentucky?
+Larceny
+Drug-related crime
+Driving-related crime
+Other
+- unanswered
+
+Explanation
+
+This can be found by using table:
+
+table(parole$state, parole$crime)
+
+The code 2 corresponds to Kentucky, and the most common crime is 3, which corresponds to Drug-related crime.
+You have used 0 of 1 submissions
+** TODO Problem 2.1 - Creating a Basic Histogram
+
+Recall from lecture that in ggplot, we need to specify the dataset, the aesthetic, and the geometry. To create a histogram, the geometry will be geom_histogram. The data we'll use is parole, and the aesthetic will be the map from a variable to the x-axis of the histogram.
+
+Create a histogram to find out the distribution of the age of parolees, by typing the following command in your R console (you might need to load the ggplot2 package first by typing library(ggplot2) in your R console):
+
+ggplot(data = parole, aes(x = age)) + geom_histogram()
+
+By default, geom_histogram divides the data into 30 bins. Change the width of the bins to 5 years by adding the argument "binwidth = 5" to geom_histogram.
+
+Note that by default, histograms create bins where the left endpoint is included in the bin, but the right endpoint isn't. So the first bin in this histogram represents parolees who are between 15 and 19 years old. The last bin in this histogram represents parolees who are between 65 and 69 years old.
+
+What is the age bracket with the most parolees?
+20-24
+25-29
+30-34
+35-39
+- unanswered
+
+Explanation
+
+You can generate the histogram with a bin width of 5 with the command:
+
+ggplot(data = parole, aes(x = age)) + geom_histogram(binwidth=5)
+
+The tallest bar corresponds to the age bracket with the most parolees, which is 20-24.
+You have used 0 of 1 submissions
+** TODO Problem 2.2 - Creating a Basic Histogram
+
+Redo the histogram, adding the following argument to the geom_histogram function: color="blue". What does this do? Select all that apply.
+Changes the fill color of the bars
+Changes the background color of the plot
+Changes the outline color of the bars
+Changes the color of the axis labels
+- unanswered
+
+Explanation
+
+You can generate the histogram by typing:
+
+ggplot(data = parole, aes(x = age)) + geom_histogram(binwidth=5, color="blue")
+
+Adding the color argument changes the outline color of the bars.
+You have used 0 of 2 submissions
+** TODO Problem 3.1 - Adding Another Dimension
+
+Now suppose we are interested in seeing how the age distribution of male parolees compares to the age distribution of female parolees.
+
+One option would be to create a heatmap with age on one axis and male (a binary variable in our data set) on the other axis. Another option would be to stick with histograms, but to create a separate histogram for each gender. ggplot has the ability to do this automatically using the facet_grid command.
+
+To create separate histograms for male and female, type the following command into your R console:
+
+ggplot(data = parole, aes(x = age)) + geom_histogram(binwidth = 5) + facet_grid(male ~ .)
+
+The histogram for female parolees is shown at the top, and the histogram for male parolees is shown at the bottom.
+
+What is the age bracket with the most female parolees?
+20-24
+25-29
+30-34
+35-39
+- unanswered
+
+Explanation
+
+Looking at the histogram at the top, we can see that the tallest bar corresponds to the age bracket 35-39.
+You have used 0 of 1 submissions
+** TODO Problem 3.2 - Adding Another Dimension
+
+Now change the facet_grid argument to be ".~male" instead of "male~.". What does this do?
+Creates histograms of the male variable, sorted by the different values of age.
+Puts the histograms side-by-side instead of on top of each other.
+This doesn't change anything - the plot looks exactly the same as it did before.
+- unanswered
+
+Explanation
+
+You can create the new plot with the command:
+
+ggplot(data = parole, aes(x = age)) + geom_histogram(binwidth = 5) + facet_grid(.~male)
+
+This puts the plots side-by-side instead of on top of each other.
+You have used 0 of 1 submissions
+** TODO Problem 3.3 - Adding Another DImension
+
+An alternative to faceting is to simply color the different groups differently. To color the data points by group, we need to tell ggplot that a property of the data (male or not male) should be translated to an aesthetic property of the histogram. We can do this by setting the fill parameter within the aesthetic to male.
+
+Run the following command in your R console to produce a histogram where data points are colored by group:
+
+ggplot(data = parole, aes(x = age, fill = male)) + geom_histogram(binwidth = 5)
+
+Since we didn't specify colors to use, ggplot will use its default color selection. Let's change this by defining our own color palette. First, type in your R console:
+
+colorPalette = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+
+This is actually a colorblind-friendly palette, desribed on this Cookbook for R page. Now, generate your histogram again, using colorPalette, with the following command:
+
+ggplot(data = parole, aes(x = age, fill = male)) + geom_histogram(binwidth = 5) + scale_fill_manual(values=colorPalette)
+
+What color is the histogram for the female parolees?
+Orange
+Black
+- unanswered
+
+Explanation
+
+From the previous question, we saw that the female parolee histogram was much smaller than the male parolee histogram. So it looks like the female histogram is the black-colored one. We can also read this from the legend.
+You have used 0 of 1 submissions
+** TODO Problem 3.4 - Adding Another Dimension
+
+Coloring the groups differently is a good way to see the breakdown of age by sex within the single, aggregated histogram. However, the bars here are stacked, meaning that the height of the orange bars in each age bin represents the total number of parolees in that age bin, not just the number of parolees in that group.
+
+An alternative to a single, stacked histogram is to create two histograms and overlay them on top of each other. This is a simple adjustment to our previous command.
+
+We just need to:
+
+1) Tell ggplot not to stack the histograms by adding the argument position="identity" to the geom_histogram function.
+
+2) Make the bars semi-transparent so we can see both colors by adding the argument alpha=0.5 to the geom_histogram function.
+
+Redo the plot, making both of these changes.
+
+Which of the following buckets contain no female paroles? Select all that apply.
+15-19
+20-24
+25-29
+30-34
+35-39
+40-44
+45-49
+50-54
+55-59
+60-64
+65-69
+- unanswered
+
+Explanation
+
+This plot can be generated with the following command:
+
+ggplot(parole, aes(x = age, fill = male)) + geom_histogram(binwidth = 5, position = "identity", alpha = 0.5) + scale_fill_manual(values=colorPalette)
+
+If you look at the plot, you can see that there are no female parolees in the age groups 15-19, 55-59, and 65-69 (the bars have height zero).
+You have used 0 of 2 submissions
+** TODO Problem 4.1 - Time Served
+
+Now let's explore another aspect of the data: the amount of time served by parolees. Create a basic histogram like the one we created in Problem 2, but this time with time.served on the x-axis. Set the bin width to one month.
+
+What is the most common length of time served, according to this histogram?
+Between 2 and 3 months
+Between 3 and 4 months
+Between 4 and 5 months
+Between 5 and 6 months
+- unanswered
+
+Explanation
+
+You can create this histogram with the following command:
+
+ggplot(data = parole, aes(x = time.served)) + geom_histogram(binwidth = 1)
+
+The highest bar corresponds to between 4 and 5 months.
+You have used 0 of 1 submissions
+** TODO Problem 4.2 - Time Served
+
+Change the binwidth to 0.1 months. Now what is the most common length of time served, according to the histogram?
+Between 2.1 and 2.2 months
+Between 3.0 and 3.1 months
+Between 4.2 and 4.3 months
+Between 4.8 and 4.9 months
+- unanswered
+
+Explanation
+
+You can change the binwidth by using the following command:
+
+ggplot(data = parole, aes(x = time.served)) + geom_histogram(binwidth = .1)
+
+Now, the highest bar corresponds to between 3.0 and 3.1 months.
+
+Be careful when choosing the binwidth - it can significantly affect the interpretation of a histogram! When visualizing histograms, it is always a good idea to vary the bin size in order to understand the data at various granularities.
+You have used 0 of 1 submissions
+** TODO Problem 4.3 - Time Served
+
+Now, suppose we suspect that it is unlikely that each type of crime has the same distribution of time served. To visualize this, change the binwidth back to 1 month, and use facet_grid to create a separate histogram of time.served for each value of the variable crime.
+
+Which crime type has no observations where time served is less than one month? Recall that crime type #2 is larceny, #3 is drug-related crime, #4 is driving-related crime, and #1 is any other crime.
+Larceny
+Drug-related
+Driving-related
+Other
+- unanswered
+
+For which crime does the frequency of 5-6 month prison terms exceed the frequencies of each other term length?
+Larceny
+Drug-related
+Driving-related
+Other
+- unanswered
+
+Explanation
+
+This histogram can be generated using the command:
+
+ggplot(data = parole, aes(x = time.served)) + geom_histogram(binwidth = 1) + facet_grid(crime ~ .)
+You have used 0 of 1 submissions
+
+** TODO Problem 4.4 - Time Served
+
+Now, instead of faceting the histograms, overlay them. Remember to set the position and alpha parameters so that the histograms are not stacked. Also, make sure to indicate that the fill aesthetic should be "crime".
+
+In this case, faceting seems like a better alternative. Why?
+With four different groups, it can be hard to tell them apart when they are overlayed.
+ggplot doesn't let us overlay plots with more than two groups.
+Overlaying the plots doesn't allow us to observe which crime type is the most common.
+- unanswered
+
+Explanation
+
+You can generate this plot with the following command:
+
+ggplot(data=parole, aes(x=time.served, fill=crime)) + geom_histograph(binwidth=1, position="identity", alpha=0.5)
+
+While overlaying the plots is allowed and lets us observe some attributes of the plots like the most common crime type, it can be hard to tell them apart and if they have similar values it can be hard to read.

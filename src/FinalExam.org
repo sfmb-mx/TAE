@@ -630,7 +630,7 @@ while working on the final exam, but please do not use outside
 materials. You answers should represent your work and your work
 alone.
 
-* Part 1. Predicting Box Office revenue [11/17]
+* Part 1. Predicting Box Office revenue [17/17]
 
 Each year, box offices at movie theaters collect billions of dollars
 in revenue in the United States alone.  In this problem, we seek to
@@ -834,6 +834,12 @@ How many observations are in the testing set ~MoviesTest~?
 
 86 observations are available in the ~MoviesTest~ set.
 
+*Explanation*
+
+The dataset can be loaded into R using the ~read.csv~ function. After
+following the lines given to split the data, the number of
+observations can be found with the nrow or str functions.
+
 ** DONE Problem 2 - Method of Splitting the Data (1 point possible)
 CLOSED: [2015-08-22 Sat 05:13]
 
@@ -858,10 +864,17 @@ Check all that apply.
 - [ ] We have too many observations for the sample.split function to
   work.
 
+*Explanation*
+
+The ~sample.split~ function is used to split data for a classification
+problem (a categorical dependent variable) and we have a continuous
+dependent variable here. We also do not wish to split our data
+randomly.
+
 ** DONE Problem 3 - A Linear Regression Model (1 point possible)
 CLOSED: [2015-08-22 Sat 05:25]
 
-Build a linear regression model to predict "Worldwide" based on all of
+Build a linear regression model to predict ~Worldwide~ based on all of
 the remaining variables, except for Name and Year. Use the training
 set to build the model. If your training set is called MoviesTrain, an
 easy way to do this it to pass the argument
@@ -942,6 +955,11 @@ value in the output.)
 
 Multiple R-squared:  0.5413
 
+*Explanation*
+
+You can build the linear regression model using the ~lm~ function, and
+find the R-squared by looking at the summary of the resulting model.
+
 ** DONE Problem 4 - Checking for Significance (1 point possible)
 CLOSED: [2015-08-22 Sat 05:32]
 
@@ -971,6 +989,10 @@ significant. Select all that apply.
 - [ ] Wins
 - [X] Nominations
 - [X] Production.Budget
+
+*Explanation*
+
+The significance can be found by looking at the summary output.
 
 ** DONE Problem 5 - Correlations (2 points possible)
 CLOSED: [2015-08-22 Sat 06:08]
@@ -1047,11 +1069,15 @@ We can calculate the correlation directly
 #+end_src
 
 #+RESULTS:
-: null device
-:           1
 :
 :  :: The correlation between Worldwide and Production.Budget:
 : [1] 0.4947683
+
+**** Answer
+
+*Explanation*
+
+The correlations can be computed using the ~cor~ function.
 
 *** Question b
 
@@ -1062,6 +1088,11 @@ Given this value, should Production.Budget be included in the model?
 
 - [ ] No, having highly correlated variables in a regression model can
   affect the quality of the resulting predictions.
+
+*Explanation*
+
+A strong correlation between an independent variable and the dependent
+variable suggests high predictive value.
 
 ** DONE Problem 6 - An Updated Model (1 point possible)
 CLOSED: [2015-08-22 Sat 06:45]
@@ -1121,6 +1152,11 @@ value in the output.)
 
 Multiple R-squared:  0.5048
 
+*Explanation*
+
+You can build the linear regression model using the ~lm~ function, and
+find the R-squared by looking at the summary of the resulting model.
+
 ** DONE Problem 7 - Understanding Coefficients (2 points possible)
 CLOSED: [2015-08-22 Sat 06:53]
 
@@ -1132,6 +1168,11 @@ the linear regression?
 **** Answer
 
 Animation:          0.465257
+
+*Explanation*
+
+The coefficient can be read by running ~summary~ on the linear
+regression model.
 
 *** Question b
 
@@ -1159,6 +1200,13 @@ this coefficient?
 - [ ] For each additional minute of Runtime, the variable Worldwide
   will definitely increase by approximately 0.01 units; thus,
   directors should strive to make their movies as long as possible.
+
+*Explanation*
+
+The coefficient should be interpreted as the change in the predicted
+value of the dependent variable associated with a one unit change in
+the independent variable. We cannot interpret the coefficient to imply
+causality about the relationship between ~Runtime~ and ~Worldwide~.
 
 ** DONE Problem 8 - Predictions on the Test Set (1 point possible)
 CLOSED: [2015-08-22 Sat 07:24]
@@ -1219,6 +1267,8 @@ What is the Total Sum of Squares (SST) on the test set? Remember to
 use the mean of Worldwide on the training set as the "baseline
 model".
 
+**** Answer
+
 $$
 SST = 60.43398
 $$
@@ -1233,6 +1283,15 @@ $$
 R^2 = 0.5863155
 $$
 
+*Explanation*
+
+Predictions on the test set can be computed with the predict
+function. Then the SSE can be computed by taking the sum of the
+squared differences between the predictions and the actual values, the
+SST can be computed by taking the sum of the squared differences
+between the mean on the training set and the actual values, and the
+R-squared can be computed as $1 - SSE/SST$.
+
 ** DONE Problem 9 - Understanding the Model (1 point possible)
 CLOSED: [2015-08-22 Sat 10:09]
 
@@ -1245,6 +1304,11 @@ The predicted R-squared doesn’t have to be negative to indicate an
 overfit model. If you see the predicted R-squared start to fall as you
 add predictors, even if they’re significant, you should begin to worry
 about overfitting the model.
+
+*Explanation*
+
+False. The R-squared value on the test set is higher than on the
+training set, so there is no overfitting going on here.
 
 ** DONE Problem 10 - A Classification Problem (2 points possible)
 CLOSED: [2015-08-22 Sat 11:01]
@@ -1288,6 +1352,11 @@ Excellent?
 **** Answer
 
 Excellent: 84
+
+*Explanation*
+
+After running the given lines in your R console, you can find these
+answers with the table or summary function.
 
 ** DONE Important change to the ~Movies~ dataset
 CLOSED: [2015-08-22 Sat 11:01]
@@ -1369,7 +1438,8 @@ factors in order to apply the algorithm
 :  :: Converting the Name feature to a factor type...
 :  Factor w/ 334 levels "2 Fast 2 Furious",..: 28 32 31 29 30 247 248 4 5 6 ...
 
-** TODO Problem 11 - A CART Model (1 point possible)
+** DONE Problem 11 - A CART Model (1 point possible)
+CLOSED: [2015-08-22 Sat 20:35]
 
 Build a CART model to predict "Performance" using all of the other
 variables except for "Name and "Year" to build the model. (Unless you
@@ -1406,9 +1476,7 @@ Generating the CART model
 :
 :  :: CART model DONE...
 
-*** Question a
-
-How many splits are in the resulting tree?
+Plotting the movies CART model
 
 #+BEGIN_SRC R :var basename="MoviesTrainCARTModel" :session :results none silent :exports none
   filename <- paste("../graphs/", basename, ".png", sep = "")
@@ -1428,9 +1496,20 @@ How many splits are in the resulting tree?
 #+ATTR_LaTeX: placement: [H]
 [[../graphs/MoviesTrainCARTModel.png]]
 
+*** Question a
+
+How many splits are in the resulting tree?
+
 **** Answer
 
 9 Splits
+
+*Explanation*
+
+You can build the CART model using the rpart function. You can then
+check how many splits there are by plotting the CART tree using
+~prp~.
+
 
 *** Question b
 
@@ -1438,45 +1517,209 @@ The CART model you just built predicts only two possible outcomes for
 a movie with Production.Budget less than 18. Which outcome does it
 never predict for these low-budget films?
 
-- [ ] Excellent
+- [X] Excellent
 - [ ] Average
 - [ ] Poor
 
-** TODO Problem 12 - Training Set Accuracy (1 point possible)
+*Explanation*
+
+For movies with ~Production.Budget~ less than 18, the model only
+predicts either "Average" or "Poor" revenue performance, depending on
+how many Wins the movie has.
+
+** DONE Problem 12 - Training Set Accuracy (1 point possible)
+CLOSED: [2015-08-24 Mon 06:13]
 
 Make predictions on the training set, and then create a confusion
-matrix. What is the overall accuracy of the model?
+matrix.
 
-** TODO Problem 13 - A Baseline Model (1 point possible)
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Predicting the outcomes...")
+  PredictTrainCART <- predict(MoviesCART, data = MoviesTrain[ ,
+                                        3:ncol(MoviesTrain)], type = "class")
+
+  writeLines("\n :: We can see the confusion matrix:")
+  c <- table(MoviesTrain$Performance, PredictTrainCART)
+  c
+
+  writeLines("\n :: Overall Accuracy:")
+  (c[1, 1] + c[2, 2] + c[3, 3]) / nrow(MoviesTrain)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Predicting the outcomes...
+
+ :: We can see the confusion matrix:
+           PredictTrainCART
+            Average Excellent Poor
+  Average        96         9   11
+  Excellent      17        41    1
+  Poor           11         2   46
+
+ :: Overall Accuracy:
+[1] 0.7820513
+#+end_example
+
+*** Question
+
+What is the overall accuracy of the model?
+
+**** Answer
+
+Accuracy :: 0.7820513
+
+*Explanation*
+
+Predictions can be computed with the predict function (remembering to
+add the argument ~type="class")~, and then the confusion matrix can be
+created with the table function.
+
+** DONE Problem 13 - A Baseline Model (1 point possible)
+CLOSED: [2015-08-22 Sat 20:41]
+
+*** Question
 
 What is the accuracy on the training set of a baseline model that
 predicts the most frequent outcome (Average) for all observations?
 
-** TODO Problem 14 - Testing Set Accuracy (1 point possible)
+**** Answer
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Confusion matrix for the baseline model:")
+  c <- table(MoviesTrain$Performance)
+  c
+
+  writeLines("\n :: Baseline model accuracy:")
+  c[1] / (c[1] + c[2] + c[3])
+#+end_src
+
+#+RESULTS:
+:
+:  :: Confusion matrix for the baseline model:
+:
+:   Average Excellent      Poor
+:       116        59        59
+:
+:  :: Baseline model accuracy:
+:   Average
+: 0.4957265
+
+Baseline model accuracy :: 0.4957265
+
+*Explanation*
+
+The accuracy of the baseline model can be determined by using the
+~table~ function to find that Average is the most frequent outcome.
+
+** DONE Problem 14 - Testing Set Accuracy (1 point possible)
+CLOSED: [2015-08-24 Mon 06:17]
 
 Make predictions on the testing set, and then create a confusion
-matrix. What is the overall accuracy of the model on the testing set?
+matrix.
 
-** TODO Problem 15 - Baseline Accuracy on Testing Set (1 point possible)
+*** Question
+
+What is the overall accuracy of the model on the testing set?
+
+**** Answer
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Predicting the outcomes...")
+  PredictCART <- predict(MoviesCART, newdata = MoviesTest [ ,
+                                        3:ncol(MoviesTest)], type = "class")
+
+  writeLines("\n :: We can see the confusion matrix:")
+  c <- table(MoviesTest$Performance, PredictCART)
+  c
+
+  writeLines("\n :: Overall accuracy:")
+  (c[1, 1] + c[2, 2] + c[3, 3]) / nrow(MoviesTest)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Predicting the outcomes...
+
+ :: We can see the confusion matrix:
+           PredictCART
+            Average Excellent Poor
+  Average        36         8    6
+  Excellent       9        16    0
+  Poor            8         1   16
+
+ :: Overall accuracy:
+[1] 0.68
+#+end_example
+
+**** Answer
+
+Overall accuracy: 0.68
+
+*Explanation*
+
+Predictions can be computed with the predict function, and then the
+confusion matrix can be created with the ~table~ function.
+
+** DONE Problem 15 - Baseline Accuracy on Testing Set (1 point possible)
+CLOSED: [2015-08-24 Mon 06:30]
 
 What is the accuracy on the testing set of a baseline model that
 predicts the most frequent outcome (Average) for all observations?
 
-** TODO Problem 16 - Understanding the Model (1 point possible)
+*** Answer
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Confusion matrix for the baseline model:")
+  c <- table(MoviesTest$Performance)
+  c
+
+  writeLines("\n :: Baseline model accuracy:")
+  c[1] / (c[1] + c[2] + c[3])
+#+end_src
+
+#+RESULTS:
+:
+:  :: Confusion matrix for the baseline model:
+:
+:   Average Excellent      Poor
+:        50        25        25
+:
+:  :: Baseline model accuracy:
+: Average
+:     0.5
+
+Baseline model accuracy:  0.5
+
+*Explanation*
+
+The accuracy of the baseline model can be determined by using the
+table function to see how many observations have a Performance of
+Excellent in the testing set.
+
+** DONE Problem 16 - Understanding the Model (1 point possible)
+CLOSED: [2015-08-24 Mon 06:33]
 
 What can you conclude from the CART model?
 
 - [ ] Turning this problem into a classification problem significantly
   improved the ability to predict movie revenue.
 
-- [ ] Both the linear regression and CART models are well-suited for
+- [X] Both the linear regression and CART models are well-suited for
   this prediction problem.
 
 - [ ] The linear regression model is significantly better suited for
   the continuous prediction problem than the CART model is for the
   classification problem.
 
-* Part 2. Forecasting Interest Rate Hikes by the U.S. Federal Reserve [0/17]
+*Explanation*
+
+Both models performed much better than corresponding baseline models
+on the testing set.
+
+* Part 2. Forecasting Interest Rate Hikes by the U.S. Federal Reserve [17/17]
 
 The federal funds rate is the key interest rate that the U.S. Federal
 Reserve uses to influence economic growth. The Federal Open Market
@@ -1488,12 +1731,11 @@ the interest rates is eagerly awaited each month.
 In this problem, we will use analytics to try to predict when the
 Federal Reserve will raise interest rates. We will look at monthly
 economic and political data dating back to the mid-1960's. In this
-analysis, the dependent variable will be the binary outcome variable
-RaisedFedFunds, which takes value 1 if the federal funds rate was
+analysis, the *dependent variable* will be the *binary outcome variable*
+~RaisedFedFunds~, which takes value 1 if the federal funds rate was
 increased that month and 0 if it was lowered or stayed the same. For
 each month, the file [[https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/federalFundsRate.csv][federalFundsRate.csv]] contains the following
 independent variables:
-
 
 - *Date*: The date the change was announced.
 
@@ -1524,26 +1766,181 @@ independent variables:
 - *MonthsUntilElection*: The number of remaining months until the next
   U.S. presidential election.
 
-** TODO Problem 1: Loading the Data (1 point possible)
+** DONE Problem 1: Loading the Data (1 point possible)
+CLOSED: [2015-08-24 Mon 07:07]
 
 Use the read.csv function to load the contents of federalFundsRate.csv
-into a data frame called fedFunds, using ~stringsAsFactors=FALSE~. What
-proportion of months did the Fed raise the interest rate?
+into a data frame called ~fedFunds~, using ~stringsAsFactors=FALSE~.
 
-** TODO Problem 2: The Longest-Serving Fed Chair (1 point possible)
+#+begin_src R :session :results output :exports all
+  library(parallel)
+
+  if(!file.exists("../data")) {
+          dir.create("../data")
+  }
+
+  fileUrl <- "https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/federalFundsRate.csv"
+  fileName <- "federalFundsRate.csv"
+  dataPath <- "../data"
+
+  filePath <- paste(dataPath, fileName, sep = "/")
+
+  if(!file.exists(filePath)) {
+          download.file(fileUrl, destfile = filePath, method = "curl")
+  }
+
+  writeLines("\n :: File downloaded...")
+
+#+end_src
+
+#+RESULTS:
+:
+:  :: File downloaded...
+
+Now we can load the data set in a new dataframe
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Loading the Federal Funds Rate in a dataframe...")
+  fedFunds <- read.csv("../data/federalFundsRate.csv", stringsAsFactors
+                       = FALSE)
+  str(fedFunds)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Loading the Federal Funds Rate in a dataframe...
+'data.frame':	585 obs. of  12 variables:
+ $ Date               : chr  "1966-02-01" "1966-03-01" "1966-04-01" "1966-05-01" ...
+ $ Chairman           : chr  "Martin, William M." "Martin, William M." "Martin, William M." "Martin, William M." ...
+ $ PreviousRate       : num  4.42 4.6 4.65 4.67 4.9 5.17 5.3 5.53 5.4 5.53 ...
+ $ Streak             : int  4 5 6 7 8 9 10 11 -1 1 ...
+ $ GDP                : num  4202 4202 4202 4219 4219 ...
+ $ Unemployment       : num  4 3.8 3.8 3.8 3.9 3.8 3.8 3.8 3.7 3.7 ...
+ $ CPI                : num  31.9 32.1 32.2 32.3 32.4 ...
+ $ HomeownershipRate  : num  63.5 63.5 63.5 63.2 63.2 63.2 63.3 63.3 63.3 63.8 ...
+ $ DebtAsPctGDP       : num  40.3 4201.9 4201.9 39.2 4219.1 ...
+ $ DemocraticPres     : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ MonthsUntilElection: int  33 32 31 30 29 28 27 26 25 24 ...
+ $ RaisedFedFunds     : int  1 1 1 1 1 1 1 0 1 1 ...
+#+end_example
+
+Lets convert the ~Date~ feature to a ~date~ R type
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Converting to a date R type...")
+  fedFunds$Date <- strptime(fedFunds$Date, format = "%Y-%m-%d")
+  str(fedFunds)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Converting to a date R type...
+'data.frame':	585 obs. of  12 variables:
+ $ Date               : POSIXlt, format: "1966-02-01" "1966-03-01" ...
+ $ Chairman           : chr  "Martin, William M." "Martin, William M." "Martin, William M." "Martin, William M." ...
+ $ PreviousRate       : num  4.42 4.6 4.65 4.67 4.9 5.17 5.3 5.53 5.4 5.53 ...
+ $ Streak             : int  4 5 6 7 8 9 10 11 -1 1 ...
+ $ GDP                : num  4202 4202 4202 4219 4219 ...
+ $ Unemployment       : num  4 3.8 3.8 3.8 3.9 3.8 3.8 3.8 3.7 3.7 ...
+ $ CPI                : num  31.9 32.1 32.2 32.3 32.4 ...
+ $ HomeownershipRate  : num  63.5 63.5 63.5 63.2 63.2 63.2 63.3 63.3 63.3 63.8 ...
+ $ DebtAsPctGDP       : num  40.3 4201.9 4201.9 39.2 4219.1 ...
+ $ DemocraticPres     : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ MonthsUntilElection: int  33 32 31 30 29 28 27 26 25 24 ...
+ $ RaisedFedFunds     : int  1 1 1 1 1 1 1 0 1 1 ...
+#+end_example
+
+*** Question
+
+What proportion of months did the Fed raise the interest rate?
+
+**** Answer
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Loading date management library...")
+  library(lubridate)
+
+  writeLines("\n :: Proportion of months where the interest rate grew:")
+  c <- table(fedFunds$RaisedFedFunds)
+  c
+  c[2] / (c[1] + c[2])
+#+end_src
+
+#+RESULTS:
+:
+:  :: Loading date management library...
+:
+:  :: Proportion of months where the interest rate grew:
+:
+:   0   1
+: 291 294
+:         1
+: 0.5025641
+
+Proportion of months where the interest rate grew:  0.5025641
+
+*Explanation*
+
+This can be computed with the ~table~, ~mean~, or ~summary~
+functions.
+
+** DONE Problem 2: The Longest-Serving Fed Chair (1 point possible)
+CLOSED: [2015-08-24 Mon 08:07]
+
+*** Question
 
 Which Federal Reserve Chair has presided over the most interest rate
 decisions?
 
+**** Answer
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Chairman with the most numerous interest rate decisions:")
+  table(fedFunds$Chairman)
+
+  writeLines("\n :: By raised decisions:")
+  table(fedFunds$Chairman, fedFunds$RaisedFedFunds)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Chairman with the most numerous interest rate decisions:
+
+     Bernanke, Ben      Burns, Arthur    Greenspan, Alan Martin, William M.
+                96                 96                221                 48
+Miller, G. William                N/A      Volcker, Paul      Yellen, Janet
+                17                  2                 96                  9
+
+ :: By raised decisions:
+
+                       0   1
+  Bernanke, Ben       64  32
+  Burns, Arthur       46  50
+  Greenspan, Alan    111 110
+  Martin, William M.  16  32
+  Miller, G. William   2  15
+  N/A                  0   2
+  Volcker, Paul       46  50
+  Yellen, Janet        6   3
+#+end_example
+
 - [ ] Ben Bernanke
 - [ ] Arthur Burns
-- [ ] Alan Greenspan
+- [X] Alan Greenspan
 - [ ] William M. Martin
 - [ ] G. William Miller
 - [ ] Paul Volcker
 - [ ] Janet Yellen
 
-** TODO Problem 3 - Converting Variables to Factors (1 point possible)
+*Explanation*
+
+This can be determined with the table or summary functions.
+
+** DONE Problem 3 - Converting Variables to Factors (1 point possible)
+CLOSED: [2015-08-24 Mon 08:38]
 
 Convert the following variables to factors using the ~as.factor~
 function:
@@ -1552,44 +1949,147 @@ function:
 - DemocraticPres
 - RaisedFedFunds
 
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Converting Chairman, DemocraticPres, RaisedFedFunds to R type factor...")
+  fedFunds$Chairman <- as.factor(fedFunds$Chairman)
+  fedFunds$DemocraticPres <- as.factor(fedFunds$DemocraticPres)
+  fedFunds$RaisedFedFunds <- as.factor(fedFunds$RaisedFedFunds)
+
+  str(fedFunds)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Converting Chairman, DemocraticPres, RaisedFedFunds to R type factor...
+'data.frame':	585 obs. of  12 variables:
+ $ Date               : POSIXlt, format: "1966-02-01" "1966-03-01" ...
+ $ Chairman           : Factor w/ 8 levels "Bernanke, Ben",..: 4 4 4 4 4 4 4 4 4 4 ...
+ $ PreviousRate       : num  4.42 4.6 4.65 4.67 4.9 5.17 5.3 5.53 5.4 5.53 ...
+ $ Streak             : int  4 5 6 7 8 9 10 11 -1 1 ...
+ $ GDP                : num  4202 4202 4202 4219 4219 ...
+ $ Unemployment       : num  4 3.8 3.8 3.8 3.9 3.8 3.8 3.8 3.7 3.7 ...
+ $ CPI                : num  31.9 32.1 32.2 32.3 32.4 ...
+ $ HomeownershipRate  : num  63.5 63.5 63.5 63.2 63.2 63.2 63.3 63.3 63.3 63.8 ...
+ $ DebtAsPctGDP       : num  40.3 4201.9 4201.9 39.2 4219.1 ...
+ $ DemocraticPres     : Factor w/ 2 levels "0","1": 2 2 2 2 2 2 2 2 2 2 ...
+ $ MonthsUntilElection: int  33 32 31 30 29 28 27 26 25 24 ...
+ $ RaisedFedFunds     : Factor w/ 2 levels "0","1": 2 2 2 2 2 2 2 1 2 2 ...
+#+end_example
+
+*** Question
+
 Which of the following methods requires the dependent variable be
 stored as a factor variable when training a model for classification?
 
+**** Answer
+
 - [ ] Logistic regression (glm)
 - [ ] CART (rpart)
-- [ ] Random forest (randomForest)
+- [X] Random forest (randomForest)
 
-** TODO Problem 4 - Splitting into a Training and Testing Set (1 point possible)
+*Explanation*
+
+We convert the outcome variable to a factor for the ~randomForest()~
+method.
+
+** DONE Problem 4 - Splitting into a Training and Testing Set (1 point possible)
+CLOSED: [2015-08-24 Mon 09:44]
 
 Obtain a random training/testing set split with:
 
-~set.seed(201)~
+#+begin_src R :session :results output :exports all
+  library(caTools)
+  set.seed(201)
+  spl <- sample.split(fedFunds$RaisedFedFunds, 0.7)
 
-~library(caTools)~
+  writeLines("\n :: Training data set number of observations:")
+  training <- subset(fedFunds, spl == TRUE)
+  nrow(training)
 
-~spl = sample.split(fedFunds$RaisedFedFunds, 0.7)~
+  writeLines("\n :: Testing dataset number of observations:")
+  testing <- subset(fedFunds, spl == FALSE)
+  nrow(testing)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Training data set number of observations:
+: [1] 410
+:
+:  :: Testing dataset number of observations:
+: [1] 175
 
 Split months into a training data frame called "training" using the
 observations for which spl is TRUE and a testing data frame called
 "testing" using the observations for which spl is FALSE.
 
+*** Question
+
 Why do we use the sample.split() function to split into a training and
 testing set?
+
+**** Answer
 
 - [ ] It is the most convenient way to randomly split the data
 
 - [ ] It balances the independent variables between the training and
   testing sets
 
-- [ ] It balances the dependent variable between the training and
+- [X] It balances the dependent variable between the training and
   testing sets
 
-** TODO Problem 5 - Training a Logistic Regression Model (1 point possible)
+** DONE Problem 5 - Training a Logistic Regression Model (1 point possible)
+CLOSED: [2015-08-24 Mon 09:17]
 
 Train a logistic regression model using independent variables
-"PreviousRate", "Streak", "Unemployment", "HomeownershipRate",
-"DemocraticPres", and "MonthsUntilElection", using the training set to
+~PreviousRate~, ~Streak~, ~Unemployment~, ~HomeownershipRate~,
+~DemocraticPres~, and ~MonthsUntilElection~, using the training set to
 obtain the model.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Building a Logistic Regression model...")
+  glmFFRFit <- glm(RaisedFedFunds ~ PreviousRate + Streak + Unemployment +
+                   HomeownershipRate + DemocraticPres +
+                   MonthsUntilElection, data = training, family = "binomial")
+
+  summary(glmFFRFit)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Building a Logistic Regression model...
+
+Call:
+glm(formula = RaisedFedFunds ~ PreviousRate + Streak + Unemployment +
+    HomeownershipRate + DemocraticPres + MonthsUntilElection,
+    family = "binomial", data = training)
+
+Deviance Residuals:
+    Min       1Q   Median       3Q      Max
+-2.8177  -1.0121   0.2301   1.0491   2.5297
+
+Coefficients:
+                     Estimate Std. Error z value Pr(>|z|)
+(Intercept)          9.121012   5.155774   1.769   0.0769 .
+PreviousRate        -0.003427   0.032350  -0.106   0.9156
+Streak               0.157658   0.025147   6.270 3.62e-10 ***
+Unemployment        -0.047449   0.065438  -0.725   0.4684
+HomeownershipRate   -0.136451   0.076872  -1.775   0.0759 .
+DemocraticPres1      0.347829   0.233200   1.492   0.1358
+MonthsUntilElection -0.006931   0.007678  -0.903   0.3666
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 568.37  on 409  degrees of freedom
+Residual deviance: 492.69  on 403  degrees of freedom
+AIC: 506.69
+
+Number of Fisher Scoring iterations: 4
+#+end_example
 
 Which of the following characteristics are statistically significantly
 (p < 0.05, aka at least a * in the regression summary) associated with
@@ -1597,7 +2097,7 @@ an increased chance of the federal funds rate being raised?
 
 - [ ] A higher federal funds rate in the previous month.
 
-- [ ] A longer consecutive streak of months in which the federal funds
+- [X] A longer consecutive streak of months in which the federal funds
   rate was raised.
 
 - [ ] A higher unemployment rate.
@@ -1608,7 +2108,13 @@ an increased chance of the federal funds rate being raised?
 
 - [ ] A longer amount of time until the next presidential election.
 
-** TODO Problem 6 - Predicting Using a Logistic Regression Model (1 point possible)
+*Explanation*
+
+The model can be trained with the glm function (remember the argument
+family = "binomial") and summarized with the ~summary~ function.
+
+** DONE Problem 6 - Predicting Using a Logistic Regression Model (1 point possible)
+CLOSED: [2015-08-24 Mon 09:34]
 
 Imagine you are an analyst at a bank and your manager has asked you to
 predict whether the federal funds rate will be raised next month. You
@@ -1616,14 +2122,97 @@ know that the rate has been lowered for 3 straight months (Streak =
 -3) and that the previous month's rate was 1.7%. The unemployment rate
 is 5.1% and the homeownership rate is 65.3%. The current
 U.S. president is a Republican and the next election will be held in
-18 months. According to the logistic regression model you built in
-Problem 5, what is the predicted probability that the interest rate
-will be raised?
+18 months.
 
-** TODO Problem 8 - Interpreting Model Coefficients (1 point possible)
+*** Question
+
+According to the logistic regression model you built in Problem 5,
+what is the predicted probability that the interest rate will be
+raised?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: The predicted probability that the interest rate will be raised:")
+  newTesting <- data.frame(1.7, -3, 5.1, 65.3, 0, 18)
+  names(newTesting) <- c("PreviousRate", "Streak", "Unemployment",
+                         "HomeownershipRate", "DemocraticPres",
+                         "MonthsUntilElection")
+  newTesting$DemocraticPres <- as.factor(newTesting$DemocraticPres)
+
+  predict(glmFFRFit, newdata = newTesting, type = "response")
+#+end_src
+
+#+RESULTS:
+:
+:  :: The predicted probability that the interest rate will be raised:
+:         1
+: 0.3464297
+
+Predicted probability that the interest rate will be raised: 0.5771733
+
+** DONE Problem 8 - Interpreting Model Coefficients (1 point possible)
+CLOSED: [2015-08-24 Mon 09:44]
+
+*** Question
 
 What is the meaning of the coefficient labeled "DemocraticPres1" in
 the logistic regression summary output?
+
+**** Answer
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Meaning of DemocraticPres as factor:")
+  str(training$DemocraticPres)
+  summary(training$DemocraticPres)
+
+  writeLines("\n :: Summary of the logistic regression model:")
+  summary(glmFFRFit)
+
+  writeLines("\n :: Converting to a linear quantities:")
+  exp(0.347829)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Meaning of DemocraticPres as factor:
+ Factor w/ 2 levels "0","1": 2 2 2 2 2 2 2 2 2 2 ...
+  0   1
+228 182
+
+ :: Summary of the logistic regression model:
+
+Call:
+glm(formula = RaisedFedFunds ~ PreviousRate + Streak + Unemployment +
+    HomeownershipRate + DemocraticPres + MonthsUntilElection,
+    family = "binomial", data = training)
+
+Deviance Residuals:
+    Min       1Q   Median       3Q      Max
+-2.8177  -1.0121   0.2301   1.0491   2.5297
+
+Coefficients:
+                     Estimate Std. Error z value Pr(>|z|)
+(Intercept)          9.121012   5.155774   1.769   0.0769 .
+PreviousRate        -0.003427   0.032350  -0.106   0.9156
+Streak               0.157658   0.025147   6.270 3.62e-10 ***
+Unemployment        -0.047449   0.065438  -0.725   0.4684
+HomeownershipRate   -0.136451   0.076872  -1.775   0.0759 .
+DemocraticPres1      0.347829   0.233200   1.492   0.1358
+MonthsUntilElection -0.006931   0.007678  -0.903   0.3666
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 568.37  on 409  degrees of freedom
+Residual deviance: 492.69  on 403  degrees of freedom
+AIC: 506.69
+
+Number of Fisher Scoring iterations: 4
+
+ :: Converting to a linear quantities:
+[1] 1.41599
+#+end_example
 
 - [ ] When the president is Democratic, the odds of the federal funds
   rate increasing are 34.8% higher than in an otherise identical month
@@ -1633,7 +2222,7 @@ the logistic regression summary output?
   rate increasing are 34.8% higher than in an average month in the
   dataset.
 
-- [ ] When the president is Democratic, the odds of the federal funds
+- [X] When the president is Democratic, the odds of the federal funds
   rate increasing are 41.6% higher than in an otherise identical month
   (i.e. identical among the variables in the model).
 
@@ -1641,58 +2230,203 @@ the logistic regression summary output?
   rate increasing are 41.6% higher than in an average month in the
   dataset.
 
-** TODO Problem 8 - Obtaining Test Set Predictions (2 points possible)
+*Explanation*
+
+The coefficients of the model are the log odds associated with that
+variable; so we see that the odds of being sold are
+exp(0.347829)=1.41599 those of an otherwise identical month. This
+means the month is predicted to have 41.6% higher odds of being sold.
+
+** DONE Problem 8 - Obtaining Test Set Predictions (2 points possible)
+CLOSED: [2015-08-24 Mon 10:19]
 
 Using your logistic regression model, obtain predictions on the test
 set. Then, using a probability threshold of 0.5, create a confusion
-matrix for the test set. On how many test set observations does your
-logistic regression model make a different prediction than the
-prediction the naive baseline model would make? (Remember that the
-naive baseline model we use in this class always predicts the most
-frequent outcome in the training set for all observations in the test
-set.)
+matrix for the test set.
 
-** TODO Problem 9 - Computing Test-Set AUC (2 points possible)
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: The naive baseline model accuracy:")
+  c <- table(testing$RaisedFedFunds)
+  c
+  c[2] / (c[1] + c[2])
+
+  writeLines("\n :: The testing set accuracy:")
+  ffrTestingPred <- predict(glmFFRFit, newdata = testing, type = "response")
+  f <- table(testing$RaisedFedFunds, ffrTestingPred >= 0.5)
+  f
+
+  writeLines("\n :: The number of different predictions of the Logistic Reg
+  model vs. Naive Baseline:")
+  nrow(testing) - (f[1, 2] + f[2, 2])
+
+  writeLines("\n :: The overall accuracy in the testing set:")
+  (f[1, 1] + f[2, 2]) / nrow(testing)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: The naive baseline model accuracy:
+
+ 0  1
+87 88
+        1
+0.5028571
+
+ :: The testing set accuracy:
+
+    FALSE TRUE
+  0    60   27
+  1    31   57
+
+ :: The number of different predictions of the Logistic Reg
+model vs. Naive Baseline:
+[1] 91
+
+ :: The overall accuracy in the testing set:
+[1] 0.6685714
+#+end_example
+
+*** Question
+
+On how many test set observations does your logistic regression model
+make a different prediction than the prediction the naive baseline
+model would make? (Remember that the naive baseline model we use in
+this class always predicts the most frequent outcome in the training
+set for all observations in the test set.)
+
+**** Answer
+
+Different prediction of the logistic regression model vs naive
+baseline model: 118
+
+** DONE Problem 9 - Computing Test-Set AUC (2 points possible)
+CLOSED: [2015-08-24 Mon 10:25]
+
+*** Question
 
 What is the test-set AUC of the logistic regression model?
 
-** TODO Problem 10 - Interpreting AUC (1 point possible)
+**** Answer
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Install package only once")
+  ## install.packages('ROCR', repos='http://cran.rstudio.com/')
+  library(ROCR)
+
+  writeLines("\n :: Prediction function")
+  ROCRpred <- prediction(ffrTestingPred, testing$RaisedFedFunds)
+
+  writeLines("\n :: The AUC for the prediction function:")
+  as.numeric(performance(ROCRpred, "auc")@y.values)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Install package only once
+Loading required package: gplots
+
+Attaching package: ‘gplots’
+
+The following object is masked from ‘package:stats’:
+
+    lowess
+
+ :: Prediction function
+
+ :: The AUC for the prediction function:
+[1] 0.704023
+#+end_example
+
+The AUC for the prediction function in the testing set: 0.704023
+
+*Explanation*
+
+The test-set AUC can be obtained by loading the ROCR package, and then
+using the prediction and performance functions.
+
+** DONE Problem 10 - Interpreting AUC (1 point possible)
+CLOSED: [2015-08-24 Mon 10:28]
 
 What is the meaning of the AUC?
 
-- [ ] The proportion of the time the model can differentiate between a
+- [X] The proportion of the time the model can differentiate between a
   randomly selected shoe that was sold and a randomly selected shoe
   that was not sold
 
 - [ ] The proportion of the time the model correctly identifies
   whether or not a shoe will be sold
 
-** TODO Problem 11 - ROC Curves (1 point possible)
+*Explanation*
+
+The AUC is the proportion of time the model can differentiate between
+a randomly selected true positive and true negative.
+
+** DONE Problem 11 - ROC Curves (1 point possible)
+CLOSED: [2015-08-24 Mon 10:41]
 
 Which logistic regression threshold is associated with the upper-right
 corner of the ROC plot (true positive rate 1 and false positive rate
 1)?
 
-- [ ] 0
+- [X] 0
 - [ ] 0.5
 - [ ] 1
 
-** TODO Problem 12 - ROC Curves (1 point possible)
+*Explanation*
+
+A model with threshold 0 predicts 1 for all observations, yielding a
+100% true positive rate and a 100% false positive rate.
+
+** DONE Problem 12 - ROC Curves (1 point possible)
+CLOSED: [2015-08-24 Mon 10:54]
 
 Plot the colorized ROC curve for the logistic regression model's
 performance on the test set.
+
+#+BEGIN_SRC R :var basename="FFRTestingROCCurve" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  ROC.Perf = performance(ROCRpred, "tpr", "fpr")
+  plot(ROC.Perf, colorize=TRUE, print.cutoffs.at=seq(0,1,by=0.025), text.adj=c(-0.2,1.7))
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  ROC curve for the FFR testing set
+#+NAME:     fig:FFRTestingROCCurve
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/FFRTestingROCCurve.png]]
+
+*** Question
 
 At roughly which logistic regression cutoff does the model achieve a
 true positive rate of 85% and a false positive rate of 60%?
 
 - [ ] 0
 - [ ] 0.16
-- [ ] 0.37
+- [X] 0.37
 - [ ] 0.52
 - [ ] 0.66
 - [ ] 0.87
 
-** TODO Problem 13 - Cross-Validation to Select Parameters (1 point possible)
+*Explanation*
+
+You can plot the colorized curve by using the plot function, and
+adding the argument ~colorize=TRUE~.
+
+From the colorized curve, we can see that the light turqoise color,
+corresponding to cutoff 0.37, is associated with a true positive rate
+of about 0.85 and false positive rate of about 0.6.
+
+** DONE Problem 13 - Cross-Validation to Select Parameters (1 point possible)
+CLOSED: [2015-08-24 Mon 11:31]
 
 Which of the following best describes how 10-fold cross-validation
 works when selecting between 2 different parameter values?
@@ -1712,33 +2446,185 @@ works when selecting between 2 different parameter values?
 - [ ] 10 models are trained on subsets of the training set and
   evaluated on a portion of the training set
 
-- [ ] 20 models are trained on subsets of the training set and
+- [X] 20 models are trained on subsets of the training set and
   evaluated on a portion of the training set
 
-** TODO Problem 14 - Cross-Validation for a CART Model (1 point possible)
+*Explanation*
+
+In 10-fold cross validation, the model with each parameter setting
+will be trained on 10 90% subsets of the training set. Hence, a total
+of 20 models will be trained. The models are evaluated in each case on
+the last 10% of the training set (not on the testing set).
+
+** DONE Problem 14 - Cross-Validation for a CART Model (1 point possible)
+CLOSED: [2015-08-24 Mon 12:07]
 
 Set the random seed to 201 (even though you have already done so
 earlier in the problem). Then use the caret package and the train
 function to perform 10-fold cross validation with the training data
 set to select the best cp value for a CART model that predicts the
-dependent variable "RaisedFedFunds" using the independent variables
-"PreviousRate," "Streak," "Unemployment," "HomeownershipRate,"
-"DemocraticPres," and "MonthsUntilElection." Select the cp value from
+dependent variable ~RaisedFedFunds~ using the independent variables
+~PreviousRate~, ~Streak~, ~Unemployment~, ~HomeownershipRate~,
+~DemocraticPres~, and ~MonthsUntilElection~. Select the cp value from
 a grid consisting of the 50 values 0.001, 0.002, ..., 0.05.
+
+Performing the control parameter for the K-fold cross validation
+
+#+begin_src R :session :results output :exports all
+  library(caret)
+  writeLines("\n :: Define cross-validation experiment...")
+  numFolds <- trainControl(method = "cv", number = 10)
+  cpGrid <- expand.grid(.cp = seq(0.001, 0.05, 0.001))
+#+end_src
+
+#+RESULTS:
+: Loading required package: lattice
+:
+:  :: Define cross-validation experiment...
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Perform the cross validation:")
+  set.seed(201)
+  train(RaisedFedFunds ~ PreviousRate + Streak + Unemployment +
+                HomeownershipRate + DemocraticPres +
+                MonthsUntilElection, data = training, method = "rpart",
+        trControl = numFolds, tuneGrid = cpGrid)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Perform the cross validation:
+ CART
+
+410 samples
+ 11 predictor
+  2 classes: '0', '1'
+
+No pre-processing
+Resampling: Cross-Validated (10 fold)
+Summary of sample sizes: 368, 368, 368, 370, 369, 369, ...
+Resampling results across tuning parameters:
+
+  cp     Accuracy   Kappa      Accuracy SD  Kappa SD
+  0.001  0.6221312  0.2448321  0.07032469   0.1404483
+  0.002  0.6221312  0.2448321  0.07032469   0.1404483
+  0.003  0.6365331  0.2734338  0.07269107   0.1452330
+  0.004  0.6340331  0.2684338  0.07989234   0.1596618
+  0.005  0.6340331  0.2684338  0.07989234   0.1596618
+  0.006  0.6487921  0.2980610  0.07527713   0.1506483
+  0.007  0.6487921  0.2980610  0.07527713   0.1506483
+  0.008  0.6487921  0.2980610  0.07527713   0.1506483
+  0.009  0.6537311  0.3080170  0.07647219   0.1530306
+  0.010  0.6537311  0.3080170  0.07647219   0.1530306
+  0.011  0.6583101  0.3173385  0.08708649   0.1745233
+  0.012  0.6583101  0.3173385  0.08708649   0.1745233
+  0.013  0.6583101  0.3173385  0.08708649   0.1745233
+  0.014  0.6632491  0.3272594  0.08455690   0.1695616
+  0.015  0.6632491  0.3272594  0.08455690   0.1695616
+  0.016  0.6632491  0.3272594  0.08455690   0.1695616
+  0.017  0.6609901  0.3231241  0.08079685   0.1618307
+  0.018  0.6609901  0.3231241  0.08079685   0.1618307
+  0.019  0.6609901  0.3231241  0.08079685   0.1618307
+  0.020  0.6560511  0.3137948  0.07942067   0.1592573
+  0.021  0.6512892  0.3042710  0.08322242   0.1669492
+  0.022  0.6437892  0.2892710  0.07911989   0.1589478
+  0.023  0.6437892  0.2892710  0.07911989   0.1589478
+  0.024  0.6583130  0.3183186  0.08348418   0.1673133
+  0.025  0.6583130  0.3183186  0.08348418   0.1673133
+  0.026  0.6583130  0.3183186  0.08348418   0.1673133
+  0.027  0.6583130  0.3183186  0.08348418   0.1673133
+  0.028  0.6583130  0.3183186  0.08348418   0.1673133
+  0.029  0.6583130  0.3183186  0.08348418   0.1673133
+  0.030  0.6583130  0.3183186  0.08348418   0.1673133
+  0.031  0.6583130  0.3183186  0.08348418   0.1673133
+  0.032  0.6583130  0.3183186  0.08348418   0.1673133
+  0.033  0.6583130  0.3183186  0.08348418   0.1673133
+  0.034  0.6583130  0.3183186  0.08348418   0.1673133
+  0.035  0.6583130  0.3183186  0.08348418   0.1673133
+  0.036  0.6583130  0.3183186  0.08348418   0.1673133
+  0.037  0.6583130  0.3183186  0.08348418   0.1673133
+  0.038  0.6583130  0.3183186  0.08348418   0.1673133
+  0.039  0.6583130  0.3183186  0.08348418   0.1673133
+  0.040  0.6583130  0.3183186  0.08348418   0.1673133
+  0.041  0.6583130  0.3183186  0.08348418   0.1673133
+  0.042  0.6583130  0.3183186  0.08348418   0.1673133
+  0.043  0.6583130  0.3183186  0.08348418   0.1673133
+  0.044  0.6583130  0.3183186  0.08348418   0.1673133
+  0.045  0.6583130  0.3183186  0.08348418   0.1673133
+  0.046  0.6583130  0.3183186  0.08348418   0.1673133
+  0.047  0.6583130  0.3183186  0.08348418   0.1673133
+  0.048  0.6583130  0.3183186  0.08348418   0.1673133
+  0.049  0.6583130  0.3183186  0.08348418   0.1673133
+  0.050  0.6583130  0.3183186  0.08348418   0.1673133
+
+Accuracy was used to select the optimal model using  the largest value.
+The final value used for the model was cp = 0.016.
+#+end_example
 
 What cp value maximizes the cross-validation accuracy?
 
-** TODO Problem 15 - Train CART Model (1 point possible)
+*** Answer
+
+The final value used for the model was cp = 0.016.
+
+*Explanation*
+
+The cross-validation can be run by first setting the grid of cp values
+with the expand.grid function and setting the number of folds with the
+trainControl function. Then you want to use the train function to run
+the cross-validation.
+
+From the output of the train function, parameter value 0.016 yields
+the highest cross-validation accuracy.
+
+** DONE Problem 15 - Train CART Model (1 point possible)
+CLOSED: [2015-08-24 Mon 12:15]
 
 Build and plot the CART model trained with the parameter identified in
 Problem 15, again predicting the dependent variable using
 "PreviousRate", "Streak", "Unemployment", "HomeownershipRate",
-"DemocraticPres", and "MonthsUntilElection". What variable is used as
-the first (upper-most) split in the tree?
+"DemocraticPres", and "MonthsUntilElection".
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Create a new CART model...")
+  fedFundsRateCV <- rpart(RaisedFedFunds ~ PreviousRate + Streak +
+                                       Unemployment + HomeownershipRate
+                               + DemocraticPres + MonthsUntilElection,
+                               data = training, method="class", cp = 0.016)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Create a new CART model...
+
+Lets plot the new CART model
+
+#+BEGIN_SRC R :var basename="FFR_CV_CART" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  prp(fedFundsRateCV)
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  Federal Funds Rate Cross validation CART model
+#+NAME:     fig:FFR_CV_CART
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/FFR_CV_CART.png]]
+
+*** Question
+
+What variable is used as the first (upper-most) split in the tree?
 
 - [ ] PreviousRate
 
-- [ ] Streak
+- [X] Streak
 
 - [ ] Unemployment
 
@@ -1748,7 +2634,16 @@ the first (upper-most) split in the tree?
 
 - [ ] MonthsUntilElection
 
-** TODO Problem 16 - Predicting Using a CART Model (1 point possible)
+*Explanation*
+
+The CART model can be trained and plotted by first loading the "rpart"
+and "rpart.plot" packages, and then using the rpart function to build
+the model and the prp function to plot the tree.
+
+** DONE Problem 16 - Predicting Using a CART Model (1 point possible)
+CLOSED: [2015-08-24 Mon 12:18]
+
+*** Question
 
 If you were to use the CART model you created in Problem 15 to answer
 the question asked of the analyst in Problem 6, what would you predict
@@ -1759,24 +2654,81 @@ Remember: The rate has been lowered for 3 straight months (Streak =
 5.1%. The homeownership rate is 65.3%. The current U.S. president is a
 Republican and the next election will be held in 18 months.
 
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: The predicted probability that the interest rate will be raised:")
+  newTesting <- data.frame(1.7, -3, 5.1, 65.3, 0, 18)
+  names(newTesting) <- c("PreviousRate", "Streak", "Unemployment", "HomeownershipRate", "DemocraticPres", "MonthsUntilElection")
+  newTesting$DemocraticPres <- as.factor(newTesting$DemocraticPres)
+
+  predict(fedFundsRateCV, newdata = newTesting, type = "prob")
+#+end_src
+
+#+RESULTS:
+:
+:  :: The predicted probability that the interest rate will be raised:
+:           0         1
+: 1 0.7328244 0.2671756
+
+**** Answer
+
 - [ ] The Fed will raise the federal funds rate.
 
-- [ ] The Fed will not raise the federal funds rate.
+- [X] The Fed will not raise the federal funds rate.
 
-** TODO Problem 17 - Test-Set Accuracy for CART Model (2 points possible)
+*Explanation*
+
+Once the tree is plotted using the prp function, you can follow the
+splits to find that, because Streak is less than 2.5 and Streak is
+less than -1.5, the model predicts ~RaisedFedFunds=0~.
+
+** DONE Problem 17 - Test-Set Accuracy for CART Model (2 points possible)
+CLOSED: [2015-08-24 Mon 12:23]
 
 Using the CART model you created in Problem 15, obtain predictions on
 the test set (using the parameter type="class" with the predict
 function). Then, create a confusion matrix for the test set.
 
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: The testing set accuracy:")
+  ffrCVTestingPred <- predict(fedFundsRateCV, newdata = testing, type = "class")
+  f <- table(testing$RaisedFedFunds, ffrCVTestingPred)
+  f
+
+  writeLines("\n :: The overall accuracy in the testing set:")
+  (f[1, 1] + f[2, 2]) / nrow(testing)
+#+end_src
+
+#+RESULTS:
+:
+:  :: The testing set accuracy:
+:    ffrCVTestingPred
+:      0  1
+:   0 64 23
+:   1 40 48
+:
+:  :: The overall accuracy in the testing set:
+: [1] 0.64
+
+*** Question
+
 What is the accuracy of your CART model?
 
-* Part 3. Understanding Retail Consumers [0/15]
+The overall accuracy in the testing set: 0.64
+
+*Explanation*
+
+The test set predictions can be obtained using the predict
+function. The confusion matrix can be obtained using the table
+function.
+
+From the table, the accuracy is (64+48)/(64+48+23+40) = 0.64.
+
+* Part 3. Understanding Retail Consumers [15/15]
 
 In Unit 6, we saw how clustering can be used for market segmentation,
 the idea of dividing airline passengers into small, more similar
 groups, and then designing a marketing strategy specifically for each
-group.  In this problem, we'll see how this idea can be applied to
+group. In this problem, we'll see how this idea can be applied to
 retail consumer data.
 
 In this problem, we'll use the dataset [[https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/Households.csv][Households.csv]], which contains
@@ -1806,52 +2758,222 @@ hours.  That is, visits from 8pm - 7:59am are possible.
 This dataset was derived from source files provided by *dunnhumby*, a
 customer science company based in the United Kingdom.
 
-** TODO Problem 1 - Reading in the data (2 points possible)
+** DONE Problem 1 - Reading in the data (2 points possible)
+CLOSED: [2015-08-24 Mon 14:13]
+
+Downloading the dataset
+
+#+begin_src R :session :results output :exports all
+  rm(list = ls())
+  library(parallel)
+
+  if(!file.exists("../data")) {
+          dir.create("../data")
+  }
+
+  fileUrl <- "https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/Households.csv"
+  fileName <- "finalExam-Households.csv"
+  dataPath <- "../data"
+
+  filePath <- paste(dataPath, fileName, sep = "/")
+
+  if(!file.exists(filePath)) {
+          download.file(fileUrl, destfile = filePath, method = "curl")
+  }
+
+  writeLines("\n :: File downloaded...")
+
+#+end_src
+
+#+RESULTS:
+:
+:  :: File downloaded...
 
 Read the dataset Households.csv into R.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Loading the data in a dataframe:")
+  houseHolds <- read.csv("../data/finalExam-Households.csv")
+  str(houseHolds)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Loading the data in a dataframe:
+: 'data.frame':	2500 obs. of  6 variables:
+:  $ NumVisits    : int  86 45 47 30 40 250 59 113 20 9 ...
+:  $ AvgProdCount : num  20.08 15.87 19.62 10.03 5.55 ...
+:  $ AvgDiscount  : num  8.11 7.44 14.37 3.85 2.96 ...
+:  $ AvgSalesValue: num  50.4 43.4 56.5 40 19.5 ...
+:  $ MorningPct   : num  46.51 8.89 14.89 13.33 2.5 ...
+:  $ AfternoonPct : num  51.2 60 76.6 56.7 67.5 ...
+
+Completing the percentage of transactions per user in the night
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Adding the night transactions percentage per user...")
+  houseHolds$NightPct <- 100 - (houseHolds$MorningPct + houseHolds$AfternoonPct)
+  str(houseHolds$NightPct)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Adding the night transactions percentage per user...
+:  num [1:2500] 2.33 31.11 8.51 30 30 ...
 
 *** Question a
 
 How many households have logged transactions at the retailer only in
 the morning?
 
+**** Answer
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Number of households that logged transactions only
+      in the morning:")
+  nrow(subset(houseHolds, houseHolds$MorningPct > 0 &
+                                    houseHolds$AfternoonPct == 0 &
+      houseHolds$NightPct == 0))
+#+end_src
+
+#+RESULTS:
+:
+:  :: Number of households that logged transactions only
+:     in the morning:
+: [1] 4
+
 *** Question b
 
 How many households have logged transactions at the retailer only in
 the afternoon?
 
-** TODO Problem 2 - Descriptive statistics (3 points possible)
+**** Answer
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Number of households that logged transactions only
+      in the afternoon:")
+  nrow(subset(houseHolds, houseHolds$MorningPct == 0 &
+                                  houseHolds$AfternoonPct > 0 &
+                                  houseHolds$NightPct == 0))
+#+end_src
+
+#+RESULTS:
+:
+:  :: Number of households that logged transactions only
+:     in the afternoon:
+: [1] 13
+
+*Explanation*
+
+If you read the dataset into R, then take a subset of only the rows
+where MorningPct >= 100, this data frame has 4 rows. The same can be
+done for the subset where AfternoonPct >= 100; the resulting dataset
+has 13 rows.
+
+** DONE Problem 2 - Descriptive statistics (3 points possible)
+CLOSED: [2015-08-24 Mon 14:28]
 
 *** Question a
 
 Of the households that spend more than $150 per transaction on
 average, what is the minimum average discount per transaction?
 
+**** Answer
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: The minimum average discount per transaction:")
+  min(subset(houseHolds, houseHolds$AvgSalesValue > 150)$AvgDiscount)
+#+end_src
+
+#+RESULTS:
+:
+:  :: The minimum average discount per transaction:
+: [1] 15.64607
+
 *** Question b
 
 Of the households who have an average discount per transaction greater
 than 25%, what is the minimum average sales value per transaction?
+
+**** Answer
+
+#+begin_src R :session :results output :exports all
+  min(subset(houseHolds, houseHolds$AvgDiscount > 25)$AvgSalesValue)
+#+end_src
+
+#+RESULTS:
+: [1] 50.1175
 
 *** Question c
 
 In the dataset, what proportion of households visited the retailer at
 least 300 times?
 
-** TODO Problem 3 - Importance of Normalizing (1 point possible)
+#+begin_src R :session :results output :exports all
+  nrow(subset(houseHolds, houseHolds$NumVisits >= 300)) / nrow(houseHolds)
+#+end_src
+
+#+RESULTS:
+: [1] 0.0592
+
+*Explanation*
+
+You can first use subset to create a dataframe called HighSpender that
+only includes households with average transaction value greater
+than 150. Then, use the min() function to see the value of
+AvgDiscount. The second question is similar. For the third question,
+we see that there are 148 such households. The proportion is thus
+$148 / 2500$.
+
+** DONE Problem 3 - Importance of Normalizing (1 point possible)
+CLOSED: [2015-08-24 Mon 14:30]
 
 When clustering data, it is often important to normalize the variables
-so that they are all on the same scale. If you clustered this dataset
-without normalizing, which variable would you expect to dominate in
-the distance calculations?
+so that they are all on the same scale.
 
-- [ ] NumVisits
+*** Question
+
+If you clustered this dataset without normalizing, which variable
+would you expect to dominate in the distance calculations?
+
+**** Answer
+
+#+begin_src R :session :results output :exports all
+  summary(houseHolds)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+   NumVisits       AvgProdCount     AvgDiscount     AvgSalesValue
+ Min.   :   1.0   Min.   : 1.186   Min.   : 0.089   Min.   :  2.388
+ 1st Qu.:  39.0   1st Qu.: 6.123   1st Qu.: 3.006   1st Qu.: 18.329
+ Median :  79.0   Median : 8.979   Median : 4.865   Median : 27.417
+ Mean   : 110.6   Mean   :10.291   Mean   : 5.713   Mean   : 31.621
+ 3rd Qu.: 142.2   3rd Qu.:13.116   3rd Qu.: 7.327   3rd Qu.: 40.546
+ Max.   :1300.0   Max.   :56.600   Max.   :47.176   Max.   :165.829
+   MorningPct      AfternoonPct       NightPct
+ Min.   :  0.00   Min.   :  0.00   Min.   :  0.000
+ 1st Qu.: 16.67   1st Qu.: 42.20   1st Qu.:  7.692
+ Median : 26.09   Median : 52.00   Median : 16.920
+ Mean   : 28.73   Mean   : 51.45   Mean   : 19.817
+ 3rd Qu.: 37.17   3rd Qu.: 61.29   3rd Qu.: 28.523
+ Max.   :100.00   Max.   :100.00   Max.   :100.000
+#+end_example
+
+- [X] NumVisits
 - [ ] AvgProdCount
 - [ ] AvgDiscount
 - [ ] AvgSalesValue
 - [ ] MorningPct
 - [ ] AfternoonPct
 
-** TODO Problem 4 - Normalizing the Data (2 points possible)
+*Explanation*
+
+We would expect NumVisits to dominate, because it is on the largest
+scale.
+
+** DONE Problem 4 - Normalizing the Data (2 points possible)
+CLOSED: [2015-08-24 Mon 14:40]
 
 Normalize all of the variables in the Hubway dataset by entering the
 following commands in your R console: (Note that these commands assume
@@ -1859,11 +2981,31 @@ that your dataset is called "Households", and create the normalized
 dataset "HouseholdsNorm". You can change the names to anything you
 want by editing the commands.)
 
-~library(caret)~
+#+begin_src R :session :results output :exports all
+  library(caret)
+  houseHolds$NightPct <- NULL
+  preproc <- preProcess(houseHolds)
+  HouseholdsNorm <- predict(preproc, houseHolds)
+  summary(HouseholdsNorm)
+#+end_src
 
-~preproc = preProcess(Households)~
-
-~HouseholdsNorm = predict(preproc, Households)~
+#+RESULTS:
+#+begin_example
+   NumVisits        AvgProdCount      AvgDiscount      AvgSalesValue
+ Min.   :-0.9475   Min.   :-1.5239   Min.   :-1.4010   Min.   :-1.5342
+ 1st Qu.:-0.6190   1st Qu.:-0.6976   1st Qu.:-0.6743   1st Qu.:-0.6976
+ Median :-0.2731   Median :-0.2197   Median :-0.2112   Median :-0.2206
+ Mean   : 0.0000   Mean   : 0.0000   Mean   : 0.0000   Mean   : 0.0000
+ 3rd Qu.: 0.2737   3rd Qu.: 0.4728   3rd Qu.: 0.4021   3rd Qu.: 0.4684
+ Max.   :10.2828   Max.   : 7.7500   Max.   :10.3293   Max.   : 7.0432
+   MorningPct       AfternoonPct
+ Min.   :-1.6779   Min.   :-3.22843
+ 1st Qu.:-0.7047   1st Qu.:-0.58006
+ Median :-0.1546   Median : 0.03458
+ Mean   : 0.0000   Mean   : 0.00000
+ 3rd Qu.: 0.4926   3rd Qu.: 0.61755
+ Max.   : 4.1617   Max.   : 3.04658
+#+end_example
 
 (Remember that for each variable, the normalization process subtracts
 the mean and divides by the standard deviation. We learned how to do
@@ -1874,56 +3016,206 @@ should have mean 0 and standard deviation 1.
 
 What is the maximum value of NumVisits in the normalized dataset?
 
+**** Answer
+
+Maximum number of visits: 10.2828
+
 *** Question b
 
 What is the minimum value of AfternoonPct in the normalized dataset?
+
+**** Answer
+
+Min. : -3.22843
+
+*Explanation*
+
+You can normalize the dataset by using the preProcess and predict
+functions in the "caret" package. You can then find the maximum values
+of the variables by using the summary function on the whole dataset.
 
 *** Note:
 
 Run the following code to create a dendrogram of your data:
 
-~set.seed(200)~
-~distances <- dist(HouseholdsNorm, method = "euclidean")~
-~ClusterShoppers <- hclust(distances, method = "ward.D")~
-~plot(ClusterShoppers, labels = FALSE)~
+#+BEGIN_SRC R :var basename="HouseHoldDendrogram" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
 
-** TODO Problem 5 - Interpreting the Dendrogram (2 points possible)
+  png(filename = filename, bg = "white", width = 640, height = 468, units = "px")
+
+  ## ----- Plot code begin here
+  set.seed(200)
+  distances <- dist(HouseholdsNorm, method = "euclidean")
+  ClusterShoppers <- hclust(distances, method = "ward.D")
+  plot(ClusterShoppers, labels = FALSE)
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  Household normalized data dendrogram
+#+NAME:     fig:HouseHoldDendrogram
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/HouseHoldDendrogram.png]]
+
+** DONE Problem 5 - Interpreting the Dendrogram (2 points possible)
+CLOSED: [2015-08-24 Mon 14:56]
 
 Based on the dendrogram, how many clusters do you think would be
 appropriate for this problem? Select all that apply.
 
-- [ ] 2
-- [ ] 3
+- [X] 2
+- [X] 3
 - [ ] 4
-- [ ] 5
+- [X] 5
 - [ ] 6
 
-** TODO Problem 6 - K-means Clustering (2 points possible)
+*Explanation*
+
+Four clusters and six clusters have very little "wiggle room", which
+means that the additional clusters are not very distinct from existing
+clusters. That is, when moving from 3 clusters to 4 clusters, the
+additional cluster is very similar to an existing one (as well as when
+moving from 5 clusters to 6 clusters).
+
+** DONE Problem 6 - K-means Clustering (2 points possible)
+CLOSED: [2015-08-24 Mon 17:26]
 
 Run the k-means clustering algorithm on your normalized dataset,
 selecting 10 clusters. Right before using the kmeans function, type
-"set.seed(200)" in your R console.
+~set.seed(200)~ in your R console.
+
+#+begin_src R :session :results output :exports all
+  k = 10
+  set.seed(200)
+  KMC <- kmeans(HouseholdsNorm, 10)
+  str(KMC)
+
+  sort(table(KMC$cluster), decreasing = TRUE)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+ ..$ : chr [1:10] "1" "2" "3" "4" ...
+  .. ..$ : chr [1:6] "NumVisits" "AvgProdCount" "AvgDiscount" "AvgSalesValue" ...
+ $ totss       : num 14994
+ $ withinss    : num [1:10] 628 449 700 282 580 ...
+ $ tot.withinss: num 4828
+ $ betweenss   : num 10166
+ $ size        : int [1:10] 246 51 490 118 504 226 141 284 52 388
+ $ iter        : int 5
+ $ ifault      : int 0
+ - attr(*, "class")= chr "kmeans"
+
+  5   3  10   8   1   6   7   4   9   2
+504 490 388 284 246 226 141 118  52  51
+#+end_example
 
 *** Question a
 
 How many observations are in the smallest cluster?
 
+**** Answer
+
+51 observations in the smallest cluster.
+
 *** Question b
 
 How many observations are in the largest cluster?
 
-** TODO Problem 7 - Understanding the Clusters (2 points possible)
+**** Answer
+
+504 observations in the largest cluster.
+
+** DONE Problem 7 - Understanding the Clusters (2 points possible)
+CLOSED: [2015-08-24 Mon 18:03]
 
 Now, use the cluster assignments from k-means clustering together with
 the cluster centroids to answer the next few questions.
 
+*** Question
+
 Which cluster best fits the description "morning shoppers stopping in
 to make a quick purchase"?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Subsetting each cluster content...")
+  KmeansCluster = split(HouseholdsNorm, KMC$cluster)
+
+  writeLines("\n :: MorningPct for cluster 1:")
+  mean(KmeansCluster[[1]]$MorningPct)
+
+  writeLines("\n :: MorningPct for cluster 2:")
+  mean(KmeansCluster[[2]]$MorningPct)
+
+  writeLines("\n :: MorningPct for cluster 3:")
+  mean(KmeansCluster[[3]]$MorningPct)
+
+  writeLines("\n :: MorningPct for cluster 4:")
+  mean(KmeansCluster[[4]]$MorningPct)
+
+  writeLines("\n :: MorningPct for cluster 5:")
+  mean(KmeansCluster[[5]]$MorningPct)
+
+  writeLines("\n :: MorningPct for cluster 6:")
+  mean(KmeansCluster[[6]]$MorningPct)
+
+  writeLines("\n :: MorningPct for cluster 7:")
+  mean(KmeansCluster[[7]]$MorningPct)
+
+  writeLines("\n :: MorningPct for cluster 8:")
+  mean(KmeansCluster[[8]]$MorningPct)
+
+  writeLines("\n :: MorningPct for cluster 9:")
+  mean(KmeansCluster[[9]]$MorningPct)
+
+  writeLines("\n :: MorningPct for cluster 10:")
+  mean(KmeansCluster[[10]]$MorningPct)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Subsetting each cluster content...
+
+ :: MorningPct for cluster 1:
+[1] -0.3484055
+
+ :: MorningPct for cluster 2:
+[1] 0.1998456
+
+ :: MorningPct for cluster 3:
+[1] -0.1824442
+
+ :: MorningPct for cluster 4:
+[1] 2.491061
+
+ :: MorningPct for cluster 5:
+[1] -0.5470039
+
+ :: MorningPct for cluster 6:
+[1] 0.06527668
+
+ :: MorningPct for cluster 7:
+[1] 1.444041
+
+ :: MorningPct for cluster 8:
+[1] -0.8983063
+
+ :: MorningPct for cluster 9:
+[1] -0.238993
+
+ :: MorningPct for cluster 10:
+[1] 0.5047486
+#+end_example
+
+**** Answer
 
 - [ ] Cluster 1
 - [ ] Cluster 2
 - [ ] Cluster 3
-- [ ] Cluster 4
+- [X] Cluster 4
 - [ ] Cluster 5
 - [ ] Cluster 6
 - [ ] Cluster 7
@@ -1931,13 +3223,63 @@ to make a quick purchase"?
 - [ ] Cluster 9
 - [ ] Cluster 10
 
-** TODO Problem 8 - Understanding the Clusters (2 points possible)
+*Explanation*
+
+You can use the "centers" attribute of the clustering output to answer
+this question, or the tapply function.
+
+** DONE Problem 8 - Understanding the Clusters (2 points possible)
+CLOSED: [2015-08-24 Mon 18:22]
+
+*** Question
 
 Which cluster best fits the description "shoppers with high average
 product count and high average value per visit"?
 
+**** Answer
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: High average product count")
+  c(
+          mean(KmeansCluster[[1]]$AvgProdCount),
+          mean(KmeansCluster[[2]]$AvgProdCount),
+          mean(KmeansCluster[[3]]$AvgProdCount),
+          mean(KmeansCluster[[4]]$AvgProdCount),
+          mean(KmeansCluster[[5]]$AvgProdCount),
+          mean(KmeansCluster[[6]]$AvgProdCount),
+          mean(KmeansCluster[[7]]$AvgProdCount),
+          mean(KmeansCluster[[8]]$AvgProdCount),
+          mean(KmeansCluster[[9]]$AvgProdCount),
+          mean(KmeansCluster[[10]]$AvgProdCount)
+  )
+
+  writeLines("\n :: High average value per visit")
+  c(
+          mean(KmeansCluster[[1]]$AvgSalesValue),
+          mean(KmeansCluster[[2]]$AvgSalesValue),
+          mean(KmeansCluster[[3]]$AvgSalesValue),
+          mean(KmeansCluster[[4]]$AvgSalesValue),
+          mean(KmeansCluster[[5]]$AvgSalesValue),
+          mean(KmeansCluster[[6]]$AvgSalesValue),
+          mean(KmeansCluster[[7]]$AvgSalesValue),
+          mean(KmeansCluster[[8]]$AvgSalesValue),
+          mean(KmeansCluster[[9]]$AvgSalesValue),
+          mean(KmeansCluster[[10]]$AvgSalesValue)
+  )
+#+end_src
+
+#+RESULTS:
+:
+:  :: High average product count
+:  [1]  1.47685425  3.73740748  0.29953633 -0.54192010 -0.73554976 -0.36385774
+:  [7]  0.86666142 -0.04997603 -0.85145063 -0.63794295
+:
+:  :: High average value per visit
+:  [1]  1.4630282  3.5747198  0.3028503 -0.5481618 -0.7400683 -0.3240381
+:  [7]  0.9880042 -0.1203396 -0.8051772 -0.6261987
+
 - [ ] Cluster 1
-- [ ] Cluster 2
+- [X] Cluster 2
 - [ ] Cluster 3
 - [ ] Cluster 4
 - [ ] Cluster 5
@@ -1947,11 +3289,56 @@ product count and high average value per visit"?
 - [ ] Cluster 9
 - [ ] Cluster 10
 
-** TODO Problem 9 - Understanding the Clusters (2 points possible)
+** DONE Problem 9 - Understanding the Clusters (2 points possible)
+CLOSED: [2015-08-24 Mon 18:22]
+
+*** Question
 
 Which cluster best fits the description "frequent shoppers with low
 value per visit"?
 
+**** Answer
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Frequent shoppers:")
+  c(
+          mean(KmeansCluster[[1]]$NumVisits),
+          mean(KmeansCluster[[2]]$NumVisits),
+          mean(KmeansCluster[[3]]$NumVisits),
+          mean(KmeansCluster[[4]]$NumVisits),
+          mean(KmeansCluster[[5]]$NumVisits),
+          mean(KmeansCluster[[6]]$NumVisits),
+          mean(KmeansCluster[[7]]$NumVisits),
+          mean(KmeansCluster[[8]]$NumVisits),
+          mean(KmeansCluster[[9]]$NumVisits),
+          mean(KmeansCluster[[10]]$NumVisits)
+  )
+
+  writeLines("\n :: Low value per visit")
+  c(
+          mean(KmeansCluster[[1]]$AvgSalesValue),
+          mean(KmeansCluster[[2]]$AvgSalesValue),
+          mean(KmeansCluster[[3]]$AvgSalesValue),
+          mean(KmeansCluster[[4]]$AvgSalesValue),
+          mean(KmeansCluster[[5]]$AvgSalesValue),
+          mean(KmeansCluster[[6]]$AvgSalesValue),
+          mean(KmeansCluster[[7]]$AvgSalesValue),
+          mean(KmeansCluster[[8]]$AvgSalesValue),
+          mean(KmeansCluster[[9]]$AvgSalesValue),
+          mean(KmeansCluster[[10]]$AvgSalesValue)
+  )
+#+end_src
+
+#+RESULTS:
+:
+:  :: Frequent shoppers:
+:  [1] -0.24811488 -0.48316783 -0.23416257 -0.17987013 -0.24562303  1.48010544
+:  [7] -0.09256621 -0.26199562  4.46367311 -0.34463938
+:
+:  :: Low value per visit
+:  [1]  1.4630282  3.5747198  0.3028503 -0.5481618 -0.7400683 -0.3240381
+:  [7]  0.9880042 -0.1203396 -0.8051772 -0.6261987
+
 - [ ] Cluster 1
 - [ ] Cluster 2
 - [ ] Cluster 3
@@ -1960,10 +3347,11 @@ value per visit"?
 - [ ] Cluster 6
 - [ ] Cluster 7
 - [ ] Cluster 8
-- [ ] Cluster 9
+- [X] Cluster 9
 - [ ] Cluster 10
 
-** TODO Problem 10 - Random Behavior (4 points possible)
+** DONE Problem 10 - Random Behavior (4 points possible)
+CLOSED: [2015-08-24 Mon 18:31]
 
 *** Question a
 
@@ -1972,14 +3360,14 @@ additional calls to set.seed, we would expect:
 
 - [ ] Different results from the first hierarchical clustering
 
-- [ ] Identical results to the first hierarchical clustering
+- [X] Identical results to the first hierarchical clustering
 
 *** Question b
 
 If we ran k-means clustering a second time without making any
 additional calls to set.seed, we would expect:
 
-- [ ] Different results from the first k-means clustering
+- [X] Different results from the first k-means clustering
 
 - [ ] Identical results to the first k-means clustering
 
@@ -1990,18 +3378,29 @@ set.seed(200) right before doing the clustering, we would expect:
 
 - [ ] Different results from the first k-means clustering
 
-- [ ] Identical results to the first k-means clustering
+- [X] Identical results to the first k-means clustering
 
 *** Question d
 
 If we ran k-means clustering a second time, running the command
 set.seed(100) right before doing the clustering, we would expect:
 
-- [ ] Different results from the first k-means clustering
+- [X] Different results from the first k-means clustering
 
 - [ ] Identical results to the first k-means clustering
 
-** TODO Problem 11 - The Number of Clusters (1 point possible)
+*Explanation*
+
+For hierarchical clustering, we expect to always get identical results
+since there is no randomness involved.
+
+For k-means, we expect to get identical results if we set the seed to
+the same value as before right before the clustering. We expect to get
+different results if we don't set the seed, or if we set it to a
+different value from before.
+
+** DONE Problem 11 - The Number of Clusters (1 point possible)
+CLOSED: [2015-08-24 Mon 18:31]
 
 Suppose the marketing department at the retail store decided that the
 10 clusters were too specific, and they wanted more general clusters
@@ -2010,41 +3409,133 @@ the number of clusters?
 
 - [ ] Increase the number of clusters
 
-- [ ] Decrease the number of clusters
+- [X] Decrease the number of clusters
 
 - [ ] Keep it the same (10 clusters), just run it again
 
-** TODO Problem 12 - Increasing the Number of Clusters (2 points possible)
+*Explanation*
+
+To get more general clusters, the number of clusters should be
+decreased. To get more specific clusters, the number of clusters
+should increase.
+
+** DONE Problem 12 - Increasing the Number of Clusters (2 points possible)
+CLOSED: [2015-08-24 Mon 18:34]
 
 Run the k-means clustering algorithm again, this time selecting 5
 clusters. Right before the "kmeans" function, set the random seed
 to 5000.
 
+#+begin_src R :session :results output :exports all
+  k = 5
+  set.seed(5000)
+  KMC2 <- kmeans(HouseholdsNorm, k)
+  str(KMC2)
+
+  sort(table(KMC2$cluster), decreasing = TRUE)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+ ..$ : chr [1:5] "1" "2" "3" "4" ...
+  .. ..$ : chr [1:6] "NumVisits" "AvgProdCount" "AvgDiscount" "AvgSalesValue" ...
+ $ totss       : num 14994
+ $ withinss    : num [1:5] 1264 1838 1336 754 1604
+ $ tot.withinss: num 6795
+ $ betweenss   : num 8199
+ $ size        : int [1:5] 182 994 428 172 724
+ $ iter        : int 7
+ $ ifault      : int 0
+ - attr(*, "class")= chr "kmeans"
+
+  2   5   3   1   4
+994 724 428 182 172
+#+end_example
+
 *** Question a
 
 How many observations are in the smallest cluster?
+
+**** Answer
+
+The smallest cluster has 172 observations
 
 *** Question b
 
 How many observations are in the largest cluster?
 
-** TODO Problem 13 - Describing the Clusters (1 point possible)
+**** Answer
+
+The largest cluster has 994 observations.
+
+*Explanation*
+
+With 5 clusters, the smallest cluster has 172 observations, and the
+largest cluster has 994 observations. These answers can be found by
+using the table function on the "cluster" attribute of the k-means
+result.
+
+** DONE Problem 13 - Describing the Clusters (1 point possible)
+CLOSED: [2015-08-24 Mon 18:40]
+
+*** Question
 
 Using the cluster assignments from k-means clustering with 5 clusters,
 which cluster best fits the description "frequent shoppers with low
 value per visit"?
 
+**** Answer
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Subsetting each cluster content...")
+  KmeansCluster2 = split(HouseholdsNorm, KMC2$cluster)
+
+  writeLines("\n :: Frequent shoppers:")
+  c(
+          mean(KmeansCluster2[[1]]$NumVisits),
+          mean(KmeansCluster2[[2]]$NumVisits),
+          mean(KmeansCluster2[[3]]$NumVisits),
+          mean(KmeansCluster2[[4]]$NumVisits),
+          mean(KmeansCluster2[[5]]$NumVisits)
+  )
+
+  writeLines("\n :: Low value per visit")
+  c(
+          mean(KmeansCluster2[[1]]$AvgSalesValue),
+          mean(KmeansCluster2[[2]]$AvgSalesValue),
+          mean(KmeansCluster2[[3]]$AvgSalesValue),
+          mean(KmeansCluster2[[4]]$AvgSalesValue),
+          mean(KmeansCluster2[[5]]$AvgSalesValue)
+  )
+#+end_src
+
+#+RESULTS:
+:
+:  :: Subsetting each cluster content...
+:
+:  :: Frequent shoppers:
+: [1] -0.3975444 -0.1929547 -0.1685650  2.6945739 -0.1756503
+:
+:  :: Low value per visit
+: [1]  2.3338536 -0.6266840 -0.2447794 -0.4882168  0.5343942
+
 - [ ] Cluster 1
 - [ ] Cluster 2
 - [ ] Cluster 3
-- [ ] Cluster 4
+- [X] Cluster 4
 - [ ] Cluster 5
 
-** TODO Problem 14 - Understanding Centroids (1 point possible)
+*Explanation*
+
+You can use the "centers" attribute of the clustering output to answer
+this question, or the ~tapply~ function.
+
+** DONE Problem 14 - Understanding Centroids (1 point possible)
+CLOSED: [2015-08-24 Mon 19:00]
 
 Why do we typically use cluster centroids to describe the clusters?
 
-- [ ] The cluster centroid captures the average behavior in the
+- [X] The cluster centroid captures the average behavior in the
   cluster, and can be used to summarize the general pattern in the
   cluster.
 
@@ -2057,21 +3548,46 @@ Why do we typically use cluster centroids to describe the clusters?
   single cluster centroid, we can understand how the cluster differs
   from the other clusters.
 
-** TODO Problem 15 - Using a Visualization (1 point possible)
+*Explanation*
+
+The cluster centroid shows average behavior in a single cluster - it
+does not describe every single observation in that cluster or tell us
+how the cluster compares to other clusters.
+
+** DONE Problem 15 - Using a Visualization (1 point possible)
+CLOSED: [2015-08-24 Mon 19:00]
 
 Which of the following visualizations could be used to observe the
 distribution of NumVisits, broken down by cluster? Select all that
 apply.
 
-- [ ] A box plot of the variable NumVisits, subdivided by cluster
+*** Answer
+
+#+begin_src R :session :results output :exports all
+  summary(KmeansCluster2[[1]]$NumVisits)
+#+end_src
+
+#+RESULTS:
+:    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+: -0.9388 -0.7054 -0.5022 -0.3975 -0.1651  1.1100
+
+- [X] A box plot of the variable NumVisits, subdivided by cluster
 
 - [ ] A box plot of the clusters, subdivided by NumVisits values
 
 - [ ] ~ggplot~ with the cluster number on the ~x-axis~ and ~NumVisits~
   on the ~y-axis~, plotting with ~geom_histogram()~
 
-- [ ] ~ggplot~ with ~NumVisits~ on the ~x-axis~ and the cluster number
+- [X] ~ggplot~ with ~NumVisits~ on the ~x-axis~ and the cluster number
   on the ~y-axis~, plotting with ~geom_point()~
+
+*Explanation*
+
+A box plot of NumVisits shows the distribution of the number of visits
+of the households, and we want to subdivide by cluster. Alternatively,
+ggplot with x as the cluster and y as the number of visits plots the
+data, but only geom_point is appropriate to show the distribution of
+the data.
 
 * Part 4. Optimal Course Scheduling [0/10]
 
@@ -2091,19 +3607,19 @@ table. The Thesis course does not have a rating.  "Th" simply denotes
 that Thesis is offered during that particular semester.
 
 
-|          | Fall 2015 | Spring 2016 | Fall 2016 | Spring 2017 |
-|----------+-----------+-------------+-----------+-------------|
-| Opt 101  | 4.8       |         3.5 | N/A       | N/A         |
-| Stat 101 | 2.2       |         4.2 | N/A       | N/A         |
-| Opt 201  | N/A       |         4.1 | 3.7       | 3.9         |
-| Stat 201 | N/A       |         4.6 | 3.9       | 2.3         |
-| Opt E1   | N/A       |         4.9 | N/A       | 4.4         |
-| Opt E2   | 3.4       |         N/A | 4.0       | N/A         |
-| Opt E3   | N/A       |         4.9 | N/A       | N/A         |
-| Stat E1  | N/A       |         2.0 | N/A       | N/A         |
-| Stat E2  | 4.4       |         N/A | 4.7       | N/A         |
-| Stat E3  | N/A       |         N/A | N/A       | 3.8         |
-| Thesis   | N/A       |         N/A | Th        | Th          |
+|   |          | Fall 2015 | Spring 2016 | Fall 2016 | Spring 2017 |
+|---+----------+-----------+-------------+-----------+-------------|
+| A | Opt 101  | 4.8       |         3.5 | N/A       | N/A         |
+| B | Stat 101 | 2.2       |         4.2 | N/A       | N/A         |
+| C | Opt 201  | N/A       |         4.1 | 3.7       | 3.9         |
+| D | Stat 201 | N/A       |         4.6 | 3.9       | 2.3         |
+| E | Opt E1   | N/A       |         4.9 | N/A       | 4.4         |
+| F | Opt E2   | 3.4       |         N/A | 4.0       | N/A         |
+| G | Opt E3   | N/A       |         4.9 | N/A       | N/A         |
+| H | Stat E1  | N/A       |         2.0 | N/A       | N/A         |
+| I | Stat E2  | 4.4       |         N/A | 4.7       | N/A         |
+| J | Stat E3  | N/A       |         N/A | N/A       | 3.8         |
+| K | Thesis   | N/A       |         N/A | Th        | Th          |
 
 The requirements for the program are as follows:
 
@@ -2137,29 +3653,59 @@ How many decision variables will there be in your optimization
 formulation? (HINT: You do not need a variable if a course is not
 offered.)
 
+*** Answer
+
+Number of decision variables:  21
+
+*Explanation*
+
+You should have a decision variable for each course offering in each
+semester that course is available.
+
 ** TODO Problem 2 - The Decision Variables (1 point possible)
 
 What type of decision variables should be used in the optimization
 formulation?
+
+*** Answer
 
 - [ ] Continuous variables allowed to take negative or non-negative
   values
 
 - [ ] Continuous variables limited to non-negative values
 
-- [ ] Binary variables
+- [X] Binary variables
 
 - [ ] Integer variables allowed to take negative or non-negative
   values
 
 - [ ] Integer variables limited to non-negative values
 
+*Explanation*
+
+A variable is 1 if we decide to take the course in that semester, and
+0 otherwise.
+
 ** TODO Problem 3 - The Objective (2 points possible)
 
 Your objective is to maximize the sum of the projected ratings of the
-courses you take. How many decision variables defined in Problem 1
-have to do with courses that have ratings? (These are the decision
-variables that will participate in the objective!)
+courses you take.
+
+*** Question
+
+How many decision variables defined in Problem 1 have to do with
+courses that have ratings? (These are the decision variables that will
+participate in the objective!)
+
+**** Answer
+
+Decision variables: 19
+
+*Explanation*
+
+Since all of the courses that are not Thesis have numerical ratings,
+there are 19 decision variables that will participate in the
+objective.
 
 ** TODO Problem 4 - Scheduling Constraints (4 points possible)
 
@@ -2169,11 +3715,28 @@ You may only take each course offered at most once. How many
 constraints in total do we need to add to the model to ensure this
 requirement is met?
 
+**** Answer
+
+11
+
+*Explanation*
+
+There are 11 unique course offerings. We need a constraint for each
+unique course offering.
+
 *** Question b
 
 You must take exactly two courses per semester (Thesis is counted as a
-course). How many constraints in total do we need to add to the model
+course).How many constraints in total do we need to add to the model
 to ensure this requirement is met?
+
+**** Answer
+
+4
+
+*Explanation*
+
+There are 4 semesters. We need a constraint for each semester.
 
 ** TODO Problem 5 - Solving the Model (4 points possible)
 
@@ -2181,7 +3744,17 @@ Set up and solve this optimization problem in the spreadsheet software
 of your choice (Excel, LibreOffice, or OpenOffice). Remember to define
 all of your decision variables, your objective, and your constraints.
 
+*** Question
+
 What is the optimal objective function value of the solution?
+
+**** Answer
+
+30.5
+
+*Explanation*
+
+The optimal objective function value is 30.5.
 
 ** TODO Problem 6 - Understanding the Solution (2 points possible)
 
@@ -2190,19 +3763,31 @@ What is the optimal objective function value of the solution?
 In the optimal solution, which electives do you take? Select all that
 apply.
 
-- [ ] Opt E1
+**** Answer
+
+- [X] Opt E1
 - [ ] Opt E2
-- [ ] Opt E3
+- [X] Opt E3
 - [ ] Stat E1
-- [ ] Stat E2
+- [X] Stat E2
 - [ ] Stat E3
+
+*Explanation*
+
+Opt E1, Opt E3, and Stat E2 are all taken.
 
 *** Question b
 
 In which semester do you take the Thesis course?
 
-- [ ] Fall 16
+**** Answer
+
+- [X] Fall 16
 - [ ] Spring 17
+
+*Explanation*
+
+You take the Thesis course in Fall of 2016.
 
 ** TODO Problem 7 - Updating the Model (2 points possible)
 
@@ -2219,17 +3804,31 @@ the last two semesters).
 Formulate these new constraints and re-solve. What is the sum of all
 of the ratings for the courses that you take now?
 
+*** Answer
+
+35.2
+
+*Explanation*
+
+The optimal objective value is 35.2.
+
 ** TODO Problem 8 - Updating the Model (1 point possible)
 
 In the new optimal solution, which electives do you take? Select all
 that apply.
 
-- [ ] Opt E1
-- [ ] Opt E2
-- [ ] Opt E3
+*** Answer
+
+- [X] Opt E1
+- [X] Opt E2
+- [X] Opt E3
 - [ ] Stat E1
-- [ ] Stat E2
+- [X] Stat E2
 - [ ] Stat E3
+
+*Explanation*
+
+Opt E1, Opt E2, Opt E3, and Stat E2 are all taken.
 
 ** TODO Problem 9 - Additional Constraints (2 points possible)
 
@@ -2241,9 +3840,16 @@ must take Opt 201 before you can take the Thesis course. With this in
 mind, in the new optimal solution, which of the following could happen
 to the average projected rating of the courses that you take?
 
-- [ ] Decrease, or stay the same as before.
+*** Answer
+
+- [X] Decrease, or stay the same as before.
 
 - [ ] Increase.
+
+*Explanation*
+
+With an additional constraint, the objective value for a maximization
+problem cannot increase.
 
 ** TODO Problem 10 - Sensitivity Analysis (2 points possible)
 
@@ -2256,11 +3862,22 @@ rating for Opt E2 for Fall '16 due to extremely positive feedback from
 a new topic introduced by the professor in Fall '15. They have revised
 the projected rating from 4.0 to 4.2.
 
+*** Question
+
 Will this change affect your course selection for the remaining two
 semesters?
 
+**** Answer
+
 - [ ] Yes
 
-- [ ] No
+- [X] No
 
 - [ ] Cannot be determined without re-solving the optimization problem
+
+*Explanation*
+
+Since taking Opt E2 in Fall '16 was already part of the optimal
+solution, increasing the rating will allow the existing solution to
+enjoy a higher objective value, but the solution itself will remain
+optimal.

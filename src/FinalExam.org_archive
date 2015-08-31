@@ -1,0 +1,210 @@
+#    -*- mode: org -*-
+
+
+Archived entries from file /Users/jaalkabcha/src/TAE/src/FinalExam.org
+
+
+* DONE Problem 3 - A Linear Regression Model (1 point possible)
+CLOSED: [2015-08-22 Sat 05:25]
+:PROPERTIES:
+:ARCHIVE_TIME: 2015-08-24 Mon 05:50
+:ARCHIVE_FILE: ~/src/TAE/src/FinalExam.org
+:ARCHIVE_OLPATH: Part 1. Predicting Box Office revenue
+:ARCHIVE_CATEGORY: FinalExam
+:ARCHIVE_TODO: DONE
+:END:
+
+Build a linear regression model to predict ~Worldwide~ based on all of
+the remaining variables, except for Name and Year. Use the training
+set to build the model. If your training set is called MoviesTrain, an
+easy way to do this it to pass the argument
+
+~data = MoviesTrain[ , 3:ncol(MoviesTrain)]~
+
+to the lm function.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Regression model to predict WorldWide revenue:")
+  names(MoviesTrain)
+  MoviesLinearReg <- lm(Worldwide ~ ., data = MoviesTrain[ , 3:ncol(MoviesTrain)])
+  summary(MoviesLinearReg)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Regression model to predict WorldWide revenue:
+ [1] "Name"              "Year"              "Rated"
+ [4] "Runtime"           "Action"            "Adventure"
+ [7] "Crime"             "Drama"             "Thriller"
+[10] "Fantasy"           "Horror"            "Sci.Fi"
+[13] "Comedy"            "Family"            "Mystery"
+[16] "Romance"           "Animation"         "Music"
+[19] "History"           "Documentary"       "Wins"
+[22] "Nominations"       "Production.Budget" "Worldwide"
+
+Call:
+lm(formula = Worldwide ~ ., data = MoviesTrain[, 3:ncol(MoviesTrain)])
+
+Residuals:
+    Min      1Q  Median      3Q     Max
+-1.8311 -0.3893  0.0809  0.3906  1.6326
+
+Coefficients:
+                    Estimate Std. Error t value Pr(>|t|)
+(Intercept)       15.9976766  1.1580192  13.815  < 2e-16 ***
+RatedG             0.4102319  0.7041759   0.583 0.560774
+RatedN/A           0.5562304  0.7322003   0.760 0.448258
+RatedPG            0.7090507  0.6892058   1.029 0.304696
+RatedPG-13         0.6027509  0.7107462   0.848 0.397322
+RatedR             0.4127760  0.7210913   0.572 0.567608
+Runtime            0.0097079  0.0032359   3.000 0.003007 **
+Action             0.0172144  0.1333332   0.129 0.897389
+Adventure         -0.2232011  0.1283551  -1.739 0.083432 .
+Crime             -0.3315595  0.1473878  -2.250 0.025457 *
+Drama             -0.2097674  0.1881216  -1.115 0.266029
+Thriller          -0.1067814  0.1364400  -0.783 0.434682
+Fantasy            0.1634927  0.1406340   1.163 0.246264
+Horror            -0.6173923  0.2056864  -3.002 0.002993 **
+Sci.Fi            -0.0147251  0.1353512  -0.109 0.913466
+Comedy            -0.1431461  0.1611241  -0.888 0.375276
+Family            -0.3206547  0.1780467  -1.801 0.073067 .
+Mystery            0.1454495  0.1837735   0.791 0.429520
+Romance           -0.0449227  0.2063239  -0.218 0.827840
+Animation          0.6116779  0.2085349   2.933 0.003706 **
+Music             -0.1531571  0.6860353  -0.223 0.823546
+History           -1.3823299  0.6876694  -2.010 0.045624 *
+Documentary       -0.4480795  0.4830499  -0.928 0.354620
+Wins               0.0003704  0.0039940   0.093 0.926186
+Nominations        0.0159878  0.0043745   3.655 0.000321 ***
+Production.Budget  0.1104362  0.0550254   2.007 0.045962 *
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.6431 on 222 degrees of freedom
+Multiple R-squared:  0.5413,	Adjusted R-squared:  0.4896
+F-statistic: 10.48 on 25 and 222 DF,  p-value: < 2.2e-16
+#+end_example
+
+** Question
+
+What is the model's R-squared? (Please report the "Multiple R-squared"
+value in the output.)
+
+*** Answer
+
+Multiple R-squared:  0.5413
+
+* TODO Problem 1: Loading the Data (1 point possible)
+:PROPERTIES:
+:ARCHIVE_TIME: 2015-08-24 Mon 06:43
+:ARCHIVE_FILE: ~/src/TAE/src/FinalExam.org
+:ARCHIVE_OLPATH: Part 2. Forecasting Interest Rate Hikes by the U.S. Federal Reserve
+:ARCHIVE_CATEGORY: FinalExam
+:ARCHIVE_TODO: TODO
+:END:
+
+Use the read.csv function to load the contents of federalFundsRate.csv
+into a data frame called ~fedFunds~, using ~stringsAsFactors=FALSE~.
+
+#+begin_src R :session :results output :exports all
+  library(parallel)
+
+  if(!file.exists("../data")) {
+          dir.create("../data")
+  }
+
+  fileUrl <- "https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/federalFundsRate.csv"
+  fileName <- "federalFundsRate.csv"
+  dataPath <- "../data"
+
+  filePath <- paste(dataPath, fileName, sep = "/")
+
+  if(!file.exists(filePath)) {
+          download.file(fileUrl, destfile = filePath, method = "curl")
+  }
+
+  writeLines("\n :: File downloaded...")
+
+#+end_src
+
+#+RESULTS:
+:
+:  :: File downloaded...
+
+** Question
+
+What proportion of months did the Fed raise the interest rate?
+
+* Answer
+:PROPERTIES:
+:ARCHIVE_TIME: 2015-08-24 Mon 09:39
+:ARCHIVE_FILE: ~/src/TAE/src/FinalExam.org
+:ARCHIVE_OLPATH: Part 2. Forecasting Interest Rate Hikes by the U.S. Federal Reserve/Problem 8 - Interpreting Model Coefficients (1 point possible)/Question
+:ARCHIVE_CATEGORY: FinalExam
+:END:
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Meaning of DemocraticPres as factor:")
+  str(training$DemocraticPres)
+  summary(training$DemocraticPres)
+
+  writeLines("\n :: Summary of the logistic regression model:")
+  summary(glmFFRFit)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Meaning of DemocraticPres as factor:
+ Factor w/ 2 levels "0","1": 2 2 2 2 2 2 2 2 2 2 ...
+  0   1
+228 182
+
+ :: Summary of the logistic regression model:
+
+Call:
+glm(formula = RaisedFedFunds ~ PreviousRate + Streak + Unemployment +
+    HomeownershipRate + DemocraticPres + MonthsUntilElection,
+    family = binomial(), data = training)
+
+Deviance Residuals:
+    Min       1Q   Median       3Q      Max
+-2.8177  -1.0121   0.2301   1.0491   2.5297
+
+Coefficients:
+                     Estimate Std. Error z value Pr(>|z|)
+(Intercept)          9.121012   5.155774   1.769   0.0769 .
+PreviousRate        -0.003427   0.032350  -0.106   0.9156
+Streak               0.157658   0.025147   6.270 3.62e-10 ***
+Unemployment        -0.047449   0.065438  -0.725   0.4684
+HomeownershipRate   -0.136451   0.076872  -1.775   0.0759 .
+DemocraticPres1      0.347829   0.233200   1.492   0.1358
+MonthsUntilElection -0.006931   0.007678  -0.903   0.3666
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 568.37  on 409  degrees of freedom
+Residual deviance: 492.69  on 403  degrees of freedom
+AIC: 506.69
+
+Number of Fisher Scoring iterations: 4
+#+end_example
+
+- [ ] When the president is Democratic, the odds of the federal funds
+  rate increasing are 34.8% higher than in an otherise identical month
+  (i.e. identical among the variables in the model).
+
+- [ ] When the president is Democratic, the odds of the federal funds
+  rate increasing are 34.8% higher than in an average month in the
+  dataset.
+
+- [ ] When the president is Democratic, the odds of the federal funds
+  rate increasing are 41.6% higher than in an otherise identical month
+  (i.e. identical among the variables in the model).
+
+- [ ] When the president is Democratic, the odds of the federal funds
+  rate increasing are 41.6% higher than in an average month in the
+  dataset.

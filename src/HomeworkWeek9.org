@@ -1,0 +1,1284 @@
+#+TITLE:         Assignment 9. Integer Optimization
+#+AUTHOR:        Sergio-Feliciano Mendoza-Barrera
+#+DRAWERS:       sfmb
+#+EMAIL:         smendoza.barrera@gmail.com
+#+DATE:          31/08/2015
+#+DESCRIPTION:   Integer optimization assignment 9
+#+KEYWORDS:      R, data science, emacs, ESS, org-mode, integer optimization
+#+LANGUAGE:      en
+#+OPTIONS:       H:10 num:t toc:nil \n:nil @:t ::t |:t ^:{} -:t f:t *:t <:t d:HIDDEN
+#+OPTIONS:       TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+OPTIONS:       LaTeX:dvipng
+#+INFOJS_OPT:    view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:
+#+LINK_HOME:
+#+XSLT:
+#+STYLE: <link rel="stylesheet" type="text/css" href="dft.css"/>
+
+#+LaTeX_CLASS: IEEEtran
+#+LATEX_CLASS_OPTIONS: [letterpaper, 9pt, onecolumn, twoside, technote, final]
+#+LATEX_HEADER: \usepackage{minted}
+#+LATEX_HEADER: \usepackage{makeidx}
+
+#+LATEX_HEADER: \usepackage[lining,tabular]{fbb} % so math uses tabular lining figures
+#+LATEX_HEADER: \usepackage[scaled=.95,type1]{cabin} % sans serif in style of Gill Sans
+#+LATEX_HEADER: \usepackage[varqu,varl]{zi4}% inconsolata typewriter
+#+LATEX_HEADER: \usepackage[T1]{fontenc} % LY1 also works
+#+LATEX_HEADER: \usepackage[libertine,bigdelims]{newtxmath}
+#+LATEX_HEADER: \usepackage[cal=boondoxo,bb=boondox,frak=boondox]{mathalfa}
+#+LATEX_HEADER: \useosf % change normal text to use proportional oldstyle figures
+
+#+LATEX_HEADER: \markboth{Assignment 9. Integer Optimization}%
+#+LATEX_HEADER: {Sergio-Feliciano Mendoza-Barrera}
+
+#+LATEX_HEADER: \newcommand{\degC}{$^\circ$C{}}
+
+#+STYLE: <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
+
+#+ATTR_HTML: width="500px"
+
+# -*- mode: org; -*-
+#+OPTIONS:   toc:2
+
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/htmlize.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/readtheorg.css"/>
+
+#+HTML_HEAD: <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+#+HTML_HEAD: <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/readtheorg/js/readtheorg.js"></script>
+
+#+BEGIN_ABSTRACT
+Assignment 9. Problems about integer optimization.
+#+END_ABSTRACT
+
+* Selecting Profitable Hotel Sites
+
+La Quinta Motor Inns is a mid-sized hotel chain headquartered in San
+Antonio, Texas. They are looking to expand to more locations, and know
+that selecting good sites is crucial to a hotel chain's success. Of
+the four major marketing considerations (price, product, promotion,
+and location), location has been shown to be one of the most important
+for multisite firms.
+
+Hotel chain owners who can pick good sites quickly have a distinct
+competitive advantage, since they are competing against other chains
+for the same sites. La Quinta used data on 57 existing inn locations
+to build a linear regression model to predict "Profitability",
+computed as the operating margin, or earnings before interest and
+taxes divided by total revenue. They tried many independent variables,
+such as "Number of hotel rooms in the vicinity" and "Age of the
+Inn". All independent variables were normalized to have mean zero and
+standard deviation 1.
+
+The final regression model is given by:
+
+~Profitability = 39.05 - 5.41*(State Population per Inn) + 5.86*(Price~
+~of the Inn) - 3.09*(Square Root of the Median Income of the Area) +~
+~1.75*(College Students in the Area)~
+
+The $R^2$ of the model is 0.51.
+
+In this problem, we'll use this regression model together with integer
+optimization to select the most profitable sites for La Quinta.
+
+** TODO Problem 1.1 - Selecting the Most Profitable Hotels (1 point possible)
+
+According to the regression equation given above, which variables positively affect Profitability? Select all that apply.
+State Population per Inn
+Price of the Inn
+Square Root of the Median Income of the Area
+College Students in the Area
+- unanswered
+
+Explanation
+
+The variables with positive coefficients in the regression equation positively affect profitability: Price of the Inn, and College Students in the Area.
+You have used 0 of 2 submissions
+** TODO Problem 1.2 - Selecting the Most Profitable Hotels (1 point possible)
+
+Using this regression equation, La Quinta created a spreadsheet model to predict profitability, and routinely uses it to screen potential real estate acquisitions. Suppose that La Quinta is looking to expand their locations in California, and has collected data for 16 different potential sites. This data is given in the spreadsheet SelectingHotels.ods for LibreOffice or OpenOffice, and SelectingHotels.xlsx for Microsoft Excel. For each hotel, it lists the location of the hotel, the price, and the value for each of the independent variables used in the regression equation (normalized to have mean zero and standard deviation one).
+
+Using the regression equation, what is the predicted profitability of hotel 1?
+- unanswered
+
+44.24
+
+Explanation
+
+By substituting the data for hotel 1 into the regression equation, we get that:
+
+Profitability = 39.05 - 5.41*(-1.00) + 5.86*(-0.30) - 3.09*(-0.81) + 1.75*(-0.54) = 44.24
+You have used 0 of 3 submissions
+** TODO Problem 1.3 - Selecting the Most Profitable Hotels (1 point possible)
+
+In your spreadsheet, compute the predicted profitability for all hotels.
+
+Which hotel has the highest predicted profitability?
+Hotel 2
+Hotel 6
+Hotel 7
+Hotel 8
+Hotel 12
+Hotel 13
+- unanswered
+
+Explanation
+
+Hotel 2 has the highest predicted profitability of 53.38. This can be computed in the spreadsheet with as:
+
+39.05 - 5.41*(G5) + 5.86*(D5) - 3.09*(E5) + 1.75*(F5)
+You have used 0 of 1 submissions
+** TODO Problem 1.4 - Selecting the Most Profitable Hotels (1 point possible)
+
+Which hotel has the lowest predicted profitability?
+Hotel 2
+Hotel 6
+Hotel 7
+Hotel 8
+Hotel 12
+Hotel 13
+- unanswered
+
+Explanation
+
+Hotel 8 has the lowest predicted profitability of 23.45.
+
+This can be computed in the spreadsheet as:
+
+39.05 - 5.41*(G11) + 5.86*(D11) - 3.09*(E11) + 1.75*(F11)
+You have used 0 of 1 submissions
+** TODO Problem 1.5 - Selecting the Most Profitable Hotels (1 point possible)
+
+La Quinta has a budget of $10,000,000 to spend on hotels. Suppose we just used a "greedy" approach where we selected the most profitable hotels until we ran out of budget. So we would start by buying the hotel we predict to be the most profitable, and then if we had enough budget left, we would buy the hotel we predict to be the second most profitable, etc.
+
+How many hotels would we purchase with this approach?
+1
+2
+3
+4
+5
+- unanswered
+
+Explanation
+
+We would start by buying hotel 2 (the most profitable hotel). This hotel costs $10,000,000, which is our entire budget. Thus, we would buy one hotel.
+You have used 0 of 1 submissions
+** TODO Problem 1.6 - Selecting the Most Profitable Hotels (1 point possible)
+
+What would our total predicted profitability be? (This is the sum of the predicted profitability of all hotels we purchase.)
+- unanswered
+
+53.38
+
+Explanation
+
+Since we just bought one hotel (hotel 2), our total predicted profitability is just the profitability of hotel 2, which is 53.38.
+You have used 0 of 3 submissions
+** TODO Problem 2.1 - An Optimization Approach (3 points possible)
+
+Now, build an optimization model in your spreadsheet to select hotels. The decision variables are whether or not a hotel is selected (binary variables). The objective is to maximize the total predicted profitability. We have two constraints: the decision variables should be binary, and the total cost should not exceed the budget of $10,000,000. Formulate and solve this model in LibreOffice.
+
+What is the objective value of the solution?
+- unanswered
+
+269.925
+
+Explanation
+
+Our formulation in LibreOffice has 16 decision variables (one for each hotel) and one contraint (the budget). The objective is the sumproduct of the decision variables with the profitability. If we formulate and solve this problem, the objective value of the solution is 269.925.
+
+Suppose that you compute the predicted profitability in column H of your table (the profitability is in cells H4:H19) and you put the decision variables in column I of the table (the decision variables are located in cells I4:I19). Then the objective formula would be:
+
+SUMPRODUCT(H4:H19;I4:I19)
+
+And the budget constraint would be:
+
+SUMPRODUCT(C4:C19;I4:I19) <= 10000000
+
+Make sure to indicate that the decision variables should be binary, and that the objective should be maximized.
+
+This is more than five times that of the greedy approach!
+You have used 0 of 8 submissions
+** TODO Problem 2.2 - An Optimization Approach (1 point possible)
+
+How many hotels are selected in the solution?
+- unanswered
+
+7
+
+Explanation
+
+Seven hotels have decision variables equal to 1 in the solution.
+You have used 0 of 3 submissions
+** TODO Problem 2.3 - An Optimization Approach (1 point possible)
+
+How many hotels located in South Lake Tahoe are selected in the solution?
+- unanswered
+
+6
+
+Explanation
+
+Hotels 10-16 are located in South Lake Tahoe, and 6 of these have decision variables equal to 1 in the solution.
+You have used 0 of 3 submissions
+** TODO Problem 2.4 - An Optimization Approach (1 point possible)
+
+La Quinta thinks that buying too many hotels in one city is probably not a good idea, and would prefer to diversify in other cities, even though it will decrease the sum of the predicted profitability. Add a constraint to limit the number of hotels selected in South Lake Tahoe to 2.
+
+What is the objective value of the solution now?
+- unanswered
+
+205.7
+
+Explanation
+
+If we add a constraint to limit the number of hotels in South Lake Tahoe (SUM(I13:I19) less than or equal to 2) and resolve the problem, the objective value of the solution is 205.7.
+You have used 0 of 3 submissions
+** TODO Problem 2.5 - An Optimization Approach (1 point possible)
+
+How many hotels (in total) are selected in the solution now?
+- unanswered
+
+6
+
+Explanation
+
+Now, six decision variables have value 1 in the solution.
+You have used 0 of 3 submissions
+** TODO Problem 2.6 - An Optimization Approach (1 point possible)
+
+In which cities do we buy at least one hotel? Select all that apply.
+Eureka
+Fresno
+Long Beach
+Los Angeles
+South Lake Tahoe
+- unanswered
+
+Explanation
+
+The hotels with decision variables equal to 1 are located in Eureka, Fresno, Los Angeles, and South Lake Tahoe. The only city in which we do not buy a hotel is Long Beach.
+You have used 0 of 2 submissions
+** TODO Problem 2.7 - An Optimization Approach (1 point possible)
+
+In this problem, we compared the greedy approach with an optimization approach, and saw that the optimization approach was much better. This is true in many situations, but not always. In which of the following situations would the greedy approach perform as well as the optimization approach? Select all that apply.
+Instead of maximizing the sum of the profitability of the hotels we select, we wanted to maximize the average profitability of the hotels we select.
+Instead of having a budget constraint, we had a constraint on the number of different hotels we can select (for example, we want to maximize profitability given that we can only select 2 hotels).
+Instead of having a budget of $10,000,000, we had a budget of $20,000,000.
+- unanswered
+
+Explanation
+
+If we want to maximize the average profitability, then it is always optimal to select the hotel that is the most profitable. Additionally, if we don't have a budget constraint, it is optimal to just select the two most profitable hotels. So in the first two situations, the greedy approach would perform as well as the optimization approach. In the third situation, the optimization approach would still perform much better than the greedy approach.
+You have used 0 of 2 submissions
+
+** Acknowledgments
+
+This problem is based on the paper "[[http://pubsonline.informs.org/doi/abs/10.1287/inte.20.2.12][Selecting Profitable Hotel Sites]]
+at La Quinta Motor Inns" by Sheryl E. Kimes and James A. Fitzsimmons,
+Interfaces 20(2), p.12-20, March-April 1990.
+
+* Assigning Sales Regions at Pfizer Turkey
+
+Pfizer, Inc. is one of the world's largest pharmaceutical companies. It was founded in 1849, and aims to discover, develop, and manufacture breakthrough medicines. These medicines are marketed and sold in more than 150 countries. In this problem, we'll focus on the branch of Pfizer in Turkey. Pfizer's immediate customers in Turkey are medical doctors (MDs) because the majority of its products are prescription drugs.
+
+Pfizer pharmaceutical sales representatives (SRs) provide MDs with supply samples and information on indications for drugs and potential adverse effects. To do this, they maintain close relationships with MDs through regular visits. Each SR is assigned a territory, which is a list of MDs to be visited by that SR. Territories are formed by combining smaller regions, called bricks. For each brick, we have information on the sales data, number of MDs, and MD profiles. This information is then used to compute an index value for each brick, which captures various factors to show the workload of the brick in terms of the number of SRs required for it. For example, if the index value is 0.5, then the workload is estimated to be half of a full time workload.
+
+Because of the dynamic structure of the market (MDs leave or move to the area, products become more or less popular, etc.), these index values change over time. Hence, the territories assigned to each SR should be periodically reconstructed to balance the workload between the SRs. We'll solve this re-assignment problem using integer optimization.
+
+** TODO Problem 1.1 - Formulating the Problem (1 point possible)
+
+In Turkey, there are 1,000 bricks and 196 SRs. To reduce the problem size, we'll solve the problem for a single geographical district that has 22 bricks and 4 SRs.
+
+Since we want to assign each brick to an SR, we define a binary variable for each brick and SR pair. So we have binary decision variables xi,j, where xi,j is equal to 1 if brick j is assigned to SR i, and equal to 0 otherwise.
+
+How many decision variables are in our optimization problem? (Note that we are only solving the problem for the smaller geographical district.)
+- unanswered
+
+88
+
+Explanation
+
+Since we have 22 bricks and 4 SRs, we have 22 times 4, or 88 decision variables.
+You have used 0 of 3 submissions
+** TODO Problem 1.2 - Formulating the Problem (1 point possible)
+
+Since the SRs have to visit the MDs in their offices, it is important to minimize the total distance traveled by the SRs. This is our objective. Each SR has an office in a certain brick, called their "center brick". We will compute the total distance traveled by an SR as the sum of the distances between the center brick and every other brick in that SR's territory.
+
+Let di,j denote the distance between the center brick for SR i and the (center of the) brick j. Given our decision variables xi,j, which of the following best describes our objective?
+Minimize the sum of di,j, summed over all i and j.
+Minimize the sum of di,j times the decision variables, summed over all i and j.
+Minimize the sum of the decision variables divided by di,j, summed over all i and j.
+- unanswered
+
+Explanation
+
+We want to sum the distances between a SR's center brick and the bricks assigned to that SR. Decision variable x_(i,j) will be equal to 1 if brick j is assigned to SR i, so by multiplying the distances by the decision variables, we will only sum the distances for the assigned bricks.
+You have used 0 of 1 submissions
+** TODO Problem 1.3 - Formulating the Problem (1 point possible)
+
+We have three main types of constraints. The first is that each brick must be assigned to exactly one SR. Which of the following constraints models this restriction for brick 1?
+x1,1+x1,2+x1,3+x1,4≤1
+x1,1+x1,2+x1,3+x1,4=1
+x1,1+x1,2+x1,3+x1,4≥1
+x1,1+x2,1+x3,1+x4,1≤1
+x1,1+x2,1+x3,1+x4,1=1
+x1,1+x2,1+x3,1+x4,1≥1
+- unanswered
+
+Explanation
+
+Since we want to assign each brick to exactly one SR, we need an equality contraint. Additionally, we want to sum over all 4 SRs, so the correct answer is the second to last one. The second answer sums over the first four bricks instead.
+
+In our optimization problem, we should have a similar constraint for every brick (1 - 22).
+You have used 0 of 1 submissions
+** TODO Problem 1.4 - Formulating the Problem (1 point possible)
+
+The second main type of constraint tries to balance the workload between the SRs. The sum of the index values of the bricks of an SR correspond to his/her total workload and should be approximately 1. To model this, we'll constrain the workload of each SR to range between 0.8 and 1.2. Denote the index value of brick j by Ij. Which of the following constraints do we want to add to our model for SR 1?
+0.8≤(I1+I2+...+I22)∗(x1,1+x1,2+...+x1,22)≤1.2
+0.8≤I1x1,1+I2x1,2+...+I22x1,22≤1.2
+0.8≤I1+I2+...+I22≤1.2
+0.8≤x1,1I1+x1,2I2+...+x1,22I22≤1.2
+- unanswered
+
+Explanation
+
+This is similar to the objective. We want to sum the index values for the bricks assigned to SR 1. By multiplying the decision variables by the index values, we get the total workload assigned to SR 1.
+
+We should have a similar constraint in our model for every SR (1 - 4).
+You have used 0 of 1 submissions
+** TODO Problem 1.5 - Formulating the Problem (1 point possible)
+
+The final set of constraints in our model constrains what we call "disruption", which is defined as the inclusion of new bricks in the territories of SRs. Suppose we have data Ni,j, which equals 1 if brick j is not currently assigned to SR i, and is equal to 0 if brick j is currently assigned to SR i. Which of the following constraints would force no more than 2 new bricks assigned to SR 1?
+N1,1x1,1+N1,2x1,2+...+N1,22x1,22≤2
+N1,1+N1,2+...+N1,22≤2
+x1,1+x1,2+...+x1,22≤2
+- unanswered
+
+Explanation
+
+Again, this is similar to the objective. We want to sum the number of bricks that are new assignments for SR 1. We can do this by multiplying the "new assignment" data by the decision variables.
+
+We should have a similar constraint in our model for every SR (1 - 4).
+You have used 0 of 1 submissions
+** TODO Problem 2.1 - Solving the Problem (3 points possible)
+
+The file PfizerReps.ods for LibreOffice or OpenOffice, and PfizerReps.xlsx for Microsoft Excel contains the data needed to solve this problem (the current assignment of bricks to SRs, the index values, and the distances). Using this data, set up and solve the problem as formulated in Part 1 using LibreOffice.
+
+What is the optimal objective value?
+- unanswered
+
+160.22
+
+Explanation
+
+If you solve the problem in Open Office, the objective value returned is 160.22.
+
+Suppose you put your decision variables in the cells B92:E113 (rows are labeled by the bricks, and columns are labeled by the SRs). Then the objective formula would be:
+
+SUMPRODUCT(B92:E113;B40:E61)
+
+You would have 22 constraints to make sure that each brick is assigned to one SR. For example, the constraint for brick one is:
+
+SUM(B92:E92) = 1
+
+You would have eight constraints to make sure that each SR has a workload between 0.8 and 1.2. For example, the constraints for SR 1 are:
+
+SUMPRODUCT(B92:B113;B14:B35) >= 0.8
+
+SUMPRODUCT(B92:B113;B14:B35) <= 1.2
+
+And you would have a constraint to limit the disruption for each SR. For example, the constraint for SR 1 would be:
+
+SUMPRODUCT(B92:B113;E6:E27) <= 2
+
+Don't forget to minimize your objective, and to indicate that the decision variables should be binary.
+You have used 0 of 8 submissions
+** TODO Problem 2.2 - Solving the Problem (1 point possible)
+
+In the solution, brick 10 is assigned to which SR?
+1
+2
+3
+4
+- unanswered
+
+Explanation
+
+If you look at the decision variable values for brick 10, you can see that there is a 1 in the column for SR 3, and zero for the other SRs. So brick 10 is assigned to SR 3.
+You have used 0 of 1 submissions
+** TODO Problem 2.3 - Solving the Problem (1 point possible)
+
+In the solution, how many new bricks does SR 2 have in her territory? (Note that we are not asking about total bricks here - just the number of bricks now assigned to SR 2 that were previously assigned to a different SR.)
+0
+1
+2
+3
+- unanswered
+
+Explanation
+
+If you look at the left hand side constraint value for the disruption constraint corresponding to SR 2, you can see that it has value 1. This means that SR 2 has one new brick in her territory.
+You have used 0 of 1 submissions
+** TODO Problem 2.4 - Solving the Problem (1 point possible)
+
+In the solution, what is the total workload of SR 1? Remember that the sum of the index values of the bricks of an SR correspond to his/her total workload.
+- unanswered
+
+0.9206
+
+Explanation
+
+The left hand side of the workload constraint for SR 1 is equal to 0.9206. This is the total workload of SR 1.
+You have used 0 of 5 submissions
+** TODO Problem 3.1 - Changing the Restrictions (1 point possible)
+
+In the current problem, we allow the workload of each SR to range from 0.8 to 1.2. In the optimal solution, the workload of the four SRs ranges from 0.837 to 1.1275. This is a pretty large range, and we would like to see if we can balance the workload a little better.
+
+In LibreOffice, change the constraints so that the workload for each SR must be between 0.9 and 1.1, and then resolve the problem.
+
+What is the new objective value?
+- unanswered
+
+171.68
+
+Explanation
+
+If you change the constraints for the workload to have lower bounds of 0.9 and upper bounds of 1.1 and resolve the problem, the objective changes to 171.68.
+You have used 0 of 3 submissions
+** TODO Problem 3.2 - Changing the Restrictions (1 point possible)
+
+Is this smaller or larger than the objective value in the original problem, and why?
+The objective value is smaller than before. Since we are maximizing, the objective value will decrease with more restrictive constraints.
+The objective value is smaller than before. Since we are minimizing, the objective will always get smaller.
+The objective value is larger than before. Since we are maximizing, the objective will always get larger.
+The objective value is larger than before. Since we are minimizing, the objective will increase with more restrictive constraints.
+- unanswered
+
+Explanation
+
+The objective value is larger, and we are minimizing, so the correct answer is the last one.
+You have used 0 of 1 submissions
+** TODO Problem 3.3 - Changing the Restrictions (1 point possible)
+
+Now, keeping the workload constraints bounded between 0.9 and 1.1, increase the disruption bounds to 3 (meaning that each SR can have up to three new bricks assigned to them).
+
+What is the new objective value?
+- unanswered
+
+162.43
+
+Explanation
+
+If you change the disruption constraints to have a right-hand-side of 3 and resolve the model, you can see that the objective function value is 162.43. By making one constraint more restrictive and another less restrictive, we were able to maintain a good solution, and this objective value is very similar to the original one.
+You have used 0 of 3 submissions
+** TODO Problem 3.4 - Changing the Restrictions (1 point possible)
+
+Suppose the head of logistics at Pfizer would like to find a solution with an objective value very similar to that of the original solution (the very first solution we found in this problem), but would like to decrease the disruption bounds to 1. What could he do to keep the objective value close to the original value (the very first objective function value we found)?
+Make the brick assignment constraints more restrictive by changing the constraints to be less than or equal to 1.
+Make the brick assignment constraints less restrictive by changing the right hand side to 2.
+Make the workload constraints more restrictive by changing the bounds to 0.95 and 1.05.
+Make the workload constraints less restrictive by changing the bounds to 0.7 and 1.3.
+- unanswered
+
+Explanation
+
+Since we made one set of constraints more restrictive, we should make another set of constraints less restrictive. The assignment constraints can't become more or less restrictive since they are equality constraints, so the correct answer is the last one.
+You have used 0 of 1 submissions
+** TODO Problem 3.5 - Changing the Restrictions (1 point possible)
+
+Which restrictions or assumptions made in this problem could actually be relaxed to get a better solution (a solution that would minimize the distance traveled by the SRs)? Select all that apply.
+The center brick of each SR could also be re-assigned to try and better center an SR in their territory.
+We could solve for a larger geographical area at once (more bricks and more SRs) so there are more possible assignments.
+We could assign a brick to more than one SR so they could share the workload.
+- unanswered
+
+Explanation
+
+All of the above could be done to try to improve the objective value.
+You have used 0 of 2 submissions
+
+** Acknowledgments
+
+This problem is based on the case study "[[https://www.informs.org/Pubs/ITE/Archive/Volume-9/Case-Article-Assigning-Regions-to-Sales-Representatives-at-Pfizer-Turkey][Assigning Regions to Sales]]
+Representatives at Pfizer Turkey" by Murat Köksalan and Sakine Batun,
+INFORMS Transactions on Education 9(2), p.70-71, January 2009.
+
+* Class Assignments in an Elementary School
+
+The Salanter Akiba Riverdale (SAR) Academy is a coeducational, private
+Modern Orthodox Jewish day school located in New York City. Every
+summer, the SAR Academy must create class assignments for their
+elementary school students. Each grade of 80-100 students must be
+divided into four different classes. Requests for assignments are made
+by parents, teachers, and school therapists. These requests include
+pairs of students that should be placed together, pairs of students
+that should not be placed together, and requests for students to be
+placed in classes that better suit their academic needs. These
+requests often conflict with each other, and it falls on the
+administration to prioritize which requests should be fullfilled over
+others.
+
+In this exercise, we 'll solve a simplified version of the problem
+faced by the SAR Academy with 40 students. The full optimization
+problem is currently being used to assist administrators at the SAR
+Academy.
+
+** TODO Problem 1.1 - Solving the Basic Problem (3 points possible)
+
+The parents or guardians of each of the 40 students are asked to submit preferences for class 1 or class 2. These preferences often depend on the teaching style of the teachers, the teachers older siblings have had in the past, and characteristics of the class (one class is called an "inclusion class", which is better for students with academic needs). The parents give a ranking of 1 to the class they prefer (their first choice), and a ranking of 2 to their second choice. The data for this problem is in the spreadsheet ClassAssignments.ods for LibreOffice or OpenOffice, and ClassAssignments.xlsx for Microsoft Excel.
+
+Download this file, and then formulate and solve the basic assignment problem. The decision variables are very similar to those in the Pfizer Sales Representatives problem. We want to assign each student to either Class 1, or Class 2. Our objective is to adhere to the preferences of the parents as much as possible (note that since smaller numbers in the preferences are better, we will be minimizing in this problem). We have two types of constraints: (1) each student must be assigned to exactly one class, and (2) there should be exactly 20 students in each class.
+
+What is the optimal objective value?
+- unanswered
+
+42
+
+Explanation
+
+There are 80 different decision variables (two for each student). For this explanation, let's suppose that you added the decision variables in cells G5:H44.
+
+The objective is the sumproduct of these decision variables with the preferences, SUMPRODUCT(G5:H44, B5:C44), and we are minimizing the objective.
+
+We have 42 constraints - 40 assignment constraints (each student must be assigned to exactly one class), and 2 classroom constraints (each class must have exactly 20 students). An example constraint for student 1 is "G5+H5 = 1" and an example constraint for class 1 is "SUM(G5:G44) = 20".
+
+Additionally, the decision variables must be binary. If we set-up and solve this problem in LibreOffice, the objective value of the solution is 42.
+
+Additional Note: This problem has multiple optimal solutions! So while everyone should get the same optimal objective function value of 42, your values of the decision variables may be different than the values someone else gets. This happens frequently in problems with little structure, like this one.
+You have used 0 of 8 submissions
+** TODO Problem 1.2 - Solving the Basic Problem (1 point possible)
+
+How many students received their first choice class (according to the parent preferences)?
+- unanswered
+
+38
+
+Explanation
+
+The objective value is 42, which means that 38 students received their first choice and two students received their second choice (1*38 + 2*2 = 42).
+You have used 0 of 3 submissions
+** TODO Problem 1.3 - Solving the Basic Problem (1 point possible)
+
+We would like to better balance the boy/girl ratio in the classes. Add the necessary constraint(s) to your model to limit the number of boys in each class to no more than 12, and then resolve the model.
+
+What is the objective value now?
+- unanswered
+
+46
+
+Explanation
+
+We need to add two constraints to our model. One that constrains the sum of the decision variables for Students 1-23 in class one to be less than or equal to 12, and a second to constrain the sum of the decision variables for Students 1-23 in class two to be less than or equal to 12.
+
+For this explanation, let's suppose that you added the decision variables in cells G5:H44. Then you would need to add the constraints:
+
+Class 1: SUM(G5:G27) <= 12
+
+Class 2: SUM(H5:H27) <= 12
+
+After adding these constraints and resolving the model, the objective value changes to 46.
+You have used 0 of 3 submissions
+** TODO Problem 1.4 - Solving the Basic Problem (1 point possible)
+
+Now how many students received their first choice class?
+- unanswered
+
+34
+
+Explanation
+
+The objective value is 46, which means that 34 students received their first choice and 6 students received their second choice (1*34 + 6*2 = 46).
+
+While the boy/girl ratio is now better balanced (a preference of the teachers and staff), fewer parent preferences are met. The administrative staff could adjust the constraints depending on the importance of the teacher preferences versus the parent preferences.
+You have used 0 of 3 submissions
+** TODO Problem 2.1 - Adding Logical Constraints (1 point possible)
+
+In the next few questions, we'll add some logical constraints to our model that capture additional preferences of parents, teachers, and school therapists. A constraint added in one part will be used in all subsequent parts.
+
+Students 10 and 11 are twins, and the school has a policy that twins must be placed in different classes. Add the necessary constraint(s) to implement this policy, and solve the model again.
+
+What is the objective value now?
+- unanswered
+
+46
+
+Explanation
+
+We need to add two constraints to our model. For this explanation, let's suppose that you added the decision variables in cells G5:H44, so Students 10 and 11 are in rows 14 and 15. Then we need to add the constraints: (1) G14 + G15 <= 1, and (2) H14 + H15 <= 1. This prevents students 10 and 11 from being in the same class. If we add these constraints and resolve the model, the solution changes, but the objective value is still 46.
+You have used 0 of 3 submissions
+
+** TODO Problem 2.2 - Adding Logical Constraints (1 point possible)
+
+Students 4, 9, 15, 25, 30, and 36 are all from the same neighborhood. The school would like to put at least 2 students from this neighborhood in each class. Add the necessary constraint(s) to implement this policy, and solve the model again.
+
+What is the objective value now?
+- unanswered
+
+46
+
+Explanation
+
+For this explanation, let's suppose that you added the decision variables in cells G5:H44.
+
+We need to add two constraints to our model: (1) G8 + G13 + G19 + G34 + G40 >= 2, and (2) H8 + H13 + H19 + H34 + H40 >= 2. These force each class to have at least 2 students from this neighborhood. After adding these constraints and resolving the model, the solution changes but the objective value stays at 46.
+You have used 0 of 3 submissions
+** TODO Problem 2.3 - Adding Logical Constraints (1 point possible)
+
+The school therapist strongly recommends that students 20 and 21 are placed in the same classroom, that student 1 is placed in classroom 2, and that student 40 is placed in classroom 2. Add the necessary constraint(s) to implement this policy, and solve the model again.
+
+What is the objective value now?
+- unanswered
+
+46
+
+Explanation
+
+For this explanation, let's suppose that you added the decision variables in cells G5:H44.
+
+We need to add four constraints: (1) G24 = G25, (2) H24 = H25, (3) H5 = 1, and (4) H44 = 1. If we add these constraints and resolve the model, the objective value remains at 46.
+You have used 0 of 3 submissions
+** TODO Problem 2.4 - Adding Logical Constraints (1 point possible)
+
+How has the objective function value changed in this part, and what does this tell us?
+The objective function value has increased after adding each logical constraint, because adding additional constraints will always make objective function value of the new problem worse than before.
+The objective function value has increased after adding each logical constraint, because we had to put more students in their second choice classes.
+The objective function value has remained the same after adding each logical constraint, because the solution (assignment of students to classrooms) never changed.
+The objective function value has remained the same after adding each logical constraint, because it can't be any larger than the current value.
+The objective function value has remained the same after adding each logical constraint, because the solver was always able to find a solution that satisfies all of the constraints without having to increase the objective value.
+- unanswered
+
+Explanation
+
+The objective value has remained the same after adding each set of logical constraints. This means that there are many solutions that have this objective function value, so the objective value is not very sensitive to adding logical constraints.
+You have used 0 of 1 submissions
+
+** Acknowledgments
+
+This problem is based on the case study "[[https://www.informs.org/Pubs/ITE/Archive/Volume-14/Optimizing-the-Assignment-of-Students-to-Classes-in-an-Elementary-School][Optimizing the Assignment]] of
+Students to Classes in an Elementary School" by Binyamin Krauss, Jon
+Lee, and Daniel Newman, INFORMS Transactions on Education 14(1),
+p.39-44, September 2013.
+
+* Even' star Organic Farm Revisited (OPTIONAL) [0/10]
+
+IMPORTANT NOTE: This problem is optional, and will not count towards
+your grade. We have created this problem to give you extra practice
+with the topics covered in this unit.
+
+Last week in the "Even' Star Organic Farm" optional homework problem,
+we formulated and solved the problem faced by Brett Grohsgal, the
+founder of the organic farm in southern Maryland. This week, we'll use
+integer optimization to improve the formulation and model some new
+decisions faced by Brett. We'll be using the spreadsheet
+EvenStarFarmRevisited.ods for LibreOffice or OpenOffice, and
+EvenStarFarmRevisited.xlsx for Microsoft Excel.
+
+** TODO Problem 1.1 - Adjusting the Formulation
+
+Last week, we saw that Brett has to pay an entry fee for each channel that he participates in. He could instead choose to not participate in a certain channel, and therefore not have to pay the entry fee. This week, we'll model this choice using binary variables to see if we can increase Brett's profit.
+
+Add three new decision variables to your model: one for whether or not Brett participates in the restaurant channel, one for whether or not he participates in the farmers' market channel, and one for whether or not he participates in the CSA channel. (HINT: It will be easy to input your model into Solver if you add these decision variables in the row right below the current decision variable table.)
+
+If Brett chooses not to participate in a channel, two things need to change in our model: (1) he does not have to pay the fixed cost to enter that channel, and (2) he can't sell any cases in that channel.
+
+To remove the fixed cost, take a look at the objective function equation. You should see three terms each subtracting the fixed cost value from the total profit for one of the channels. Multiply each of these terms by the corresponding binary variable you just defined for that channel. Now, if the binary variable is equal to 1, Brett pays the fixed cost, but if the binary variable is equal to 0, Brett does not pay the fixed cost.
+
+Set the value of each of your binary variables equal to 1 (Brett participates in all channels). You should see that the objective value is the same as our best objective value without the binary variables ($49,956.39).
+
+Now, we need to add constraints to make sure that if Brett does not enter a channel (doesn't pay the entry cost), then he also does not sell any cases in this channel. And if he does enter a channel, then he can sell as many cases as he wants in that channel. We'll model this with a special type of logical constraint.
+
+We know that Brett can’t sell more cases than he produced. What is the total number of cases Brett produced?
+- unanswered
+
+1820
+
+Explanation
+
+Brett has 1820 total available cases of all types of produce.
+
+This is the maximum number of cases that Brett can sell in any channel. Call this number M. Add the following constraint to your model for restaurants:
+
+Total number of cases sold to restaurants ≤ M*(Binary variable for restaurants)
+
+What does this constraint do? If the binary variable is equal to 1 (Brett does enter the channel), then he can sell up to M cases in that channel (because he can’t sell more than M cases, this constraint will not limit his sales in the restaurant channel). But if the binary variable is equal to 0 (Brett does not enter the channel), then he can't sell any cases in that channel (the total number of cases in that channel has to be less than or equal to 0).
+
+Add similar constraints for the CSA channel, and the farmers' market channel, and then solve your model in LibreOffice. Be sure to add the new variables, and to indicate that the new variables are binary in the constraints section.
+You have used 0 of 3 submissions
+** TODO Problem 1.2 - Adjusting the Formulation
+
+In the optimal solution, which channels does Brett enter? Select all that apply.
+Restaurants
+CSA
+Farmers' Market
+- unanswered
+
+Explanation
+
+The binary variables have value 1 for restaurants and CSA, but 0 for the Farmers' Market, meaning that he should enter the restaurant and CSA channel, but not the farmers' market channel.
+
+Assuming that you added the new binary variables right below the current decision variables (in cells B34:D34) then the objective formula should now be:
+
+SUMPRODUCT(B26:D33;C6:E13) - B19*(SUM(B26:B33)/119) - B20*B34 - C19*(SUMPRODUCT(C26:C33;D6:D13)/400) - C20*C34 - D20*D34
+
+And you should have added three new constraints:
+
+Restaurant Cases: SUM(B26:B33) <= 1820*B34
+
+CSA Cases: SUM(C26:C33) <= 1820*C34
+
+Farmers' Market Cases: SUM(D26:D33) <= 1820*D34
+
+Don't forget to indicate that the new decision variables are binary in the Solver, and that the objective should be maximized.
+You have used 0 of 2 submissions
+** TODO Problem 1.3 - Adjusting the Formulation
+
+How much extra profit does he gain now compared to before, when he was always entering all of the channels?
+- unanswered
+
+4445.9
+
+Explanation
+
+The new objective value is $54,402.29, and the old objective value was $49,956.39. The difference between the two is $4,445.90, which is the total amount of extra profit.
+You have used 0 of 3 submissions
+** TODO Problem 1.4 - Adjusting the Formulation
+
+How many total cases of produce does Brett sell in the restaurant channel?
+- unanswered
+
+897
+
+Explanation
+
+The sum of the decision variable values for the restaurant channel is 897, which is the total number of cases sold through this channel.
+You have used 0 of 3 submissions
+** TODO Problem 2.1 - Sensitivity Analysis
+
+To maximize his profit, we saw in the optimal solution that Brett should not enter the Farmers' Market channel. However, Brett feels that having a booth at the farmers' market increases his visibility in the community, and is important to his business. Which of the following actions could he take to try to make the farmers' market channel more profitable so that it is worth re-entering? Select all that apply.
+He could increase his prices.
+He could reduce the entry cost.
+He could reduce the variable costs.
+He could buy a bigger truck to increase the number of cases he can sell.
+- unanswered
+
+Explanation
+
+Increasing his prices and/or reducing the entry cost for the farmers' market channel will increase his profits. Reducing the variables costs will not help since they are currently zero, and buying a bigger truck will not help since he currently does not even want to use the truck he has.
+You have used 0 of 2 submissions
+** TODO Problem 2.2 - Sensitivity Analysis
+
+In LibreOffice, which of the following adjustments makes Brett enter the farmers' market channel in the optimal solution? Select all that apply.
+Increasing his prices at the farmers' market by 10%
+Increasing his prices at the farmers' market by 25%
+Reducing his entry cost to $5,000.00
+Reducing his entry cost to $3,000.00
+- unanswered
+
+Explanation
+
+If you increase the prices at the farmers' market by 10% and resolve the model, the solution does not change. However, if you increase the prices by 25%, the solution changes and it becomes profitable to enter the farmers' market channel. Reducing the entry cost to either $5,000 or $3,000 does not change the solution.
+You have used 0 of 2 submissions
+** TODO Problem 2.3 - Sensitivity Analysis
+
+Suppose that Brett finds it easier to increase his prices than to reduce his entry cost, so he decides to increase his prices in the farmers' market by 25%. Make this adjustment in LibreOffice, and re-solve the model (remember to change any other values back to their original values if you have adjusted them to answer any previous questions).
+
+What is the objective value in the new solution?
+- unanswered
+
+54726.68
+
+Explanation
+
+After increasing the prices at the farmers' market and resolving the model, the objective value changes to $54,726.68.
+You have used 0 of 3 submissions
+** TODO Problem 2.4 - Sensitivity Analysis
+
+Which types of produce does he sell at the farmers' market? Select all that apply.
+Tomatoes (large)
+Tomatoes (small)
+Watermelon
+Okra
+Basil
+Cucumbers
+Sweet Potatoes
+Winter Squash
+- unanswered
+
+Explanation
+
+At the farmers' market, Brett should sell large tomatoes, sweet potatoes, and winter squash.
+You have used 0 of 3 submissions
+** TODO Problem 2.5 - Sensitivity Analysis
+
+Which channels does Brett enter now? Select all that apply.
+Restaurants
+CSA
+Farmers' Market
+- unanswered
+
+Explanation
+
+The binary variables for CSA and the farmers' market are equal to 1, so he enters these two channels.
+You have used 0 of 2 submissions
+** TODO Problem 2.6 - Sensitivity Analysis
+
+The decision variables for the number of cases can take fractional values. It seems impractical for Brett to sell a fractional number of cases of any produce at the farmers' market, and he would prefer to always sell an integer number of cases. Restrict the cases decision variables to be integer, and resolve the model. Does the objective value change?
+
+Note that you might need to set the time limit in Solver for this problem. Remember that you can set the time limit by opening up the Solver, and then clicking on Options. If you are using Excel, you want to set "Max Time" to 100. If you are using OpenOffice or LibreOffice, you want to check that "Solving time limit" says 100. If not, click on it and hit "Edit". Change it to 100 and click Okay.
+Yes
+No
+- unanswered
+
+Explanation
+
+No, the objective value does not change. Note that your solution might have changed slightly, so Brett might have had to make some adjustments to his case allocation.
+
+In many situations, the decision variables should take integer values, but we often don't need to add the integer restriction (the solution gives integer values naturally). If this is the case, it is better to not include the integer restriction, since it is a simpler model. However, in some cases, like this one, we needed to add the integer restriction to our model.
+You have used 0 of 1 submissions
+
+** Acknowledgments
+
+This problem is based on the case study "[[https://www.informs.org/Pubs/ITE/Archive/Volume-7/Introducing-Integer-Modeling-with-Excel-Solver][Introducing Integer Modeling]]
+with Excel Solver" by Dessislava Pachamanova, INFORMS Transactions on
+Education 7(1), p.88-98, 2006.
+
+* Gerrymandering New Mexico (OPTIONAL) [0/15]
+
+IMPORTANT NOTE: This problem is optional, and will not count towards
+your grade. We have created this problem to give you extra practice
+with the topics covered in this unit.
+
+In the United States, each state is divided into small regions called
+districts. In every even-numbered year, the citizens who reside in
+each district can vote in an election to determine the representative
+of that district. The representative is a member of the House of
+Representatives, which is one of the two chambers of the Congress of
+the United States. Representatives hold great power, as they can
+propose and vote on bills that later can become laws.
+
+Each representative typically is affiliated with one of the two major
+political parties in the United States: the Democratic Party or the
+Republican Party. Each party naturally wants to ensure that they have
+as many representatives in Congress as possible. One way of achieving
+this is through gerrymandering.
+
+Gerrymandering refers to the process of redrawing district boundaries
+so as to favor a particular political party. To illustrate this,
+suppose we have the hypothetical state below, with three
+districts. Each district is further subdivided along a grid into
+smaller subregions, where each subregion votes unanimously for either
+party. Suppose that in this hypothetical example, there is only one
+voter in each sub-region.
+
+[[../graphs/gerrymandering_bluewins.png]]
+
+Based on the current district boundaries, the blue party has a
+majority in each district, so each district elects a blue
+representative. However, suppose we decide to redraw the boundaries in
+the following way:
+
+[[../graphs/gerrymandering_redwins.png]]
+
+Now the blue party does not win in every district; in fact, the red
+party wins two of the three districts.
+
+In this problem, we will be exploring how to systematically manipulate
+these kinds of boundaries. We will be doing this specifically for the
+state of New Mexico, which is one of the fifty states of the United
+States.
+
+** The Data
+
+The state of New Mexico, located in the south of the US, currently has
+three districts:
+
+[[../graphs/New_Mexico_Congressional_Districts.png]]
+
+The state of New Mexico is also divided into counties:
+
+[[../graphs/New_Mexico_County_Map.png]]
+
+Counties are administrative units that are typically smaller than
+districts. In many states counties are split across districts, but in
+this problem we will assume that the new districts we will design will
+be built from the existing counties.
+
+We have the voting record from the 2012 presidential election for each
+county in New Mexico. We will use the presidential election voting
+record of each county in 2012 as a proxy for how the county will vote
+in the next election for the house of representatives. This data is
+provided in Gerrymandering.ods for LibreOffice and OpenOffice, or
+Gerrymandering.xlsx for Excel.
+
+** The Problem
+
+In the 2012 House of Representatives election, the Democratic party won in New Mexico’s 1st and 3rd districts, while the Republican party won in the 2nd district.
+
+Suppose that we have the opportunity to gerrymander New Mexico, so that we still have three districts. Is there a way to redesign the three districts so that the Democratic party takes all three districts?
+
+This is the topic of our problem — and we will tackle it using integer optimization. Let’s formulate this problem as follows.
+
+Our principal decision variables are xij defined for each district i and each county j, where xij is 1 if county j is assigned to district i and 0 otherwise.
+
+The first scenario we will consider is selecting our objective to maximize the number of votes that the Democratic party wins district 2 by (remember that the Democratic party lost in the 2nd district). If we can get the Democratic party to win district 2 by a margin of at least 100 votes while still winning districts 1 and 3 by a margin of at least 100 votes in each district, the Democratic party will win all three districts.
+
+With regard to constraints, we would like:
+
+    Each county to be assigned to exactly one district;
+    Each district to consist of at least one county; and
+    The Democratic party to still win districts 1 and 3 by a margin of at least 100 votes.
+
+** TODO Problem 1.1 - The Objective
+
+Which of the following is the correct objective function for this problem?
+O1: maximize (D1−R1)x2,1+(D2−R2)x2,2+...+(D33−R33)x2,33, where Dj and Rj are the numbers of Democratic and Republican votes, respectively, cast in county j
+O2: maximize x1,1+x1,2+...+x1,33+x2,1+...+x2,33+x3,1+...+x3,33
+O3: maximize (D1−R1)x1,1+(D2−R2)x1,2+...+(D33−R33)x1,33, where Dj and Rj are the numbers of Democratic and Republican votes, respectively, cast in county j
+O4: maximize x2,1+...+x2,33
+- unanswered
+
+Explanation
+
+O1 is the correct objective function; the sum over all counties i of (Di−Ri)x2,i will be the number of votes that the Democratic party wins district 2 by.
+
+O2 is not correct. O2 merely sums the assignment variables -- this expression does not capture by how much the Democratic Party wins district 2.
+
+O3 is also incorrect. O3 is the same as O1, except that it computes the number of votes that the Democratic Party wins district 1 by.
+
+O4 is also incorrect, because it just sums up the decision variables for district 2.
+You have used 0 of 1 submissions
+** TODO Problem 1.2 - Assignment Constraints
+
+Which of the following sets of inequalities should we add to our model to capture the constraints that each county should be assigned to exactly one district?
+C1: x1,1+x1,2+...+x1,33+x2,1+...+x2,33+x3,1+...+x3,33=33
+C2: x1,j+x2,j+x3,j=1, for j=1,...,33
+C3: xi,1+xi,2+...+xi,33≥1, for i=1,...,3
+C4: xi,j=1, for i=1,...,3, and j=1,...,33
+- unanswered
+
+Which of the following sets of inequalities should we add to our model to capture the constraints that each district should contain at least one county?
+C1: x1,1+x1,2+...+x1,33+x2,1+...+x2,33+x3,1+...+x3,33=33
+C2: x1,j+x2,j+x3,j=1, for j=1,...,33
+C3: xi,1+xi,2+...+xi,33≥1, for i=1,...,3
+C4: xi,j=1, for i=1,...,3, and j=1,...,33
+- unanswered
+
+Explanation
+
+C2 is correct for the first question, and C3 is correct for the second question. C2 ensures that every county is assigned to one -- and only one -- district.
+
+C3 says that the sum of xi,1,xi,2,...xi,33 is at least one; since the xi,j's are binary, this means that for each district, there is at least one county j such that xi,j is 1. This is exactly the constraint that at least one county is assigned to every district.
+You have used 0 of 1 submissions
+** TODO Problem 1.3 - District 1 and 3 Constraints
+
+We would also like to ensure that the Democratic Party still wins districts 1 and 3 (with a margin of 100 votes).
+
+Remember that our data gives us for each county the difference Di−Ri, where Ri is the number of votes cast for the Republican Party, and Di is the number of votes cast for the Democratic Party.
+
+Which of the following is the correct constraint to ensure that the Democratic Party will win district 1 by at least 100 votes?
+C1: (D1−R1)x1,1+(D2−R2)x1,2+...+(D33−R33)x1,33≥100
+C2: (D1−R1)x1,1+(D2−R2)x1,2+...+(D33−R33)x1,33≥0
+C3: For each county j, Djx1,j−Rjx1,j≥100
+- unanswered
+
+We'll need to add a similar constraint to our model for district 3.
+
+Explanation
+
+The first option is the correct answer. The left hand side models the difference of Democratic and Republican votes in district 1, and the constraint says that this difference has to be at least 100.
+
+The second option is incorrect. It requires that the difference in Democratic and Republican votes, in district 1, is nonnegative: in words, the Democratic party wins district 1. This is not what we want.
+
+The third option is also incorrect. This is immediate from the fact that it is specified for each county; the left hand side does not model the difference between the votes cast in district 1.
+You have used 0 of 1 submissions
+** TODO Problem 2.1 - Solving the Problem
+
+Formulate the problem in LibreOffice and solve it. Use the decision variables, the objective and the constraints we defined above. For the vote difference Dj−Rj, use the numbers given under the column "Scenario 1".
+
+By how many votes does the Democratic Party win in district 2 under this redistricting?
+- unanswered
+
+76197
+
+Explanation
+
+This is the optimal objective value of your model. Note that depending on your solver settings, your answer might be slightly different than the answer shown here (we get 76197 in LibreOffice/OpenOffice and 75909 in Excel).
+You have used 0 of 2 submissions
+** TODO Problem 2.2 - Adjusting the Objective
+
+Given the data we have provided, it may seem that there are many ways to redistrict the state so that the Democratic Party wins in all three districts. However, some of the new proposals may not be very different from the existing districts, while some may require drastic changes to the boundaries.
+
+In the spreadsheet, we have included information about the current districts, that is, which counties belong to which districts. (Note that this is an approximate assessment because in New Mexico, districts are not exactly made up of counties.)
+
+Let zij be 1 if district i currently contains county j, and 0 otherwise. We wish to ensure that our proposed district assignments and the current district assignments are as "similar" as possible. Which of the following objectives allows us to correctly do this?
+O1: maximize (x1,1−z1,1)+(x1,2−z1,2)+...+(x1,33−z1,33)+(x2,1−z2,1)+(x2,2−z2,2)+...+(x2,33−z2,33)+(x3,1−z3,1)+(x3,2−z3,2)+...+(x3,33−z3,33)
+O2: minimize z1,1x1,1+z1,2x1,2+...+z1,33x1,33+z2,1x2,1+z2,2x2,2+...+z2,33x2,33+z3,1x3,1+z3,2x3,2+...+z3,33x3,33
+O3: maximize z1,1x1,1+z1,2x1,2+...+z1,33x1,33+z2,1x2,1+z2,2x2,2+...+z2,33x2,33+z3,1x3,1+z3,2x3,2+...+z3,33x3,33
+- unanswered
+
+Explanation
+
+O3 is the correct answer. To see this, fix a county j. If we consider the terms for county j, we have
+
+z1,jx1,j+z2,jx2,j+z3,jx3,j
+
+If the assignment of county j is the same in our proposal and in the current (2012) assignments, then this expression evaluates to one.
+
+If the assignments of county j in our proposal and in the 2012 districts are different, then this expression evaluates to zero. In words, the sum is 0 if county j is assigned differently in the two assignments, and 1 if it is assigned the same way. If we now sum this over all i, as in O3, we get the total number of counties that we assigned the same as the existing 2012 districts. By maximizing this sum, we ensure that our proposal is as similar as possible to the existing 2012 districts.
+
+O1 is not correct. The reason why is that for any solution, the value of this objective is the same.
+
+O2 is not correct because it is minimizing instead of maximizing.
+You have used 0 of 1 submissions
+** TODO Problem 2.3 - Re-Solving the Problem
+
+Modify your problem to include the new objective. The old objective should become a constraint like the ones we have for districts 1 and 3 - we want to ensure that the Democratic party wins by a margin of at least 100 votes in district 2 as well.
+
+You should still be using the "Scenario 1" column for the vote differences.
+
+Solve the problem. How many counties are NOT given new assignments (relative to the 2012 districts -- columns C through E in the spreadsheet) in this new solution?
+- unanswered
+
+32
+
+Explanation
+
+After solving the problem in LibreOffice, the optimal objective is 32. Therefore, the number of counties that do not have new assignments is 32.
+You have used 0 of 2 submissions
+** TODO Problem 2.4 - Understanding the Solution
+
+Which counties have been re-assigned relative to the 2012 assignments (columns C through E in the spreadsheet)? Select all that apply.
+1 - Bernalillo
+2 - Catron
+3 - Chaves
+4 - Cibola
+5 - Colfax
+6 - Curry
+7 - DeBaca
+8 - Dona Ana
+9 - Eddy
+10 - Grant
+11 - Guadalupe
+12 - Harding
+13 - Hidalgo
+14 - Lea
+15 - Lincoln
+16 - Los Alamos
+17 - Luna
+18 - McKinley
+19 - Mora
+20 - Otero
+21 - Quay
+22 - Rio Arriba
+23 - Roosevelt
+24 - Sandoval
+25 - San Juan
+26 - San Miguel
+27 - Santa Fe
+28 - Sierra
+29 - Socorro
+30 - Taos
+31 - Torrance
+32 - Union
+33 - Valencia
+- unanswered
+
+Explanation
+
+Simply compare the values in your assignment cells to the values in columns C through E. By doing this, the only county that has changed is Santa Fe.
+You have used 0 of 2 submissions
+
+In addition to ensuring that the Democratic Party wins in each district, we also may have to take into account other considerations:
+
+    Exactly one of Santa Fe (county 27) or Dona Ana (county 8) must be in district 2.
+    Both Socorro (county 29) and Torrance (county 31) must be in the same district.
+
+
+** TODO Problem 3.1 - A New Constraint
+
+Which of the following constraints models constraint 1 listed above?
+C1: x2,27+x2,8≤1
+C2: x2,27+x2,8=1
+C3: x2,27+x2,8=2
+- unanswered
+
+Explanation
+
+C2 is the correct answer. There are only two ways that C2 can be satisfied: if x2,27=1 and x2,8=0 (Santa Fe is in district 2, and Dona Ana is not in district 2), or if x2,27=0 and x2,8=1 (Santa Fe is not in district 2, and Dona Ana is in district 2).
+
+C1 is incorrect. The meaning of C1 is that at most one of counties 27 and 8 is in district 2.
+
+C3 is also incorrect. C3 can only be satisfied if both Santa Fe and Dona Ana are in district 2. Clearly this is not what we want, so C3 is not appropriate.
+You have used 0 of 1 submissions
+** TODO Problem 3.2 - A New Constraint
+
+Which of the following models constraint 2 listed above?
+C1: x1,29+x2,29+x3,29=x1,31+x2,31+x3,31
+C2: x1,29+2x2,29+3x3,29=x1,31+2x2,31+3x3,31
+C3: x1,29=x1,31
+This constraint cannot be modeled using the variables of our model.
+- unanswered
+
+Explanation
+
+C2 is the correct answer. To see this, consider what the value of the left hand side will be. If county 29 is assigned to district 1, then x1,29 is 1, and x2,29 and x3,29 are both 0, so the value of the left hand side is 1. If county 29 is assigned to district 2, then x2,29=1, and x1,29=x3,29=0, so the value is 2. If county 29 is assigned to district 3, then x3,29=1,x1,29=x2,29=0, so the value is 3. In words, the left hand side exactly models the district to which county 29 is assigned. The right hand side similarly models the district to which county 31 is assigned. By setting these two values to be equal to each other, we ensure that county 29 and county 31 end up in the same district.
+
+C1 is not correct. It can be satisfied by assigning counties 29 and 31 to different districts; for example, if x1,29=1 (so {x2,29=x3,29=0) and if x2,31=1 (so x1,31=x3,31=0), then the left hand side ends up being 1 and the right hand side ends up being 1, even though county 29 is in district 1 and county 31 is in district 2.
+
+C3 is not correct. C3 requires that either both county 29 and 31 are in district 1, or both county 29 and 31 are not in district 1. This is in the right direction, but not quite what we want.
+
+C4 is clearly not correct, as C2 is a valid way to model this constraint.
+You have used 0 of 1 submissions
+** TODO Problem 3.3 - Re-Solving the Problem
+
+Add these two constraints and re-solve the problem. How many counties have been re-assigned (relative to the 2012 assignments in columns C through E of the spreadsheet)?
+- unanswered
+
+2
+
+Explanation
+
+The optimal objective is 31; since the optimal objective counts the number of assignments that are not different relative to the 2012 assignments, the answer is 2.
+You have used 0 of 2 submissions
+** TODO Problem 3.4 - Re-Assigned Counties
+
+Which counties have been re-assigned relative to the 2012 assignments (columns C through E in the spreadsheet)? Select all that apply.
+1 - Bernalillo
+2 - Catron
+3 - Chaves
+4 - Cibola
+5 - Colfax
+6 - Curry
+7 - DeBaca
+8 - Dona Ana
+9 - Eddy
+10 - Grant
+11 - Guadalupe
+12 - Harding
+13 - Hidalgo
+14 - Lea
+15 - Lincoln
+16 - Los Alamos
+17 - Luna
+18 - McKinley
+19 - Mora
+20 - Otero
+21 - Quay
+22 - Rio Arriba
+23 - Roosevelt
+24 - Sandoval
+25 - San Juan
+26 - San Miguel
+27 - Santa Fe
+28 - Sierra
+29 - Socorro
+30 - Taos
+31 - Torrance
+32 - Union
+33 - Valencia
+- unanswered
+
+Explanation
+
+Simply compare the values in the cells containing your assignment decision variables to the values in columns C through E of the spreadsheet.
+You have used 0 of 2 submissions
+** TODO Problem 4.1 - Voting Considerations
+
+So far, we have been using only one voting scenario to design our districts. In this scenario, we’ve assumed that each county will vote in the representative election of its designated district the same way it voted in the 2012 presidential election (scenario 1 in the spreadsheet). For example, Bernalillo county will vote for the Democratic candidate of its district, with a margin of 42,941 more voters (i.e., the number of Democratic votes from Bernalillo is 42,941 higher than the number of Republican votes).
+
+This is a problematic feature of the model, because voters will not vote in this exact way in future elections. In fact, if they vote sufficiently differently, the democratic party may not be able to win all of its representative elections.
+
+To illustrate this, consider the margins under “Scenario 2” in the spreadsheet. Use these values in place of the original margins to compute how many votes more than the Republican party the Democratic Party gets in the districts, given the optimal solution from Problem 11. Which districts does the Democratic Party lose? Select all that apply.
+District 1
+District 2
+District 3
+- unanswered
+
+Explanation
+
+Apply the SUMPRODUCT command using the assignments and the new margins. Doing this, we see that the difference between the Democratic votes and Republican votes in each of the districts are
+
+District 1: -489 votes
+
+District 2: 24899 votes
+
+District 3: 51662 votes
+
+Since district 1 is the only one where the difference is negative, this is the only district the Democrats lose.
+You have used 0 of 1 submissions
+** TODO Problem 4.2 - Voting Scenarios
+
+Let’s change our formulation to make it more robust to changes in voter behavior. Suppose that in addition to the data we have been using so far (based on the 2012 presidential election numbers), we also wish to account for two other scenarios: scenario 2 (which we just used in Problem 12) and scenario 3. These scenarios are based on forecasts obtained from a separate prediction model. Furthermore, we want to make sure that the Democratic party wins by a large margin, so we will change the constraints to ensure that the Democratic party wins at least 12,000 more votes than the republicans.
+
+To do this, we need to revisit our constraints that ensure that the Democratic party wins each district. In particular, the Democratic Party should win each district with a margin of at least 12,000 votes in every scenario; so instead of three constraints (one for each district), we should have nine constraints (one for each district and scenario pair).
+
+Add these constraints to the model, and re-solve it. How many counties have been re-assigned relative to the existing 2012 assignments (columns C through E in the spreadsheet)?
+- unanswered
+
+4
+
+Explanation
+
+After solving the problem, the objective value is 29; since the objective value is the number of counties that have not changed, the answer is 4.
+You have used 0 of 2 submissions
+** TODO Problem 4.3 - Understanding the New Solution
+
+Which counties have been re-assigned? Select all that apply.
+1 - Bernalillo
+2 - Catron
+3 - Chaves
+4 - Cibola
+5 - Colfax
+6 - Curry
+7 - DeBaca
+8 - Dona Ana
+9 - Eddy
+10 - Grant
+11 - Guadalupe
+12 - Harding
+13 - Hidalgo
+14 - Lea
+15 - Lincoln
+16 - Los Alamos
+17 - Luna
+18 - McKinley
+19 - Mora
+20 - Otero
+21 - Quay
+22 - Rio Arriba
+23 - Roosevelt
+24 - Sandoval
+25 - San Juan
+26 - San Miguel
+27 - Santa Fe
+28 - Sierra
+29 - Socorro
+30 - Taos
+31 - Torrance
+32 - Union
+33 - Valencia
+- unanswered
+
+Explanation
+
+Simply compare the values in the cells containing your assignment decision variables to the values in columns C through E of the spreadsheet.
+You have used 0 of 2 submissions
+** TODO Problem 4.4 - Margin of Victory
+
+By what margin does the Democratic Party win in district 3 in Scenario 2?
+- unanswered
+
+18054
+
+By what margin does the Democratic Party win in district 1 in Scenario 3?
+- unanswered
+
+12095
+
+Explanation
+
+You can find these numbers by looking at the left-hand-sides of the constraints.

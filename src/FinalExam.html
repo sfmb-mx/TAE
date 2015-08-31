@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2015-08-22 Sat 06:04 -->
+<!-- 2015-08-24 Mon 06:19 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="viewport" content="width=device-width, initial-scale=1" />
 <title>The Analytical Edge. Final Evaluation</title>
@@ -154,6 +154,28 @@ for the JavaScript code in this tag.
  }
 /*]]>*///-->
 </script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
 </head>
 <body>
 <div id="content">
@@ -939,8 +961,8 @@ alone.
 </div>
 </div>
 
-<div id="outline-container-orgheadline66" class="outline-2">
-<h2 id="orgheadline66"><span class="section-number-2">3</span> Part 1. Predicting Box OFfice revenue <code>[4/16]</code></h2>
+<div id="outline-container-orgheadline84" class="outline-2">
+<h2 id="orgheadline84"><span class="section-number-2">3</span> Part 1. Predicting Box Office revenue <code>[15/17]</code></h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Each year, box offices at movie theaters collect billions of dollars
@@ -1180,6 +1202,16 @@ How many observations are in the testing set <code>MoviesTest</code>?
 <p>
 86 observations are available in the <code>MoviesTest</code> set.
 </p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+The dataset can be loaded into R using the <code>read.csv</code> function. After
+following the lines given to split the data, the number of
+observations can be found with the nrow or str functions.
+</p>
 </div>
 </div>
 </div>
@@ -1212,6 +1244,17 @@ dependent variable is not a factor variable.</li>
 <li class="off"><code>[&#xa0;]</code> We have too many observations for the sample.split function to
 work.</li>
 </ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+The <code>sample.split</code> function is used to split data for a classification
+problem (a categorical dependent variable) and we have a continuous
+dependent variable here. We also do not wish to split our data
+randomly.
+</p>
 </div>
 </div>
 
@@ -1219,7 +1262,7 @@ work.</li>
 <h3 id="orgheadline38"><span class="section-number-3">3.3</span> <span class="done DONE">DONE</span> Problem 3 - A Linear Regression Model (1 point possible)</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
-Build a linear regression model to predict "Worldwide" based on all of
+Build a linear regression model to predict <code>Worldwide</code> based on all of
 the remaining variables, except for Name and Year. Use the training
 set to build the model. If your training set is called MoviesTrain, an
 easy way to do this it to pass the argument
@@ -1312,6 +1355,15 @@ value in the output.)
 <p>
 Multiple R-squared:  0.5413
 </p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+You can build the linear regression model using the <code>lm</code> function, and
+find the R-squared by looking at the summary of the resulting model.
+</p>
 </div>
 </div>
 </div>
@@ -1350,14 +1402,24 @@ significant. Select all that apply.
 <li class="on"><code>[X]</code> Nominations</li>
 <li class="on"><code>[X]</code> Production.Budget</li>
 </ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+The significance can be found by looking at the summary output.
+</p>
 </div>
 </div>
 
-<div id="outline-container-orgheadline43" class="outline-3">
-<h3 id="orgheadline43"><span class="section-number-3">3.5</span> <span class="todo TODO">TODO</span> Problem 5 - Correlations (2 points possible)</h3>
+<div id="outline-container-orgheadline44" class="outline-3">
+<h3 id="orgheadline44"><span class="section-number-3">3.5</span> <span class="done DONE">DONE</span> Problem 5 - Correlations (2 points possible)</h3>
 <div class="outline-text-3" id="text-3-5">
-</div><div id="outline-container-orgheadline41" class="outline-4">
-<h4 id="orgheadline41"><span class="section-number-4">3.5.1</span> Question a</h4>
+</div>
+
+<div id="outline-container-orgheadline42" class="outline-4">
+<h4 id="orgheadline42"><span class="section-number-4">3.5.1</span> Question a</h4>
 <div class="outline-text-4" id="text-3-5-1">
 <p>
 What is the correlation between Worldwide and Production.Budget in the
@@ -1427,10 +1489,23 @@ cor(MoviesTrain$Worldwide, MoviesTrain$Production.Budget)
 </pre>
 </div>
 </div>
+
+<div id="outline-container-orgheadline41" class="outline-5">
+<h5 id="orgheadline41"><span class="section-number-5">3.5.1.2</span> Answer</h5>
+<div class="outline-text-5" id="text-3-5-1-2">
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+The correlations can be computed using the <code>cor</code> function.
+</p>
+</div>
+</div>
 </div>
 
-<div id="outline-container-orgheadline42" class="outline-4">
-<h4 id="orgheadline42"><span class="section-number-4">3.5.2</span> Question b</h4>
+<div id="outline-container-orgheadline43" class="outline-4">
+<h4 id="orgheadline43"><span class="section-number-4">3.5.2</span> Question b</h4>
 <div class="outline-text-4" id="text-3-5-2">
 <p>
 Given this value, should Production.Budget be included in the model?
@@ -1443,12 +1518,21 @@ is correlated with a dependent variable.</li>
 <li class="off"><code>[&#xa0;]</code> No, having highly correlated variables in a regression model can
 affect the quality of the resulting predictions.</li>
 </ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+A strong correlation between an independent variable and the dependent
+variable suggests high predictive value.
+</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgheadline45" class="outline-3">
-<h3 id="orgheadline45"><span class="section-number-3">3.6</span> <span class="todo TODO">TODO</span> Problem 6 - An Updated Model (1 point possible)</h3>
+<div id="outline-container-orgheadline47" class="outline-3">
+<h3 id="orgheadline47"><span class="section-number-3">3.6</span> <span class="done DONE">DONE</span> Problem 6 - An Updated Model (1 point possible)</h3>
 <div class="outline-text-3" id="text-3-6">
 <p>
 Create a new linear regression model on the training set with only the
@@ -1456,70 +1540,235 @@ significant variables you found in Problem 4 as the independent
 variables. Going forward, we will only consider this linear regression
 model.
 </p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Subsetting the most significant features..."</span>)
+MoviesTrain <span style="color: #db7093;">&lt;-</span> MoviesTrain[, c(4, 7, 11, 17, 19, 22, 23, 24)]
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Regression model to predict WorldWide revenue:"</span>)
+MoviesLinearReg2 <span style="color: #db7093;">&lt;-</span> lm(Worldwide ~ ., data = MoviesTrain)
+summary(MoviesLinearReg2)
+</pre>
 </div>
 
-<div id="outline-container-orgheadline44" class="outline-4">
-<h4 id="orgheadline44"><span class="section-number-4">3.6.1</span> Question</h4>
+<pre class="example">
+ :: Subsetting the most significant features...
+
+ :: Regression model to predict WorldWide revenue:
+
+Call:
+lm(formula = Worldwide ~ ., data = MoviesTrain)
+
+Residuals:
+     Min       1Q   Median       3Q      Max
+-1.87336 -0.36913  0.07701  0.37701  1.93620
+
+Coefficients:
+                   Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)       15.531741   0.803224  19.337  &lt; 2e-16 ***
+Runtime            0.010095   0.002634   3.833 0.000162 ***
+Crime             -0.293315   0.120701  -2.430 0.015829 *
+Horror            -0.427419   0.141596  -3.019 0.002814 **
+Animation          0.465257   0.166530   2.794 0.005629 **
+History           -1.556980   0.650418  -2.394 0.017443 *
+Nominations        0.017313   0.003010   5.751 2.68e-08 ***
+Production.Budget  0.152527   0.046708   3.266 0.001252 **
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.6426 on 240 degrees of freedom
+Multiple R-squared:  0.5048,	Adjusted R-squared:  0.4904
+F-statistic: 34.95 on 7 and 240 DF,  p-value: &lt; 2.2e-16
+</pre>
+</div>
+
+<div id="outline-container-orgheadline46" class="outline-4">
+<h4 id="orgheadline46"><span class="section-number-4">3.6.1</span> Question</h4>
 <div class="outline-text-4" id="text-3-6-1">
 <p>
 What is the model's R-squared? (Please report the "Multiple R-squared"
 value in the output.)
 </p>
 </div>
+
+<div id="outline-container-orgheadline45" class="outline-5">
+<h5 id="orgheadline45"><span class="section-number-5">3.6.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-3-6-1-1">
+<p>
+Multiple R-squared:  0.5048
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+You can build the linear regression model using the <code>lm</code> function, and
+find the R-squared by looking at the summary of the resulting model.
+</p>
+</div>
+</div>
 </div>
 </div>
 
-<div id="outline-container-orgheadline48" class="outline-3">
-<h3 id="orgheadline48"><span class="section-number-3">3.7</span> <span class="todo TODO">TODO</span> Problem 7 - Understanding Coefficients (2 points possible)</h3>
+<div id="outline-container-orgheadline52" class="outline-3">
+<h3 id="orgheadline52"><span class="section-number-3">3.7</span> <span class="done DONE">DONE</span> Problem 7 - Understanding Coefficients (2 points possible)</h3>
 <div class="outline-text-3" id="text-3-7">
-</div><div id="outline-container-orgheadline46" class="outline-4">
-<h4 id="orgheadline46"><span class="section-number-4">3.7.1</span> Question a</h4>
+</div>
+
+<div id="outline-container-orgheadline49" class="outline-4">
+<h4 id="orgheadline49"><span class="section-number-4">3.7.1</span> Question a</h4>
 <div class="outline-text-4" id="text-3-7-1">
 <p>
 In the model from Problem 6, what is the coefficient for Animation in
 the linear regression?
 </p>
 </div>
+
+<div id="outline-container-orgheadline48" class="outline-5">
+<h5 id="orgheadline48"><span class="section-number-5">3.7.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-3-7-1-1">
+<p>
+Animation:          0.465257
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+The coefficient can be read by running <code>summary</code> on the linear
+regression model.
+</p>
+</div>
+</div>
 </div>
 
-<div id="outline-container-orgheadline47" class="outline-4">
-<h4 id="orgheadline47"><span class="section-number-4">3.7.2</span> Question b</h4>
+<div id="outline-container-orgheadline51" class="outline-4">
+<h4 id="orgheadline51"><span class="section-number-4">3.7.2</span> Question b</h4>
 <div class="outline-text-4" id="text-3-7-2">
 <p>
 The coefficient for Runtime is 0.010095. What is the interpretation of
 this coefficient?
 </p>
+</div>
+
+<div id="outline-container-orgheadline50" class="outline-5">
+<h5 id="orgheadline50"><span class="section-number-5">3.7.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-3-7-2-1">
+<div class="org-src-container">
+
+<pre class="src src-R">RT <span style="color: #db7093;">&lt;-</span> c(0, 1, 2, 3, 4, 5)
+a <span style="color: #db7093;">&lt;-</span> 0.010095
+WW <span style="color: #db7093;">&lt;-</span> a * RT
+WW
+</pre>
+</div>
+
+<pre class="example">
+[1] 0.000000 0.010095 0.020190 0.030285 0.040380 0.050475
+</pre>
 
 <ul class="org-ul">
 <li class="off"><code>[&#xa0;]</code> For an additional unit of the variable Worldwide, the Runtime
 increases by approximately 0.01 minutes.</li>
 
-<li class="off"><code>[&#xa0;]</code> For an additional minute of Runtime, the prediction for the
+<li class="on"><code>[X]</code> For an additional minute of Runtime, the prediction for the
 variable Worldwide increases by approximately 0.01 units.</li>
 
 <li class="off"><code>[&#xa0;]</code> For each additional minute of Runtime, the variable Worldwide
 will definitely increase by approximately 0.01 units; thus,
 directors should strive to make their movies as long as possible.</li>
 </ul>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+The coefficient should be interpreted as the change in the predicted
+value of the dependent variable associated with a one unit change in
+the independent variable. We cannot interpret the coefficient to imply
+causality about the relationship between <code>Runtime</code> and <code>Worldwide</code>.
+</p>
+</div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgheadline52" class="outline-3">
-<h3 id="orgheadline52"><span class="section-number-3">3.8</span> <span class="todo TODO">TODO</span> Problem 8 - Predictions on the Test Set (1 point possible)</h3>
+<div id="outline-container-orgheadline59" class="outline-3">
+<h3 id="orgheadline59"><span class="section-number-3">3.8</span> <span class="done DONE">DONE</span> Problem 8 - Predictions on the Test Set (1 point possible)</h3>
 <div class="outline-text-3" id="text-3-8">
-</div><div id="outline-container-orgheadline49" class="outline-4">
-<h4 id="orgheadline49"><span class="section-number-4">3.8.1</span> Question a</h4>
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Making some predictions in the testing set..."</span>)
+MoviesPredTest1 = predict(MoviesLinearReg2, newdata = MoviesTest)
+summary(MoviesPredTest1)
+</pre>
+</div>
+
+<pre class="example">
+:: Making some predictions in the testing set...
+  Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+ 18.34   19.27   19.80   19.75   20.29   21.59
+</pre>
+
+<p>
+Calculating the SSE, SST and R-squared
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Calculating the SSE in the testing set:"</span>)
+SSE <span style="color: #db7093;">&lt;-</span> sum((MoviesTest$Worldwide - MoviesPredTest1)^2)
+SSE
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Calculatind the SST:"</span>)
+SST <span style="color: #db7093;">&lt;-</span> sum((MoviesTest$Worldwide - mean(MoviesTrain$Worldwide))^2)
+SST
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Compute out-of-sample R^2"</span>)
+R2 <span style="color: #db7093;">&lt;-</span> 1 - (SSE/SST)
+R2
+</pre>
+</div>
+
+<pre class="example">
+ :: Calculating the SSE in the testing set:
+[1] 25.0006
+
+ :: Calculatind the SST:
+[1] 60.43398
+
+ :: Compute out-of-sample R^2
+[1] 0.5863155
+</pre>
+</div>
+
+<div id="outline-container-orgheadline54" class="outline-4">
+<h4 id="orgheadline54"><span class="section-number-4">3.8.1</span> Question a</h4>
 <div class="outline-text-4" id="text-3-8-1">
 <p>
 Make predictions on the test set using your linear regression
 model. What is the Sum of Squared Errors (SSE) on the test set?
 </p>
 </div>
+
+<div id="outline-container-orgheadline53" class="outline-5">
+<h5 id="orgheadline53"><span class="section-number-5">3.8.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-3-8-1-1">
+<p>
+\($
+SSE = 25.0006
+$\)
+</p>
+</div>
+</div>
 </div>
 
-<div id="outline-container-orgheadline50" class="outline-4">
-<h4 id="orgheadline50"><span class="section-number-4">3.8.2</span> Question b</h4>
+<div id="outline-container-orgheadline56" class="outline-4">
+<h4 id="orgheadline56"><span class="section-number-4">3.8.2</span> Question b</h4>
 <div class="outline-text-4" id="text-3-8-2">
 <p>
 What is the Total Sum of Squares (SST) on the test set? Remember to
@@ -1527,20 +1776,55 @@ use the mean of Worldwide on the training set as the "baseline
 model".
 </p>
 </div>
-</div>
 
-<div id="outline-container-orgheadline51" class="outline-4">
-<h4 id="orgheadline51"><span class="section-number-4">3.8.3</span> Question c</h4>
-<div class="outline-text-4" id="text-3-8-3">
+<div id="outline-container-orgheadline55" class="outline-5">
+<h5 id="orgheadline55"><span class="section-number-5">3.8.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-3-8-2-1">
 <p>
-What is the R-squared on the test set?
+\($
+SST = 60.43398
+$\)
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgheadline53" class="outline-3">
-<h3 id="orgheadline53"><span class="section-number-3">3.9</span> <span class="todo TODO">TODO</span> Problem 9 - Understanding the Model (1 point possible)</h3>
+<div id="outline-container-orgheadline58" class="outline-4">
+<h4 id="orgheadline58"><span class="section-number-4">3.8.3</span> Question c</h4>
+<div class="outline-text-4" id="text-3-8-3">
+<p>
+What is the R-squared on the test set?
+</p>
+</div>
+
+<div id="outline-container-orgheadline57" class="outline-5">
+<h5 id="orgheadline57"><span class="section-number-5">3.8.3.1</span> Answer</h5>
+<div class="outline-text-5" id="text-3-8-3-1">
+<p>
+\($
+R^2 = 0.5863155
+$\)
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+Predictions on the test set can be computed with the predict
+function. Then the SSE can be computed by taking the sum of the
+squared differences between the predictions and the actual values, the
+SST can be computed by taking the sum of the squared differences
+between the mean on the training set and the actual values, and the
+R-squared can be computed as \(1 - SSE/SST\).
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline60" class="outline-3">
+<h3 id="orgheadline60"><span class="section-number-3">3.9</span> <span class="done DONE">DONE</span> Problem 9 - Understanding the Model (1 point possible)</h3>
 <div class="outline-text-3" id="text-3-9">
 <p>
 True or False: Our linear regression model suffers from overfitting.
@@ -1548,13 +1832,29 @@ True or False: Our linear regression model suffers from overfitting.
 
 <ul class="org-ul">
 <li class="off"><code>[&#xa0;]</code> True</li>
-<li class="off"><code>[&#xa0;]</code> False</li>
+<li class="on"><code>[X]</code> False</li>
 </ul>
+
+<p>
+The predicted R-squared doesn’t have to be negative to indicate an
+overfit model. If you see the predicted R-squared start to fall as you
+add predictors, even if they’re significant, you should begin to worry
+about overfitting the model.
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+False. The R-squared value on the test set is higher than on the
+training set, so there is no overfitting going on here.
+</p>
 </div>
 </div>
 
-<div id="outline-container-orgheadline57" class="outline-3">
-<h3 id="orgheadline57"><span class="section-number-3">3.10</span> <span class="todo TODO">TODO</span> Problem 10 - A Classification Problem (2 points possible)</h3>
+<div id="outline-container-orgheadline65" class="outline-3">
+<h3 id="orgheadline65"><span class="section-number-3">3.10</span> <span class="done DONE">DONE</span> Problem 10 - A Classification Problem (2 points possible)</h3>
 <div class="outline-text-3" id="text-3-10">
 <p>
 Let's turn this problem into a multi-class classification problem by
@@ -1566,43 +1866,89 @@ bottom quartile, respectively. Create this variable, called
 your R console:
 </p>
 
-<p>
-<code>Movies$Performance = factor(ifelse(Movies$Worldwide &gt;</code>
-<code>quantile(Movies$Worldwide, .75), "Excellent", ifelse(Movies$Worldwide</code>
-<code>&gt; quantile(Movies$Worldwide, .25), "Average", "Poor")))</code>
-</p>
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: New dependent variable for a mult-class classification problem..."</span>)
+Movies$Performance <span style="color: #db7093;">&lt;-</span> factor(ifelse(Movies$Worldwide &gt; quantile(Movies$Worldwide,
+                             0.75), <span style="color: #ff6a6a;">"Excellent"</span>, ifelse(Movies$Worldwide &gt;
+                             quantile(Movies$Worldwide, 0.25), <span style="color: #ff6a6a;">"Average"</span>, <span style="color: #ff6a6a;">"Poor"</span>)))
+
+summary(Movies$Performance)
+</pre>
 </div>
 
-<div id="outline-container-orgheadline54" class="outline-4">
-<h4 id="orgheadline54"><span class="section-number-4">3.10.1</span> Question a</h4>
+<pre class="example">
+:: New dependent variable for a mult-class classification problem...
+ Average Excellent      Poor
+     166        84        84
+</pre>
+</div>
+
+<div id="outline-container-orgheadline62" class="outline-4">
+<h4 id="orgheadline62"><span class="section-number-4">3.10.1</span> Question a</h4>
 <div class="outline-text-4" id="text-3-10-1">
 <p>
 How many movies in the dataset Movies have Performance value Average?
 </p>
 </div>
+
+<div id="outline-container-orgheadline61" class="outline-5">
+<h5 id="orgheadline61"><span class="section-number-5">3.10.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-3-10-1-1">
+<p>
+Average: 166
+</p>
+</div>
+</div>
 </div>
 
-<div id="outline-container-orgheadline55" class="outline-4">
-<h4 id="orgheadline55"><span class="section-number-4">3.10.2</span> Question b</h4>
+<div id="outline-container-orgheadline64" class="outline-4">
+<h4 id="orgheadline64"><span class="section-number-4">3.10.2</span> Question b</h4>
 <div class="outline-text-4" id="text-3-10-2">
 <p>
 How many movies in the dataset Movies have Performance value
 Excellent?
 </p>
 </div>
+
+<div id="outline-container-orgheadline63" class="outline-5">
+<h5 id="orgheadline63"><span class="section-number-5">3.10.2.1</span> Answer</h5>
+<div class="outline-text-5" id="text-3-10-2-1">
+<p>
+Excellent: 84
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+After running the given lines in your R console, you can find these
+answers with the table or summary function.
+</p>
+</div>
+</div>
+</div>
 </div>
 
-<div id="outline-container-orgheadline56" class="outline-4">
-<h4 id="orgheadline56"><span class="section-number-4">3.10.3</span> Notes</h4>
-<div class="outline-text-4" id="text-3-10-3">
+<div id="outline-container-orgheadline66" class="outline-3">
+<h3 id="orgheadline66"><span class="section-number-3">3.11</span> <span class="done DONE">DONE</span> Important change to the <code>Movies</code> dataset</h3>
+<div class="outline-text-3" id="text-3-11">
 <p>
 Now, remove the original dependent variable "Worldwide" from your
 dataset with the command:
 </p>
 
-<p>
-<code>Movies$Worldwide = NULL</code>
-</p>
+<div class="org-src-container">
+
+<pre class="src src-R">Movies$Worldwide <span style="color: #db7093;">&lt;-</span> <span style="color: #3cb371;">NULL</span>
+writeLines(<span style="color: #ff6a6a;">"\n :: Worldwide dependent variable removed..."</span>)
+</pre>
+</div>
+
+<pre class="example">
+:: Worldwide dependent variable removed...
+</pre>
 
 <p>
 Then, randomly split Movies into a training set, containing 70% of the
@@ -1611,13 +1957,75 @@ observations. This time, you should use the sample.split function with
 the dependent variable "Performance". Right before calling the
 sample.split function, set the seed to 15071.
 </p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Spliting the data set in a training and testing dataframes..."</span>)
+<span style="color: #db7093;">library</span>(caTools)
+set.seed(15071)
+spl <span style="color: #db7093;">&lt;-</span> sample.split(Movies$Performance, SplitRatio = 0.7)
+MoviesTrain <span style="color: #db7093;">&lt;-</span> subset(Movies, spl == <span style="color: #3cb371;">TRUE</span>)
+MoviesTest <span style="color: #db7093;">&lt;-</span> subset(Movies, spl == <span style="color: #3cb371;">FALSE</span>)
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Training dataset structure:"</span>)
+str(MoviesTrain)
+</pre>
 </div>
+
+<pre class="example">
+ :: Spliting the data set in a training and testing dataframes...
+
+ :: Training dataset structure:
+'data.frame':	234 obs. of  24 variables:
+ $ Name             : chr  "Batman" "Batman Forever" "Batman &amp; Robin" "The Dark Knight" ...
+ $ Year             : int  1989 1995 1997 2008 2012 2002 2006 2004 2003 2007 ...
+ $ Rated            : Factor w/ 6 levels "Approved","G",..: 5 5 5 3 5 6 6 5 5 4 ...
+ $ Runtime          : int  126 121 125 152 165 113 117 101 101 96 ...
+ $ Action           : int  1 1 1 1 1 0 1 1 0 0 ...
+ $ Adventure        : int  1 1 0 0 0 0 0 1 0 0 ...
+ $ Crime            : int  0 0 0 1 0 0 0 0 0 0 ...
+ $ Drama            : int  0 0 0 1 0 0 0 0 1 0 ...
+ $ Thriller         : int  0 0 0 0 1 0 0 0 0 0 ...
+ $ Fantasy          : int  0 1 0 0 0 0 1 0 1 1 ...
+ $ Horror           : int  0 0 0 0 0 1 0 0 0 0 ...
+ $ Sci.Fi           : int  0 0 0 0 0 0 0 1 0 0 ...
+ $ Comedy           : int  0 0 0 0 0 0 0 0 1 1 ...
+ $ Family           : int  0 0 0 0 0 0 0 0 0 1 ...
+ $ Mystery          : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ Romance          : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ Animation        : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ Music            : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ History          : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ Documentary      : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ Wins             : int  10 9 5 134 43 10 12 2 7 2 ...
+ $ Nominations      : int  21 20 20 106 83 25 30 2 7 10 ...
+ $ Production.Budget: num  18.1 19.1 19.2 19.2 19.4 ...
+ $ Performance      : Factor w/ 3 levels "Average","Excellent",..: 2 1 1 2 2 3 1 1 1 1 ...
+</pre>
+
+<p>
+Now, it is important that all the character features are classified as
+factors in order to apply the algorithm
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Converting the Name feature to a factor type..."</span>)
+Movies$Name <span style="color: #db7093;">&lt;-</span> as.factor(Movies$Name)
+str(Movies$Name)
+</pre>
+</div>
+
+<pre class="example">
+:: Converting the Name feature to a factor type...
+Factor w/ 334 levels "2 Fast 2 Furious",..: 28 32 31 29 30 247 248 4 5 6 ...
+</pre>
 </div>
 </div>
 
-<div id="outline-container-orgheadline60" class="outline-3">
-<h3 id="orgheadline60"><span class="section-number-3">3.11</span> <span class="todo TODO">TODO</span> Problem 11 - A CART Model (1 point possible)</h3>
-<div class="outline-text-3" id="text-3-11">
+<div id="outline-container-orgheadline70" class="outline-3">
+<h3 id="orgheadline70"><span class="section-number-3">3.12</span> <span class="done DONE">DONE</span> Problem 11 - A CART Model (1 point possible)</h3>
+<div class="outline-text-3" id="text-3-12">
 <p>
 Build a CART model to predict "Performance" using all of the other
 variables except for "Name and "Year" to build the model. (Unless you
@@ -1629,20 +2037,82 @@ function in the same way as for a binary classification problem. Just
 use the default parameter settings (don't set a value for minbucket or
 cp).
 </p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Loading rpart and rpart.plot..."</span>)
+<span style="color: #db7093;">library</span>(rpart)
+<span style="color: #db7093;">library</span>(rpart.plot)
+writeLines(<span style="color: #ff6a6a;">"\n :: rpart and r.part.plot libraries loaded..."</span>)
+</pre>
 </div>
 
-<div id="outline-container-orgheadline58" class="outline-4">
-<h4 id="orgheadline58"><span class="section-number-4">3.11.1</span> Question a</h4>
-<div class="outline-text-4" id="text-3-11-1">
+<pre class="example">
+:: Loading rpart and rpart.plot...
+
+:: rpart and r.part.plot libraries loaded...
+</pre>
+
+<p>
+Generating the CART model
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">MoviesCART <span style="color: #db7093;">&lt;-</span> rpart(Performance ~ ., data = MoviesTrain[ ,
+                                3:ncol(MoviesTrain)], method = <span style="color: #ff6a6a;">"class"</span>)
+writeLines(<span style="color: #ff6a6a;">"\n :: CART model DONE..."</span>)
+</pre>
+</div>
+
+<pre class="example">
+:: CART model DONE...
+</pre>
+
+<p>
+Plotting the movies CART model
+</p>
+
+
+<div id="orgparagraph3" class="figure">
+<p><img src="../graphs/MoviesTrainCARTModel.png" alt="MoviesTrainCARTModel.png" />
+</p>
+<p><span class="figure-number">Figure 3:</span> Movie train CART model</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline68" class="outline-4">
+<h4 id="orgheadline68"><span class="section-number-4">3.12.1</span> Question a</h4>
+<div class="outline-text-4" id="text-3-12-1">
 <p>
 How many splits are in the resulting tree?
 </p>
 </div>
+
+<div id="outline-container-orgheadline67" class="outline-5">
+<h5 id="orgheadline67"><span class="section-number-5">3.12.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-3-12-1-1">
+<p>
+9 Splits
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+You can build the CART model using the rpart function. You can then
+check how many splits there are by plotting the CART tree using
+<code>prp</code>.
+</p>
+</div>
+</div>
 </div>
 
-<div id="outline-container-orgheadline59" class="outline-4">
-<h4 id="orgheadline59"><span class="section-number-4">3.11.2</span> Question b</h4>
-<div class="outline-text-4" id="text-3-11-2">
+
+<div id="outline-container-orgheadline69" class="outline-4">
+<h4 id="orgheadline69"><span class="section-number-4">3.12.2</span> Question b</h4>
+<div class="outline-text-4" id="text-3-12-2">
 <p>
 The CART model you just built predicts only two possible outcomes for
 a movie with Production.Budget less than 18. Which outcome does it
@@ -1650,57 +2120,272 @@ never predict for these low-budget films?
 </p>
 
 <ul class="org-ul">
-<li class="off"><code>[&#xa0;]</code> Excellent</li>
+<li class="on"><code>[X]</code> Excellent</li>
 <li class="off"><code>[&#xa0;]</code> Average</li>
 <li class="off"><code>[&#xa0;]</code> Poor</li>
 </ul>
-</div>
-</div>
-</div>
 
-<div id="outline-container-orgheadline61" class="outline-3">
-<h3 id="orgheadline61"><span class="section-number-3">3.12</span> <span class="todo TODO">TODO</span> Problem 12 - Training Set Accuracy (1 point possible)</h3>
-<div class="outline-text-3" id="text-3-12">
 <p>
-Make predictions on the training set, and then create a confusion
-matrix. What is the overall accuracy of the model?
+<b>Explanation</b>
+</p>
+
+<p>
+For movies with <code>Production.Budget</code> less than 18, the model only
+predicts either "Average" or "Poor" revenue performance, depending on
+how many Wins the movie has.
 </p>
 </div>
 </div>
+</div>
 
-<div id="outline-container-orgheadline62" class="outline-3">
-<h3 id="orgheadline62"><span class="section-number-3">3.13</span> <span class="todo TODO">TODO</span> Problem 13 - A Baseline Model (1 point possible)</h3>
+<div id="outline-container-orgheadline73" class="outline-3">
+<h3 id="orgheadline73"><span class="section-number-3">3.13</span> <span class="done DONE">DONE</span> Problem 12 - Training Set Accuracy (1 point possible)</h3>
 <div class="outline-text-3" id="text-3-13">
+<p>
+Make predictions on the training set, and then create a confusion
+matrix.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Predicting the outcomes..."</span>)
+PredictTrainCART <span style="color: #db7093;">&lt;-</span> predict(MoviesCART, data = MoviesTrain[ ,
+                                      3:ncol(MoviesTrain)], type = <span style="color: #ff6a6a;">"class"</span>)
+
+writeLines(<span style="color: #ff6a6a;">"\n :: We can see the confusion matrix:"</span>)
+c <span style="color: #db7093;">&lt;-</span> table(MoviesTrain$Performance, PredictTrainCART)
+c
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Overall Accuracy:"</span>)
+(c[1, 1] + c[2, 2] + c[3, 3]) / nrow(MoviesTrain)
+</pre>
+</div>
+
+<pre class="example">
+ :: Predicting the outcomes...
+
+ :: We can see the confusion matrix:
+           PredictTrainCART
+            Average Excellent Poor
+  Average        96         9   11
+  Excellent      17        41    1
+  Poor           11         2   46
+
+ :: Overall Accuracy:
+[1] 0.7820513
+</pre>
+</div>
+
+<div id="outline-container-orgheadline72" class="outline-4">
+<h4 id="orgheadline72"><span class="section-number-4">3.13.1</span> Question</h4>
+<div class="outline-text-4" id="text-3-13-1">
+<p>
+What is the overall accuracy of the model?
+</p>
+</div>
+
+<div id="outline-container-orgheadline71" class="outline-5">
+<h5 id="orgheadline71"><span class="section-number-5">3.13.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-3-13-1-1">
+<p>
+Accuracy :: 0.7820513
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+Predictions can be computed with the predict function (remembering to
+add the argument <code>type="class")</code>, and then the confusion matrix can be
+created with the table function.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline76" class="outline-3">
+<h3 id="orgheadline76"><span class="section-number-3">3.14</span> <span class="done DONE">DONE</span> Problem 13 - A Baseline Model (1 point possible)</h3>
+<div class="outline-text-3" id="text-3-14">
+</div>
+
+<div id="outline-container-orgheadline75" class="outline-4">
+<h4 id="orgheadline75"><span class="section-number-4">3.14.1</span> Question</h4>
+<div class="outline-text-4" id="text-3-14-1">
 <p>
 What is the accuracy on the training set of a baseline model that
 predicts the most frequent outcome (Average) for all observations?
 </p>
 </div>
+
+<div id="outline-container-orgheadline74" class="outline-5">
+<h5 id="orgheadline74"><span class="section-number-5">3.14.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-3-14-1-1">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Confusion matrix for the baseline model:"</span>)
+c <span style="color: #db7093;">&lt;-</span> table(MoviesTrain$Performance)
+c
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Baseline model accuracy:"</span>)
+c[1] / (c[1] + c[2] + c[3])
+</pre>
 </div>
 
-<div id="outline-container-orgheadline63" class="outline-3">
-<h3 id="orgheadline63"><span class="section-number-3">3.14</span> <span class="todo TODO">TODO</span> Problem 14 - Testing Set Accuracy (1 point possible)</h3>
-<div class="outline-text-3" id="text-3-14">
+<pre class="example">
+ :: Confusion matrix for the baseline model:
+
+  Average Excellent      Poor
+      116        59        59
+
+ :: Baseline model accuracy:
+  Average
+0.4957265
+</pre>
+
 <p>
-Make predictions on the testing set, and then create a confusion
-matrix. What is the overall accuracy of the model on the testing set?
+Baseline model accuracy :: 0.4957265
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+The accuracy of the baseline model can be determined by using the
+<code>table</code> function to find that Average is the most frequent outcome.
 </p>
 </div>
 </div>
+</div>
+</div>
 
-<div id="outline-container-orgheadline64" class="outline-3">
-<h3 id="orgheadline64"><span class="section-number-3">3.15</span> <span class="todo TODO">TODO</span> Problem 15 - Baseline Accuracy on Testing Set (1 point possible)</h3>
+<div id="outline-container-orgheadline80" class="outline-3">
+<h3 id="orgheadline80"><span class="section-number-3">3.15</span> <span class="done DONE">DONE</span> Problem 14 - Testing Set Accuracy (1 point possible)</h3>
 <div class="outline-text-3" id="text-3-15">
+<p>
+Make predictions on the testing set, and then create a confusion
+matrix.
+</p>
+</div>
+
+<div id="outline-container-orgheadline79" class="outline-4">
+<h4 id="orgheadline79"><span class="section-number-4">3.15.1</span> Question</h4>
+<div class="outline-text-4" id="text-3-15-1">
+<p>
+What is the overall accuracy of the model on the testing set?
+</p>
+</div>
+
+<div id="outline-container-orgheadline77" class="outline-5">
+<h5 id="orgheadline77"><span class="section-number-5">3.15.1.1</span> Answer</h5>
+<div class="outline-text-5" id="text-3-15-1-1">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Predicting the outcomes..."</span>)
+PredictCART <span style="color: #db7093;">&lt;-</span> predict(MoviesCART, newdata = MoviesTest [ ,
+                                      3:ncol(MoviesTest)], type = <span style="color: #ff6a6a;">"class"</span>)
+
+writeLines(<span style="color: #ff6a6a;">"\n :: We can see the confusion matrix:"</span>)
+c <span style="color: #db7093;">&lt;-</span> table(MoviesTest$Performance, PredictCART)
+c
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Overall accuracy:"</span>)
+(c[1, 1] + c[2, 2] + c[3, 3]) / nrow(MoviesTest)
+</pre>
+</div>
+
+<pre class="example">
+ :: Predicting the outcomes...
+
+ :: We can see the confusion matrix:
+           PredictCART
+            Average Excellent Poor
+  Average        36         8    6
+  Excellent       9        16    0
+  Poor            8         1   16
+
+ :: Overall accuracy:
+[1] 0.68
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgheadline78" class="outline-5">
+<h5 id="orgheadline78"><span class="section-number-5">3.15.1.2</span> Answer</h5>
+<div class="outline-text-5" id="text-3-15-1-2">
+<p>
+Overall accuracy: 0.68
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+Predictions can be computed with the predict function, and then the
+confusion matrix can be created with the <code>table</code> function.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline82" class="outline-3">
+<h3 id="orgheadline82"><span class="section-number-3">3.16</span> <span class="todo TODO">TODO</span> Problem 15 - Baseline Accuracy on Testing Set (1 point possible)</h3>
+<div class="outline-text-3" id="text-3-16">
 <p>
 What is the accuracy on the testing set of a baseline model that
 predicts the most frequent outcome (Average) for all observations?
 </p>
 </div>
+
+<div id="outline-container-orgheadline81" class="outline-4">
+<h4 id="orgheadline81"><span class="section-number-4">3.16.1</span> Answer</h4>
+<div class="outline-text-4" id="text-3-16-1">
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Confusion matrix for the baseline model:"</span>)
+c <span style="color: #db7093;">&lt;-</span> table(MoviesTest$Performance)
+c
+
+writeLines(<span style="color: #ff6a6a;">"\n :: Baseline model accuracy:"</span>)
+c[1] / (c[1] + c[2] + c[3])
+</pre>
 </div>
 
-<div id="outline-container-orgheadline65" class="outline-3">
-<h3 id="orgheadline65"><span class="section-number-3">3.16</span> <span class="todo TODO">TODO</span> Problem 16 - Understanding the Model (1 point possible)</h3>
-<div class="outline-text-3" id="text-3-16">
+<pre class="example">
+ :: Confusion matrix for the baseline model:
+
+  Average Excellent      Poor
+       50        25        25
+
+ :: Baseline model accuracy:
+Average
+    0.5
+</pre>
+
+<p>
+Baseline model accuracy:  0.5
+</p>
+
+<p>
+<b>Explanation</b>
+</p>
+
+<p>
+The accuracy of the baseline model can be determined by using the
+table function to see how many observations have a Performance of
+Excellent in the testing set.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline83" class="outline-3">
+<h3 id="orgheadline83"><span class="section-number-3">3.17</span> <span class="todo TODO">TODO</span> Problem 16 - Understanding the Model (1 point possible)</h3>
+<div class="outline-text-3" id="text-3-17">
 <p>
 What can you conclude from the CART model?
 </p>
@@ -1720,8 +2405,8 @@ classification problem.</li>
 </div>
 </div>
 
-<div id="outline-container-orgheadline84" class="outline-2">
-<h2 id="orgheadline84"><span class="section-number-2">4</span> Part 2. Forecasting Interest Rate Hikes by the U.S. Federal Reserve <code>[0/17]</code></h2>
+<div id="outline-container-orgheadline102" class="outline-2">
+<h2 id="orgheadline102"><span class="section-number-2">4</span> Part 2. Forecasting Interest Rate Hikes by the U.S. Federal Reserve <code>[0/17]</code></h2>
 <div class="outline-text-2" id="text-4">
 <p>
 The federal funds rate is the key interest rate that the U.S. Federal
@@ -1776,8 +2461,8 @@ U.S. presidential election.</li>
 </ul>
 </div>
 
-<div id="outline-container-orgheadline67" class="outline-3">
-<h3 id="orgheadline67"><span class="section-number-3">4.1</span> <span class="todo TODO">TODO</span> Problem 1: Loading the Data (1 point possible)</h3>
+<div id="outline-container-orgheadline85" class="outline-3">
+<h3 id="orgheadline85"><span class="section-number-3">4.1</span> <span class="todo TODO">TODO</span> Problem 1: Loading the Data (1 point possible)</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 Use the read.csv function to load the contents of federalFundsRate.csv
@@ -1787,8 +2472,8 @@ proportion of months did the Fed raise the interest rate?
 </div>
 </div>
 
-<div id="outline-container-orgheadline68" class="outline-3">
-<h3 id="orgheadline68"><span class="section-number-3">4.2</span> <span class="todo TODO">TODO</span> Problem 2: The Longest-Serving Fed Chair (1 point possible)</h3>
+<div id="outline-container-orgheadline86" class="outline-3">
+<h3 id="orgheadline86"><span class="section-number-3">4.2</span> <span class="todo TODO">TODO</span> Problem 2: The Longest-Serving Fed Chair (1 point possible)</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 Which Federal Reserve Chair has presided over the most interest rate
@@ -1807,8 +2492,8 @@ decisions?
 </div>
 </div>
 
-<div id="outline-container-orgheadline69" class="outline-3">
-<h3 id="orgheadline69"><span class="section-number-3">4.3</span> <span class="todo TODO">TODO</span> Problem 3 - Converting Variables to Factors (1 point possible)</h3>
+<div id="outline-container-orgheadline87" class="outline-3">
+<h3 id="orgheadline87"><span class="section-number-3">4.3</span> <span class="todo TODO">TODO</span> Problem 3 - Converting Variables to Factors (1 point possible)</h3>
 <div class="outline-text-3" id="text-4-3">
 <p>
 Convert the following variables to factors using the <code>as.factor</code>
@@ -1834,8 +2519,8 @@ stored as a factor variable when training a model for classification?
 </div>
 </div>
 
-<div id="outline-container-orgheadline70" class="outline-3">
-<h3 id="orgheadline70"><span class="section-number-3">4.4</span> <span class="todo TODO">TODO</span> Problem 4 - Splitting into a Training and Testing Set (1 point possible)</h3>
+<div id="outline-container-orgheadline88" class="outline-3">
+<h3 id="orgheadline88"><span class="section-number-3">4.4</span> <span class="todo TODO">TODO</span> Problem 4 - Splitting into a Training and Testing Set (1 point possible)</h3>
 <div class="outline-text-3" id="text-4-4">
 <p>
 Obtain a random training/testing set split with:
@@ -1876,8 +2561,8 @@ testing sets</li>
 </div>
 </div>
 
-<div id="outline-container-orgheadline71" class="outline-3">
-<h3 id="orgheadline71"><span class="section-number-3">4.5</span> <span class="todo TODO">TODO</span> Problem 5 - Training a Logistic Regression Model (1 point possible)</h3>
+<div id="outline-container-orgheadline89" class="outline-3">
+<h3 id="orgheadline89"><span class="section-number-3">4.5</span> <span class="todo TODO">TODO</span> Problem 5 - Training a Logistic Regression Model (1 point possible)</h3>
 <div class="outline-text-3" id="text-4-5">
 <p>
 Train a logistic regression model using independent variables
@@ -1909,8 +2594,8 @@ rate was raised.</li>
 </div>
 </div>
 
-<div id="outline-container-orgheadline72" class="outline-3">
-<h3 id="orgheadline72"><span class="section-number-3">4.6</span> <span class="todo TODO">TODO</span> Problem 6 - Predicting Using a Logistic Regression Model (1 point possible)</h3>
+<div id="outline-container-orgheadline90" class="outline-3">
+<h3 id="orgheadline90"><span class="section-number-3">4.6</span> <span class="todo TODO">TODO</span> Problem 6 - Predicting Using a Logistic Regression Model (1 point possible)</h3>
 <div class="outline-text-3" id="text-4-6">
 <p>
 Imagine you are an analyst at a bank and your manager has asked you to
@@ -1926,8 +2611,8 @@ will be raised?
 </div>
 </div>
 
-<div id="outline-container-orgheadline73" class="outline-3">
-<h3 id="orgheadline73"><span class="section-number-3">4.7</span> <span class="todo TODO">TODO</span> Problem 8 - Interpreting Model Coefficients (1 point possible)</h3>
+<div id="outline-container-orgheadline91" class="outline-3">
+<h3 id="orgheadline91"><span class="section-number-3">4.7</span> <span class="todo TODO">TODO</span> Problem 8 - Interpreting Model Coefficients (1 point possible)</h3>
 <div class="outline-text-3" id="text-4-7">
 <p>
 What is the meaning of the coefficient labeled "DemocraticPres1" in
@@ -1954,8 +2639,8 @@ dataset.</li>
 </div>
 </div>
 
-<div id="outline-container-orgheadline74" class="outline-3">
-<h3 id="orgheadline74"><span class="section-number-3">4.8</span> <span class="todo TODO">TODO</span> Problem 8 - Obtaining Test Set Predictions (2 points possible)</h3>
+<div id="outline-container-orgheadline92" class="outline-3">
+<h3 id="orgheadline92"><span class="section-number-3">4.8</span> <span class="todo TODO">TODO</span> Problem 8 - Obtaining Test Set Predictions (2 points possible)</h3>
 <div class="outline-text-3" id="text-4-8">
 <p>
 Using your logistic regression model, obtain predictions on the test
@@ -1970,8 +2655,8 @@ set.)
 </div>
 </div>
 
-<div id="outline-container-orgheadline75" class="outline-3">
-<h3 id="orgheadline75"><span class="section-number-3">4.9</span> <span class="todo TODO">TODO</span> Problem 9 - Computing Test-Set AUC (2 points possible)</h3>
+<div id="outline-container-orgheadline93" class="outline-3">
+<h3 id="orgheadline93"><span class="section-number-3">4.9</span> <span class="todo TODO">TODO</span> Problem 9 - Computing Test-Set AUC (2 points possible)</h3>
 <div class="outline-text-3" id="text-4-9">
 <p>
 What is the test-set AUC of the logistic regression model?
@@ -1979,8 +2664,8 @@ What is the test-set AUC of the logistic regression model?
 </div>
 </div>
 
-<div id="outline-container-orgheadline76" class="outline-3">
-<h3 id="orgheadline76"><span class="section-number-3">4.10</span> <span class="todo TODO">TODO</span> Problem 10 - Interpreting AUC (1 point possible)</h3>
+<div id="outline-container-orgheadline94" class="outline-3">
+<h3 id="orgheadline94"><span class="section-number-3">4.10</span> <span class="todo TODO">TODO</span> Problem 10 - Interpreting AUC (1 point possible)</h3>
 <div class="outline-text-3" id="text-4-10">
 <p>
 What is the meaning of the AUC?
@@ -1997,8 +2682,8 @@ whether or not a shoe will be sold</li>
 </div>
 </div>
 
-<div id="outline-container-orgheadline77" class="outline-3">
-<h3 id="orgheadline77"><span class="section-number-3">4.11</span> <span class="todo TODO">TODO</span> Problem 11 - ROC Curves (1 point possible)</h3>
+<div id="outline-container-orgheadline95" class="outline-3">
+<h3 id="orgheadline95"><span class="section-number-3">4.11</span> <span class="todo TODO">TODO</span> Problem 11 - ROC Curves (1 point possible)</h3>
 <div class="outline-text-3" id="text-4-11">
 <p>
 Which logistic regression threshold is associated with the upper-right
@@ -2014,8 +2699,8 @@ corner of the ROC plot (true positive rate 1 and false positive rate
 </div>
 </div>
 
-<div id="outline-container-orgheadline78" class="outline-3">
-<h3 id="orgheadline78"><span class="section-number-3">4.12</span> <span class="todo TODO">TODO</span> Problem 12 - ROC Curves (1 point possible)</h3>
+<div id="outline-container-orgheadline96" class="outline-3">
+<h3 id="orgheadline96"><span class="section-number-3">4.12</span> <span class="todo TODO">TODO</span> Problem 12 - ROC Curves (1 point possible)</h3>
 <div class="outline-text-3" id="text-4-12">
 <p>
 Plot the colorized ROC curve for the logistic regression model's
@@ -2038,8 +2723,8 @@ true positive rate of 85% and a false positive rate of 60%?
 </div>
 </div>
 
-<div id="outline-container-orgheadline79" class="outline-3">
-<h3 id="orgheadline79"><span class="section-number-3">4.13</span> <span class="todo TODO">TODO</span> Problem 13 - Cross-Validation to Select Parameters (1 point possible)</h3>
+<div id="outline-container-orgheadline97" class="outline-3">
+<h3 id="orgheadline97"><span class="section-number-3">4.13</span> <span class="todo TODO">TODO</span> Problem 13 - Cross-Validation to Select Parameters (1 point possible)</h3>
 <div class="outline-text-3" id="text-4-13">
 <p>
 Which of the following best describes how 10-fold cross-validation
@@ -2068,8 +2753,8 @@ evaluated on a portion of the training set</li>
 </div>
 </div>
 
-<div id="outline-container-orgheadline80" class="outline-3">
-<h3 id="orgheadline80"><span class="section-number-3">4.14</span> <span class="todo TODO">TODO</span> Problem 14 - Cross-Validation for a CART Model (1 point possible)</h3>
+<div id="outline-container-orgheadline98" class="outline-3">
+<h3 id="orgheadline98"><span class="section-number-3">4.14</span> <span class="todo TODO">TODO</span> Problem 14 - Cross-Validation for a CART Model (1 point possible)</h3>
 <div class="outline-text-3" id="text-4-14">
 <p>
 Set the random seed to 201 (even though you have already done so
@@ -2088,8 +2773,8 @@ What cp value maximizes the cross-validation accuracy?
 </div>
 </div>
 
-<div id="outline-container-orgheadline81" class="outline-3">
-<h3 id="orgheadline81"><span class="section-number-3">4.15</span> <span class="todo TODO">TODO</span> Problem 15 - Train CART Model (1 point possible)</h3>
+<div id="outline-container-orgheadline99" class="outline-3">
+<h3 id="orgheadline99"><span class="section-number-3">4.15</span> <span class="todo TODO">TODO</span> Problem 15 - Train CART Model (1 point possible)</h3>
 <div class="outline-text-3" id="text-4-15">
 <p>
 Build and plot the CART model trained with the parameter identified in
@@ -2115,8 +2800,8 @@ the first (upper-most) split in the tree?
 </div>
 </div>
 
-<div id="outline-container-orgheadline82" class="outline-3">
-<h3 id="orgheadline82"><span class="section-number-3">4.16</span> <span class="todo TODO">TODO</span> Problem 16 - Predicting Using a CART Model (1 point possible)</h3>
+<div id="outline-container-orgheadline100" class="outline-3">
+<h3 id="orgheadline100"><span class="section-number-3">4.16</span> <span class="todo TODO">TODO</span> Problem 16 - Predicting Using a CART Model (1 point possible)</h3>
 <div class="outline-text-3" id="text-4-16">
 <p>
 If you were to use the CART model you created in Problem 15 to answer
@@ -2139,8 +2824,8 @@ Republican and the next election will be held in 18 months.
 </div>
 </div>
 
-<div id="outline-container-orgheadline83" class="outline-3">
-<h3 id="orgheadline83"><span class="section-number-3">4.17</span> <span class="todo TODO">TODO</span> Problem 17 - Test-Set Accuracy for CART Model (2 points possible)</h3>
+<div id="outline-container-orgheadline101" class="outline-3">
+<h3 id="orgheadline101"><span class="section-number-3">4.17</span> <span class="todo TODO">TODO</span> Problem 17 - Test-Set Accuracy for CART Model (2 points possible)</h3>
 <div class="outline-text-3" id="text-4-17">
 <p>
 Using the CART model you created in Problem 15, obtain predictions on
@@ -2155,8 +2840,8 @@ What is the accuracy of your CART model?
 </div>
 </div>
 
-<div id="outline-container-orgheadline116" class="outline-2">
-<h2 id="orgheadline116"><span class="section-number-2">5</span> Part 3. Understanding Retail Consumers <code>[0/15]</code></h2>
+<div id="outline-container-orgheadline134" class="outline-2">
+<h2 id="orgheadline134"><span class="section-number-2">5</span> Part 3. Understanding Retail Consumers <code>[0/15]</code></h2>
 <div class="outline-text-2" id="text-5">
 <p>
 In Unit 6, we saw how clustering can be used for market segmentation,
@@ -2202,16 +2887,16 @@ customer science company based in the United Kingdom.
 </p>
 </div>
 
-<div id="outline-container-orgheadline87" class="outline-3">
-<h3 id="orgheadline87"><span class="section-number-3">5.1</span> <span class="todo TODO">TODO</span> Problem 1 - Reading in the data (2 points possible)</h3>
+<div id="outline-container-orgheadline105" class="outline-3">
+<h3 id="orgheadline105"><span class="section-number-3">5.1</span> <span class="todo TODO">TODO</span> Problem 1 - Reading in the data (2 points possible)</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 Read the dataset Households.csv into R.
 </p>
 </div>
 
-<div id="outline-container-orgheadline85" class="outline-4">
-<h4 id="orgheadline85"><span class="section-number-4">5.1.1</span> Question a</h4>
+<div id="outline-container-orgheadline103" class="outline-4">
+<h4 id="orgheadline103"><span class="section-number-4">5.1.1</span> Question a</h4>
 <div class="outline-text-4" id="text-5-1-1">
 <p>
 How many households have logged transactions at the retailer only in
@@ -2220,8 +2905,8 @@ the morning?
 </div>
 </div>
 
-<div id="outline-container-orgheadline86" class="outline-4">
-<h4 id="orgheadline86"><span class="section-number-4">5.1.2</span> Question b</h4>
+<div id="outline-container-orgheadline104" class="outline-4">
+<h4 id="orgheadline104"><span class="section-number-4">5.1.2</span> Question b</h4>
 <div class="outline-text-4" id="text-5-1-2">
 <p>
 How many households have logged transactions at the retailer only in
@@ -2231,11 +2916,11 @@ the afternoon?
 </div>
 </div>
 
-<div id="outline-container-orgheadline91" class="outline-3">
-<h3 id="orgheadline91"><span class="section-number-3">5.2</span> <span class="todo TODO">TODO</span> Problem 2 - Descriptive statistics (3 points possible)</h3>
+<div id="outline-container-orgheadline109" class="outline-3">
+<h3 id="orgheadline109"><span class="section-number-3">5.2</span> <span class="todo TODO">TODO</span> Problem 2 - Descriptive statistics (3 points possible)</h3>
 <div class="outline-text-3" id="text-5-2">
-</div><div id="outline-container-orgheadline88" class="outline-4">
-<h4 id="orgheadline88"><span class="section-number-4">5.2.1</span> Question a</h4>
+</div><div id="outline-container-orgheadline106" class="outline-4">
+<h4 id="orgheadline106"><span class="section-number-4">5.2.1</span> Question a</h4>
 <div class="outline-text-4" id="text-5-2-1">
 <p>
 Of the households that spend more than $150 per transaction on
@@ -2244,8 +2929,8 @@ average, what is the minimum average discount per transaction?
 </div>
 </div>
 
-<div id="outline-container-orgheadline89" class="outline-4">
-<h4 id="orgheadline89"><span class="section-number-4">5.2.2</span> Question b</h4>
+<div id="outline-container-orgheadline107" class="outline-4">
+<h4 id="orgheadline107"><span class="section-number-4">5.2.2</span> Question b</h4>
 <div class="outline-text-4" id="text-5-2-2">
 <p>
 Of the households who have an average discount per transaction greater
@@ -2254,8 +2939,8 @@ than 25%, what is the minimum average sales value per transaction?
 </div>
 </div>
 
-<div id="outline-container-orgheadline90" class="outline-4">
-<h4 id="orgheadline90"><span class="section-number-4">5.2.3</span> Question c</h4>
+<div id="outline-container-orgheadline108" class="outline-4">
+<h4 id="orgheadline108"><span class="section-number-4">5.2.3</span> Question c</h4>
 <div class="outline-text-4" id="text-5-2-3">
 <p>
 In the dataset, what proportion of households visited the retailer at
@@ -2265,8 +2950,8 @@ least 300 times?
 </div>
 </div>
 
-<div id="outline-container-orgheadline92" class="outline-3">
-<h3 id="orgheadline92"><span class="section-number-3">5.3</span> <span class="todo TODO">TODO</span> Problem 3 - Importance of Normalizing (1 point possible)</h3>
+<div id="outline-container-orgheadline110" class="outline-3">
+<h3 id="orgheadline110"><span class="section-number-3">5.3</span> <span class="todo TODO">TODO</span> Problem 3 - Importance of Normalizing (1 point possible)</h3>
 <div class="outline-text-3" id="text-5-3">
 <p>
 When clustering data, it is often important to normalize the variables
@@ -2286,8 +2971,8 @@ the distance calculations?
 </div>
 </div>
 
-<div id="outline-container-orgheadline96" class="outline-3">
-<h3 id="orgheadline96"><span class="section-number-3">5.4</span> <span class="todo TODO">TODO</span> Problem 4 - Normalizing the Data (2 points possible)</h3>
+<div id="outline-container-orgheadline114" class="outline-3">
+<h3 id="orgheadline114"><span class="section-number-3">5.4</span> <span class="todo TODO">TODO</span> Problem 4 - Normalizing the Data (2 points possible)</h3>
 <div class="outline-text-3" id="text-5-4">
 <p>
 Normalize all of the variables in the Hubway dataset by entering the
@@ -2317,8 +3002,8 @@ should have mean 0 and standard deviation 1.
 </p>
 </div>
 
-<div id="outline-container-orgheadline93" class="outline-4">
-<h4 id="orgheadline93"><span class="section-number-4">5.4.1</span> Question a</h4>
+<div id="outline-container-orgheadline111" class="outline-4">
+<h4 id="orgheadline111"><span class="section-number-4">5.4.1</span> Question a</h4>
 <div class="outline-text-4" id="text-5-4-1">
 <p>
 What is the maximum value of NumVisits in the normalized dataset?
@@ -2326,8 +3011,8 @@ What is the maximum value of NumVisits in the normalized dataset?
 </div>
 </div>
 
-<div id="outline-container-orgheadline94" class="outline-4">
-<h4 id="orgheadline94"><span class="section-number-4">5.4.2</span> Question b</h4>
+<div id="outline-container-orgheadline112" class="outline-4">
+<h4 id="orgheadline112"><span class="section-number-4">5.4.2</span> Question b</h4>
 <div class="outline-text-4" id="text-5-4-2">
 <p>
 What is the minimum value of AfternoonPct in the normalized dataset?
@@ -2335,8 +3020,8 @@ What is the minimum value of AfternoonPct in the normalized dataset?
 </div>
 </div>
 
-<div id="outline-container-orgheadline95" class="outline-4">
-<h4 id="orgheadline95"><span class="section-number-4">5.4.3</span> Note:</h4>
+<div id="outline-container-orgheadline113" class="outline-4">
+<h4 id="orgheadline113"><span class="section-number-4">5.4.3</span> Note:</h4>
 <div class="outline-text-4" id="text-5-4-3">
 <p>
 Run the following code to create a dendrogram of your data:
@@ -2352,8 +3037,8 @@ Run the following code to create a dendrogram of your data:
 </div>
 </div>
 
-<div id="outline-container-orgheadline97" class="outline-3">
-<h3 id="orgheadline97"><span class="section-number-3">5.5</span> <span class="todo TODO">TODO</span> Problem 5 - Interpreting the Dendrogram (2 points possible)</h3>
+<div id="outline-container-orgheadline115" class="outline-3">
+<h3 id="orgheadline115"><span class="section-number-3">5.5</span> <span class="todo TODO">TODO</span> Problem 5 - Interpreting the Dendrogram (2 points possible)</h3>
 <div class="outline-text-3" id="text-5-5">
 <p>
 Based on the dendrogram, how many clusters do you think would be
@@ -2370,8 +3055,8 @@ appropriate for this problem? Select all that apply.
 </div>
 </div>
 
-<div id="outline-container-orgheadline100" class="outline-3">
-<h3 id="orgheadline100"><span class="section-number-3">5.6</span> <span class="todo TODO">TODO</span> Problem 6 - K-means Clustering (2 points possible)</h3>
+<div id="outline-container-orgheadline118" class="outline-3">
+<h3 id="orgheadline118"><span class="section-number-3">5.6</span> <span class="todo TODO">TODO</span> Problem 6 - K-means Clustering (2 points possible)</h3>
 <div class="outline-text-3" id="text-5-6">
 <p>
 Run the k-means clustering algorithm on your normalized dataset,
@@ -2380,8 +3065,8 @@ selecting 10 clusters. Right before using the kmeans function, type
 </p>
 </div>
 
-<div id="outline-container-orgheadline98" class="outline-4">
-<h4 id="orgheadline98"><span class="section-number-4">5.6.1</span> Question a</h4>
+<div id="outline-container-orgheadline116" class="outline-4">
+<h4 id="orgheadline116"><span class="section-number-4">5.6.1</span> Question a</h4>
 <div class="outline-text-4" id="text-5-6-1">
 <p>
 How many observations are in the smallest cluster?
@@ -2389,8 +3074,8 @@ How many observations are in the smallest cluster?
 </div>
 </div>
 
-<div id="outline-container-orgheadline99" class="outline-4">
-<h4 id="orgheadline99"><span class="section-number-4">5.6.2</span> Question b</h4>
+<div id="outline-container-orgheadline117" class="outline-4">
+<h4 id="orgheadline117"><span class="section-number-4">5.6.2</span> Question b</h4>
 <div class="outline-text-4" id="text-5-6-2">
 <p>
 How many observations are in the largest cluster?
@@ -2399,8 +3084,8 @@ How many observations are in the largest cluster?
 </div>
 </div>
 
-<div id="outline-container-orgheadline101" class="outline-3">
-<h3 id="orgheadline101"><span class="section-number-3">5.7</span> <span class="todo TODO">TODO</span> Problem 7 - Understanding the Clusters (2 points possible)</h3>
+<div id="outline-container-orgheadline119" class="outline-3">
+<h3 id="orgheadline119"><span class="section-number-3">5.7</span> <span class="todo TODO">TODO</span> Problem 7 - Understanding the Clusters (2 points possible)</h3>
 <div class="outline-text-3" id="text-5-7">
 <p>
 Now, use the cluster assignments from k-means clustering together with
@@ -2427,8 +3112,8 @@ to make a quick purchase"?
 </div>
 </div>
 
-<div id="outline-container-orgheadline102" class="outline-3">
-<h3 id="orgheadline102"><span class="section-number-3">5.8</span> <span class="todo TODO">TODO</span> Problem 8 - Understanding the Clusters (2 points possible)</h3>
+<div id="outline-container-orgheadline120" class="outline-3">
+<h3 id="orgheadline120"><span class="section-number-3">5.8</span> <span class="todo TODO">TODO</span> Problem 8 - Understanding the Clusters (2 points possible)</h3>
 <div class="outline-text-3" id="text-5-8">
 <p>
 Which cluster best fits the description "shoppers with high average
@@ -2450,8 +3135,8 @@ product count and high average value per visit"?
 </div>
 </div>
 
-<div id="outline-container-orgheadline103" class="outline-3">
-<h3 id="orgheadline103"><span class="section-number-3">5.9</span> <span class="todo TODO">TODO</span> Problem 9 - Understanding the Clusters (2 points possible)</h3>
+<div id="outline-container-orgheadline121" class="outline-3">
+<h3 id="orgheadline121"><span class="section-number-3">5.9</span> <span class="todo TODO">TODO</span> Problem 9 - Understanding the Clusters (2 points possible)</h3>
 <div class="outline-text-3" id="text-5-9">
 <p>
 Which cluster best fits the description "frequent shoppers with low
@@ -2473,11 +3158,11 @@ value per visit"?
 </div>
 </div>
 
-<div id="outline-container-orgheadline108" class="outline-3">
-<h3 id="orgheadline108"><span class="section-number-3">5.10</span> <span class="todo TODO">TODO</span> Problem 10 - Random Behavior (4 points possible)</h3>
+<div id="outline-container-orgheadline126" class="outline-3">
+<h3 id="orgheadline126"><span class="section-number-3">5.10</span> <span class="todo TODO">TODO</span> Problem 10 - Random Behavior (4 points possible)</h3>
 <div class="outline-text-3" id="text-5-10">
-</div><div id="outline-container-orgheadline104" class="outline-4">
-<h4 id="orgheadline104"><span class="section-number-4">5.10.1</span> Question a</h4>
+</div><div id="outline-container-orgheadline122" class="outline-4">
+<h4 id="orgheadline122"><span class="section-number-4">5.10.1</span> Question a</h4>
 <div class="outline-text-4" id="text-5-10-1">
 <p>
 If we ran hierarchical clustering a second time without making any
@@ -2492,8 +3177,8 @@ additional calls to set.seed, we would expect:
 </div>
 </div>
 
-<div id="outline-container-orgheadline105" class="outline-4">
-<h4 id="orgheadline105"><span class="section-number-4">5.10.2</span> Question b</h4>
+<div id="outline-container-orgheadline123" class="outline-4">
+<h4 id="orgheadline123"><span class="section-number-4">5.10.2</span> Question b</h4>
 <div class="outline-text-4" id="text-5-10-2">
 <p>
 If we ran k-means clustering a second time without making any
@@ -2508,8 +3193,8 @@ additional calls to set.seed, we would expect:
 </div>
 </div>
 
-<div id="outline-container-orgheadline106" class="outline-4">
-<h4 id="orgheadline106"><span class="section-number-4">5.10.3</span> Question c</h4>
+<div id="outline-container-orgheadline124" class="outline-4">
+<h4 id="orgheadline124"><span class="section-number-4">5.10.3</span> Question c</h4>
 <div class="outline-text-4" id="text-5-10-3">
 <p>
 If we ran k-means clustering a second time, again running the command
@@ -2524,8 +3209,8 @@ set.seed(200) right before doing the clustering, we would expect:
 </div>
 </div>
 
-<div id="outline-container-orgheadline107" class="outline-4">
-<h4 id="orgheadline107"><span class="section-number-4">5.10.4</span> Question d</h4>
+<div id="outline-container-orgheadline125" class="outline-4">
+<h4 id="orgheadline125"><span class="section-number-4">5.10.4</span> Question d</h4>
 <div class="outline-text-4" id="text-5-10-4">
 <p>
 If we ran k-means clustering a second time, running the command
@@ -2541,8 +3226,8 @@ set.seed(100) right before doing the clustering, we would expect:
 </div>
 </div>
 
-<div id="outline-container-orgheadline109" class="outline-3">
-<h3 id="orgheadline109"><span class="section-number-3">5.11</span> <span class="todo TODO">TODO</span> Problem 11 - The Number of Clusters (1 point possible)</h3>
+<div id="outline-container-orgheadline127" class="outline-3">
+<h3 id="orgheadline127"><span class="section-number-3">5.11</span> <span class="todo TODO">TODO</span> Problem 11 - The Number of Clusters (1 point possible)</h3>
 <div class="outline-text-3" id="text-5-11">
 <p>
 Suppose the marketing department at the retail store decided that the
@@ -2561,8 +3246,8 @@ the number of clusters?
 </div>
 </div>
 
-<div id="outline-container-orgheadline112" class="outline-3">
-<h3 id="orgheadline112"><span class="section-number-3">5.12</span> <span class="todo TODO">TODO</span> Problem 12 - Increasing the Number of Clusters (2 points possible)</h3>
+<div id="outline-container-orgheadline130" class="outline-3">
+<h3 id="orgheadline130"><span class="section-number-3">5.12</span> <span class="todo TODO">TODO</span> Problem 12 - Increasing the Number of Clusters (2 points possible)</h3>
 <div class="outline-text-3" id="text-5-12">
 <p>
 Run the k-means clustering algorithm again, this time selecting 5
@@ -2571,8 +3256,8 @@ to 5000.
 </p>
 </div>
 
-<div id="outline-container-orgheadline110" class="outline-4">
-<h4 id="orgheadline110"><span class="section-number-4">5.12.1</span> Question a</h4>
+<div id="outline-container-orgheadline128" class="outline-4">
+<h4 id="orgheadline128"><span class="section-number-4">5.12.1</span> Question a</h4>
 <div class="outline-text-4" id="text-5-12-1">
 <p>
 How many observations are in the smallest cluster?
@@ -2580,8 +3265,8 @@ How many observations are in the smallest cluster?
 </div>
 </div>
 
-<div id="outline-container-orgheadline111" class="outline-4">
-<h4 id="orgheadline111"><span class="section-number-4">5.12.2</span> Question b</h4>
+<div id="outline-container-orgheadline129" class="outline-4">
+<h4 id="orgheadline129"><span class="section-number-4">5.12.2</span> Question b</h4>
 <div class="outline-text-4" id="text-5-12-2">
 <p>
 How many observations are in the largest cluster?
@@ -2590,8 +3275,8 @@ How many observations are in the largest cluster?
 </div>
 </div>
 
-<div id="outline-container-orgheadline113" class="outline-3">
-<h3 id="orgheadline113"><span class="section-number-3">5.13</span> <span class="todo TODO">TODO</span> Problem 13 - Describing the Clusters (1 point possible)</h3>
+<div id="outline-container-orgheadline131" class="outline-3">
+<h3 id="orgheadline131"><span class="section-number-3">5.13</span> <span class="todo TODO">TODO</span> Problem 13 - Describing the Clusters (1 point possible)</h3>
 <div class="outline-text-3" id="text-5-13">
 <p>
 Using the cluster assignments from k-means clustering with 5 clusters,
@@ -2609,8 +3294,8 @@ value per visit"?
 </div>
 </div>
 
-<div id="outline-container-orgheadline114" class="outline-3">
-<h3 id="orgheadline114"><span class="section-number-3">5.14</span> <span class="todo TODO">TODO</span> Problem 14 - Understanding Centroids (1 point possible)</h3>
+<div id="outline-container-orgheadline132" class="outline-3">
+<h3 id="orgheadline132"><span class="section-number-3">5.14</span> <span class="todo TODO">TODO</span> Problem 14 - Understanding Centroids (1 point possible)</h3>
 <div class="outline-text-3" id="text-5-14">
 <p>
 Why do we typically use cluster centroids to describe the clusters?
@@ -2633,8 +3318,8 @@ from the other clusters.</li>
 </div>
 </div>
 
-<div id="outline-container-orgheadline115" class="outline-3">
-<h3 id="orgheadline115"><span class="section-number-3">5.15</span> <span class="todo TODO">TODO</span> Problem 15 - Using a Visualization (1 point possible)</h3>
+<div id="outline-container-orgheadline133" class="outline-3">
+<h3 id="orgheadline133"><span class="section-number-3">5.15</span> <span class="todo TODO">TODO</span> Problem 15 - Using a Visualization (1 point possible)</h3>
 <div class="outline-text-3" id="text-5-15">
 <p>
 Which of the following visualizations could be used to observe the
@@ -2657,8 +3342,8 @@ on the <code>y-axis</code>, plotting with <code>geom_point()</code></li>
 </div>
 </div>
 
-<div id="outline-container-orgheadline131" class="outline-2">
-<h2 id="orgheadline131"><span class="section-number-2">6</span> Part 4. Optimal Course Scheduling <code>[0/10]</code></h2>
+<div id="outline-container-orgheadline149" class="outline-2">
+<h2 id="orgheadline149"><span class="section-number-2">6</span> Part 4. Optimal Course Scheduling <code>[0/10]</code></h2>
 <div class="outline-text-2" id="text-6">
 <p>
 You are about to enroll in a two-year Masters program in Analytics,
@@ -2822,8 +3507,8 @@ courses that you end up taking.
 </p>
 </div>
 
-<div id="outline-container-orgheadline117" class="outline-3">
-<h3 id="orgheadline117"><span class="section-number-3">6.1</span> <span class="todo TODO">TODO</span> Problem 1 - The Decision Variables (2 points possible)</h3>
+<div id="outline-container-orgheadline135" class="outline-3">
+<h3 id="orgheadline135"><span class="section-number-3">6.1</span> <span class="todo TODO">TODO</span> Problem 1 - The Decision Variables (2 points possible)</h3>
 <div class="outline-text-3" id="text-6-1">
 <p>
 As mentioned above, you wish to determine which courses to take so
@@ -2840,8 +3525,8 @@ offered.)
 </div>
 </div>
 
-<div id="outline-container-orgheadline118" class="outline-3">
-<h3 id="orgheadline118"><span class="section-number-3">6.2</span> <span class="todo TODO">TODO</span> Problem 2 - The Decision Variables (1 point possible)</h3>
+<div id="outline-container-orgheadline136" class="outline-3">
+<h3 id="orgheadline136"><span class="section-number-3">6.2</span> <span class="todo TODO">TODO</span> Problem 2 - The Decision Variables (1 point possible)</h3>
 <div class="outline-text-3" id="text-6-2">
 <p>
 What type of decision variables should be used in the optimization
@@ -2864,8 +3549,8 @@ values</li>
 </div>
 </div>
 
-<div id="outline-container-orgheadline119" class="outline-3">
-<h3 id="orgheadline119"><span class="section-number-3">6.3</span> <span class="todo TODO">TODO</span> Problem 3 - The Objective (2 points possible)</h3>
+<div id="outline-container-orgheadline137" class="outline-3">
+<h3 id="orgheadline137"><span class="section-number-3">6.3</span> <span class="todo TODO">TODO</span> Problem 3 - The Objective (2 points possible)</h3>
 <div class="outline-text-3" id="text-6-3">
 <p>
 Your objective is to maximize the sum of the projected ratings of the
@@ -2876,11 +3561,11 @@ variables that will participate in the objective!)
 </div>
 </div>
 
-<div id="outline-container-orgheadline122" class="outline-3">
-<h3 id="orgheadline122"><span class="section-number-3">6.4</span> <span class="todo TODO">TODO</span> Problem 4 - Scheduling Constraints (4 points possible)</h3>
+<div id="outline-container-orgheadline140" class="outline-3">
+<h3 id="orgheadline140"><span class="section-number-3">6.4</span> <span class="todo TODO">TODO</span> Problem 4 - Scheduling Constraints (4 points possible)</h3>
 <div class="outline-text-3" id="text-6-4">
-</div><div id="outline-container-orgheadline120" class="outline-4">
-<h4 id="orgheadline120"><span class="section-number-4">6.4.1</span> Question a</h4>
+</div><div id="outline-container-orgheadline138" class="outline-4">
+<h4 id="orgheadline138"><span class="section-number-4">6.4.1</span> Question a</h4>
 <div class="outline-text-4" id="text-6-4-1">
 <p>
 You may only take each course offered at most once. How many
@@ -2890,8 +3575,8 @@ requirement is met?
 </div>
 </div>
 
-<div id="outline-container-orgheadline121" class="outline-4">
-<h4 id="orgheadline121"><span class="section-number-4">6.4.2</span> Question b</h4>
+<div id="outline-container-orgheadline139" class="outline-4">
+<h4 id="orgheadline139"><span class="section-number-4">6.4.2</span> Question b</h4>
 <div class="outline-text-4" id="text-6-4-2">
 <p>
 You must take exactly two courses per semester (Thesis is counted as a
@@ -2902,8 +3587,8 @@ to ensure this requirement is met?
 </div>
 </div>
 
-<div id="outline-container-orgheadline123" class="outline-3">
-<h3 id="orgheadline123"><span class="section-number-3">6.5</span> <span class="todo TODO">TODO</span> Problem 5 - Solving the Model (4 points possible)</h3>
+<div id="outline-container-orgheadline141" class="outline-3">
+<h3 id="orgheadline141"><span class="section-number-3">6.5</span> <span class="todo TODO">TODO</span> Problem 5 - Solving the Model (4 points possible)</h3>
 <div class="outline-text-3" id="text-6-5">
 <p>
 Set up and solve this optimization problem in the spreadsheet software
@@ -2917,11 +3602,11 @@ What is the optimal objective function value of the solution?
 </div>
 </div>
 
-<div id="outline-container-orgheadline126" class="outline-3">
-<h3 id="orgheadline126"><span class="section-number-3">6.6</span> <span class="todo TODO">TODO</span> Problem 6 - Understanding the Solution (2 points possible)</h3>
+<div id="outline-container-orgheadline144" class="outline-3">
+<h3 id="orgheadline144"><span class="section-number-3">6.6</span> <span class="todo TODO">TODO</span> Problem 6 - Understanding the Solution (2 points possible)</h3>
 <div class="outline-text-3" id="text-6-6">
-</div><div id="outline-container-orgheadline124" class="outline-4">
-<h4 id="orgheadline124"><span class="section-number-4">6.6.1</span> Question a</h4>
+</div><div id="outline-container-orgheadline142" class="outline-4">
+<h4 id="orgheadline142"><span class="section-number-4">6.6.1</span> Question a</h4>
 <div class="outline-text-4" id="text-6-6-1">
 <p>
 In the optimal solution, which electives do you take? Select all that
@@ -2939,8 +3624,8 @@ apply.
 </div>
 </div>
 
-<div id="outline-container-orgheadline125" class="outline-4">
-<h4 id="orgheadline125"><span class="section-number-4">6.6.2</span> Question b</h4>
+<div id="outline-container-orgheadline143" class="outline-4">
+<h4 id="orgheadline143"><span class="section-number-4">6.6.2</span> Question b</h4>
 <div class="outline-text-4" id="text-6-6-2">
 <p>
 In which semester do you take the Thesis course?
@@ -2954,8 +3639,8 @@ In which semester do you take the Thesis course?
 </div>
 </div>
 
-<div id="outline-container-orgheadline127" class="outline-3">
-<h3 id="orgheadline127"><span class="section-number-3">6.7</span> <span class="todo TODO">TODO</span> Problem 7 - Updating the Model (2 points possible)</h3>
+<div id="outline-container-orgheadline145" class="outline-3">
+<h3 id="orgheadline145"><span class="section-number-3">6.7</span> <span class="todo TODO">TODO</span> Problem 7 - Updating the Model (2 points possible)</h3>
 <div class="outline-text-3" id="text-6-7">
 <p>
 For the following question, please reformulate your model and re-solve
@@ -2978,8 +3663,8 @@ of the ratings for the courses that you take now?
 </div>
 </div>
 
-<div id="outline-container-orgheadline128" class="outline-3">
-<h3 id="orgheadline128"><span class="section-number-3">6.8</span> <span class="todo TODO">TODO</span> Problem 8 - Updating the Model (1 point possible)</h3>
+<div id="outline-container-orgheadline146" class="outline-3">
+<h3 id="orgheadline146"><span class="section-number-3">6.8</span> <span class="todo TODO">TODO</span> Problem 8 - Updating the Model (1 point possible)</h3>
 <div class="outline-text-3" id="text-6-8">
 <p>
 In the new optimal solution, which electives do you take? Select all
@@ -2997,8 +3682,8 @@ that apply.
 </div>
 </div>
 
-<div id="outline-container-orgheadline129" class="outline-3">
-<h3 id="orgheadline129"><span class="section-number-3">6.9</span> <span class="todo TODO">TODO</span> Problem 9 - Additional Constraints (2 points possible)</h3>
+<div id="outline-container-orgheadline147" class="outline-3">
+<h3 id="orgheadline147"><span class="section-number-3">6.9</span> <span class="todo TODO">TODO</span> Problem 9 - Additional Constraints (2 points possible)</h3>
 <div class="outline-text-3" id="text-6-9">
 <p>
 Please answer the following question without updating and re-solving
@@ -3020,8 +3705,8 @@ to the average projected rating of the courses that you take?
 </div>
 </div>
 
-<div id="outline-container-orgheadline130" class="outline-3">
-<h3 id="orgheadline130"><span class="section-number-3">6.10</span> <span class="todo TODO">TODO</span> Problem 10 - Sensitivity Analysis (2 points possible)</h3>
+<div id="outline-container-orgheadline148" class="outline-3">
+<h3 id="orgheadline148"><span class="section-number-3">6.10</span> <span class="todo TODO">TODO</span> Problem 10 - Sensitivity Analysis (2 points possible)</h3>
 <div class="outline-text-3" id="text-6-10">
 <p>
 For the following problem, do not re-run your model.
@@ -3055,7 +3740,7 @@ semesters?
 <div id="postamble" class="status">
 <p class="date">Date: 14/08/2015</p>
 <p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
-<p class="date">Created: 2015-08-22 Sat 06:04</p>
+<p class="date">Created: 2015-08-24 Mon 06:19</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

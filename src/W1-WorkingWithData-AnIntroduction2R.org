@@ -757,7 +757,7 @@ Then we can work with the data file loading the data
 
 #+BEGIN_SRC R :session :results output :exports all
   writeLines("    Loading data into USDA dataframe")
-  USDA <- read.table(filePath, sep = ",", header = TRUE)
+  USDA <- read.csv("../data/USDA.csv")
 
   writeLines("    Initial analysis of data USDA")
   str(USDA)
@@ -784,20 +784,104 @@ Then we can work with the data file loading the data
 #+RESULTS:
 #+begin_example
     Loading data into USDA dataframe
-Error in scan(file, what, nmax, sep, dec, quote, skip, nlines, na.strings,  :
-  line 171 did not have 16 elements
     Initial analysis of data USDA
-Error in str(USDA) : object 'USDA' not found
+'data.frame':	7058 obs. of  16 variables:
+ $ ID          : int  1001 1002 1003 1004 1005 1006 1007 1008 1009 1010 ...
+ $ Description : Factor w/ 7054 levels "ABALONE,MIXED SPECIES,RAW",..: 1303 1302 1298 2303 2304 2305 2306 2307 2308 2309 ...
+ $ Calories    : int  717 717 876 353 371 334 300 376 403 387 ...
+ $ Protein     : num  0.85 0.85 0.28 21.4 23.24 ...
+ $ TotalFat    : num  81.1 81.1 99.5 28.7 29.7 ...
+ $ Carbohydrate: num  0.06 0.06 0 2.34 2.79 0.45 0.46 3.06 1.28 4.78 ...
+ $ Sodium      : int  714 827 2 1395 560 629 842 690 621 700 ...
+ $ SaturatedFat: num  51.4 50.5 61.9 18.7 18.8 ...
+ $ Cholesterol : int  215 219 256 75 94 100 72 93 105 103 ...
+ $ Sugar       : num  0.06 0.06 0 0.5 0.51 0.45 0.46 NA 0.52 NA ...
+ $ Calcium     : int  24 24 4 528 674 184 388 673 721 643 ...
+ $ Iron        : num  0.02 0.16 0 0.31 0.43 0.5 0.33 0.64 0.68 0.21 ...
+ $ Potassium   : int  24 26 5 256 136 152 187 93 98 95 ...
+ $ VitaminC    : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ VitaminE    : num  2.32 2.32 2.8 0.25 0.26 0.24 0.21 NA 0.29 NA ...
+ $ VitaminD    : num  1.5 1.5 1.8 0.5 0.5 0.5 0.4 NA 0.6 NA ...
     Summary data of the USDA dataframe
-Error in summary(USDA) : object 'USDA' not found
+       ID
+ Min.   : 1001
+ 1st Qu.: 8387
+ Median :13294
+ Mean   :14260
+ 3rd Qu.:18337
+ Max.   :93600
+
+                                                       Description
+ BEEF,CHUCK,UNDER BLADE CNTR STEAK,BNLESS,DENVER CUT,LN,0" FA:   2
+ CAMPBELL,CAMPBELL'S SEL MICROWAVEABLE BOWLS,HEA             :   2
+ OIL,INDUSTRIAL,PALM KERNEL (HYDROGENATED),CONFECTION FAT    :   2
+ POPCORN,OIL-POPPED,LOFAT                                    :   2
+ ABALONE,MIXED SPECIES,RAW                                   :   1
+ ABALONE,MXD SP,CKD,FRIED                                    :   1
+ (Other)                                                     :7048
+    Calories        Protein         TotalFat       Carbohydrate
+ Min.   :  0.0   Min.   : 0.00   Min.   :  0.00   Min.   :  0.00
+ 1st Qu.: 85.0   1st Qu.: 2.29   1st Qu.:  0.72   1st Qu.:  0.00
+ Median :181.0   Median : 8.20   Median :  4.37   Median :  7.13
+ Mean   :219.7   Mean   :11.71   Mean   : 10.32   Mean   : 20.70
+ 3rd Qu.:331.0   3rd Qu.:20.43   3rd Qu.: 12.70   3rd Qu.: 28.17
+ Max.   :902.0   Max.   :88.32   Max.   :100.00   Max.   :100.00
+ NA's   :1       NA's   :1       NA's   :1        NA's   :1
+     Sodium         SaturatedFat     Cholesterol          Sugar
+ Min.   :    0.0   Min.   : 0.000   Min.   :   0.00   Min.   : 0.000
+ 1st Qu.:   37.0   1st Qu.: 0.172   1st Qu.:   0.00   1st Qu.: 0.000
+ Median :   79.0   Median : 1.256   Median :   3.00   Median : 1.395
+ Mean   :  322.1   Mean   : 3.452   Mean   :  41.55   Mean   : 8.257
+ 3rd Qu.:  386.0   3rd Qu.: 4.028   3rd Qu.:  69.00   3rd Qu.: 7.875
+ Max.   :38758.0   Max.   :95.600   Max.   :3100.00   Max.   :99.800
+ NA's   :84        NA's   :301      NA's   :288       NA's   :1910
+    Calcium             Iron           Potassium          VitaminC
+ Min.   :   0.00   Min.   :  0.000   Min.   :    0.0   Min.   :   0.000
+ 1st Qu.:   9.00   1st Qu.:  0.520   1st Qu.:  135.0   1st Qu.:   0.000
+ Median :  19.00   Median :  1.330   Median :  250.0   Median :   0.000
+ Mean   :  73.53   Mean   :  2.828   Mean   :  301.4   Mean   :   9.436
+ 3rd Qu.:  56.00   3rd Qu.:  2.620   3rd Qu.:  348.0   3rd Qu.:   3.100
+ Max.   :7364.00   Max.   :123.600   Max.   :16500.0   Max.   :2400.000
+ NA's   :136       NA's   :123       NA's   :409       NA's   :332
+    VitaminE          VitaminD
+ Min.   :  0.000   Min.   :  0.0000
+ 1st Qu.:  0.120   1st Qu.:  0.0000
+ Median :  0.270   Median :  0.0000
+ Mean   :  1.488   Mean   :  0.5769
+ 3rd Qu.:  0.710   3rd Qu.:  0.1000
+ Max.   :149.400   Max.   :250.0000
+ NA's   :2720      NA's   :2834
     Names of the dataframe
-Error: object 'USDA' not found
+ [1] "ID"           "Description"  "Calories"     "Protein"      "TotalFat"
+ [6] "Carbohydrate" "Sodium"       "SaturatedFat" "Cholesterol"  "Sugar"
+[11] "Calcium"      "Iron"         "Potassium"    "VitaminC"     "VitaminE"
+[16] "VitaminD"
     Class of the data set in memory
-Error: object 'USDA' not found
+[1] "data.frame"
     Dimension of the dataframe
-Error: object 'USDA' not found
+[1] 7058   16
     Head of the DF
-Error in head(USDA) : object 'USDA' not found
+    ID              Description Calories Protein TotalFat Carbohydrate Sodium
+1 1001         BUTTER,WITH SALT      717    0.85    81.11         0.06    714
+2 1002 BUTTER,WHIPPED,WITH SALT      717    0.85    81.11         0.06    827
+3 1003     BUTTER OIL,ANHYDROUS      876    0.28    99.48         0.00      2
+4 1004              CHEESE,BLUE      353   21.40    28.74         2.34   1395
+5 1005             CHEESE,BRICK      371   23.24    29.68         2.79    560
+6 1006              CHEESE,BRIE      334   20.75    27.68         0.45    629
+  SaturatedFat Cholesterol Sugar Calcium Iron Potassium VitaminC VitaminE
+1       51.368         215  0.06      24 0.02        24        0     2.32
+2       50.489         219  0.06      24 0.16        26        0     2.32
+3       61.924         256  0.00       4 0.00         5        0     2.80
+4       18.669          75  0.50     528 0.31       256        0     0.25
+5       18.764          94  0.51     674 0.43       136        0     0.26
+6       17.410         100  0.45     184 0.50       152        0     0.24
+  VitaminD
+1      1.5
+2      1.5
+3      1.8
+4      0.5
+5      0.5
+6      0.5
     Any NA in the dataframe
-Error: object 'USDA' not found
+[1] TRUE
 #+end_example

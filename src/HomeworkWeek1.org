@@ -59,7 +59,7 @@
 Homework week 1.
 #+END_ABSTRACT
 
-* An analytical detective
+* An analytical detective [21/21]
 
 Crime is an international concern, but it is documented and handled in
 very different ways in different countries. In the United States,
@@ -110,7 +110,7 @@ of descriptions of the variables:
   occurred.
 
 ** DONE Problem 1.1 - Loading the Data (1 point possible)
-CLOSED: [2015-06-07 Sun 14:37]
+CLOSED: [2015-08-31 Mon 09:22]
 
 Read the dataset mvtWeek1.csv into R, using the read.csv function, and
 call the data frame "mvt". Remember to navigate to the directory on
@@ -976,7 +976,7 @@ residential driveways happen?
 
 *Saturday*.
 
-* Stock dynamics
+* Stock dynamics [20/20]
 
 A stock market is where buyers and sellers trade shares of a company,
 and is one of the most popular ways for individuals and companies to
@@ -1007,7 +1007,7 @@ In this problem, we'll take a look at how the stock dynamics of these
 companies have changed over time.
 
 ** DONE Downloading and loading the data
-CLOSED: [2015-06-07 Sun 14:38]
+CLOSED: [2015-08-31 Mon 09:22]
 
 In this first part we will download and load each dataset in a
 dataframe.
@@ -1822,7 +1822,7 @@ and sell it in others! But, we should be careful, because one really
 good or really bad year could skew the average to show a trend that is
 not really there in general.
 
-* Demographics and Employment in The United States
+* Demographics and Employment in The United States [20/20]
 
 In the wake of the Great Recession of 2009, there has been a good deal
 of focus on employment statistics, one of the most important metrics
@@ -1879,7 +1879,7 @@ variables:
   available if they are employed).
 
 ** DONE Problem 1.1 - Loading and Summarizing the Dataset (1 point possible)
-CLOSED: [2015-06-07 Sun 14:39]
+CLOSED: [2015-08-31 Mon 09:22]
 
 Load the dataset from [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/CPSData.csv][CPSData.csv]] into a data frame called CPS, and
 view the dataset with the summary() and str() commands.
@@ -3046,7 +3046,7 @@ We see that New York has the most interviewees born in India (96),
 Boston has the most born in Brazil (18), and Minneapolis has the most
 born in Somalia (17).
 
-* Internet privacy poll (OPTIONAL)
+* Internet privacy poll (OPTIONAL) [20/20]
 
 Internet privacy has gained widespread attention in recent years. To
 measure the degree to which people are concerned about hot-button
@@ -3122,7 +3122,7 @@ interviewees who either use the Internet or have a smartphone):
   and equals 0 if he/she believes it doesn't).
 
 ** DONE Problem 1.1 - Loading and Summarizing the Dataset
-CLOSED: [2015-06-09 Tue 07:17]
+CLOSED: [2015-08-31 Mon 09:22]
 
 Using read.csv(), load the dataset from [[https://courses.edx.org/asset-v1:MITx%2B15.071x_2a%2B2T2015%2Btype@asset%2Bblock/AnonymityPoll.csv][AnonymityPoll.csv]] into a data
 frame called poll and summarize it with the summary() and str()

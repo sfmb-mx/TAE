@@ -1,0 +1,2479 @@
+#+TITLE:         Assignment 5. Unit 5. Text Analytics
+#+AUTHOR:        Sergio-Feliciano Mendoza-Barrera
+#+DRAWERS:       sfmb
+#+EMAIL:         smendoza.barrera@gmail.com
+#+DATE:          30/08/2015
+#+DESCRIPTION:   Assignment 5, unit 5. Text Analytics
+#+KEYWORDS:      R, data science, emacs, ESS, org-mode, assignment, text analytics
+#+LANGUAGE:      en
+#+OPTIONS:       H:10 num:t toc:nil \n:nil @:t ::t |:t ^:{} -:t f:t *:t <:t d:HIDDEN
+#+OPTIONS:       TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+OPTIONS:       LaTeX:dvipng
+#+INFOJS_OPT:    view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:
+#+LINK_HOME:
+#+XSLT:
+#+STYLE: <link rel="stylesheet" type="text/css" href="dft.css"/>
+
+#+LaTeX_CLASS: IEEEtran
+#+LATEX_CLASS_OPTIONS: [letterpaper, 9pt, onecolumn, twoside, technote, final]
+#+LATEX_HEADER: \usepackage{minted}
+#+LATEX_HEADER: \usepackage{makeidx}
+
+#+LATEX_HEADER: \usepackage[lining,tabular]{fbb} % so math uses tabular lining figures
+#+LATEX_HEADER: \usepackage[scaled=.95,type1]{cabin} % sans serif in style of Gill Sans
+#+LATEX_HEADER: \usepackage[varqu,varl]{zi4}% inconsolata typewriter
+#+LATEX_HEADER: \usepackage[T1]{fontenc} % LY1 also works
+#+LATEX_HEADER: \usepackage[libertine,bigdelims]{newtxmath}
+#+LATEX_HEADER: \usepackage[cal=boondoxo,bb=boondox,frak=boondox]{mathalfa}
+#+LATEX_HEADER: \useosf % change normal text to use proportional oldstyle figures
+
+#+LATEX_HEADER: \markboth{Assignment 5. Unit 5. Text Analytics}%
+#+LATEX_HEADER: {Sergio-Feliciano Mendoza-Barrera}
+
+#+LATEX_HEADER: \newcommand{\degC}{$^\circ$C{}}
+
+#+STYLE: <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
+
+#+ATTR_HTML: width="500px"
+
+# -*- mode: org; -*-
+#+OPTIONS:   toc:2
+
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/htmlize.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/readtheorg.css"/>
+
+#+HTML_HEAD: <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+#+HTML_HEAD: <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/readtheorg/js/readtheorg.js"></script>
+
+#+BEGIN_ABSTRACT
+Assignment 5. Text Analytics.
+#+END_ABSTRACT
+
+* Detecting vandalism on Wikipedia [0/14]
+
+[[http://en.wikipedia.org/wiki/Wikipedia][Wikipedia]] is a free online encyclopedia that anyone can edit and
+contribute to. It is available in many languages and is growing all
+the time. On the English language version of Wikipedia:
+
+- There are currently [[http://en.wikipedia.org/wiki/Wikipedia:Size_of_Wikipedia][4.7 million pages]].
+
+- There have been a total over [[http://en.wikipedia.org/wiki/Wikipedia:Pruning_article_revisions][760 million edits]] (also called
+  revisions) over its lifetime.
+
+- There are approximately [[http://en.wikipedia.org/wiki/Wikipedia:WikiProject_Editing_trends/Raw_data/Revisions_per_day][130,000 edits per day]].
+
+One of the consequences of being editable by anyone is that some
+people vandalize pages. This can take the form of removing content,
+adding promotional or inappropriate content, or more subtle shifts
+that change the meaning of the article. With this many articles and
+edits per day it is difficult for humans to detect all instances of
+vandalism and revert (undo) them. As a result, Wikipedia uses bots -
+computer programs that automatically revert edits that look like
+vandalism. In this assignment we will attempt to develop a vandalism
+detector that uses machine learning to distinguish between a valid
+edit and vandalism.
+
+The data for this problem is based on the revision history of the page
+[[http://en.wikipedia.org/wiki/Language][Language]]. Wikipedia provides a history for each page that consists of
+the state of the page at each revision. Rather than manually
+considering each revision, a script was run that checked whether edits
+stayed or were reverted. If a change was eventually reverted then that
+revision is marked as vandalism. This may result in some
+misclassifications, but the script performs well enough for our
+needs.
+
+As a result of this preprocessing, some common processing tasks have
+already been done, including lower-casing and punctuation removal. The
+columns in the dataset are:
+
+- *Vandal* = 1 if this edit was vandalism, 0 if not.
+
+- *Minor = 1 if the user marked this edit as a "minor edit", 0 if not.
+
+- *Loggedin* = 1 if the user made this edit while using a Wikipedia
+  account, 0 if they did not.
+
+- *Added* = The unique words added.
+
+- *Removed* = The unique words removed.
+
+Notice the repeated use of unique. The data we have available is not
+the traditional bag of words - rather it is the set of words that were
+removed or added. For example, if a word was removed multiple times in
+a revision it will only appear one time in the ~Removed~ column.
+
+** TODO Problem 1.1 - Bags of Words (1/1 point)
+
+Load the data ~wiki.csv~ with the option ~stringsAsFactors = FALSE~, calling
+the data frame ~wiki~. Convert the ~Vandal~ column to a factor using
+the command ~wiki$Vandal = as.factor(wiki$Vandal)~.
+
+*** Question
+
+How many cases of vandalism were detected in the history of this page?
+
+**** Answer
+
+1815 - correct
+
+*Explanation*
+
+You can load the data using the command:
+
+~wiki = read.csv("wiki.csv", stringsAsFactors=FALSE)~
+
+And then convert Vandal to a factor with the command:
+
+~wiki$Vandal = as.factor(wiki$Vandal)~
+
+You can then use the table command to see how many cases of Vandalism
+there are:
+
+~table(wiki$Vandal)~
+
+There are 1815 observations with value 1, which denotes vandalism.
+
+** TODO Problem 1.2 - Bags of Words (2/2 points)
+
+We will now use the bag of words approach to build a model. We have
+two columns of textual data, with different meanings. For example,
+adding rude words has a different meaning to removing rude
+words. We'll start like we did in class by building a document term
+matrix from the Added column. The text already is lowercase and
+stripped of punctuation. So to pre-process the data, just complete the
+following four steps:
+
+1) Create the corpus for the Added column, and call it ~corpusAdded~.
+
+2) Remove the English-language stopwords.
+
+3) Stem the words.
+
+4) Build the ~DocumentTermMatrix~, and call it ~dtmAdded~.
+
+If the code ~length(stopwords("english"))~ does not return 174 for you,
+then please run the line of code in , which will store the
+standard stop words in a variable called sw. When removing stop words,
+use ~tm_map(corpusAdded, removeWords, sw)~ instead of
+~tm_map(corpusAdded, removeWords, stopwords("english"))~.
+
+*** Question
+
+How many terms appear in ~dtmAdded~?
+
+**** Answer
+
+6675 - correct
+
+*Explanation*
+
+The following are the commands needed to execute these four steps:
+
+~corpusAdded = Corpus(VectorSource(wiki$Added))~
+
+~corpusAdded = tm_map(corpusAdded, removeWords, stopwords("english"))~
+
+~corpusAdded = tm_map(corpusAdded, stemDocument)~
+
+~dtmAdded = DocumentTermMatrix(corpusAdded)~
+
+If you type dtmAdded, you can see that there are 6675 terms.
+
+** TODO Problem 1.3 - Bags of Words (1/1 point)
+
+Filter out sparse terms by keeping only terms that appear in 0.3% or
+more of the revisions, and call the new matrix sparseAdded. How many
+terms appear in ~sparseAdded~?
+
+*** Answer
+
+166 - correct
+
+*Explanation*
+
+You can create the sparse matrix with the follow line:
+
+~sparseAdded = removeSparseTerms(dtmAdded, 0.997)~
+
+If you type sparseAdded, you can see that there are 166 terms.
+
+** TODO Problem 1.4 - Bags of Words (2/2 points)
+
+Convert sparseAdded to a data frame called wordsAdded, and then
+prepend all the words with the letter A, by using the command:
+
+~colnames(wordsAdded) = paste("A", colnames(wordsAdded))~
+
+*Explanation*
+
+You need to type the following two commands:
+
+~wordsAdded = as.data.frame(as.matrix(sparseAdded))~
+
+~colnames(wordsAdded) = paste("A", colnames(wordsAdded))~
+
+Now repeat all of the steps we've done so far (create a corpus, remove
+stop words, stem the document, create a sparse document term matrix,
+and convert it to a data frame) to create a Removed bag-of-words
+dataframe, called wordsRemoved, except this time, prepend all of the
+words with the letter R:
+
+~colnames(wordsRemoved) = paste("R", colnames(wordsRemoved))~
+
+*** Question
+
+How many words are in the wordsRemoved data frame?
+
+**** Answer
+
+162 - correct
+
+*Explanation*
+
+To repeat the steps for the Removed column, use the following
+commands:
+
+~corpusRemoved = Corpus(VectorSource(wiki$Removed))~
+
+~corpusRemoved = tm_map(corpusRemoved, removeWords,
+stopwords("english"))~
+
+~corpusRemoved = tm_map(corpusRemoved, stemDocument)~
+
+~dtmRemoved = DocumentTermMatrix(corpusRemoved)~
+
+~sparseRemoved = removeSparseTerms(dtmRemoved, 0.997)~
+
+~wordsRemoved = as.data.frame(as.matrix(sparseRemoved))~
+
+~colnames(wordsRemoved) = paste("R", colnames(wordsRemoved))~
+
+To see that there are 162 words in the wordsRemoved data frame, you
+can type ncol(wordsRemoved) in your R console.
+
+** TODO Problem 1.5 - Bags of Words (2/2 points)
+
+Combine the two data frames into a data frame called wikiWords with
+the following line of code:
+
+~wikiWords = cbind(wordsAdded, wordsRemoved)~
+
+The cbind function combines two sets of variables for the same
+observations into one data frame. Then add the Vandal column (HINT:
+remember how we added the dependent variable back into our data frame
+in the Twitter lecture). Set the random seed to 123 and then split the
+data set using sample.split from the "caTools" package to put 70% in
+the training set.
+
+*Explanation*
+
+You can combine the two data frames by using the command:
+
+~wikiWords = cbind(wordsAdded, wordsRemoved)~
+
+And then add the Vandal variable by using the command:
+
+~wikiWords$Vandal = wiki$Vandal~
+
+To split the data, you can use the following commands:
+
+~library(caTools)~
+
+~set.seed(123)~
+
+~spl = sample.split(wikiWords$Vandal, SplitRatio = 0.7)~
+
+~wikiTrain = subset(wikiWords, spl==TRUE)~
+
+~wikiTest = subset(wikiWords, spl==FALSE)~
+
+*** Question
+
+What is the accuracy on the test set of a baseline method that always
+predicts "not vandalism" (the most frequent outcome)?
+
+**** Answer
+
+0.5313844 - correct
+
+*Explanation*
+
+You can compute this number using the table command:
+
+~table(wikiTest$Vandal)~
+
+It outputs that there are 618 observations with value 0, and 545
+observations with value 1. The accuracy of the baseline method would
+be ~618/(618+545) = 0.531~.
+
+** TODO Problem 1.6 - Bags of Words (2/2 points)
+
+Build a CART model to predict Vandal, using all of the other variables
+as independent variables. Use the training set to build the model and
+the default parameters (don't set values for ~minbucket~ or ~cp~).
+
+*** Question
+
+What is the accuracy of the model on the test set, using a threshold
+of 0.5? (Remember that if you add the argument ~type="class"~ when
+making predictions, the output of predict will automatically use a
+threshold of 0.5.)
+
+**** Answer
+
+0.5417025 - correct
+
+*Explanation*
+
+You can build the CART model with the following command:
+
+~wikiCART = rpart(Vandal ~ ., data=wikiTrain, method="class")~
+
+And then make predictions on the test set:
+
+~testPredictCART = predict(wikiCART, newdata=wikiTest, type="class")~
+
+And compute the accuracy by comparing the actual values to the
+predicted values:
+
+~table(wikiTest$Vandal, testPredictCART)~
+
+The accuracy is ~(618+12)/(618+533+12) = 0.5417~.
+
+** TODO Problem 1.7 - Bags of Words (1/1 point)
+
+Plot the CART tree. How many word stems does the CART model use?
+
+*** Answer
+
+2 - correct
+
+*Explanation*
+
+If you plot the tree with prp(wikiCART), you can see that the tree
+uses two words: "R arbitr" and "R thousa".
+
+** TODO Problem 1.8 - Bags of Words (1/1 point)
+
+Given the performance of the CART model relative to the baseline, what
+is the best explanation of these results?
+
+- [ ] We have a bad testing/training split.
+
+- [ ] The CART model overfits to the training set.
+
+- [X] Although it beats the baseline, bag of words is not very
+  predictive for this problem. - correct
+
+- [ ] We over-sparsified the document-term matrix.
+
+*Explanation*
+
+There is no reason to think there was anything wrong with the
+split. CART did not overfit, which you can check by computing the
+accuracy of the model on the training set. Over-sparsification is
+plausible but unlikely, since we selected a very high sparsity
+parameter. The only conclusion left is simply that bag of words didn't
+work very well in this case.
+
+** TODO Problem 2.1 - Problem-specific Knowledge (1/1 point)
+
+We weren't able to improve on the baseline using the raw textual
+information. More specifically, the words themselves were not
+useful. There are other options though, and in this section we will
+try two techniques - identifying a key class of words, and counting
+words.
+
+The key class of words we will use are website addresses. "Website
+addresses" (also known as URLs - Uniform Resource Locators) are
+comprised of two main parts. An example would be
+"http://www.google.com". The first part is the protocol, which is
+usually "http" (HyperText Transfer Protocol). The second part is the
+address of the site, e.g. "www.google.com". We have stripped all
+punctuation so links to websites appear in the data as one word,
+e.g. "httpwwwgooglecom". We hypothesize that given that a lot of
+vandalism seems to be adding links to promotional or irrelevant
+websites, the presence of a web address is a sign of vandalism.
+
+We can search for the presence of a web address in the words added by
+searching for "http" in the Added column. The grepl function returns
+TRUE if a string is found in another string, e.g.
+
+~grepl("cat","dogs and cats",fixed=TRUE) # TRUE~
+
+~grepl("cat","dogs and rats",fixed=TRUE) # FALSE~
+
+Create a copy of your dataframe from the previous question:
+
+~wikiWords2 = wikiWords~
+
+Make a new column in wikiWords2 that is 1 if "http" was in Added:
+
+~wikiWords2$HTTP = ifelse(grepl("http",wiki$Added,fixed=TRUE), 1, 0)~
+
+*** Question
+
+Based on this new column, how many revisions added a link?
+
+***
+
+217 - correct
+
+*Explanation*
+
+You can find this number by typing table(wikiWords2$HTTP), and seeing
+that there are 217 observations with value 1.
+
+** TODO Problem 2.2 - Problem-Specific Knowledge (2/2 points)
+
+In problem 1.5, you computed a vector called "spl" that identified the
+observations to put in the training and testing sets. Use that
+variable (do not recompute it with sample.split) to make new training
+and testing sets:
+
+~wikiTrain2 = subset(wikiWords2, spl==TRUE)~
+
+~wikiTest2 = subset(wikiWords2, spl==FALSE)~
+
+Then create a new CART model using this new variable as one of the
+independent variables.
+
+*** Question
+
+What is the new accuracy of the CART model on the test set, using a
+threshold of 0.5?
+
+**** Answer
+
+0.5726569 - correct
+
+*Explanation*
+
+You can compute this by running the following commands:
+
+~wikiCART2 = rpart(Vandal ~ ., data=wikiTrain2, method="class")~
+
+~testPredictCART2 = predict(wikiCART2, newdata=wikiTest2,
+type="class")~
+
+~table(wikiTest2$Vandal, testPredictCART2)~
+
+Then the accuracy is
+
+~(609+57)/(609+9+488+57) = 0.5726569~.
+
+** TODO Problem 2.3 - Problem-Specific Knowledge (1/1 point)
+
+Another possibility is that the number of words added and removed is
+predictive, perhaps more so than the actual words themselves. We
+already have a word count available in the form of the document-term
+matrices (DTMs).
+
+Sum the rows of ~dtmAdded~ and ~dtmRemoved~ and add them as new variables
+in your data frame ~wikiWords2~ (called ~NumWordsAdded~ and
+~NumWordsRemoved~) by using the following commands:
+
+~wikiWords2$NumWordsAdded = rowSums(as.matrix(dtmAdded))~
+
+~wikiWords2$NumWordsRemoved = rowSums(as.matrix(dtmRemoved))~
+
+*** Question
+
+What is the average number of words added?
+
+**** Answer
+
+4.050052 - correct
+
+*Explanation*
+
+You can get this answer with ~mean(wikiWords2$NumWordsAdded)~.
+
+** TODO Problem 2.4 - Problem-Specific Knowledge (2/2 points)
+
+In problem 1.5, you computed a vector called ~spl~ that identified the
+observations to put in the training and testing sets. Use that
+variable (do not recompute it with ~sample.split~) to make new training
+and testing sets with ~wikiWords2~. Create the CART model again (using
+the training set and the default parameters).
+
+*** Question
+
+What is the new accuracy of the CART model on the test set?
+
+**** Answer
+
+0.6552021 - correct
+
+*Explanation*
+
+To split the data again, use the following commands:
+
+~wikiTrain3 = subset(wikiWords2, spl==TRUE)~
+
+~wikiTest3 = subset(wikiWords2, spl==FALSE)~
+
+You can compute the accuracy of the new CART model with the following
+commands:
+
+~wikiCART3 = rpart(Vandal ~ ., data=wikiTrain3, method="class")~
+
+~testPredictCART3 = predict(wikiCART3, newdata=wikiTest3, type="class")~
+
+~table(wikiTest3$Vandal, testPredictCART3)~
+
+The accuracy is
+~ (514+248)/(514+104+297+248) = 0.6552021~.
+
+** TODO Problem 3.1 - Using Non-Textual Data (2/2 points)
+
+We have two pieces of *metadata* (data about data) that we haven't yet
+used. Make a copy of ~wikiWords2~, and call it ~wikiWords3~:
+
+~wikiWords3 = wikiWords2~
+
+Then add the two original variables Minor and Loggedin to this new
+data frame:
+
+~wikiWords3$Minor = wiki$Minor~
+
+~wikiWords3$Loggedin = wiki$Loggedin~
+
+In problem 1.5, you computed a vector called ~spl~ that identified the
+observations to put in the training and testing sets. Use that
+variable (do not recompute it with ~sample.split~) to make new training
+and testing sets with ~wikiWords3~.
+
+*Explanation*
+
+This can be done with the following two commands:
+
+~wikiTrain4 = subset(wikiWords3, spl==TRUE)~
+
+~wikiTest4 = subset(wikiWords3, spl==FALSE)~
+
+*** Question
+
+Build a CART model using all the training data. What is the accuracy
+of the model on the test set?
+
+**** Answer
+
+0.7188306 - correct
+
+*Explanation*
+
+This model can be built and evaluated using the following commands:
+
+~wikiCART4 = rpart(Vandal ~ ., data=wikiTrain4, method="class")~
+
+~predictTestCART4 = predict(wikiCART4, newdata=wikiTest4,
+type="class")~
+
+~table(wikiTest4$Vandal, predictTestCART4)~
+
+The accuracy of the model is
+~(595+241)/(595+23+304+241) = 0.7188306~.
+
+** TODO Problem 3.2 - Using Non-Textual Data (1/1 point)
+
+There is a substantial difference in the accuracy of the model using
+the meta data. Is this because we made a more complicated model?
+
+*** Question
+
+Plot the CART tree. How many splits are there in the tree?
+
+**** Answer
+
+3 - correct
+
+*Explanation*
+
+You can plot the tree with ~prp(wikiCART4)~. The first split is on the
+variable ~Loggedin~, the second split is on the number of words added,
+and the third split is on the number of words removed.
+
+By adding new independent variables, we were able to significantly
+improve our accuracy without making the model more complicated!
+
+* Automating reviews in medicine [0/19]
+
+The medical literature is enormous. Pubmed, a database of medical
+publications maintained by the U.S. National Library of Medicine, has
+indexed over 23 million medical publications. Further, the rate of
+medical publication has increased over time, and now there are nearly
+1 million new publications in the field each year, or more than one
+per minute.
+
+The large size and fast-changing nature of the medical literature has
+increased the need for reviews, which search databases like Pubmed for
+papers on a particular topic and then report results from the papers
+found. While such reviews are often performed manually, with multiple
+people reviewing each search result, this is tedious and time
+consuming. In this problem, we will see how text analytics can be used
+to automate the process of information retrieval.
+
+The dataset consists of the titles (variable title) and abstracts
+(variable abstract) of papers retrieved in a [[http://www.ncbi.nlm.nih.gov/pubmed][Pubmed]] search. Each
+search result is labeled with whether the paper is a clinical trial
+testing a drug therapy for cancer (variable ~trial~). These labels were
+obtained by two people reviewing each search result and accessing the
+actual paper if necessary, as part of a literature review of clinical
+trials testing drug therapies for advanced and metastatic breast
+cancer.
+
+** TODO Problem 1.1 - Loading the Data (1/1 point)
+
+Load clinical_trial.csv into a data frame called trials (remembering
+to add the argument ~stringsAsFactors=FALSE~), and investigate the data
+frame with ~summary()~ and ~str()~.
+
+IMPORTANT NOTE: Some students have been getting errors like "invalid
+multibyte string" when performing certain parts of this homework
+question. If this is happening to you, use the argument
+~(fileEncoding="latin1")~ when reading in the file with ~read.csv~. This
+should cause those errors to go away.
+
+We can use R's string functions to learn more about the titles and
+abstracts of the located papers. The ~nchar()~ function counts the
+number of characters in a piece of text. Using the ~nchar()~ function on
+the variables in the data frame, answer the following questions:
+
+How many characters are there in the longest abstract? (Longest here
+is defined as the abstract with the largest number of characters.)
+
+*** Answer
+
+3708 - correct
+
+*Explanation*
+
+You can load the data set into R with the following command:
+
+~trials = read.csv("clinical_trial.csv", stringsAsFactors=FALSE)~
+
+From ~summary(nchar(trials$abstract))~ or ~max(nchar(trials$abstract))~,
+we can read the maximum length.
+
+** TODO Problem 1.2 - Loading the Data (1/1 point)
+
+How many search results provided no abstract? (HINT: A search result
+provided no abstract if the number of characters in the abstract field
+is zero.)
+
+*** Answer
+
+112 - correct
+
+*Explanation*
+
+From ~table(nchar(trials$abstract) == 0)~ or
+~sum(nchar(trials$abstract) == 0)~, we can find the number of missing
+abstracts.
+
+** TODO Problem 1.3 - Loading the Data (1/1 point)
+
+Find the observation with the minimum number of characters in the
+title (the variable "title") out of all of the observations in this
+dataset. What is the text of the title of this article? Include
+capitalization and punctuation in your response, but don't include the
+quotes.
+
+** Answer
+
+A decade of letrozole: FACE. - correct
+
+*Explanation*
+
+To identify which title is the shortest, we can use
+
+~which.min(nchar(trials$title))~
+
+From this, we know the 1258th title is the shortest. We can access
+this title with ~trials$title[1258]~.
+
+** TODO Problem 2.1 - Preparing the Corpus (4/4 points)
+
+Because we have both title and abstract information for trials, we
+need to build two corpera instead of one. Name them ~corpusTitle~ and
+~corpusAbstract~.
+
+Following the commands from lecture, perform the following tasks (you
+might need to load the "tm" package first if it isn't already
+loaded). Make sure to perform them in this order.
+
+1) Convert the ~title~ variable to ~corpusTitle~ and the abstract
+   ~variable~ to ~corpusAbstract~.
+
+2) Convert ~corpusTitle~ and ~corpusAbstract~ to lowercase. After
+   performing this step, remember to run the lines:
+
+~corpusTitle = tm_map(corpusTitle, PlainTextDocument)~
+
+~corpusAbstract = tm_map(corpusAbstract, PlainTextDocument)~
+
+3) Remove the punctuation in ~corpusTitle~ and ~corpusAbstract~.
+
+4) Remove the English language stop words from ~corpusTitle~ and ~corpusAbstract~.
+
+5) Stem the words in ~corpusTitle~ and ~corpusAbstract~ (each stemming
+   might take a few minutes).
+
+6) Build a document term matrix called ~dtmTitle~ from ~corpusTitle~ and
+   ~dtmAbstract~ from ~corpusAbstract~.
+
+7) Limit ~dtmTitle~ and ~dtmAbstract~ to terms with sparseness of at most
+   95% (aka terms that appear in at least 5% of documents).
+
+8) Convert ~dtmTitle~ and ~dtmAbstract~ to data frames (keep the names
+   ~dtmTitle~ and ~dtmAbstract~).
+
+If the code ~length(stopwords("english"))~ does not return 174 for
+you, then please run the line of code in [[https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/stopwords.txt][this file]], which will store
+the standard stop words in a variable called sw. When removing stop
+words, use ~tm_map(corpusTitle, removeWords, sw)~ and
+~tm_map(corpusAbstract, removeWords, sw)~ instead of
+~tm_map(corpusTitle, removeWords, stopwords("english"))~ and
+~tm_map(corpusAbstract, removeWords, stopwords("english"))~.
+
+*Explanation*
+
+Below we provide the code for ~corpusTitle~; only minor modifications
+are needed to build ~corpusAbstract~.
+
+~corpusTitle = Corpus(VectorSource(trials$title))~
+
+~corpusTitle = tm_map(corpusTitle, tolower)~
+
+~corpusTitle = tm_map(corpusTitle, PlainTextDocument)~
+
+~corpusTitle = tm_map(corpusTitle, removePunctuation)~
+
+~corpusTitle = tm_map(corpusTitle, removeWords, stopwords("english"))~
+
+~corpusTitle = tm_map(corpusTitle, stemDocument)~
+
+~dtmTitle = DocumentTermMatrix(corpusTitle)~
+
+~dtmTitle = removeSparseTerms(dtmTitle, 0.95)~
+
+~dtmTitle = as.data.frame(as.matrix(dtmTitle))~
+
+*** Question
+
+How many terms remain in dtmTitle after removing sparse terms (aka how
+many columns does it have)?
+
+**** Answer
+
+31 - correct
+
+*** Question
+
+How many terms remain in dtmAbstract?
+
+**** Answer
+
+335 - correct
+
+*Explanation*
+
+These can be read from ~str(dtmTitle)~ and ~str(dtmAbstract)~. Other than
+~str()~, the ~dim()~ or ~ncol()~ functions could have been used. If you used
+~(fileEncoding="latin1")~ when reading in the datafile, you'll have a few
+extra terms in ~dtmAbstract~, but you should get the answer correct.
+
+** TODO Problem 2.2 - Preparing the Corpus (1/1 point)
+
+What is the most likely reason why ~dtmAbstract~ has so many more terms
+than ~dtmTitle~?
+
+- [X] Abstracts tend to have many more words than titles - correct
+
+- [ ] Abstracts tend to have a much wider vocabulary than titles
+
+- [ ] More papers have abstracts than titles
+
+*Explanation*
+
+Because titles are so short, a word needs to be very common to appear
+in 5% of titles. Because abstracts have many more words, a word can be
+much less common and still appear in 5% of abstracts.
+
+While abstracts may have wider vocabulary, this is a secondary
+effect. As we saw in the previous subsection, all papers have titles,
+but not all have abstracts.
+
+** TODO Problem 2.3 - Preparing the Corpus (1/1 point)
+
+What is the most frequent word stem across all the abstracts? Hint:
+you can use colSums() to compute the frequency of a word across all
+the abstracts.
+
+*** Answer
+
+patient - correct
+
+*Explanation*
+
+We can compute the column sums and then identify the most common one
+with:
+
+~csAbstract = colSums(dtmAbstract)~
+
+~which.max(csAbstract)~
+
+** TODO Problem 3.1 - Building a model (1/1 point)
+
+We want to combine dtmTitle and dtmAbstract into a single data frame
+to make predictions. However, some of the variables in these data
+frames have the same names. To fix this issue, run the following
+commands:
+
+~colnames(dtmTitle) = paste0("T", colnames(dtmTitle))~
+
+~colnames(dtmAbstract) = paste0("A", colnames(dtmAbstract))~
+
+*** Question
+
+What was the effect of these functions?
+
+**** Answer
+
+- [ ] Removing the words that are in common between the titles and the
+  abstracts.
+
+- [X] Adding the letter T in front of all the title variable names and
+  adding the letter A in front of all the abstract variable
+  names. - correct
+
+- [ ] Adding the letter T in front of all the title variable names
+  that also appear in the abstract data frame, and adding an A in
+  front of all the abstract variable names that appear in the title
+  data frame.
+
+*Explanation*
+
+The first line pastes a T at the beginning of each column name for
+~dtmTitle~, which are the variable names. The second line does something
+similar for the Abstract variables - it pastes an A at the beginning
+of each column name for dtmAbstract, which are the variable names.
+
+** TODO Problem 3.2 - Building a Model (1/1 point)
+
+Using ~cbind()~, combine ~dtmTitle~ and ~dtmAbstract~ into a single
+data frame called ~dtm~:
+
+~dtm = cbind(dtmTitle, dtmAbstract)~
+
+As we did in class, add the dependent variable ~trial~ to ~dtm~, copying
+it from the original data frame called trials. How many columns are in
+this combined data frame?
+
+*** Answer
+
+367 - correct
+
+*Explanation*
+
+The combination can be accomplished with:
+
+~dtm = cbind(dtmTitle, dtmAbstract)~
+
+~dtm$trial = trials$trial~
+
+The number of variables in the combined data frame can be read from
+~str(dtm)~ or ~ncol(dtm)~. If you used ~(fileEncoding="latin1")~ when reading
+in the file, you should have 5 extra variables (but the answer should
+be graded as correct).
+
+** TODO Problem 3.3 - Building a Model (1/1 point)
+
+Now that we have prepared our data frame, it's time to split it into a
+training and testing set and to build regression models. Set the
+random seed to 144 and use the ~sample.split~ function from the ~caTools~
+package to split dtm into data frames named ~train~ and ~test~,
+putting 70% of the data in the training set.
+
+*Explanation*
+
+This can be accomplished with:
+
+~set.seed(144)~
+
+~spl = sample.split(dtm$trial, 0.7)~
+
+~train = subset(dtm, spl == TRUE)~
+
+~test = subset(dtm, spl == FALSE)~
+
+What is the accuracy of the baseline model on the training set?
+(Remember that the baseline model predicts the most frequent outcome
+in the training set for all observations.)
+
+*** Answer
+
+0.5609319 - correct
+
+*Explanation*
+
+Just as in any binary classification problem, the naive baseline
+always predicts the most common class. From ~table(train$trial)~, we see
+730 training set results were not trials, and 572 were
+trials. Therefore, the naive baseline always predicts a result is not
+a trial, yielding accuracy of ~730/(730+572)~.
+
+** TODO Problem 3.4 - Building a Model (2/2 points)
+
+Build a CART model called ~trialCART~, using all the independent
+variables in the training set to train the model, and then plot the
+CART model. Just use the default parameters to build the model (don't
+add a minbucket or cp value). Remember to add the ~method="class"~
+argument, since this is a classification problem.
+
+What is the name of the first variable the model split on?
+
+*** Answer
+
+Tphase - correct
+
+*Explanation*
+
+This can be accomplished with:
+
+~trialCART = rpart(trial~., data=train, method="class")~
+
+~prp(trialCART)~
+
+The first split checks whether or not Tphase is less than 0.5
+
+** TODO Problem 3.5 - Building a Model (1/1 point)
+
+Obtain the training set predictions for the model (do not yet predict
+on the test set). Extract the predicted probability of a result being
+a trial (recall that this involves not setting a type argument, and
+keeping only the second column of the predict output). What is the
+maximum predicted probability for any result?
+
+*** Answer
+
+0.8718861 - correct
+
+*Explanation*
+
+The training set predictions can be obtained and summarized with the
+following commands:
+
+~predTrain = predict(trialCart)[,2]~
+
+~summary(predTrain)~
+
+** TODO Problem 3.6 - Building a Model (1 point possible)
+
+Without running the analysis, how do you expect the maximum predicted
+probability to differ in the testing set?
+
+- [ ] The maximum predicted probability will likely be smaller in the
+  testing set.
+
+- [X] The maximum predicted probability will likely be exactly the
+  same in the testing set.
+
+- [ ] The maximum predicted probability will likely be larger in the
+  testing set.
+
+*Explanation*
+
+Because the CART tree assigns the same predicted probability to each
+leaf node and there are a small number of leaf nodes compared to data
+points, we expect exactly the same maximum predicted probability.
+
+** TODO Problem 3.7 - Building a Model (3/3 points)
+
+For these questions, use a threshold probability of 0.5 to predict
+that an observation is a clinical trial.
+
+*** Question
+
+What is the training set accuracy of the CART model?
+
+**** Answer
+
+0.8233487 - correct
+
+*** Question
+
+What is the training set sensitivity of the CART model?
+
+**** Answer
+
+0.770979 - correct
+
+*** Question
+
+What is the training set specificity of the CART model?
+
+**** Answer
+
+0.8643836 - correct
+
+*Explanation*
+
+We can compare the predictions with threshold 0.5 to the true results
+in the training set with:
+
+~table(train$trial, predTrain >= 0.5)~
+
+From this, we read the following confusion matrix (rows are true
+outcome, columns are predicted outcomes):
+
+FALSE TRUE
+
+0 631 99
+
+1 131 441
+
+We conclude that the model has
+
+training set accuracy ~(631+441)/(631+441+99+131)~,
+
+sensitivity ~441/(441+131)~ and
+
+specificity ~631/(631+99)~.
+
+** TODO Problem 4.1 - Evaluating the model on the testing set (2/2 points)
+
+Evaluate the CART model on the testing set using the predict function
+and creating a vector of predicted probabilities ~predTest~.
+
+*** Question
+
+What is the testing set accuracy, assuming a probability threshold of
+0.5 for predicting that a result is a clinical trial?
+
+**** Answer
+
+0.7580645 - correct
+
+*Explanation*
+
+The testing set predictions can be obtained and compared to the true
+outcomes with:
+
+~predTest = predict(trialCART, newdata=test)[,2]~
+
+~table(test$trial, predTest >= 0.5)~
+
+This yields the following confusion matrix:
+
+FALSE TRUE
+
+0 261 52
+
+1 83 162
+
+From this, we read that the testing set
+
+accuracy is ~(261+162)/(261+162+83+52)~.
+
+** TODO Problem 4.2 - Evaluating the Model on the Testing Set (2/2 points)
+
+Using the ROCR package, what is the testing set AUC of the prediction
+model?
+
+*** Answer
+
+0.8371063 - correct
+
+*Explanation*
+
+The AUC can be determined using the following code:
+
+~library(ROCR)~
+
+~pred = prediction(predTest, test$trial)~
+
+~as.numeric(performance(pred, "auc")@y.values)~
+
+** TODO part 5: decision-maker tradeoffs
+
+The decision maker for this problem, a researcher performing a review
+of the medical literature, would use a model (like the CART one we
+built here) in the following workflow:
+
+1) For all of the papers retrieved in the PubMed Search, predict which
+   papers are clinical trials using the model. This yields some
+   initial Set A of papers predicted to be trials, and some Set B of
+   papers predicted not to be trials. (See the figure below.)
+
+2) Then, the decision maker manually reviews all papers in Set A,
+   verifying that each paper meets the study's detailed inclusion
+   criteria (for the purposes of this analysis, we assume this manual
+   review is 100% accurate at identifying whether a paper in Set A is
+   relevant to the study). This yields a more limited set of papers to
+   be included in the study, which would ideally be all papers in the
+   medical literature meeting the detailed inclusion criteria for the
+   study.
+
+3) Perform the study-specific analysis, using data extracted from the
+   limited set of papers identified in step 2.
+
+This process is shown in the figure below.
+
+[[../graphs/InfoRetrievalFigure2.png.png]]
+
+** TODO Problem 5.1 - Decision-Maker Tradeoffs (1/1 point)
+
+What is the cost associated with the model in Step 1 making a false
+negative prediction?
+
+*** Answer
+
+- [ ] A paper will be mistakenly added to Set A, yielding additional
+  work in Step 2 of the process but not affecting the quality of the
+  results of Step 3.
+
+- [ ] A paper will be mistakenly added to Set A, definitely affecting
+  the quality of the results of Step 3.
+
+- [X] A paper that should have been included in Set A will be missed,
+  affecting the quality of the results of Step 3. - correct
+
+- [ ] There is no cost associated with a false negative prediction.
+
+*Explanation*
+
+By definition, a false negative is a paper that should have been
+included in Set A but was missed by the model. This means a study that
+should have been included in Step 3 was missed, affecting the results.
+
+** TODO Problem 5.2 - Decision-Maker Tradeoffs (1/1 point)
+
+What is the cost associated with the model in Step 1 making a false
+positive prediction?
+
+*** Answer
+
+- [X] A paper will be mistakenly added to Set A, yielding additional
+  work in Step 2 of the process but not affecting the quality of the
+  results of Step 3. - correct
+
+- [ ] A paper will be mistakenly added to Set A, definitely affecting
+  the quality of the results of Step 3.
+
+- [ ] A paper that should have been included in Set A will be missed,
+  affecting the quality of the results of Step 3.
+
+- [ ] There is no cost associated with a false positive prediction.
+
+*Explanation*
+
+By definition, a false positive is a paper that should not have been
+included in Set A but that was actually included. However, because the
+manual review in Step 2 is assumed to be 100% effective, this extra
+paper will not make it into the more limited set of papers, and
+therefore this mistake will not affect the analysis in Step 3.
+
+** TODO Problem 5.3 - Decision-Maker Tradeoffs (1/1 point)
+
+Given the costs associated with false positives and false negatives,
+which of the following is most accurate?
+
+*** Answer
+
+- [ ] A false positive is more costly than a false negative; the
+  decision maker should use a probability threshold greater than 0.5
+  for the machine learning model.
+
+- [ ] A false positive is more costly than a false negative; the
+  decision maker should use a probability threshold less than 0.5 for
+  the machine learning model.
+
+- [ ] A false negative is more costly than a false positive; the
+  decision maker should use a probability threshold greater than 0.5
+  for the machine learning model.
+
+- [X] A false negative is more costly than a false positive; the
+  decision maker should use a probability threshold less than 0.5 for
+  the machine learning model. - correct
+
+*Explanation*
+
+A false negative might negatively affect the results of the literature
+review and analysis, while a false positive is a nuisance (one
+additional paper that needs to be manually checked). As a result, the
+cost of a false negative is much higher than the cost of a false
+positive, so much so that many studies actually use no machine
+learning (aka no Step 1) and have two people manually review each
+search result in Step 2. As always, we prefer a lower threshold in
+cases where false negatives are more costly than false positives,
+since we will make fewer negative predictions.
+
+* Separating spam from ham (Part 1) [0/31]
+
+Nearly every email user has at some point encountered a "spam" email,
+which is an unsolicited message often advertising a product,
+containing links to malware, or attempting to scam the
+recipient. Roughly 80-90% of more than 100 billion emails sent each
+day are spam emails, most being sent from botnets of malware-infected
+computers. The remainder of emails are called "ham" emails.
+
+As a result of the huge number of spam emails being sent across the
+Internet each day, most email providers offer a spam filter that
+automatically flags likely spam messages and separates them from the
+ham. Though these filters use a number of techniques (e.g. looking up
+the sender in a so-called "Blackhole List" that contains IP addresses
+of likely spammers), most rely heavily on the analysis of the contents
+of an email via text analytics.
+
+In this homework problem, we will build and evaluate a spam filter
+using a publicly available dataset first described in the 2006
+conference paper "Spam Filtering with Naive Bayes -- Which Naive
+Bayes?" by V. Metsis, I. Androutsopoulos, and G. Paliouras. The "ham"
+messages in this dataset come from the inbox of former Enron Managing
+Director for Research Vincent Kaminski, one of the inboxes in the
+Enron Corpus. One source of spam messages in this dataset is the
+SpamAssassin corpus, which contains hand-labeled spam messages
+contributed by Internet users. The remaining spam was collected by
+Project Honey Pot, a project that collects spam messages and
+identifies spammers by publishing email address that humans would know
+not to contact but that bots might target with spam. The full dataset
+we will use was constructed as roughly a 75/25 mix of the ham and spam
+messages.
+
+The dataset contains just two fields:
+
+- *text*: The text of the email.
+
+- *spam*: A binary variable indicating if the email was spam.
+
+** Important Note
+
+This problem (Separating Spam from Ham) continues on the next page
+with additional exercises. The second page is optional, but if you
+want to try it out, remember to save your work so you can start the
+next page where you left off here.
+
+** TODO Problem 1.1 - Loading the Dataset (1/1 point)
+
+Begin by loading the dataset [[https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+type@asset+block/emails.csv][emails.csv]] into a data frame called
+emails. Remember to pass the stringsAsFactors=FALSE option when
+loading the data.
+
+*Explanation*
+
+You can load the dataset with:
+
+~emails = read.csv("emails.csv", stringsAsFactors=FALSE)~
+
+*** Question
+
+How many emails are in the dataset?
+
+**** Answer
+
+5728 - correct
+
+*Explanation*
+
+The number of emails can be read from ~str(emails)~ or
+~nrow(emails)~.
+
+** TODO Problem 1.2 - Loading the Dataset (1/1 point)
+
+*** Question
+
+How many of the emails are spam?
+
+**** Answer
+
+1368 - correct
+
+*Explanation*
+
+This can be read from ~table(emails$spam)~.
+
+** TODO Problem 1.3 - Loading the Dataset (1/1 point)
+
+Which word appears at the beginning of every email in the dataset?
+Respond as a lower-case word with punctuation removed.
+
+*** Answer
+
+subject - correct
+
+*Explanation*
+
+You can review emails with, for instance, ~emails$text[1]~ or
+~emails$text[1000]~. Every email begins with the word "Subject:".
+
+** TODO Problem 1.4 - Loading the Dataset (1 point possible)
+
+Could a spam classifier potentially benefit from including the
+frequency of the word that appears in every email?
+
+- [ ] No -- the word appears in every email so this variable would not
+  help us differentiate spam from ham.
+
+- [X] Yes -- the number of times the word appears might help us
+  differentiate spam from ham.
+
+*Explanation*
+
+We know that each email has the word "subject" appear at least once,
+but the frequency with which it appears might help us differentiate
+spam from ham. For instance, a long email chain would have the word
+"subject" appear a number of times, and this higher frequency might be
+indicative of a ham message.
+
+** TODO Problem 1.5 - Loading the Dataset (1/1 point)
+
+The ~nchar()~ function counts the number of characters in a piece of
+text. How many characters are in the longest email in the dataset
+(where longest is measured in terms of the maximum number of
+characters)?
+
+*** Answer
+
+43952 - correct
+
+*Explanation*
+
+The maximum length can be obtained with ~max(nchar(emails$text))~.
+
+** TODO Problem 1.6 - Loading the Dataset (1/1 point)
+
+Which row contains the shortest email in the dataset? (Just like in
+the previous problem, shortest is measured in terms of the fewest
+number of characters.)
+
+*** Answer
+
+1992 - correct
+
+*Explanation*
+
+The minimum length, 13 characters, can be determined with
+~min(nchar(emails$text))~. We can see that this is achieved only in
+email 1992 from ~which(nchar(emails$text) == 13)~. An easier approach
+would be ~which.min(nchar(emails$text))~.
+
+** TODO Problem 2.1 - Preparing the Corpus (2/2 points)
+
+Follow the standard steps to build and pre-process the corpus:
+
+1) Build a new corpus variable called corpus.
+
+2) Using ~tm_map~, convert the text to lowercase.
+
+3) Using ~tm_map~, remove all punctuation from the corpus.
+
+4) Using ~tm_map~, remove all English stopwords from the corpus.
+
+5) Using ~tm_map~, stem the words in the corpus.
+
+6) Build a document term matrix from the corpus, called ~dtm~.
+
+If the code ~length(stopwords("english"))~ does not return 174 for you,
+then please run the line of code in this file, which will store the
+standard stop words in a variable called sw. When removing stop words,
+use ~tm_map(corpus, removeWords, sw)~ instead of
+~tm_map(corpus, removeWords, stopwords("english"))~.
+
+How many terms are in ~dtm~?
+
+*** Answer
+
+28687 - correct
+
+*Explanation*
+
+These steps can be accomplished by running:
+
+~corpus = Corpus(VectorSource(emails$text))~
+
+~corpus = tm_map(corpus, tolower)~
+
+~corpus = tm_map(corpus, PlainTextDocument)~
+
+~corpus = tm_map(corpus, removePunctuation)~
+
+~corpus = tm_map(corpus, removeWords, stopwords("english"))~
+
+~corpus = tm_map(corpus, stemDocument)~
+
+~dtm = DocumentTermMatrix(corpus)~
+
+~dtm~
+
+From the dtm summary output, we can read that it contains 28687
+terms.
+
+** TODO Problem 2.2 - Preparing the Corpus (1/1 point)
+
+To obtain a more reasonable number of terms, limit ~dtm~ to contain
+terms appearing in at least 5% of documents, and store this result as
+~spdtm~ (don't overwrite dtm, because we will use it in a later step of
+this homework). How many terms are in ~spdtm~?
+
+*** Answer
+
+330 - correct
+
+*Explanation*
+
+This can be accomplished with:
+
+~spdtm = removeSparseTerms(dtm, 0.95)~
+
+~spdtm~
+
+From the ~spdtm~ summary output, it contains 330 terms.
+
+** TODO Problem 2.3 - Preparing the Corpus (2/2 points)
+
+Build a data frame called ~emailsSparse~ from ~spdtm~, and use the
+~make.names~ function to make the variable names of ~emailsSparse~ valid.
+
+*Explanation*
+
+This can be accomplished with:
+
+~emailsSparse = as.data.frame(as.matrix(spdtm))~
+
+~colnames(emailsSparse) = make.names(colnames(emailsSparse))~
+
+~colSums()~ is an R function that returns the sum of values for each
+variable in our data frame. Our data frame contains the number of
+times each word stem (columns) appeared in each email
+(rows). Therefore, ~colSums(emailsSparse)~ returns the number of times a
+word stem appeared across all the emails in the dataset. What is the
+word stem that shows up most frequently across all the emails in the
+dataset? Hint: think about how you can use ~sort()~ or ~which.max()~ to
+pick out the maximum frequency.
+
+*** Answer
+
+enron - correct
+
+*Explanation*
+
+~colSums(emailsSparse)~ contains the sum of all the values for each
+column in our data frame. Since the values in the data frame are the
+frequencies of the stem in the column for the email in the row, these
+column sums represent the frequencies of the stems across all emails.
+
+We can either use ~sort()~ or ~which.max()~ to pick out the most
+common word:
+
+~sort(colSums(emailsSparse))~
+
+~which.max(colSums(emailsSparse))~
+
+** TODO Problem 2.4 - Preparing the Corpus (1/1 point)
+
+Add a variable called ~spam~ to emailsSparse containing the email spam
+labels. You can do this by copying over the ~spam~ variable from the
+original data frame (remember how we did this in the Twitter
+lecture).
+
+*Explanation*
+
+This can be accomplished with:
+
+~emailsSparse$spam = emails$spam~
+
+How many word stems appear at least 5000 times in the ham emails in
+the dataset? Hint: in this and the next question, remember not to
+count the dependent variable we just added.
+
+*** Answer
+
+6 - correct
+
+*Explanation*
+
+We can read the most frequent terms in the ham dataset with
+~sort(colSums(subset(emailsSparse, spam == 0)))~. ~enron~, ~ect~,
+~subject~, ~vinc~, ~will~, and ~hou~ appear at least 5000 times in the
+ham dataset.
+
+** TODO Problem 2.5 - Preparing the Corpus (1/1 point)
+
+How many word stems appear at least 1000 times in the spam emails in
+the dataset?
+
+*** Answer
+
+3 - correct
+
+*Explanation*
+
+We can limit the dataset to the spam emails with ~subset(emailsSparse,
+spam == 1)~. Therefore, we can read the most frequent terms with
+~sort(colSums(subset(emailsSparse, spam == 1)))~. ~subject~, ~will~,
+and ~compani~ are the three stems that appear at least 1000
+times. Note that the variable ~spam~ is the dependent variable and is
+not the frequency of a word stem.
+
+** TODO Problem 2.6 - Preparing the Corpus (1/1 point)
+
+The lists of most common words are significantly different between the
+spam and ham emails. What does this likely imply?
+
+*** Answer
+
+- [ ] The frequencies of these most common words are unlikely to help
+  differentiate between spam and ham.
+
+- [X] The frequencies of these most common words are likely to help
+  differentiate between spam and ham. - correct
+
+*Explanation*
+
+A word stem like ~enron~, which is extremely common in the ham emails
+but does not occur in any spam message, will help us correctly
+identify a large number of ham messages.
+
+** TODO Problem 2.7 - Preparing the Corpus (1/1 point)
+
+Several of the most common word stems from the ham documents, such as
+~enron~, ~hou~ (short for Houston), ~vinc~ (the word stem of ~Vince~)
+and ~kaminski~, are likely specific to Vincent Kaminski's inbox. What
+does this mean about the applicability of the text analytics models we
+will train for the spam filtering problem?
+
+*** Answer
+
+- [ ] The models we build are still very general, and are likely to
+  perform well as a spam filter for nearly any other person.
+
+- [X] The models we build are personalized, and would need to be
+  further tested before being used as a spam filter for another
+  person. - correct
+
+*Explanation*
+
+The ham dataset is certainly personalized to Vincent Kaminski, and
+therefore it might not generalize well to a general email
+user. Caution is definitely necessary before applying the filters
+derived in this problem to other email users.
+
+** TODO Problem 3.1 - Building machine learning models (3/3 points)
+
+First, convert the dependent variable to a factor with
+~emailsSparse$spam = as.factor(emailsSparse$spam)~.
+
+Next, set the random seed to 123 and use the ~sample.split~ function
+to split ~emailsSparse~ 70/30 into a training set called ~train~ and a
+testing set called ~test~. Make sure to perform this step on
+~emailsSparse~ instead of ~emails~.
+
+*Explanation*
+
+These steps can be accomplished with:
+
+~emailsSparse$spam = as.factor(emailsSparse$spam)~
+
+~set.seed(123)~
+
+~library(caTools)~
+
+~spl = sample.split(emailsSparse$spam, 0.7)~
+
+~train = subset(emailsSparse, spl == TRUE)~
+
+~test = subset(emailsSparse, spl == FALSE)~
+
+Using the training set, train the following three machine learning
+models. The models should predict the dependent variable ~spam~, using
+all other available variables as independent variables. Please be
+patient, as these models may take a few minutes to train.
+
+1) A logistic regression model called ~spamLog~. You may see a warning
+   message here - we'll discuss this more later.
+
+2) A CART model called ~spamCART~, using the default parameters to
+   train the model (don't worry about adding minbucket or
+   cp). Remember to add the argument ~(method="class")~ since this is a
+   binary classification problem.
+
+3) A random forest model called ~spamRF~, using the default parameters
+   to train the model (don't worry about specifying ~ntree~ or
+   ~nodesize~). Directly before training the random forest model, set
+   the random seed to 123 (even though we've already done this earlier
+   in the problem, it's important to set the seed right before
+   training the model so we all obtain the same results. Keep in mind
+   though that on certain operating systems, your results might still
+   be slightly different).
+
+*Explanation*
+
+These models can be trained with the following code:
+
+~spamLog = glm(spam~., data=train, family="binomial")~
+
+~spamCART = rpart(spam~., data=train, method="class")~
+
+~set.seed(123)~
+
+~spamRF = randomForest(spam~., data=train)~
+
+For each model, obtain the predicted spam probabilities for the
+*training set*. Be careful to obtain probabilities instead of predicted
+classes, because we will be using these values to compute training set
+AUC values. Recall that you can obtain probabilities for CART models
+by not passing any type parameter to the ~predict()~ function, and you
+can obtain probabilities from a random forest by adding the argument
+~(type="prob")~. For CART and random forest, you need to select the second
+column of the output of the ~predict()~ function, corresponding to the
+probability of a message being spam.
+
+*Explanation*
+
+These probabilities can be obtained with:
+
+~predTrainLog = predict(spamLog, type="response")~
+
+~predTrainCART = predict(spamCART)[,2]~
+
+~predTrainRF = predict(spamRF, type="prob")[,2]~
+
+You may have noticed that training the logistic regression model
+yielded the messages *algorithm did not converge* and *fitted
+probabilities numerically 0 or 1 occurred*. Both of these messages
+often indicate overfitting and the first indicates particularly severe
+overfitting, often to the point that the training set observations are
+fit perfectly by the model. Let's investigate the predicted
+probabilities from the logistic regression model.
+
+*** Question
+
+How many of the training set predicted probabilities from spamLog are
+less than 0.00001?
+
+**** Answer
+
+3046 - correct
+
+*** Question
+
+How many of the training set predicted probabilities from spamLog are
+more than 0.99999?
+
+**** Answer
+
+954 - correct
+
+*** Question
+
+How many of the training set predicted probabilities from spamLog are
+between 0.00001 and 0.99999?
+
+**** Answer
+
+10 - correct
+
+*Explanation*
+
+To check the number of probabilities with these characteristics, we
+can use:
+
+~table(predTrainLog < 0.00001)~
+
+~table(predTrainLog > 0.99999)~
+
+~table(predTrainLog >= 0.00001 & predTrainLog <= 0.99999)~
+
+You might have gotten slightly different answers than the ones you see
+here, because the ~glm~ function has a hard time converging with this
+many independent variables. That's okay - your answers should still be
+marked as correct.
+
+** TODO Problem 3.2 - Building Machine Learning Models (1/1 point)
+
+How many variables are labeled as significant (at the p=0.05 level) in
+the logistic regression summary output?
+
+*** Answer
+
+0 - correct
+
+*Explanation*
+
+From ~summary(spamLog)~, we see that none of the variables are labeled
+as significant (a symptom of the logistic regression algorithm not
+converging).
+
+** TODO Problem 3.3 - Building Machine Learning Models (1/1 point)
+
+How many of the word stems ~enron~, ~hou~, ~vinc~, and ~kaminski~
+appear in the CART tree? Recall that we suspect these word stems are
+specific to Vincent Kaminski and might affect the generalizability of
+a spam filter built with his ham data.
+
+*** Answer
+
+2 - correct
+
+*Explanation*
+
+From prp(spamCART), we see that ~vinc~ and ~enron~ appear in the CART
+tree as the top two branches, but that ~hou~ and ~kaminski~ do not
+appear.
+
+** TODO Problem 3.4 - Building Machine Learning Models (1/1 point)
+
+What is the training set accuracy of spamLog, using a threshold of 0.5
+for predictions?
+
+*** Answer
+
+0.9990025 - correct
+
+*Explanation*
+
+This can be obtained with:
+
+~table(train$spam, predTrainLog > 0.5)~
+
+The accuracy is ~(3052+954)/nrow(train)~.
+
+** TODO Problem 3.5 - Building Machine Learning Models (1/1 point)
+
+What is the training set AUC of spamLog?
+
+*** Answer
+
+0.9999959 - correct
+
+*Explanation*
+
+This can be obtained with:
+
+~predictionTrainLog = prediction(predTrainLog, train$spam)~
+
+~as.numeric(performance(predictionTrainLog, "auc")@y.values)~
+
+** TODO Problem 3.6 - Building Machine Learning Models (1/1 point)
+
+What is the training set accuracy of spamCART, using a threshold of
+0.5 for predictions? (Remember that if you used the type="class"
+argument when making predictions, you automatically used a threshold
+of 0.5. If you did not add in the type argument to the predict
+function, the probabilities are in the second column of the predict
+output.)
+
+*** Answer
+
+0.942394 - correct
+
+*Explanation*
+
+This can be obtained with:
+
+~table(train$spam, predTrainCART > 0.5)~
+
+Then the accuracy is ~(2885+894)/nrow(train)~
+
+** TODO Problem 3.7 - Building Machine Learning Models (1/1 point)
+
+What is the training set AUC of spamCART? (Remember that you have to
+pass the prediction function predicted probabilities, so don't include
+the type argument when making predictions for your CART model.)
+
+*** Answer
+
+0.9696044 - correct
+
+*Explanation*
+
+This can be obtained with:
+
+~predictionTrainCART = prediction(predTrainCART, train$spam)~
+
+~as.numeric(performance(predictionTrainCART, "auc")@y.values)~
+
+** TODO Problem 3.8 - Building Machine Learning Models (1/1 point)
+
+What is the training set accuracy of ~spamRF~, using a threshold of 0.5
+for predictions? (Remember that your answer might not match ours
+exactly, due to random behavior in the random forest algorithm on
+different operating systems.)
+
+*** Answer
+
+0.9985037 - correct
+
+*Explanation*
+
+This can be obtained with:
+
+~table(train$spam, predTrainRF > 0.5)~
+
+And then the accuracy is ~(3013+914)/nrow(train)~
+
+** TODO Problem 3.9 - Building Machine Learning Models (2/2 points)
+
+What is the training set AUC of spamRF? (Remember to pass the argument
+type="prob" to the predict function to get predicted probabilities for
+a random forest model. The probabilities will be the second column of
+the output.)
+
+*** Answer
+
+0.9999959 - correct
+
+*Explanation*
+
+This can be obtained with:
+
+~predictionTrainRF = prediction(predTrainRF, train$spam)~
+
+~as.numeric(performance(predictionTrainRF, "auc")@y.values)~
+
+** TODO Problem 3.10 - Building Machine Learning Models (1 point possible)
+
+Which model had the best training set performance, in terms of
+accuracy and AUC?
+
+*** Answer
+
+- [X] Logistic regression
+- [ ] CART
+- [ ] Random forest
+
+*Explanation*
+
+In terms of both accuracy and AUC, logistic regression is nearly
+perfect and outperforms the other two models.
+
+** TODO Problem 4.1 - Evaluating on the Test Set (1/1 point)
+
+Obtain predicted probabilities for the testing set for each of the
+models, again ensuring that probabilities instead of classes are
+obtained.
+
+*Explanation*
+
+The predicted probabilities can be obtained with:
+
+~predTestLog = predict(spamLog, newdata=test, type="response")~
+
+~predTestCART = predict(spamCART, newdata=test)[,2]~
+
+~predTestRF = predict(spamRF, newdata=test, type="prob")[,2]~
+
+*** Question
+
+What is the testing set accuracy of spamLog, using a threshold of 0.5
+for predictions?
+
+**** Answer
+
+0.9505239 - correct
+
+*Explanation*
+
+This can be obtained with:
+
+~table(test$spam, predTestLog > 0.5)~
+
+Then the accuracy is ~(1257+376)/nrow(test)~
+
+** TODO Problem 4.2 - Evaluating on the Test Set (1/1 point)
+
+What is the testing set AUC of spamLog?
+
+*** Answer
+
+0.9627517 - correct
+
+*Explanation*
+
+This can be obtained with:
+
+~predictionTestLog = prediction(predTestLog, test$spam)~
+
+~as.numeric(performance(predictionTestLog, "auc")@y.values)~
+
+** TODO Problem 4.3 - Evaluating on the Test Set (1/1 point)
+
+What is the testing set accuracy of spamCART, using a threshold of 0.5
+for predictions?
+
+*** Answer
+
+0.9394645 - correct
+
+*Explanation*
+
+This can be obtained with:
+
+~table(test$spam, predTestCART > 0.5)~
+
+Then the accuracy is ~(1228+386)/nrow(test)~
+
+** TODO Problem 4.4 - Evaluating on the Test Set (1/1 point)
+
+What is the testing set AUC of spamCART?
+
+*** Answer
+
+0.963176 - correct
+
+*Explanation*
+
+This can be obtained with:
+
+~predictionTestCART = prediction(predTestCART, test$spam)~
+
+~as.numeric(performance(predictionTestCART, "auc")@y.values)~
+
+** TODO Problem 4.5 - Evaluating on the Test Set (1/1 point)
+
+What is the testing set accuracy of spamRF, using a threshold of 0.5
+for predictions?
+
+*** Answer
+
+0.975553 - correct
+
+*Explanation*
+
+This can be obtained with:
+
+~table(test$spam, predTestRF > 0.5)~
+
+Then the accuracy is ~(1290+385)/nrow(test)~
+
+** TODO Problem 4.6 - Evaluating on the Test Set (1/1 point)
+
+What is the testing set AUC of spamRF?
+
+*** Answer
+
+0.9975656 - correct
+
+*Explanation*
+
+This can be obtained with:
+
+~predictionTestRF = prediction(predTestRF, test$spam)~
+
+~as.numeric(performance(predictionTestRF, "auc")@y.values)~
+
+** TODO Problem 4.7 - Evaluating on the Test Set (1/1 point)
+
+Which model had the best testing set performance, in terms of accuracy
+and AUC?
+
+*** Answer
+
+- [ ] Logistic regression
+- [ ] CART
+- [X] Random forest - correct
+
+*Explanation*
+
+The random forest outperformed logistic regression and CART in both
+measures, obtaining an impressive AUC of 0.997 on the test set.
+
+** TODO Problem 4.8 - Evaluating on the Test Set (1/1 point)
+
+Which model demonstrated the greatest degree of overfitting?
+
+*** Answer
+
+- [X] Logistic regression - correct
+- [ ] CART
+- [ ] Random forest
+
+*Explanation*
+
+Both CART and random forest had very similar accuracies on the
+training and testing sets. However, logistic regression obtained
+nearly perfect accuracy and AUC on the training set and had
+far-from-perfect performance on the testing set. This is an indicator
+of overfitting.
+
+** Important Note
+
+The second part of this homework assignment is optional, and is on the
+next page. If you want to complete the optional assignment, remember
+to save your work so you can start the next page where you left off
+here.
+
+* Separating Spam from Ham (Part 2 - OPTIONAL) [0/14]
+
+This optional homework assignment is the second part of the assignment
+from the previous page. Please complete Problems 1-4 on the previous
+page before starting this problem, if you choose to do so. A
+description of the problem and the dataset can be found on the
+previous page.
+
+** Important Note
+
+This problem is optional, and will not count towards your grade. We
+have created this problem to give you extra practice with the topics
+covered in this unit.
+
+** Problem 5.1 - Assigning weights to different types of errors
+
+Thus far, we have used a threshold of 0.5 as the cutoff for predicting
+that an email message is spam, and we have used accuracy as one of our
+measures of model quality. As we have previously learned, these are
+good choices when we have no preference for different types of errors
+(false positives vs. false negatives), but other choices might be
+better if we assign a higher cost to one type of error.
+
+Consider the case of an email provider using the spam filter we have
+developed. The email provider moves all of the emails flagged as spam
+to a separate "Junk Email" folder, meaning those emails are not
+displayed in the main inbox. The emails not flagged as spam by the
+algorithm are displayed in the inbox. Many of this provider's email
+users never check the spam folder, so they will never see emails
+delivered there.
+
+*** Question
+
+In this scenario, what is the cost associated with the model making a
+false negative error?
+
+**** Answer
+
+- [ ] A ham email will be sent to the Junk Email folder, potentially
+  resulting in the email user never seeing that message.
+
+- [X] A spam email will be displayed in the main inbox, a nuisance for
+  the email user.
+
+- [ ] There is no cost associated with this sort of mistake.
+
+*Explanation*
+
+A false negative means the model labels a spam email as ham. This
+results in a spam email being displayed in the main inbox.
+
+*** Question
+
+In this scenario, what is the cost associated with our model making a
+false positive error?
+
+**** Answer
+
+- [X] A ham email will be sent to the Junk Email folder, potentially
+  resulting in the email user never seeing that message.
+
+- [ ] A spam email will be displayed in the main inbox, a nuisance for
+  the email user.
+
+- [ ] There is no cost associated with this sort of mistake.
+
+*Explanation*
+
+A false positive means the model labels a ham email as spam. This
+results in a ham email being sent to the Junk Email folder.
+
+** TODO Problem 5.2 - Assigning Weights to Different Types of Errors
+
+Which sort of mistake is more costly (less desirable), assuming that
+the user will never check the Junk Email folder?
+
+*** Answer
+
+- [ ] False negative
+- [X] False positive
+- [ ] They are equally costly
+
+*Explanation*
+
+A false negative is largely a nuisance (the user will need to delete
+the unsolicited email). However a false positive can be very costly,
+since the user might completely miss an important email due to it
+being delivered to the spam folder. Therefore, the false positive is
+more costly.
+
+** TODO Problem 5.3 - Assigning Weights to Different Types of Errors
+
+What sort of user might assign a particularly high cost to a false
+negative result?
+
+*** Answer
+
+- [ ] A user who does not mind spam emails reaching their main inbox
+
+- [X] A user who is particularly annoyed by spam email reaching their
+  main inbox
+
+- [ ] A user who never checks their Junk Email folder
+
+- [ ] A user who always checks their Junk Email folder
+
+*Explanation*
+
+A false negative results in spam reaching a user's main inbox, which
+is a nuisance. A user who is particularly annoyed by such spam would
+assign a particularly high cost to a false negative.
+
+** TODO Problem 5.4 - Assigning Weights to Different Types of Errors
+
+What sort of user might assign a particularly high cost to a false
+positive result?
+
+*** Answer
+
+- [ ] A user who does not mind spam emails reaching his/her main inbox
+
+- [ ] A user who is particularly annoyed by spam email reaching
+  his/her main inbox
+
+- [X] A user who never checks his/her Junk Email folder
+
+- [ ] A user who routinely checks his/her Junk Email folder
+
+*Explanation*
+
+A false positive results in ham being sent to a user's Junk Email
+folder. While the user might catch the mistake upon checking the Junk
+Email folder, users who never check this folder will miss the email,
+incurring a particularly high cost.
+
+** TODO Problem 5.5 - Assigning Weights to Different Types of Errors
+
+Consider another use case for the spam filter, in which messages
+labeled as spam are still delivered to the main inbox but are flagged
+as "potential spam." Therefore, there is no risk of the email user
+missing an email regardless of whether it is flagged as spam. What is
+the largest way in which this change in spam filter design affects the
+costs of false negative and false positive results?
+
+- [ ] The cost of false negative results is decreased
+- [ ] The cost of false negative results is increased
+- [X] The cost of false positive results is decreased
+- [ ] The cost of false positive results is increased
+
+*Explanation*
+
+While before many users would completely miss a ham email labeled as
+spam (false positive), now users will not miss an email after this
+sort of mistake. As a result, the cost of a false positive has been
+decreased.
+
+** TODO Problem 5.6 - Assigning Weights to Different Types of Errors
+
+Consider a large-scale email provider with more than 100,000
+customers. Which of the following represents an approach for
+approximating each customer's preferences between a false positive and
+false negative that is both practical and personalized?
+
+*** Answer
+
+- [ ] Use the expert opinion of a project manager to select the
+  relative cost for all users
+
+- [X] Automatically collect information about how often each user
+  accesses his/her Junk Email folder to infer preferences
+
+- [ ] Survey a random sample of users to measure their preferences
+
+- [ ] Survey all users to measure their preferences
+
+*Explanation*
+
+While using expert opinion is practical, it is not personalized (we
+would use the same cost for all users). Likewise, a random sample of
+user preferences doesn't enable personalized costs for each user.
+
+While a survey of all users would enable personalization, it is
+impractical to obtain survey results from all or most of the users.
+
+While it's impractical to survey all users, it is easy to
+automatically collect their usage patterns. This could enable us to
+select higher regression thresholds for users who rarely check their
+Junk Email folder but lower thresholds for users who regularly check
+the folder.
+
+** TODO Problem 6.1 - Integrating Word Count Information
+
+While we have thus far mostly dealt with frequencies of specific words
+in our analysis, we can extract other information from text. The last
+two sections of this problem will deal with two other types of
+information we can extract.
+
+First, we will use the number of words in the each email as an
+independent variable. We can use the original document term matrix
+called dtm for this task. The document term matrix has documents (in
+this case, emails) as its rows, terms (in this case word stems) as its
+columns, and frequencies as its values. As a result, the sum of all
+the elements in a row of the document term matrix is equal to the
+number of terms present in the document corresponding to the
+row. Obtain the word counts for each email with the command:
+
+~wordCount = rowSums(as.matrix(dtm))~
+
+*IMPORTANT NOTE*: If you received an error message when running the
+command above, it might be because your computer ran out of memory
+when trying to convert dtm to a matrix. If this happened to you, try
+running the following lines of code instead to create wordCount (if
+you didn't get an error, you don't need to run these lines). This code
+is a little more cryptic, but is more memory efficient.
+
+~library(slam)~
+
+~wordCount = rollup(dtm, 2, FUN=sum)$v~
+
+When you have successfully created wordCount, answer the following
+question.
+
+*** Question
+
+What would have occurred if we had instead created ~wordCount~ using
+~spdtm~ instead of ~dtm~?
+
+- [ ] wordCount would have only counted some of the words and it would
+  have only returned a result for some of the emails
+
+- [ ] wordCount would have counted all of the words, but would have
+  only returned a result for some the emails
+
+- [X] wordCount would have only counted some of the words, but would
+  have returned a result for all the emails
+
+- [ ] wordCount would have counted all the words and it would have
+  returned a result for all the emails
+
+*Explanation*
+
+~spdtm~ has had sparse terms removed, which means we have removed some
+of the columns but none of the rows from ~dtm~. This means ~rowSums~ will
+still return a sum for each row (one for each email), but it will not
+have counted the frequencies of any uncommon words in the dataset. As
+a result, ~wordCount~ will only count some of the words.
+
+** TODO Problem 6.2 - Integrating Word Count Information
+
+Use the ~hist()~ function to plot the distribution of ~wordCount~ in
+the dataset. What best describes the distribution of the data?
+
+*** Answer
+
+- [X] The data is skew right -- there are a large number of small
+  wordCount values and a small number of large values.
+
+- [ ] The data is not skewed -- there are roughly the same number of
+  unusually large and unusually small wordCount values.
+
+- [ ] The data is skew left -- there are a large number of large
+  wordCount values and a small number of small values.
+
+*Explanation*
+
+From ~hist(wordCount)~, nearly all the observations are in the very
+left of the graph, representing small values. Therefore, this
+distribution is skew right.
+
+** TODO Problem 6.3 - Integrating Word Count Information
+
+Now, use the ~hist()~ function to plot the distribution of
+~log(wordCount)~ in the dataset. What best describes the distribution of
+the data?
+
+*** Answer
+
+- [ ] The data is skew right -- there are a large number of small
+  log(wordCount) values and a small number of large values.
+
+- [X] The data is not skewed -- there are roughly the same number of
+  unusually large and unusually small log(wordCount) values.
+
+- [ ] The data is skew left -- there are a large number of large
+  log(wordCount) values and a small number of small values.
+
+*Explanation*
+
+From ~hist(log(wordCount))~, the frequencies are quite balanced,
+suggesting ~log(wordCount)~ is not skewed.
+
+** TODO Problem 6.4 - Integrating Word Count Information
+
+Create a variable called ~logWordCount~ in ~emailsSparse~ that is equal to
+~log(wordCount)~. Use the ~boxplot()~ command to plot ~logWordCount~ against
+whether a message is spam. Which of the following best describes the
+box plot?
+
+*** Answer
+
+- [ ] ~logWordCount~ is much smaller in spam messages than in ham
+  messages
+
+- [X] ~logWordCount~ is slightly smaller in spam messages than in ham
+  messages
+
+- [ ] ~logWordCount~ is slightly larger in spam messages than in ham
+  messages
+
+- [ ] ~logWordCount~ is much higher in spam messages than in ham
+  messages
+
+*Explanation*
+
+We can add the variable and obtain the plot with:
+
+~emailsSparse$logWordCount = log(wordCount)~
+
+~boxplot(emailsSparse$logWordCount~emailsSparse$spam)~
+
+We can see that the 1st quartile, median, and 3rd quartiles are all
+slightly lower for spam messages than for ham messages.
+
+** TODO Problem 6.5 - Integrating Word Count Information
+
+Because logWordCount differs between spam and ham messages, we
+hypothesize that it might be useful in predicting whether an email is
+spam. Take the following steps:
+
+1) Use the same ~sample.split~ output you obtained earlier (do not
+   re-run ~sample.split~) to split emailsSparse into a training and
+   testing set, which you should call ~train2~ and ~test2~.
+
+2) Use ~train2~ to train a CART tree with the default parameters, saving
+   the model to the variable ~spam2CART~.
+
+3) Use ~train2~ to train a random forest with the default parameters,
+   saving the model to the variable ~spam2RF~. Again, set the random
+   seed to 123 directly before training ~spam2RF~.
+
+*Explanation*
+
+These steps can be performed with:
+
+~train2 = subset(emailsSparse, spl == TRUE)~
+
+~test2 = subset(emailsSparse, spl == FALSE)~
+
+~spam2CART = rpart(spam~., data=train2, method="class")~
+
+~set.seed(123)~
+
+~spam2RF = randomForest(spam~., data=train2)~
+
+*** Question
+
+Was the new variable used in the new CART tree spam2CART?
+
+- [X] Yes
+- [ ] No
+
+*Explanation*
+
+From ~prp(spam2CART)~, we see that the ~logWordCount~ was integrated
+into the tree (it might only display as ~logWord~, because prp
+shortens some of the variable names when it outputs them).
+
+** TODO Problem 6.6 - Integrating Word Count Information
+
+Perform test-set predictions using the new CART and random forest
+models.
+
+*Explanation*
+
+This can be accomplished with:
+
+~predTest2CART = predict(spam2CART, newdata=test2)[,2]~
+
+~predTest2RF = predict(spam2RF, newdata=test2, type="prob")[,2]~
+
+*** Question
+
+What is the test-set accuracy of spam2CART, using threshold 0.5 for
+predicting an email is spam?
+
+0.9301513 - correct
+
+*Explanation*
+
+This can be obtained with:
+
+~table(test2$spam, predTest2CART > 0.5)~
+
+The accuracy is ~(1214+384)/nrow(test2)~
+
+** TODO Problem 6.7 - Integrating Word Count Information
+
+What is the test-set AUC of spam2CART?
+
+*** Answer
+
+0.9582438
+
+*Explanation*
+
+This can be obtained with:
+
+~predictionTest2CART = prediction(predTest2CART, test2$spam)~
+
+~as.numeric(performance(predictionTest2CART, "auc")@y.values)~
+
+** TODO Problem 6.8 - Integrating Word Count Information
+
+What is the test-set accuracy of spam2RF, using a threshold of 0.5 for
+predicting if an email is spam? (Remember that you might get a
+different accuracy than us even if you set the seed, due to the random
+behavior of randomForest on some operating systems.)
+
+*** Answer
+
+0.9772992
+
+*Explanation*
+
+This can be obtained with:
+
+~table(test2$spam, predTest2RF > 0.5)~
+
+The accuracy is ~(1296+383)/nrow(test2)~
+
+** TODO Problem 6.9 - Integrating Word Count Information
+
+What is the test-set AUC of spam2RF? (Remember that you might get a
+different AUC than us even if you set the seed when building your
+model, due to the random behavior of randomForest on some operating
+systems.)
+
+*** Answer
+
+0.9980905
+
+*Explanation*
+
+This can be obtained with:
+
+~predictionTest2RF = prediction(predTest2RF, test2$spam)~
+
+~as.numeric(performance(predictionTest2RF, "auc")@y.values)~
+
+In this case, adding the logWordCounts variable did not result in
+improved results on the test set for the CART or random forest model.
+
+** Using n-grams
+
+Another source of information that might be extracted from text is the
+frequency of various n-grams. An n-gram is a sequence of n consecutive
+words in the document. For instance, for the document "Text analytics
+rocks!", which we would preprocess to "text analyt rock", the 1-grams
+are "text", "analyt", and "rock", the 2-grams are "text analyt" and
+"analyt rock", and the only 3-gram is "text analyt rock". n-grams are
+order-specific, meaning the 2-grams "text analyt" and "analyt text"
+are considered two separate n-grams. We can see that so far our
+analysis has been extracting only 1-grams.
+
+We do not have exercises in this class covering n-grams, but if you
+are interested in learning more, the "RTextTools", "tau", "RWeka", and
+"textcat" packages in R are all good resources.

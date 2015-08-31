@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2015-08-22 Sat 18:19 -->
+<!-- 2015-08-30 Sun 06:48 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="viewport" content="width=device-width, initial-scale=1" />
 <title>Week 4. Classification and Regression Trees</title>
@@ -878,24 +878,45 @@ list.files(<span style="color: #ff6a6a;">"../data"</span>)
 </div>
 
 <pre class="example">
- [1] "AnonymityPoll.csv"       "BoeingStock.csv"
- [3] "CPSData.csv"             "ClaimsData.csv"
- [5] "ClaimsData.csv.zip"      "CocaColaStock.csv"
- [7] "CountryCodes.csv"        "FluTest.csv"
- [9] "FluTrain.csv"            "GEStock.csv"
-[11] "IBMStock.csv"            "MetroAreaCodes.csv"
-[13] "NBA_test.csv"            "NBA_train.csv"
-[15] "PollingData.csv"         "PollingData_Imputed.csv"
-[17] "ProcterGambleStock.csv"  "README.md"
-[19] "USDA.csv"                "WHO.csv"
-[21] "WHO_Europe.csv"          "baseball.csv"
-[23] "climate_change.csv"      "framingham.csv"
-[25] "loans.csv"               "loans_imputed.csv"
-[27] "mvtWeek1.csv"            "parole.csv"
-[29] "pisa2009test.csv"        "pisa2009train.csv"
-[31] "quality.csv"             "songs.csv"
-[33] "stevens.csv"             "wine.csv"
-[35] "wine_test.csv"
+ [1] "AirlinesCluster.csv"       "AnonymityPoll.csv"
+ [3] "baseball.csv"              "BoeingStock.csv"
+ [5] "boston.csv"                "ClaimsData.csv"
+ [7] "ClaimsData.csv.zip"        "climate_change.csv"
+ [9] "clinical_trial.csv"        "ClusterMeans.ods"
+[11] "CocaColaStock.csv"         "CountryCodes.csv"
+[13] "CPSData.csv"               "dailykos.csv"
+[15] "eBayAll.RData"             "eBayiPadTest.csv"
+[17] "eBayiPadTrain.csv"         "edges.csv"
+[19] "emails.csv"                "energy_bids.csv"
+[21] "federalFundsRate.csv"      "finalExam-Households.csv"
+[23] "flower.csv"                "FluTest.csv"
+[25] "FluTrain.csv"              "framingham.csv"
+[27] "gerber.csv"                "GEStock.csv"
+[29] "healthy.csv"               "households.csv"
+[31] "IBMStock.csv"              "intl.csv"
+[33] "intlall.csv"               "loans_imputed.csv"
+[35] "loans.csv"                 "MetroAreaCodes.csv"
+[37] "movieLens.txt"             "MoviesP1Final.csv"
+[39] "murders.csv"               "mvt.csv"
+[41] "mvtWeek1.csv"              "NBA_test.csv"
+[43] "NBA_train.csv"             "parole.csv"
+[45] "pisa2009test.csv"          "pisa2009train.csv"
+[47] "PollingData_Imputed.csv"   "PollingData.csv"
+[49] "PollingImputed.csv"        "ProcterGambleStock.csv"
+[51] "quality.csv"               "README.md"
+[53] "SampleSubmission.csv"      "songs.csv"
+[55] "stevens.csv"               "StocksCluster.csv"
+[57] "stopwords.txt"             "SubmissionGBM1.csv"
+[59] "SubmissionGBM2.csv"        "SubmissionLR2.csv"
+[61] "SubmissionLR3.csv"         "SubmissionLR4.csv"
+[63] "SubmissionLR5.csv"         "SubmissionLR8.csv"
+[65] "SubmissionLR9.csv"         "SubmissionRF1.csv"
+[67] "SubmissionSimpleLogV1.csv" "tumor.csv"
+[69] "tweets.csv"                "tweetsU7.csv"
+[71] "USDA.csv"                  "users.csv"
+[73] "WHO_Europe.csv"            "WHO.csv"
+[75] "WHOu7.csv"                 "wiki.csv"
+[77] "wine_test.csv"             "wine.csv"
 </pre>
 </div>
 </div>
@@ -1159,9 +1180,9 @@ perf <span style="color: #db7093;">&lt;-</span> performance(pred, <span style="c
  :: ROC curve:
 Loading required package: gplots
 
-Attaching package: 'gplots'
+Attaching package: ‘gplots’
 
-The following object is masked from 'package:stats':
+The following object is masked from ‘package:stats’:
 
     lowess
            0         1
@@ -2045,9 +2066,7 @@ train(Reverse ~ Circuit + Issue + Petitioner + Respondent + LowerCourt
 
 No pre-processing
 Resampling: Cross-Validated (10 fold)
-
 Summary of sample sizes: 357, 356, 357, 356, 356, 356, ...
-
 Resampling results across tuning parameters:
 
   cp    Accuracy   Kappa        Accuracy SD  Kappa SD
@@ -2639,26 +2658,45 @@ list.files(<span style="color: #ff6a6a;">"../data"</span>)
 </div>
 
 <pre class="example">
- null device
-          1
- [1] "AnonymityPoll.csv"       "BoeingStock.csv"
- [3] "CPSData.csv"             "ClaimsData.csv"
- [5] "ClaimsData.csv.zip"      "CocaColaStock.csv"
- [7] "CountryCodes.csv"        "FluTest.csv"
- [9] "FluTrain.csv"            "GEStock.csv"
-[11] "IBMStock.csv"            "MetroAreaCodes.csv"
-[13] "NBA_test.csv"            "NBA_train.csv"
-[15] "PollingData.csv"         "PollingData_Imputed.csv"
-[17] "ProcterGambleStock.csv"  "README.md"
-[19] "USDA.csv"                "WHO.csv"
-[21] "WHO_Europe.csv"          "baseball.csv"
-[23] "climate_change.csv"      "framingham.csv"
-[25] "loans.csv"               "loans_imputed.csv"
-[27] "mvtWeek1.csv"            "parole.csv"
-[29] "pisa2009test.csv"        "pisa2009train.csv"
-[31] "quality.csv"             "songs.csv"
-[33] "stevens.csv"             "wine.csv"
-[35] "wine_test.csv"
+ [1] "AirlinesCluster.csv"       "AnonymityPoll.csv"
+ [3] "baseball.csv"              "BoeingStock.csv"
+ [5] "boston.csv"                "ClaimsData.csv"
+ [7] "ClaimsData.csv.zip"        "climate_change.csv"
+ [9] "clinical_trial.csv"        "ClusterMeans.ods"
+[11] "CocaColaStock.csv"         "CountryCodes.csv"
+[13] "CPSData.csv"               "dailykos.csv"
+[15] "eBayAll.RData"             "eBayiPadTest.csv"
+[17] "eBayiPadTrain.csv"         "edges.csv"
+[19] "emails.csv"                "energy_bids.csv"
+[21] "federalFundsRate.csv"      "finalExam-Households.csv"
+[23] "flower.csv"                "FluTest.csv"
+[25] "FluTrain.csv"              "framingham.csv"
+[27] "gerber.csv"                "GEStock.csv"
+[29] "healthy.csv"               "households.csv"
+[31] "IBMStock.csv"              "intl.csv"
+[33] "intlall.csv"               "loans_imputed.csv"
+[35] "loans.csv"                 "MetroAreaCodes.csv"
+[37] "movieLens.txt"             "MoviesP1Final.csv"
+[39] "murders.csv"               "mvt.csv"
+[41] "mvtWeek1.csv"              "NBA_test.csv"
+[43] "NBA_train.csv"             "parole.csv"
+[45] "pisa2009test.csv"          "pisa2009train.csv"
+[47] "PollingData_Imputed.csv"   "PollingData.csv"
+[49] "PollingImputed.csv"        "ProcterGambleStock.csv"
+[51] "quality.csv"               "README.md"
+[53] "SampleSubmission.csv"      "songs.csv"
+[55] "stevens.csv"               "StocksCluster.csv"
+[57] "stopwords.txt"             "SubmissionGBM1.csv"
+[59] "SubmissionGBM2.csv"        "SubmissionLR2.csv"
+[61] "SubmissionLR3.csv"         "SubmissionLR4.csv"
+[63] "SubmissionLR5.csv"         "SubmissionLR8.csv"
+[65] "SubmissionLR9.csv"         "SubmissionRF1.csv"
+[67] "SubmissionSimpleLogV1.csv" "tumor.csv"
+[69] "tweets.csv"                "tweetsU7.csv"
+[71] "USDA.csv"                  "users.csv"
+[73] "WHO_Europe.csv"            "WHO.csv"
+[75] "WHOu7.csv"                 "wiki.csv"
+[77] "wine_test.csv"             "wine.csv"
 </pre>
 </div>
 </div>
@@ -3777,9 +3815,7 @@ ClaimsTree <span style="color: #db7093;">&lt;-</span> rpart(bucket2009 ~ age + a
 </div>
 
 <pre class="example">
- :: CART model:
-Warning message:
-labs do not fit even at cex 0.15, there may be some overplotting
+:: CART model:
 </pre>
 
 <p>
@@ -4154,8 +4190,8 @@ Verisk Analytics in 2009.
 </div>
 </div>
 
-<div id="outline-container-orgheadline89" class="outline-2">
-<h2 id="orgheadline89"><span class="section-number-2">3</span> Location, Location, Location: Regression Trees for Housing Data (Recitation)</h2>
+<div id="outline-container-orgheadline91" class="outline-2">
+<h2 id="orgheadline91"><span class="section-number-2">3</span> Location, Location, Location: Regression Trees for Housing Data (Recitation)</h2>
 <div class="outline-text-2" id="text-3">
 </div><div id="outline-container-orgheadline82" class="outline-3">
 <h3 id="orgheadline82"><span class="section-number-3">3.1</span> Video 1: Boston Housing Data</h3>
@@ -4423,25 +4459,45 @@ list.files(<span style="color: #ff6a6a;">"../data"</span>)
 </div>
 
 <pre class="example">
- [1] "AnonymityPoll.csv"       "BoeingStock.csv"
- [3] "CPSData.csv"             "ClaimsData.csv"
- [5] "ClaimsData.csv.zip"      "CocaColaStock.csv"
- [7] "CountryCodes.csv"        "FluTest.csv"
- [9] "FluTrain.csv"            "GEStock.csv"
-[11] "IBMStock.csv"            "MetroAreaCodes.csv"
-[13] "NBA_test.csv"            "NBA_train.csv"
-[15] "PollingData.csv"         "PollingData_Imputed.csv"
-[17] "ProcterGambleStock.csv"  "README.md"
-[19] "USDA.csv"                "WHO.csv"
-[21] "WHO_Europe.csv"          "baseball.csv"
-[23] "boston.csv"              "climate_change.csv"
-[25] "framingham.csv"          "gerber.csv"
-[27] "loans.csv"               "loans_imputed.csv"
-[29] "mvtWeek1.csv"            "parole.csv"
-[31] "pisa2009test.csv"        "pisa2009train.csv"
-[33] "quality.csv"             "songs.csv"
-[35] "stevens.csv"             "wine.csv"
-[37] "wine_test.csv"
+ [1] "AirlinesCluster.csv"       "AnonymityPoll.csv"
+ [3] "baseball.csv"              "BoeingStock.csv"
+ [5] "boston.csv"                "ClaimsData.csv"
+ [7] "ClaimsData.csv.zip"        "climate_change.csv"
+ [9] "clinical_trial.csv"        "ClusterMeans.ods"
+[11] "CocaColaStock.csv"         "CountryCodes.csv"
+[13] "CPSData.csv"               "dailykos.csv"
+[15] "eBayAll.RData"             "eBayiPadTest.csv"
+[17] "eBayiPadTrain.csv"         "edges.csv"
+[19] "emails.csv"                "energy_bids.csv"
+[21] "federalFundsRate.csv"      "finalExam-Households.csv"
+[23] "flower.csv"                "FluTest.csv"
+[25] "FluTrain.csv"              "framingham.csv"
+[27] "gerber.csv"                "GEStock.csv"
+[29] "healthy.csv"               "households.csv"
+[31] "IBMStock.csv"              "intl.csv"
+[33] "intlall.csv"               "loans_imputed.csv"
+[35] "loans.csv"                 "MetroAreaCodes.csv"
+[37] "movieLens.txt"             "MoviesP1Final.csv"
+[39] "murders.csv"               "mvt.csv"
+[41] "mvtWeek1.csv"              "NBA_test.csv"
+[43] "NBA_train.csv"             "parole.csv"
+[45] "pisa2009test.csv"          "pisa2009train.csv"
+[47] "PollingData_Imputed.csv"   "PollingData.csv"
+[49] "PollingImputed.csv"        "ProcterGambleStock.csv"
+[51] "quality.csv"               "README.md"
+[53] "SampleSubmission.csv"      "songs.csv"
+[55] "stevens.csv"               "StocksCluster.csv"
+[57] "stopwords.txt"             "SubmissionGBM1.csv"
+[59] "SubmissionGBM2.csv"        "SubmissionLR2.csv"
+[61] "SubmissionLR3.csv"         "SubmissionLR4.csv"
+[63] "SubmissionLR5.csv"         "SubmissionLR8.csv"
+[65] "SubmissionLR9.csv"         "SubmissionRF1.csv"
+[67] "SubmissionSimpleLogV1.csv" "tumor.csv"
+[69] "tweets.csv"                "tweetsU7.csv"
+[71] "USDA.csv"                  "users.csv"
+[73] "WHO_Europe.csv"            "WHO.csv"
+[75] "WHOu7.csv"                 "wiki.csv"
+[77] "wine_test.csv"             "wine.csv"
 </pre>
 </div>
 </div>
@@ -4722,7 +4778,7 @@ Coefficients:
 LAT             8.046      6.327   1.272    0.204
 LON           -40.268      5.184  -7.768 4.50e-14 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Residual standard error: 8.693 on 503 degrees of freedom
 Multiple R-squared:  0.1072,	Adjusted R-squared:  0.1036
@@ -5021,13 +5077,309 @@ predictive model, predicting house prices?
 <div id="outline-container-orgheadline88" class="outline-3">
 <h3 id="orgheadline88"><span class="section-number-3">3.4</span> Video 5: Putting it all Together</h3>
 <div class="outline-text-3" id="text-3-4">
+<p>
+In the previous video, we got a feel for how regression trees can do
+things linear regression cannot. But what really matters at the end of
+the day is whether it can predict things better than linear
+regression.
+</p>
+
+<p>
+And so let's try that right now. We're going to try to predict house
+prices using all the variables we have available to us.
+</p>
+
+<p>
+So we'll load the caTools library. That will help us do a split on the
+data. We'll set the seed so our results are reproducible. And we'll
+say our split will be on the Boston house prices and we'll split it
+70% training, 30% test.
+</p>
+
+<p>
+So our training data is a subset of the boston data where the split is
+TRUE. And the testing data is the subset of the boston data where the
+split is FALSE.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Split the data..."</span>)
+<span style="color: #db7093;">library</span>(caTools)
+set.seed(123)
+split <span style="color: #db7093;">&lt;-</span> sample.split(boston$MEDV, SplitRatio = 0.7)
+train <span style="color: #db7093;">&lt;-</span> subset(boston, split==<span style="color: #3cb371;">TRUE</span>)
+test <span style="color: #db7093;">&lt;-</span> subset(boston, split==<span style="color: #3cb371;">FALSE</span>)
+</pre>
+</div>
+
+<pre class="example">
+null device
+         1
+null device
+         1
+null device
+         1
+null device
+         1
+null device
+         1
+
+:: Split the data...
+</pre>
+
+<p>
+OK, first of all, let's make a linear regression model, nice and
+easy. It's a linear model and the variables are latitude, longitude,
+crime, zoning, industry, whether it's on the Charles River or not, air
+pollution, rooms, age, distance, another form of distance, tax rates,
+and the pupil-teacher ratio.
+</p>
+
+<p>
+The data is training data. OK, let's see what our linear regression
+looks like.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Create linear regression"</span>)
+linreg <span style="color: #db7093;">&lt;-</span> lm(MEDV ~ LAT + LON + CRIM + ZN + INDUS + CHAS + NOX + RM +
+                     AGE + DIS + RAD + TAX + PTRATIO, data = train)
+summary(linreg)
+</pre>
+</div>
+
+<pre class="example">
+ :: Create linear regression
+
+Call:
+lm(formula = MEDV ~ LAT + LON + CRIM + ZN + INDUS + CHAS + NOX +
+    RM + AGE + DIS + RAD + TAX + PTRATIO, data = train)
+
+Residuals:
+    Min      1Q  Median      3Q     Max
+-14.511  -2.712  -0.676   1.793  36.883
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept) -2.523e+02  4.367e+02  -0.578   0.5638
+LAT          1.544e+00  5.192e+00   0.297   0.7664
+LON         -2.987e+00  4.786e+00  -0.624   0.5329
+CRIM        -1.808e-01  4.390e-02  -4.118 4.77e-05 ***
+ZN           3.250e-02  1.877e-02   1.731   0.0843 .
+INDUS       -4.297e-02  8.473e-02  -0.507   0.6124
+CHAS         2.904e+00  1.220e+00   2.380   0.0178 *
+NOX         -2.161e+01  5.414e+00  -3.992 7.98e-05 ***
+RM           6.284e+00  4.827e-01  13.019  &lt; 2e-16 ***
+AGE         -4.430e-02  1.785e-02  -2.482   0.0135 *
+DIS         -1.577e+00  2.842e-01  -5.551 5.63e-08 ***
+RAD          2.451e-01  9.728e-02   2.519   0.0122 *
+TAX         -1.112e-02  5.452e-03  -2.040   0.0421 *
+PTRATIO     -9.835e-01  1.939e-01  -5.072 6.38e-07 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 5.595 on 350 degrees of freedom
+Multiple R-squared:  0.665,	Adjusted R-squared:  0.6525
+F-statistic: 53.43 on 13 and 350 DF,  p-value: &lt; 2.2e-16
+</pre>
+
+<p>
+So we see that the latitude and longitude are not significant for the
+linear regression, which is perhaps not surprising because linear
+regression didn't seem to be able to take advantage of them.
+</p>
+
+<p>
+Crime is very important. The residential zoning might be
+important. Whether it's on the Charles River or not is a useful
+factor. Air pollution does seem to matter&#x2013; the coefficient is
+negative, as you'd expect.
+</p>
+
+<p>
+The average number of rooms is significant. The age is somewhat
+important. Distance to centers of employment (DIS), is very
+important. Distance to highways and tax is somewhat important, and the
+pupil-teacher ratio is also very significant.
+</p>
+
+<p>
+Some of these might be correlated, so we can't put too much stock in
+necessarily interpreting them directly, but it's interesting. The
+adjusted R squared is 0.65, which is pretty good. So because it's kind
+of hard to compare out of sample accuracy for regression, we need to
+think of how we're going to do that.
+</p>
+
+<p>
+With classification, we just say, this method got X% correct and this
+method got Y% correct.
+</p>
+
+<p>
+Well, since we're doing continuous variables, let's calculate the sum
+of squared error, which we discussed in the original linear regression
+video. So let's say the linear regression's predictions are
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Make predictions"</span>)
+linreg.pred <span style="color: #db7093;">&lt;-</span> predict(linreg, newdata = test)
+linreg.sse <span style="color: #db7093;">&lt;-</span> sum((linreg.pred - test$MEDV)^2)
+linreg.sse
+</pre>
+</div>
+
+<pre class="example">
+ :: Make predictions
+[1] 3037.088
+</pre>
+
+<p>
+The linear regression sum of squared errors is simply the sum of the
+predicted values versus the actual values squared.
+</p>
+
+<p>
+So let's see what that number is&#x2013; 3,037.008.
+</p>
+
+<p>
+OK, so you know what we're interested to see now is, can we beat this
+using regression trees? So let's build a tree. The tree &#x2013; rpart
+command again.
+</p>
+
+<p>
+Actually to save myself from typing it all up again, I'm going to go
+back to the regression command and just change "lm" to "rpart" and
+change "linreg" to "tree"&#x2013; much easier. All right.
+</p>
+
+<p>
+So we've built our tree&#x2013; let's have a look at it using the "prp"
+command from <code>rpart.plot</code>. And here we go.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Create a CART model"</span>)
+tree <span style="color: #db7093;">&lt;-</span> rpart(MEDV ~ LAT + LON + CRIM + ZN + INDUS + CHAS + NOX + RM +
+                      AGE + DIS + RAD + TAX + PTRATIO, data = train)
+</pre>
+</div>
+
+<pre class="example">
+:: Create a CART model
+</pre>
+
+
+<div id="orgparagraph20" class="figure">
+<p><img src="../graphs/LocationCARTModel.png" alt="LocationCARTModel.png" />
+</p>
+<p><span class="figure-number">Figure 92:</span> Location CART Model</p>
+</div>
+
+<p>
+So again, latitude and longitude aren't really important as far as the
+tree's concerned. The rooms are the most important split. Pollution
+appears in there twice, so it's, in some sense, nonlinear on the
+amount of pollution&#x2013; if it's greater than a certain amount or less
+than a certain amount, it does different things.
+</p>
+
+<p>
+Crime is in there, age is in there. Room appears three times,
+actually&#x2013; sorry. That's interesting. So it's very nonlinear on the
+number of rooms. Things that were important for the linear regression
+that don't appear in ours include pupil-teacher ratio. The DIS
+variable doesn't appear in our regression tree at all, either.
+</p>
+
+<p>
+So they're definitely doing different things, but how do they compare?
+So we'll predict, again, from the tree.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Make predictions..."</span>)
+tree.pred <span style="color: #db7093;">&lt;-</span> predict(tree, newdata = test)
+tree.sse <span style="color: #db7093;">&lt;-</span> sum((tree.pred - test$MEDV)^2)
+tree.sse
+</pre>
+</div>
+
+<pre class="example">
+ null device
+          1
+
+ :: Make predictions...
+[1] 4328.988
+</pre>
+
+<p>
+And then the moment of truth&#x2013; 4,328. So, simply put, regression trees
+are not as good as linear regression for this problem.
+</p>
+
+<p>
+What this says to us, given what we saw with the latitude and
+longitude, is that latitude and longitude are nowhere near as useful
+for predicting, apparently, as these other variables are. That's just
+the way it goes, I guess.
+</p>
+
+<p>
+It's always nice when a new method does better, but there's no
+guarantee that's going to happen. We need a special structure to
+really be useful. Let's stop here with the R and go back to the slides
+and discuss how CP works and then we'll apply cross validation to our
+tree.
+</p>
+
+<p>
+And we'll see if maybe we can improve in our results.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline89" class="outline-3">
+<h3 id="orgheadline89"><span class="section-number-3">3.5</span> Video 6: The CP Parameter</h3>
+<div class="outline-text-3" id="text-3-5">
+<p>
+The cp parameter&#x2013; cp stands for complexity parameter. Recall that the
+first tree we made using latitude and longitude only had many splits,
+but we were able to trim it without losing much accuracy.
+</p>
+
+<p>
+The intuition we gain is, having too many splits is bad for
+generalization&#x2013; that is, performance on the test set&#x2013; so we should
+penalize the complexity.
+</p>
+
 
 <div class="figure">
 <p><img src="../graphs/HD-CPparameter.png" alt="HD-CPparameter.png" />
 </p>
 </div>
 
+<p>
+Let us define RSS to be the residual sum of squares, also known as the
+sum of square differences. Our goal when building the tree is to
+minimize the RSS by making splits, but we want to penalize having too
+many splits now.
+</p>
 
+<p>
+Define S to be the number of splits, and lambda to be our penalty. Our
+new goal is to find a tree that minimizes the sum of the RSS at each
+leaf, plus lambda, times S, for the number of splits.
+</p>
 
 
 <div class="figure">
@@ -5035,6 +5387,29 @@ predictive model, predicting house prices?
 </p>
 </div>
 
+<p>
+Let us consider the following example. Here we have set lambda to be
+equal to 0.5. Initially, we have a tree with no splits. We simply take
+the average of the data.
+</p>
+
+<p>
+The RSS in this case is 5, thus our total penalty is also 5. If we
+make one split, we now have two leaves. At each of these leaves, say,
+we have an error, or RSS of 2. The total RSS error is then 2+2=4.
+</p>
+
+<p>
+And the total penalty is 4+0.5*1, the number of splits. Our total
+penalty in this case is 4.5. If we split again on one of our leaves,
+we now have a total of three leaves for two splits.
+</p>
+
+<p>
+The error at our left-most leaf is 1. The next leaf has an error of
+0.8. And the next leaf has an error of 2, for a total error of
+3.8. The total penalty is thus 3.8+0.5*2, for a total penalty of 4.8.
+</p>
 
 
 <div class="figure">
@@ -5042,6 +5417,12 @@ predictive model, predicting house prices?
 </p>
 </div>
 
+<p>
+Notice that if we pick a large value of lambda, we won't make many
+splits, because you pay a big price for every additional split that
+will outweigh the decrease in error. If we pick a small, or 0 value of
+lambda, it will make splits until it no longer decreases the error.
+</p>
 
 
 <div class="figure">
@@ -5049,12 +5430,280 @@ predictive model, predicting house prices?
 </p>
 </div>
 
+<p>
+You may be wondering at this point, the definition of cp is what,
+exactly? Well, it's very closely related to lambda.
+</p>
+
+<p>
+Considering a tree with no splits, we simply take the average of the
+data, calculate RSS for that so-called tree, and let us call that RSS
+for no splits. Then we can define <code>cp = lambda / RSS</code> (no splits).
+</p>
 
 
 <div class="figure">
 <p><img src="../graphs/HD-CPparameter05.png" alt="HD-CPparameter05.png" />
 </p>
 </div>
+
+<p>
+When you're actually using cp in your R code, you don't need to think
+exactly what it means&#x2013; just that small numbers of cp encourage large
+trees, and large values of cp encourage small trees.
+</p>
+
+<p>
+Let's go back to R now, and apply cross-validation to our training
+data.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline90" class="outline-3">
+<h3 id="orgheadline90"><span class="section-number-3">3.6</span> Video 7: Cross-Validation</h3>
+<div class="outline-text-3" id="text-3-6">
+<p>
+<b>Syntax Information</b>
+</p>
+
+<p>
+In this video, we use (0:10)*0.001 to define the cp values that we
+want to test in our model. Alternatively, we could replace this with
+the sequence function seq(0,0.01,0.001) which we learned in
+Unit 1. For some people, the sequence function is more intuitive, and
+you should use whichever syntax makes more sense to you personally.
+</p>
+
+<p>
+Now we know what CP is, we can go ahead and build one last tree using
+cross validation. So we need to make sure first we have the required
+libraries installed and in use.
+</p>
+
+<p>
+So the first package is the "caret" package. And the second one we
+need is the "e1071" package.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Load libraries for cross-validation..."</span>)
+<span style="color: #db7093;">library</span>(caret)
+<span style="color: #db7093;">library</span>(e1071)
+</pre>
+</div>
+
+<pre class="example">
+:: Load libraries for cross-validation...
+</pre>
+
+<p>
+OK.
+</p>
+
+<p>
+So we need to tell the caret package how exactly we want to do our
+parameter tuning. There are actually quite a few ways of doing it. But
+we're going to restrict ourselves in this course to just 10-fold cross
+validation, as was explained in the lecture.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Number of folds..."</span>)
+tr.control <span style="color: #db7093;">&lt;-</span> trainControl(method = <span style="color: #ff6a6a;">"cv"</span>, number = 10)
+</pre>
+</div>
+
+<pre class="example">
+:: Number of folds...
+</pre>
+
+<p>
+Now we need to tell caret which range of cp parameters to try out. Now
+remember that cp varies between 0 and 1. It's likely for any given
+problem that we don't need to explore the whole range.
+</p>
+
+<p>
+I happen to know, by the fact that I made this presentation ahead of
+time, that the value of cp we're going to pick is very small.
+</p>
+
+<p>
+So what I want to do is make a grid of cp values to try. And it will
+be over the range of 0 to 0.01.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: cp values..."</span>)
+cp.grid <span style="color: #db7093;">&lt;-</span> expand.grid( .cp = (0:10)*0.001)
+</pre>
+</div>
+
+<pre class="example">
+:: cp values...
+</pre>
+
+<p>
+OK, so how does what I wrote led to that?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: What did we just do?"</span>)
+1*0.001
+10*0.001
+0:10
+0:10 * 0.001
+</pre>
+</div>
+
+<pre class="example">
+ :: What did we just do?
+[1] 0.001
+[1] 0.01
+ [1]  0  1  2  3  4  5  6  7  8  9 10
+ [1] 0.000 0.001 0.002 0.003 0.004 0.005 0.006 0.007 0.008 0.009 0.010
+</pre>
+
+<p>
+So those are the values of cp that caret will try. So let's store the
+results of the cross validation fitting in a variable called tr.
+</p>
+
+<p>
+And we'll use the train function. Predicting MEDV based on LAT, LON,
+CRIM, zoning, industry, Charles River, pollution, rooms, age,
+distance, distance from highways, tax, and pupil-teacher ratio. OK,
+we're using the train data set. We're using trees (rpart), our train
+control is what we just made before, and our tuning grid is the other
+thing we just made, which we called cp.grid.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Cross-validation..."</span>)
+tr <span style="color: #db7093;">&lt;-</span> train(MEDV ~ LAT + LON + CRIM + ZN + INDUS + CHAS + NOX + RM +
+                    AGE + DIS + RAD + TAX + PTRATIO, data = train,
+            method = <span style="color: #ff6a6a;">"rpart"</span>, trControl = tr.control, tuneGrid =
+                                                              cp.grid)
+</pre>
+</div>
+
+<pre class="example">
+:: Cross-validation...
+</pre>
+
+<p>
+And it whirrs away. And what its doing there is it's trying all the
+different values of cp that we asked it to. So we can see what it's
+done but typing tr. You can see it tried 11 different values of cp.
+</p>
+
+<p>
+And it decided that cp equals 0.001 was the best because it had the
+best RMSE&#x2013; Root Mean Square Error. And it was 5.03 for 0.001. You see
+that it's pretty insensitive to a particular value of cp.
+</p>
+
+<p>
+So it's maybe not too important.
+</p>
+
+<p>
+It's interesting though that the numbers are so low. I tried it for a
+much larger range of cp values, and the best solutions are always very
+close to 0. So it wants us to build a very detail-rich tree. So let's
+see what the tree that that value of cp corresponds to is.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Extract tree..."</span>)
+best.tree <span style="color: #db7093;">&lt;-</span> tr$finalModel
+</pre>
+</div>
+
+<pre class="example">
+:: Extract tree...
+</pre>
+
+<p>
+And we can plot that tree. So that's the model that corresponds to
+0.001. Plot it.
+</p>
+
+<p>
+Wow, OK, so that's a very detailed tree.
+</p>
+
+
+<div id="orgparagraph21" class="figure">
+<p><img src="../graphs/LocationCART-CV.png" alt="LocationCART-CV.png" />
+</p>
+<p><span class="figure-number">Figure 98:</span> Cross validation CP selected value for CART location model</p>
+</div>
+
+<p>
+You can see that it looks pretty much like the same tree we had
+before, initially. But then it starts to get much more detailed at the
+bottom.
+</p>
+
+<p>
+And in fact if you can see close enough, there's actually latitude and
+longitude in there right down at the bottom as well. So maybe the tree
+is finally going to beat the linear regression model.
+</p>
+
+<p>
+Well, we can test it out the same way as we did before.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-R">writeLines(<span style="color: #ff6a6a;">"\n :: Make predictions..."</span>)
+best.tree.pred <span style="color: #db7093;">&lt;-</span> predict(best.tree, newdata=test)
+best.tree.sse <span style="color: #db7093;">&lt;-</span> sum((best.tree.pred - test$MEDV)^2)
+best.tree.sse
+</pre>
+</div>
+
+<pre class="example">
+ null device
+          1
+
+ :: Make predictions...
+[1] 3675.766
+</pre>
+
+<p>
+That number is 3,675. So if you can remember from the last video, the
+tree from the previous video actually only got something in the
+4,000 and little more.
+</p>
+
+<p>
+So not very good. So we have actually improved. This tree is better on
+the testing set than the original tree we created.
+</p>
+
+<p>
+But, you may also remember that the linear regression model did
+actually better than that still. The linear regression SSE was more
+around 3,030. So the best tree is not as good as the linear regression
+model.
+</p>
+
+<p>
+But cross validation did improve performance. So the takeaway is, I
+guess, that trees aren't always the best method you have available to
+you. But you should always try cross validating them to get as much
+performance out of them as you can.
+</p>
 </div>
 </div>
 </div>
@@ -5062,7 +5711,7 @@ predictive model, predicting house prices?
 <div id="postamble" class="status">
 <p class="date">Date: 30/06/2015</p>
 <p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
-<p class="date">Created: 2015-08-22 Sat 18:19</p>
+<p class="date">Created: 2015-08-30 Sun 06:48</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

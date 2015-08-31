@@ -475,24 +475,45 @@ In this part we can download the data
 
 #+RESULTS:
 #+begin_example
- [1] "AnonymityPoll.csv"       "BoeingStock.csv"
- [3] "CPSData.csv"             "ClaimsData.csv"
- [5] "ClaimsData.csv.zip"      "CocaColaStock.csv"
- [7] "CountryCodes.csv"        "FluTest.csv"
- [9] "FluTrain.csv"            "GEStock.csv"
-[11] "IBMStock.csv"            "MetroAreaCodes.csv"
-[13] "NBA_test.csv"            "NBA_train.csv"
-[15] "PollingData.csv"         "PollingData_Imputed.csv"
-[17] "ProcterGambleStock.csv"  "README.md"
-[19] "USDA.csv"                "WHO.csv"
-[21] "WHO_Europe.csv"          "baseball.csv"
-[23] "climate_change.csv"      "framingham.csv"
-[25] "loans.csv"               "loans_imputed.csv"
-[27] "mvtWeek1.csv"            "parole.csv"
-[29] "pisa2009test.csv"        "pisa2009train.csv"
-[31] "quality.csv"             "songs.csv"
-[33] "stevens.csv"             "wine.csv"
-[35] "wine_test.csv"
+ [1] "AirlinesCluster.csv"       "AnonymityPoll.csv"
+ [3] "baseball.csv"              "BoeingStock.csv"
+ [5] "boston.csv"                "ClaimsData.csv"
+ [7] "ClaimsData.csv.zip"        "climate_change.csv"
+ [9] "clinical_trial.csv"        "ClusterMeans.ods"
+[11] "CocaColaStock.csv"         "CountryCodes.csv"
+[13] "CPSData.csv"               "dailykos.csv"
+[15] "eBayAll.RData"             "eBayiPadTest.csv"
+[17] "eBayiPadTrain.csv"         "edges.csv"
+[19] "emails.csv"                "energy_bids.csv"
+[21] "federalFundsRate.csv"      "finalExam-Households.csv"
+[23] "flower.csv"                "FluTest.csv"
+[25] "FluTrain.csv"              "framingham.csv"
+[27] "gerber.csv"                "GEStock.csv"
+[29] "healthy.csv"               "households.csv"
+[31] "IBMStock.csv"              "intl.csv"
+[33] "intlall.csv"               "loans_imputed.csv"
+[35] "loans.csv"                 "MetroAreaCodes.csv"
+[37] "movieLens.txt"             "MoviesP1Final.csv"
+[39] "murders.csv"               "mvt.csv"
+[41] "mvtWeek1.csv"              "NBA_test.csv"
+[43] "NBA_train.csv"             "parole.csv"
+[45] "pisa2009test.csv"          "pisa2009train.csv"
+[47] "PollingData_Imputed.csv"   "PollingData.csv"
+[49] "PollingImputed.csv"        "ProcterGambleStock.csv"
+[51] "quality.csv"               "README.md"
+[53] "SampleSubmission.csv"      "songs.csv"
+[55] "stevens.csv"               "StocksCluster.csv"
+[57] "stopwords.txt"             "SubmissionGBM1.csv"
+[59] "SubmissionGBM2.csv"        "SubmissionLR2.csv"
+[61] "SubmissionLR3.csv"         "SubmissionLR4.csv"
+[63] "SubmissionLR5.csv"         "SubmissionLR8.csv"
+[65] "SubmissionLR9.csv"         "SubmissionRF1.csv"
+[67] "SubmissionSimpleLogV1.csv" "tumor.csv"
+[69] "tweets.csv"                "tweetsU7.csv"
+[71] "USDA.csv"                  "users.csv"
+[73] "WHO_Europe.csv"            "WHO.csv"
+[75] "WHOu7.csv"                 "wiki.csv"
+[77] "wine_test.csv"             "wine.csv"
 #+end_example
 
 *** Load the data set
@@ -708,9 +729,9 @@ CART model using the ROCR package.
  :: ROC curve:
 Loading required package: gplots
 
-Attaching package: 'gplots'
+Attaching package: ‘gplots’
 
-The following object is masked from 'package:stats':
+The following object is masked from ‘package:stats’:
 
     lowess
            0         1
@@ -1332,9 +1353,7 @@ building models.
 
 No pre-processing
 Resampling: Cross-Validated (10 fold)
-
 Summary of sample sizes: 357, 356, 357, 356, 356, 356, ...
-
 Resampling results across tuning parameters:
 
   cp    Accuracy   Kappa        Accuracy SD  Kappa SD
@@ -1723,26 +1742,45 @@ In this part we can download the data
 
 #+RESULTS:
 #+begin_example
- null device
-          1
- [1] "AnonymityPoll.csv"       "BoeingStock.csv"
- [3] "CPSData.csv"             "ClaimsData.csv"
- [5] "ClaimsData.csv.zip"      "CocaColaStock.csv"
- [7] "CountryCodes.csv"        "FluTest.csv"
- [9] "FluTrain.csv"            "GEStock.csv"
-[11] "IBMStock.csv"            "MetroAreaCodes.csv"
-[13] "NBA_test.csv"            "NBA_train.csv"
-[15] "PollingData.csv"         "PollingData_Imputed.csv"
-[17] "ProcterGambleStock.csv"  "README.md"
-[19] "USDA.csv"                "WHO.csv"
-[21] "WHO_Europe.csv"          "baseball.csv"
-[23] "climate_change.csv"      "framingham.csv"
-[25] "loans.csv"               "loans_imputed.csv"
-[27] "mvtWeek1.csv"            "parole.csv"
-[29] "pisa2009test.csv"        "pisa2009train.csv"
-[31] "quality.csv"             "songs.csv"
-[33] "stevens.csv"             "wine.csv"
-[35] "wine_test.csv"
+ [1] "AirlinesCluster.csv"       "AnonymityPoll.csv"
+ [3] "baseball.csv"              "BoeingStock.csv"
+ [5] "boston.csv"                "ClaimsData.csv"
+ [7] "ClaimsData.csv.zip"        "climate_change.csv"
+ [9] "clinical_trial.csv"        "ClusterMeans.ods"
+[11] "CocaColaStock.csv"         "CountryCodes.csv"
+[13] "CPSData.csv"               "dailykos.csv"
+[15] "eBayAll.RData"             "eBayiPadTest.csv"
+[17] "eBayiPadTrain.csv"         "edges.csv"
+[19] "emails.csv"                "energy_bids.csv"
+[21] "federalFundsRate.csv"      "finalExam-Households.csv"
+[23] "flower.csv"                "FluTest.csv"
+[25] "FluTrain.csv"              "framingham.csv"
+[27] "gerber.csv"                "GEStock.csv"
+[29] "healthy.csv"               "households.csv"
+[31] "IBMStock.csv"              "intl.csv"
+[33] "intlall.csv"               "loans_imputed.csv"
+[35] "loans.csv"                 "MetroAreaCodes.csv"
+[37] "movieLens.txt"             "MoviesP1Final.csv"
+[39] "murders.csv"               "mvt.csv"
+[41] "mvtWeek1.csv"              "NBA_test.csv"
+[43] "NBA_train.csv"             "parole.csv"
+[45] "pisa2009test.csv"          "pisa2009train.csv"
+[47] "PollingData_Imputed.csv"   "PollingData.csv"
+[49] "PollingImputed.csv"        "ProcterGambleStock.csv"
+[51] "quality.csv"               "README.md"
+[53] "SampleSubmission.csv"      "songs.csv"
+[55] "stevens.csv"               "StocksCluster.csv"
+[57] "stopwords.txt"             "SubmissionGBM1.csv"
+[59] "SubmissionGBM2.csv"        "SubmissionLR2.csv"
+[61] "SubmissionLR3.csv"         "SubmissionLR4.csv"
+[63] "SubmissionLR5.csv"         "SubmissionLR8.csv"
+[65] "SubmissionLR9.csv"         "SubmissionRF1.csv"
+[67] "SubmissionSimpleLogV1.csv" "tumor.csv"
+[69] "tweets.csv"                "tweetsU7.csv"
+[71] "USDA.csv"                  "users.csv"
+[73] "WHO_Europe.csv"            "WHO.csv"
+[75] "WHOu7.csv"                 "wiki.csv"
+[77] "wine_test.csv"             "wine.csv"
 #+end_example
 
 *** Load the data set
@@ -2482,8 +2520,6 @@ problem.
 #+RESULTS:
 :
 :  :: CART model:
-: Warning message:
-: labs do not fit even at cex 0.15, there may be some overplotting
 
 The cp value we're using here was selected through cross-validation on
 the training set. We won't perform the cross-validation here, because
@@ -2920,25 +2956,45 @@ In this part we can download the data
 
 #+RESULTS:
 #+begin_example
- [1] "AnonymityPoll.csv"       "BoeingStock.csv"
- [3] "CPSData.csv"             "ClaimsData.csv"
- [5] "ClaimsData.csv.zip"      "CocaColaStock.csv"
- [7] "CountryCodes.csv"        "FluTest.csv"
- [9] "FluTrain.csv"            "GEStock.csv"
-[11] "IBMStock.csv"            "MetroAreaCodes.csv"
-[13] "NBA_test.csv"            "NBA_train.csv"
-[15] "PollingData.csv"         "PollingData_Imputed.csv"
-[17] "ProcterGambleStock.csv"  "README.md"
-[19] "USDA.csv"                "WHO.csv"
-[21] "WHO_Europe.csv"          "baseball.csv"
-[23] "boston.csv"              "climate_change.csv"
-[25] "framingham.csv"          "gerber.csv"
-[27] "loans.csv"               "loans_imputed.csv"
-[29] "mvtWeek1.csv"            "parole.csv"
-[31] "pisa2009test.csv"        "pisa2009train.csv"
-[33] "quality.csv"             "songs.csv"
-[35] "stevens.csv"             "wine.csv"
-[37] "wine_test.csv"
+ [1] "AirlinesCluster.csv"       "AnonymityPoll.csv"
+ [3] "baseball.csv"              "BoeingStock.csv"
+ [5] "boston.csv"                "ClaimsData.csv"
+ [7] "ClaimsData.csv.zip"        "climate_change.csv"
+ [9] "clinical_trial.csv"        "ClusterMeans.ods"
+[11] "CocaColaStock.csv"         "CountryCodes.csv"
+[13] "CPSData.csv"               "dailykos.csv"
+[15] "eBayAll.RData"             "eBayiPadTest.csv"
+[17] "eBayiPadTrain.csv"         "edges.csv"
+[19] "emails.csv"                "energy_bids.csv"
+[21] "federalFundsRate.csv"      "finalExam-Households.csv"
+[23] "flower.csv"                "FluTest.csv"
+[25] "FluTrain.csv"              "framingham.csv"
+[27] "gerber.csv"                "GEStock.csv"
+[29] "healthy.csv"               "households.csv"
+[31] "IBMStock.csv"              "intl.csv"
+[33] "intlall.csv"               "loans_imputed.csv"
+[35] "loans.csv"                 "MetroAreaCodes.csv"
+[37] "movieLens.txt"             "MoviesP1Final.csv"
+[39] "murders.csv"               "mvt.csv"
+[41] "mvtWeek1.csv"              "NBA_test.csv"
+[43] "NBA_train.csv"             "parole.csv"
+[45] "pisa2009test.csv"          "pisa2009train.csv"
+[47] "PollingData_Imputed.csv"   "PollingData.csv"
+[49] "PollingImputed.csv"        "ProcterGambleStock.csv"
+[51] "quality.csv"               "README.md"
+[53] "SampleSubmission.csv"      "songs.csv"
+[55] "stevens.csv"               "StocksCluster.csv"
+[57] "stopwords.txt"             "SubmissionGBM1.csv"
+[59] "SubmissionGBM2.csv"        "SubmissionLR2.csv"
+[61] "SubmissionLR3.csv"         "SubmissionLR4.csv"
+[63] "SubmissionLR5.csv"         "SubmissionLR8.csv"
+[65] "SubmissionLR9.csv"         "SubmissionRF1.csv"
+[67] "SubmissionSimpleLogV1.csv" "tumor.csv"
+[69] "tweets.csv"                "tweetsU7.csv"
+[71] "USDA.csv"                  "users.csv"
+[73] "WHO_Europe.csv"            "WHO.csv"
+[75] "WHOu7.csv"                 "wiki.csv"
+[77] "wine_test.csv"             "wine.csv"
 #+end_example
 
 *** Load the data set
@@ -3160,7 +3216,7 @@ Coefficients:
 LAT             8.046      6.327   1.272    0.204
 LON           -40.268      5.184  -7.768 4.50e-14 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Residual standard error: 8.693 on 503 degrees of freedom
 Multiple R-squared:  0.1072,	Adjusted R-squared:  0.1036
@@ -3444,19 +3500,479 @@ predictive model, predicting house prices?
 
 ** Video 5: Putting it all Together
 
+In the previous video, we got a feel for how regression trees can do
+things linear regression cannot. But what really matters at the end of
+the day is whether it can predict things better than linear
+regression.
 
+And so let's try that right now. We're going to try to predict house
+prices using all the variables we have available to us.
+
+So we'll load the caTools library. That will help us do a split on the
+data. We'll set the seed so our results are reproducible. And we'll
+say our split will be on the Boston house prices and we'll split it
+70% training, 30% test.
+
+So our training data is a subset of the boston data where the split is
+TRUE. And the testing data is the subset of the boston data where the
+split is FALSE.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Split the data...")
+  library(caTools)
+  set.seed(123)
+  split <- sample.split(boston$MEDV, SplitRatio = 0.7)
+  train <- subset(boston, split==TRUE)
+  test <- subset(boston, split==FALSE)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+ null device
+          1
+ null device
+          1
+ null device
+          1
+ null device
+          1
+ null device
+          1
+
+ :: Split the data...
+#+end_example
+
+OK, first of all, let's make a linear regression model, nice and
+easy. It's a linear model and the variables are latitude, longitude,
+crime, zoning, industry, whether it's on the Charles River or not, air
+pollution, rooms, age, distance, another form of distance, tax rates,
+and the pupil-teacher ratio.
+
+The data is training data. OK, let's see what our linear regression
+looks like.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Create linear regression")
+  linreg <- lm(MEDV ~ LAT + LON + CRIM + ZN + INDUS + CHAS + NOX + RM +
+                       AGE + DIS + RAD + TAX + PTRATIO, data = train)
+  summary(linreg)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+ :: Create linear regression
+
+Call:
+lm(formula = MEDV ~ LAT + LON + CRIM + ZN + INDUS + CHAS + NOX +
+    RM + AGE + DIS + RAD + TAX + PTRATIO, data = train)
+
+Residuals:
+    Min      1Q  Median      3Q     Max
+-14.511  -2.712  -0.676   1.793  36.883
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)
+(Intercept) -2.523e+02  4.367e+02  -0.578   0.5638
+LAT          1.544e+00  5.192e+00   0.297   0.7664
+LON         -2.987e+00  4.786e+00  -0.624   0.5329
+CRIM        -1.808e-01  4.390e-02  -4.118 4.77e-05 ***
+ZN           3.250e-02  1.877e-02   1.731   0.0843 .
+INDUS       -4.297e-02  8.473e-02  -0.507   0.6124
+CHAS         2.904e+00  1.220e+00   2.380   0.0178 *
+NOX         -2.161e+01  5.414e+00  -3.992 7.98e-05 ***
+RM           6.284e+00  4.827e-01  13.019  < 2e-16 ***
+AGE         -4.430e-02  1.785e-02  -2.482   0.0135 *
+DIS         -1.577e+00  2.842e-01  -5.551 5.63e-08 ***
+RAD          2.451e-01  9.728e-02   2.519   0.0122 *
+TAX         -1.112e-02  5.452e-03  -2.040   0.0421 *
+PTRATIO     -9.835e-01  1.939e-01  -5.072 6.38e-07 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 5.595 on 350 degrees of freedom
+Multiple R-squared:  0.665,	Adjusted R-squared:  0.6525
+F-statistic: 53.43 on 13 and 350 DF,  p-value: < 2.2e-16
+#+end_example
+
+So we see that the latitude and longitude are not significant for the
+linear regression, which is perhaps not surprising because linear
+regression didn't seem to be able to take advantage of them.
+
+Crime is very important. The residential zoning might be
+important. Whether it's on the Charles River or not is a useful
+factor. Air pollution does seem to matter-- the coefficient is
+negative, as you'd expect.
+
+The average number of rooms is significant. The age is somewhat
+important. Distance to centers of employment (DIS), is very
+important. Distance to highways and tax is somewhat important, and the
+pupil-teacher ratio is also very significant.
+
+Some of these might be correlated, so we can't put too much stock in
+necessarily interpreting them directly, but it's interesting. The
+adjusted R squared is 0.65, which is pretty good. So because it's kind
+of hard to compare out of sample accuracy for regression, we need to
+think of how we're going to do that.
+
+With classification, we just say, this method got X% correct and this
+method got Y% correct.
+
+Well, since we're doing continuous variables, let's calculate the sum
+of squared error, which we discussed in the original linear regression
+video. So let's say the linear regression's predictions are
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Make predictions")
+  linreg.pred <- predict(linreg, newdata = test)
+  linreg.sse <- sum((linreg.pred - test$MEDV)^2)
+  linreg.sse
+#+end_src
+
+#+RESULTS:
+:
+:  :: Make predictions
+: [1] 3037.088
+
+The linear regression sum of squared errors is simply the sum of the
+predicted values versus the actual values squared.
+
+So let's see what that number is-- 3,037.008.
+
+OK, so you know what we're interested to see now is, can we beat this
+using regression trees? So let's build a tree. The tree -- rpart
+command again.
+
+Actually to save myself from typing it all up again, I'm going to go
+back to the regression command and just change "lm" to "rpart" and
+change "linreg" to "tree"-- much easier. All right.
+
+So we've built our tree-- let's have a look at it using the "prp"
+command from ~rpart.plot~. And here we go.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Create a CART model")
+  tree <- rpart(MEDV ~ LAT + LON + CRIM + ZN + INDUS + CHAS + NOX + RM +
+                        AGE + DIS + RAD + TAX + PTRATIO, data = train)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Create a CART model
+
+#+BEGIN_SRC R :var basename="LocationCARTModel" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  prp(tree)
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  Location CART Model
+#+NAME:     fig:LocationCARTModel
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/LocationCARTModel.png]]
+
+So again, latitude and longitude aren't really important as far as the
+tree's concerned. The rooms are the most important split. Pollution
+appears in there twice, so it's, in some sense, nonlinear on the
+amount of pollution-- if it's greater than a certain amount or less
+than a certain amount, it does different things.
+
+Crime is in there, age is in there. Room appears three times,
+actually-- sorry. That's interesting. So it's very nonlinear on the
+number of rooms. Things that were important for the linear regression
+that don't appear in ours include pupil-teacher ratio. The DIS
+variable doesn't appear in our regression tree at all, either.
+
+So they're definitely doing different things, but how do they compare?
+So we'll predict, again, from the tree.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Make predictions...")
+  tree.pred <- predict(tree, newdata = test)
+  tree.sse <- sum((tree.pred - test$MEDV)^2)
+  tree.sse
+#+end_src
+
+#+RESULTS:
+:  null device
+:           1
+:
+:  :: Make predictions...
+: [1] 4328.988
+
+And then the moment of truth-- 4,328. So, simply put, regression trees
+are not as good as linear regression for this problem.
+
+What this says to us, given what we saw with the latitude and
+longitude, is that latitude and longitude are nowhere near as useful
+for predicting, apparently, as these other variables are. That's just
+the way it goes, I guess.
+
+It's always nice when a new method does better, but there's no
+guarantee that's going to happen. We need a special structure to
+really be useful. Let's stop here with the R and go back to the slides
+and discuss how CP works and then we'll apply cross validation to our
+tree.
+
+And we'll see if maybe we can improve in our results.
+
+** Video 6: The CP Parameter
+
+The cp parameter-- cp stands for complexity parameter. Recall that the
+first tree we made using latitude and longitude only had many splits,
+but we were able to trim it without losing much accuracy.
+
+The intuition we gain is, having too many splits is bad for
+generalization-- that is, performance on the test set-- so we should
+penalize the complexity.
 
 [[../graphs/HD-CPparameter.png]]
 
+Let us define RSS to be the residual sum of squares, also known as the
+sum of square differences. Our goal when building the tree is to
+minimize the RSS by making splits, but we want to penalize having too
+many splits now.
 
+Define S to be the number of splits, and lambda to be our penalty. Our
+new goal is to find a tree that minimizes the sum of the RSS at each
+leaf, plus lambda, times S, for the number of splits.
 
 [[../graphs/HD-CPparameter02.png]]
 
+Let us consider the following example. Here we have set lambda to be
+equal to 0.5. Initially, we have a tree with no splits. We simply take
+the average of the data.
+
+The RSS in this case is 5, thus our total penalty is also 5. If we
+make one split, we now have two leaves. At each of these leaves, say,
+we have an error, or RSS of 2. The total RSS error is then 2+2=4.
+
+And the total penalty is 4+0.5*1, the number of splits. Our total
+penalty in this case is 4.5. If we split again on one of our leaves,
+we now have a total of three leaves for two splits.
+
+The error at our left-most leaf is 1. The next leaf has an error of
+0.8. And the next leaf has an error of 2, for a total error of
+3.8. The total penalty is thus 3.8+0.5*2, for a total penalty of 4.8.
 
 [[../graphs/HD-CPparameter03.png]]
 
+Notice that if we pick a large value of lambda, we won't make many
+splits, because you pay a big price for every additional split that
+will outweigh the decrease in error. If we pick a small, or 0 value of
+lambda, it will make splits until it no longer decreases the error.
 
 [[../graphs/HD-CPparameter04.png]]
 
+You may be wondering at this point, the definition of cp is what,
+exactly? Well, it's very closely related to lambda.
+
+Considering a tree with no splits, we simply take the average of the
+data, calculate RSS for that so-called tree, and let us call that RSS
+for no splits. Then we can define ~cp = lambda / RSS~ (no splits).
 
 [[../graphs/HD-CPparameter05.png]]
+
+When you're actually using cp in your R code, you don't need to think
+exactly what it means-- just that small numbers of cp encourage large
+trees, and large values of cp encourage small trees.
+
+Let's go back to R now, and apply cross-validation to our training
+data.
+
+** Video 7: Cross-Validation
+
+*Syntax Information*
+
+In this video, we use (0:10)*0.001 to define the cp values that we
+want to test in our model. Alternatively, we could replace this with
+the sequence function seq(0,0.01,0.001) which we learned in
+Unit 1. For some people, the sequence function is more intuitive, and
+you should use whichever syntax makes more sense to you personally.
+
+Now we know what CP is, we can go ahead and build one last tree using
+cross validation. So we need to make sure first we have the required
+libraries installed and in use.
+
+So the first package is the "caret" package. And the second one we
+need is the "e1071" package.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Load libraries for cross-validation...")
+  library(caret)
+  library(e1071)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Load libraries for cross-validation...
+
+OK.
+
+So we need to tell the caret package how exactly we want to do our
+parameter tuning. There are actually quite a few ways of doing it. But
+we're going to restrict ourselves in this course to just 10-fold cross
+validation, as was explained in the lecture.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Number of folds...")
+  tr.control <- trainControl(method = "cv", number = 10)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Number of folds...
+
+Now we need to tell caret which range of cp parameters to try out. Now
+remember that cp varies between 0 and 1. It's likely for any given
+problem that we don't need to explore the whole range.
+
+I happen to know, by the fact that I made this presentation ahead of
+time, that the value of cp we're going to pick is very small.
+
+So what I want to do is make a grid of cp values to try. And it will
+be over the range of 0 to 0.01.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: cp values...")
+  cp.grid <- expand.grid( .cp = (0:10)*0.001)
+#+end_src
+
+#+RESULTS:
+:
+:  :: cp values...
+
+OK, so how does what I wrote led to that?
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: What did we just do?")
+  1*0.001
+  10*0.001
+  0:10
+  0:10 * 0.001
+#+end_src
+
+#+RESULTS:
+:
+:  :: What did we just do?
+: [1] 0.001
+: [1] 0.01
+:  [1]  0  1  2  3  4  5  6  7  8  9 10
+:  [1] 0.000 0.001 0.002 0.003 0.004 0.005 0.006 0.007 0.008 0.009 0.010
+
+So those are the values of cp that caret will try. So let's store the
+results of the cross validation fitting in a variable called tr.
+
+And we'll use the train function. Predicting MEDV based on LAT, LON,
+CRIM, zoning, industry, Charles River, pollution, rooms, age,
+distance, distance from highways, tax, and pupil-teacher ratio. OK,
+we're using the train data set. We're using trees (rpart), our train
+control is what we just made before, and our tuning grid is the other
+thing we just made, which we called cp.grid.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Cross-validation...")
+  tr <- train(MEDV ~ LAT + LON + CRIM + ZN + INDUS + CHAS + NOX + RM +
+                      AGE + DIS + RAD + TAX + PTRATIO, data = train,
+              method = "rpart", trControl = tr.control, tuneGrid =
+                                                                cp.grid)
+#+end_src
+
+#+RESULTS:
+:
+:  :: Cross-validation...
+
+And it whirrs away. And what its doing there is it's trying all the
+different values of cp that we asked it to. So we can see what it's
+done but typing tr. You can see it tried 11 different values of cp.
+
+And it decided that cp equals 0.001 was the best because it had the
+best RMSE-- Root Mean Square Error. And it was 5.03 for 0.001. You see
+that it's pretty insensitive to a particular value of cp.
+
+So it's maybe not too important.
+
+It's interesting though that the numbers are so low. I tried it for a
+much larger range of cp values, and the best solutions are always very
+close to 0. So it wants us to build a very detail-rich tree. So let's
+see what the tree that that value of cp corresponds to is.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Extract tree...")
+  best.tree <- tr$finalModel
+#+end_src
+
+#+RESULTS:
+:
+:  :: Extract tree...
+
+And we can plot that tree. So that's the model that corresponds to
+0.001. Plot it.
+
+Wow, OK, so that's a very detailed tree.
+
+#+BEGIN_SRC R :var basename="LocationCART-CV" :session :results none silent :exports none
+  filename <- paste("../graphs/", basename, ".png", sep = "")
+
+  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
+
+  ## ----- Plot code begin here
+  prp(best.tree)
+  ## ----- Plot code ends here
+
+  ## Close the PNG device and plots
+  dev.off()
+#+END_SRC
+
+#+CAPTION:  Cross validation CP selected value for CART location model
+#+NAME:     fig:LocationCART-CV
+#+ATTR_LaTeX: placement: [H]
+[[../graphs/LocationCART-CV.png]]
+
+You can see that it looks pretty much like the same tree we had
+before, initially. But then it starts to get much more detailed at the
+bottom.
+
+And in fact if you can see close enough, there's actually latitude and
+longitude in there right down at the bottom as well. So maybe the tree
+is finally going to beat the linear regression model.
+
+Well, we can test it out the same way as we did before.
+
+#+begin_src R :session :results output :exports all
+  writeLines("\n :: Make predictions...")
+  best.tree.pred <- predict(best.tree, newdata=test)
+  best.tree.sse <- sum((best.tree.pred - test$MEDV)^2)
+  best.tree.sse
+#+end_src
+
+#+RESULTS:
+:  null device
+:           1
+:
+:  :: Make predictions...
+: [1] 3675.766
+
+That number is 3,675. So if you can remember from the last video, the
+tree from the previous video actually only got something in the
+4,000 and little more.
+
+So not very good. So we have actually improved. This tree is better on
+the testing set than the original tree we created.
+
+But, you may also remember that the linear regression model did
+actually better than that still. The linear regression SSE was more
+around 3,030. So the best tree is not as good as the linear regression
+model.
+
+But cross validation did improve performance. So the takeaway is, I
+guess, that trees aren't always the best method you have available to
+you. But you should always try cross validating them to get as much
+performance out of them as you can.
