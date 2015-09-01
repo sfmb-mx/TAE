@@ -685,7 +685,7 @@ dataset. What is the text of the title of this article? Include
 capitalization and punctuation in your response, but don't include the
 quotes.
 
-** Answer
+*** Answer
 
 A decade of letrozole: FACE. - correct
 
@@ -2010,7 +2010,7 @@ next page. If you want to complete the optional assignment, remember
 to save your work so you can start the next page where you left off
 here.
 
-* Separating Spam from Ham (Part 2 - OPTIONAL) [0/14]
+* Separating Spam from Ham (Part 2 - OPTIONAL) [0/15]
 
 This optional homework assignment is the second part of the assignment
 from the previous page. Please complete Problems 1-4 on the previous
@@ -2024,7 +2024,7 @@ This problem is optional, and will not count towards your grade. We
 have created this problem to give you extra practice with the topics
 covered in this unit.
 
-** Problem 5.1 - Assigning weights to different types of errors
+** TODO Problem 5.1 - Assigning weights to different types of errors
 
 Thus far, we have used a threshold of 0.5 as the cutoff for predicting
 that an email message is spam, and we have used accuracy as one of our

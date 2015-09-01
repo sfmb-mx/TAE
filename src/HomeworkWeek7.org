@@ -2782,68 +2782,89 @@ IMPORTANT NOTE: This problem is optional, and will not count towards
 your grade. We have created this problem to give you extra practice
 with the topics covered in this unit.
 
-In the crime lecture, we saw how we can use heatmaps to give a 2-dimensional representation of 3-dimensional data: we made heatmaps of crime counts by time of the day and day of the week. In this problem, we'll learn how to use histograms to show counts by one variable, and then how to visualize 3 dimensions by creating multiple histograms.
+In the crime lecture, we saw how we can use heatmaps to give a
+2-dimensional representation of 3-dimensional data: we made heatmaps
+of crime counts by time of the day and day of the week. In this
+problem, we'll learn how to use histograms to show counts by one
+variable, and then how to visualize 3 dimensions by creating multiple
+histograms.
 
-We'll use the parole data parole.csv from Unit 3. Before, we used this data to predict parole violators. Now, let's try to get a little more insight into this dataset using histograms. As a reminder, the variables in this dataset are:
+We'll use the parole data parole.csv from Unit 3. Before, we used this
+data to predict parole violators. Now, let's try to get a little more
+insight into this dataset using histograms. As a reminder, the
+variables in this dataset are:
 
-    male = 1 if the parolee is male, 0 if female
+- *male* = 1 if the parolee is male, 0 if female
 
-    race = 1 if the parolee is white, 2 otherwise
+- *race* = 1 if the parolee is white, 2 otherwise
 
-    age = the parolee's age in years at the time of release from prison
+- *age* = the parolee's age in years at the time of release from prison
 
-    state = a code for the parolee's state. 2 is Kentucky, 3 is Louisiana, 4 is Virginia, and 1 is any other state. These three states were selected due to having a high representation in the dataset.
+- *state* = a code for the parolee's state. 2 is Kentucky, 3 is
+  Louisiana, 4 is Virginia, and 1 is any other state. These three
+  states were selected due to having a high representation in the
+  dataset.
 
-    time.served = the number of months the parolee served in prison (limited by the inclusion criteria to not exceed 6 months).
+- *time.served* = the number of months the parolee served in prison
+  (limited by the inclusion criteria to not exceed 6 months).
 
-    max.sentence = the maximum sentence length for all charges, in months (limited by the inclusion criteria to not exceed 18 months).
+- *max.sentence* = the maximum sentence length for all charges, in
+  months (limited by the inclusion criteria to not exceed 18 months).
 
-    multiple.offenses = 1 if the parolee was incarcerated for multiple offenses, 0 otherwise.
+- *multiple.offenses* = 1 if the parolee was incarcerated for multiple
+  offenses, 0 otherwise.
 
-    crime = a code for the parolee's main crime leading to incarceration. 2 is larceny, 3 is drug-related crime, 4 is driving-related crime, and 1 is any other crime.
+- *crime* = a code for the parolee's main crime leading to
+  incarceration. 2 is larceny, 3 is drug-related crime, 4 is
+  driving-related crime, and 1 is any other crime.
 
-    violator = 1 if the parolee violated the parole, and 0 if the parolee completed the parole without violation.
+- *violator* = 1 if the parolee violated the parole, and 0 if the
+  parolee completed the parole without violation.
 
 ** TODO Problem 1.1 - Loading the Data
 
-Using the read.csv function, load the dataset parole.csv and call it parole. Since male, state, and crime are all unordered factors, convert them to factor variables using the following commands:
+Using the read.csv function, load the dataset parole.csv and call it
+parole. Since male, state, and crime are all unordered factors,
+convert them to factor variables using the following commands:
 
-parole$male = as.factor(parole$male)
+~parole$male = as.factor(parole$male)~
 
-parole$state = as.factor(parole$state)
+~parole$state = as.factor(parole$state)~
 
-parole$crime = as.factor(parole$crime)
+~parole$crime = as.factor(parole$crime)~
+
+*** Question
 
 What fraction of parole violators are female?
-- unanswered
 
 0.1794872
 
-Explanation
+*Explanation*
 
 This can be found by using table:
 
-table(parole$male, parole$violator)
+~table(parole$male, parole$violator)~
 
 The total number of violators is 78, and 14 of them are female.
-You have used 0 of 3 submissions
+
 ** TODO Problem 1.2 - Loading the Data
 
 In this dataset, which crime is the most common in Kentucky?
-Larceny
-Drug-related crime
-Driving-related crime
-Other
-- unanswered
 
-Explanation
+- [ ] Larceny
+- [ ] Drug-related crime
+- [ ] Driving-related crime
+- [ ] Other
+
+*Explanation*
 
 This can be found by using table:
 
-table(parole$state, parole$crime)
+~table(parole$state, parole$crime)~
 
-The code 2 corresponds to Kentucky, and the most common crime is 3, which corresponds to Drug-related crime.
-You have used 0 of 1 submissions
+The code 2 corresponds to Kentucky, and the most common crime is 3,
+which corresponds to Drug-related crime.
+
 ** TODO Problem 2.1 - Creating a Basic Histogram
 
 Recall from lecture that in ggplot, we need to specify the dataset, the aesthetic, and the geometry. To create a histogram, the geometry will be geom_histogram. The data we'll use is parole, and the aesthetic will be the map from a variable to the x-axis of the histogram.
