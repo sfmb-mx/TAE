@@ -3,9 +3,10 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Assignment 7. Visualization</title>
-<!-- 2015-07-26 Sun 10:58 -->
+<!-- 2015-08-31 Mon 10:24 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="viewport" content="width=device-width, initial-scale=1" />
+<title>Assignment 7. Visualization</title>
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Sergio-Feliciano Mendoza-Barrera" />
 <meta  name="description" content="Unit 7 Visualization Assignment of the Analytical Edge course"
@@ -13,16 +14,22 @@
 <meta  name="keywords" content="R, data science, emacs, ESS, org-mode, the analytical edge, visualization" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
-  .title  { text-align: center; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
   .todo   { font-family: monospace; color: red; }
-  .done   { color: green; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
   .tag    { background-color: #eee; font-family: monospace;
             padding: 2px; font-size: 80%; font-weight: normal; }
   .timestamp { color: #bebebe; }
   .timestamp-kwd { color: #5f9ea0; }
-  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
-  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
-  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
   .underline { text-decoration: underline; }
   #postamble p, #preamble p { font-size: 90%; margin: .2em; }
   p.verse { margin-left: 3%; }
@@ -61,15 +68,14 @@
   caption.t-above { caption-side: top; }
   caption.t-bottom { caption-side: bottom; }
   td, th { vertical-align:top;  }
-  th.right  { text-align: center;  }
-  th.left   { text-align: center;   }
-  th.center { text-align: center; }
-  td.right  { text-align: right;  }
-  td.left   { text-align: left;   }
-  td.center { text-align: center; }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
   dt { font-weight: bold; }
-  .footpara:nth-child(2) { display: inline; }
-  .footpara { display: block; }
+  .footpara { display: inline; }
   .footdef  { margin-bottom: 1em; }
   .figure { padding: 1em; }
   .figure p { text-align: center; }
@@ -143,48 +149,28 @@ for the JavaScript code in this tag.
  }
 /*]]>*///-->
 </script>
-<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js"></script>
-<script type="text/javascript">
-<!--/*--><![CDATA[/*><!--*/
+<script type="text/x-mathjax-config">
     MathJax.Hub.Config({
-        // Only one of the two following lines, depending on user settings
-        // First allows browser-native MathML display, second forces HTML/CSS
-        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
-            jax: ["input/TeX", "output/HTML-CSS"],
-        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
-                     "TeX/noUndefined.js"],
-        tex2jax: {
-            inlineMath: [ ["\\(","\\)"] ],
-            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
-            skipTags: ["script","noscript","style","textarea","pre","code"],
-            ignoreClass: "tex2jax_ignore",
-            processEscapes: false,
-            processEnvironments: true,
-            preview: "TeX"
-        },
-        showProcessingMessages: true,
         displayAlign: "center",
-        displayIndent: "2em",
+        displayIndent: "0em",
 
-        "HTML-CSS": {
-             scale: 100,
-             availableFonts: ["STIX","TeX"],
-             preferredFont: "TeX",
-             webFont: "TeX",
-             imageFont: "TeX",
-             showMathMenu: true,
-        },
-        MMLorHTML: {
-             prefer: {
-                 MSIE:    "MML",
-                 Firefox: "MML",
-                 Opera:   "HTML",
-                 other:   "HTML"
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
              }
-        }
-    });
-/*]]>*///-->
+});
 </script>
+<script type="text/javascript"
+        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
 </head>
 <body>
 <div id="content">
@@ -193,68 +179,84 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1. Election Forecasting Revisited</a>
+<li><a href="#orgheadline39">1. Election Forecasting Revisited <code>[12/12]</code></a>
 <ul>
-<li><a href="#sec-1-1">1.1. Problem 1.1 - Drawing a Map of the US (1 point possible)</a></li>
-<li><a href="#sec-1-2">1.2. Problem 1.2 - Drawing a Map of the US (1 point possible)</a></li>
-<li><a href="#sec-1-3">1.3. Problem 2.1 - Coloring the States by Predictions (2 points possible)</a></li>
-<li><a href="#sec-1-4">1.4. Problem 2.2 - Coloring the States by Predictions (2 points possible)</a></li>
-<li><a href="#sec-1-5">1.5. Problem 2.3 - Coloring the States by Predictions (1 point possible)</a></li>
-<li><a href="#sec-1-6">1.6. Problem 2.4 - Coloring the States by Predictions (1 point possible)</a></li>
-<li><a href="#sec-1-7">1.7. Problem 2.5 - Coloring the States by Predictions (1 point possible)</a></li>
-<li><a href="#sec-1-8">1.8. Problem 3.1 - Understanding the Predictions (1 point possible)</a></li>
-<li><a href="#sec-1-9">1.9. Problem 3.2 - Understanding the Predictions (2 points possible)</a></li>
-<li><a href="#sec-1-10">1.10. Problem 4 - Parameter Settings</a></li>
-<li><a href="#sec-1-11">1.11. Problem 4.1 - Parameter Settings (2/2 points)</a></li>
-<li><a href="#sec-1-12">1.12. Problem 4.2 - Parameter Settings (1 point possible)</a></li>
+<li><a href="#orgheadline3">1.1. <span class="done nilDONE">DONE</span> Problem 1.1 - Drawing a Map of the US (1 point possible)</a></li>
+<li><a href="#orgheadline5">1.2. <span class="done nilDONE">DONE</span> Problem 1.2 - Drawing a Map of the US (1 point possible)</a></li>
+<li><a href="#orgheadline10">1.3. <span class="done nilDONE">DONE</span> Problem 2.1 - Coloring the States by Predictions (2 points possible)</a></li>
+<li><a href="#orgheadline15">1.4. <span class="done nilDONE">DONE</span> Problem 2.2 - Coloring the States by Predictions (2 points possible)</a></li>
+<li><a href="#orgheadline17">1.5. <span class="done nilDONE">DONE</span> Problem 2.3 - Coloring the States by Predictions (1 point possible)</a></li>
+<li><a href="#orgheadline19">1.6. <span class="done nilDONE">DONE</span> Problem 2.4 - Coloring the States by Predictions (1 point possible)</a></li>
+<li><a href="#orgheadline21">1.7. <span class="done nilDONE">DONE</span> Problem 2.5 - Coloring the States by Predictions (1 point possible)</a></li>
+<li><a href="#orgheadline23">1.8. <span class="done nilDONE">DONE</span> Problem 3.1 - Understanding the Predictions (1 point possible)</a></li>
+<li><a href="#orgheadline28">1.9. <span class="done nilDONE">DONE</span> Problem 3.2 - Understanding the Predictions (2 points possible)</a></li>
+<li><a href="#orgheadline30">1.10. <span class="done nilDONE">DONE</span> Problem 4 - Parameter Settings</a></li>
+<li><a href="#orgheadline35">1.11. <span class="done nilDONE">DONE</span> Problem 4.1 - Parameter Settings (2/2 points)</a></li>
+<li><a href="#orgheadline38">1.12. <span class="done nilDONE">DONE</span> Problem 4.2 - Parameter Settings (1 point possible)</a></li>
 </ul>
 </li>
-<li><a href="#sec-2">2. Visualizing Network Data</a>
+<li><a href="#orgheadline81">2. Visualizing Network Data <code>[0/11]</code></a>
 <ul>
-<li><a href="#sec-2-1">2.1. Problem 1.1 - Summarizing the Data (2 points possible)</a></li>
-<li><a href="#sec-2-2">2.2. Problem 1.2 - Summarizing the Data (1 point possible)</a></li>
-<li><a href="#sec-2-3">2.3. Problem 1.3 - Summarizing the Data (1 point possible)</a></li>
-<li><a href="#sec-2-4">2.4. Problem 2.1 - Creating a Network (1 point possible)</a></li>
-<li><a href="#sec-2-5">2.5. Problem 2.2 - Creating a Network (2 points possible)</a></li>
-<li><a href="#sec-2-6">2.6. Problem 2.3 - Creating a Network (1 point possible)</a></li>
-<li><a href="#sec-2-7">2.7. Problem 2.4 - Creating a Network (2 points possible)</a></li>
-<li><a href="#sec-2-8">2.8. Problem 3.1 - Coloring Vertices (1 point possible)</a></li>
-<li><a href="#sec-2-9">2.9. Problem 3.2 - Coloring Vertices (2 points possible)</a></li>
-<li><a href="#sec-2-10">2.10. Problem 3.3 - Coloring Vertices (2 points possible)</a></li>
-<li><a href="#sec-2-11">2.11. Problem 4 - Other Plotting Options (2 points possible)</a></li>
+<li><a href="#orgheadline44">2.1. <span class="todo nilTODO">TODO</span> Problem 1.1 - Summarizing the Data (2 points possible)</a></li>
+<li><a href="#orgheadline47">2.2. <span class="todo nilTODO">TODO</span> Problem 1.2 - Summarizing the Data (1 point possible)</a></li>
+<li><a href="#orgheadline49">2.3. <span class="todo nilTODO">TODO</span> Problem 1.3 - Summarizing the Data (1 point possible)</a></li>
+<li><a href="#orgheadline51">2.4. <span class="todo nilTODO">TODO</span> Problem 2.1 - Creating a Network (1 point possible)</a></li>
+<li><a href="#orgheadline56">2.5. <span class="todo nilTODO">TODO</span> Problem 2.2 - Creating a Network (2 points possible)</a></li>
+<li><a href="#orgheadline59">2.6. <span class="todo nilTODO">TODO</span> Problem 2.3 - Creating a Network (1 point possible)</a></li>
+<li><a href="#orgheadline63">2.7. <span class="todo nilTODO">TODO</span> Problem 2.4 - Creating a Network (2 points possible)</a></li>
+<li><a href="#orgheadline66">2.8. <span class="todo nilTODO">TODO</span> Problem 3.1 - Coloring Vertices (1 point possible)</a></li>
+<li><a href="#orgheadline70">2.9. <span class="todo nilTODO">TODO</span> Problem 3.2 - Coloring Vertices (2 points possible)</a></li>
+<li><a href="#orgheadline75">2.10. <span class="todo nilTODO">TODO</span> Problem 3.3 - Coloring Vertices (2 points possible)</a></li>
+<li><a href="#orgheadline80">2.11. <span class="todo nilTODO">TODO</span> Problem 4 - Other Plotting Options (2 points possible)</a></li>
 </ul>
 </li>
-<li><a href="#sec-3">3. Visualizing Text Data Using Word CLouds</a>
+<li><a href="#orgheadline119">3. Visualizing Text Data Using Word CLouds <code>[0/15]</code></a>
 <ul>
-<li><a href="#sec-3-1">3.1. Problem 1.1 - Preparing the Data (1 point possible)</a></li>
-<li><a href="#sec-3-2">3.2. Problem 1.2 - Preparing the Data (1 point possible)</a></li>
-<li><a href="#sec-3-3">3.3. Problem 2.1 - Building a Word Cloud (1 point possible)</a></li>
-<li><a href="#sec-3-4">3.4. Problem 2.2 - Building a Word Cloud (1 point possible)</a></li>
-<li><a href="#sec-3-5">3.5. Problem 2.3 - Building a Word Cloud (1 point possible)</a></li>
-<li><a href="#sec-3-6">3.6. Problem 2.4 - Building a Word Cloud (1 point possible)</a></li>
-<li><a href="#sec-3-7">3.7. Problem 3 - Size and Color</a></li>
-<li><a href="#sec-3-8">3.8. Problem 3.1 - Size and Color (1 point possible)</a></li>
-<li><a href="#sec-3-9">3.9. Problem 3.2 - Size and Color (1 point possible)</a></li>
-<li><a href="#sec-3-10">3.10. Problem 3.3 - Size and Color (1 point possible)</a></li>
-<li><a href="#sec-3-11">3.11. Problem 3.4 - Size and Color (1 point possible)</a></li>
-<li><a href="#sec-3-12">3.12. Problem 3.5 - Size and Color (1 point possible)</a></li>
-<li><a href="#sec-3-13">3.13. Problem 4.1 - Selecting a Color Palette (1 point possible)</a></li>
-<li><a href="#sec-3-14">3.14. Problem 4.2 - Selecting a Color Palette (1 point possible)</a></li>
-<li><a href="#sec-3-15">3.15. Problem 4.3 - Selecting a Color Palette (1 point possible)</a></li>
+<li><a href="#orgheadline84">3.1. <span class="todo nilTODO">TODO</span> Problem 1.1 - Preparing the Data (1 point possible)</a></li>
+<li><a href="#orgheadline87">3.2. <span class="todo nilTODO">TODO</span> Problem 1.2 - Preparing the Data (1 point possible)</a></li>
+<li><a href="#orgheadline89">3.3. <span class="todo nilTODO">TODO</span> Problem 2.1 - Building a Word Cloud (1 point possible)</a></li>
+<li><a href="#orgheadline91">3.4. <span class="todo nilTODO">TODO</span> Problem 2.2 - Building a Word Cloud (1 point possible)</a></li>
+<li><a href="#orgheadline92">3.5. <span class="todo nilTODO">TODO</span> Problem 2.3 - Building a Word Cloud (1 point possible)</a></li>
+<li><a href="#orgheadline94">3.6. <span class="todo nilTODO">TODO</span> Problem 2.4 - Building a Word Cloud (1 point possible)</a></li>
+<li><a href="#orgheadline95">3.7. <span class="todo nilTODO">TODO</span> Problem 3 - Size and Color</a></li>
+<li><a href="#orgheadline98">3.8. <span class="todo nilTODO">TODO</span> Problem 3.1 - Size and Color (1 point possible)</a></li>
+<li><a href="#orgheadline101">3.9. <span class="todo nilTODO">TODO</span> Problem 3.2 - Size and Color (1 point possible)</a></li>
+<li><a href="#orgheadline104">3.10. <span class="todo nilTODO">TODO</span> Problem 3.3 - Size and Color (1 point possible)</a></li>
+<li><a href="#orgheadline107">3.11. <span class="todo nilTODO">TODO</span> Problem 3.4 - Size and Color (1 point possible)</a></li>
+<li><a href="#orgheadline110">3.12. <span class="todo nilTODO">TODO</span> Problem 3.5 - Size and Color (1 point possible)</a></li>
+<li><a href="#orgheadline112">3.13. <span class="todo nilTODO">TODO</span> Problem 4.1 - Selecting a Color Palette (1 point possible)</a></li>
+<li><a href="#orgheadline115">3.14. <span class="todo nilTODO">TODO</span> Problem 4.2 - Selecting a Color Palette (1 point possible)</a></li>
+<li><a href="#orgheadline118">3.15. <span class="todo nilTODO">TODO</span> Problem 4.3 - Selecting a Color Palette (1 point possible)</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline132">4. Visualizing Attributes of Parole Violators (OPTIONAL) <code>[0/12]</code></a>
+<ul>
+<li><a href="#orgheadline120">4.1. <span class="todo nilTODO">TODO</span> Problem 1.1 - Loading the Data</a></li>
+<li><a href="#orgheadline121">4.2. <span class="todo nilTODO">TODO</span> Problem 1.2 - Loading the Data</a></li>
+<li><a href="#orgheadline122">4.3. <span class="todo nilTODO">TODO</span> Problem 2.1 - Creating a Basic Histogram</a></li>
+<li><a href="#orgheadline123">4.4. <span class="todo nilTODO">TODO</span> Problem 2.2 - Creating a Basic Histogram</a></li>
+<li><a href="#orgheadline124">4.5. <span class="todo nilTODO">TODO</span> Problem 3.1 - Adding Another Dimension</a></li>
+<li><a href="#orgheadline125">4.6. <span class="todo nilTODO">TODO</span> Problem 3.2 - Adding Another Dimension</a></li>
+<li><a href="#orgheadline126">4.7. <span class="todo nilTODO">TODO</span> Problem 3.3 - Adding Another DImension</a></li>
+<li><a href="#orgheadline127">4.8. <span class="todo nilTODO">TODO</span> Problem 3.4 - Adding Another Dimension</a></li>
+<li><a href="#orgheadline128">4.9. <span class="todo nilTODO">TODO</span> Problem 4.1 - Time Served</a></li>
+<li><a href="#orgheadline129">4.10. <span class="todo nilTODO">TODO</span> Problem 4.2 - Time Served</a></li>
+<li><a href="#orgheadline130">4.11. <span class="todo nilTODO">TODO</span> Problem 4.3 - Time Served</a></li>
+<li><a href="#orgheadline131">4.12. <span class="todo nilTODO">TODO</span> Problem 4.4 - Time Served</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div class="abstract">
+<div class="ABSTRACT">
 <p>
 Unit 7 Visualization assignment of The Analytical Edge course from MIT.
 </p>
 
 </div>
 
-<div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> Election Forecasting Revisited</h2>
+<div id="outline-container-orgheadline39" class="outline-2">
+<h2 id="orgheadline39"><span class="section-number-2">1</span> Election Forecasting Revisited <code>[12/12]</code></h2>
 <div class="outline-text-2" id="text-1">
 <p>
 In the recitation from Unit 3, we used logistic regression on polling
@@ -318,8 +320,8 @@ map, a world map, and maps for France and Italy.
 </p>
 </div>
 
-<div id="outline-container-sec-1-1" class="outline-3">
-<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Problem 1.1 - Drawing a Map of the US (1 point possible)</h3>
+<div id="outline-container-orgheadline3" class="outline-3">
+<h3 id="orgheadline3"><span class="section-number-3">1.1</span> <span class="done DONE">DONE</span> Problem 1.1 - Drawing a Map of the US (1 point possible)</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 If you look at the structure of the statesMap data frame using the <code>str</code>
@@ -348,8 +350,8 @@ str(statesMap)
 </pre>
 </div>
 
-<div id="outline-container-sec-1-1-1" class="outline-4">
-<h4 id="sec-1-1-1"><span class="section-number-4">1.1.1</span> Question</h4>
+<div id="outline-container-orgheadline2" class="outline-4">
+<h4 id="orgheadline2"><span class="section-number-4">1.1.1</span> Question</h4>
 <div class="outline-text-4" id="text-1-1-1">
 <p>
 How many different groups are there?
@@ -388,8 +390,8 @@ length(table(statesMap$group))
 </pre>
 </div>
 
-<div id="outline-container-sec-1-1-1-1" class="outline-5">
-<h5 id="sec-1-1-1-1"><span class="section-number-5">1.1.1.1</span> Answer</h5>
+<div id="outline-container-orgheadline1" class="outline-5">
+<h5 id="orgheadline1"><span class="section-number-5">1.1.1.1</span> Answer</h5>
 <div class="outline-text-5" id="text-1-1-1-1">
 <p>
 63
@@ -426,8 +428,8 @@ each group, and the variable <code>region</code> gives the name of the state.
 </div>
 </div>
 
-<div id="outline-container-sec-1-2" class="outline-3">
-<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Problem 1.2 - Drawing a Map of the US (1 point possible)</h3>
+<div id="outline-container-orgheadline5" class="outline-3">
+<h3 id="orgheadline5"><span class="section-number-3">1.2</span> <span class="done DONE">DONE</span> Problem 1.2 - Drawing a Map of the US (1 point possible)</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 You can draw a map of the United States by typing the following in
@@ -435,7 +437,7 @@ your R console:
 </p>
 
 
-<div id="fig:USmapHW01" class="figure">
+<div id="orgparagraph1" class="figure">
 <p><img src="../graphs/USmapHW01.png" alt="USmapHW01.png" />
 </p>
 <p><span class="figure-number">Figure 1:</span> United States map in R</p>
@@ -447,16 +449,13 @@ one defined the color of the outline of the states?
 </p>
 </div>
 
-<div id="outline-container-sec-1-2-1" class="outline-4">
-<h4 id="sec-1-2-1"><span class="section-number-4">1.2.1</span> Answer</h4>
+<div id="outline-container-orgheadline4" class="outline-4">
+<h4 id="orgheadline4"><span class="section-number-4">1.2.1</span> Answer</h4>
 <div class="outline-text-4" id="text-1-2-1">
 <ul class="org-ul">
-<li><code>[&#xa0;]</code> fill
-</li>
-<li><code>[X]</code> color color - correct
-</li>
-<li><code>[&#xa0;]</code> Neither
-</li>
+<li class="off"><code>[&#xa0;]</code> fill</li>
+<li class="on"><code>[X]</code> color color - correct</li>
+<li class="off"><code>[&#xa0;]</code> Neither</li>
 </ul>
 
 <p>
@@ -471,7 +470,7 @@ different color:
 </p>
 
 
-<div id="fig:USMapHW02" class="figure">
+<div id="orgparagraph2" class="figure">
 <p><img src="../graphs/USMapHW02.png" alt="USMapHW02.png" />
 </p>
 <p><span class="figure-number">Figure 2:</span> United States map in other outline color</p>
@@ -480,8 +479,8 @@ different color:
 </div>
 </div>
 
-<div id="outline-container-sec-1-3" class="outline-3">
-<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Problem 2.1 - Coloring the States by Predictions (2 points possible)</h3>
+<div id="outline-container-orgheadline10" class="outline-3">
+<h3 id="orgheadline10"><span class="section-number-3">1.3</span> <span class="done DONE">DONE</span> Problem 2.1 - Coloring the States by Predictions (2 points possible)</h3>
 <div class="outline-text-3" id="text-1-3">
 <p>
 Now, let's color the map of the US according to our 2012 US
@@ -672,8 +671,8 @@ questions.
 </p>
 </div>
 
-<div id="outline-container-sec-1-3-1" class="outline-4">
-<h4 id="sec-1-3-1"><span class="section-number-4">1.3.1</span> Question a</h4>
+<div id="outline-container-orgheadline7" class="outline-4">
+<h4 id="orgheadline7"><span class="section-number-4">1.3.1</span> Question a</h4>
 <div class="outline-text-4" id="text-1-3-1">
 <p>
 For how many states is our binary prediction 1 (for 2012),
@@ -693,8 +692,8 @@ nrow(subset(predictionDataFrame, predictionDataFrame$TestPredictionBinary == 1))
 </pre>
 </div>
 
-<div id="outline-container-sec-1-3-1-1" class="outline-5">
-<h5 id="sec-1-3-1-1"><span class="section-number-5">1.3.1.1</span> Answer</h5>
+<div id="outline-container-orgheadline6" class="outline-5">
+<h5 id="orgheadline6"><span class="section-number-5">1.3.1.1</span> Answer</h5>
 <div class="outline-text-5" id="text-1-3-1-1">
 <p>
 22
@@ -703,8 +702,8 @@ nrow(subset(predictionDataFrame, predictionDataFrame$TestPredictionBinary == 1))
 </div>
 </div>
 
-<div id="outline-container-sec-1-3-2" class="outline-4">
-<h4 id="sec-1-3-2"><span class="section-number-4">1.3.2</span> Question</h4>
+<div id="outline-container-orgheadline9" class="outline-4">
+<h4 id="orgheadline9"><span class="section-number-4">1.3.2</span> Question</h4>
 <div class="outline-text-4" id="text-1-3-2">
 <p>
 What is the average predicted probability of our model (on the Test
@@ -724,8 +723,8 @@ mean(predictionDataFrame$TestPrediction)
 </pre>
 </div>
 
-<div id="outline-container-sec-1-3-2-1" class="outline-5">
-<h5 id="sec-1-3-2-1"><span class="section-number-5">1.3.2.1</span> Answer</h5>
+<div id="outline-container-orgheadline8" class="outline-5">
+<h5 id="orgheadline8"><span class="section-number-5">1.3.2.1</span> Answer</h5>
 <div class="outline-text-5" id="text-1-3-2-1">
 <p>
 0.4852626
@@ -777,8 +776,8 @@ You can answer the two questions with the functions
 </div>
 </div>
 
-<div id="outline-container-sec-1-4" class="outline-3">
-<h3 id="sec-1-4"><span class="section-number-3">1.4</span> Problem 2.2 - Coloring the States by Predictions (2 points possible)</h3>
+<div id="outline-container-orgheadline15" class="outline-3">
+<h3 id="orgheadline15"><span class="section-number-3">1.4</span> <span class="done DONE">DONE</span> Problem 2.2 - Coloring the States by Predictions (2 points possible)</h3>
 <div class="outline-text-3" id="text-1-4">
 <p>
 Now, we need to merge <code>predictionDataFrame</code> with the map data
@@ -831,16 +830,16 @@ predictionMap <span style="color: #db7093;">&lt;-</span> predictionMap[order(pre
 </pre>
 </div>
 
-<div id="outline-container-sec-1-4-1" class="outline-4">
-<h4 id="sec-1-4-1"><span class="section-number-4">1.4.1</span> Question</h4>
+<div id="outline-container-orgheadline12" class="outline-4">
+<h4 id="orgheadline12"><span class="section-number-4">1.4.1</span> Question</h4>
 <div class="outline-text-4" id="text-1-4-1">
 <p>
 How many observations are there in <code>predictionMap</code>?
 </p>
 </div>
 
-<div id="outline-container-sec-1-4-1-1" class="outline-5">
-<h5 id="sec-1-4-1-1"><span class="section-number-5">1.4.1.1</span> Answer</h5>
+<div id="outline-container-orgheadline11" class="outline-5">
+<h5 id="orgheadline11"><span class="section-number-5">1.4.1.1</span> Answer</h5>
 <div class="outline-text-5" id="text-1-4-1-1">
 <div class="org-src-container">
 
@@ -857,16 +856,16 @@ nrow(predictionMap)
 </div>
 </div>
 
-<div id="outline-container-sec-1-4-2" class="outline-4">
-<h4 id="sec-1-4-2"><span class="section-number-4">1.4.2</span> Question</h4>
+<div id="outline-container-orgheadline14" class="outline-4">
+<h4 id="orgheadline14"><span class="section-number-4">1.4.2</span> Question</h4>
 <div class="outline-text-4" id="text-1-4-2">
 <p>
 How many observations are there in <code>statesMap</code>?
 </p>
 </div>
 
-<div id="outline-container-sec-1-4-2-1" class="outline-5">
-<h5 id="sec-1-4-2-1"><span class="section-number-5">1.4.2.1</span> Answer</h5>
+<div id="outline-container-orgheadline13" class="outline-5">
+<h5 id="orgheadline13"><span class="section-number-5">1.4.2.1</span> Answer</h5>
 <div class="outline-text-5" id="text-1-4-2-1">
 <div class="org-src-container">
 
@@ -894,8 +893,8 @@ are \(15537\) observations.
 </div>
 </div>
 
-<div id="outline-container-sec-1-5" class="outline-3">
-<h3 id="sec-1-5"><span class="section-number-3">1.5</span> Problem 2.3 - Coloring the States by Predictions (1 point possible)</h3>
+<div id="outline-container-orgheadline17" class="outline-3">
+<h3 id="orgheadline17"><span class="section-number-3">1.5</span> <span class="done DONE">DONE</span> Problem 2.3 - Coloring the States by Predictions (1 point possible)</h3>
 <div class="outline-text-3" id="text-1-5">
 <p>
 When we merged the data in the previous problem, it caused the number
@@ -904,27 +903,23 @@ typing ?merge to help you answer this question.
 </p>
 </div>
 
-<div id="outline-container-sec-1-5-1" class="outline-4">
-<h4 id="sec-1-5-1"><span class="section-number-4">1.5.1</span> Answer</h4>
+<div id="outline-container-orgheadline16" class="outline-4">
+<h4 id="orgheadline16"><span class="section-number-4">1.5.1</span> Answer</h4>
 <div class="outline-text-4" id="text-1-5-1">
 <ul class="org-ul">
-<li><code>[&#xa0;]</code> Merging the data just combines the two data frames like it would
-if we used rbind, so the number of observations increased.
-</li>
+<li class="off"><code>[&#xa0;]</code> Merging the data just combines the two data frames like it would
+if we used rbind, so the number of observations increased.</li>
 
-<li><code>[&#xa0;]</code> We have more observations for each state now, because some
+<li class="off"><code>[&#xa0;]</code> We have more observations for each state now, because some
 observations have the statesMap data, and some observations have the
-prediction data.
-</li>
+prediction data.</li>
 
-<li><code>[X]</code> Because we only make predictions for 45 states, we no longer
+<li class="on"><code>[X]</code> Because we only make predictions for 45 states, we no longer
 have observations for some of the states. These observations were
-removed in the merging process.
-</li>
+removed in the merging process.</li>
 
-<li><code>[&#xa0;]</code> We merged the observations for which our predictions are
-identical.
-</li>
+<li class="off"><code>[&#xa0;]</code> We merged the observations for which our predictions are
+identical.</li>
 </ul>
 
 <p>
@@ -947,8 +942,8 @@ help page for the merge function by typing <code>?merge</code> in your R console
 </div>
 </div>
 
-<div id="outline-container-sec-1-6" class="outline-3">
-<h3 id="sec-1-6"><span class="section-number-3">1.6</span> Problem 2.4 - Coloring the States by Predictions (1 point possible)</h3>
+<div id="outline-container-orgheadline19" class="outline-3">
+<h3 id="orgheadline19"><span class="section-number-3">1.6</span> <span class="done DONE">DONE</span> Problem 2.4 - Coloring the States by Predictions (1 point possible)</h3>
 <div class="outline-text-3" id="text-1-6">
 <p>
 Now we are ready to color the US map with our predictions! You can
@@ -957,7 +952,7 @@ following in your R console:
 </p>
 
 
-<div id="fig:USElectionsPredictions01" class="figure">
+<div id="orgparagraph3" class="figure">
 <p><img src="../graphs/USElectionsPredictions01.png" alt="USElectionsPredictions01.png" />
 </p>
 <p><span class="figure-number">Figure 3:</span> US Presidential predictions map v1</p>
@@ -969,14 +964,12 @@ represents a Republican prediction?
 </p>
 </div>
 
-<div id="outline-container-sec-1-6-1" class="outline-4">
-<h4 id="sec-1-6-1"><span class="section-number-4">1.6.1</span> Answer</h4>
+<div id="outline-container-orgheadline18" class="outline-4">
+<h4 id="orgheadline18"><span class="section-number-4">1.6.1</span> Answer</h4>
 <div class="outline-text-4" id="text-1-6-1">
 <ul class="org-ul">
-<li><code>[X]</code> Light blue
-</li>
-<li><code>[&#xa0;]</code> Dark blue
-</li>
+<li class="on"><code>[X]</code> Light blue</li>
+<li class="off"><code>[&#xa0;]</code> Dark blue</li>
 </ul>
 
 <p>
@@ -993,8 +986,8 @@ the map.
 </div>
 </div>
 
-<div id="outline-container-sec-1-7" class="outline-3">
-<h3 id="sec-1-7"><span class="section-number-3">1.7</span> Problem 2.5 - Coloring the States by Predictions (1 point possible)</h3>
+<div id="outline-container-orgheadline21" class="outline-3">
+<h3 id="orgheadline21"><span class="section-number-3">1.7</span> <span class="done DONE">DONE</span> Problem 2.5 - Coloring the States by Predictions (1 point possible)</h3>
 <div class="outline-text-3" id="text-1-7">
 <p>
 We see that the legend displays a <b>blue</b> gradient for outcomes between
@@ -1007,7 +1000,7 @@ Party</b> in the US. This can be done with the following command:
 </p>
 
 
-<div id="fig:USElectionsPredictions02" class="figure">
+<div id="orgparagraph4" class="figure">
 <p><img src="../graphs/USElectionsPredictions02.png" alt="USElectionsPredictions02.png" />
 </p>
 <p><span class="figure-number">Figure 4:</span> US presidential election map v2</p>
@@ -1033,36 +1026,32 @@ gray scale, by changing the low and high colors to <code>gray</code> and
 </p>
 
 
-<div id="fig:USElectionsPredictions03" class="figure">
+<div id="orgparagraph5" class="figure">
 <p><img src="../graphs/USElectionsPredictions03.png" alt="USElectionsPredictions03.png" />
 </p>
 <p><span class="figure-number">Figure 5:</span> US Presidential Election map v3</p>
 </div>
 </div>
 
-<div id="outline-container-sec-1-7-1" class="outline-4">
-<h4 id="sec-1-7-1"><span class="section-number-4">1.7.1</span> Answer</h4>
+<div id="outline-container-orgheadline20" class="outline-4">
+<h4 id="orgheadline20"><span class="section-number-4">1.7.1</span> Answer</h4>
 <div class="outline-text-4" id="text-1-7-1">
 <ul class="org-ul">
-<li><code>[X]</code> The two maps look very similar. This is because most of our
+<li class="on"><code>[X]</code> The two maps look very similar. This is because most of our
 predicted probabilities are close to 0 or close to 1. The two maps
 look very similar. This is because most of our predicted
-probabilities are close to 0 or close to 1. - correct
-</li>
+probabilities are close to 0 or close to 1. - correct</li>
 
-<li><code>[&#xa0;]</code> The two maps look very similar. This is because <code>TestPrediction</code>
-  and TestPredictionBinary have the exact same values.
-</li>
+<li class="off"><code>[&#xa0;]</code> The two maps look very similar. This is because <code>TestPrediction</code>
+  and TestPredictionBinary have the exact same values.</li>
 
-<li><code>[&#xa0;]</code> The two maps look very different. This is because we have
+<li class="off"><code>[&#xa0;]</code> The two maps look very different. This is because we have
 switched from plotting discrete values to plotting continuous
-values.
-</li>
+values.</li>
 
-<li><code>[&#xa0;]</code> The two maps look very different. This is because our predicted
+<li class="off"><code>[&#xa0;]</code> The two maps look very different. This is because our predicted
 probabilites have a wide range of values, and we were not sure about
-many states.
-</li>
+many states.</li>
 </ul>
 
 <p>
@@ -1092,8 +1081,8 @@ fact, we don't have a single predicted probability between \(0.065\) and
 </div>
 </div>
 
-<div id="outline-container-sec-1-8" class="outline-3">
-<h3 id="sec-1-8"><span class="section-number-3">1.8</span> Problem 3.1 - Understanding the Predictions (1 point possible)</h3>
+<div id="outline-container-orgheadline23" class="outline-3">
+<h3 id="orgheadline23"><span class="section-number-3">1.8</span> <span class="done DONE">DONE</span> Problem 3.1 - Understanding the Predictions (1 point possible)</h3>
 <div class="outline-text-3" id="text-1-8">
 <p>
 In the 2012 election, the state of <b>Florida</b> ended up being a very close
@@ -1103,17 +1092,15 @@ the different states, take a look at the World Atlas map here.
 </p>
 </div>
 
-<div id="outline-container-sec-1-8-1" class="outline-4">
-<h4 id="sec-1-8-1"><span class="section-number-4">1.8.1</span> Answer</h4>
+<div id="outline-container-orgheadline22" class="outline-4">
+<h4 id="orgheadline22"><span class="section-number-4">1.8.1</span> Answer</h4>
 <div class="outline-text-4" id="text-1-8-1">
 <ul class="org-ul">
-<li><code>[&#xa0;]</code> We correctly predicted that this state would be won by the
-Democratic party.
-</li>
+<li class="off"><code>[&#xa0;]</code> We correctly predicted that this state would be won by the
+Democratic party.</li>
 
-<li><code>[X]</code> We incorrectly predicted this state by predicting that it would
-be won by the Republican party.
-</li>
+<li class="on"><code>[X]</code> We incorrectly predicted this state by predicting that it would
+be won by the Republican party.</li>
 </ul>
 
 <p>
@@ -1129,19 +1116,21 @@ state</b>.
 </div>
 </div>
 
-<div id="outline-container-sec-1-9" class="outline-3">
-<h3 id="sec-1-9"><span class="section-number-3">1.9</span> Problem 3.2 - Understanding the Predictions (2 points possible)</h3>
+<div id="outline-container-orgheadline28" class="outline-3">
+<h3 id="orgheadline28"><span class="section-number-3">1.9</span> <span class="done DONE">DONE</span> Problem 3.2 - Understanding the Predictions (2 points possible)</h3>
 <div class="outline-text-3" id="text-1-9">
-</div><div id="outline-container-sec-1-9-1" class="outline-4">
-<h4 id="sec-1-9-1"><span class="section-number-4">1.9.1</span> Question a</h4>
+</div>
+
+<div id="outline-container-orgheadline25" class="outline-4">
+<h4 id="orgheadline25"><span class="section-number-4">1.9.1</span> Question a</h4>
 <div class="outline-text-4" id="text-1-9-1">
 <p>
 What was our predicted probability for the state of Florida?
 </p>
 </div>
 
-<div id="outline-container-sec-1-9-1-1" class="outline-5">
-<h5 id="sec-1-9-1-1"><span class="section-number-5">1.9.1.1</span> Answer</h5>
+<div id="outline-container-orgheadline24" class="outline-5">
+<h5 id="orgheadline24"><span class="section-number-5">1.9.1.1</span> Answer</h5>
 <div class="outline-text-5" id="text-1-9-1-1">
 <div class="org-src-container">
 
@@ -1172,35 +1161,31 @@ Predicted probability: \(0.9640395\)
 </div>
 </div>
 
-<div id="outline-container-sec-1-9-2" class="outline-4">
-<h4 id="sec-1-9-2"><span class="section-number-4">1.9.2</span> Question b</h4>
+<div id="outline-container-orgheadline27" class="outline-4">
+<h4 id="orgheadline27"><span class="section-number-4">1.9.2</span> Question b</h4>
 <div class="outline-text-4" id="text-1-9-2">
 <p>
 What does this imply?
 </p>
 </div>
 
-<div id="outline-container-sec-1-9-2-1" class="outline-5">
-<h5 id="sec-1-9-2-1"><span class="section-number-5">1.9.2.1</span> Answer</h5>
+<div id="outline-container-orgheadline26" class="outline-5">
+<h5 id="orgheadline26"><span class="section-number-5">1.9.2.1</span> Answer</h5>
 <div class="outline-text-5" id="text-1-9-2-1">
 <ul class="org-ul">
-<li><code>[&#xa0;]</code> Our prediction model did a good job of correctly predicting the
-state of Florida, and we were very confident in our prediction.
-</li>
+<li class="off"><code>[&#xa0;]</code> Our prediction model did a good job of correctly predicting the
+state of Florida, and we were very confident in our prediction.</li>
 
-<li><code>[&#xa0;]</code> Our prediction model did a good job of correctly predicting the
-state of Florida, but we were not very confident in the prediction.
-</li>
+<li class="off"><code>[&#xa0;]</code> Our prediction model did a good job of correctly predicting the
+state of Florida, but we were not very confident in the prediction.</li>
 
-<li><code>[&#xa0;]</code> Our prediction model did not do a very good job of correctly
+<li class="off"><code>[&#xa0;]</code> Our prediction model did not do a very good job of correctly
 predicting the state of Florida, but we were not very confident in
-our prediction.
-</li>
+our prediction.</li>
 
-<li><code>[X]</code> Our prediction model did not do a very good job of correctly
+<li class="on"><code>[X]</code> Our prediction model did not do a very good job of correctly
 predicting the state of Florida, and we were very confident in our
-incorrect prediction.
-</li>
+incorrect prediction.</li>
 </ul>
 
 <p>
@@ -1220,8 +1205,8 @@ other polls predicted Republican, so our model predicted Republican.
 </div>
 </div>
 
-<div id="outline-container-sec-1-10" class="outline-3">
-<h3 id="sec-1-10"><span class="section-number-3">1.10</span> Problem 4 - Parameter Settings</h3>
+<div id="outline-container-orgheadline30" class="outline-3">
+<h3 id="orgheadline30"><span class="section-number-3">1.10</span> <span class="done DONE">DONE</span> Problem 4 - Parameter Settings</h3>
 <div class="outline-text-3" id="text-1-10">
 <p>
 In this part, we'll explore what the different parameter settings of
@@ -1268,15 +1253,15 @@ We'll be asking questions about the following three plots:
 </div>
 </div>
 
-<div id="outline-container-sec-1-10-1" class="outline-4">
-<h4 id="sec-1-10-1"><span class="section-number-4">1.10.1</span> Answer</h4>
+<div id="outline-container-orgheadline29" class="outline-4">
+<h4 id="orgheadline29"><span class="section-number-4">1.10.1</span> Answer</h4>
 <div class="outline-text-4" id="text-1-10-1">
 <p>
 Recreating <b>plot (1)</b>
 </p>
 
 
-<div id="fig:RecreatingPlot01" class="figure">
+<div id="orgparagraph6" class="figure">
 <p><img src="../graphs/RecreatingPlot01.png" alt="RecreatingPlot01.png" />
 </p>
 <p><span class="figure-number">Figure 9:</span> Recreating plot 1</p>
@@ -1287,7 +1272,7 @@ Now we will recreate the <b>Plot (2)</b>
 </p>
 
 
-<div id="fig:RecreatingPlot02" class="figure">
+<div id="orgparagraph7" class="figure">
 <p><img src="../graphs/RecreatingPlot02.png" alt="RecreatingPlot02.png" />
 </p>
 <p><span class="figure-number">Figure 10:</span> Recreating the plot 2</p>
@@ -1298,7 +1283,7 @@ Now let recreate the <b>plot (3)</b>
 </p>
 
 
-<div id="fig:RecreatingPlot03" class="figure">
+<div id="orgparagraph8" class="figure">
 <p><img src="../graphs/RecreatingPlot03.png" alt="RecreatingPlot03.png" />
 </p>
 <p><span class="figure-number">Figure 11:</span> Recreating the plot 3</p>
@@ -1307,9 +1292,8 @@ Now let recreate the <b>plot (3)</b>
 </div>
 </div>
 
-
-<div id="outline-container-sec-1-11" class="outline-3">
-<h3 id="sec-1-11"><span class="section-number-3">1.11</span> Problem 4.1 - Parameter Settings (2/2 points)</h3>
+<div id="outline-container-orgheadline35" class="outline-3">
+<h3 id="orgheadline35"><span class="section-number-3">1.11</span> <span class="done DONE">DONE</span> Problem 4.1 - Parameter Settings (2/2 points)</h3>
 <div class="outline-text-3" id="text-1-11">
 <p>
 Plots (1) and (2) were created by setting different parameters of
@@ -1317,8 +1301,8 @@ geom_polygon to the value 3.
 </p>
 </div>
 
-<div id="outline-container-sec-1-11-1" class="outline-4">
-<h4 id="sec-1-11-1"><span class="section-number-4">1.11.1</span> Question</h4>
+<div id="outline-container-orgheadline32" class="outline-4">
+<h4 id="orgheadline32"><span class="section-number-4">1.11.1</span> Question</h4>
 <div class="outline-text-4" id="text-1-11-1">
 <p>
 What is the name of the parameter we set to have value 3 to create
@@ -1326,8 +1310,8 @@ plot (1)?
 </p>
 </div>
 
-<div id="outline-container-sec-1-11-1-1" class="outline-5">
-<h5 id="sec-1-11-1-1"><span class="section-number-5">1.11.1.1</span> Answer</h5>
+<div id="outline-container-orgheadline31" class="outline-5">
+<h5 id="orgheadline31"><span class="section-number-5">1.11.1.1</span> Answer</h5>
 <div class="outline-text-5" id="text-1-11-1-1">
 <p>
 <code>linetype</code>
@@ -1336,8 +1320,8 @@ plot (1)?
 </div>
 </div>
 
-<div id="outline-container-sec-1-11-2" class="outline-4">
-<h4 id="sec-1-11-2"><span class="section-number-4">1.11.2</span> Question</h4>
+<div id="outline-container-orgheadline34" class="outline-4">
+<h4 id="orgheadline34"><span class="section-number-4">1.11.2</span> Question</h4>
 <div class="outline-text-4" id="text-1-11-2">
 <p>
 What is the name of the parameter we set to have value 3 to create
@@ -1345,8 +1329,8 @@ plot (2)?
 </p>
 </div>
 
-<div id="outline-container-sec-1-11-2-1" class="outline-5">
-<h5 id="sec-1-11-2-1"><span class="section-number-5">1.11.2.1</span> Answer</h5>
+<div id="outline-container-orgheadline33" class="outline-5">
+<h5 id="orgheadline33"><span class="section-number-5">1.11.2.1</span> Answer</h5>
 <div class="outline-text-5" id="text-1-11-2-1">
 <p>
 <code>size</code>
@@ -1385,11 +1369,13 @@ The second plot can be generated by setting the parameter <code>size = 3</code>:
 </div>
 </div>
 
-<div id="outline-container-sec-1-12" class="outline-3">
-<h3 id="sec-1-12"><span class="section-number-3">1.12</span> Problem 4.2 - Parameter Settings (1 point possible)</h3>
+<div id="outline-container-orgheadline38" class="outline-3">
+<h3 id="orgheadline38"><span class="section-number-3">1.12</span> <span class="done DONE">DONE</span> Problem 4.2 - Parameter Settings (1 point possible)</h3>
 <div class="outline-text-3" id="text-1-12">
-</div><div id="outline-container-sec-1-12-1" class="outline-4">
-<h4 id="sec-1-12-1"><span class="section-number-4">1.12.1</span> Question</h4>
+</div>
+
+<div id="outline-container-orgheadline37" class="outline-4">
+<h4 id="orgheadline37"><span class="section-number-4">1.12.1</span> Question</h4>
 <div class="outline-text-4" id="text-1-12-1">
 <p>
 Plot (3) was created by changing the value of a different geom_polygon
@@ -1397,8 +1383,8 @@ parameter to have value 0.3. Which parameter did we use?
 </p>
 </div>
 
-<div id="outline-container-sec-1-12-1-1" class="outline-5">
-<h5 id="sec-1-12-1-1"><span class="section-number-5">1.12.1.1</span> Answer</h5>
+<div id="outline-container-orgheadline36" class="outline-5">
+<h5 id="orgheadline36"><span class="section-number-5">1.12.1.1</span> Answer</h5>
 <div class="outline-text-5" id="text-1-12-1-1">
 <p>
 <b>alpha</b>
@@ -1430,8 +1416,8 @@ color. A smaller value of alpha will make the colors lighter.
 </div>
 </div>
 
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> Visualizing Network Data</h2>
+<div id="outline-container-orgheadline81" class="outline-2">
+<h2 id="orgheadline81"><span class="section-number-2">2</span> Visualizing Network Data <code>[0/11]</code></h2>
 <div class="outline-text-2" id="text-2">
 <p>
 The cliche goes that the world is an increasingly interconnected
@@ -1468,24 +1454,20 @@ following variables:
 
 <ul class="org-ul">
 <li><b>id</b>: A unique identifier for this user; this is the value that
-appears in the rows of <code>edges.csv</code>
-</li>
+appears in the rows of <code>edges.csv</code></li>
 
 <li><b>gender</b>: An identifier for the gender of a user taking the values A
 and B. Because the data is anonymized, we don't know which value
-refers to males and which value refers to females.
-</li>
+refers to males and which value refers to females.</li>
 
 <li><b>school</b>: An identifier for the school the user attended taking the
 values A and AB (users with AB attended school A as well as another
 school B). Because the data is anonymized, we don't know the schools
-represented by A and B.
-</li>
+represented by A and B.</li>
 
 <li><b>locale</b>: An identifier for the locale of the user taking the values
 A and B. Because the data is anonymized, we don't know which value
-refers to what locale.
-</li>
+refers to what locale.</li>
 </ul>
 
 <div class="org-src-container">
@@ -1526,8 +1508,8 @@ quartz_off_screen
 </pre>
 </div>
 
-<div id="outline-container-sec-2-1" class="outline-3">
-<h3 id="sec-2-1"><span class="section-number-3">2.1</span> Problem 1.1 - Summarizing the Data (2 points possible)</h3>
+<div id="outline-container-orgheadline44" class="outline-3">
+<h3 id="orgheadline44"><span class="section-number-3">2.1</span> <span class="todo TODO">TODO</span> Problem 1.1 - Summarizing the Data (2 points possible)</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 Load the data from <code>edges.csv</code> into a data frame called <code>edges</code>, and load
@@ -1565,16 +1547,16 @@ str(users)
 </pre>
 </div>
 
-<div id="outline-container-sec-2-1-1" class="outline-4">
-<h4 id="sec-2-1-1"><span class="section-number-4">2.1.1</span> Question a</h4>
+<div id="outline-container-orgheadline41" class="outline-4">
+<h4 id="orgheadline41"><span class="section-number-4">2.1.1</span> Question a</h4>
 <div class="outline-text-4" id="text-2-1-1">
 <p>
 How many Facebook users are there in our dataset?
 </p>
 </div>
 
-<div id="outline-container-sec-2-1-1-1" class="outline-5">
-<h5 id="sec-2-1-1-1"><span class="section-number-5">2.1.1.1</span> Answer</h5>
+<div id="outline-container-orgheadline40" class="outline-5">
+<h5 id="orgheadline40"><span class="section-number-5">2.1.1.1</span> Answer</h5>
 <div class="outline-text-5" id="text-2-1-1-1">
 <p>
 <b>59</b>
@@ -1592,8 +1574,8 @@ users in this dataset.
 </div>
 </div>
 
-<div id="outline-container-sec-2-1-2" class="outline-4">
-<h4 id="sec-2-1-2"><span class="section-number-4">2.1.2</span> Question b</h4>
+<div id="outline-container-orgheadline43" class="outline-4">
+<h4 id="orgheadline43"><span class="section-number-4">2.1.2</span> Question b</h4>
 <div class="outline-text-4" id="text-2-1-2">
 <p>
 In our dataset, what is the average number of friends per user? Hint:
@@ -1602,8 +1584,8 @@ a small example with two users who are friends.
 </p>
 </div>
 
-<div id="outline-container-sec-2-1-2-1" class="outline-5">
-<h5 id="sec-2-1-2-1"><span class="section-number-5">2.1.2.1</span> Answer</h5>
+<div id="outline-container-orgheadline42" class="outline-5">
+<h5 id="orgheadline42"><span class="section-number-5">2.1.2.1</span> Answer</h5>
 <div class="outline-text-5" id="text-2-1-2-1">
 <div class="org-src-container">
 
@@ -1648,9 +1630,9 @@ For our network, the average number of friends per user is
 </p>
 
 <p>
-$$
+\($
 \frac{292}{59} = 4.95
-$$
+$\)
 </p>
 
 <p>
@@ -1664,11 +1646,11 @@ average total number of Facebook friends.
 </div>
 </div>
 
-<div id="outline-container-sec-2-2" class="outline-3">
-<h3 id="sec-2-2"><span class="section-number-3">2.2</span> Problem 1.2 - Summarizing the Data (1 point possible)</h3>
+<div id="outline-container-orgheadline47" class="outline-3">
+<h3 id="orgheadline47"><span class="section-number-3">2.2</span> <span class="todo TODO">TODO</span> Problem 1.2 - Summarizing the Data (1 point possible)</h3>
 <div class="outline-text-3" id="text-2-2">
-</div><div id="outline-container-sec-2-2-1" class="outline-4">
-<h4 id="sec-2-2-1"><span class="section-number-4">2.2.1</span> Question</h4>
+</div><div id="outline-container-orgheadline46" class="outline-4">
+<h4 id="orgheadline46"><span class="section-number-4">2.2.1</span> Question</h4>
 <div class="outline-text-4" id="text-2-2-1">
 <p>
 Out of all the students who listed a school, what was the most common
@@ -1676,8 +1658,8 @@ locale?
 </p>
 </div>
 
-<div id="outline-container-sec-2-2-1-1" class="outline-5">
-<h5 id="sec-2-2-1-1"><span class="section-number-5">2.2.1.1</span> Answer</h5>
+<div id="outline-container-orgheadline45" class="outline-5">
+<h5 id="orgheadline45"><span class="section-number-5">2.2.1.1</span> Answer</h5>
 <div class="outline-text-5" id="text-2-2-1-1">
 <div class="org-src-container">
 
@@ -1720,10 +1702,8 @@ table(users$locale, users$school)
 </pre>
 
 <ul class="org-ul">
-<li><code>[&#xa0;]</code> Locale A
-</li>
-<li><code>[X]</code> Locale B
-</li>
+<li class="off"><code>[&#xa0;]</code> Locale A</li>
+<li class="on"><code>[X]</code> Locale B</li>
 </ul>
 
 <p>
@@ -1739,8 +1719,8 @@ listed at schools \(A\) and \(B\) listed their locale as \(B\).
 </div>
 </div>
 
-<div id="outline-container-sec-2-3" class="outline-3">
-<h3 id="sec-2-3"><span class="section-number-3">2.3</span> Problem 1.3 - Summarizing the Data (1 point possible)</h3>
+<div id="outline-container-orgheadline49" class="outline-3">
+<h3 id="orgheadline49"><span class="section-number-3">2.3</span> <span class="todo TODO">TODO</span> Problem 1.3 - Summarizing the Data (1 point possible)</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
 Is it possible that either school A or B is an all-girls or all-boys
@@ -1748,8 +1728,8 @@ school?
 </p>
 </div>
 
-<div id="outline-container-sec-2-3-1" class="outline-4">
-<h4 id="sec-2-3-1"><span class="section-number-4">2.3.1</span> Answer</h4>
+<div id="outline-container-orgheadline48" class="outline-4">
+<h4 id="orgheadline48"><span class="section-number-4">2.3.1</span> Answer</h4>
 <div class="outline-text-4" id="text-2-3-1">
 <div class="org-src-container">
 
@@ -1793,10 +1773,8 @@ table(users$school, users$gender)
 </pre>
 
 <ul class="org-ul">
-<li><code>[X]</code> No No - correct
-</li>
-<li><code>[&#xa0;]</code> Yes
-</li>
+<li class="on"><code>[X]</code> No No - correct</li>
+<li class="off"><code>[&#xa0;]</code> Yes</li>
 </ul>
 
 <p>
@@ -1811,8 +1789,8 @@ and \(B\) have attended schools \(A\) and \(B\).
 </div>
 </div>
 
-<div id="outline-container-sec-2-4" class="outline-3">
-<h3 id="sec-2-4"><span class="section-number-3">2.4</span> Problem 2.1 - Creating a Network (1 point possible)</h3>
+<div id="outline-container-orgheadline51" class="outline-3">
+<h3 id="orgheadline51"><span class="section-number-3">2.4</span> <span class="todo TODO">TODO</span> Problem 2.1 - Creating a Network (1 point possible)</h3>
 <div class="outline-text-3" id="text-2-4">
 <p>
 We will be using the <code>igraph</code> package to visualize networks; install
@@ -1835,8 +1813,8 @@ symmetric.
 </p>
 </div>
 
-<div id="outline-container-sec-2-4-1" class="outline-4">
-<h4 id="sec-2-4-1"><span class="section-number-4">2.4.1</span> Answer</h4>
+<div id="outline-container-orgheadline50" class="outline-4">
+<h4 id="orgheadline50"><span class="section-number-4">2.4.1</span> Answer</h4>
 <div class="outline-text-4" id="text-2-4-1">
 <div class="org-src-container">
 
@@ -1858,14 +1836,10 @@ writeLines(<span style="color: #ff6a6a;">"\n :: Library igraph loaded..."</span>
 </pre>
 
 <ul class="org-ul">
-<li><code>[&#xa0;]</code> <code>g = graph.data.frame(edges, FALSE, users)</code>
-</li>
-<li><code>[&#xa0;]</code> <code>g = graph.data.frame(users, FALSE, edges)</code>
-</li>
-<li><code>[&#xa0;]</code> <code>g = graph.data.frame(edges, TRUE, users)</code>
-</li>
-<li><code>[&#xa0;]</code> <code>g = graph.data.frame(users, TRUE, edges)</code>
-</li>
+<li class="off"><code>[&#xa0;]</code> <code>g = graph.data.frame(edges, FALSE, users)</code></li>
+<li class="off"><code>[&#xa0;]</code> <code>g = graph.data.frame(users, FALSE, edges)</code></li>
+<li class="off"><code>[&#xa0;]</code> <code>g = graph.data.frame(edges, TRUE, users)</code></li>
+<li class="off"><code>[&#xa0;]</code> <code>g = graph.data.frame(users, TRUE, edges)</code></li>
 </ul>
 
 <div class="org-src-container">
@@ -1920,8 +1894,8 @@ our graph. This is the case with our users data frame.
 </div>
 </div>
 
-<div id="outline-container-sec-2-5" class="outline-3">
-<h3 id="sec-2-5"><span class="section-number-3">2.5</span> Problem 2.2 - Creating a Network (2 points possible)</h3>
+<div id="outline-container-orgheadline56" class="outline-3">
+<h3 id="orgheadline56"><span class="section-number-3">2.5</span> <span class="todo TODO">TODO</span> Problem 2.2 - Creating a Network (2 points possible)</h3>
 <div class="outline-text-3" id="text-2-5">
 <p>
 Use the correct command from Problem 2.1 to load the graph <code>g</code>.
@@ -1934,7 +1908,7 @@ the output, we will plot with no text labels and smaller vertices:
 </p>
 
 
-<div id="fig:FBFriendshipGraph01" class="figure">
+<div id="orgparagraph9" class="figure">
 <p><img src="../graphs/FBFriendshipGraph01.png" alt="FBFriendshipGraph01.png" />
 </p>
 <p><span class="figure-number">Figure 12:</span> Facebook friendship graph v1</p>
@@ -1948,8 +1922,8 @@ another, forming <b>islands</b> in the graph. Such groups are called
 </p>
 </div>
 
-<div id="outline-container-sec-2-5-1" class="outline-4">
-<h4 id="sec-2-5-1"><span class="section-number-4">2.5.1</span> Question a</h4>
+<div id="outline-container-orgheadline53" class="outline-4">
+<h4 id="orgheadline53"><span class="section-number-4">2.5.1</span> Question a</h4>
 <div class="outline-text-4" id="text-2-5-1">
 <p>
 How many connected components with at least 2 nodes are there in the
@@ -1957,8 +1931,8 @@ graph?
 </p>
 </div>
 
-<div id="outline-container-sec-2-5-1-1" class="outline-5">
-<h5 id="sec-2-5-1-1"><span class="section-number-5">2.5.1.1</span> Answer</h5>
+<div id="outline-container-orgheadline52" class="outline-5">
+<h5 id="orgheadline52"><span class="section-number-5">2.5.1.1</span> Answer</h5>
 <div class="outline-text-5" id="text-2-5-1-1">
 <p>
 4
@@ -1977,16 +1951,16 @@ component and two 2-node components.
 </div>
 
 
-<div id="outline-container-sec-2-5-2" class="outline-4">
-<h4 id="sec-2-5-2"><span class="section-number-4">2.5.2</span> Question b</h4>
+<div id="outline-container-orgheadline55" class="outline-4">
+<h4 id="orgheadline55"><span class="section-number-4">2.5.2</span> Question b</h4>
 <div class="outline-text-4" id="text-2-5-2">
 <p>
 How many users are there with no friends in the network?
 </p>
 </div>
 
-<div id="outline-container-sec-2-5-2-1" class="outline-5">
-<h5 id="sec-2-5-2-1"><span class="section-number-5">2.5.2.1</span> Answer</h5>
+<div id="outline-container-orgheadline54" class="outline-5">
+<h5 id="orgheadline54"><span class="section-number-5">2.5.2.1</span> Answer</h5>
 <div class="outline-text-5" id="text-2-5-2-1">
 <p>
 7
@@ -2005,8 +1979,8 @@ forms a 1-node connected component.
 </div>
 </div>
 
-<div id="outline-container-sec-2-6" class="outline-3">
-<h3 id="sec-2-6"><span class="section-number-3">2.6</span> Problem 2.3 - Creating a Network (1 point possible)</h3>
+<div id="outline-container-orgheadline59" class="outline-3">
+<h3 id="orgheadline59"><span class="section-number-3">2.6</span> <span class="todo TODO">TODO</span> Problem 2.3 - Creating a Network (1 point possible)</h3>
 <div class="outline-text-3" id="text-2-6">
 <p>
 In our graph, the <b>degree</b> of a node is its number of friends. We have
@@ -2017,8 +1991,8 @@ use <code>degree(g)</code> to compute the degree of all the nodes in our graph
 </p>
 </div>
 
-<div id="outline-container-sec-2-6-1" class="outline-4">
-<h4 id="sec-2-6-1"><span class="section-number-4">2.6.1</span> Question</h4>
+<div id="outline-container-orgheadline58" class="outline-4">
+<h4 id="orgheadline58"><span class="section-number-4">2.6.1</span> Question</h4>
 <div class="outline-text-4" id="text-2-6-1">
 <p>
 How many users are friends with 10 or more other Facebook users in
@@ -2026,8 +2000,8 @@ this network?
 </p>
 </div>
 
-<div id="outline-container-sec-2-6-1-1" class="outline-5">
-<h5 id="sec-2-6-1-1"><span class="section-number-5">2.6.1.1</span> Answer</h5>
+<div id="outline-container-orgheadline57" class="outline-5">
+<h5 id="orgheadline57"><span class="section-number-5">2.6.1.1</span> Answer</h5>
 <div class="outline-text-5" id="text-2-6-1-1">
 <div class="org-src-container">
 
@@ -2076,8 +2050,8 @@ there are 9 users with 10 or more friends in this network.
 </div>
 </div>
 
-<div id="outline-container-sec-2-7" class="outline-3">
-<h3 id="sec-2-7"><span class="section-number-3">2.7</span> Problem 2.4 - Creating a Network (2 points possible)</h3>
+<div id="outline-container-orgheadline63" class="outline-3">
+<h3 id="orgheadline63"><span class="section-number-3">2.7</span> <span class="todo TODO">TODO</span> Problem 2.4 - Creating a Network (2 points possible)</h3>
 <div class="outline-text-3" id="text-2-7">
 <p>
 In a network, it's often visually useful to draw attention to
@@ -2105,15 +2079,15 @@ longer use the <code>vertex.size</code> parameter when we plot our graph:
 </p>
 
 
-<div id="fig:FBFriendshipGraph02" class="figure">
+<div id="orgparagraph10" class="figure">
 <p><img src="../graphs/FBFriendshipGraph02.png" alt="FBFriendshipGraph02.png" />
 </p>
 <p><span class="figure-number">Figure 13:</span> Facebook friendship graph v2</p>
 </div>
 </div>
 
-<div id="outline-container-sec-2-7-1" class="outline-4">
-<h4 id="sec-2-7-1"><span class="section-number-4">2.7.1</span> Question a</h4>
+<div id="outline-container-orgheadline60" class="outline-4">
+<h4 id="orgheadline60"><span class="section-number-4">2.7.1</span> Question a</h4>
 <div class="outline-text-4" id="text-2-7-1">
 <p>
 What is the largest size we assigned to any node in our graph?
@@ -2143,16 +2117,16 @@ sort(V(g)$size, decreasing = <span style="color: #3cb371;">TRUE</span>)
 </div>
 </div>
 
-<div id="outline-container-sec-2-7-2" class="outline-4">
-<h4 id="sec-2-7-2"><span class="section-number-4">2.7.2</span> Question b</h4>
+<div id="outline-container-orgheadline62" class="outline-4">
+<h4 id="orgheadline62"><span class="section-number-4">2.7.2</span> Question b</h4>
 <div class="outline-text-4" id="text-2-7-2">
 <p>
 What is the smallest size we assigned to any node in our graph?
 </p>
 </div>
 
-<div id="outline-container-sec-2-7-2-1" class="outline-5">
-<h5 id="sec-2-7-2-1"><span class="section-number-5">2.7.2.1</span> Answer</h5>
+<div id="outline-container-orgheadline61" class="outline-5">
+<h5 id="orgheadline61"><span class="section-number-5">2.7.2.1</span> Answer</h5>
 <div class="outline-text-5" id="text-2-7-2-1">
 <p>
 <b>2 is the smallest size assigned to a node.</b>
@@ -2173,8 +2147,8 @@ the minimum size is <code>0/2+2=2</code>.
 </div>
 </div>
 
-<div id="outline-container-sec-2-8" class="outline-3">
-<h3 id="sec-2-8"><span class="section-number-3">2.8</span> Problem 3.1 - Coloring Vertices (1 point possible)</h3>
+<div id="outline-container-orgheadline66" class="outline-3">
+<h3 id="orgheadline66"><span class="section-number-3">2.8</span> <span class="todo TODO">TODO</span> Problem 3.1 - Coloring Vertices (1 point possible)</h3>
 <div class="outline-text-3" id="text-2-8">
 <p>
 Thus far, we have changed the <b>size</b> attributes of our
@@ -2226,8 +2200,8 @@ V(g)$color[V(g)$gender == <span style="color: #ff6a6a;">"B"</span>] <span style=
 </pre>
 </div>
 
-<div id="outline-container-sec-2-8-1" class="outline-4">
-<h4 id="sec-2-8-1"><span class="section-number-4">2.8.1</span> Question</h4>
+<div id="outline-container-orgheadline65" class="outline-4">
+<h4 id="orgheadline65"><span class="section-number-4">2.8.1</span> Question</h4>
 <div class="outline-text-4" id="text-2-8-1">
 <p>
 Plot the resulting graph. What is the gender of the users with the
@@ -2235,23 +2209,20 @@ highest degree in the graph?
 </p>
 
 
-<div id="fig:FBFriendshipGraph03" class="figure">
+<div id="orgparagraph11" class="figure">
 <p><img src="../graphs/FBFriendshipGraph03.png" alt="FBFriendshipGraph03.png" />
 </p>
 <p><span class="figure-number">Figure 14:</span> Facebook friendship graph v3</p>
 </div>
 </div>
 
-<div id="outline-container-sec-2-8-1-1" class="outline-5">
-<h5 id="sec-2-8-1-1"><span class="section-number-5">2.8.1.1</span> Answer</h5>
+<div id="outline-container-orgheadline64" class="outline-5">
+<h5 id="orgheadline64"><span class="section-number-5">2.8.1.1</span> Answer</h5>
 <div class="outline-text-5" id="text-2-8-1-1">
 <ul class="org-ul">
-<li><code>[&#xa0;]</code> Missing gender value
-</li>
-<li><code>[&#xa0;]</code> Gender A
-</li>
-<li><code>[X]</code> Gender B
-</li>
+<li class="off"><code>[&#xa0;]</code> Missing gender value</li>
+<li class="off"><code>[&#xa0;]</code> Gender A</li>
+<li class="on"><code>[X]</code> Gender B</li>
 </ul>
 
 <p>
@@ -2268,8 +2239,8 @@ are colored <b>gray</b>, which corresponds to Gender <b>B</b>.
 </div>
 </div>
 
-<div id="outline-container-sec-2-9" class="outline-3">
-<h3 id="sec-2-9"><span class="section-number-3">2.9</span> Problem 3.2 - Coloring Vertices (2 points possible)</h3>
+<div id="outline-container-orgheadline70" class="outline-3">
+<h3 id="orgheadline70"><span class="section-number-3">2.9</span> <span class="todo TODO">TODO</span> Problem 3.2 - Coloring Vertices (2 points possible)</h3>
 <div class="outline-text-3" id="text-2-9">
 <p>
 Now, color the vertices based on the school that each user in our
@@ -2301,11 +2272,11 @@ quartz_off_screen
 </pre>
 </div>
 
-<div id="outline-container-sec-2-9-1" class="outline-4">
-<h4 id="sec-2-9-1"><span class="section-number-4">2.9.1</span> Question</h4>
+<div id="outline-container-orgheadline68" class="outline-4">
+<h4 id="orgheadline68"><span class="section-number-4">2.9.1</span> Question</h4>
 <div class="outline-text-4" id="text-2-9-1">
 
-<div id="fig:FBFriendshipGraph04" class="figure">
+<div id="orgparagraph12" class="figure">
 <p><img src="../graphs/FBFriendshipGraph04.png" alt="FBFriendshipGraph04.png" />
 </p>
 <p><span class="figure-number">Figure 15:</span> Facebook friendship graph v4</p>
@@ -2317,37 +2288,32 @@ with each other?
 </p>
 </div>
 
-<div id="outline-container-sec-2-9-1-1" class="outline-5">
-<h5 id="sec-2-9-1-1"><span class="section-number-5">2.9.1.1</span> Answer</h5>
+<div id="outline-container-orgheadline67" class="outline-5">
+<h5 id="orgheadline67"><span class="section-number-5">2.9.1.1</span> Answer</h5>
 <div class="outline-text-5" id="text-2-9-1-1">
 <ul class="org-ul">
-<li><code>[X]</code> Yes Yes - correct
-</li>
-<li><code>[&#xa0;]</code> No
-</li>
+<li class="on"><code>[X]</code> Yes Yes - correct</li>
+<li class="off"><code>[&#xa0;]</code> No</li>
 </ul>
 </div>
 </div>
 </div>
 
-<div id="outline-container-sec-2-9-2" class="outline-4">
-<h4 id="sec-2-9-2"><span class="section-number-4">2.9.2</span> Question</h4>
+<div id="outline-container-orgheadline69" class="outline-4">
+<h4 id="orgheadline69"><span class="section-number-4">2.9.2</span> Question</h4>
 <div class="outline-text-4" id="text-2-9-2">
 <p>
 What best describes the users with highest degree?
 </p>
 
 <ul class="org-ul">
-<li><code>[&#xa0;]</code> None of the high-degree users attended school A
-</li>
+<li class="off"><code>[&#xa0;]</code> None of the high-degree users attended school A</li>
 
-<li><code>[X]</code> Some, but not all, of the high-degree users attended school A
+<li class="on"><code>[X]</code> Some, but not all, of the high-degree users attended school A
 Some, but not all, of the high-degree users attended school A -
-correct
-</li>
+correct</li>
 
-<li><code>[&#xa0;]</code> All of the high-degree users attended school A
-</li>
+<li class="off"><code>[&#xa0;]</code> All of the high-degree users attended school A</li>
 </ul>
 
 <p>
@@ -2388,8 +2354,8 @@ users attended school A and other did not.
 </div>
 </div>
 
-<div id="outline-container-sec-2-10" class="outline-3">
-<h3 id="sec-2-10"><span class="section-number-3">2.10</span> Problem 3.3 - Coloring Vertices (2 points possible)</h3>
+<div id="outline-container-orgheadline75" class="outline-3">
+<h3 id="orgheadline75"><span class="section-number-3">2.10</span> <span class="todo TODO">TODO</span> Problem 3.3 - Coloring Vertices (2 points possible)</h3>
 <div class="outline-text-3" id="text-2-10">
 <p>
 Now, color the vertices based on the locale of the user.
@@ -2420,50 +2386,46 @@ quartz_off_screen
 </pre>
 
 
-<div id="fig:FBFriendshipGraph05" class="figure">
+<div id="orgparagraph13" class="figure">
 <p><img src="../graphs/FBFriendshipGraph05.png" alt="FBFriendshipGraph05.png" />
 </p>
 <p><span class="figure-number">Figure 16:</span> Facebook friendship graph v5</p>
 </div>
 </div>
 
-<div id="outline-container-sec-2-10-1" class="outline-4">
-<h4 id="sec-2-10-1"><span class="section-number-4">2.10.1</span> Question</h4>
+<div id="outline-container-orgheadline72" class="outline-4">
+<h4 id="orgheadline72"><span class="section-number-4">2.10.1</span> Question</h4>
 <div class="outline-text-4" id="text-2-10-1">
 <p>
 The large connected component is most associated with which locale?
 </p>
 </div>
 
-<div id="outline-container-sec-2-10-1-1" class="outline-5">
-<h5 id="sec-2-10-1-1"><span class="section-number-5">2.10.1.1</span> Answer</h5>
+<div id="outline-container-orgheadline71" class="outline-5">
+<h5 id="orgheadline71"><span class="section-number-5">2.10.1.1</span> Answer</h5>
 <div class="outline-text-5" id="text-2-10-1-1">
 <ul class="org-ul">
-<li><code>[&#xa0;]</code> Locale A
-</li>
-<li><code>[X]</code> Locale B
-</li>
+<li class="off"><code>[&#xa0;]</code> Locale A</li>
+<li class="on"><code>[X]</code> Locale B</li>
 </ul>
 </div>
 </div>
 </div>
 
-<div id="outline-container-sec-2-10-2" class="outline-4">
-<h4 id="sec-2-10-2"><span class="section-number-4">2.10.2</span> Question</h4>
+<div id="outline-container-orgheadline74" class="outline-4">
+<h4 id="orgheadline74"><span class="section-number-4">2.10.2</span> Question</h4>
 <div class="outline-text-4" id="text-2-10-2">
 <p>
 The 4-user connected component is most associated with which locale?
 </p>
 </div>
 
-<div id="outline-container-sec-2-10-2-1" class="outline-5">
-<h5 id="sec-2-10-2-1"><span class="section-number-5">2.10.2.1</span> Answer</h5>
+<div id="outline-container-orgheadline73" class="outline-5">
+<h5 id="orgheadline73"><span class="section-number-5">2.10.2.1</span> Answer</h5>
 <div class="outline-text-5" id="text-2-10-2-1">
 <ul class="org-ul">
-<li><code>[X]</code> Locale A
-</li>
-<li><code>[&#xa0;]</code> Locale B
-</li>
+<li class="on"><code>[X]</code> Locale A</li>
+<li class="off"><code>[&#xa0;]</code> Locale B</li>
 </ul>
 
 <p>
@@ -2504,8 +2466,8 @@ users from Locale A.
 </div>
 </div>
 
-<div id="outline-container-sec-2-11" class="outline-3">
-<h3 id="sec-2-11"><span class="section-number-3">2.11</span> Problem 4 - Other Plotting Options (2 points possible)</h3>
+<div id="outline-container-orgheadline80" class="outline-3">
+<h3 id="orgheadline80"><span class="section-number-3">2.11</span> <span class="todo TODO">TODO</span> Problem 4 - Other Plotting Options (2 points possible)</h3>
 <div class="outline-text-3" id="text-2-11">
 <p>
 The help page is a helpful tool when making visualizations. Answer the
@@ -2514,8 +2476,8 @@ experimentation in your R console.
 </p>
 </div>
 
-<div id="outline-container-sec-2-11-1" class="outline-4">
-<h4 id="sec-2-11-1"><span class="section-number-4">2.11.1</span> Question</h4>
+<div id="outline-container-orgheadline77" class="outline-4">
+<h4 id="orgheadline77"><span class="section-number-4">2.11.1</span> Question</h4>
 <div class="outline-text-4" id="text-2-11-1">
 <p>
 Which <code>igraph</code> plotting function would enable us to plot our graph in
@@ -2523,8 +2485,8 @@ Which <code>igraph</code> plotting function would enable us to plot our graph in
 </p>
 </div>
 
-<div id="outline-container-sec-2-11-1-1" class="outline-5">
-<h5 id="sec-2-11-1-1"><span class="section-number-5">2.11.1.1</span> Answer</h5>
+<div id="outline-container-orgheadline76" class="outline-5">
+<h5 id="orgheadline76"><span class="section-number-5">2.11.1.1</span> Answer</h5>
 <div class="outline-text-5" id="text-2-11-1-1">
 <p>
 We need to install the <code>rgl</code> package.
@@ -2557,7 +2519,7 @@ Now we can use the <code>rglplot</code> function:
 </p>
 
 
-<div id="fig:FBFriendshipGraph06" class="figure">
+<div id="orgparagraph14" class="figure">
 <p><img src="../graphs/FBFriendSGraphRGLPlot.png" alt="FBFriendSGraphRGLPlot.png" />
 </p>
 <p><span class="figure-number">Figure 17:</span> Facebook friendship graph v6</p>
@@ -2566,8 +2528,8 @@ Now we can use the <code>rglplot</code> function:
 </div>
 </div>
 
-<div id="outline-container-sec-2-11-2" class="outline-4">
-<h4 id="sec-2-11-2"><span class="section-number-4">2.11.2</span> Question</h4>
+<div id="outline-container-orgheadline79" class="outline-4">
+<h4 id="orgheadline79"><span class="section-number-4">2.11.2</span> Question</h4>
 <div class="outline-text-4" id="text-2-11-2">
 <p>
 What parameter to the <code>plot()</code> function would we use to change the edge
@@ -2575,15 +2537,15 @@ width when plotting <code>g</code>?
 </p>
 </div>
 
-<div id="outline-container-sec-2-11-2-1" class="outline-5">
-<h5 id="sec-2-11-2-1"><span class="section-number-5">2.11.2.1</span> Answer</h5>
+<div id="outline-container-orgheadline78" class="outline-5">
+<h5 id="orgheadline78"><span class="section-number-5">2.11.2.1</span> Answer</h5>
 <div class="outline-text-5" id="text-2-11-2-1">
 <p>
 <code>edge.width</code> is the parameter to control the width of the edges.
 </p>
 
 
-<div id="fig:FBFriendshipGraph07" class="figure">
+<div id="orgparagraph15" class="figure">
 <p><img src="../graphs/FBFriendshipGraph07.png" alt="FBFriendshipGraph07.png" />
 </p>
 <p><span class="figure-number">Figure 18:</span> Facebook friendship graph v7</p>
@@ -2626,8 +2588,8 @@ edge width 2 with the command
 </div>
 </div>
 
-<div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> Visualizing Text Data Using Word CLouds</h2>
+<div id="outline-container-orgheadline119" class="outline-2">
+<h2 id="orgheadline119"><span class="section-number-2">3</span> Visualizing Text Data Using Word CLouds <code>[0/15]</code></h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Earlier in the course, we used text analytics as a predictive tool,
@@ -2661,19 +2623,17 @@ variables:
 </p>
 
 <ul class="org-ul">
-<li><b>Tweet</b> &#x2013; the text of the tweet
-</li>
+<li><b>Tweet</b> &#x2013; the text of the tweet</li>
 
 <li><b>Avg</b> &#x2013; the sentiment of the tweet, as assigned by users of Amazon
 Mechanical Turk. The score ranges on a scale from -2 to 2, where 2
 means highly positive sentiment, -2 means highly negative sentiment,
-and 0 means neutral sentiment.
-</li>
+and 0 means neutral sentiment.</li>
 </ul>
 </div>
 
-<div id="outline-container-sec-3-1" class="outline-3">
-<h3 id="sec-3-1"><span class="section-number-3">3.1</span> Problem 1.1 - Preparing the Data (1 point possible)</h3>
+<div id="outline-container-orgheadline84" class="outline-3">
+<h3 id="orgheadline84"><span class="section-number-3">3.1</span> <span class="todo TODO">TODO</span> Problem 1.1 - Preparing the Data (1 point possible)</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 Download the dataset <code>tweets.csv</code>, and load it into a data frame
@@ -2752,8 +2712,7 @@ sparse terms:
 </p>
 
 <ol class="org-ol">
-<li>Create a corpus using the Tweet variable
-</li>
+<li>Create a corpus using the Tweet variable</li>
 </ol>
 
 <div class="org-src-container">
@@ -2772,8 +2731,7 @@ Content:  chars: 101
 <ol class="org-ol">
 <li>Convert the corpus to lowercase (don't forget to type "corpus =
 tm_map(corpus, PlainTextDocument)" in your R console right after
-this step)
-</li>
+this step)</li>
 </ol>
 
 <div class="org-src-container">
@@ -2784,8 +2742,7 @@ corpus <span style="color: #db7093;">&lt;-</span> tm_map(corpus, PlainTextDocume
 </div>
 
 <ol class="org-ol">
-<li>Remove punctuation from the corpus
-</li>
+<li>Remove punctuation from the corpus</li>
 </ol>
 
 <div class="org-src-container">
@@ -2802,8 +2759,7 @@ Content:  chars: 97
 </pre>
 
 <ol class="org-ol">
-<li>Remove all English-language stopwords
-</li>
+<li>Remove all English-language stopwords</li>
 </ol>
 
 <div class="org-src-container">
@@ -2813,8 +2769,7 @@ Content:  chars: 97
 </div>
 
 <ol class="org-ol">
-<li>Build a document-term matrix out of the corpus
-</li>
+<li>Build a document-term matrix out of the corpus</li>
 </ol>
 
 <div class="org-src-container">
@@ -2824,8 +2779,7 @@ Content:  chars: 97
 </div>
 
 <ol class="org-ol">
-<li>Convert the document-term matrix to a data frame called allTweets
-</li>
+<li>Convert the document-term matrix to a data frame called allTweets</li>
 </ol>
 
 <div class="org-src-container">
@@ -2835,8 +2789,8 @@ Content:  chars: 97
 </div>
 </div>
 
-<div id="outline-container-sec-3-1-1" class="outline-4">
-<h4 id="sec-3-1-1"><span class="section-number-4">3.1.1</span> Question</h4>
+<div id="outline-container-orgheadline83" class="outline-4">
+<h4 id="orgheadline83"><span class="section-number-4">3.1.1</span> Question</h4>
 <div class="outline-text-4" id="text-3-1-1">
 <p>
 How many unique words are there across all the documents?
@@ -2874,8 +2828,8 @@ character(0).12   0   0    0    0   0   0    0    0     0   0       0    0    0
 </pre>
 </div>
 
-<div id="outline-container-sec-3-1-1-1" class="outline-5">
-<h5 id="sec-3-1-1-1"><span class="section-number-5">3.1.1.1</span> Answer</h5>
+<div id="outline-container-orgheadline82" class="outline-5">
+<h5 id="orgheadline82"><span class="section-number-5">3.1.1.1</span> Answer</h5>
 <div class="outline-text-5" id="text-3-1-1-1">
 <p>
 3780
@@ -2935,8 +2889,8 @@ all the tweets.
 </div>
 </div>
 
-<div id="outline-container-sec-3-2" class="outline-3">
-<h3 id="sec-3-2"><span class="section-number-3">3.2</span> Problem 1.2 - Preparing the Data (1 point possible)</h3>
+<div id="outline-container-orgheadline87" class="outline-3">
+<h3 id="orgheadline87"><span class="section-number-3">3.2</span> <span class="todo TODO">TODO</span> Problem 1.2 - Preparing the Data (1 point possible)</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 Although we typically stem words during the text preprocessing step,
@@ -2944,8 +2898,8 @@ we did not do so here.
 </p>
 </div>
 
-<div id="outline-container-sec-3-2-1" class="outline-4">
-<h4 id="sec-3-2-1"><span class="section-number-4">3.2.1</span> Question</h4>
+<div id="outline-container-orgheadline86" class="outline-4">
+<h4 id="orgheadline86"><span class="section-number-4">3.2.1</span> Question</h4>
 <div class="outline-text-4" id="text-3-2-1">
 <p>
 What is the most compelling rationale for skipping this step when
@@ -2953,20 +2907,17 @@ visualizing text data?
 </p>
 </div>
 
-<div id="outline-container-sec-3-2-1-1" class="outline-5">
-<h5 id="sec-3-2-1-1"><span class="section-number-5">3.2.1.1</span> Answer</h5>
+<div id="outline-container-orgheadline85" class="outline-5">
+<h5 id="orgheadline85"><span class="section-number-5">3.2.1.1</span> Answer</h5>
 <div class="outline-text-5" id="text-3-2-1-1">
 <ul class="org-ul">
-<li><code>[&#xa0;]</code> It avoids the computational burden of stemming
-</li>
+<li class="off"><code>[&#xa0;]</code> It avoids the computational burden of stemming</li>
 
-<li><code>[X]</code> It will be easier to read and understand the word cloud if it
-includes full words instead of just the word stems
-</li>
+<li class="on"><code>[X]</code> It will be easier to read and understand the word cloud if it
+includes full words instead of just the word stems</li>
 
-<li><code>[&#xa0;]</code> We would not be able to create a word cloud if we stemmed the
-document
-</li>
+<li class="off"><code>[&#xa0;]</code> We would not be able to create a word cloud if we stemmed the
+document</li>
 </ul>
 
 <p>
@@ -2988,8 +2939,8 @@ could create a word cloud with a stemmed document.
 </div>
 </div>
 
-<div id="outline-container-sec-3-3" class="outline-3">
-<h3 id="sec-3-3"><span class="section-number-3">3.3</span> Problem 2.1 - Building a Word Cloud (1 point possible)</h3>
+<div id="outline-container-orgheadline89" class="outline-3">
+<h3 id="orgheadline89"><span class="section-number-3">3.3</span> <span class="todo TODO">TODO</span> Problem 2.1 - Building a Word Cloud (1 point possible)</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 Install and load the <code>wordcloud</code> package, which is needed to build
@@ -3065,16 +3016,13 @@ head(names(allTweets), 50)
 </pre>
 </div>
 
-<div id="outline-container-sec-3-3-1" class="outline-4">
-<h4 id="sec-3-3-1"><span class="section-number-4">3.3.1</span> Answer</h4>
+<div id="outline-container-orgheadline88" class="outline-4">
+<h4 id="orgheadline88"><span class="section-number-4">3.3.1</span> Answer</h4>
 <div class="outline-text-4" id="text-3-3-1">
 <ul class="org-ul">
-<li><code>[&#xa0;]</code> str
-</li>
-<li><code>[&#xa0;]</code> rownames
-</li>
-<li><code>[X]</code> colnames
-</li>
+<li class="off"><code>[&#xa0;]</code> str</li>
+<li class="off"><code>[&#xa0;]</code> rownames</li>
+<li class="on"><code>[X]</code> colnames</li>
 </ul>
 
 <p>
@@ -3092,8 +3040,8 @@ a vector that we can use as the first argument to <code>wordcloud()</code>.
 </div>
 </div>
 
-<div id="outline-container-sec-3-4" class="outline-3">
-<h3 id="sec-3-4"><span class="section-number-3">3.4</span> Problem 2.2 - Building a Word Cloud (1 point possible)</h3>
+<div id="outline-container-orgheadline91" class="outline-3">
+<h3 id="orgheadline91"><span class="section-number-3">3.4</span> <span class="todo TODO">TODO</span> Problem 2.2 - Building a Word Cloud (1 point possible)</h3>
 <div class="outline-text-3" id="text-3-4">
 <p>
 Which function should we apply to <code>allTweets</code> to obtain the frequency of
@@ -3130,16 +3078,13 @@ each word across all tweets?
 </pre>
 </div>
 
-<div id="outline-container-sec-3-4-1" class="outline-4">
-<h4 id="sec-3-4-1"><span class="section-number-4">3.4.1</span> Answer</h4>
+<div id="outline-container-orgheadline90" class="outline-4">
+<h4 id="orgheadline90"><span class="section-number-4">3.4.1</span> Answer</h4>
 <div class="outline-text-4" id="text-3-4-1">
 <ul class="org-ul">
-<li><code>[X]</code> colSums
-</li>
-<li><code>[&#xa0;]</code> rowSums
-</li>
-<li><code>[&#xa0;]</code> sum
-</li>
+<li class="on"><code>[X]</code> colSums</li>
+<li class="off"><code>[&#xa0;]</code> rowSums</li>
+<li class="off"><code>[&#xa0;]</code> sum</li>
 </ul>
 
 <p>
@@ -3155,8 +3100,8 @@ column. Therefore, we need to access the sums of each column in
 </div>
 </div>
 
-<div id="outline-container-sec-3-5" class="outline-3">
-<h3 id="sec-3-5"><span class="section-number-3">3.5</span> Problem 2.3 - Building a Word Cloud (1 point possible)</h3>
+<div id="outline-container-orgheadline92" class="outline-3">
+<h3 id="orgheadline92"><span class="section-number-3">3.5</span> <span class="todo TODO">TODO</span> Problem 2.3 - Building a Word Cloud (1 point possible)</h3>
 <div class="outline-text-3" id="text-3-5">
 <p>
 Use <code>allTweets</code> to build a word cloud. Make sure to check out the help
@@ -3180,7 +3125,7 @@ for instance, parameter <code>scale=c(2, 0.25)</code>.
 </p>
 
 
-<div id="fig:AppleTweetsWordCloud" class="figure">
+<div id="orgparagraph16" class="figure">
 <p><img src="../graphs/AppleTweetsWordCloud.png" alt="AppleTweetsWordCloud.png" />
 </p>
 <p><span class="figure-number">Figure 20:</span> Apple tweets wordcloud v1</p>
@@ -3220,8 +3165,8 @@ For smaller words, we could have used:
 </div>
 </div>
 
-<div id="outline-container-sec-3-6" class="outline-3">
-<h3 id="sec-3-6"><span class="section-number-3">3.6</span> Problem 2.4 - Building a Word Cloud (1 point possible)</h3>
+<div id="outline-container-orgheadline94" class="outline-3">
+<h3 id="orgheadline94"><span class="section-number-3">3.6</span> <span class="todo TODO">TODO</span> Problem 2.4 - Building a Word Cloud (1 point possible)</h3>
 <div class="outline-text-3" id="text-3-6">
 <p>
 In the previous subproblem, we noted that there is one word with a
@@ -3293,15 +3238,15 @@ follow the instructions in the previous problem.
 </p>
 
 
-<div id="fig:AppleTweetsWordcloud02" class="figure">
+<div id="orgparagraph17" class="figure">
 <p><img src="../graphs/AppleTweetsWordcloud02.png" alt="AppleTweetsWordcloud02.png" />
 </p>
 <p><span class="figure-number">Figure 21:</span> Apple tweets wordcloud v2</p>
 </div>
 </div>
 
-<div id="outline-container-sec-3-6-1" class="outline-4">
-<h4 id="sec-3-6-1"><span class="section-number-4">3.6.1</span> Answer</h4>
+<div id="outline-container-orgheadline93" class="outline-4">
+<h4 id="orgheadline93"><span class="section-number-4">3.6.1</span> Answer</h4>
 <div class="outline-text-4" id="text-3-6-1">
 <p>
 <b>iphone</b>
@@ -3362,8 +3307,8 @@ The most common (largest) word is now <b>iphone</b>.
 </div>
 </div>
 
-<div id="outline-container-sec-3-7" class="outline-3">
-<h3 id="sec-3-7"><span class="section-number-3">3.7</span> Problem 3 - Size and Color</h3>
+<div id="outline-container-orgheadline95" class="outline-3">
+<h3 id="orgheadline95"><span class="section-number-3">3.7</span> <span class="todo TODO">TODO</span> Problem 3 - Size and Color</h3>
 <div class="outline-text-3" id="text-3-7">
 <p>
 So far, the word clouds we've built have not been too visually
@@ -3422,11 +3367,11 @@ settings in the call to the <code>wordcloud()</code> function:
 </div>
 </div>
 
-<div id="outline-container-sec-3-8" class="outline-3">
-<h3 id="sec-3-8"><span class="section-number-3">3.8</span> Problem 3.1 - Size and Color (1 point possible)</h3>
+<div id="outline-container-orgheadline98" class="outline-3">
+<h3 id="orgheadline98"><span class="section-number-3">3.8</span> <span class="todo TODO">TODO</span> Problem 3.1 - Size and Color (1 point possible)</h3>
 <div class="outline-text-3" id="text-3-8">
-</div><div id="outline-container-sec-3-8-1" class="outline-4">
-<h4 id="sec-3-8-1"><span class="section-number-4">3.8.1</span> Question</h4>
+</div><div id="outline-container-orgheadline97" class="outline-4">
+<h4 id="orgheadline97"><span class="section-number-4">3.8.1</span> Question</h4>
 <div class="outline-text-4" id="text-3-8-1">
 <p>
 Which word cloud is based only on the negative tweets (tweets with Avg
@@ -3434,25 +3379,21 @@ value -1 or less)?
 </p>
 
 
-<div id="fig:AppleTweetsWordcloud03" class="figure">
+<div id="orgparagraph18" class="figure">
 <p><img src="../graphs/AppleTweetsWordcloud03.png" alt="AppleTweetsWordcloud03.png" />
 </p>
 <p><span class="figure-number">Figure 26:</span> Apple tweets wordcloud v3</p>
 </div>
 </div>
 
-<div id="outline-container-sec-3-8-1-1" class="outline-5">
-<h5 id="sec-3-8-1-1"><span class="section-number-5">3.8.1.1</span> Answer</h5>
+<div id="outline-container-orgheadline96" class="outline-5">
+<h5 id="orgheadline96"><span class="section-number-5">3.8.1.1</span> Answer</h5>
 <div class="outline-text-5" id="text-3-8-1-1">
 <ul class="org-ul">
-<li><code>[&#xa0;]</code> Word Cloud A
-</li>
-<li><code>[&#xa0;]</code> Word Cloud B
-</li>
-<li><code>[X]</code> Word Cloud C
-</li>
-<li><code>[&#xa0;]</code> Word Cloud D
-</li>
+<li class="off"><code>[&#xa0;]</code> Word Cloud A</li>
+<li class="off"><code>[&#xa0;]</code> Word Cloud B</li>
+<li class="on"><code>[X]</code> Word Cloud C</li>
+<li class="off"><code>[&#xa0;]</code> Word Cloud D</li>
 </ul>
 
 <p>
@@ -3482,15 +3423,14 @@ of the tweets using the subset function:
 </div>
 </div>
 
-
-<div id="outline-container-sec-3-9" class="outline-3">
-<h3 id="sec-3-9"><span class="section-number-3">3.9</span> Problem 3.2 - Size and Color (1 point possible)</h3>
+<div id="outline-container-orgheadline101" class="outline-3">
+<h3 id="orgheadline101"><span class="section-number-3">3.9</span> <span class="todo TODO">TODO</span> Problem 3.2 - Size and Color (1 point possible)</h3>
 <div class="outline-text-3" id="text-3-9">
-</div><div id="outline-container-sec-3-9-1" class="outline-4">
-<h4 id="sec-3-9-1"><span class="section-number-4">3.9.1</span> Question</h4>
+</div><div id="outline-container-orgheadline100" class="outline-4">
+<h4 id="orgheadline100"><span class="section-number-4">3.9.1</span> Question</h4>
 <div class="outline-text-4" id="text-3-9-1">
 
-<div id="fig:AppleTweetsWordcloud04" class="figure">
+<div id="orgparagraph19" class="figure">
 <p><img src="../graphs/AppleTweetsWordcloud04.png" alt="AppleTweetsWordcloud04.png" />
 </p>
 <p><span class="figure-number">Figure 27:</span> Apple tweets wordcloud v4</p>
@@ -3502,18 +3442,14 @@ or max.words. Which word cloud is this?
 </p>
 </div>
 
-<div id="outline-container-sec-3-9-1-1" class="outline-5">
-<h5 id="sec-3-9-1-1"><span class="section-number-5">3.9.1.1</span> Answer</h5>
+<div id="outline-container-orgheadline99" class="outline-5">
+<h5 id="orgheadline99"><span class="section-number-5">3.9.1.1</span> Answer</h5>
 <div class="outline-text-5" id="text-3-9-1-1">
 <ul class="org-ul">
-<li><code>[X]</code> Word Cloud A
-</li>
-<li><code>[&#xa0;]</code> Word Cloud B
-</li>
-<li><code>[&#xa0;]</code> Word Cloud C
-</li>
-<li><code>[&#xa0;]</code> Word Cloud D
-</li>
+<li class="on"><code>[X]</code> Word Cloud A</li>
+<li class="off"><code>[&#xa0;]</code> Word Cloud B</li>
+<li class="off"><code>[&#xa0;]</code> Word Cloud C</li>
+<li class="off"><code>[&#xa0;]</code> Word Cloud D</li>
 </ul>
 
 <p>
@@ -3532,14 +3468,14 @@ every word that appears more than 3 times.
 </div>
 </div>
 
-<div id="outline-container-sec-3-10" class="outline-3">
-<h3 id="sec-3-10"><span class="section-number-3">3.10</span> Problem 3.3 - Size and Color (1 point possible)</h3>
+<div id="outline-container-orgheadline104" class="outline-3">
+<h3 id="orgheadline104"><span class="section-number-3">3.10</span> <span class="todo TODO">TODO</span> Problem 3.3 - Size and Color (1 point possible)</h3>
 <div class="outline-text-3" id="text-3-10">
-</div><div id="outline-container-sec-3-10-1" class="outline-4">
-<h4 id="sec-3-10-1"><span class="section-number-4">3.10.1</span> Question</h4>
+</div><div id="outline-container-orgheadline103" class="outline-4">
+<h4 id="orgheadline103"><span class="section-number-4">3.10.1</span> Question</h4>
 <div class="outline-text-4" id="text-3-10-1">
 
-<div id="fig:AppleTweetsWordcloud05" class="figure">
+<div id="orgparagraph20" class="figure">
 <p><img src="../graphs/AppleTweetsWordcloud05.png" alt="AppleTweetsWordcloud05.png" />
 </p>
 <p><span class="figure-number">Figure 28:</span> Apple tweets wordcloud v5</p>
@@ -3551,18 +3487,14 @@ Which word clouds were created with parameter <code>random.order</code> set to
 </p>
 </div>
 
-<div id="outline-container-sec-3-10-1-1" class="outline-5">
-<h5 id="sec-3-10-1-1"><span class="section-number-5">3.10.1.1</span> Answer</h5>
+<div id="outline-container-orgheadline102" class="outline-5">
+<h5 id="orgheadline102"><span class="section-number-5">3.10.1.1</span> Answer</h5>
 <div class="outline-text-5" id="text-3-10-1-1">
 <ul class="org-ul">
-<li><code>[&#xa0;]</code> Word Cloud A
-</li>
-<li><code>[X]</code> Word Cloud B
-</li>
-<li><code>[&#xa0;]</code> Word Cloud C
-</li>
-<li><code>[X]</code> Word Cloud D
-</li>
+<li class="off"><code>[&#xa0;]</code> Word Cloud A</li>
+<li class="on"><code>[X]</code> Word Cloud B</li>
+<li class="off"><code>[&#xa0;]</code> Word Cloud C</li>
+<li class="on"><code>[X]</code> Word Cloud D</li>
 </ul>
 
 <p>
@@ -3580,14 +3512,14 @@ Cloud B and Word Cloud D.
 </div>
 </div>
 
-<div id="outline-container-sec-3-11" class="outline-3">
-<h3 id="sec-3-11"><span class="section-number-3">3.11</span> Problem 3.4 - Size and Color (1 point possible)</h3>
+<div id="outline-container-orgheadline107" class="outline-3">
+<h3 id="orgheadline107"><span class="section-number-3">3.11</span> <span class="todo TODO">TODO</span> Problem 3.4 - Size and Color (1 point possible)</h3>
 <div class="outline-text-3" id="text-3-11">
-</div><div id="outline-container-sec-3-11-1" class="outline-4">
-<h4 id="sec-3-11-1"><span class="section-number-4">3.11.1</span> Question</h4>
+</div><div id="outline-container-orgheadline106" class="outline-4">
+<h4 id="orgheadline106"><span class="section-number-4">3.11.1</span> Question</h4>
 <div class="outline-text-4" id="text-3-11-1">
 
-<div id="fig:AppleTweetsWordcloud06" class="figure">
+<div id="orgparagraph21" class="figure">
 <p><img src="../graphs/AppleTweetsWordcloud06.png" alt="AppleTweetsWordcloud06.png" />
 </p>
 <p><span class="figure-number">Figure 29:</span> Apple tweets wordcloud v6</p>
@@ -3599,18 +3531,14 @@ Which word cloud was built with a non-default value for parameter
 </p>
 </div>
 
-<div id="outline-container-sec-3-11-1-1" class="outline-5">
-<h5 id="sec-3-11-1-1"><span class="section-number-5">3.11.1.1</span> Answer</h5>
+<div id="outline-container-orgheadline105" class="outline-5">
+<h5 id="orgheadline105"><span class="section-number-5">3.11.1.1</span> Answer</h5>
 <div class="outline-text-5" id="text-3-11-1-1">
 <ul class="org-ul">
-<li><code>[X]</code> Word Cloud A
-</li>
-<li><code>[&#xa0;]</code> Word Cloud B
-</li>
-<li><code>[&#xa0;]</code> Word Cloud C
-</li>
-<li><code>[&#xa0;]</code> Word Cloud D
-</li>
+<li class="on"><code>[X]</code> Word Cloud A</li>
+<li class="off"><code>[&#xa0;]</code> Word Cloud B</li>
+<li class="off"><code>[&#xa0;]</code> Word Cloud C</li>
+<li class="off"><code>[&#xa0;]</code> Word Cloud D</li>
 </ul>
 
 <p>
@@ -3628,14 +3556,14 @@ rotated, which was achieved by setting <code>rot.per=0.5</code>.
 </div>
 </div>
 
-<div id="outline-container-sec-3-12" class="outline-3">
-<h3 id="sec-3-12"><span class="section-number-3">3.12</span> Problem 3.5 - Size and Color (1 point possible)</h3>
+<div id="outline-container-orgheadline110" class="outline-3">
+<h3 id="orgheadline110"><span class="section-number-3">3.12</span> <span class="todo TODO">TODO</span> Problem 3.5 - Size and Color (1 point possible)</h3>
 <div class="outline-text-3" id="text-3-12">
-</div><div id="outline-container-sec-3-12-1" class="outline-4">
-<h4 id="sec-3-12-1"><span class="section-number-4">3.12.1</span> Question</h4>
+</div><div id="outline-container-orgheadline109" class="outline-4">
+<h4 id="orgheadline109"><span class="section-number-4">3.12.1</span> Question</h4>
 <div class="outline-text-4" id="text-3-12-1">
 
-<div id="fig:AppleTweetsWordcloud07" class="figure">
+<div id="orgparagraph22" class="figure">
 <p><img src="../graphs/AppleTweetsWordcloud07.png" alt="AppleTweetsWordcloud07.png" />
 </p>
 <p><span class="figure-number">Figure 30:</span> Apple tweets wordcloud v7</p>
@@ -3649,14 +3577,12 @@ which word cloud was the parameter <code>random.color</code> set to <code>TRUE</
 </p>
 </div>
 
-<div id="outline-container-sec-3-12-1-1" class="outline-5">
-<h5 id="sec-3-12-1-1"><span class="section-number-5">3.12.1.1</span> Answer</h5>
+<div id="outline-container-orgheadline108" class="outline-5">
+<h5 id="orgheadline108"><span class="section-number-5">3.12.1.1</span> Answer</h5>
 <div class="outline-text-5" id="text-3-12-1-1">
 <ul class="org-ul">
-<li><code>[&#xa0;]</code> Word Cloud C
-</li>
-<li><code>[X]</code> Word Cloud D
-</li>
+<li class="off"><code>[&#xa0;]</code> Word Cloud C</li>
+<li class="on"><code>[X]</code> Word Cloud D</li>
 </ul>
 
 <p>
@@ -3673,8 +3599,8 @@ assigned based on the number of appearances in Word Cloud C.
 </div>
 </div>
 
-<div id="outline-container-sec-3-13" class="outline-3">
-<h3 id="sec-3-13"><span class="section-number-3">3.13</span> Problem 4.1 - Selecting a Color Palette (1 point possible)</h3>
+<div id="outline-container-orgheadline112" class="outline-3">
+<h3 id="orgheadline112"><span class="section-number-3">3.13</span> <span class="todo TODO">TODO</span> Problem 4.1 - Selecting a Color Palette (1 point possible)</h3>
 <div class="outline-text-3" id="text-3-13">
 <p>
 The use of a palette of colors can often improve the overall effect of
@@ -3704,7 +3630,7 @@ project when provided with appropriate parameters, and the function
 </p>
 
 
-<div id="fig:ColorBrewerPalette" class="figure">
+<div id="orgparagraph23" class="figure">
 <p><img src="../graphs/ColorBrewerPalette.png" alt="ColorBrewerPalette.png" />
 </p>
 <p><span class="figure-number">Figure 31:</span> ColorBrewer package palette</p>
@@ -3716,16 +3642,13 @@ for which we want to use color to indicate word frequency?
 </p>
 </div>
 
-<div id="outline-container-sec-3-13-1" class="outline-4">
-<h4 id="sec-3-13-1"><span class="section-number-4">3.13.1</span> Answer</h4>
+<div id="outline-container-orgheadline111" class="outline-4">
+<h4 id="orgheadline111"><span class="section-number-4">3.13.1</span> Answer</h4>
 <div class="outline-text-4" id="text-3-13-1">
 <ul class="org-ul">
-<li><code>[&#xa0;]</code> Accent
-</li>
-<li><code>[&#xa0;]</code> Set2
-</li>
-<li><code>[X]</code> YlOrRd
-</li>
+<li class="off"><code>[&#xa0;]</code> Accent</li>
+<li class="off"><code>[&#xa0;]</code> Set2</li>
+<li class="on"><code>[X]</code> YlOrRd</li>
 </ul>
 
 <p>
@@ -3750,11 +3673,11 @@ words.
 </div>
 </div>
 
-<div id="outline-container-sec-3-14" class="outline-3">
-<h3 id="sec-3-14"><span class="section-number-3">3.14</span> Problem 4.2 - Selecting a Color Palette (1 point possible)</h3>
+<div id="outline-container-orgheadline115" class="outline-3">
+<h3 id="orgheadline115"><span class="section-number-3">3.14</span> <span class="todo TODO">TODO</span> Problem 4.2 - Selecting a Color Palette (1 point possible)</h3>
 <div class="outline-text-3" id="text-3-14">
-</div><div id="outline-container-sec-3-14-1" class="outline-4">
-<h4 id="sec-3-14-1"><span class="section-number-4">3.14.1</span> Question</h4>
+</div><div id="outline-container-orgheadline114" class="outline-4">
+<h4 id="orgheadline114"><span class="section-number-4">3.14.1</span> Question</h4>
 <div class="outline-text-4" id="text-3-14-1">
 <p>
 Which <code>RColorBrewer</code> palette name would be most appropriate to use when
@@ -3762,8 +3685,8 @@ preparing an image for a document that must be in grayscale?
 </p>
 </div>
 
-<div id="outline-container-sec-3-14-1-1" class="outline-5">
-<h5 id="sec-3-14-1-1"><span class="section-number-5">3.14.1.1</span> Answer</h5>
+<div id="outline-container-orgheadline113" class="outline-5">
+<h5 id="orgheadline113"><span class="section-number-5">3.14.1.1</span> Answer</h5>
 <div class="outline-text-5" id="text-3-14-1-1">
 <p>
 <b>Greys</b>
@@ -3782,8 +3705,8 @@ one completely in grayscale.
 </div>
 </div>
 
-<div id="outline-container-sec-3-15" class="outline-3">
-<h3 id="sec-3-15"><span class="section-number-3">3.15</span> Problem 4.3 - Selecting a Color Palette (1 point possible)</h3>
+<div id="outline-container-orgheadline118" class="outline-3">
+<h3 id="orgheadline118"><span class="section-number-3">3.15</span> <span class="todo TODO">TODO</span> Problem 4.3 - Selecting a Color Palette (1 point possible)</h3>
 <div class="outline-text-3" id="text-3-15">
 <p>
 In sequential palettes, sometimes there is an undesirably large
@@ -3794,18 +3717,18 @@ with 9 colors.
 </p>
 
 
-<div id="fig:AppleTweetsWordcloud08" class="figure">
+<div id="orgparagraph24" class="figure">
 <p><img src="../graphs/AppleTweetsWordcloud08.png" alt="AppleTweetsWordcloud08.png" />
 </p>
 <p><span class="figure-number">Figure 32:</span> Apple tweets wordcloud palette</p>
 </div>
 </div>
 
-<div id="outline-container-sec-3-15-1" class="outline-4">
-<h4 id="sec-3-15-1"><span class="section-number-4">3.15.1</span> Question</h4>
+<div id="outline-container-orgheadline117" class="outline-4">
+<h4 id="orgheadline117"><span class="section-number-4">3.15.1</span> Question</h4>
 <div class="outline-text-4" id="text-3-15-1">
 
-<div id="fig:AppleTweetsWordcloud09" class="figure">
+<div id="orgparagraph25" class="figure">
 <p><img src="../graphs/AppleTweetsWordcloud09.png" alt="AppleTweetsWordcloud09.png" />
 </p>
 <p><span class="figure-number">Figure 33:</span> Better palette for our wordcloud</p>
@@ -3818,18 +3741,14 @@ that apply.
 </p>
 </div>
 
-<div id="outline-container-sec-3-15-1-1" class="outline-5">
-<h5 id="sec-3-15-1-1"><span class="section-number-5">3.15.1.1</span> Answer</h5>
+<div id="outline-container-orgheadline116" class="outline-5">
+<h5 id="orgheadline116"><span class="section-number-5">3.15.1.1</span> Answer</h5>
 <div class="outline-text-5" id="text-3-15-1-1">
 <ul class="org-ul">
-<li><code>[&#xa0;]</code> <code>brewer.pal(9, "Blues")[c(-5, -6, -7, -8, -9)]</code>
-</li>
-<li><code>[X]</code> <code>brewer.pal(9, "Blues")[c(-1, -2, -3, -4)]</code>
-</li>
-<li><code>[&#xa0;]</code> <code>brewer.pal(9, "Blues")[c(1, 2, 3, 4)]</code>
-</li>
-<li><code>[X]</code> <code>brewer.pal(9, "Blues")[c(5, 6, 7, 8, 9)]</code>
-</li>
+<li class="off"><code>[&#xa0;]</code> <code>brewer.pal(9, "Blues")[c(-5, -6, -7, -8, -9)]</code></li>
+<li class="on"><code>[X]</code> <code>brewer.pal(9, "Blues")[c(-1, -2, -3, -4)]</code></li>
+<li class="off"><code>[&#xa0;]</code> <code>brewer.pal(9, "Blues")[c(1, 2, 3, 4)]</code></li>
+<li class="on"><code>[X]</code> <code>brewer.pal(9, "Blues")[c(5, 6, 7, 8, 9)]</code></li>
 </ul>
 
 <p>
@@ -3859,12 +3778,567 @@ A shorthand for this indexing is:
 </div>
 </div>
 </div>
+
+<div id="outline-container-orgheadline132" class="outline-2">
+<h2 id="orgheadline132"><span class="section-number-2">4</span> Visualizing Attributes of Parole Violators (OPTIONAL) <code>[0/12]</code></h2>
+<div class="outline-text-2" id="text-4">
+<p>
+IMPORTANT NOTE: This problem is optional, and will not count towards
+your grade. We have created this problem to give you extra practice
+with the topics covered in this unit.
+</p>
+
+<p>
+In the crime lecture, we saw how we can use heatmaps to give a 2-dimensional representation of 3-dimensional data: we made heatmaps of crime counts by time of the day and day of the week. In this problem, we'll learn how to use histograms to show counts by one variable, and then how to visualize 3 dimensions by creating multiple histograms.
+</p>
+
+<p>
+We'll use the parole data parole.csv from Unit 3. Before, we used this data to predict parole violators. Now, let's try to get a little more insight into this dataset using histograms. As a reminder, the variables in this dataset are:
+</p>
+
+<p>
+male = 1 if the parolee is male, 0 if female
+</p>
+
+<p>
+race = 1 if the parolee is white, 2 otherwise
+</p>
+
+<p>
+age = the parolee's age in years at the time of release from prison
+</p>
+
+<p>
+state = a code for the parolee's state. 2 is Kentucky, 3 is Louisiana, 4 is Virginia, and 1 is any other state. These three states were selected due to having a high representation in the dataset.
+</p>
+
+<p>
+time.served = the number of months the parolee served in prison (limited by the inclusion criteria to not exceed 6 months).
+</p>
+
+<p>
+max.sentence = the maximum sentence length for all charges, in months (limited by the inclusion criteria to not exceed 18 months).
+</p>
+
+<p>
+multiple.offenses = 1 if the parolee was incarcerated for multiple offenses, 0 otherwise.
+</p>
+
+<p>
+crime = a code for the parolee's main crime leading to incarceration. 2 is larceny, 3 is drug-related crime, 4 is driving-related crime, and 1 is any other crime.
+</p>
+
+<p>
+violator = 1 if the parolee violated the parole, and 0 if the parolee completed the parole without violation.
+</p>
+</div>
+
+<div id="outline-container-orgheadline120" class="outline-3">
+<h3 id="orgheadline120"><span class="section-number-3">4.1</span> <span class="todo TODO">TODO</span> Problem 1.1 - Loading the Data</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+Using the read.csv function, load the dataset parole.csv and call it parole. Since male, state, and crime are all unordered factors, convert them to factor variables using the following commands:
+</p>
+
+<p>
+parole$male = as.factor(parole$male)
+</p>
+
+<p>
+parole$state = as.factor(parole$state)
+</p>
+
+<p>
+parole$crime = as.factor(parole$crime)
+</p>
+
+<p>
+What fraction of parole violators are female?
+</p>
+<ul class="org-ul">
+<li>unanswered</li>
+</ul>
+
+<p>
+0.1794872
+</p>
+
+<p>
+Explanation
+</p>
+
+<p>
+This can be found by using table:
+</p>
+
+<p>
+table(parole$male, parole$violator)
+</p>
+
+<p>
+The total number of violators is 78, and 14 of them are female.
+You have used 0 of 3 submissions
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline121" class="outline-3">
+<h3 id="orgheadline121"><span class="section-number-3">4.2</span> <span class="todo TODO">TODO</span> Problem 1.2 - Loading the Data</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+In this dataset, which crime is the most common in Kentucky?
+Larceny
+Drug-related crime
+Driving-related crime
+Other
+</p>
+<ul class="org-ul">
+<li>unanswered</li>
+</ul>
+
+<p>
+Explanation
+</p>
+
+<p>
+This can be found by using table:
+</p>
+
+<p>
+table(parole$state, parole$crime)
+</p>
+
+<p>
+The code 2 corresponds to Kentucky, and the most common crime is 3, which corresponds to Drug-related crime.
+You have used 0 of 1 submissions
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline122" class="outline-3">
+<h3 id="orgheadline122"><span class="section-number-3">4.3</span> <span class="todo TODO">TODO</span> Problem 2.1 - Creating a Basic Histogram</h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+Recall from lecture that in ggplot, we need to specify the dataset, the aesthetic, and the geometry. To create a histogram, the geometry will be geom_histogram. The data we'll use is parole, and the aesthetic will be the map from a variable to the x-axis of the histogram.
+</p>
+
+<p>
+Create a histogram to find out the distribution of the age of parolees, by typing the following command in your R console (you might need to load the ggplot2 package first by typing library(ggplot2) in your R console):
+</p>
+
+<p>
+ggplot(data = parole, aes(x = age)) + geom_histogram()
+</p>
+
+<p>
+By default, geom_histogram divides the data into 30 bins. Change the width of the bins to 5 years by adding the argument "binwidth = 5" to geom_histogram.
+</p>
+
+<p>
+Note that by default, histograms create bins where the left endpoint is included in the bin, but the right endpoint isn't. So the first bin in this histogram represents parolees who are between 15 and 19 years old. The last bin in this histogram represents parolees who are between 65 and 69 years old.
+</p>
+
+<p>
+What is the age bracket with the most parolees?
+20-24
+25-29
+30-34
+35-39
+</p>
+<ul class="org-ul">
+<li>unanswered</li>
+</ul>
+
+<p>
+Explanation
+</p>
+
+<p>
+You can generate the histogram with a bin width of 5 with the command:
+</p>
+
+<p>
+ggplot(data = parole, aes(x = age)) + geom_histogram(binwidth=5)
+</p>
+
+<p>
+The tallest bar corresponds to the age bracket with the most parolees, which is 20-24.
+You have used 0 of 1 submissions
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline123" class="outline-3">
+<h3 id="orgheadline123"><span class="section-number-3">4.4</span> <span class="todo TODO">TODO</span> Problem 2.2 - Creating a Basic Histogram</h3>
+<div class="outline-text-3" id="text-4-4">
+<p>
+Redo the histogram, adding the following argument to the geom_histogram function: color="blue". What does this do? Select all that apply.
+Changes the fill color of the bars
+Changes the background color of the plot
+Changes the outline color of the bars
+Changes the color of the axis labels
+</p>
+<ul class="org-ul">
+<li>unanswered</li>
+</ul>
+
+<p>
+Explanation
+</p>
+
+<p>
+You can generate the histogram by typing:
+</p>
+
+<p>
+ggplot(data = parole, aes(x = age)) + geom_histogram(binwidth=5, color="blue")
+</p>
+
+<p>
+Adding the color argument changes the outline color of the bars.
+You have used 0 of 2 submissions
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline124" class="outline-3">
+<h3 id="orgheadline124"><span class="section-number-3">4.5</span> <span class="todo TODO">TODO</span> Problem 3.1 - Adding Another Dimension</h3>
+<div class="outline-text-3" id="text-4-5">
+<p>
+Now suppose we are interested in seeing how the age distribution of male parolees compares to the age distribution of female parolees.
+</p>
+
+<p>
+One option would be to create a heatmap with age on one axis and male (a binary variable in our data set) on the other axis. Another option would be to stick with histograms, but to create a separate histogram for each gender. ggplot has the ability to do this automatically using the facet_grid command.
+</p>
+
+<p>
+To create separate histograms for male and female, type the following command into your R console:
+</p>
+
+<p>
+ggplot(data = parole, aes(x = age)) + geom_histogram(binwidth = 5) + facet_grid(male ~ .)
+</p>
+
+<p>
+The histogram for female parolees is shown at the top, and the histogram for male parolees is shown at the bottom.
+</p>
+
+<p>
+What is the age bracket with the most female parolees?
+20-24
+25-29
+30-34
+35-39
+</p>
+<ul class="org-ul">
+<li>unanswered</li>
+</ul>
+
+<p>
+Explanation
+</p>
+
+<p>
+Looking at the histogram at the top, we can see that the tallest bar corresponds to the age bracket 35-39.
+You have used 0 of 1 submissions
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline125" class="outline-3">
+<h3 id="orgheadline125"><span class="section-number-3">4.6</span> <span class="todo TODO">TODO</span> Problem 3.2 - Adding Another Dimension</h3>
+<div class="outline-text-3" id="text-4-6">
+<p>
+Now change the facet_grid argument to be ".~male" instead of "male~.". What does this do?
+Creates histograms of the male variable, sorted by the different values of age.
+Puts the histograms side-by-side instead of on top of each other.
+This doesn't change anything - the plot looks exactly the same as it did before.
+</p>
+<ul class="org-ul">
+<li>unanswered</li>
+</ul>
+
+<p>
+Explanation
+</p>
+
+<p>
+You can create the new plot with the command:
+</p>
+
+<p>
+ggplot(data = parole, aes(x = age)) + geom_histogram(binwidth = 5) + facet_grid(.~male)
+</p>
+
+<p>
+This puts the plots side-by-side instead of on top of each other.
+You have used 0 of 1 submissions
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline126" class="outline-3">
+<h3 id="orgheadline126"><span class="section-number-3">4.7</span> <span class="todo TODO">TODO</span> Problem 3.3 - Adding Another DImension</h3>
+<div class="outline-text-3" id="text-4-7">
+<p>
+An alternative to faceting is to simply color the different groups differently. To color the data points by group, we need to tell ggplot that a property of the data (male or not male) should be translated to an aesthetic property of the histogram. We can do this by setting the fill parameter within the aesthetic to male.
+</p>
+
+<p>
+Run the following command in your R console to produce a histogram where data points are colored by group:
+</p>
+
+<p>
+ggplot(data = parole, aes(x = age, fill = male)) + geom_histogram(binwidth = 5)
+</p>
+
+<p>
+Since we didn't specify colors to use, ggplot will use its default color selection. Let's change this by defining our own color palette. First, type in your R console:
+</p>
+
+<p>
+colorPalette = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+</p>
+
+<p>
+This is actually a colorblind-friendly palette, desribed on this Cookbook for R page. Now, generate your histogram again, using colorPalette, with the following command:
+</p>
+
+<p>
+ggplot(data = parole, aes(x = age, fill = male)) + geom_histogram(binwidth = 5) + scale_fill_manual(values=colorPalette)
+</p>
+
+<p>
+What color is the histogram for the female parolees?
+Orange
+Black
+</p>
+<ul class="org-ul">
+<li>unanswered</li>
+</ul>
+
+<p>
+Explanation
+</p>
+
+<p>
+From the previous question, we saw that the female parolee histogram was much smaller than the male parolee histogram. So it looks like the female histogram is the black-colored one. We can also read this from the legend.
+You have used 0 of 1 submissions
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline127" class="outline-3">
+<h3 id="orgheadline127"><span class="section-number-3">4.8</span> <span class="todo TODO">TODO</span> Problem 3.4 - Adding Another Dimension</h3>
+<div class="outline-text-3" id="text-4-8">
+<p>
+Coloring the groups differently is a good way to see the breakdown of age by sex within the single, aggregated histogram. However, the bars here are stacked, meaning that the height of the orange bars in each age bin represents the total number of parolees in that age bin, not just the number of parolees in that group.
+</p>
+
+<p>
+An alternative to a single, stacked histogram is to create two histograms and overlay them on top of each other. This is a simple adjustment to our previous command.
+</p>
+
+<p>
+We just need to:
+</p>
+
+<ol class="org-ol">
+<li>Tell ggplot not to stack the histograms by adding the argument position="identity" to the geom_histogram function.</li>
+
+<li>Make the bars semi-transparent so we can see both colors by adding the argument alpha=0.5 to the geom_histogram function.</li>
+</ol>
+
+<p>
+Redo the plot, making both of these changes.
+</p>
+
+<p>
+Which of the following buckets contain no female paroles? Select all that apply.
+15-19
+20-24
+25-29
+30-34
+35-39
+40-44
+45-49
+50-54
+55-59
+60-64
+65-69
+</p>
+<ul class="org-ul">
+<li>unanswered</li>
+</ul>
+
+<p>
+Explanation
+</p>
+
+<p>
+This plot can be generated with the following command:
+</p>
+
+<p>
+ggplot(parole, aes(x = age, fill = male)) + geom_histogram(binwidth = 5, position = "identity", alpha = 0.5) + scale_fill_manual(values=colorPalette)
+</p>
+
+<p>
+If you look at the plot, you can see that there are no female parolees in the age groups 15-19, 55-59, and 65-69 (the bars have height zero).
+You have used 0 of 2 submissions
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline128" class="outline-3">
+<h3 id="orgheadline128"><span class="section-number-3">4.9</span> <span class="todo TODO">TODO</span> Problem 4.1 - Time Served</h3>
+<div class="outline-text-3" id="text-4-9">
+<p>
+Now let's explore another aspect of the data: the amount of time served by parolees. Create a basic histogram like the one we created in Problem 2, but this time with time.served on the x-axis. Set the bin width to one month.
+</p>
+
+<p>
+What is the most common length of time served, according to this histogram?
+Between 2 and 3 months
+Between 3 and 4 months
+Between 4 and 5 months
+Between 5 and 6 months
+</p>
+<ul class="org-ul">
+<li>unanswered</li>
+</ul>
+
+<p>
+Explanation
+</p>
+
+<p>
+You can create this histogram with the following command:
+</p>
+
+<p>
+ggplot(data = parole, aes(x = time.served)) + geom_histogram(binwidth = 1)
+</p>
+
+<p>
+The highest bar corresponds to between 4 and 5 months.
+You have used 0 of 1 submissions
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline129" class="outline-3">
+<h3 id="orgheadline129"><span class="section-number-3">4.10</span> <span class="todo TODO">TODO</span> Problem 4.2 - Time Served</h3>
+<div class="outline-text-3" id="text-4-10">
+<p>
+Change the binwidth to 0.1 months. Now what is the most common length of time served, according to the histogram?
+Between 2.1 and 2.2 months
+Between 3.0 and 3.1 months
+Between 4.2 and 4.3 months
+Between 4.8 and 4.9 months
+</p>
+<ul class="org-ul">
+<li>unanswered</li>
+</ul>
+
+<p>
+Explanation
+</p>
+
+<p>
+You can change the binwidth by using the following command:
+</p>
+
+<p>
+ggplot(data = parole, aes(x = time.served)) + geom_histogram(binwidth = .1)
+</p>
+
+<p>
+Now, the highest bar corresponds to between 3.0 and 3.1 months.
+</p>
+
+<p>
+Be careful when choosing the binwidth - it can significantly affect the interpretation of a histogram! When visualizing histograms, it is always a good idea to vary the bin size in order to understand the data at various granularities.
+You have used 0 of 1 submissions
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline130" class="outline-3">
+<h3 id="orgheadline130"><span class="section-number-3">4.11</span> <span class="todo TODO">TODO</span> Problem 4.3 - Time Served</h3>
+<div class="outline-text-3" id="text-4-11">
+<p>
+Now, suppose we suspect that it is unlikely that each type of crime has the same distribution of time served. To visualize this, change the binwidth back to 1 month, and use facet_grid to create a separate histogram of time.served for each value of the variable crime.
+</p>
+
+<p>
+Which crime type has no observations where time served is less than one month? Recall that crime type #2 is larceny, #3 is drug-related crime, #4 is driving-related crime, and #1 is any other crime.
+Larceny
+Drug-related
+Driving-related
+Other
+</p>
+<ul class="org-ul">
+<li>unanswered</li>
+</ul>
+
+<p>
+For which crime does the frequency of 5-6 month prison terms exceed the frequencies of each other term length?
+Larceny
+Drug-related
+Driving-related
+Other
+</p>
+<ul class="org-ul">
+<li>unanswered</li>
+</ul>
+
+<p>
+Explanation
+</p>
+
+<p>
+This histogram can be generated using the command:
+</p>
+
+<p>
+ggplot(data = parole, aes(x = time.served)) + geom_histogram(binwidth = 1) + facet_grid(crime ~ .)
+You have used 0 of 1 submissions
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline131" class="outline-3">
+<h3 id="orgheadline131"><span class="section-number-3">4.12</span> <span class="todo TODO">TODO</span> Problem 4.4 - Time Served</h3>
+<div class="outline-text-3" id="text-4-12">
+<p>
+Now, instead of faceting the histograms, overlay them. Remember to set the position and alpha parameters so that the histograms are not stacked. Also, make sure to indicate that the fill aesthetic should be "crime".
+</p>
+
+<p>
+In this case, faceting seems like a better alternative. Why?
+With four different groups, it can be hard to tell them apart when they are overlayed.
+ggplot doesn't let us overlay plots with more than two groups.
+Overlaying the plots doesn't allow us to observe which crime type is the most common.
+</p>
+<ul class="org-ul">
+<li>unanswered</li>
+</ul>
+
+<p>
+Explanation
+</p>
+
+<p>
+You can generate this plot with the following command:
+</p>
+
+<p>
+ggplot(data=parole, aes(x=time.served, fill=crime)) + geom_histograph(binwidth=1, position="identity", alpha=0.5)
+</p>
+
+<p>
+While overlaying the plots is allowed and lets us observe some attributes of the plots like the most common crime type, it can be hard to tell them apart and if they have similar values it can be hard to read.
+</p>
+</div>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
 <p class="date">Date: 24/07/2015</p>
 <p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
-<p class="date">Created: 2015-07-26 Sun 10:58</p>
-<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="date">Created: 2015-08-31 Mon 10:24</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

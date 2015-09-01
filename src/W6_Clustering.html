@@ -3,9 +3,10 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Unit 6 - Clustering</title>
-<!-- 2015-07-22 Wed 08:03 -->
+<!-- 2015-09-01 Tue 06:05 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="viewport" content="width=device-width, initial-scale=1" />
+<title>Unit 6 - Clustering</title>
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Sergio-Feliciano Mendoza-Barrera" />
 <meta  name="description" content="Clustering methods in Machine Learning"
@@ -13,16 +14,22 @@
 <meta  name="keywords" content="R, data science, emacs, ESS, org-mode, machine learning, clustering" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
-  .title  { text-align: center; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
   .todo   { font-family: monospace; color: red; }
-  .done   { color: green; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
   .tag    { background-color: #eee; font-family: monospace;
             padding: 2px; font-size: 80%; font-weight: normal; }
   .timestamp { color: #bebebe; }
   .timestamp-kwd { color: #5f9ea0; }
-  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
-  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
-  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
   .underline { text-decoration: underline; }
   #postamble p, #preamble p { font-size: 90%; margin: .2em; }
   p.verse { margin-left: 3%; }
@@ -61,15 +68,14 @@
   caption.t-above { caption-side: top; }
   caption.t-bottom { caption-side: bottom; }
   td, th { vertical-align:top;  }
-  th.right  { text-align: center;  }
-  th.left   { text-align: center;   }
-  th.center { text-align: center; }
-  td.right  { text-align: right;  }
-  td.left   { text-align: left;   }
-  td.center { text-align: center; }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
   dt { font-weight: bold; }
-  .footpara:nth-child(2) { display: inline; }
-  .footpara { display: block; }
+  .footpara { display: inline; }
   .footdef  { margin-bottom: 1em; }
   .figure { padding: 1em; }
   .figure p { text-align: center; }
@@ -148,61 +154,41 @@ for the JavaScript code in this tag.
  }
 /*]]>*///-->
 </script>
-<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js"></script>
-<script type="text/javascript">
-<!--/*--><![CDATA[/*><!--*/
+<script type="text/x-mathjax-config">
     MathJax.Hub.Config({
-        // Only one of the two following lines, depending on user settings
-        // First allows browser-native MathML display, second forces HTML/CSS
-        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
-            jax: ["input/TeX", "output/HTML-CSS"],
-        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
-                     "TeX/noUndefined.js"],
-        tex2jax: {
-            inlineMath: [ ["\\(","\\)"] ],
-            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
-            skipTags: ["script","noscript","style","textarea","pre","code"],
-            ignoreClass: "tex2jax_ignore",
-            processEscapes: false,
-            processEnvironments: true,
-            preview: "TeX"
-        },
-        showProcessingMessages: true,
         displayAlign: "center",
-        displayIndent: "2em",
+        displayIndent: "0em",
 
-        "HTML-CSS": {
-             scale: 100,
-             availableFonts: ["STIX","TeX"],
-             preferredFont: "TeX",
-             webFont: "TeX",
-             imageFont: "TeX",
-             showMathMenu: true,
-        },
-        MMLorHTML: {
-             prefer: {
-                 MSIE:    "MML",
-                 Firefox: "MML",
-                 Opera:   "HTML",
-                 other:   "HTML"
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
              }
-        }
-    });
-/*]]>*///-->
+});
 </script>
+<script type="text/javascript"
+        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
 </head>
 <body>
 <div id="content">
 <h1 class="title">Unit 6 - Clustering</h1>
-<div class="abstract">
+<div class="ABSTRACT">
 <p>
 This document concentrate the work of clustering in the TEA course.
 </p>
 
 </div>
 
-<div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> Introduction</h2>
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 This week we'll discuss how analytics can be used to make
@@ -220,8 +206,8 @@ find similarities and patterns in data.
 </div>
 </div>
 
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> Recommendations Worth a Million: An Introduction to Clustering</h2>
+<div id="outline-container-orgheadline35" class="outline-2">
+<h2 id="orgheadline35"><span class="section-number-2">2</span> Recommendations Worth a Million: An Introduction to Clustering</h2>
 <div class="outline-text-2" id="text-2">
 
 <div class="figure">
@@ -230,8 +216,8 @@ find similarities and patterns in data.
 </div>
 </div>
 
-<div id="outline-container-sec-2-1" class="outline-3">
-<h3 id="sec-2-1"><span class="section-number-3">2.1</span> What is Netflix?</h3>
+<div id="outline-container-orgheadline2" class="outline-3">
+<h3 id="orgheadline2"><span class="section-number-3">2.1</span> What is Netflix?</h3>
 <div class="outline-text-3" id="text-2-1">
 
 <div class="figure">
@@ -455,8 +441,8 @@ content filtering by using a method called clustering.
 </div>
 </div>
 
-<div id="outline-container-sec-2-2" class="outline-3">
-<h3 id="sec-2-2"><span class="section-number-3">2.2</span> Quick Question (2/2 points)</h3>
+<div id="outline-container-orgheadline7" class="outline-3">
+<h3 id="orgheadline7"><span class="section-number-3">2.2</span> Quick Question (2/2 points)</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 Let's consider a recommendation system on Amazon.com, an online retail
@@ -464,8 +450,8 @@ site.
 </p>
 </div>
 
-<div id="outline-container-sec-2-2-1" class="outline-4">
-<h4 id="sec-2-2-1"><span class="section-number-4">2.2.1</span> Question a</h4>
+<div id="outline-container-orgheadline4" class="outline-4">
+<h4 id="orgheadline4"><span class="section-number-4">2.2.1</span> Question a</h4>
 <div class="outline-text-4" id="text-2-2-1">
 <p>
 If Amazon.com constructs a recommendation system for books, and would
@@ -474,8 +460,8 @@ have to be?
 </p>
 </div>
 
-<div id="outline-container-sec-2-2-1-1" class="outline-5">
-<h5 id="sec-2-2-1-1"><span class="section-number-5">2.2.1.1</span> Answer</h5>
+<div id="outline-container-orgheadline3" class="outline-5">
+<h5 id="orgheadline3"><span class="section-number-5">2.2.1.1</span> Answer</h5>
 <div class="outline-text-5" id="text-2-2-1-1">
 <p>
 Collaborative Filtering.
@@ -484,8 +470,8 @@ Collaborative Filtering.
 </div>
 </div>
 
-<div id="outline-container-sec-2-2-2" class="outline-4">
-<h4 id="sec-2-2-2"><span class="section-number-4">2.2.2</span> Question b</h4>
+<div id="outline-container-orgheadline6" class="outline-4">
+<h4 id="orgheadline6"><span class="section-number-4">2.2.2</span> Question b</h4>
 <div class="outline-text-4" id="text-2-2-2">
 <p>
 If Amazon.com would like to suggest books to users based on the
@@ -494,8 +480,8 @@ would it be?
 </p>
 </div>
 
-<div id="outline-container-sec-2-2-2-1" class="outline-5">
-<h5 id="sec-2-2-2-1"><span class="section-number-5">2.2.2.1</span> Answer</h5>
+<div id="outline-container-orgheadline5" class="outline-5">
+<h5 id="orgheadline5"><span class="section-number-5">2.2.2.1</span> Answer</h5>
 <div class="outline-text-5" id="text-2-2-2-1">
 <p>
 Content Filtering.
@@ -516,8 +502,8 @@ filtering since other users are not involved.
 </div>
 </div>
 
-<div id="outline-container-sec-2-3" class="outline-3">
-<h3 id="sec-2-3"><span class="section-number-3">2.3</span> Video 3: Movie Data and Clustering</h3>
+<div id="outline-container-orgheadline8" class="outline-3">
+<h3 id="orgheadline8"><span class="section-number-3">2.3</span> Video 3: Movie Data and Clustering</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
 We will be using data from <b>MovieLens</b> to explain clustering and
@@ -618,8 +604,8 @@ distance between points.
 </div>
 </div>
 
-<div id="outline-container-sec-2-4" class="outline-3">
-<h3 id="sec-2-4"><span class="section-number-3">2.4</span> Quick Question (1 point possible)</h3>
+<div id="outline-container-orgheadline10" class="outline-3">
+<h3 id="orgheadline10"><span class="section-number-3">2.4</span> Quick Question (1 point possible)</h3>
 <div class="outline-text-3" id="text-2-4">
 <p>
 In the previous video, we discussed how clustering is used to split
@@ -628,21 +614,18 @@ think are appropriate for clustering? Select all that apply.
 </p>
 </div>
 
-<div id="outline-container-sec-2-4-1" class="outline-4">
-<h4 id="sec-2-4-1"><span class="section-number-4">2.4.1</span> Answer <code>[2/3]</code></h4>
+<div id="outline-container-orgheadline9" class="outline-4">
+<h4 id="orgheadline9"><span class="section-number-4">2.4.1</span> Answer <code>[2/3]</code></h4>
 <div class="outline-text-4" id="text-2-4-1">
 <ul class="org-ul">
-<li><code>[X]</code> Dividing search results on Google into categories based on the
-topic.
-</li>
+<li class="on"><code>[X]</code> Dividing search results on Google into categories based on the
+topic.</li>
 
-<li><code>[X]</code> Grouping players into different "types" of basketball players
-that make it to the NBA.
-</li>
+<li class="on"><code>[X]</code> Grouping players into different "types" of basketball players
+that make it to the NBA.</li>
 
-<li><code>[&#xa0;]</code> Predicting the winner of the Major League Baseball World
-Series.
-</li>
+<li class="off"><code>[&#xa0;]</code> Predicting the winner of the Major League Baseball World
+Series.</li>
 </ul>
 
 <p>
@@ -657,8 +640,8 @@ probably wouldn't help us predict the winner of the World Series.
 </div>
 </div>
 
-<div id="outline-container-sec-2-5" class="outline-3">
-<h3 id="sec-2-5"><span class="section-number-3">2.5</span> Video 4: Computing Distances</h3>
+<div id="outline-container-orgheadline11" class="outline-3">
+<h3 id="orgheadline11"><span class="section-number-3">2.5</span> Video 4: Computing Distances</h3>
 <div class="outline-text-3" id="text-2-5">
 <p>
 <b>So how does clustering work?</b> The first step in clustering is to
@@ -852,8 +835,8 @@ about a specific clustering algorithm: <b>hierarchical clustering</b>.
 </div>
 </div>
 
-<div id="outline-container-sec-2-6" class="outline-3">
-<h3 id="sec-2-6"><span class="section-number-3">2.6</span> Quick Question (1 point possible)</h3>
+<div id="outline-container-orgheadline13" class="outline-3">
+<h3 id="orgheadline13"><span class="section-number-3">2.6</span> Quick Question (1 point possible)</h3>
 <div class="outline-text-3" id="text-2-6">
 <p>
 The movie "The Godfather" is in the genres action, crime, and drama,
@@ -886,8 +869,8 @@ d
 </pre>
 </div>
 
-<div id="outline-container-sec-2-6-1" class="outline-4">
-<h4 id="sec-2-6-1"><span class="section-number-4">2.6.1</span> Answer</h4>
+<div id="outline-container-orgheadline12" class="outline-4">
+<h4 id="orgheadline12"><span class="section-number-4">2.6.1</span> Answer</h4>
 <div class="outline-text-4" id="text-2-6-1">
 <p>
 <b>Explanation</b>
@@ -901,8 +884,8 @@ difference of 1 in two genres - crime and romance.
 </div>
 </div>
 
-<div id="outline-container-sec-2-7" class="outline-3">
-<h3 id="sec-2-7"><span class="section-number-3">2.7</span> Video 5: Hierarchical Clustering</h3>
+<div id="outline-container-orgheadline14" class="outline-3">
+<h3 id="orgheadline14"><span class="section-number-3">2.7</span> Video 5: Hierarchical Clustering</h3>
 <div class="outline-text-3" id="text-2-7">
 <p>
 In hierarchical clustering, the clusters are formed by each data point
@@ -1086,8 +1069,8 @@ model.
 </div>
 </div>
 
-<div id="outline-container-sec-2-8" class="outline-3">
-<h3 id="sec-2-8"><span class="section-number-3">2.8</span> Quick Question (2 points possible)</h3>
+<div id="outline-container-orgheadline19" class="outline-3">
+<h3 id="orgheadline19"><span class="section-number-3">2.8</span> Quick Question (2 points possible)</h3>
 <div class="outline-text-3" id="text-2-8">
 <p>
 Suppose you are running the Hierarchical clustering algorithm with 212
@@ -1095,16 +1078,16 @@ observations.
 </p>
 </div>
 
-<div id="outline-container-sec-2-8-1" class="outline-4">
-<h4 id="sec-2-8-1"><span class="section-number-4">2.8.1</span> Question a</h4>
+<div id="outline-container-orgheadline16" class="outline-4">
+<h4 id="orgheadline16"><span class="section-number-4">2.8.1</span> Question a</h4>
 <div class="outline-text-4" id="text-2-8-1">
 <p>
 How many clusters will there be at the start of the algorithm?
 </p>
 </div>
 
-<div id="outline-container-sec-2-8-1-1" class="outline-5">
-<h5 id="sec-2-8-1-1"><span class="section-number-5">2.8.1.1</span> Answer</h5>
+<div id="outline-container-orgheadline15" class="outline-5">
+<h5 id="orgheadline15"><span class="section-number-5">2.8.1.1</span> Answer</h5>
 <div class="outline-text-5" id="text-2-8-1-1">
 <p>
 212
@@ -1113,8 +1096,8 @@ How many clusters will there be at the start of the algorithm?
 </div>
 </div>
 
-<div id="outline-container-sec-2-8-2" class="outline-4">
-<h4 id="sec-2-8-2"><span class="section-number-4">2.8.2</span> Question b</h4>
+<div id="outline-container-orgheadline17" class="outline-4">
+<h4 id="orgheadline17"><span class="section-number-4">2.8.2</span> Question b</h4>
 <div class="outline-text-4" id="text-2-8-2">
 <p>
 How many clusters will there be at the end of the algorithm?
@@ -1122,8 +1105,8 @@ How many clusters will there be at the end of the algorithm?
 </div>
 </div>
 
-<div id="outline-container-sec-2-8-3" class="outline-4">
-<h4 id="sec-2-8-3"><span class="section-number-4">2.8.3</span> Answer</h4>
+<div id="outline-container-orgheadline18" class="outline-4">
+<h4 id="orgheadline18"><span class="section-number-4">2.8.3</span> Answer</h4>
 <div class="outline-text-4" id="text-2-8-3">
 <p>
 1
@@ -1143,8 +1126,8 @@ algorithm, and 1 cluster at the end of the algorithm.
 </div>
 </div>
 
-<div id="outline-container-sec-2-9" class="outline-3">
-<h3 id="sec-2-9"><span class="section-number-3">2.9</span> Video 6: Getting the Data</h3>
+<div id="outline-container-orgheadline22" class="outline-3">
+<h3 id="orgheadline22"><span class="section-number-3">2.9</span> Video 6: Getting the Data</h3>
 <div class="outline-text-3" id="text-2-9">
 <p>
 We'll be downloading our dataset from the MovieLens website. Please
@@ -1172,8 +1155,8 @@ directly from the browser as a txt file.
 </p>
 </div>
 
-<div id="outline-container-sec-2-9-1" class="outline-4">
-<h4 id="sec-2-9-1"><span class="section-number-4">2.9.1</span> Download the data sets</h4>
+<div id="outline-container-orgheadline20" class="outline-4">
+<h4 id="orgheadline20"><span class="section-number-4">2.9.1</span> Download the data sets</h4>
 <div class="outline-text-4" id="text-2-9-1">
 <p>
 In this part we can download the data
@@ -1204,39 +1187,53 @@ list.files(<span style="color: #ff6a6a;">"../data"</span>)
 </div>
 
 <pre class="example">
- [1] "AirlinesCluster.csv"     "AnonymityPoll.csv"
- [3] "baseball.csv"            "BoeingStock.csv"
- [5] "boston.csv"              "ClaimsData.csv"
- [7] "ClaimsData.csv.zip"      "climate_change.csv"
- [9] "clinical_trial.csv"      "ClusterMeans.ods"
-[11] "CocaColaStock.csv"       "CountryCodes.csv"
-[13] "CPSData.csv"             "dailykos.csv"
-[15] "eBayiPadTest.csv"        "eBayiPadTrain.csv"
-[17] "emails.csv"              "energy_bids.csv"
-[19] "flower.csv"              "FluTest.csv"
-[21] "FluTrain.csv"            "framingham.csv"
-[23] "gerber.csv"              "GEStock.csv"
-[25] "healthy.csv"             "IBMStock.csv"
-[27] "loans_imputed.csv"       "loans.csv"
-[29] "MetroAreaCodes.csv"      "movieLens.txt"
-[31] "mvtWeek1.csv"            "NBA_test.csv"
-[33] "NBA_train.csv"           "parole.csv"
-[35] "pisa2009test.csv"        "pisa2009train.csv"
-[37] "PollingData_Imputed.csv" "PollingData.csv"
-[39] "ProcterGambleStock.csv"  "quality.csv"
-[41] "README.md"               "SampleSubmission.csv"
-[43] "songs.csv"               "stevens.csv"
-[45] "StocksCluster.csv"       "stopwords.txt"
-[47] "tumor.csv"               "tweets.csv"
-[49] "USDA.csv"                "WHO_Europe.csv"
-[51] "WHO.csv"                 "wiki.csv"
-[53] "wine_test.csv"           "wine.csv"
+ [1] "AirlinesCluster.csv"       "AnonymityPoll.csv"
+ [3] "baseball.csv"              "BoeingStock.csv"
+ [5] "boston.csv"                "census.csv"
+ [7] "ClaimsData.csv"            "ClaimsData.csv.zip"
+ [9] "climate_change.csv"        "clinical_trial.csv"
+[11] "ClusterMeans.ods"          "CocaColaStock.csv"
+[13] "CountryCodes.csv"          "CPSData.csv"
+[15] "dailykos.csv"              "eBayAll.RData"
+[17] "eBayiPadTest.csv"          "eBayiPadTrain.csv"
+[19] "edges.csv"                 "elantra.csv"
+[21] "emails.csv"                "energy_bids.csv"
+[23] "federalFundsRate.csv"      "finalExam-Households.csv"
+[25] "flower.csv"                "FluTest.csv"
+[27] "FluTrain.csv"              "framingham.csv"
+[29] "gerber.csv"                "GEStock.csv"
+[31] "healthy.csv"               "households.csv"
+[33] "IBMStock.csv"              "intl.csv"
+[35] "intlall.csv"               "letters_ABPR.csv"
+[37] "loans_imputed.csv"         "loans.csv"
+[39] "MetroAreaCodes.csv"        "movieLens.txt"
+[41] "MoviesP1Final.csv"         "murders.csv"
+[43] "mvt.csv"                   "mvtWeek1.csv"
+[45] "NBA_test.csv"              "NBA_train.csv"
+[47] "parole.csv"                "pisa2009test.csv"
+[49] "pisa2009train.csv"         "PollingData_Imputed.csv"
+[51] "PollingData.csv"           "PollingImputed.csv"
+[53] "ProcterGambleStock.csv"    "quality.csv"
+[55] "README.md"                 "SampleSubmission.csv"
+[57] "songs.csv"                 "statedataSimple.csv"
+[59] "stevens.csv"               "StocksCluster.csv"
+[61] "stopwords.txt"             "SubmissionGBM1.csv"
+[63] "SubmissionGBM2.csv"        "SubmissionLR2.csv"
+[65] "SubmissionLR3.csv"         "SubmissionLR4.csv"
+[67] "SubmissionLR5.csv"         "SubmissionLR8.csv"
+[69] "SubmissionLR9.csv"         "SubmissionRF1.csv"
+[71] "SubmissionSimpleLogV1.csv" "tumor.csv"
+[73] "tweets.csv"                "tweetsU7.csv"
+[75] "USDA.csv"                  "users.csv"
+[77] "WHO_Europe.csv"            "WHO.csv"
+[79] "WHOu7.csv"                 "wiki.csv"
+[81] "wine_test.csv"             "wine.csv"
 </pre>
 </div>
 </div>
 
-<div id="outline-container-sec-2-9-2" class="outline-4">
-<h4 id="sec-2-9-2"><span class="section-number-4">2.9.2</span> Load the data set</h4>
+<div id="outline-container-orgheadline21" class="outline-4">
+<h4 id="orgheadline21"><span class="section-number-4">2.9.2</span> Load the data set</h4>
 <div class="outline-text-4" id="text-2-9-2">
 <div class="org-src-container">
 
@@ -1398,8 +1395,8 @@ labels.
 </div>
 </div>
 
-<div id="outline-container-sec-2-10" class="outline-3">
-<h3 id="sec-2-10"><span class="section-number-3">2.10</span> Quick Question (3 points possible)</h3>
+<div id="outline-container-orgheadline29" class="outline-3">
+<h3 id="orgheadline29"><span class="section-number-3">2.10</span> Quick Question (3 points possible)</h3>
 <div class="outline-text-3" id="text-2-10">
 <p>
 Using the table function in R, please answer the following questions
@@ -1407,16 +1404,16 @@ about the dataset <b>movies</b>.
 </p>
 </div>
 
-<div id="outline-container-sec-2-10-1" class="outline-4">
-<h4 id="sec-2-10-1"><span class="section-number-4">2.10.1</span> Question a</h4>
+<div id="outline-container-orgheadline24" class="outline-4">
+<h4 id="orgheadline24"><span class="section-number-4">2.10.1</span> Question a</h4>
 <div class="outline-text-4" id="text-2-10-1">
 <p>
 How many movies are classified as comedies?
 </p>
 </div>
 
-<div id="outline-container-sec-2-10-1-1" class="outline-5">
-<h5 id="sec-2-10-1-1"><span class="section-number-5">2.10.1.1</span> Answer</h5>
+<div id="outline-container-orgheadline23" class="outline-5">
+<h5 id="orgheadline23"><span class="section-number-5">2.10.1.1</span> Answer</h5>
 <div class="outline-text-5" id="text-2-10-1-1">
 <div class="org-src-container">
 
@@ -1433,16 +1430,16 @@ nrow(subset(movies, movies$Comedy == 1))
 </div>
 </div>
 
-<div id="outline-container-sec-2-10-2" class="outline-4">
-<h4 id="sec-2-10-2"><span class="section-number-4">2.10.2</span> Question b</h4>
+<div id="outline-container-orgheadline26" class="outline-4">
+<h4 id="orgheadline26"><span class="section-number-4">2.10.2</span> Question b</h4>
 <div class="outline-text-4" id="text-2-10-2">
 <p>
 How many movies are classified as westerns?
 </p>
 </div>
 
-<div id="outline-container-sec-2-10-2-1" class="outline-5">
-<h5 id="sec-2-10-2-1"><span class="section-number-5">2.10.2.1</span> Answer</h5>
+<div id="outline-container-orgheadline25" class="outline-5">
+<h5 id="orgheadline25"><span class="section-number-5">2.10.2.1</span> Answer</h5>
 <div class="outline-text-5" id="text-2-10-2-1">
 <div class="org-src-container">
 
@@ -1459,16 +1456,16 @@ nrow(subset(movies, movies$Western == 1))
 </div>
 </div>
 
-<div id="outline-container-sec-2-10-3" class="outline-4">
-<h4 id="sec-2-10-3"><span class="section-number-4">2.10.3</span> Question c</h4>
+<div id="outline-container-orgheadline28" class="outline-4">
+<h4 id="orgheadline28"><span class="section-number-4">2.10.3</span> Question c</h4>
 <div class="outline-text-4" id="text-2-10-3">
 <p>
 How many movies are classified as romance AND drama?
 </p>
 </div>
 
-<div id="outline-container-sec-2-10-3-1" class="outline-5">
-<h5 id="sec-2-10-3-1"><span class="section-number-5">2.10.3.1</span> Answer</h5>
+<div id="outline-container-orgheadline27" class="outline-5">
+<h5 id="orgheadline27"><span class="section-number-5">2.10.3.1</span> Answer</h5>
 <div class="outline-text-5" id="text-2-10-3-1">
 <div class="org-src-container">
 
@@ -1512,8 +1509,8 @@ You can answer these questions by using the following commands:
 </div>
 </div>
 
-<div id="outline-container-sec-2-11" class="outline-3">
-<h3 id="sec-2-11"><span class="section-number-3">2.11</span> Video 7: Hierarchical Clustering in R</h3>
+<div id="outline-container-orgheadline31" class="outline-3">
+<h3 id="orgheadline31"><span class="section-number-3">2.11</span> Video 7: Hierarchical Clustering in R</h3>
 <div class="outline-text-3" id="text-2-11">
 <p>
 <b>Important Note</b>
@@ -1587,7 +1584,7 @@ Now let's plot the dendrogram of our clustering algorithm:
 </p>
 
 
-<div id="fig:MoviesDendrogram" class="figure">
+<div id="orgparagraph1" class="figure">
 <p><img src="../graphs/MoviesDendrogram.png" alt="MoviesDendrogram.png" />
 </p>
 <p><span class="figure-number">Figure 37:</span> Movies dendrogram of clustering method</p>
@@ -1709,308 +1706,308 @@ in cluster two are labeled as romance movies.
 
 
 <colgroup>
-<col  class="left" />
+<col  class="org-left" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 </colgroup>
 <thead>
 <tr>
-<th scope="col" class="left">Cluster 1</th>
-<th scope="col" class="right">Cluster 2</th>
-<th scope="col" class="right">Cluster 3</th>
-<th scope="col" class="right">Cluster 4</th>
-<th scope="col" class="right">Cluster 5</th>
-<th scope="col" class="right">Cluster 6</th>
-<th scope="col" class="right">Cluster 7</th>
-<th scope="col" class="right">Cluster 8</th>
-<th scope="col" class="right">Cluster 9</th>
-<th scope="col" class="right">Cluster 10</th>
-<th scope="col" class="right">&#xa0;</th>
+<th scope="col" class="org-left">Cluster 1</th>
+<th scope="col" class="org-right">Cluster 2</th>
+<th scope="col" class="org-right">Cluster 3</th>
+<th scope="col" class="org-right">Cluster 4</th>
+<th scope="col" class="org-right">Cluster 5</th>
+<th scope="col" class="org-right">Cluster 6</th>
+<th scope="col" class="org-right">Cluster 7</th>
+<th scope="col" class="org-right">Cluster 8</th>
+<th scope="col" class="org-right">Cluster 9</th>
+<th scope="col" class="org-right">Cluster 10</th>
+<th scope="col" class="org-right">&#xa0;</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="left">Action</td>
-<td class="right">0.18</td>
-<td class="right">0.78</td>
-<td class="right">0.12</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.10</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
+<td class="org-left">Action</td>
+<td class="org-right">0.18</td>
+<td class="org-right">0.78</td>
+<td class="org-right">0.12</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.10</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
 </tr>
 
 <tr>
-<td class="left">Adventure</td>
-<td class="right">0.19</td>
-<td class="right">0.35</td>
-<td class="right">0.04</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
+<td class="org-left">Adventure</td>
+<td class="org-right">0.19</td>
+<td class="org-right">0.35</td>
+<td class="org-right">0.04</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
 </tr>
 
 <tr>
-<td class="left">Animation</td>
-<td class="right">0.13</td>
-<td class="right">0.01</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
+<td class="org-left">Animation</td>
+<td class="org-right">0.13</td>
+<td class="org-right">0.01</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
 </tr>
 
 <tr>
-<td class="left">Childrens</td>
-<td class="right">0.39</td>
-<td class="right">0.01</td>
-<td class="right">0.01</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
+<td class="org-left">Childrens</td>
+<td class="org-right">0.39</td>
+<td class="org-right">0.01</td>
+<td class="org-right">0.01</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
 </tr>
 
 <tr>
-<td class="left">Comedy</td>
-<td class="right">0.36</td>
-<td class="right">0.07</td>
-<td class="right">0.06</td>
-<td class="right">0.00</td>
-<td class="right">1.00</td>
-<td class="right">0.11</td>
-<td class="right">1.00</td>
-<td class="right">0.02</td>
-<td class="right">1.00</td>
-<td class="right">0.16</td>
+<td class="org-left">Comedy</td>
+<td class="org-right">0.36</td>
+<td class="org-right">0.07</td>
+<td class="org-right">0.06</td>
+<td class="org-right">0.00</td>
+<td class="org-right">1.00</td>
+<td class="org-right">0.11</td>
+<td class="org-right">1.00</td>
+<td class="org-right">0.02</td>
+<td class="org-right">1.00</td>
+<td class="org-right">0.16</td>
 </tr>
 
 <tr>
-<td class="left">Crime</td>
-<td class="right">0.03</td>
-<td class="right">0.01</td>
-<td class="right">0.41</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.05</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
+<td class="org-left">Crime</td>
+<td class="org-right">0.03</td>
+<td class="org-right">0.01</td>
+<td class="org-right">0.41</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.05</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
 </tr>
 
 <tr>
-<td class="left">Documentary</td>
-<td class="right">0.01</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">1.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
+<td class="org-left">Documentary</td>
+<td class="org-right">0.01</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">1.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
 </tr>
 
 <tr>
-<td class="left">Drama</td>
-<td class="right">0.31</td>
-<td class="right">0.11</td>
-<td class="right">0.38</td>
-<td class="right">1.00</td>
-<td class="right">0.00</td>
-<td class="right">0.66</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">1.00</td>
-<td class="right">0.00</td>
+<td class="org-left">Drama</td>
+<td class="org-right">0.31</td>
+<td class="org-right">0.11</td>
+<td class="org-right">0.38</td>
+<td class="org-right">1.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.66</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">1.00</td>
+<td class="org-right">0.00</td>
 </tr>
 
 <tr>
-<td class="left">Fantasy</td>
-<td class="right">0.07</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
+<td class="org-left">Fantasy</td>
+<td class="org-right">0.07</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
 </tr>
 
 <tr>
-<td class="left">Film Noir</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.11</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.01</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
+<td class="org-left">Film Noir</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.11</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.01</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
 </tr>
 
 <tr>
-<td class="left">Horror</td>
-<td class="right">0.02</td>
-<td class="right">0.08</td>
-<td class="right">0.02</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.02</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">1.00</td>
+<td class="org-left">Horror</td>
+<td class="org-right">0.02</td>
+<td class="org-right">0.08</td>
+<td class="org-right">0.02</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.02</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">1.00</td>
 </tr>
 
 <tr>
-<td class="left">Musical</td>
-<td class="right">0.19</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
+<td class="org-left">Musical</td>
+<td class="org-right">0.19</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
 </tr>
 
 <tr>
-<td class="left">Mystery</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.28</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
+<td class="org-left">Mystery</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.28</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
 </tr>
 
 <tr>
-<td class="left">Romance</td>
-<td class="right">0.10</td>
-<td class="right">0.05</td>
-<td class="right">0.04</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">1.00</td>
-<td class="right">1.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
+<td class="org-left">Romance</td>
+<td class="org-right">0.10</td>
+<td class="org-right">0.05</td>
+<td class="org-right">0.04</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">1.00</td>
+<td class="org-right">1.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
 </tr>
 
 <tr>
-<td class="left">Sci-Fi</td>
-<td class="right">0.07</td>
-<td class="right">0.35</td>
-<td class="right">0.04</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
+<td class="org-left">Sci-Fi</td>
+<td class="org-right">0.07</td>
+<td class="org-right">0.35</td>
+<td class="org-right">0.04</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
 </tr>
 
 <tr>
-<td class="left">Thriller</td>
-<td class="right">0.04</td>
-<td class="right">0.38</td>
-<td class="right">0.61</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.14</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.16</td>
+<td class="org-left">Thriller</td>
+<td class="org-right">0.04</td>
+<td class="org-right">0.38</td>
+<td class="org-right">0.61</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.14</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.16</td>
 </tr>
 
 <tr>
-<td class="left">War</td>
-<td class="right">0.23</td>
-<td class="right">0.02</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.02</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
+<td class="org-left">War</td>
+<td class="org-right">0.23</td>
+<td class="org-right">0.02</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.02</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
 </tr>
 
 <tr>
-<td class="left">Western</td>
-<td class="right">0.09</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
-<td class="right">0.00</td>
+<td class="org-left">Western</td>
+<td class="org-right">0.09</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.00</td>
 </tr>
 
 <tr>
-<td class="left">Misc</td>
-<td class="right">Action-Adventure-SciFi</td>
-<td class="right">Crime-Mystery-Thriller</td>
-<td class="right">Drama</td>
-<td class="right">Comedy</td>
-<td class="right">Romance</td>
-<td class="right">Romantic Comedies</td>
-<td class="right">Documentary</td>
-<td class="right">Dramatic Comedies</td>
-<td class="right">Horror</td>
-<td class="right">&#xa0;</td>
+<td class="org-left">Misc</td>
+<td class="org-right">Action-Adventure-SciFi</td>
+<td class="org-right">Crime-Mystery-Thriller</td>
+<td class="org-right">Drama</td>
+<td class="org-right">Comedy</td>
+<td class="org-right">Romance</td>
+<td class="org-right">Romantic Comedies</td>
+<td class="org-right">Documentary</td>
+<td class="org-right">Dramatic Comedies</td>
+<td class="org-right">Horror</td>
+<td class="org-right">&#xa0;</td>
 </tr>
 </tbody>
 </table>
@@ -2113,8 +2110,8 @@ recommendation system.
 </p>
 </div>
 
-<div id="outline-container-sec-2-11-1" class="outline-4">
-<h4 id="sec-2-11-1"><span class="section-number-4">2.11.1</span> An Advanced Approach to Finding Cluster Centroids</h4>
+<div id="outline-container-orgheadline30" class="outline-4">
+<h4 id="orgheadline30"><span class="section-number-4">2.11.1</span> An Advanced Approach to Finding Cluster Centroids</h4>
 <div class="outline-text-4" id="text-2-11-1">
 <p>
 In this video, we explain how you can find the cluster centroids by
@@ -2194,8 +2191,8 @@ the split function.
 </div>
 
 
-<div id="outline-container-sec-2-12" class="outline-3">
-<h3 id="sec-2-12"><span class="section-number-3">2.12</span> Quick Question (1 point possible)</h3>
+<div id="outline-container-orgheadline33" class="outline-3">
+<h3 id="orgheadline33"><span class="section-number-3">2.12</span> Quick Question (1 point possible)</h3>
 <div class="outline-text-3" id="text-2-12">
 <p>
 Run the <code>cutree</code> function again to create the cluster groups, but this
@@ -2247,8 +2244,8 @@ $`2`
 </pre>
 </div>
 
-<div id="outline-container-sec-2-12-1" class="outline-4">
-<h4 id="sec-2-12-1"><span class="section-number-4">2.12.1</span> Answer</h4>
+<div id="outline-container-orgheadline32" class="outline-4">
+<h4 id="orgheadline32"><span class="section-number-4">2.12.1</span> Answer</h4>
 <div class="outline-text-4" id="text-2-12-1">
 <p>
 Drama
@@ -2281,8 +2278,8 @@ Video 7.
 </div>
 </div>
 
-<div id="outline-container-sec-2-13" class="outline-3">
-<h3 id="sec-2-13"><span class="section-number-3">2.13</span> Video 8: The Analytics Edge of Recommendation Systems</h3>
+<div id="outline-container-orgheadline34" class="outline-3">
+<h3 id="orgheadline34"><span class="section-number-3">2.13</span> Video 8: The Analytics Edge of Recommendation Systems</h3>
 <div class="outline-text-3" id="text-2-13">
 <p>
 Recommendation systems are used in many different areas other than
@@ -2390,11 +2387,11 @@ predictive ability of classification methods.
 </div>
 </div>
 
-<div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> Predictive Diagnosis: Discovering Patterns for Disease Detection</h2>
+<div id="outline-container-orgheadline52" class="outline-2">
+<h2 id="orgheadline52"><span class="section-number-2">3</span> Predictive Diagnosis: Discovering Patterns for Disease Detection</h2>
 <div class="outline-text-2" id="text-3">
-</div><div id="outline-container-sec-3-1" class="outline-3">
-<h3 id="sec-3-1"><span class="section-number-3">3.1</span> Video 1: Heart Attacks</h3>
+</div><div id="outline-container-orgheadline36" class="outline-3">
+<h3 id="orgheadline36"><span class="section-number-3">3.1</span> Video 1: Heart Attacks</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 We discuss the idea of predictive analytics in medicine. Specifically,
@@ -2479,8 +2476,8 @@ monitoring and taking action early and effectively.
 </div>
 </div>
 
-<div id="outline-container-sec-3-2" class="outline-3">
-<h3 id="sec-3-2"><span class="section-number-3">3.2</span> Quick Question (1/1 point)</h3>
+<div id="outline-container-orgheadline38" class="outline-3">
+<h3 id="orgheadline38"><span class="section-number-3">3.2</span> Quick Question (1/1 point)</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 In this class, we've learned many different methods for predicting
@@ -2490,18 +2487,14 @@ attack? Select all that apply.
 </p>
 </div>
 
-<div id="outline-container-sec-3-2-1" class="outline-4">
-<h4 id="sec-3-2-1"><span class="section-number-4">3.2.1</span> Answer <code>[3/4]</code></h4>
+<div id="outline-container-orgheadline37" class="outline-4">
+<h4 id="orgheadline37"><span class="section-number-4">3.2.1</span> Answer <code>[3/4]</code></h4>
 <div class="outline-text-4" id="text-3-2-1">
 <ul class="org-ul">
-<li><code>[&#xa0;]</code> Linear Regression
-</li>
-<li><code>[X]</code> Logistic Regression
-</li>
-<li><code>[X]</code> CART
-</li>
-<li><code>[X]</code> Random Forest
-</li>
+<li class="off"><code>[&#xa0;]</code> Linear Regression</li>
+<li class="on"><code>[X]</code> Logistic Regression</li>
+<li class="on"><code>[X]</code> CART</li>
+<li class="on"><code>[X]</code> Random Forest</li>
 </ul>
 
 <p>
@@ -2520,8 +2513,8 @@ we'll use random forest, but the other methods could be used too.
 </div>
 </div>
 
-<div id="outline-container-sec-3-3" class="outline-3">
-<h3 id="sec-3-3"><span class="section-number-3">3.3</span> Video 2: The Data</h3>
+<div id="outline-container-orgheadline39" class="outline-3">
+<h3 id="orgheadline39"><span class="section-number-3">3.3</span> Video 2: The Data</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 Claims data offers an expansive view of the patient's health
@@ -2670,8 +2663,8 @@ Please note that the majority of patients, 4,400 out of 6,500, or
 </div>
 </div>
 
-<div id="outline-container-sec-3-4" class="outline-3">
-<h3 id="sec-3-4"><span class="section-number-3">3.4</span> Quick Question (2 points possible)</h3>
+<div id="outline-container-orgheadline44" class="outline-3">
+<h3 id="orgheadline44"><span class="section-number-3">3.4</span> Quick Question (2 points possible)</h3>
 <div class="outline-text-3" id="text-3-4">
 <p>
 In the previous video, we discussed how we split the data into three
@@ -2679,31 +2672,28 @@ groups, or buckets, according to cost.
 </p>
 </div>
 
-<div id="outline-container-sec-3-4-1" class="outline-4">
-<h4 id="sec-3-4-1"><span class="section-number-4">3.4.1</span> Question a</h4>
+<div id="outline-container-orgheadline41" class="outline-4">
+<h4 id="orgheadline41"><span class="section-number-4">3.4.1</span> Question a</h4>
 <div class="outline-text-4" id="text-3-4-1">
 <p>
 Which bucket has the most data, in terms of number of patients?
 </p>
 </div>
 
-<div id="outline-container-sec-3-4-1-1" class="outline-5">
-<h5 id="sec-3-4-1-1"><span class="section-number-5">3.4.1.1</span> Answer <code>[1/3]</code></h5>
+<div id="outline-container-orgheadline40" class="outline-5">
+<h5 id="orgheadline40"><span class="section-number-5">3.4.1.1</span> Answer <code>[1/3]</code></h5>
 <div class="outline-text-5" id="text-3-4-1-1">
 <ul class="org-ul">
-<li><code>[X]</code> Cost Bucket 1
-</li>
-<li><code>[&#xa0;]</code> Cost Bucket 2
-</li>
-<li><code>[&#xa0;]</code> Cost Bucket 3
-</li>
+<li class="on"><code>[X]</code> Cost Bucket 1</li>
+<li class="off"><code>[&#xa0;]</code> Cost Bucket 2</li>
+<li class="off"><code>[&#xa0;]</code> Cost Bucket 3</li>
 </ul>
 </div>
 </div>
 </div>
 
-<div id="outline-container-sec-3-4-2" class="outline-4">
-<h4 id="sec-3-4-2"><span class="section-number-4">3.4.2</span> Question b</h4>
+<div id="outline-container-orgheadline43" class="outline-4">
+<h4 id="orgheadline43"><span class="section-number-4">3.4.2</span> Question b</h4>
 <div class="outline-text-4" id="text-3-4-2">
 <p>
 Which bucket probably has the densest data, in terms of number of
@@ -2711,16 +2701,13 @@ claims per person?
 </p>
 </div>
 
-<div id="outline-container-sec-3-4-2-1" class="outline-5">
-<h5 id="sec-3-4-2-1"><span class="section-number-5">3.4.2.1</span> Answer <code>[1/3]</code></h5>
+<div id="outline-container-orgheadline42" class="outline-5">
+<h5 id="orgheadline42"><span class="section-number-5">3.4.2.1</span> Answer <code>[1/3]</code></h5>
 <div class="outline-text-5" id="text-3-4-2-1">
 <ul class="org-ul">
-<li><code>[&#xa0;]</code> Cost Bucket 1
-</li>
-<li><code>[&#xa0;]</code> Cost Bucket 2
-</li>
-<li><code>[X]</code> Cost Bucket 3
-</li>
+<li class="off"><code>[&#xa0;]</code> Cost Bucket 1</li>
+<li class="off"><code>[&#xa0;]</code> Cost Bucket 2</li>
+<li class="on"><code>[X]</code> Cost Bucket 3</li>
 </ul>
 
 <p>
@@ -2737,8 +2724,8 @@ are the patients with the highest cost in terms of claims.
 </div>
 </div>
 
-<div id="outline-container-sec-3-5" class="outline-3">
-<h3 id="sec-3-5"><span class="section-number-3">3.5</span> Video 3: Predicting Heart Attacks using Clustering</h3>
+<div id="outline-container-orgheadline45" class="outline-3">
+<h3 id="orgheadline45"><span class="section-number-3">3.5</span> Video 3: Predicting Heart Attacks using Clustering</h3>
 <div class="outline-text-3" id="text-3-5">
 <p>
 Let us discuss the performance of a benchmark algorithm. The Random
@@ -2960,8 +2947,8 @@ from 49% to 64%, from 56% to 73%, from 58% to 78%.
 </div>
 </div>
 
-<div id="outline-container-sec-3-6" class="outline-3">
-<h3 id="sec-3-6"><span class="section-number-3">3.6</span> Quick Question (1 point possible)</h3>
+<div id="outline-container-orgheadline47" class="outline-3">
+<h3 id="orgheadline47"><span class="section-number-3">3.6</span> Quick Question (1 point possible)</h3>
 <div class="outline-text-3" id="text-3-6">
 <p>
 K-means clustering differs from Hierarchical clustering in a couple
@@ -2969,18 +2956,16 @@ important ways. Which of the following statements is true?
 </p>
 </div>
 
-<div id="outline-container-sec-3-6-1" class="outline-4">
-<h4 id="sec-3-6-1"><span class="section-number-4">3.6.1</span> Answer <code>[1/2]</code></h4>
+<div id="outline-container-orgheadline46" class="outline-4">
+<h4 id="orgheadline46"><span class="section-number-4">3.6.1</span> Answer <code>[1/2]</code></h4>
 <div class="outline-text-4" id="text-3-6-1">
 <ul class="org-ul">
-<li><code>[X]</code> In k-means clustering, you have to pick the number of clusters
-you want before you run the algorithm.
-</li>
+<li class="on"><code>[X]</code> In k-means clustering, you have to pick the number of clusters
+you want before you run the algorithm.</li>
 
-<li><code>[&#xa0;]</code> In k-means clustering, you can pick the number of clusters you
+<li class="off"><code>[&#xa0;]</code> In k-means clustering, you can pick the number of clusters you
 want after the algorithm is done, just like in Hierarchical
-clustering.
-</li>
+clustering.</li>
 </ul>
 
 <p>
@@ -2997,8 +2982,8 @@ detail during the recitation).
 </div>
 </div>
 
-<div id="outline-container-sec-3-7" class="outline-3">
-<h3 id="sec-3-7"><span class="section-number-3">3.7</span> Video 4: Understanding Cluster Patterns</h3>
+<div id="outline-container-orgheadline48" class="outline-3">
+<h3 id="orgheadline48"><span class="section-number-3">3.7</span> Video 4: Understanding Cluster Patterns</h3>
 <div class="outline-text-3" id="text-3-7">
 <p>
 Let us see what we learned about the patterns that emerge. We will
@@ -3102,8 +3087,8 @@ for the population that had the event versus the average population.
 </div>
 </div>
 
-<div id="outline-container-sec-3-8" class="outline-3">
-<h3 id="sec-3-8"><span class="section-number-3">3.8</span> Quick Question (1 point possible)</h3>
+<div id="outline-container-orgheadline50" class="outline-3">
+<h3 id="orgheadline50"><span class="section-number-3">3.8</span> Quick Question (1 point possible)</h3>
 <div class="outline-text-3" id="text-3-8">
 <p>
 As we saw in the previous video, the clusters can be used to find
@@ -3118,14 +3103,12 @@ of people, would you increase or decrease the number of clusters?
 </p>
 </div>
 
-<div id="outline-container-sec-3-8-1" class="outline-4">
-<h4 id="sec-3-8-1"><span class="section-number-4">3.8.1</span> Answer <code>[1/2]</code></h4>
+<div id="outline-container-orgheadline49" class="outline-4">
+<h4 id="orgheadline49"><span class="section-number-4">3.8.1</span> Answer <code>[1/2]</code></h4>
 <div class="outline-text-4" id="text-3-8-1">
 <ul class="org-ul">
-<li><code>[X]</code> Increase
-</li>
-<li><code>[&#xa0;]</code> Decrease
-</li>
+<li class="on"><code>[X]</code> Increase</li>
+<li class="off"><code>[&#xa0;]</code> Decrease</li>
 </ul>
 
 <p>
@@ -3141,8 +3124,8 @@ patterns would probably emerge.
 </div>
 </div>
 
-<div id="outline-container-sec-3-9" class="outline-3">
-<h3 id="sec-3-9"><span class="section-number-3">3.9</span> Video 5: The Analytics Edge</h3>
+<div id="outline-container-orgheadline51" class="outline-3">
+<h3 id="orgheadline51"><span class="section-number-3">3.9</span> Video 5: The Analytics Edge</h3>
 <div class="outline-text-3" id="text-3-9">
 <p>
 What is the impact of clustering?
@@ -3190,11 +3173,11 @@ early detection of this deadly disease."
 </div>
 </div>
 
-<div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4"><span class="section-number-2">4</span> Seeing the Big Picture: Segmenting Images to Create Data (Recitation)</h2>
+<div id="outline-container-orgheadline63" class="outline-2">
+<h2 id="orgheadline63"><span class="section-number-2">4</span> Seeing the Big Picture: Segmenting Images to Create Data (Recitation)</h2>
 <div class="outline-text-2" id="text-4">
-</div><div id="outline-container-sec-4-1" class="outline-3">
-<h3 id="sec-4-1"><span class="section-number-3">4.1</span> Welcome to Recitation 6</h3>
+</div><div id="outline-container-orgheadline53" class="outline-3">
+<h3 id="orgheadline53"><span class="section-number-3">4.1</span> Welcome to Recitation 6</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 We will review hierarchical and k-means clustering techniques and
@@ -3215,8 +3198,8 @@ seen so far in this class to prepare for the class competition.
 </div>
 </div>
 
-<div id="outline-container-sec-4-2" class="outline-3">
-<h3 id="sec-4-2"><span class="section-number-3">4.2</span> Video 1: Image Segmentation</h3>
+<div id="outline-container-orgheadline54" class="outline-3">
+<h3 id="orgheadline54"><span class="section-number-3">4.2</span> Video 1: Image Segmentation</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 We will see how to apply clustering techniques to segment images, with
@@ -3351,8 +3334,8 @@ class competition.
 </div>
 </div>
 
-<div id="outline-container-sec-4-3" class="outline-3">
-<h3 id="sec-4-3"><span class="section-number-3">4.3</span> Video 2: Clustering Pixels</h3>
+<div id="outline-container-orgheadline56" class="outline-3">
+<h3 id="orgheadline56"><span class="section-number-3">4.3</span> Video 2: Clustering Pixels</h3>
 <div class="outline-text-3" id="text-4-3">
 <p>
 In this Recitation, we'll be using the following data files:
@@ -3366,8 +3349,8 @@ be downloaded <a href="https://courses.edx.org/asset-v1:MITx+15.071x_2a+2T2015+t
 </p>
 </div>
 
-<div id="outline-container-sec-4-3-1" class="outline-4">
-<h4 id="sec-4-3-1"><span class="section-number-4">4.3.1</span> Download the data sets</h4>
+<div id="outline-container-orgheadline55" class="outline-4">
+<h4 id="orgheadline55"><span class="section-number-4">4.3.1</span> Download the data sets</h4>
 <div class="outline-text-4" id="text-4-3-1">
 <p>
 In this part we can download the data
@@ -3402,40 +3385,54 @@ In this part we can download the data
 </div>
 
 <pre class="example">
- [1] "AirlinesCluster.csv"     "AnonymityPoll.csv"
- [3] "baseball.csv"            "BoeingStock.csv"
- [5] "boston.csv"              "ClaimsData.csv"
- [7] "ClaimsData.csv.zip"      "climate_change.csv"
- [9] "clinical_trial.csv"      "ClusterMeans.ods"
-[11] "CocaColaStock.csv"       "CountryCodes.csv"
-[13] "CPSData.csv"             "dailykos.csv"
-[15] "eBayiPadTest.csv"        "eBayiPadTrain.csv"
-[17] "emails.csv"              "energy_bids.csv"
-[19] "flower.csv"              "FluTest.csv"
-[21] "FluTrain.csv"            "framingham.csv"
-[23] "gerber.csv"              "GEStock.csv"
-[25] "healthy.csv"             "IBMStock.csv"
-[27] "loans_imputed.csv"       "loans.csv"
-[29] "MetroAreaCodes.csv"      "movieLens.txt"
-[31] "mvtWeek1.csv"            "NBA_test.csv"
-[33] "NBA_train.csv"           "parole.csv"
-[35] "pisa2009test.csv"        "pisa2009train.csv"
-[37] "PollingData_Imputed.csv" "PollingData.csv"
-[39] "ProcterGambleStock.csv"  "quality.csv"
-[41] "README.md"               "SampleSubmission.csv"
-[43] "songs.csv"               "stevens.csv"
-[45] "StocksCluster.csv"       "stopwords.txt"
-[47] "tumor.csv"               "tweets.csv"
-[49] "USDA.csv"                "WHO_Europe.csv"
-[51] "WHO.csv"                 "wiki.csv"
-[53] "wine_test.csv"           "wine.csv"
+ [1] "AirlinesCluster.csv"       "AnonymityPoll.csv"
+ [3] "baseball.csv"              "BoeingStock.csv"
+ [5] "boston.csv"                "census.csv"
+ [7] "ClaimsData.csv"            "ClaimsData.csv.zip"
+ [9] "climate_change.csv"        "clinical_trial.csv"
+[11] "ClusterMeans.ods"          "CocaColaStock.csv"
+[13] "CountryCodes.csv"          "CPSData.csv"
+[15] "dailykos.csv"              "eBayAll.RData"
+[17] "eBayiPadTest.csv"          "eBayiPadTrain.csv"
+[19] "edges.csv"                 "elantra.csv"
+[21] "emails.csv"                "energy_bids.csv"
+[23] "federalFundsRate.csv"      "finalExam-Households.csv"
+[25] "flower.csv"                "FluTest.csv"
+[27] "FluTrain.csv"              "framingham.csv"
+[29] "gerber.csv"                "GEStock.csv"
+[31] "healthy.csv"               "households.csv"
+[33] "IBMStock.csv"              "intl.csv"
+[35] "intlall.csv"               "letters_ABPR.csv"
+[37] "loans_imputed.csv"         "loans.csv"
+[39] "MetroAreaCodes.csv"        "movieLens.txt"
+[41] "MoviesP1Final.csv"         "murders.csv"
+[43] "mvt.csv"                   "mvtWeek1.csv"
+[45] "NBA_test.csv"              "NBA_train.csv"
+[47] "parole.csv"                "pisa2009test.csv"
+[49] "pisa2009train.csv"         "PollingData_Imputed.csv"
+[51] "PollingData.csv"           "PollingImputed.csv"
+[53] "ProcterGambleStock.csv"    "quality.csv"
+[55] "README.md"                 "SampleSubmission.csv"
+[57] "songs.csv"                 "statedataSimple.csv"
+[59] "stevens.csv"               "StocksCluster.csv"
+[61] "stopwords.txt"             "SubmissionGBM1.csv"
+[63] "SubmissionGBM2.csv"        "SubmissionLR2.csv"
+[65] "SubmissionLR3.csv"         "SubmissionLR4.csv"
+[67] "SubmissionLR5.csv"         "SubmissionLR8.csv"
+[69] "SubmissionLR9.csv"         "SubmissionRF1.csv"
+[71] "SubmissionSimpleLogV1.csv" "tumor.csv"
+[73] "tweets.csv"                "tweetsU7.csv"
+[75] "USDA.csv"                  "users.csv"
+[77] "WHO_Europe.csv"            "WHO.csv"
+[79] "WHOu7.csv"                 "wiki.csv"
+[81] "wine_test.csv"             "wine.csv"
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-sec-4-4" class="outline-3">
-<h3 id="sec-4-4"><span class="section-number-3">4.4</span> Video 2: Clustering Pixels</h3>
+<div id="outline-container-orgheadline57" class="outline-3">
+<h3 id="orgheadline57"><span class="section-number-3">4.4</span> Video 2: Clustering Pixels</h3>
 <div class="outline-text-3" id="text-4-4">
 <p>
 Let us try to understand the format of the data handed to us in the
@@ -3799,8 +3796,8 @@ hierarchical clusters.
 </div>
 </div>
 
-<div id="outline-container-sec-4-5" class="outline-3">
-<h3 id="sec-4-5"><span class="section-number-3">4.5</span> Video 3: Hierarchical Clustering</h3>
+<div id="outline-container-orgheadline58" class="outline-3">
+<h3 id="orgheadline58"><span class="section-number-3">4.5</span> Video 3: Hierarchical Clustering</h3>
 <div class="outline-text-3" id="text-4-5">
 <p>
 We found the distance matrix, which computes the pairwise distances
@@ -3831,7 +3828,7 @@ Now we can plot the cluster dendrogram.
 </p>
 
 
-<div id="fig:FlowerDendrogram" class="figure">
+<div id="orgparagraph2" class="figure">
 <p><img src="../graphs/FlowerDendrogram.png" alt="FlowerDendrogram.png" />
 </p>
 <p><span class="figure-number">Figure 86:</span> Flower dendrogram</p>
@@ -3917,7 +3914,7 @@ number of clusters that we want. So let's set <code>k = 3</code>.
 </p>
 
 
-<div id="fig:FlowerDendrogram02" class="figure">
+<div id="orgparagraph3" class="figure">
 <p><img src="../graphs/FlowerDendrogram02.png" alt="FlowerDendrogram02.png" />
 </p>
 <p><span class="figure-number">Figure 90:</span> Cluster selection in the Dendrogram</p>
@@ -3991,7 +3988,7 @@ dimension of this variable by using the dimension function.
 </p>
 
 
-<div id="fig:SegmentedImageCluster" class="figure">
+<div id="orgparagraph4" class="figure">
 <p><img src="../graphs/SegmentedImageCluster.png" alt="SegmentedImageCluster.png" />
 </p>
 <p><span class="figure-number">Figure 92:</span> Segmented flower image using clusters.</p>
@@ -4028,7 +4025,7 @@ And then we have to also specify its length, and that's specified as
 </p>
 
 
-<div id="fig:FlowerOriginalImage" class="figure">
+<div id="orgparagraph5" class="figure">
 <p><img src="../graphs/FlowerOriginalImage.png" alt="FlowerOriginalImage.png" />
 </p>
 <p><span class="figure-number">Figure 93:</span> Original image.</p>
@@ -4043,8 +4040,8 @@ resolution.
 </div>
 </div>
 
-<div id="outline-container-sec-4-6" class="outline-3">
-<h3 id="sec-4-6"><span class="section-number-3">4.6</span> Video 4: MRI Image</h3>
+<div id="outline-container-orgheadline59" class="outline-3">
+<h3 id="orgheadline59"><span class="section-number-3">4.6</span> Video 4: MRI Image</h3>
 <div class="outline-text-3" id="text-4-6">
 <p>
 We will try to segment an MRI brain image of a healthy patient using
@@ -4082,7 +4079,7 @@ To see the MRI image, we can use the image function:
 </p>
 
 
-<div id="fig:RMIoriginalImage" class="figure">
+<div id="orgparagraph6" class="figure">
 <p><img src="../graphs/RMIoriginalImage.png" alt="RMIoriginalImage.png" />
 </p>
 <p><span class="figure-number">Figure 94:</span> RMI original image</p>
@@ -4283,8 +4280,8 @@ so the algorithm is done, and we can stop.
 </div>
 </div>
 
-<div id="outline-container-sec-4-7" class="outline-3">
-<h3 id="sec-4-7"><span class="section-number-3">4.7</span> Video 5: K-Means Clustering</h3>
+<div id="outline-container-orgheadline60" class="outline-3">
+<h3 id="orgheadline60"><span class="section-number-3">4.7</span> Video 5: K-Means Clustering</h3>
 <div class="outline-text-3" id="text-4-7">
 <p>
 <b>SCREE plots</b>
@@ -4602,7 +4599,7 @@ correspond to the number of clusters. So the input would be <code>k</code>.
 </p>
 
 
-<div id="fig:RMIprocessedImage" class="figure">
+<div id="orgparagraph7" class="figure">
 <p><img src="../graphs/RMIprocessedImage.png" alt="RMIprocessedImage.png" />
 </p>
 <p><span class="figure-number">Figure 104:</span> RMI result image after k-means clustering</p>
@@ -4623,8 +4620,8 @@ another MRI image of a <b>sick patient</b>?
 </div>
 </div>
 
-<div id="outline-container-sec-4-8" class="outline-3">
-<h3 id="sec-4-8"><span class="section-number-3">4.8</span> Video 6: Detecting Tumors</h3>
+<div id="outline-container-orgheadline61" class="outline-3">
+<h3 id="orgheadline61"><span class="section-number-3">4.8</span> Video 6: Detecting Tumors</h3>
 <div class="outline-text-3" id="text-4-8">
 <p>
 In the previous section we identified clusters, or tissue substances,
@@ -4748,7 +4745,7 @@ clusters to a matrix.
 </p>
 
 
-<div id="fig:RMISegmentedImage" class="figure">
+<div id="orgparagraph8" class="figure">
 <p><img src="../graphs/RMISegmentedImage.png" alt="RMISegmentedImage.png" />
 </p>
 <p><span class="figure-number">Figure 105:</span> RMI segmented image</p>
@@ -4773,7 +4770,7 @@ Now we can see the original test image to compare:
 </p>
 
 
-<div id="fig:RMIOriginalTestingImage" class="figure">
+<div id="orgparagraph9" class="figure">
 <p><img src="../graphs/RMIOriginalTestingImage.png" alt="RMIOriginalTestingImage.png" />
 </p>
 <p><span class="figure-number">Figure 106:</span> RMI original testing image</p>
@@ -4869,8 +4866,8 @@ fascinating field of image segmentation.
 </div>
 </div>
 
-<div id="outline-container-sec-4-9" class="outline-3">
-<h3 id="sec-4-9"><span class="section-number-3">4.9</span> Video 7: Comparing Methods</h3>
+<div id="outline-container-orgheadline62" class="outline-3">
+<h3 id="orgheadline62"><span class="section-number-3">4.9</span> Video 7: Comparing Methods</h3>
 <div class="outline-text-3" id="text-4-9">
 <p>
 We will compare all the different methods we have seen so far in this
@@ -4970,8 +4967,7 @@ example.
 <div id="postamble" class="status">
 <p class="date">Date: 14/07/2015</p>
 <p class="author">Author: Sergio-Feliciano Mendoza-Barrera</p>
-<p class="date">Created: 2015-07-22 Wed 08:03</p>
-<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="date">Created: 2015-09-01 Tue 06:05</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

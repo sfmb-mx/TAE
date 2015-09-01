@@ -39,7 +39,6 @@
 
 #+ATTR_HTML: width="500px"
 
-# -*- mode: org; -*-
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/htmlize.css"/>
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/bigblow.css"/>
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/bigblow/css/hideshow.css"/>
@@ -634,42 +633,45 @@ In this part we can download the data
 #+begin_example
  [1] "AirlinesCluster.csv"       "AnonymityPoll.csv"
  [3] "baseball.csv"              "BoeingStock.csv"
- [5] "boston.csv"                "ClaimsData.csv"
- [7] "ClaimsData.csv.zip"        "climate_change.csv"
- [9] "clinical_trial.csv"        "ClusterMeans.ods"
-[11] "CocaColaStock.csv"         "CountryCodes.csv"
-[13] "CPSData.csv"               "dailykos.csv"
-[15] "eBayAll.RData"             "eBayiPadTest.csv"
-[17] "eBayiPadTrain.csv"         "edges.csv"
-[19] "emails.csv"                "energy_bids.csv"
-[21] "flower.csv"                "FluTest.csv"
-[23] "FluTrain.csv"              "framingham.csv"
-[25] "gerber.csv"                "GEStock.csv"
-[27] "healthy.csv"               "households.csv"
-[29] "IBMStock.csv"              "intl.csv"
-[31] "intlall.csv"               "loans_imputed.csv"
-[33] "loans.csv"                 "MetroAreaCodes.csv"
-[35] "movieLens.txt"             "murders.csv"
-[37] "mvt.csv"                   "mvtWeek1.csv"
-[39] "NBA_test.csv"              "NBA_train.csv"
-[41] "parole.csv"                "pisa2009test.csv"
-[43] "pisa2009train.csv"         "PollingData_Imputed.csv"
-[45] "PollingData.csv"           "PollingImputed.csv"
-[47] "ProcterGambleStock.csv"    "quality.csv"
-[49] "README.md"                 "SampleSubmission.csv"
-[51] "songs.csv"                 "stevens.csv"
-[53] "StocksCluster.csv"         "stopwords.txt"
-[55] "SubmissionGBM1.csv"        "SubmissionGBM2.csv"
-[57] "SubmissionLR2.csv"         "SubmissionLR3.csv"
-[59] "SubmissionLR4.csv"         "SubmissionLR5.csv"
-[61] "SubmissionLR8.csv"         "SubmissionLR9.csv"
-[63] "SubmissionRF1.csv"         "SubmissionSimpleLogV1.csv"
-[65] "tumor.csv"                 "tweets.csv"
-[67] "tweetsU7.csv"              "USDA.csv"
-[69] "users.csv"                 "WHO_Europe.csv"
-[71] "WHO.csv"                   "WHOu7.csv"
-[73] "wiki.csv"                  "wine_test.csv"
-[75] "wine.csv"
+ [5] "boston.csv"                "census.csv"
+ [7] "ClaimsData.csv"            "ClaimsData.csv.zip"
+ [9] "climate_change.csv"        "clinical_trial.csv"
+[11] "ClusterMeans.ods"          "CocaColaStock.csv"
+[13] "CountryCodes.csv"          "CPSData.csv"
+[15] "dailykos.csv"              "eBayAll.RData"
+[17] "eBayiPadTest.csv"          "eBayiPadTrain.csv"
+[19] "edges.csv"                 "elantra.csv"
+[21] "emails.csv"                "energy_bids.csv"
+[23] "federalFundsRate.csv"      "finalExam-Households.csv"
+[25] "flower.csv"                "FluTest.csv"
+[27] "FluTrain.csv"              "framingham.csv"
+[29] "gerber.csv"                "GEStock.csv"
+[31] "healthy.csv"               "households.csv"
+[33] "IBMStock.csv"              "intl.csv"
+[35] "intlall.csv"               "letters_ABPR.csv"
+[37] "loans_imputed.csv"         "loans.csv"
+[39] "MetroAreaCodes.csv"        "movieLens.txt"
+[41] "MoviesP1Final.csv"         "murders.csv"
+[43] "mvt.csv"                   "mvtWeek1.csv"
+[45] "NBA_test.csv"              "NBA_train.csv"
+[47] "parole.csv"                "pisa2009test.csv"
+[49] "pisa2009train.csv"         "PollingData_Imputed.csv"
+[51] "PollingData.csv"           "PollingImputed.csv"
+[53] "ProcterGambleStock.csv"    "quality.csv"
+[55] "README.md"                 "SampleSubmission.csv"
+[57] "songs.csv"                 "statedataSimple.csv"
+[59] "stevens.csv"               "StocksCluster.csv"
+[61] "stopwords.txt"             "SubmissionGBM1.csv"
+[63] "SubmissionGBM2.csv"        "SubmissionLR2.csv"
+[65] "SubmissionLR3.csv"         "SubmissionLR4.csv"
+[67] "SubmissionLR5.csv"         "SubmissionLR8.csv"
+[69] "SubmissionLR9.csv"         "SubmissionRF1.csv"
+[71] "SubmissionSimpleLogV1.csv" "tumor.csv"
+[73] "tweets.csv"                "tweetsU7.csv"
+[75] "USDA.csv"                  "users.csv"
+[77] "WHO_Europe.csv"            "WHO.csv"
+[79] "WHOu7.csv"                 "wiki.csv"
+[81] "wine_test.csv"             "wine.csv"
 #+end_example
 
 *** Load the data set
@@ -931,20 +933,6 @@ the distance between clusters using centroid distance, and also the
 variance in each of the clusters.
 
 Now let's plot the dendrogram of our clustering algorithm:
-
-#+BEGIN_SRC R :var basename="MoviesDendrogram" :session :results none silent :exports none
-  filename <- paste("../graphs/", basename, ".png", sep = "")
-
-  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
-
-  ## ----- Plot code begin here
-  # Plot the dendrogram
-  plot(clusterMovies)
-  ## ----- Plot code ends here
-
-  ## Close the PNG device and plots
-  dev.off()
-#+END_SRC
 
 #+CAPTION:  Movies dendrogram of clustering method
 #+NAME:     fig:MoviesDendrogram
@@ -1873,42 +1861,45 @@ In this part we can download the data
 #+begin_example
  [1] "AirlinesCluster.csv"       "AnonymityPoll.csv"
  [3] "baseball.csv"              "BoeingStock.csv"
- [5] "boston.csv"                "ClaimsData.csv"
- [7] "ClaimsData.csv.zip"        "climate_change.csv"
- [9] "clinical_trial.csv"        "ClusterMeans.ods"
-[11] "CocaColaStock.csv"         "CountryCodes.csv"
-[13] "CPSData.csv"               "dailykos.csv"
-[15] "eBayAll.RData"             "eBayiPadTest.csv"
-[17] "eBayiPadTrain.csv"         "edges.csv"
-[19] "emails.csv"                "energy_bids.csv"
-[21] "flower.csv"                "FluTest.csv"
-[23] "FluTrain.csv"              "framingham.csv"
-[25] "gerber.csv"                "GEStock.csv"
-[27] "healthy.csv"               "households.csv"
-[29] "IBMStock.csv"              "intl.csv"
-[31] "intlall.csv"               "loans_imputed.csv"
-[33] "loans.csv"                 "MetroAreaCodes.csv"
-[35] "movieLens.txt"             "murders.csv"
-[37] "mvt.csv"                   "mvtWeek1.csv"
-[39] "NBA_test.csv"              "NBA_train.csv"
-[41] "parole.csv"                "pisa2009test.csv"
-[43] "pisa2009train.csv"         "PollingData_Imputed.csv"
-[45] "PollingData.csv"           "PollingImputed.csv"
-[47] "ProcterGambleStock.csv"    "quality.csv"
-[49] "README.md"                 "SampleSubmission.csv"
-[51] "songs.csv"                 "stevens.csv"
-[53] "StocksCluster.csv"         "stopwords.txt"
-[55] "SubmissionGBM1.csv"        "SubmissionGBM2.csv"
-[57] "SubmissionLR2.csv"         "SubmissionLR3.csv"
-[59] "SubmissionLR4.csv"         "SubmissionLR5.csv"
-[61] "SubmissionLR8.csv"         "SubmissionLR9.csv"
-[63] "SubmissionRF1.csv"         "SubmissionSimpleLogV1.csv"
-[65] "tumor.csv"                 "tweets.csv"
-[67] "tweetsU7.csv"              "USDA.csv"
-[69] "users.csv"                 "WHO_Europe.csv"
-[71] "WHO.csv"                   "WHOu7.csv"
-[73] "wiki.csv"                  "wine_test.csv"
-[75] "wine.csv"
+ [5] "boston.csv"                "census.csv"
+ [7] "ClaimsData.csv"            "ClaimsData.csv.zip"
+ [9] "climate_change.csv"        "clinical_trial.csv"
+[11] "ClusterMeans.ods"          "CocaColaStock.csv"
+[13] "CountryCodes.csv"          "CPSData.csv"
+[15] "dailykos.csv"              "eBayAll.RData"
+[17] "eBayiPadTest.csv"          "eBayiPadTrain.csv"
+[19] "edges.csv"                 "elantra.csv"
+[21] "emails.csv"                "energy_bids.csv"
+[23] "federalFundsRate.csv"      "finalExam-Households.csv"
+[25] "flower.csv"                "FluTest.csv"
+[27] "FluTrain.csv"              "framingham.csv"
+[29] "gerber.csv"                "GEStock.csv"
+[31] "healthy.csv"               "households.csv"
+[33] "IBMStock.csv"              "intl.csv"
+[35] "intlall.csv"               "letters_ABPR.csv"
+[37] "loans_imputed.csv"         "loans.csv"
+[39] "MetroAreaCodes.csv"        "movieLens.txt"
+[41] "MoviesP1Final.csv"         "murders.csv"
+[43] "mvt.csv"                   "mvtWeek1.csv"
+[45] "NBA_test.csv"              "NBA_train.csv"
+[47] "parole.csv"                "pisa2009test.csv"
+[49] "pisa2009train.csv"         "PollingData_Imputed.csv"
+[51] "PollingData.csv"           "PollingImputed.csv"
+[53] "ProcterGambleStock.csv"    "quality.csv"
+[55] "README.md"                 "SampleSubmission.csv"
+[57] "songs.csv"                 "statedataSimple.csv"
+[59] "stevens.csv"               "StocksCluster.csv"
+[61] "stopwords.txt"             "SubmissionGBM1.csv"
+[63] "SubmissionGBM2.csv"        "SubmissionLR2.csv"
+[65] "SubmissionLR3.csv"         "SubmissionLR4.csv"
+[67] "SubmissionLR5.csv"         "SubmissionLR8.csv"
+[69] "SubmissionLR9.csv"         "SubmissionRF1.csv"
+[71] "SubmissionSimpleLogV1.csv" "tumor.csv"
+[73] "tweets.csv"                "tweetsU7.csv"
+[75] "USDA.csv"                  "users.csv"
+[77] "WHO_Europe.csv"            "WHO.csv"
+[79] "WHOu7.csv"                 "wiki.csv"
+[81] "wine_test.csv"             "wine.csv"
 #+end_example
 
 ** Video 2: Clustering Pixels
@@ -2225,20 +2216,6 @@ among clusters.
 
 Now we can plot the cluster dendrogram.
 
-#+BEGIN_SRC R :var basename="FlowerDendrogram" :session :results none silent :exports none
-  filename <- paste("../graphs/", basename, ".png", sep = "")
-
-  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
-
-  ## ----- Plot code begin here
-  # Plot the dendrogram
-  plot(clusterIntensity)
-  ## ----- Plot code ends here
-
-  ## Close the PNG device and plots
-  dev.off()
-#+END_SRC
-
 #+CAPTION:  Flower dendrogram
 #+NAME:     fig:FlowerDendrogram
 #+ATTR_LaTeX: placement: [H]
@@ -2293,22 +2270,6 @@ To do so, we can use the ~rect.hclust~ function, which takes as an input
 clusterIntensity, which is our tree. And then we can specify the
 number of clusters that we want. So let's set ~k = 3~.
 
-#+BEGIN_SRC R :var basename="FlowerDendrogram02" :session :results none silent :exports none
-  filename <- paste("../graphs/", basename, ".png", sep = "")
-
-  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
-
-  ## ----- Plot code begin here
-  writeLines("\n :: Select 3 clusters:")
-  plot(clusterIntensity)
-  rect.hclust(clusterIntensity, k = 3, border = "red")
-  flowerClusters <- cutree(clusterIntensity, k = 3)
-  ## ----- Plot code ends here
-
-  ## Close the PNG device and plots
-  dev.off()
-#+END_SRC
-
 #+CAPTION:  Cluster selection in the Dendrogram
 #+NAME:     fig:FlowerDendrogram02
 #+ATTR_LaTeX: placement: [H]
@@ -2361,21 +2322,6 @@ is a vector.
 So we need to convert it into a matrix. We can do this by setting the
 dimension of this variable by using the dimension function.
 
-#+BEGIN_SRC R :var basename="SegmentedImageCluster" :session :results none silent :exports none
-  filename <- paste("../graphs/", basename, ".png", sep = "")
-
-  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
-
-  ## ----- Plot code begin here
-  writeLines("\n :: Plot the image and the clusters:")
-  dim(flowerClusters) <- c(50,50)
-  image(flowerClusters, axes = FALSE)
-  ## ----- Plot code ends here
-
-  ## Close the PNG device and plots
-  dev.off()
-#+END_SRC
-
 #+CAPTION:  Segmented flower image using clusters.
 #+NAME:     fig:SegmentedImageCluster
 #+ATTR_LaTeX: placement: [H]
@@ -2400,20 +2346,6 @@ from 0 to 1, which actually is from black to white.
 
 And then we have to also specify its length, and that's specified as
 256, because this corresponds to the convention for grayscale.
-
-#+BEGIN_SRC R :var basename="FlowerOriginalImage" :session :results none silent :exports none
-  filename <- paste("../graphs/", basename, ".png", sep = "")
-
-  png(filename = filename, bg = "white", width = 640, height = 480, units = "px")
-
-  ## ----- Plot code begin here
-  # Original image
-  image(flowerMatrix,axes=FALSE,col=grey(seq(0,1,length=256)))
-  ## ----- Plot code ends here
-
-  ## Close the PNG device and plots
-  dev.off()
-#+END_SRC
 
 #+CAPTION:  Original image.
 #+NAME:     fig:FlowerOriginalImage

@@ -1916,14 +1916,49 @@ In this part we can download the data
 #+END_SRC
 
 #+RESULTS:
-:  [1] "AnonymityPoll.csv"      "BoeingStock.csv"        "CPSData.csv"
-:  [4] "CocaColaStock.csv"      "CountryCodes.csv"       "FluTest.csv"
-:  [7] "FluTrain.csv"           "GEStock.csv"            "IBMStock.csv"
-: [10] "MetroAreaCodes.csv"     "NBA_test.csv"           "NBA_train.csv"
-: [13] "ProcterGambleStock.csv" "README.md"              "USDA.csv"
-: [16] "WHO.csv"                "WHO_Europe.csv"         "baseball.csv"
-: [19] "climate_change.csv"     "mvtWeek1.csv"           "pisa2009test.csv"
-: [22] "pisa2009train.csv"      "wine.csv"               "wine_test.csv"
+#+begin_example
+ [1] "AirlinesCluster.csv"       "AnonymityPoll.csv"
+ [3] "BoeingStock.csv"           "CPSData.csv"
+ [5] "ClaimsData.csv"            "ClaimsData.csv.zip"
+ [7] "ClusterMeans.ods"          "CocaColaStock.csv"
+ [9] "CountryCodes.csv"          "FluTest.csv"
+[11] "FluTrain.csv"              "GEStock.csv"
+[13] "IBMStock.csv"              "MetroAreaCodes.csv"
+[15] "MoviesP1Final.csv"         "NBA_test.csv"
+[17] "NBA_train.csv"             "PollingData.csv"
+[19] "PollingData_Imputed.csv"   "PollingImputed.csv"
+[21] "ProcterGambleStock.csv"    "README.md"
+[23] "SampleSubmission.csv"      "StocksCluster.csv"
+[25] "SubmissionGBM1.csv"        "SubmissionGBM2.csv"
+[27] "SubmissionLR2.csv"         "SubmissionLR3.csv"
+[29] "SubmissionLR4.csv"         "SubmissionLR5.csv"
+[31] "SubmissionLR8.csv"         "SubmissionLR9.csv"
+[33] "SubmissionRF1.csv"         "SubmissionSimpleLogV1.csv"
+[35] "USDA.csv"                  "WHO.csv"
+[37] "WHO_Europe.csv"            "WHOu7.csv"
+[39] "baseball.csv"              "boston.csv"
+[41] "census.csv"                "climate_change.csv"
+[43] "clinical_trial.csv"        "dailykos.csv"
+[45] "eBayAll.RData"             "eBayiPadTest.csv"
+[47] "eBayiPadTrain.csv"         "edges.csv"
+[49] "elantra.csv"               "emails.csv"
+[51] "energy_bids.csv"           "federalFundsRate.csv"
+[53] "finalExam-Households.csv"  "flower.csv"
+[55] "framingham.csv"            "gerber.csv"
+[57] "healthy.csv"               "households.csv"
+[59] "intl.csv"                  "intlall.csv"
+[61] "letters_ABPR.csv"          "loans.csv"
+[63] "loans_imputed.csv"         "movieLens.txt"
+[65] "murders.csv"               "mvt.csv"
+[67] "mvtWeek1.csv"              "parole.csv"
+[69] "pisa2009test.csv"          "pisa2009train.csv"
+[71] "quality.csv"               "songs.csv"
+[73] "statedataSimple.csv"       "stevens.csv"
+[75] "stopwords.txt"             "tumor.csv"
+[77] "tweets.csv"                "tweetsU7.csv"
+[79] "users.csv"                 "wiki.csv"
+[81] "wine.csv"                  "wine_test.csv"
+#+end_example
 
 *** Load the data sets in their respective dataframe
 
@@ -3157,14 +3192,49 @@ In this part we can download the data
 #+END_SRC
 
 #+RESULTS:
-:  [1] "AnonymityPoll.csv"      "BoeingStock.csv"        "CPSData.csv"
-:  [4] "CocaColaStock.csv"      "CountryCodes.csv"       "FluTest.csv"
-:  [7] "FluTrain.csv"           "GEStock.csv"            "IBMStock.csv"
-: [10] "MetroAreaCodes.csv"     "NBA_test.csv"           "NBA_train.csv"
-: [13] "ProcterGambleStock.csv" "README.md"              "USDA.csv"
-: [16] "WHO.csv"                "WHO_Europe.csv"         "baseball.csv"
-: [19] "climate_change.csv"     "mvtWeek1.csv"           "pisa2009test.csv"
-: [22] "pisa2009train.csv"      "wine.csv"               "wine_test.csv"
+#+begin_example
+ [1] "AirlinesCluster.csv"       "AnonymityPoll.csv"
+ [3] "BoeingStock.csv"           "CPSData.csv"
+ [5] "ClaimsData.csv"            "ClaimsData.csv.zip"
+ [7] "ClusterMeans.ods"          "CocaColaStock.csv"
+ [9] "CountryCodes.csv"          "FluTest.csv"
+[11] "FluTrain.csv"              "GEStock.csv"
+[13] "IBMStock.csv"              "MetroAreaCodes.csv"
+[15] "MoviesP1Final.csv"         "NBA_test.csv"
+[17] "NBA_train.csv"             "PollingData.csv"
+[19] "PollingData_Imputed.csv"   "PollingImputed.csv"
+[21] "ProcterGambleStock.csv"    "README.md"
+[23] "SampleSubmission.csv"      "StocksCluster.csv"
+[25] "SubmissionGBM1.csv"        "SubmissionGBM2.csv"
+[27] "SubmissionLR2.csv"         "SubmissionLR3.csv"
+[29] "SubmissionLR4.csv"         "SubmissionLR5.csv"
+[31] "SubmissionLR8.csv"         "SubmissionLR9.csv"
+[33] "SubmissionRF1.csv"         "SubmissionSimpleLogV1.csv"
+[35] "USDA.csv"                  "WHO.csv"
+[37] "WHO_Europe.csv"            "WHOu7.csv"
+[39] "baseball.csv"              "boston.csv"
+[41] "census.csv"                "climate_change.csv"
+[43] "clinical_trial.csv"        "dailykos.csv"
+[45] "eBayAll.RData"             "eBayiPadTest.csv"
+[47] "eBayiPadTrain.csv"         "edges.csv"
+[49] "elantra.csv"               "emails.csv"
+[51] "energy_bids.csv"           "federalFundsRate.csv"
+[53] "finalExam-Households.csv"  "flower.csv"
+[55] "framingham.csv"            "gerber.csv"
+[57] "healthy.csv"               "households.csv"
+[59] "intl.csv"                  "intlall.csv"
+[61] "letters_ABPR.csv"          "loans.csv"
+[63] "loans_imputed.csv"         "movieLens.txt"
+[65] "murders.csv"               "mvt.csv"
+[67] "mvtWeek1.csv"              "parole.csv"
+[69] "pisa2009test.csv"          "pisa2009train.csv"
+[71] "quality.csv"               "songs.csv"
+[73] "statedataSimple.csv"       "stevens.csv"
+[75] "stopwords.txt"             "tumor.csv"
+[77] "tweets.csv"                "tweetsU7.csv"
+[79] "users.csv"                 "wiki.csv"
+[81] "wine.csv"                  "wine_test.csv"
+#+end_example
 
 *** Load the data set
 
@@ -3825,7 +3895,12 @@ Info.On.Internet.)
 
 #+RESULTS:
 #+begin_example
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's
+ null device
+          1
+ null device
+          1
+
+  Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's
   18.00   33.00   51.00   48.57   62.00   93.00      22
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
   0.000   2.000   4.000   3.795   6.000  11.000
@@ -3930,7 +4005,12 @@ jitter(limited$Info.On.Internet)).
 #+END_SRC
 
 #+RESULTS:
-:    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+:  null device
+:           1
+:  null device
+:           1
+:
+:   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
 :   0.000   2.000   4.000   3.795   6.000  11.000
 
 What relationship to you observe between Age and Info.On.Internet?
